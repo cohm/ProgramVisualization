@@ -460,7 +460,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             `).style('display', 'block');
           })
           .on('mousemove', (event: any) => {
-            tooltip.style('left', (event.pageX - 100) + 'px').style('top', (event.pageY - 75) + 'px');
+            tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
           })
           .on('mouseout', () => tooltip.style('display', 'none'));
 
@@ -538,7 +538,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             `).style('display', 'block');
           })
           .on('mousemove', (event: any) => {
-            tooltip.style('left', (event.pageX - 100) + 'px').style('top', (event.pageY - 75) + 'px');
+            tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
           })
           .on('mouseout', () => tooltip.style('display', 'none'));
 
@@ -557,7 +557,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             `).style('display', 'block');
           })
           .on('mousemove', (event: any) => {
-            tooltip.style('left', (event.pageX - 100) + 'px').style('top', (event.pageY - 75) + 'px');
+            tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
           })
           .on('mouseout', () => tooltip.style('display', 'none'));
     });
@@ -637,7 +637,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               tooltip.html(txt).style('display', 'block');
             })
             .on('mousemove', (event: any) => {
-              tooltip.style('left', (event.pageX - 100) + 'px').style('top', (event.pageY - 75) + 'px');
+              tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
             })
             .on('mouseout', () => tooltip.style('display', 'none'))
             .on('click', (event: any) => {
@@ -843,7 +843,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         tooltip.html(`<strong>${m.course.code}</strong><br/>${tr[language].exam}`).style('display', 'block');
       })
       .on('mousemove', (event: any) => {
-        tooltip.style('left', (event.pageX - 100) + 'px').style('top', (event.pageY - 75) + 'px');
+        tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
       })
       .on('mouseout', () => tooltip.style('display', 'none'));
   });
@@ -864,7 +864,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         tooltip.html(`<strong>${m.course.code}</strong><br/>${tr[language].reexam}`).style('display', 'block');
       })
       .on('mousemove', (event: any) => {
-        tooltip.style('left', (event.pageX - 100) + 'px').style('top', (event.pageY - 75) + 'px');
+        tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
       })
       .on('mouseout', () => tooltip.style('display', 'none'));
   });
@@ -963,15 +963,17 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   }, [focusCourse, courses]);
 
   return (
-    <div ref={containerRef} style={{ position: 'relative' }}>
-      <svg 
-        ref={svgRef} 
-        className="w-full h-full"
-        style={{ minHeight: '600px' }}
-      />
+    <div ref={containerRef}>
+      {/* Visualization canvas wrapper so legend anchors to the SVG area only */}
+      <div style={{ position: 'relative' }}>
+        <svg 
+          ref={svgRef} 
+          className="w-full h-full"
+          style={{ minHeight: '600px' }}
+        />
 
-  {/* Legend positioned as an overlay in bottom-right */}
-  <div style={{ position: 'absolute', right: STYLE.legend.offsetX, bottom: STYLE.legend.offsetY, width: STYLE.legend.width, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start', padding: '8px 12px', background: STYLE.legend.background, border: `1px solid ${STYLE.legend.borderColor}`, borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.12)', zIndex: 1000 }}>
+        {/* Legend positioned as an overlay in bottom-right of the SVG wrapper */}
+        <div style={{ position: 'absolute', right: STYLE.legend.offsetX, bottom: STYLE.legend.offsetY, width: STYLE.legend.width, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start', padding: '8px 12px', background: STYLE.legend.background, border: `1px solid ${STYLE.legend.borderColor}`, borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.12)', zIndex: 1000 }}>
         {/* Exams */}
         <div onClick={() => setLayers(s => ({ ...s, exams: !s.exams }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.exams ? 1 : 0.4 }}>
           <svg width={16} height={16} viewBox="0 0 16 16">
@@ -1020,9 +1022,10 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           <div style={{ width: 18, height: 12, background: kthColors.KthLightGray?.HEX || '#eee', borderRadius: 2, border: '1px solid rgba(0,0,0,0.06)' }} />
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.reexamPeriods}</span>
         </div>
+        </div>
       </div>
 
-      {/* Info Panel below chart (outside SVG) */}
+      {/* Info Panel below chart (outside SVG wrapper) */}
       <div style={{ marginTop: 12, padding: '12px 14px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8 }}>
         {selectedInfo ? (
           <div style={{ color: kthColors.KthBlue?.HEX || '#004791' }}>
