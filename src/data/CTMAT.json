@@ -264,20 +264,9 @@
     "reexams": ["P2"]
   },
   {
-    "code": "EF112X",
-    "name": "Examensarbete inom elektroteknik, grundnivå",
-    "briefName": "Exjobb elektro",
-    "totalCredits": 15.0,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 7.5, "P4": 7.5 },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "reexams": []
-  },
-  {
     "code": "SA120X",
-    "name": "Examensarbete inom teknisk matematik, grundnivå",
-    "briefName": "Exjobb tekn. mat.",
+    "name": "Examensarbete inom teknisk matematik, grundnivå (alt. EF112X)",
+    "briefName": "KEX-jobb",
     "totalCredits": 15.0,
     "periodCredits": { "P1": 0, "P2": 0, "P3": 7.5, "P4": 7.5 },
     "year": 3,

@@ -1,12 +1,17 @@
 [
   {
     "code": "CTFYS",
-    "name": "Civilingenjörsutbildning i teknisk fysik",
+    "name": "Civilingenjörsutbildning i Teknisk fysik",
     "dataFile": "CTFYS.json"
   },
   {
     "code": "CTMAT",
-    "name": "Civilingenjörsutbildning i teknisk matematik",
+    "name": "Civilingenjörsutbildning i Teknisk matematik",
     "dataFile": "CTMAT.json"
+  },
+  {
+    "code": "CFATE",
+    "name": "Civilingenjörsutbildning i Farkostteknik",
+    "dataFile": "CFATE.json"
   }
 ]

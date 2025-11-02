@@ -261,7 +261,7 @@
   },
   {
     "code": "SA114X",
-    "name": "Kandidatexamensarbete (alt. EF112X)",
+    "name": "Kandidatexamensarbete inom teknisk fysik, grundnivå (alt. EF112X)",
     "briefName": "KEX-arbete",
     "totalCredits": 15.0,
     "periodCredits": { "P1": 0, "P2": 0, "P3": 7.5, "P4": 7.5 },

@@ -1,0 +1,253 @@
+[
+  {
+    "code": "SF1694",
+    "name": "Tillämpad linjär algebra",
+    "briefName": "Tillämpad lin. alg.",
+    "totalCredits": 10.5,
+    "periodCredits": { "P1": 3.0, "P2": 6.5, "P3": 1.0, "P4": 0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": ["P2"],
+    "reexams": ["P2"]
+  },
+  {
+    "code": "SF1668",
+    "name": "Matematisk och numerisk analys I",
+    "briefName": "Mat. & num. analys I",
+    "totalCredits": 10.0,
+    "periodCredits": { "P1": 6.0, "P2": 4.0, "P3": 0, "P4": 0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": ["P1", "P2"],
+    "reexams": ["P1", "P2"]
+  },
+  {
+    "code": "DD1333",
+    "name": "Grundläggande programmering",
+    "totalCredits": 5.0,
+    "periodCredits": { "P1": 5.0, "P2": 0, "P3": 0, "P4": 0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "reexams": []
+  },
+  {
+    "code": "SD1002",
+    "name": "Farkostteknik",
+    "totalCredits": 7.0,
+    "periodCredits": { "P1": 0, "P2": 3.0, "P3": 2.0, "P4": 2.0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "reexams": []
+  },
+  {
+    "code": "SG1132",
+    "name": "Mekanik I med projekt",
+    "briefName": "Mekanik I",
+    "totalCredits": 11.0,
+    "periodCredits": { "P1": 0, "P2": 1.5, "P3": 4.5, "P4": 5.0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": ["P4"],
+    "reexams": ["P4"]
+  },
+  {
+    "code": "SK1112",
+    "name": "Fysik I",
+    "totalCredits": 9.0,
+    "periodCredits": { "P1": 1.0, "P2": 0, "P3": 0, "P4": 8.0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": ["P4"],
+    "reexams": ["P4"]
+  },
+  {
+    "code": "SF1626",
+    "name": "Flervariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": { "P1": 0, "P2": 0, "P3": 7.5, "P4": 0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": ["P3"],
+    "reexams": ["P3"]
+  },
+  {
+    "code": "DD1301",
+    "name": "Datorintroduktion",
+    "totalCredits": 1.5,
+    "periodCredits": { "P1": 1.5, "P2": 0, "P3": 0, "P4": 0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "reexams": []
+  },
+  {
+    "code": "MF1024",
+    "name": "Produktutveckling",
+    "totalCredits": 11.0,
+    "periodCredits": { "P1": 0, "P2": 2.0, "P3": 6.0, "P4": 3.0 },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "reexams": []
+  },
+  {
+    "code": "SF1682",
+    "name": "Analytiska och numeriska metoder för differentialekvationer",
+    "briefName": "Diffekv. analytiskt & numeriskt",
+    "totalCredits": 11.0,
+    "periodCredits": { "P1": 6.0, "P2": 5.0, "P3": 0, "P4": 0 },
+    "year": 2,
+    "prerequisites": [],
+    "exams": ["P1", "P2"],
+    "reexams": ["P1", "P2"]
+  },
+  {
+    "code": "SG1140",
+    "name": "Mekanik II",
+    "totalCredits": 6.0,
+    "periodCredits": { "P1": 6.0, "P2": 0, "P3": 0, "P4": 0 },
+    "year": 2,
+    "prerequisites": [],
+    "exams": ["P1"],
+    "reexams": ["P1"]
+  },
+  {
+    "code": "SE1010",
+    "name": "Hållfasthetslära, grundkurs med projekt",
+    "briefName": "Hållfasthetslära",
+    "totalCredits": 12.0,
+    "periodCredits": { "P1": 3.0, "P2": 9.0, "P3": 0, "P4": 0 },
+    "year": 2,
+    "prerequisites": [],
+    "exams": ["P2"],
+    "reexams": ["P2"]
+  },
+  {
+    "code": "SD1120",
+    "name": "Ljud och vibrationer",
+    "totalCredits": 9.0,
+    "periodCredits": { "P1": 0, "P2": 0, "P3": 3.0, "P4": 6.0 },
+    "year": 2,
+    "prerequisites": [],
+    "exams": ["P4"],
+    "reexams": ["P4"]
+  },
+  {
+    "code": "SG1216",
+    "name": "Termodynamik",
+    "totalCredits": 6.0,
+    "periodCredits": { "P1": 0, "P2": 0, "P3": 0, "P4": 6.0 },
+    "year": 2,
+    "prerequisites": [],
+    "exams": ["P4"],
+    "reexams": ["P4"]
+  },
+  {
+    "code": "SG1217",
+    "name": "Strömningsmekanik, grundkurs",
+    "briefName": "Strömningsmekanik",
+    "totalCredits": 6.0,
+    "periodCredits": { "P1": 0, "P2": 0, "P3": 6.0, "P4": 0 },
+    "year": 2,
+    "prerequisites": [],
+    "exams": ["P3"],
+    "reexams": ["P3"]
+  },
+  {
+    "code": "EL1010",
+    "name": "Reglerteknik, allmän kurs",
+    "briefName": "Reglerteknik",
+    "totalCredits": 6.0,
+    "periodCredits": { "P1": 0, "P2": 6.0, "P3": 0, "P4": 0 },
+    "year": 3,
+    "prerequisites": [],
+    "exams": ["P2"],
+    "reexams": ["P2"]
+  },
+  {
+    "code": "MF1017",
+    "name": "Elektroteknik",
+    "totalCredits": 6.0,
+    "periodCredits": { "P1": 6.0, "P2": 0, "P3": 0, "P4": 0 },
+    "year": 3,
+    "prerequisites": [],
+    "exams": ["P1"],
+    "reexams": ["P1"]
+  },
+  {
+    "code": "SD2125",
+    "name": "Signaler och mekaniska system",
+    "briefName": "Sign. & mek. system",
+    "totalCredits": 6.0,
+    "periodCredits": { "P1": 0, "P2": 6.0, "P3": 0, "P4": 0 },
+    "year": 3,
+    "prerequisites": [],
+    "exams": ["P2"],
+    "reexams": ["P2"]
+  },
+  {
+    "code": "SF1914",
+    "name": "Sannolikhetsteori och statistik",
+    "briefName": "Sannolikhet & stat.",
+    "totalCredits": 6.0,
+    "periodCredits": { "P1": 6.0, "P2": 0, "P3": 0, "P4": 0 },
+    "year": 3,
+    "prerequisites": [],
+    "exams": ["P1"],
+    "reexams": ["P1"]
+  },
+  {
+    "code": "SA115X",
+    "name": "Examensarbete inom farkostteknik, grundnivå (alt. EF112X, MJ130X, MJ131X, MJ133X, MJ146X)",
+    "briefName": "KEX-jobb",
+    "totalCredits": 15.0,
+    "periodCredits": { "P1": 0, "P2": 0, "P3": 7.5, "P4": 7.5 },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "reexams": []
+  },
+  {
+    "code": "SE1025",
+    "name": "FEM för ingenjörstillämpningar",
+    "briefName": "FEM",
+    "totalCredits": 6.0,
+    "periodCredits": { "P1": 0, "P2": 0, "P3": 6.0, "P4": 0 },
+    "year": 3,
+    "prerequisites": [],
+    "exams": ["P3"],
+    "reexams": ["P3"]
+  },
+  {
+    "code": "SF1861",
+    "name": "Optimeringslära",
+    "totalCredits": 6.0,
+    "periodCredits": { "P1": 0, "P2": 0, "P3": 0, "P4": 6.0 },
+    "year": 3,
+    "prerequisites": [],
+    "exams": ["P4"],
+    "reexams": ["P4"]
+  },
+  {
+    "code": "DD1320",
+    "name": "Tillämpad datalogi",
+    "totalCredits": 6.0,
+    "periodCredits": { "P1": 5.0, "P2": 1.0, "P3": 0, "P4": 0 },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "reexams": []
+  },
+  {
+    "code": "SH1014",
+    "name": "Modern fysik",
+    "totalCredits": 4.0,
+    "periodCredits": { "P1": 0, "P2": 4.0, "P3": 0, "P4": 0 },
+    "year": 3,
+    "prerequisites": [],
+    "exams": ["P2"],
+    "reexams": ["P2"]
+  }
+]
