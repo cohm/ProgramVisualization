@@ -366,6 +366,11 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
   // focused course code for fading non-relevant elements
   const [focusCourse, setFocusCourse] = useState<string | null>(null);
+  // Info panel selection
+  const [selectedInfo, setSelectedInfo] = useState<{
+    course: Course;
+    credit?: { period: string; credits: number; year: number };
+  } | null>(null);
 
   useEffect(() => {
     if (!svgRef.current || !containerRef.current || !courses.length) return;
@@ -410,10 +415,10 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // Clicking on empty SVG space clears focus and closes popup
   svg.on('click', () => {
     setFocusCourse(null);
-    container.selectAll('.course-popup').remove();
+    setSelectedInfo(null);
   });
 
-  const maxYear = Math.max(...courses.map(c => c.year));
+  const maxYear = Math.max(1, ...courses.flatMap(c => c.credits.map(cr => (cr as any).year || c.year || 1)));
   const numYears = Math.max(1, maxYear);
   // Increased vertical gap between year rows (px)
   const yearRowGap = 48; // 4 times larger (was 12)
@@ -558,10 +563,10 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     });
 
     // Build mapping of courses per year+period to compute stacking lanes
-    const slotsByYearPeriod: Record<string, Array<{ course: Course; credit: { period: string; credits: number } }>> = {};
+    const slotsByYearPeriod: Record<string, Array<{ course: Course; credit: { period: string; credits: number; year: number } }>> = {};
     courses.forEach((course) => {
       course.credits.forEach((credit) => {
-        const key = `${course.year}-${credit.period}`;
+        const key = `${(credit as any).year}-${credit.period}`;
         if (!slotsByYearPeriod[key]) slotsByYearPeriod[key] = [];
         slotsByYearPeriod[key].push({ course, credit });
       });
@@ -636,60 +641,20 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             })
             .on('mouseout', () => tooltip.style('display', 'none'))
             .on('click', (event: any) => {
-              // Prevent event from bubbling up
               event.stopPropagation();
-              setFocusCourse(course.code);
-            
-              // Remove any existing popup
-              container.selectAll('.course-popup').remove();
-            
-              // Create popup
-              const popup = container.append('div')
-                .attr('class', 'course-popup')
-                .style('position', 'absolute')
-                .style('left', (event.pageX - 50) + 'px')
-                .style('top', (event.pageY - 50) + 'px')
-                .style('background', 'white')
-                .style('padding', '12px')
-                .style('border-radius', '8px')
-                .style('box-shadow', '0 2px 10px rgba(0,0,0,0.1)')
-                .style('z-index', '1001')
-                .style('max-width', '300px')
-                .style('color', kthColors.KthBlue?.HEX || '#004791')
-                .on('click', (ev: any) => { ev.stopPropagation(); });
-
-              const prereqCodes = (course.prerequisites || []).join(', ') || '—';
-              const dependents = courses.filter(c => (c.prerequisites || []).includes(course.code)).map(c => c.code);
-              const dependentCodes = dependents.length ? dependents.join(', ') : '—';
-              popup.html(`
-                <div style="display: flex; justify-content: space-between; align-items: start;">
-                  <div>
-                    <h3 style="margin: 0 0 8px 0; color: ${kthColors.KthBlue?.HEX}"><strong>${course.code}</strong>
-                                    <a href="https://www.kth.se/student/kurser/kurs/${course.code.toLowerCase()}" 
-                   target="_blank" rel="noopener noreferrer" style="color: ${kthColors.KthHeaven?.HEX}; text-decoration: none; display: inline-block; margin-top: 8px;">${tr[language].viewCourse}</a>
-                    </h3>
-                    <h4 style="margin: 0 0 12px 0; font-weight: normal;">${course.name}, ${credit.credits} ${tr[language].credits}</h4>
-                  </div>
-                  <button style="border: none; background: none; cursor: pointer; padding: 4px; line-height: 1;" onclick="this.parentElement.parentElement.remove()">×</button>
-                </div>
-                <div style="margin-bottom: 6px;">
-                  ${tr[language].requires}: ${prereqCodes}
-                </div>
-                <div style="margin-bottom: 10px;">
-                  ${tr[language].requiredFor}: ${dependentCodes}
-                </div>
-                ${course.teacher ? `<div style="margin-bottom: 8px;"><strong>${tr[language].teacher}:</strong> ${course.teacher}</div>` : ''}
-                ${course.description ? `<div style="margin-bottom: 8px;">${course.description}</div>` : ''}
-              `);
-              // Override close button to also clear focus state
-              popup.select('button').on('click', () => {
-                setFocusCourse(null);
-                popup.remove();
+              setFocusCourse(prev => {
+                const next = prev === course.code ? null : course.code;
+                if (next) {
+                  setSelectedInfo({ course, credit: { period: credit.period as any, credits: credit.credits, year: (credit as any).year || course.year } });
+                } else {
+                  setSelectedInfo(null);
+                }
+                return next;
               });
             });
 
         // store positions for arrows and markers
-        positionMap[`${course.code}-${credit.period}`] = {
+        positionMap[`${course.code}-${(credit as any).year}-${credit.period}`] = {
           xStart: barX,
           xEnd: barX + barWidth,
           yCenter: cursorY + courseHeight / 2,
@@ -744,31 +709,43 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     const examMarkers: Array<any> = [];
     const reexamMarkers: Array<any> = [];
     courses.forEach((course) => {
-      const exams: string[] = (course as any).exams || [];
-      const reexams: string[] = (course as any).reexams || [];
+  const examsGlobal: string[] = (course as any).exams || [];
+  const reexamsGlobal: string[] = (course as any).reexams || [];
+  const examByYear = (course as any).examsByYear as Record<number, string[]> | undefined;
+  const reexamByYear = (course as any).reexamsByYear as Record<number, string[]> | undefined;
 
-      exams.forEach((examPeriodId) => {
-        const examPeriod = academicPeriods.find(p => p.id === (examPeriodId as any));
-        if (!examPeriod) return;
-        
-        // Find the position for this course in the exam period
-        const pos = positionMap[`${course.code}-${examPeriodId}`];
-        if (!pos) return;
-        
-        const xExam = timeScale(new Date((+examPeriod.examStart + +examPeriod.examEnd) / 2));
-        examMarkers.push({ x: xExam, cy: pos.yCenter, r: EXAM_MARKER_RADIUS, course, examPeriod });
-      });
+      course.credits.forEach((credit) => {
+        const y = (credit as any).year as number;
+        const examsForYear = examByYear?.[y];
+        const reexamsForYear = reexamByYear?.[y];
 
-      reexams.forEach((reexamPeriodId) => {
-        const rePeriod = academicPeriods.find(p => p.id === (reexamPeriodId as any));
-        if (!rePeriod) return;
-        
-        // Find the position for this course in the reexam period
-        const pos = positionMap[`${course.code}-${reexamPeriodId}`];
-        if (!pos) return;
-        
-        const xRe = timeScale(new Date((+rePeriod.reExamStart + +rePeriod.reExamEnd) / 2));
-        reexamMarkers.push({ x: xRe, cy: pos.yCenter, r: REEXAM_MARKER_RADIUS, course, rePeriod });
+        const hasExam = Array.isArray(examsForYear)
+          ? examsForYear.includes(credit.period as any)
+          : examsGlobal.includes(credit.period as any);
+        const hasReexam = Array.isArray(reexamsForYear)
+          ? reexamsForYear.includes(credit.period as any)
+          : reexamsGlobal.includes(credit.period as any);
+
+        if (hasExam) {
+          const examPeriod = academicPeriods.find(p => p.id === (credit.period as any));
+          if (examPeriod) {
+            const pos = positionMap[`${course.code}-${y}-${credit.period}`];
+            if (pos) {
+              const xExam = timeScale(new Date((+examPeriod.examStart + +examPeriod.examEnd) / 2));
+              examMarkers.push({ x: xExam, cy: pos.yCenter, r: EXAM_MARKER_RADIUS, course, examPeriod });
+            }
+          }
+        }
+        if (hasReexam) {
+          const rePeriod = academicPeriods.find(p => p.id === (credit.period as any));
+          if (rePeriod) {
+            const pos = positionMap[`${course.code}-${y}-${credit.period}`];
+            if (pos) {
+              const xRe = timeScale(new Date((+rePeriod.reExamStart + +rePeriod.reExamEnd) / 2));
+              reexamMarkers.push({ x: xRe, cy: pos.yCenter, r: REEXAM_MARKER_RADIUS, course, rePeriod });
+            }
+          }
+        }
       });
     });
     for (let i = 0; i < numYears; i++) {
@@ -786,15 +763,18 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     // Draw arrows for prerequisites using stored positions
     courses.forEach((course) => {
       if (!course.prerequisites || course.prerequisites.length === 0) return;
+      const periodOrder: Record<string, number> = { P1: 1, P2: 2, P3: 3, P4: 4 };
+      const courseCreditsSorted = [...course.credits].sort((a: any, b: any) => (a.year - b.year) || (periodOrder[a.period] - periodOrder[b.period]));
       course.prerequisites.forEach((prereqCode) => {
         const prereq = courses.find((c) => c.code === prereqCode);
         if (!prereq) return;
+        const prereqCreditsSorted = [...prereq.credits].sort((a: any, b: any) => (a.year - b.year) || (periodOrder[a.period] - periodOrder[b.period]));
 
-        // use last period of prereq and first period of course
-        const lastPrereqPeriod = prereq.credits[prereq.credits.length - 1];
-        const firstCoursePeriod = course.credits[0];
-        const from = positionMap[`${prereq.code}-${lastPrereqPeriod.period}`];
-        const to = positionMap[`${course.code}-${firstCoursePeriod.period}`];
+        const lastPrereq = prereqCreditsSorted[prereqCreditsSorted.length - 1];
+        const firstCourse = courseCreditsSorted[0];
+        if (!lastPrereq || !firstCourse) return;
+        const from = positionMap[`${prereq.code}-${lastPrereq.year}-${lastPrereq.period}`];
+        const to = positionMap[`${course.code}-${firstCourse.year}-${firstCourse.period}`];
         if (!from || !to) return;
 
         const midX = (from.xEnd + to.xStart) / 2;
@@ -891,20 +871,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
   }, [courses, layers, language]);
 
-  // Close course popup on outside click
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      const container = containerRef.current;
-      if (!container) return;
-      const popup = container.querySelector('.course-popup') as HTMLElement | null;
-      if (!popup) return;
-      if (popup.contains(e.target as Node)) return; // ignore clicks inside
-      // Close the popup but preserve focus so menu interactions don't clear focus view
-      popup.remove();
-    };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, []);
+  // Removed popup; outside clicks handled by svg.on('click') above
 
   // Update element opacities when layers change
   useEffect(() => {
@@ -1053,6 +1020,62 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           <div style={{ width: 18, height: 12, background: kthColors.KthLightGray?.HEX || '#eee', borderRadius: 2, border: '1px solid rgba(0,0,0,0.06)' }} />
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.reexamPeriods}</span>
         </div>
+      </div>
+
+      {/* Info Panel below chart (outside SVG) */}
+      <div style={{ marginTop: 12, padding: '12px 14px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8 }}>
+        {selectedInfo ? (
+          <div style={{ color: kthColors.KthBlue?.HEX || '#004791' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', gap: 12, flexWrap: 'wrap' }}>
+              <div>
+                <div style={{ fontWeight: 700, marginBottom: 4 }}>
+                  {selectedInfo.course.code}{' '}
+                  <a href={`https://www.kth.se/student/kurser/kurs/${selectedInfo.course.code.toLowerCase()}`}
+                     target="_blank" rel="noopener noreferrer"
+                     style={{ color: kthColors.KthHeaven?.HEX, textDecoration: 'none', fontWeight: 500 }}>
+                    {tr[language].viewCourse}
+                  </a>
+                </div>
+                <div style={{ marginBottom: 8 }}>
+                  {selectedInfo.course.name}
+                  {selectedInfo.credit ? `, ${selectedInfo.credit.credits} ${tr[language].credits}` : ''}
+                </div>
+              </div>
+              <div>
+                <button onClick={() => { setFocusCourse(null); setSelectedInfo(null); }}
+                        className="px-2 py-1 border border-gray-300 rounded-md shadow-sm"
+                        style={{ color: kthColors.KthBlue?.HEX }}>
+                  ×
+                </button>
+              </div>
+            </div>
+            <div style={{ marginBottom: 6 }}>
+              <strong>{tr[language].requires}:</strong>{' '}
+              {(selectedInfo.course.prerequisites || []).length
+                ? (selectedInfo.course.prerequisites || []).join(', ')
+                : '—'}
+            </div>
+            <div style={{ marginBottom: 10 }}>
+              <strong>{tr[language].requiredFor}:</strong>{' '}
+              {(() => {
+                const dependents = courses.filter(c => (c.prerequisites || []).includes(selectedInfo.course.code)).map(c => c.code);
+                return dependents.length ? dependents.join(', ') : '—';
+              })()}
+            </div>
+            {selectedInfo.course.teacher ? (
+              <div style={{ marginBottom: 8 }}>
+                <strong>{tr[language].teacher}:</strong> {selectedInfo.course.teacher}
+              </div>
+            ) : null}
+            {selectedInfo.course.description ? (
+              <div style={{ marginBottom: 8 }}>{selectedInfo.course.description}</div>
+            ) : null}
+          </div>
+        ) : (
+          <div style={{ color: '#6b7280' }}>
+            {/* Empty state */}
+          </div>
+        )}
       </div>
     </div>
   );

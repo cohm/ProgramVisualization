@@ -14,11 +14,22 @@
     "name": "Ingenjörsfärdigheter i teknisk matematik",
     "briefName": "Ingenjörsfärdig.",
     "totalCredits": 8.5,
-    "periodCredits": { "P1": 2.5, "P2": 1.5, "P3": 0, "P4": 0 },
-    "year": 1,
+    "periodCredits": {
+      "Year1": { "P1": 2.5, "P2": 1.5, "P3": 0, "P4": 0 },
+      "Year2": { "P1": 0, "P2": 0, "P3": 0, "P4": 1.5 },
+      "Year3": { "P1": 1.5, "P2": 1.5, "P3": 0, "P4": 0 }
+    },
     "prerequisites": [],
-    "exams": [],
-    "reexams": []
+    "exams": {
+      "Year1": ["P2"],
+      "Year2": ["P4"],
+      "Year3": ["P2"]
+    },
+    "reexams": {
+      "Year1": ["P2"],
+      "Year2": ["P4"],
+      "Year3": ["P2"]
+    }
   },
   {
     "code": "SF1672",
@@ -220,28 +231,7 @@
     "exams": [],
     "reexams": []
   },
-  {
-    "code": "SA1006-Y2",
-    "name": "Ingenjörsfärdigheter i teknisk matematik (fortsättning år 2)",
-    "briefName": "Ing.färd. år 2",
-    "totalCredits": 1.5,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 0, "P4": 1.5 },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "reexams": []
-  },
-  {
-    "code": "SA1006-Y3",
-    "name": "Ingenjörsfärdigheter i teknisk matematik (fortsättning år 3)",
-    "briefName": "Ing.färd. år 3",
-    "totalCredits": 3.0,
-    "periodCredits": { "P1": 1.5, "P2": 1.5, "P3": 0, "P4": 0 },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "reexams": []
-  },
+  
   {
     "code": "EL1000",
     "name": "Reglerteknik, allmän kurs",

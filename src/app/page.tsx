@@ -18,25 +18,133 @@ const programs: ProgramConfig[] = programsConfig;
 // Helper to load and map course data
 const loadCourses = async (dataFile: string): Promise<Course[]> => {
   const rawCourses = await import(`@/data/${dataFile}`);
-  return (rawCourses.default as any[]).map((c) => {
-    const credits = Object.entries(c.periodCredits || {})
-      .map(([period, creditsValue]) => ({ period: period as any, credits: Number(creditsValue) }))
-      .filter((pc) => pc.credits > 0);
+  // Merge entries by code to support multi-year courses represented across multiple rows or nested per-year dicts
+  const byCode = new Map<string, any>();
+  (rawCourses.default as any[]).forEach((c) => {
+    // Normalize to nested per-year map: { Year1: {P1:..}, ... }
+    let nested: Record<string, Record<string, number>> = {};
+    const pc = c.periodCredits || {};
+    const hasYearBuckets = Object.keys(pc).some(k => /^Year\d+$/i.test(k));
+    if (hasYearBuckets) {
+      // Already nested
+      nested = {};
+      Object.entries(pc).forEach(([yk, periods]: any) => {
+        nested[yk] = {};
+        Object.entries(periods || {}).forEach(([p, val]: any) => {
+          const num = Number(val) || 0;
+          if (num > 0) nested[yk][p] = num;
+        });
+      });
+    } else {
+      const yearNum = c.year || 1;
+      const yk = `Year${yearNum}`;
+      nested[yk] = {};
+      Object.entries(pc).forEach(([p, val]: any) => {
+        const num = Number(val) || 0;
+        if (num > 0) nested[yk][p] = num;
+      });
+    }
 
+    const code: string = c.code;
+    const existing = byCode.get(code);
+    if (!existing) {
+      byCode.set(code, {
+        code,
+        name: c.name,
+        briefName: c.briefName || undefined,
+        perYear: nested,
+        prerequisites: Array.isArray(c.prerequisites) ? [...c.prerequisites] : [],
+        exams: Array.isArray(c.exams) ? [...c.exams] : [],
+        reexams: Array.isArray(c.reexams) ? [...c.reexams] : [],
+        examByYear: !Array.isArray(c.exams) && c.exams && typeof c.exams === 'object'
+          ? Object.fromEntries(
+              Object.entries(c.exams).map(([yk, arr]: any) => [Number(String(yk).replace(/\D/g, '')) || 1, Array.isArray(arr) ? arr : []])
+            )
+          : undefined,
+        reexamByYear: !Array.isArray(c.reexams) && c.reexams && typeof c.reexams === 'object'
+          ? Object.fromEntries(
+              Object.entries(c.reexams).map(([yk, arr]: any) => [Number(String(yk).replace(/\D/g, '')) || 1, Array.isArray(arr) ? arr : []])
+            )
+          : undefined,
+        teacher: c.teacher || '',
+        webpage: c.webpage || '',
+        description: c.description || ''
+      });
+    } else {
+      // merge nested perYear
+      Object.entries(nested).forEach(([yk, periods]) => {
+        existing.perYear[yk] = existing.perYear[yk] || {};
+        Object.entries(periods).forEach(([p, val]) => {
+          // Sum credits if duplicates found
+          existing.perYear[yk][p] = (existing.perYear[yk][p] || 0) + (val as number);
+        });
+      });
+      // merge arrays uniquely
+      const unique = (arr: any[]) => Array.from(new Set(arr));
+      existing.prerequisites = unique([...(existing.prerequisites || []), ...(c.prerequisites || [])]);
+      existing.exams = unique([...(existing.exams || []), ...(c.exams || [])]);
+      existing.reexams = unique([...(existing.reexams || []), ...(c.reexams || [])]);
+      // merge year-specific exam maps
+      const mergeYearMap = (dst: Record<number, string[]>, src: Record<number, string[]> | undefined) => {
+        if (!src) return dst;
+        Object.entries(src).forEach(([yStr, arr]) => {
+          const y = Number(yStr);
+          const cur = dst[y] || [];
+          dst[y] = Array.from(new Set([...cur, ...arr]));
+        });
+        return dst;
+      };
+      const examsObj = !Array.isArray(c.exams) && c.exams && typeof c.exams === 'object'
+        ? Object.fromEntries(
+            Object.entries(c.exams).map(([yk, arr]: any) => [Number(String(yk).replace(/\D/g, '')) || 1, Array.isArray(arr) ? arr : []])
+          ) as Record<number, string[]>
+        : undefined;
+      const reexamsObj = !Array.isArray(c.reexams) && c.reexams && typeof c.reexams === 'object'
+        ? Object.fromEntries(
+            Object.entries(c.reexams).map(([yk, arr]: any) => [Number(String(yk).replace(/\D/g, '')) || 1, Array.isArray(arr) ? arr : []])
+          ) as Record<number, string[]>
+        : undefined;
+      existing.examByYear = mergeYearMap(existing.examByYear || {}, examsObj);
+      existing.reexamByYear = mergeYearMap(existing.reexamByYear || {}, reexamsObj);
+      // prefer existing name/briefName unless missing
+      if (!existing.name && c.name) existing.name = c.name;
+      if (!existing.briefName && c.briefName) existing.briefName = c.briefName;
+      if (!existing.teacher && c.teacher) existing.teacher = c.teacher;
+      if (!existing.webpage && c.webpage) existing.webpage = c.webpage;
+      if (!existing.description && c.description) existing.description = c.description;
+    }
+  });
+
+  // Now map to Course[] with flattened credits including year
+  const courses: Course[] = Array.from(byCode.values()).map((entry) => {
+    const credits: Course['credits'] = [];
+    Object.entries(entry.perYear as Record<string, Record<string, number>>).forEach(([yk, periods]) => {
+      const year = Number(String(yk).replace(/\D/g, '')) || 1;
+      Object.entries(periods).forEach(([p, val]) => {
+        const num = Number(val) || 0;
+        if (num > 0) credits.push({ period: p as any, credits: num, year });
+      });
+    });
+    // Determine primary year for compatibility
+    const primaryYear = credits.length ? Math.min(...credits.map(c => c.year)) : 1;
     return {
-      code: c.code,
-      name: c.name,
-      briefName: c.briefName || undefined,
+      code: entry.code,
+      name: entry.name,
+      briefName: entry.briefName,
       credits,
-      year: c.year || 1,
-      prerequisites: c.prerequisites || [],
-      exams: c.exams || [],
-      reexams: c.reexams || [],
-      teacher: c.teacher || '',
-      webpage: c.webpage || '',
-      description: c.description || ''
+      year: primaryYear,
+      prerequisites: entry.prerequisites || [],
+      exams: entry.exams || [],
+      reexams: entry.reexams || [],
+      examsByYear: entry.examByYear,
+      reexamsByYear: entry.reexamByYear,
+      teacher: entry.teacher || '',
+      webpage: entry.webpage || '',
+      description: entry.description || ''
     } as Course;
   });
+
+  return courses;
 };
 
 type Lang = 'sv' | 'en';

@@ -12,6 +12,7 @@ export interface Period {
 export interface CourseCredit {
   period: Period['id'];
   credits: number;
+  year: number; // Academic year this credit belongs to (1, 2, 3, ...)
 }
 
 export interface Course {
@@ -19,10 +20,13 @@ export interface Course {
   name: string;
   briefName?: string;
   credits: CourseCredit[];
-  year: number; // Academic year (1, 2, 3, etc.)
+  year: number; // Primary year (min of credits.year). Kept for backwards compatibility.
   prerequisites: string[]; // Course codes
   exams: Period['id'][];
   reexams: Period['id'][];
+  // Optional year-specific exam mappings (preferred in new schema)
+  examsByYear?: Record<number, Period['id'][]>;
+  reexamsByYear?: Record<number, Period['id'][]>;
   // Optional metadata per course
   teacher: string;
   webpage: string;
