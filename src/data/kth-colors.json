@@ -1,0 +1,29 @@
+{
+  "KthSand": { "RGB": [235, 229, 224], "CMYK": [9, 9, 12, 0], "HEX": "#EBE5E0" },
+  "KthBlue": { "RGB": [0, 71, 145], "CMYK": [100, 70, 0, 12], "HEX": "#004791" },
+  "KthHeaven": { "RGB": [98, 152, 210], "CMYK": [42, 10, 0, 2], "HEX": "#6298D2" },
+  "KthMarine": { "RGB": [0, 0, 97], "CMYK": [], "HEX": "#000061" },
+  "KthLightBlue": { "RGB": [222, 240, 255], "CMYK": [], "HEX": "#DEF0FF" },
+  "KthDigitalBlue": { "RGB": [0, 41, 237], "CMYK": [], "HEX": "#0029ED" },
+
+  "KthDarkGreen": { "RGB": [13, 74, 33], "CMYK": [], "HEX": "#0D4A21" },
+  "KthDarkTurquoise": { "RGB": [28, 67, 76], "CMYK": [], "HEX": "#1C434C" },
+  "KthDarkBrick": { "RGB": [120, 0, 26], "CMYK": [], "HEX": "#78001A" },
+  "KthDarkYellow": { "RGB": [166, 89, 0], "CMYK": [], "HEX": "#A65900" },
+  "KthDarkGray": { "RGB": [50, 50, 50], "CMYK": [], "HEX": "#323232" },
+
+  "KthGreen": { "RGB": [77, 160, 97], "CMYK": [], "HEX": "#4DA061" },
+  "KthTurquoise": { "RGB": [51, 156, 156], "CMYK": [], "HEX": "#339C9C" },
+  "KthBrick": { "RGB": [232, 106, 88], "CMYK": [], "HEX": "#E86A58" },
+  "KthYellow": { "RGB": [255, 190, 0], "CMYK": [], "HEX": "#FFBE00" },
+  "KthGray": { "RGB": [165, 165, 165], "CMYK": [], "HEX": "#A5A5A5" },
+
+  "KthLightGreen": { "RGB": [199, 235, 186], "CMYK": [], "HEX": "#C7EBBA" },
+  "KthLightTurquoise": { "RGB": [178, 224, 224], "CMYK": [], "HEX": "#B2E0E0" },
+  "KthLightBrick": { "RGB": [255, 204, 196], "CMYK": [], "HEX": "#FFCCC4" },
+  "KthLightYellow": { "RGB": [255, 240, 176], "CMYK": [], "HEX": "#FFF0B0" },
+  "KthLightGray": { "RGB": [230, 230, 230], "CMYK": [], "HEX": "#E6E6E6" },
+
+  "KthBrokenBlack": { "RGB": [33, 33, 33], "CMYK": [], "HEX": "#212121" },
+  "KthBrokenWhite": { "RGB": [252, 252, 252], "CMYK": [], "HEX": "#FCFCFC" }
+}

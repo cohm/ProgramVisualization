@@ -1,0 +1,12 @@
+[
+  {
+    "code": "CTFYS",
+    "name": "Civilingenjörsutbildning i teknisk fysik",
+    "dataFile": "CTFYS.json"
+  },
+  {
+    "code": "CTMAT",
+    "name": "Civilingenjörsutbildning i teknisk matematik",
+    "dataFile": "CTMAT.json"
+  }
+]
