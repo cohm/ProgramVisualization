@@ -21,7 +21,11 @@ export interface Course {
   briefName?: string;
   credits: CourseCredit[];
   year: number; // Primary year (min of credits.year). Kept for backwards compatibility.
+  // Back-compat flat prerequisites (treated as completion unless detailed lists below are provided)
   prerequisites: string[]; // Course codes
+  // Optional detailed prerequisite types
+  prerequisitesCompleted?: string[]; // must be completed before
+  prerequisitesParticipation?: string[]; // active participation required
   exams: Period['id'][];
   reexams: Period['id'][];
   // Optional year-specific exam mappings (preferred in new schema)

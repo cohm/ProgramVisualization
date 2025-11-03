@@ -74,6 +74,8 @@ const loadCourses = async (dataFile: string): Promise<Course[]> => {
         briefName: c.briefName || undefined,
         perYear: nested,
         prerequisites: Array.isArray(c.prerequisites) ? [...c.prerequisites] : [],
+        prerequisitesCompleted: Array.isArray(c.prerequisitesCompleted) ? [...c.prerequisitesCompleted] : [],
+        prerequisitesParticipation: Array.isArray(c.prerequisitesParticipation) ? [...c.prerequisitesParticipation] : [],
         exams: Array.isArray(c.exams) ? [...c.exams] : [],
         reexams: Array.isArray(c.reexams) ? [...c.reexams] : [],
         examByYear: !Array.isArray(c.exams) && c.exams && typeof c.exams === 'object'
@@ -90,7 +92,7 @@ const loadCourses = async (dataFile: string): Promise<Course[]> => {
         webpage: c.webpage || '',
         description: c.description || ''
       });
-    } else {
+  } else {
       // merge nested perYear
       Object.entries(nested).forEach(([yk, periods]) => {
         existing.perYear[yk] = existing.perYear[yk] || {};
@@ -101,7 +103,9 @@ const loadCourses = async (dataFile: string): Promise<Course[]> => {
       });
       // merge arrays uniquely
       const unique = (arr: any[]) => Array.from(new Set(arr));
-      existing.prerequisites = unique([...(existing.prerequisites || []), ...(c.prerequisites || [])]);
+  existing.prerequisites = unique([...(existing.prerequisites || []), ...(c.prerequisites || [])]);
+  existing.prerequisitesCompleted = unique([...(existing.prerequisitesCompleted || []), ...(c.prerequisitesCompleted || [])]);
+  existing.prerequisitesParticipation = unique([...(existing.prerequisitesParticipation || []), ...(c.prerequisitesParticipation || [])]);
       existing.exams = unique([...(existing.exams || []), ...(c.exams || [])]);
       existing.reexams = unique([...(existing.reexams || []), ...(c.reexams || [])]);
       // merge year-specific exam maps
@@ -154,6 +158,9 @@ const loadCourses = async (dataFile: string): Promise<Course[]> => {
       credits,
       year: primaryYear,
       prerequisites: entry.prerequisites || [],
+      // Backward compatibility: if detailed arrays are empty but flat prerequisites exist, treat as completion
+      prerequisitesCompleted: (entry.prerequisitesCompleted && entry.prerequisitesCompleted.length ? entry.prerequisitesCompleted : (entry.prerequisites || [])),
+      prerequisitesParticipation: entry.prerequisitesParticipation || [],
       exams: entry.exams || [],
       reexams: entry.reexams || [],
       examsByYear: entry.examByYear,
