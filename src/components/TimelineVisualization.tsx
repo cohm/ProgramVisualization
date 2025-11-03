@@ -2,7 +2,7 @@ import React, { useEffect, useRef, forwardRef, useImperativeHandle, useState } f
 import * as d3 from 'd3';
 import { Course, Period, academicPeriods } from '@/types/course';
 import kthColors from '@/data/kth-colors.json';
-import type { ProgramCosmetics } from '@/app/page';
+import type { ProgramCosmetics } from '@/types/cosmetics';
 
 type Lang = 'sv' | 'en';
 interface TimelineVisualizationProps {
