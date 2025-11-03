@@ -45,7 +45,7 @@
     "totalCredits": 7.5,
     "periodCredits": { "P1": 0, "P2": 0, "P3": 7.5, "P4": 0 },
     "year": 1,
-    "prerequisites": [],
+    "prerequisitesParticipation": ["SF1673"],
     "exams": ["P3"],
     "reexams": ["P3"]
   },
@@ -56,7 +56,7 @@
     "totalCredits": 6.0,
     "periodCredits": { "P1": 0, "P2": 0, "P3": 0, "P4": 6.0 },
     "year": 1,
-    "prerequisites": [],
+    "prerequisitesParticipation": ["SF1673"],
     "exams": ["P4"],
     "reexams": ["P4"]
   },
@@ -66,7 +66,7 @@
     "totalCredits": 7.5,
     "periodCredits": { "P1": 0, "P2": 4, "P3": 3.5, "P4": 0 },
     "year": 1,
-    "prerequisites": [],
+    "prerequisitesParticipation": ["SF1672", "SF1673", "SF1674"],
     "exams": ["P2", "P3"],
     "reexams": ["P2", "P3"]
   },
@@ -76,7 +76,7 @@
     "totalCredits": 4.0,
     "periodCredits": { "P1": 0, "P2": 0, "P3": 0, "P4": 4 },
     "year": 1,
-    "prerequisites": [],
+    "prerequisitesParticipation": ["SK1104"],
     "exams": [],
     "reexams": []
   },
@@ -86,7 +86,7 @@
     "totalCredits": 9.0,
     "periodCredits": { "P1": 0, "P2": 0, "P3": 4, "P4": 5 },
     "year": 1,
-    "prerequisites": [],
+    "prerequisitesParticipation": ["SF1673"],
     "exams": ["P4"],
     "reexams": ["P4"]
   },
@@ -107,7 +107,7 @@
     "totalCredits": 9.0,
     "periodCredits": { "P1": 5.0, "P2": 4.0, "P3": 0, "P4": 0 },
     "year": 2,
-    "prerequisites": ["SF1674"],
+    "prerequisitesCompleted": ["SF1674"],
     "exams": ["P1","P2"],
     "reexams": ["P1", "P2"]
   },
@@ -118,7 +118,7 @@
     "totalCredits": 6.0,
     "periodCredits": { "P1": 0, "P2": 1.0, "P3": 5.0, "P4": 0 },
     "year": 2,
-    "prerequisites": ["DD1331"],
+    "prerequisitesCompleted": ["DD1331"],
     "exams": ["P3"],
     "reexams": ["P3"]
   },
@@ -129,7 +129,7 @@
     "totalCredits": 6.0,
     "periodCredits": { "P1": 0, "P2": 6.0, "P3": 0, "P4": 0 },
     "year": 2,
-    "prerequisites": ["SF1672"],
+    "prerequisitesCompleted": ["SF1672"],
     "exams": ["P2"],
     "reexams": ["P2"]
   },
@@ -140,7 +140,7 @@
     "totalCredits": 6.0,
     "periodCredits": { "P1": 6.0, "P2": 0, "P3": 0, "P4": 0 },
     "year": 2,
-    "prerequisites": [],
+    "prerequisitesParticipation": ["SG1112"],
     "exams": ["P1"],
     "reexams": ["P1"]
   },
@@ -150,7 +150,7 @@
     "totalCredits": 4.0,
     "periodCredits": { "P1": 0, "P2": 4.0, "P3": 0, "P4": 0 },
     "year": 2,
-    "prerequisites": ["SK1104"],
+    "prerequisitesCompleted": ["SK1104"],
     "exams": ["P2"],
     "reexams": ["P2"]
   },
@@ -160,7 +160,7 @@
     "totalCredits": 4.0,
     "periodCredits": { "P1": 4.0, "P2": 0, "P3": 0, "P4": 0 },
     "year": 2,
-    "prerequisites": ["SF1674"],
+    "prerequisitesCompleted": ["SF1674"],
     "exams": ["P1"],
     "reexams": ["P1"]
   },
@@ -170,7 +170,7 @@
     "totalCredits": 6.0,
     "periodCredits": { "P1": 0, "P2": 0, "P3": 0, "P4": 6.0 },
     "year": 2,
-    "prerequisites": ["DD1331"],
+    "prerequisitesCompleted": ["DD1331"],
     "exams": ["P4"],
     "reexams": ["P4"]
   },
@@ -181,7 +181,7 @@
     "totalCredits": 9.0,
     "periodCredits": { "P1": 0, "P2": 0, "P3": 6.0, "P4": 3.0 },
     "year": 2,
-    "prerequisites": ["SG1112"],
+    "prerequisitesCompleted": ["SG1112"],
     "exams": ["P4"],
     "reexams": ["P4"]
   },
@@ -191,7 +191,7 @@
     "totalCredits": 6.0,
     "periodCredits": { "P1": 0, "P2": 0, "P3": 0, "P4": 6.0 },
     "year": 2,
-    "prerequisites": [],
+    "prerequisitesParticipation": ["SH1014"],
     "exams": ["P4"],
     "reexams": ["P4"]
   },
@@ -214,7 +214,7 @@
     "totalCredits": 5.0,
     "periodCredits": { "P1": 3.0, "P2": 2.0, "P3": 0, "P4": 0 },
     "year": 3,
-    "prerequisites": ["SH1014"],
+    "prerequisitesCompleted": ["SH1014"],
     "exams": [],
     "reexams": []
   },
@@ -224,7 +224,7 @@
     "totalCredits": 9.0,
     "periodCredits": { "P1": 6.0, "P2": 3.0, "P3": 0, "P4": 0 },
     "year": 3,
-    "prerequisites": ["SI1200"],
+    "prerequisitesCompleted": ["SI1200"],
     "exams": ["P2"],
     "reexams": ["P2"]
   },
@@ -235,7 +235,7 @@
     "totalCredits": 6.0,
     "periodCredits": { "P1": 6.0, "P2": 0, "P3": 0, "P4": 0 },
     "year": 3,
-    "prerequisites": ["SF1683"],
+    "prerequisitesCompleted": ["SF1683"],
     "exams": ["P1"],
     "reexams": ["P1"]
   },
@@ -245,7 +245,7 @@
     "totalCredits": 4.0,
     "periodCredits": { "P1": 0, "P2": 4.0, "P3": 0, "P4": 0 },
     "year": 3,
-    "prerequisites": ["SG1113"],
+    "prerequisitesCompleted": ["SG1113"],
     "exams": ["P2"],
     "reexams": ["P2"]
   },
@@ -255,7 +255,7 @@
     "totalCredits": 6.0,
     "periodCredits": { "P1": 0, "P2": 6.0, "P3": 0, "P4": 0 },
     "year": 3,
-    "prerequisites": ["SF1544"],
+    "prerequisitesCompleted": ["SF1544"],
     "exams": [],
     "reexams": []
   },
