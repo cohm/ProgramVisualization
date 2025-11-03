@@ -16,6 +16,8 @@ interface TimelineVisualizationProps {
 const TimelineVisualization = forwardRef(function TimelineVisualization({ courses, language = 'sv', programName, programCode, cosmetics }: TimelineVisualizationProps, ref: any) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
+  // Preserve the initial chart height to keep a stable px-per-ECTS baseline across re-renders/toggles
+  const initialChartHeightRef = useRef<number | null>(null);
 
   // Marker visual parameters - centralized for consistency
   const EXAM_MARKER_RADIUS = 4;
@@ -213,8 +215,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           const items = [
             { key: tr[language].legend.exams, type: 'exam', active: layers.exams },
             { key: tr[language].legend.reexams, type: 'reexam', active: layers.reexams },
-            { key: tr[language].legend.prerequisitesCompleted, type: 'prereqCompleted', active: layers.prerequisites },
-            { key: tr[language].legend.prerequisitesParticipation, type: 'prereqParticipated', active: layers.prerequisites },
+            { key: tr[language].legend.prerequisitesCompleted, type: 'prereqCompleted', active: layers.prereqCompleted },
+            { key: tr[language].legend.prerequisitesParticipation, type: 'prereqParticipated', active: layers.prereqParticipation },
             { key: tr[language].legend.courses, type: 'course', active: layers.courseBars },
             { key: tr[language].legend.studyPeriods, type: 'study', active: layers.studyPeriods },
             { key: tr[language].legend.examPeriods, type: 'examPeriod', active: layers.examPeriods },
@@ -507,7 +509,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const [layers, setLayers] = useState({
     exams: true,
     reexams: true,
-    prerequisites: true,
+    prereqCompleted: true,
+    prereqParticipation: true,
     courseBars: true,
     studyPeriods: true,
     examPeriods: true,
@@ -553,6 +556,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const margin = { top: 100, right: 40, bottom: 40, left: 100 }; // Increased top margin for title and period labels
   const width = svgRef.current.clientWidth - margin.left - margin.right;
   let height = svgRef.current.clientHeight - margin.top - margin.bottom;
+  if (initialChartHeightRef.current == null) {
+    initialChartHeightRef.current = height;
+  }
 
   // Clear previous content
   svg.selectAll('*').remove();
@@ -574,7 +580,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const yearRowGap = 48; // 4 times larger (was 12)
   const totalGaps = Math.max(0, numYears - 1) * yearRowGap;
   // Base band height from current SVG height, used to derive a baseline pixels-per-ECTS
-  const baseYearBandHeight = (height - totalGaps) / numYears;
+  // Use the initial chart height for baseline band height so layer toggles don't create feedback loops
+  const baseYearBandHeight = ((initialChartHeightRef.current || height) - totalGaps) / numYears;
   // Baseline pixels per ECTS (15 ECTS previously mapped to a year band)
   const pxPerECTS = baseYearBandHeight / 15;
   // Minimum ECTS to enforce for bar height so labels fit nicely
@@ -821,15 +828,18 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             .on('mouseover', (event: any) => {
               const allCompleted = (course as any).prerequisitesCompleted || course.prerequisites || [];
               const allParticipation = (course as any).prerequisitesParticipation || [];
-              const prereqCombined = Array.from(new Set([...(allCompleted || []), ...(allParticipation || [])]));
-              const prereqCodes = prereqCombined.join(', ') || '—';
+              const completedStr = (allCompleted || []).length ? (allCompleted as string[]).join(', ') : '—';
+              const participationStr = (allParticipation || []).length ? (allParticipation as string[]).join(', ') : '—';
               const dependents = courses.filter(c => {
                 const comp = (c as any).prerequisitesCompleted || c.prerequisites || [];
                 const part = (c as any).prerequisitesParticipation || [];
                 return (comp.includes(course.code) || part.includes(course.code));
               }).map(c => c.code);
               const dependentCodes = dependents.length ? dependents.join(', ') : '—';
-              const txt = `<strong>${course.code}</strong><br/>${course.name}<br/>${credit.credits} ${tr[language].credits}<br/><em>${tr[language].requires}:</em> ${prereqCodes}<br/><em>${tr[language].requiredFor}:</em> ${dependentCodes}`;
+              const txt = `<strong>${course.code}</strong><br/>${course.name}<br/>${credit.credits} ${tr[language].credits}
+                <br/><em>${tr[language].legend.prerequisitesCompleted}:</em> ${completedStr}
+                <br/><em>${tr[language].legend.prerequisitesParticipation}:</em> ${participationStr}
+                <br/><em>${tr[language].requiredFor}:</em> ${dependentCodes}`;
               tooltip.html(txt).style('display', 'block');
             })
             .on('mousemove', (event: any) => {
@@ -983,7 +993,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .attr('d', 'M0,-5L10,0L0,5')
       .attr('fill', kthColors.KthBlue?.HEX || '#004791');
 
-    const drawPrereqArrows = (course: Course, prereqCodes: string[], style: { stroke: string; dash?: string; markerId: string }) => {
+  const drawPrereqArrows = (course: Course, prereqCodes: string[], style: { stroke: string; dash?: string; markerId: string; cssClass: string }) => {
       if (!prereqCodes || prereqCodes.length === 0) return;
       const courseCreditsSorted = [...course.credits].sort((a: any, b: any) => (a.year - b.year) || (periodOrder[a.period] - periodOrder[b.period]));
       prereqCodes.forEach((prCode) => {
@@ -1011,7 +1021,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           .attr('stroke-width', 1)
           .attr('fill', 'none')
           .attr('marker-end', `url(#${style.markerId})`)
-          .attr('class', 'prereq-path')
+          .attr('class', `prereq-path ${style.cssClass}`)
           .attr('data-from', prereq.code)
           .attr('data-to', course.code);
         if (style.dash) path.attr('stroke-dasharray', style.dash);
@@ -1021,8 +1031,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     courses.forEach((course) => {
       const completed = (course as any).prerequisitesCompleted || course.prerequisites || [];
       const participated = (course as any).prerequisitesParticipation || [];
-      drawPrereqArrows(course, completed, { stroke: '#999', markerId: 'arrow-gray' });
-      drawPrereqArrows(course, participated, { stroke: (kthColors.KthBlue?.HEX || '#004791'), dash: '4,3', markerId: 'arrow-blue' });
+      drawPrereqArrows(course, completed, { stroke: '#999', markerId: 'arrow-gray', cssClass: 'prereq-completed' });
+      drawPrereqArrows(course, participated, { stroke: (kthColors.KthBlue?.HEX || '#004791'), dash: '4,3', markerId: 'arrow-blue', cssClass: 'prereq-participation' });
     });
 
   // style initial visibility based on layers state
@@ -1110,12 +1120,19 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .style('opacity', layers.reexams ? '1' : '0.2')
       .style('pointer-events', layers.reexams ? 'auto' : 'none');
 
-    // Prerequisites
-    container.selectAll<SVGPathElement, any>('.prereq-path')
+    // Prerequisites - completed
+    container.selectAll<SVGPathElement, any>('.prereq-path.prereq-completed')
       .interrupt()
-      .style('display', layers.prerequisites ? '' : 'none')
-      .style('opacity', layers.prerequisites ? '1' : '0.15')
-      .style('pointer-events', layers.prerequisites ? 'auto' : 'none');
+      .style('display', layers.prereqCompleted ? '' : 'none')
+      .style('opacity', layers.prereqCompleted ? '1' : '0.15')
+      .style('pointer-events', layers.prereqCompleted ? 'auto' : 'none');
+
+    // Prerequisites - participation
+    container.selectAll<SVGPathElement, any>('.prereq-path.prereq-participation')
+      .interrupt()
+      .style('display', layers.prereqParticipation ? '' : 'none')
+      .style('opacity', layers.prereqParticipation ? '1' : '0.15')
+      .style('pointer-events', layers.prereqParticipation ? 'auto' : 'none');
 
     // Study periods (background alternating)
     container.selectAll<SVGRectElement, any>('.study-period')
@@ -1216,8 +1233,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.reexams}</span>
         </div>
 
-        {/* Prerequisites - completion */}
-        <div onClick={() => setLayers(s => ({ ...s, prerequisites: !s.prerequisites }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.prerequisites ? 1 : 0.4 }}>
+  {/* Prerequisites - completion */}
+  <div onClick={() => setLayers(s => ({ ...s, prereqCompleted: !s.prereqCompleted }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.prereqCompleted ? 1 : 0.4 }}>
           <svg width={16} height={16} viewBox="0 0 20 16">
             <path d="M2 8 L18 8" stroke="#999" strokeWidth={2} fill="none" />
             <path d="M14 6 L18 8 L14 10" fill="#999" />
@@ -1225,8 +1242,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.prerequisitesCompleted}</span>
         </div>
 
-        {/* Prerequisites - participation */}
-        <div onClick={() => setLayers(s => ({ ...s, prerequisites: !s.prerequisites }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.prerequisites ? 1 : 0.4 }}>
+  {/* Prerequisites - participation */}
+  <div onClick={() => setLayers(s => ({ ...s, prereqParticipation: !s.prereqParticipation }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.prereqParticipation ? 1 : 0.4 }}>
           <svg width={16} height={16} viewBox="0 0 20 16">
             <path d="M2 8 L18 8" stroke={kthColors.KthBlue?.HEX || '#004791'} strokeWidth={2} strokeDasharray="4,3" fill="none" />
             <path d="M14 6 L18 8 L14 10" fill={kthColors.KthBlue?.HEX || '#004791'} />
@@ -1312,15 +1329,29 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               </div>
             </div>
             <div style={{ marginBottom: 6 }}>
-              <strong>{tr[language].requires}:</strong>{' '}
-              {(selectedInfo.course.prerequisites || []).length
-                ? (selectedInfo.course.prerequisites || []).join(', ')
-                : '—'}
+              <div>
+                <strong>{tr[language].legend.prerequisitesCompleted}:</strong>{' '}
+                {(() => {
+                  const list = (selectedInfo.course as any).prerequisitesCompleted || selectedInfo.course.prerequisites || [];
+                  return (list.length ? (list as string[]).join(', ') : '—');
+                })()}
+              </div>
+              <div>
+                <strong>{tr[language].legend.prerequisitesParticipation}:</strong>{' '}
+                {(() => {
+                  const list = (selectedInfo.course as any).prerequisitesParticipation || [];
+                  return (list.length ? (list as string[]).join(', ') : '—');
+                })()}
+              </div>
             </div>
             <div style={{ marginBottom: 10 }}>
               <strong>{tr[language].requiredFor}:</strong>{' '}
               {(() => {
-                const dependents = courses.filter(c => (c.prerequisites || []).includes(selectedInfo.course.code)).map(c => c.code);
+                const dependents = courses.filter(c => {
+                  const comp = (c as any).prerequisitesCompleted || c.prerequisites || [];
+                  const part = (c as any).prerequisitesParticipation || [];
+                  return (comp.includes(selectedInfo.course.code) || part.includes(selectedInfo.course.code));
+                }).map(c => c.code);
                 return dependents.length ? dependents.join(', ') : '—';
               })()}
             </div>
