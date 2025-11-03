@@ -552,7 +552,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   svg.style('font-family', STYLE.fontFamily);
   const margin = { top: 100, right: 40, bottom: 40, left: 100 }; // Increased top margin for title and period labels
   const width = svgRef.current.clientWidth - margin.left - margin.right;
-  const height = svgRef.current.clientHeight - margin.top - margin.bottom;
+  let height = svgRef.current.clientHeight - margin.top - margin.bottom;
 
   // Clear previous content
   svg.selectAll('*').remove();
@@ -572,9 +572,59 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const numYears = Math.max(1, maxYear);
   // Increased vertical gap between year rows (px)
   const yearRowGap = 48; // 4 times larger (was 12)
-  // compute effective year band height after accounting for gaps between year rows
   const totalGaps = Math.max(0, numYears - 1) * yearRowGap;
-  const yearBandHeight = (height - totalGaps) / numYears;
+  // Base band height from current SVG height, used to derive a baseline pixels-per-ECTS
+  const baseYearBandHeight = (height - totalGaps) / numYears;
+  // Baseline pixels per ECTS (15 ECTS previously mapped to a year band)
+  const pxPerECTS = baseYearBandHeight / 15;
+  // Minimum ECTS to enforce for bar height so labels fit nicely
+  const MIN_ECTS_FOR_HEIGHT = 2;
+  const STACK_GAP_PX = 4; // gap between stacked bars
+
+  // Build mapping of courses per year+period to compute stacking lanes (needed for sizing and layout)
+  const slotsByYearPeriod: Record<string, Array<{ course: Course; credit: { period: string; credits: number; year: number } }>> = {};
+  courses.forEach((course) => {
+    course.credits.forEach((credit) => {
+      const key = `${(credit as any).year}-${credit.period}`;
+      if (!slotsByYearPeriod[key]) slotsByYearPeriod[key] = [];
+      slotsByYearPeriod[key].push({ course, credit });
+    });
+  });
+
+  // Compute required band height per year considering the minimum bar height corresponding to 2 ECTS
+  const yearBandHeights: number[] = Array.from({ length: numYears }, () => 0);
+  for (let y = 1; y <= numYears; y++) {
+    // for this year, find all 4 periods
+    let maxPeriodHeightNeeded = 0;
+    academicPeriods.forEach((p) => {
+      const list = slotsByYearPeriod[`${y}-${p.id}`] || [];
+      if (list.length === 0) return;
+      const heightSum = list.reduce((sum, it) => {
+        const effECTS = Math.max(it.credit.credits, MIN_ECTS_FOR_HEIGHT);
+        return sum + effECTS * pxPerECTS;
+      }, 0);
+      const gaps = Math.max(0, list.length - 1) * STACK_GAP_PX;
+      maxPeriodHeightNeeded = Math.max(maxPeriodHeightNeeded, heightSum + gaps);
+    });
+    // Ensure at least the baseline height is kept, even if no courses
+    yearBandHeights[y - 1] = Math.max(baseYearBandHeight, maxPeriodHeightNeeded);
+  }
+
+  // If required total height exceeds current height, expand the SVG to fit to avoid compressing bars below the minimum
+  const requiredTotalHeight = yearBandHeights.reduce((a, b) => a + b, 0) + totalGaps;
+  if (requiredTotalHeight > height) {
+    height = requiredTotalHeight;
+    // also set explicit height on the SVG node so layout picks it up
+    d3.select(svgRef.current)
+      .attr('height', height + margin.top + margin.bottom);
+  }
+
+  // Compute cumulative Y offsets per year using the (possibly) expanded band heights
+  const yearYOffset: number[] = [];
+  for (let i = 0; i < numYears; i++) {
+    const prev = i === 0 ? 0 : (yearYOffset[i - 1] + yearBandHeights[i - 1] + yearRowGap);
+    yearYOffset.push(prev);
+  }
   const verticalOffset = 0;
   const periodExtension = 10; // How much the period backgrounds extend beyond course area (reduced for better alignment)
 
@@ -712,16 +762,6 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           .on('mouseout', () => tooltip.style('display', 'none'));
     });
 
-    // Build mapping of courses per year+period to compute stacking lanes
-    const slotsByYearPeriod: Record<string, Array<{ course: Course; credit: { period: string; credits: number; year: number } }>> = {};
-    courses.forEach((course) => {
-      course.credits.forEach((credit) => {
-        const key = `${(credit as any).year}-${credit.period}`;
-        if (!slotsByYearPeriod[key]) slotsByYearPeriod[key] = [];
-        slotsByYearPeriod[key].push({ course, credit });
-      });
-    });
-
     // Compute max parallel slots per year to determine lane heights
     const maxSlotsPerYear: Record<number, number> = {};
     Object.keys(slotsByYearPeriod).forEach((key) => {
@@ -735,30 +775,26 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
     // Draw courses with stacking by ECTS within each year+period (15 ECTS maps to the full year band)
     Object.entries(slotsByYearPeriod).forEach(([key, list]) => {
-      const [yearStr, periodId] = key.split('-');
+    const [yearStr, periodId] = key.split('-');
       const year = Number(yearStr);
       const period = academicPeriods.find((p) => p.id === (periodId as any))!;
   const yearIndex = year - 1;
-  const yearY = yearIndex * (yearBandHeight + yearRowGap);
+  const yearY = yearYOffset[yearIndex];
       const w = timeScale(period.end) - timeScale(period.start);
       const x = timeScale(period.start);
 
-      // Sum credits in this period
-      const totalCredits = list.reduce((s, it) => s + it.credit.credits, 0);
+    // pixels per ECTS for the year band (baseline set from initial layout)
+    const pixelsPerECTS = pxPerECTS;
 
-      // pixels per ECTS for the year band
-      const pixelsPerECTS = yearBandHeight / 15;
-      // if total credits exceed 15, scale down to make the stack fit
-      const overflowScale = totalCredits > 15 ? 15 / totalCredits : 1;
-
-      const gapPx = 4; // doubled gap between stacked bars (was 2)
-      let cursorY = verticalOffset + yearY; // start at the top of the year band
+    const gapPx = STACK_GAP_PX; // doubled gap between stacked bars (was 2)
+    let cursorY = verticalOffset + yearY; // start at the top of the year band
 
       list.forEach((item) => {
         const credit = item.credit;
         const course = item.course;
-        const rawHeight = pixelsPerECTS * credit.credits * overflowScale;
-        const courseHeight = Math.max(rawHeight, 4); // ensure minimal visible height
+  const rawHeight = pixelsPerECTS * credit.credits;
+  const minHeight = pixelsPerECTS * MIN_ECTS_FOR_HEIGHT;
+  const courseHeight = Math.max(rawHeight, minHeight); // ensure minimal visible height equal to 2 ECTS
 
   const block = g.append('g').attr('class', 'course-group').attr('data-course', course.code);
 
@@ -909,7 +945,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       });
     });
     for (let i = 0; i < numYears; i++) {
-      const yearLabelY = i * (yearBandHeight + yearRowGap) + yearBandHeight / 2;
+      const yearLabelY = yearYOffset[i] + yearBandHeights[i] / 2;
       g.append('text')
         .attr('x', -margin.left + 12)
         .attr('y', yearLabelY)
