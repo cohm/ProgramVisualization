@@ -2,6 +2,7 @@ import React, { useEffect, useRef, forwardRef, useImperativeHandle, useState } f
 import * as d3 from 'd3';
 import { Course, Period, academicPeriods } from '@/types/course';
 import kthColors from '@/data/kth-colors.json';
+import type { ProgramCosmetics } from '@/app/page';
 
 type Lang = 'sv' | 'en';
 interface TimelineVisualizationProps {
@@ -9,17 +10,18 @@ interface TimelineVisualizationProps {
   language?: Lang;
   programName?: string;
   programCode?: string;
+  cosmetics?: ProgramCosmetics | null;
 }
 
-const TimelineVisualization = forwardRef(function TimelineVisualization({ courses, language = 'sv', programName, programCode }: TimelineVisualizationProps, ref: any) {
+const TimelineVisualization = forwardRef(function TimelineVisualization({ courses, language = 'sv', programName, programCode, cosmetics }: TimelineVisualizationProps, ref: any) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
   // Marker visual parameters - centralized for consistency
   const EXAM_MARKER_RADIUS = 4;
-  const EXAM_MARKER_STROKE_WIDTH = 2;
+  const EXAM_MARKER_STROKE_WIDTH = 1;
   const REEXAM_MARKER_RADIUS = 4;
-  const REEXAM_MARKER_STROKE_WIDTH = 2;
+  const REEXAM_MARKER_STROKE_WIDTH = 1;
 
   // Centralized styling and layout constants
   const STYLE = {
@@ -35,6 +37,67 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       textColor: kthColors.KthBlue?.HEX || '#004791'
     }
   } as const;
+
+  // Map color family to KTH color shades for course bars
+  const getColorForFamily = (family: 'blue' | 'green' | 'turquoise' | 'brick' | 'yellow') => {
+    const families = {
+      blue: { fill: kthColors.KthBlue?.HEX || '#004791', stroke: kthColors.KthMarine?.HEX || '#000061', text: kthColors.KthLightBlue?.HEX || '#DEF0FF' },
+      green: { fill: kthColors.KthGreen?.HEX || '#4DA061', stroke: kthColors.KthDarkGreen?.HEX || '#0D4A21', text: kthColors.KthLightGreen?.HEX || '#C7EBBA' },
+      turquoise: { fill: kthColors.KthTurquoise?.HEX || '#339C9C', stroke: kthColors.KthDarkTurquoise?.HEX || '#1C434C', text: kthColors.KthLightTurquoise?.HEX || '#B2E0E0' },
+      brick: { fill: kthColors.KthBrick?.HEX || '#E86A58', stroke: kthColors.KthDarkBrick?.HEX || '#78001A', text: kthColors.KthLightBrick?.HEX || '#FFCCC4' },
+      yellow: { fill: kthColors.KthYellow?.HEX || '#FFBE00', stroke: kthColors.KthDarkYellow?.HEX || '#A65900', text: kthColors.KthLightYellow?.HEX || '#FFF0B0' }
+    };
+    return families[family];
+  };
+
+  // Provide multiple distinct variants within a family so courses in the same group can use different tones
+  const getFamilyVariants = (family: 'blue' | 'green' | 'turquoise' | 'brick' | 'yellow') => {
+    if (family === 'blue') {
+      return [
+        { fill: kthColors.KthMarine?.HEX || '#000061', stroke: kthColors.KthBlue?.HEX || '#004791', text: kthColors.KthLightBlue?.HEX || '#DEF0FF' },
+        { fill: kthColors.KthBlue?.HEX || '#004791', stroke: kthColors.KthMarine?.HEX || '#000061', text: kthColors.KthLightBlue?.HEX || '#DEF0FF' },
+        { fill: kthColors.KthHeaven?.HEX || '#6298D2', stroke: kthColors.KthMarine?.HEX || '#000061', text: kthColors.KthLightBlue?.HEX || '#DEF0FF' },
+      ];
+    }
+    if (family === 'green') {
+      return [
+        { fill: kthColors.KthGreen?.HEX || '#4DA061', stroke: kthColors.KthDarkGreen?.HEX || '#0D4A21', text: kthColors.KthLightGreen?.HEX || '#C7EBBA' },
+        { fill: kthColors.KthDarkGreen?.HEX || '#0D4A21', stroke: kthColors.KthGreen?.HEX || '#4DA061', text: kthColors.KthLightGreen?.HEX || '#C7EBBA' },
+      ];
+    }
+    if (family === 'turquoise') {
+      return [
+        { fill: kthColors.KthTurquoise?.HEX || '#339C9C', stroke: kthColors.KthDarkTurquoise?.HEX || '#1C434C', text: kthColors.KthLightTurquoise?.HEX || '#B2E0E0' },
+        { fill: kthColors.KthDarkTurquoise?.HEX || '#1C434C', stroke: kthColors.KthTurquoise?.HEX || '#339C9C', text: kthColors.KthLightTurquoise?.HEX || '#B2E0E0' },
+      ];
+    }
+    if (family === 'brick') {
+      return [
+        { fill: kthColors.KthBrick?.HEX || '#E86A58', stroke: kthColors.KthDarkBrick?.HEX || '#78001A', text: kthColors.KthLightBrick?.HEX || '#FFCCC4' },
+        { fill: kthColors.KthDarkBrick?.HEX || '#78001A', stroke: kthColors.KthBrick?.HEX || '#E86A58', text: kthColors.KthLightBrick?.HEX || '#FFCCC4' },
+      ];
+    }
+    // yellow
+    return [
+      { fill: kthColors.KthYellow?.HEX || '#FFBE00', stroke: kthColors.KthDarkYellow?.HEX || '#A65900', text: kthColors.KthLightYellow?.HEX || '#FFF0B0' },
+      { fill: kthColors.KthDarkYellow?.HEX || '#A65900', stroke: kthColors.KthYellow?.HEX || '#FFBE00', text: kthColors.KthLightYellow?.HEX || '#FFF0B0' },
+    ];
+  };
+
+  // Stable per-course color selection within a group
+  const getCourseColors = (course: Course) => {
+    const group = cosmetics?.courseToGroup.get(course.code);
+    if (!group) return defaultColor;
+    const variants = getFamilyVariants(group.colorFamily);
+    // Use course order in the group if present; fallback to a hash of course code
+    const idxInGroup = (group.courses || []).findIndex(c => c === course.code);
+    const baseIndex = idxInGroup >= 0 ? idxInGroup : Array.from(course.code).reduce((s, ch) => s + ch.charCodeAt(0), 0);
+    const variant = variants[baseIndex % variants.length];
+    return variant || getColorForFamily(group.colorFamily);
+  };
+
+  // Default color for courses not in any group
+  const defaultColor = { fill: kthColors.KthHeaven?.HEX || '#6298D2', stroke: kthColors.KthBlue?.HEX || '#004791', text: kthColors.KthLightBlue?.HEX || '#DEF0FF' };
 
   // Translations
   const tr = {
@@ -259,6 +322,80 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
             legendG.appendChild(rowG);
           });
+
+          // Add course groups if cosmetics available
+          if (cosmetics && cosmetics.groups.length > 0) {
+            // defs for gradients
+            const defs = document.createElementNS(NS, 'defs');
+            legendG.appendChild(defs);
+            let currentIdx = items.length;
+            // Add a separator line
+            const separatorY = legendPadding + currentIdx * (itemHeight + itemGap) - itemGap/2;
+            const separatorLine = document.createElementNS(NS, 'line');
+            separatorLine.setAttribute('x1', String(legendPadding));
+            separatorLine.setAttribute('y1', String(separatorY));
+            separatorLine.setAttribute('x2', String(legendWidth - legendPadding));
+            separatorLine.setAttribute('y2', String(separatorY));
+            separatorLine.setAttribute('stroke', '#e5e7eb');
+            separatorLine.setAttribute('stroke-width', '1');
+            legendG.appendChild(separatorLine);
+
+            currentIdx++; // account for separator space
+            cosmetics.groups.forEach((group, gIdx) => {
+              const variants = getFamilyVariants(group.colorFamily);
+              const rowG = document.createElementNS(NS, 'g');
+              rowG.setAttribute('transform', `translate(${legendPadding},${legendPadding + (currentIdx + gIdx) * (itemHeight + itemGap)})`);
+              
+              const r = document.createElementNS(NS, 'rect');
+              r.setAttribute('x', '0');
+              r.setAttribute('y', String((itemHeight-12)/2));
+              r.setAttribute('width', '18');
+              r.setAttribute('height', '12');
+              // Create linear gradient for this group
+              let gradId = `legendGrad_${gIdx}`;
+              const lg = document.createElementNS(NS, 'linearGradient');
+              lg.setAttribute('id', gradId);
+              lg.setAttribute('x1', '0%');
+              lg.setAttribute('y1', '0%');
+              lg.setAttribute('x2', '100%');
+              lg.setAttribute('y2', '0%');
+              const n = Math.max(1, variants.length);
+              variants.forEach((v, i) => {
+                const start = Math.round((i / n) * 100);
+                const end = Math.round(((i + 1) / n) * 100);
+                const s1 = document.createElementNS(NS, 'stop');
+                s1.setAttribute('offset', `${start}%`);
+                s1.setAttribute('stop-color', v.fill);
+                const s2 = document.createElementNS(NS, 'stop');
+                s2.setAttribute('offset', `${end}%`);
+                s2.setAttribute('stop-color', v.fill);
+                lg.appendChild(s1);
+                lg.appendChild(s2);
+              });
+              defs.appendChild(lg);
+              r.setAttribute('fill', `url(#${gradId})`);
+              r.setAttribute('stroke', (variants[0]?.stroke) || '#999');
+              rowG.appendChild(r);
+
+              const text = document.createElementNS(NS, 'text');
+              text.setAttribute('x', '26');
+              text.setAttribute('y', String(itemHeight/2 + 4));
+              text.setAttribute('fill', STYLE.legend.textColor);
+              text.setAttribute('font-size', '12');
+              text.textContent = group.name;
+              rowG.appendChild(text);
+
+              legendG.appendChild(rowG);
+            });
+
+            // Update legend height to include groups
+            const totalItems = items.length + 1 + cosmetics.groups.length; // +1 for separator
+            const newLegendHeight = legendPadding*2 + totalItems * (itemHeight + itemGap) - itemGap;
+            bg.setAttribute('height', String(newLegendHeight));
+            // Reposition to stay in bottom-right
+            const newLegendY = svgH - newLegendHeight - STYLE.legend.offsetY;
+            legendG.setAttribute('transform', `translate(${legendX},${newLegendY})`);
+          }
 
           // append legend to cloned
           cloned.appendChild(legendG);
@@ -617,13 +754,16 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const barX = x + 2;
   const barWidth = Math.max(0, courseWidth - 4);
 
+  // Determine color based on course group and vary within family
+  const colors = getCourseColors(course);
+
   block.append('rect')
     .attr('x', barX)
           .attr('y', cursorY)
     .attr('width', barWidth)
           .attr('height', courseHeight)
-            .attr('fill', kthColors.KthHeaven?.HEX || '#6298D2')
-            .attr('stroke', kthColors.KthBlue?.HEX || '#004791')
+            .attr('fill', colors.fill)
+            .attr('stroke', colors.stroke)
             .attr('rx', 4)
             .attr('ry', 4)
             .attr('class', 'course-block')
@@ -679,7 +819,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         label.append('tspan')
           .text(course.code + ' ')
           .attr('font-weight', 700)
-          .attr('fill', kthColors.KthLightBlue?.HEX || '#DEF0FF');
+          .attr('fill', colors.text);
 
         // course name (normal)
         const nameTspan = label.append('tspan')
@@ -828,12 +968,13 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
   // Draw exam markers in topLayer, aligned horizontally to exam period and vertically to course
   examMarkers.forEach((m) => {
+    const colors = getCourseColors(m.course);
     topLayer.append('circle')
       .attr('cx', m.x)
       .attr('cy', m.cy)
       .attr('r', EXAM_MARKER_RADIUS)
-      .attr('fill', kthColors.KthBrick?.HEX || '#E86A58')
-      .attr('stroke', kthColors.KthBrick?.HEX || '#E86A58')
+      .attr('fill', colors.fill)
+      .attr('stroke', colors.stroke)
       .attr('stroke-width', EXAM_MARKER_STROKE_WIDTH)
       .style('pointer-events', 'auto')
       .attr('class', 'exam-dot')
@@ -849,12 +990,13 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   });
 
   reexamMarkers.forEach((m) => {
+    const colors = getCourseColors(m.course);
     topLayer.append('circle')
       .attr('cx', m.x)
       .attr('cy', m.cy)
       .attr('r', REEXAM_MARKER_RADIUS)
       .attr('fill', 'none')
-      .attr('stroke', kthColors.KthBrick?.HEX || '#E86A58')
+      .attr('stroke', colors.stroke)
       .attr('stroke-width', REEXAM_MARKER_STROKE_WIDTH)
       .style('pointer-events', 'auto')
       .attr('class', 'reexam-dot')
@@ -1022,6 +1164,30 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           <div style={{ width: 18, height: 12, background: kthColors.KthLightGray?.HEX || '#eee', borderRadius: 2, border: '1px solid rgba(0,0,0,0.06)' }} />
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.reexamPeriods}</span>
         </div>
+
+        {/* Course groups if cosmetics available */}
+        {cosmetics && cosmetics.groups.length > 0 && (
+          <>
+            <div style={{ width: '100%', height: 1, background: '#e5e7eb', margin: '4px 0' }} />
+            {cosmetics.groups.map((group) => {
+              const variants = getFamilyVariants(group.colorFamily);
+              const gradient = variants.length > 1
+                ? `linear-gradient(90deg, ${variants.map((v, i) => {
+                    const start = Math.round((i / variants.length) * 100);
+                    const end = Math.round(((i + 1) / variants.length) * 100);
+                    return `${v.fill} ${start}%, ${v.fill} ${end}%`;
+                  }).join(', ')})`
+                : variants[0]?.fill || '#ccc';
+              const borderColor = variants[0]?.stroke || '#999';
+              return (
+                <div key={group.name} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                  <div style={{ width: 18, height: 12, background: gradient as any, borderRadius: 2, border: `1px solid ${borderColor}` }} />
+                  <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{group.name}</span>
+                </div>
+              );
+            })}
+          </>
+        )}
         </div>
       </div>
 

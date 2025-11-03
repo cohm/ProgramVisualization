@@ -1,0 +1,92 @@
+[
+  {
+    "code": "DD1310",
+    "name": "Programmeringsteknik",
+    "totalCredits": 6.0,
+    "periodCredits": { "P1": 3.0, "P2": 3.0, "P3": 0, "P4": 0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "reexams": []
+  },
+  {
+    "code": "SA1007",
+    "name": "Ingenjörsrollen och ingenjörskunskap",
+    "totalCredits": 6.0,
+    "periodCredits": { "P1": 1.0, "P2": 0.5, "P3": 1.5, "P4": 3.0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "reexams": []
+  },
+  {
+    "code": "SF1624",
+    "name": "Algebra och geometri",
+    "totalCredits": 7.5,
+    "periodCredits": { "P1": 0, "P2": 7.5, "P3": 0, "P4": 0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": ["P2"],
+    "reexams": ["P2"]
+  },
+  {
+    "code": "SF1625",
+    "name": "Envariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": { "P1": 7.5, "P2": 0, "P3": 0, "P4": 0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": ["P1"],
+    "reexams": ["P1"]
+  },
+  {
+    "code": "SK1115",
+    "name": "Elektromagnetism och vågrörelselära",
+    "totalCredits": 7.5,
+    "periodCredits": { "P1": 3.5, "P2": 4.0, "P3": 0, "P4": 0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": ["P2"],
+    "reexams": ["P2"]
+  },
+  {
+    "code": "KD1000",
+    "name": "Kemiska principer för hållbar utveckling",
+    "totalCredits": 3.0,
+    "periodCredits": { "P1": 0, "P2": 0, "P3": 0, "P4": 3.0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": ["P4"],
+    "reexams": ["P4"]
+  },
+  {
+    "code": "SF1546",
+    "name": "Numeriska metoder, grundkurs",
+    "totalCredits": 6.0,
+    "periodCredits": { "P1": 0, "P2": 0, "P3": 4.0, "P4": 2.0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": ["P4"],
+    "reexams": ["P4"]
+  },
+  {
+    "code": "SF1626",
+    "name": "Flervariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": { "P1": 0, "P2": 0, "P3": 7.5, "P4": 0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": ["P3"],
+    "reexams": ["P3"]
+  },
+  {
+    "code": "SG1133",
+    "name": "Mekanik I",
+    "totalCredits": 9.0,
+    "periodCredits": { "P1": 0, "P2": 0, "P3": 2.0, "P4": 7.0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": ["P4"],
+    "reexams": ["P4"]
+  }
+]

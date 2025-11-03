@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Matematik",
+    "colorFamily": "green",
+    "courses": ["SF1624", "SF1625", "SF1626"]
+  },
+  {
+    "name": "Fysik",
+    "colorFamily": "turquoise",
+    "courses": ["SI1142", "SI1143", "SI1144", "SI1145"]
+  },
+  {
+    "name": "Kemi",
+    "colorFamily": "brick",
+    "courses": ["SK1118"]
+  },
+  {
+    "name": "Datateknik & Teknik",
+    "colorFamily": "yellow",
+    "courses": ["DD1315", "DD1337", "DD1310", "EE1003", "MF1016"]
+  }
+]

@@ -1,6 +1,7 @@
  'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import TimelineVisualization from '@/components/TimelineVisualization';
 import { Course } from '@/types/course';
 import kthColors from '@/data/kth-colors.json';
@@ -11,9 +12,39 @@ interface ProgramConfig {
   code: string;
   name: string;
   dataFile: string;
+  cosmeticsFile?: string;
+}
+
+// Course group cosmetics
+export interface CourseGroup {
+  name: string;
+  colorFamily: 'blue' | 'green' | 'turquoise' | 'brick' | 'yellow';
+  courses: string[];
+}
+
+export interface ProgramCosmetics {
+  groups: CourseGroup[];
+  courseToGroup: Map<string, CourseGroup>;
 }
 
 const programs: ProgramConfig[] = programsConfig;
+
+// Helper to load cosmetics for a program
+const loadCosmetics = async (cosmeticsFile: string | undefined): Promise<ProgramCosmetics | null> => {
+  if (!cosmeticsFile) return null;
+  try {
+    const rawGroups = await import(`@/data/${cosmeticsFile}`);
+    const groups: CourseGroup[] = rawGroups.default as CourseGroup[];
+    const courseToGroup = new Map<string, CourseGroup>();
+    groups.forEach(group => {
+      group.courses.forEach(code => courseToGroup.set(code, group));
+    });
+    return { groups, courseToGroup };
+  } catch (e) {
+    console.warn('Failed to load cosmetics:', e);
+    return null;
+  }
+};
 
 // Helper to load and map course data
 const loadCourses = async (dataFile: string): Promise<Course[]> => {
@@ -179,17 +210,40 @@ export default function Home() {
   const [selectedProgram, setSelectedProgram] = useState(programs[0]);
   const [language, setLanguage] = useState<Lang>('sv');
   const [courses, setCourses] = useState<Course[]>([]);
+  const [cosmetics, setCosmetics] = useState<ProgramCosmetics | null>(null);
   const vizRef = useRef<any>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [exportSubOpen, setExportSubOpen] = useState(false);
   const [includeLegend, setIncludeLegend] = useState(true);
   const exportBtnRef = useRef<HTMLButtonElement>(null);
   const exportMenuRef = useRef<HTMLDivElement>(null);
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-  // Load courses when program changes
+  // Load courses and cosmetics when program changes
   useEffect(() => {
     loadCourses(selectedProgram.dataFile).then(setCourses);
+    loadCosmetics(selectedProgram.cosmeticsFile).then(setCosmetics);
   }, [selectedProgram]);
+
+  // Sync selected program from URL (?program=CODE)
+  useEffect(() => {
+    const param = (searchParams.get('program') || '').trim();
+    const fromUrl = param
+      ? programs.find(p => p.code.toLowerCase() === param.toLowerCase())
+      : undefined;
+    if (fromUrl && fromUrl.code !== selectedProgram.code) {
+      setSelectedProgram(fromUrl);
+      return;
+    }
+    // If no param, write current selection to URL for persistence
+    if (!param) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set('program', selectedProgram.code);
+      // replace to avoid polluting history
+      router.replace(`/?${params.toString()}`);
+    }
+  }, [searchParams, router, selectedProgram.code]);
 
   // Close main menu on outside click
   useEffect(() => {
@@ -217,7 +271,13 @@ export default function Home() {
             value={selectedProgram.code}
             onChange={(e) => {
               const program = programs.find(p => p.code === e.target.value);
-              if (program) setSelectedProgram(program);
+              if (program) {
+                setSelectedProgram(program);
+                // Update URL param to persist selection across reloads
+                const params = new URLSearchParams(searchParams.toString());
+                params.set('program', program.code);
+                router.replace(`/?${params.toString()}`);
+              }
             }}
             style={{ color: kthColors.KthBlue?.HEX }}
             className="px-4 py-2 border border-gray-300 rounded-md shadow-sm"
@@ -276,6 +336,7 @@ export default function Home() {
             language={language}
             programName={selectedProgram.name}
             programCode={selectedProgram.code}
+            cosmetics={cosmetics}
           />
         </div>
 
