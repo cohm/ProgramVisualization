@@ -1,22 +1,27 @@
 [
   {
     "name": "Matematik",
+    "colorFamily": "blue",
+    "courses": ["SF1694", "SF1668", "SF1626", "SF1682", "SF1914", "SF1861"]
+  },
+  {
+    "name": "Fysik & Mekanik",
     "colorFamily": "green",
-    "courses": ["SF1624", "SF1625", "SF1626"]
+    "courses": ["SK1112", "SG1132", "SG1140", "SG1216", "SG1217", "SH1014"]
   },
   {
-    "name": "Fysik",
-    "colorFamily": "turquoise",
-    "courses": ["SI1142", "SI1143", "SI1144", "SI1145"]
-  },
-  {
-    "name": "Kemi",
+    "name": "Ingenjörsämnen",
     "colorFamily": "brick",
-    "courses": ["SK1118"]
+    "courses": ["MF1024", "SE1010", "SE1025", "EL1010", "MF1017", "SD1120", "SD2125"]
   },
   {
-    "name": "Datateknik & Teknik",
+    "name": "Datateknik",
     "colorFamily": "yellow",
-    "courses": ["DD1315", "DD1337", "DD1310", "EE1003", "MF1016"]
+    "courses": ["DD1333", "DD1301", "DD1320"]
+  },
+  {
+    "name": "Övrigt",
+    "colorFamily": "turquoise",
+    "courses": ["SA115X"]
   }
 ]
