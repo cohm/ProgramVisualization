@@ -1097,64 +1097,119 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     
     // Now compute lanes GLOBALLY across all arrows
     function computeHorizontalLanes(arrows: ArrowData[]) {
-      // Group arrows by the horizontal segments they share
-      // Key format: "y{y-coordinate}-from-x{xStart}-to-x{xEnd}"
-      const horizontalSegments: Record<string, number[]> = {};
+      // Group arrows by horizontal segments (same Y, same gap)
+      // Then use graph coloring to assign lanes to overlapping ranges
+      
+      console.log('=== Computing Horizontal Lanes ===');
+      
+      // First, extract all horizontal segments with their properties
+      type HSegment = {
+        arrowIdx: number;
+        y: number; // Y coordinate (rounded)
+        xStart: number;
+        xEnd: number;
+        gapType: string; // 'inter-period' or gap identifier
+      };
+      
+      const segments: HSegment[] = [];
       
       arrows.forEach((arrow, idx) => {
         const isSameYear = arrow.fromYearIdx === arrow.toYearIdx;
         const fromPeriodNum = periodOrder[arrow.fromPeriod];
         const toPeriodNum = periodOrder[arrow.toPeriod];
-        // Exception: same year AND target period immediately follows source period
         const isImmediatelyAfter = isSameYear && (toPeriodNum === fromPeriodNum + 1);
         
+        const y = Math.round(arrow.from.yCenter);
+        const xStart = Math.round(arrow.from.xEnd);
+        const xEnd = Math.round(arrow.to.xStart);
+        
+        let gapType;
         if (isImmediatelyAfter) {
-          // This arrow has a horizontal segment in the inter-period space
-          // Group by the Y level (source/target Y) and X range
-          const y = Math.round(arrow.from.yCenter);
-          const xStart = Math.round(arrow.from.xEnd);
-          const xEnd = Math.round(arrow.to.xStart);
-          const key = `y${y}-from-x${xStart}-to-x${xEnd}`;
-          if (!horizontalSegments[key]) horizontalSegments[key] = [];
-          horizontalSegments[key].push(idx);
+          // Exception: immediately adjacent courses use inter-period space
+          gapType = `inter-period-y${y}`;
         } else {
-          // This arrow has a long horizontal segment in the inter-year gap
-          // Group by the year gap and X range
-          let gapKey;
-          if (isSameYear) {
-            gapKey = `year${arrow.fromYearIdx}-gap`;
-          } else {
-            const min = Math.min(arrow.fromYearIdx, arrow.toYearIdx);
-            const max = Math.max(arrow.fromYearIdx, arrow.toYearIdx);
-            gapKey = `between-year${min}-${max}`;
-          }
-          const xStart = Math.round(arrow.from.xEnd);
-          const xEnd = Math.round(arrow.to.xStart);
-          const key = `${gapKey}-from-x${xStart}-to-x${xEnd}`;
-          if (!horizontalSegments[key]) horizontalSegments[key] = [];
-          horizontalSegments[key].push(idx);
+          // All other arrows use the inter-year gap
+          // For same year: use gap below that year
+          // For different years: use gap below the higher year (where the gap visually sits)
+          const gapBelowYearIdx = Math.max(arrow.fromYearIdx, arrow.toYearIdx);
+          gapType = `inter-year-gap-${gapBelowYearIdx}`;
         }
+        
+        segments.push({ arrowIdx: idx, y, xStart, xEnd, gapType });
+        console.log(`Arrow ${idx} (${arrows[idx].prCode}->${arrows[idx].targetCourse.code}): horizontal segment y=${y}, x=[${xStart},${xEnd}], gap=${gapType}`);
       });
       
+      // Group segments by gapType (they can only overlap within same gap)
+      const segmentsByGap: Record<string, HSegment[]> = {};
+      segments.forEach(seg => {
+        if (!segmentsByGap[seg.gapType]) segmentsByGap[seg.gapType] = [];
+        segmentsByGap[seg.gapType].push(seg);
+      });
+      
+      // For each gap, assign lanes using interval scheduling
       const hLanes: number[] = new Array(arrows.length).fill(0);
-      Object.values(horizontalSegments).forEach(indices => {
-        indices.forEach((arrowIdx, laneIdx) => {
-          hLanes[arrowIdx] = Math.max(hLanes[arrowIdx], laneIdx);
+      
+      Object.entries(segmentsByGap).forEach(([gapType, segs]) => {
+        console.log(`Gap ${gapType}: ${segs.length} segments`);
+        
+        // Build an overlap graph: which segments overlap with which
+        const overlaps: Map<number, Set<number>> = new Map();
+        for (let i = 0; i < segs.length; i++) {
+          overlaps.set(segs[i].arrowIdx, new Set());
+          for (let j = 0; j < segs.length; j++) {
+            if (i !== j) {
+              const seg1 = segs[i];
+              const seg2 = segs[j];
+              // Check if ranges overlap
+              if (!(seg2.xEnd <= seg1.xStart || seg2.xStart >= seg1.xEnd)) {
+                overlaps.get(segs[i].arrowIdx)!.add(segs[j].arrowIdx);
+              }
+            }
+          }
+        }
+        
+        // Greedy graph coloring: assign minimum lane that doesn't conflict
+        // Process in order but check ALL overlapping neighbors
+        segs.forEach(seg => {
+          const neighborIdxs = overlaps.get(seg.arrowIdx)!;
+          const usedLanes = new Set<number>();
+          neighborIdxs.forEach(nIdx => {
+            usedLanes.add(hLanes[nIdx]);
+          });
+          
+          // Find minimum available lane
+          let lane = 0;
+          while (usedLanes.has(lane)) lane++;
+          
+          hLanes[seg.arrowIdx] = lane;
+          console.log(`  Arrow ${seg.arrowIdx}: x=[${seg.xStart},${seg.xEnd}] overlaps with [${Array.from(neighborIdxs).join(',')}], assigned lane ${lane}`);
         });
       });
+      
       return hLanes;
     }
     
     function computeVerticalLanes(arrows: ArrowData[]) {
-      // Group arrows by the vertical segments they share
-      // Key format: "x{x-coordinate}-from-y{yStart}-to-y{yEnd}"
-      const verticalSegments: Record<string, number[]> = {};
+      // Group arrows by vertical segments (same X, potentially overlapping Y ranges)
+      // Then use graph coloring to assign lanes to overlapping ranges
+      
+      console.log('=== Computing Vertical Lanes ===');
+      
+      // Extract all vertical segments with their properties
+      type VSegment = {
+        arrowIdx: number;
+        x: number; // X coordinate (rounded)
+        yStart: number;
+        yEnd: number;
+        isStart: boolean; // true for start vertical, false for end vertical
+      };
+      
+      const segments: VSegment[] = [];
       
       arrows.forEach((arrow, idx) => {
         const isSameYear = arrow.fromYearIdx === arrow.toYearIdx;
         const fromPeriodNum = periodOrder[arrow.fromPeriod];
         const toPeriodNum = periodOrder[arrow.toPeriod];
-        // Exception: same year AND target period immediately follows source period
         const isImmediatelyAfter = isSameYear && (toPeriodNum === fromPeriodNum + 1);
         
         if (!isImmediatelyAfter) {
@@ -1165,30 +1220,59 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           const yEnd = Math.round(arrow.to.yCenter);
           
           // Start vertical segment
-          const keyStart = `x${xStart}-from-y${yStart}`;
-          if (!verticalSegments[keyStart]) verticalSegments[keyStart] = [];
-          verticalSegments[keyStart].push(idx);
+          segments.push({ 
+            arrowIdx: idx, 
+            x: xStart, 
+            yStart: yStart, 
+            yEnd: yStart, // vertical at source, so yEnd = yStart for now (will compute actual range when building path)
+            isStart: true 
+          });
+          console.log(`Arrow ${idx} (${arrows[idx].prCode}->${arrows[idx].targetCourse.code}): start vertical at x=${xStart}`);
           
           // End vertical segment (if at different X)
           if (xStart !== xEnd) {
-            const keyEnd = `x${xEnd}-to-y${yEnd}`;
-            if (!verticalSegments[keyEnd]) verticalSegments[keyEnd] = [];
-            verticalSegments[keyEnd].push(idx);
+            segments.push({ 
+              arrowIdx: idx, 
+              x: xEnd, 
+              yStart: yEnd, 
+              yEnd: yEnd,
+              isStart: false 
+            });
+            console.log(`Arrow ${idx} (${arrows[idx].prCode}->${arrows[idx].targetCourse.code}): end vertical at x=${xEnd}`);
           }
         }
       });
       
+      // Group segments by X coordinate
+      const segmentsByX: Record<number, VSegment[]> = {};
+      segments.forEach(seg => {
+        if (!segmentsByX[seg.x]) segmentsByX[seg.x] = [];
+        segmentsByX[seg.x].push(seg);
+      });
+      
+      // For each X coordinate, assign lanes to segments
       const vLanes: number[] = new Array(arrows.length).fill(0);
-      Object.values(verticalSegments).forEach(indices => {
-        indices.forEach((arrowIdx, laneIdx) => {
-          vLanes[arrowIdx] = Math.max(vLanes[arrowIdx], laneIdx);
+      
+      Object.entries(segmentsByX).forEach(([x, segs]) => {
+        console.log(`X=${x}: ${segs.length} vertical segments`);
+        
+        // All segments at same X need different lanes (they all overlap by definition)
+        segs.forEach((seg, laneIdx) => {
+          vLanes[seg.arrowIdx] = Math.max(vLanes[seg.arrowIdx], laneIdx);
+          console.log(`  Arrow ${seg.arrowIdx} at x=${x}: assigned lane ${laneIdx}`);
         });
       });
+      
       return vLanes;
     }
     
     const horizontalLanes = computeHorizontalLanes(allArrows);
     const verticalLanes = computeVerticalLanes(allArrows);
+    
+    console.log('=== Final Lane Assignments ===');
+    allArrows.forEach((arrow, idx) => {
+      console.log(`Arrow ${idx} (${arrow.prCode}->${arrow.targetCourse.code}): hLane=${horizontalLanes[idx]}, vLane=${verticalLanes[idx]}`);
+    });
     
     // Now draw all arrows with their globally-assigned lanes
     allArrows.forEach((arrow, idx) => {
@@ -1196,7 +1280,6 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       const vLaneIdx = verticalLanes[idx];
       
       // Routing parameters
-      const hPad = 5;
       const vPad = 8;
       const curveR = 8;
       const laneSpacing = 5; // Y offset for horizontal segments
@@ -1210,23 +1293,29 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       
       const points: [number, number][] = [];
       
+      // Fixed start and end points (always at course bar edges)
+      const startX = arrow.from.xEnd;
+      const startY = arrow.from.yCenter;
+      const endX = arrow.to.xStart;
+      const endY = arrow.to.yCenter;
+      
       if (isImmediatelyAfter) {
-        // Inter-period routing: horizontal segment stays in the inter-period space
-        // Use H/V segments only - no diagonals
+        // Inter-period routing: horizontal segment in the inter-period space
         const yOffset = hLaneIdx * laneSpacing;
-        const yMid = arrow.from.yCenter + yOffset;
+        const routingY = startY + yOffset;
         
-        points.push([arrow.from.xEnd, arrow.from.yCenter]);
-        // Horizontal segment out from source
-        points.push([arrow.from.xEnd + hPad, arrow.from.yCenter]);
-        // Vertical segment to the routing Y level
-        points.push([arrow.from.xEnd + hPad, yMid]);
-        // Horizontal segment across to target X
-        points.push([arrow.to.xStart - hPad, yMid]);
-        // Vertical segment to target Y
-        points.push([arrow.to.xStart - hPad, arrow.to.yCenter]);
-        // Horizontal segment into target
-        points.push([arrow.to.xStart, arrow.to.yCenter]);
+        // Start at course bar edge
+        points.push([startX, startY]);
+        // Short horizontal to clear the bar, then vertical to routing Y level
+        const xRouting = startX + vLaneSpacing + vLaneIdx * vLaneSpacing;
+        points.push([xRouting, startY]);
+        points.push([xRouting, routingY]);
+        // Horizontal segment across to near the target
+        const xNearEnd = endX - vLaneSpacing - vLaneIdx * vLaneSpacing;
+        points.push([xNearEnd, routingY]);
+        // Vertical down to target Y, then horizontal into target at exact edge
+        points.push([xNearEnd, endY]);
+        points.push([endX, endY]);
       } else {
         // Route via inter-year gap
         const fromYearY = yearYOffset[arrow.fromYearIdx];
@@ -1240,15 +1329,22 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           yGap = gapTop - yearRowGap / 2 + hLaneIdx * laneSpacing;
         }
         
-        const xStartOffset = vLaneIdx * vLaneSpacing;
-        const xEndOffset = vLaneIdx * vLaneSpacing;
+        // X positions for the vertical segments (offset to avoid overlap)
+        const xStartRouting = startX + vLaneSpacing + vLaneIdx * vLaneSpacing;
+        const xEndRouting = endX - vLaneSpacing - vLaneIdx * vLaneSpacing;
         
-        points.push([arrow.from.xEnd, arrow.from.yCenter]);
-        points.push([arrow.from.xEnd + hPad + xStartOffset, arrow.from.yCenter]);
-        points.push([arrow.from.xEnd + hPad + xStartOffset, yGap]);
-        points.push([arrow.to.xStart - hPad - xEndOffset, yGap]);
-        points.push([arrow.to.xStart - hPad - xEndOffset, arrow.to.yCenter]);
-        points.push([arrow.to.xStart, arrow.to.yCenter]);
+        // Start at course bar edge
+        points.push([startX, startY]);
+        // Short horizontal to start of vertical segment
+        points.push([xStartRouting, startY]);
+        // Vertical down to inter-year gap
+        points.push([xStartRouting, yGap]);
+        // Horizontal across the gap
+        points.push([xEndRouting, yGap]);
+        // Vertical up to target Y
+        points.push([xEndRouting, endY]);
+        // Short horizontal into target at exact edge
+        points.push([endX, endY]);
       }
       
       const path = g.append('path')
@@ -1261,6 +1357,14 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('data-from', arrow.prCode)
         .attr('data-to', arrow.targetCourse.code);
       if (arrow.style.dash) path.attr('stroke-dasharray', arrow.style.dash);
+      
+      // Debug output for SF1674
+      if (arrow.prCode === 'SF1674') {
+        console.log(`=== SF1674 -> ${arrow.targetCourse.code} ===`);
+        console.log('  Points:', points);
+        console.log('  hLaneIdx:', hLaneIdx, 'vLaneIdx:', vLaneIdx);
+        console.log('  isImmediatelyAfter:', isImmediatelyAfter);
+      }
     });
 
   // style initial visibility based on layers state
