@@ -974,7 +974,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     defs.append('marker')
       .attr('id', 'arrow-gray')
       .attr('viewBox', '0 -5 10 10')
-      .attr('refX', 8)
+      .attr('refX', 10)
       .attr('markerWidth', 6)
       .attr('markerHeight', 6)
       .attr('orient', 'auto')
@@ -985,7 +985,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     defs.append('marker')
       .attr('id', 'arrow-blue')
       .attr('viewBox', '0 -5 10 10')
-      .attr('refX', 8)
+      .attr('refX', 10)
       .attr('markerWidth', 6)
       .attr('markerHeight', 6)
       .attr('orient', 'auto')
@@ -996,10 +996,19 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     // Helper: create a rounded-corner SVG path from a polyline of only horizontal/vertical segments
     function roundedHVPolyline(points: [number, number][], radius: number) {
       if (points.length < 2) return '';
-      let d = `M${points[0][0]},${points[0][1]}`;
+      
+      // First, build the path segments (storing them to allow adjustment)
+      type PathSegment = { type: 'M' | 'L' | 'Q'; coords: number[] };
+      const segments: PathSegment[] = [];
+      
+      segments.push({ type: 'M', coords: [points[0][0], points[0][1]] });
+      let lastX = points[0][0];
+      let lastY = points[0][1];
+      
       for (let i = 1; i < points.length; i++) {
         const [x0, y0] = points[i - 1];
         const [x1, y1] = points[i];
+        
         // If direction changes (i.e., from horizontal to vertical or vice versa), round the corner
         if (i > 1) {
           const [xPrev, yPrev] = points[i - 2];
@@ -1007,6 +1016,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           const dy0 = y0 - yPrev;
           const dx1 = x1 - x0;
           const dy1 = y1 - y0;
+          
           // Only round if direction changes and both segments are axis-aligned
           if ((dx0 === 0 && dy1 === 0 && dx1 !== 0) || (dy0 === 0 && dx1 === 0 && dy1 !== 0)) {
             // Shorten previous segment by radius
@@ -1015,13 +1025,75 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             // Shorten current segment by radius
             const nextX = x0 + Math.sign(dx1) * radius;
             const nextY = y0 + Math.sign(dy1) * radius;
-            d += ` L${prevX},${prevY}`;
-            d += ` Q${x0},${y0} ${nextX},${nextY}`;
+            
+            segments.push({ type: 'L', coords: [prevX, prevY] });
+            lastX = prevX; lastY = prevY;
+            segments.push({ type: 'Q', coords: [x0, y0, nextX, nextY] });
+            lastX = nextX; lastY = nextY;
             continue;
           }
         }
-        d += ` L${x1},${y1}`;
+        
+        segments.push({ type: 'L', coords: [x1, y1] });
+        lastX = x1; lastY = y1;
       }
+      
+      // Check if we ended at the target point
+      const [targetX, targetY] = points[points.length - 1];
+      
+      // If we're short of the target, adjust the last horizontal segment instead of adding a backward line
+      if (lastX !== targetX || lastY !== targetY) {
+        // Find the last horizontal segment (L command where Y doesn't change from previous point)
+        let adjusted = false;
+        for (let i = segments.length - 1; i >= 1; i--) {
+          if (segments[i].type === 'L') {
+            const prevSeg = segments[i - 1];
+            let prevY: number;
+            
+            if (prevSeg.type === 'L') {
+              prevY = prevSeg.coords[1];
+            } else if (prevSeg.type === 'Q') {
+              prevY = prevSeg.coords[3]; // quadratic ends at coords[2], coords[3]
+            } else if (prevSeg.type === 'M') {
+              prevY = prevSeg.coords[1];
+            } else {
+              continue;
+            }
+            
+            const thisY = segments[i].coords[1];
+            
+            // Is this a horizontal segment (same Y)?
+            if (Math.abs(thisY - prevY) < 0.1 && thisY === targetY) {
+              // Adjust this horizontal segment to end at targetX
+              segments[i].coords[0] = targetX;
+              adjusted = true;
+              break;
+            }
+          }
+        }
+        
+        // If we couldn't adjust a horizontal segment, only add final L if it goes forward
+        if (!adjusted) {
+          const wouldGoForward = (targetX > lastX && Math.abs(targetY - lastY) < 0.1) || 
+                                 (targetY !== lastY && targetX === lastX);
+          if (wouldGoForward) {
+            segments.push({ type: 'L', coords: [targetX, targetY] });
+          }
+        }
+      }
+      
+      // Convert segments to path string
+      let d = '';
+      segments.forEach(seg => {
+        if (seg.type === 'M') {
+          d += `M${seg.coords[0]},${seg.coords[1]}`;
+        } else if (seg.type === 'L') {
+          d += ` L${seg.coords[0]},${seg.coords[1]}`;
+        } else if (seg.type === 'Q') {
+          d += ` Q${seg.coords[0]},${seg.coords[1]} ${seg.coords[2]},${seg.coords[3]}`;
+        }
+      });
+      
       return d;
     }
 
@@ -1358,9 +1430,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('data-to', arrow.targetCourse.code);
       if (arrow.style.dash) path.attr('stroke-dasharray', arrow.style.dash);
       
-      // Debug output for SF1674
-      if (arrow.prCode === 'SF1674') {
-        console.log(`=== SF1674 -> ${arrow.targetCourse.code} ===`);
+      // Debug output for DD1331
+      if (arrow.prCode === 'DD1331') {
+        console.log(`=== DD1331 -> ${arrow.targetCourse.code} ===`);
         console.log('  Points:', points);
         console.log('  hLaneIdx:', hLaneIdx, 'vLaneIdx:', vLaneIdx);
         console.log('  isImmediatelyAfter:', isImmediatelyAfter);
