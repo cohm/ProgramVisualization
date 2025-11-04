@@ -993,46 +993,274 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .attr('d', 'M0,-5L10,0L0,5')
       .attr('fill', kthColors.KthBlue?.HEX || '#004791');
 
-  const drawPrereqArrows = (course: Course, prereqCodes: string[], style: { stroke: string; dash?: string; markerId: string; cssClass: string }) => {
-      if (!prereqCodes || prereqCodes.length === 0) return;
+    // Helper: create a rounded-corner SVG path from a polyline of only horizontal/vertical segments
+    function roundedHVPolyline(points: [number, number][], radius: number) {
+      if (points.length < 2) return '';
+      let d = `M${points[0][0]},${points[0][1]}`;
+      for (let i = 1; i < points.length; i++) {
+        const [x0, y0] = points[i - 1];
+        const [x1, y1] = points[i];
+        // If direction changes (i.e., from horizontal to vertical or vice versa), round the corner
+        if (i > 1) {
+          const [xPrev, yPrev] = points[i - 2];
+          const dx0 = x0 - xPrev;
+          const dy0 = y0 - yPrev;
+          const dx1 = x1 - x0;
+          const dy1 = y1 - y0;
+          // Only round if direction changes and both segments are axis-aligned
+          if ((dx0 === 0 && dy1 === 0 && dx1 !== 0) || (dy0 === 0 && dx1 === 0 && dy1 !== 0)) {
+            // Shorten previous segment by radius
+            const prevX = x0 - Math.sign(dx0) * radius;
+            const prevY = y0 - Math.sign(dy0) * radius;
+            // Shorten current segment by radius
+            const nextX = x0 + Math.sign(dx1) * radius;
+            const nextY = y0 + Math.sign(dy1) * radius;
+            d += ` L${prevX},${prevY}`;
+            d += ` Q${x0},${y0} ${nextX},${nextY}`;
+            continue;
+          }
+        }
+        d += ` L${x1},${y1}`;
+      }
+      return d;
+    }
+
+    // Arrow routing: assign global lanes per gap so arrows do not overlap
+    // Collect ALL arrows first (both completed and participation prereqs for all courses)
+    type ArrowData = {
+      prCode: string;
+      targetCourse: Course;
+      from: any;
+      to: any;
+      fromYearIdx: number;
+      toYearIdx: number;
+      fromPeriod: string;
+      toPeriod: string;
+      style: { stroke: string; dash?: string; markerId: string; cssClass: string };
+    };
+    const allArrows: ArrowData[] = [];
+    
+    courses.forEach((course) => {
       const courseCreditsSorted = [...course.credits].sort((a: any, b: any) => (a.year - b.year) || (periodOrder[a.period] - periodOrder[b.period]));
-      prereqCodes.forEach((prCode) => {
+      const firstCourse = courseCreditsSorted[0];
+      if (!firstCourse) return;
+      
+      const completed = (course as any).prerequisitesCompleted || course.prerequisites || [];
+      const participated = (course as any).prerequisitesParticipation || [];
+      
+      // Process completed prerequisites
+      completed.forEach((prCode: string) => {
         const prereq = courses.find((c) => c.code === prCode);
         if (!prereq) return;
         const prereqCreditsSorted = [...prereq.credits].sort((a: any, b: any) => (a.year - b.year) || (periodOrder[a.period] - periodOrder[b.period]));
         const lastPrereq = prereqCreditsSorted[prereqCreditsSorted.length - 1];
-        const firstCourse = courseCreditsSorted[0];
-        if (!lastPrereq || !firstCourse) return;
+        if (!lastPrereq) return;
         const from = positionMap[`${prereq.code}-${lastPrereq.year}-${lastPrereq.period}`];
         const to = positionMap[`${course.code}-${firstCourse.year}-${firstCourse.period}`];
         if (!from || !to) return;
-
-        const midX = (from.xEnd + to.xStart) / 2;
-        const points = [
-          [from.xEnd, from.yCenter],
-          [midX, from.yCenter],
-          [midX, to.yCenter],
-          [to.xStart, to.yCenter]
-        ];
-
-        const path = g.append('path')
-          .attr('d', d3.line()(points as any))
-          .attr('stroke', style.stroke)
-          .attr('stroke-width', 1)
-          .attr('fill', 'none')
-          .attr('marker-end', `url(#${style.markerId})`)
-          .attr('class', `prereq-path ${style.cssClass}`)
-          .attr('data-from', prereq.code)
-          .attr('data-to', course.code);
-        if (style.dash) path.attr('stroke-dasharray', style.dash);
+        allArrows.push({
+          prCode,
+          targetCourse: course,
+          from,
+          to,
+          fromYearIdx: lastPrereq.year - 1,
+          toYearIdx: firstCourse.year - 1,
+          fromPeriod: lastPrereq.period,
+          toPeriod: firstCourse.period,
+          style: { stroke: '#999', markerId: 'arrow-gray', cssClass: 'prereq-completed' }
+        });
       });
-    };
-
-    courses.forEach((course) => {
-      const completed = (course as any).prerequisitesCompleted || course.prerequisites || [];
-      const participated = (course as any).prerequisitesParticipation || [];
-      drawPrereqArrows(course, completed, { stroke: '#999', markerId: 'arrow-gray', cssClass: 'prereq-completed' });
-      drawPrereqArrows(course, participated, { stroke: (kthColors.KthBlue?.HEX || '#004791'), dash: '4,3', markerId: 'arrow-blue', cssClass: 'prereq-participation' });
+      
+      // Process participation prerequisites
+      participated.forEach((prCode: string) => {
+        const prereq = courses.find((c) => c.code === prCode);
+        if (!prereq) return;
+        const prereqCreditsSorted = [...prereq.credits].sort((a: any, b: any) => (a.year - b.year) || (periodOrder[a.period] - periodOrder[b.period]));
+        const lastPrereq = prereqCreditsSorted[prereqCreditsSorted.length - 1];
+        if (!lastPrereq) return;
+        const from = positionMap[`${prereq.code}-${lastPrereq.year}-${lastPrereq.period}`];
+        const to = positionMap[`${course.code}-${firstCourse.year}-${firstCourse.period}`];
+        if (!from || !to) return;
+        allArrows.push({
+          prCode,
+          targetCourse: course,
+          from,
+          to,
+          fromYearIdx: lastPrereq.year - 1,
+          toYearIdx: firstCourse.year - 1,
+          fromPeriod: lastPrereq.period,
+          toPeriod: firstCourse.period,
+          style: { stroke: (kthColors.KthBlue?.HEX || '#004791'), dash: '4,3', markerId: 'arrow-blue', cssClass: 'prereq-participation' }
+        });
+      });
+    });
+    
+    // Now compute lanes GLOBALLY across all arrows
+    function computeHorizontalLanes(arrows: ArrowData[]) {
+      // Group arrows by the horizontal segments they share
+      // Key format: "y{y-coordinate}-from-x{xStart}-to-x{xEnd}"
+      const horizontalSegments: Record<string, number[]> = {};
+      
+      arrows.forEach((arrow, idx) => {
+        const isSameYear = arrow.fromYearIdx === arrow.toYearIdx;
+        const fromPeriodNum = periodOrder[arrow.fromPeriod];
+        const toPeriodNum = periodOrder[arrow.toPeriod];
+        // Exception: same year AND target period immediately follows source period
+        const isImmediatelyAfter = isSameYear && (toPeriodNum === fromPeriodNum + 1);
+        
+        if (isImmediatelyAfter) {
+          // This arrow has a horizontal segment in the inter-period space
+          // Group by the Y level (source/target Y) and X range
+          const y = Math.round(arrow.from.yCenter);
+          const xStart = Math.round(arrow.from.xEnd);
+          const xEnd = Math.round(arrow.to.xStart);
+          const key = `y${y}-from-x${xStart}-to-x${xEnd}`;
+          if (!horizontalSegments[key]) horizontalSegments[key] = [];
+          horizontalSegments[key].push(idx);
+        } else {
+          // This arrow has a long horizontal segment in the inter-year gap
+          // Group by the year gap and X range
+          let gapKey;
+          if (isSameYear) {
+            gapKey = `year${arrow.fromYearIdx}-gap`;
+          } else {
+            const min = Math.min(arrow.fromYearIdx, arrow.toYearIdx);
+            const max = Math.max(arrow.fromYearIdx, arrow.toYearIdx);
+            gapKey = `between-year${min}-${max}`;
+          }
+          const xStart = Math.round(arrow.from.xEnd);
+          const xEnd = Math.round(arrow.to.xStart);
+          const key = `${gapKey}-from-x${xStart}-to-x${xEnd}`;
+          if (!horizontalSegments[key]) horizontalSegments[key] = [];
+          horizontalSegments[key].push(idx);
+        }
+      });
+      
+      const hLanes: number[] = new Array(arrows.length).fill(0);
+      Object.values(horizontalSegments).forEach(indices => {
+        indices.forEach((arrowIdx, laneIdx) => {
+          hLanes[arrowIdx] = Math.max(hLanes[arrowIdx], laneIdx);
+        });
+      });
+      return hLanes;
+    }
+    
+    function computeVerticalLanes(arrows: ArrowData[]) {
+      // Group arrows by the vertical segments they share
+      // Key format: "x{x-coordinate}-from-y{yStart}-to-y{yEnd}"
+      const verticalSegments: Record<string, number[]> = {};
+      
+      arrows.forEach((arrow, idx) => {
+        const isSameYear = arrow.fromYearIdx === arrow.toYearIdx;
+        const fromPeriodNum = periodOrder[arrow.fromPeriod];
+        const toPeriodNum = periodOrder[arrow.toPeriod];
+        // Exception: same year AND target period immediately follows source period
+        const isImmediatelyAfter = isSameYear && (toPeriodNum === fromPeriodNum + 1);
+        
+        if (!isImmediatelyAfter) {
+          // This arrow has vertical segments
+          const xStart = Math.round(arrow.from.xEnd);
+          const xEnd = Math.round(arrow.to.xStart);
+          const yStart = Math.round(arrow.from.yCenter);
+          const yEnd = Math.round(arrow.to.yCenter);
+          
+          // Start vertical segment
+          const keyStart = `x${xStart}-from-y${yStart}`;
+          if (!verticalSegments[keyStart]) verticalSegments[keyStart] = [];
+          verticalSegments[keyStart].push(idx);
+          
+          // End vertical segment (if at different X)
+          if (xStart !== xEnd) {
+            const keyEnd = `x${xEnd}-to-y${yEnd}`;
+            if (!verticalSegments[keyEnd]) verticalSegments[keyEnd] = [];
+            verticalSegments[keyEnd].push(idx);
+          }
+        }
+      });
+      
+      const vLanes: number[] = new Array(arrows.length).fill(0);
+      Object.values(verticalSegments).forEach(indices => {
+        indices.forEach((arrowIdx, laneIdx) => {
+          vLanes[arrowIdx] = Math.max(vLanes[arrowIdx], laneIdx);
+        });
+      });
+      return vLanes;
+    }
+    
+    const horizontalLanes = computeHorizontalLanes(allArrows);
+    const verticalLanes = computeVerticalLanes(allArrows);
+    
+    // Now draw all arrows with their globally-assigned lanes
+    allArrows.forEach((arrow, idx) => {
+      const hLaneIdx = horizontalLanes[idx];
+      const vLaneIdx = verticalLanes[idx];
+      
+      // Routing parameters
+      const hPad = 5;
+      const vPad = 8;
+      const curveR = 8;
+      const laneSpacing = 5; // Y offset for horizontal segments
+      const vLaneSpacing = 5; // X offset for vertical segments
+      
+      const isSameYear = arrow.fromYearIdx === arrow.toYearIdx;
+      const fromPeriodNum = periodOrder[arrow.fromPeriod];
+      const toPeriodNum = periodOrder[arrow.toPeriod];
+      // Exception: target period immediately follows source period (in same year)
+      const isImmediatelyAfter = isSameYear && (toPeriodNum === fromPeriodNum + 1);
+      
+      const points: [number, number][] = [];
+      
+      if (isImmediatelyAfter) {
+        // Inter-period routing: horizontal segment stays in the inter-period space
+        // Use H/V segments only - no diagonals
+        const yOffset = hLaneIdx * laneSpacing;
+        const yMid = arrow.from.yCenter + yOffset;
+        
+        points.push([arrow.from.xEnd, arrow.from.yCenter]);
+        // Horizontal segment out from source
+        points.push([arrow.from.xEnd + hPad, arrow.from.yCenter]);
+        // Vertical segment to the routing Y level
+        points.push([arrow.from.xEnd + hPad, yMid]);
+        // Horizontal segment across to target X
+        points.push([arrow.to.xStart - hPad, yMid]);
+        // Vertical segment to target Y
+        points.push([arrow.to.xStart - hPad, arrow.to.yCenter]);
+        // Horizontal segment into target
+        points.push([arrow.to.xStart, arrow.to.yCenter]);
+      } else {
+        // Route via inter-year gap
+        const fromYearY = yearYOffset[arrow.fromYearIdx];
+        let yGap;
+        if (isSameYear) {
+          const yearBottom = fromYearY + yearBandHeights[arrow.fromYearIdx];
+          yGap = yearBottom + vPad + hLaneIdx * laneSpacing;
+        } else {
+          const lowerYearIdx = Math.max(arrow.fromYearIdx, arrow.toYearIdx);
+          const gapTop = yearYOffset[lowerYearIdx];
+          yGap = gapTop - yearRowGap / 2 + hLaneIdx * laneSpacing;
+        }
+        
+        const xStartOffset = vLaneIdx * vLaneSpacing;
+        const xEndOffset = vLaneIdx * vLaneSpacing;
+        
+        points.push([arrow.from.xEnd, arrow.from.yCenter]);
+        points.push([arrow.from.xEnd + hPad + xStartOffset, arrow.from.yCenter]);
+        points.push([arrow.from.xEnd + hPad + xStartOffset, yGap]);
+        points.push([arrow.to.xStart - hPad - xEndOffset, yGap]);
+        points.push([arrow.to.xStart - hPad - xEndOffset, arrow.to.yCenter]);
+        points.push([arrow.to.xStart, arrow.to.yCenter]);
+      }
+      
+      const path = g.append('path')
+        .attr('d', roundedHVPolyline(points, curveR))
+        .attr('stroke', arrow.style.stroke)
+        .attr('stroke-width', 1)
+        .attr('fill', 'none')
+        .attr('marker-end', `url(#${arrow.style.markerId})`)
+        .attr('class', `prereq-path ${arrow.style.cssClass}`)
+        .attr('data-from', arrow.prCode)
+        .attr('data-to', arrow.targetCourse.code);
+      if (arrow.style.dash) path.attr('stroke-dasharray', arrow.style.dash);
     });
 
   // style initial visibility based on layers state
@@ -1186,14 +1414,14 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .style('opacity', function() {
         const code = (this as Element).getAttribute('data-course');
         const keep = !!code && (code === focusCourse || prereqSet.has(code) || dependentSet.has(code));
-        return keep ? '1' : '0.15';
+        return keep ? '1' : '0.1';
       });
 
     container.selectAll<SVGCircleElement, any>('.exam-dot, .reexam-dot')
       .style('opacity', function() {
         const code = (this as Element).getAttribute('data-course');
         const keep = !!code && (code === focusCourse || prereqSet.has(code) || dependentSet.has(code));
-        return keep ? '1' : '0.15';
+        return keep ? '1' : '0.1';
       });
 
     container.selectAll<SVGPathElement, any>('.prereq-path')
@@ -1201,7 +1429,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         const from = (this as Element).getAttribute('data-from');
         const to = (this as Element).getAttribute('data-to');
         const keep = (to === focusCourse && !!from && prereqSet.has(from)) || (from === focusCourse && !!to && dependentSet.has(to));
-        return keep ? '1' : '0.15';
+        return keep ? '1' : '0.1';
       });
   }, [focusCourse, courses]);
 
