@@ -2,6 +2,7 @@
   {
     "code": "DD1331",
     "name": "Grundläggande programmering",
+    "briefName": "Grundl. programmering",
     "totalCredits": 5.0,
     "periodCredits": { "P1": 2.5, "P2": 2.5, "P3": 0, "P4": 0 },
     "year": 1,
@@ -114,7 +115,7 @@
   {
     "code": "SF1544",
     "name": "Numeriska metoder, grundkurs IV",
-    "briefName": "Num. metoder",
+    "briefName": "Numeriska met.",
     "totalCredits": 6.0,
     "periodCredits": { "P1": 0, "P2": 1.0, "P3": 5.0, "P4": 0 },
     "year": 2,
