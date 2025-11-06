@@ -335,6 +335,47 @@ export default function HomeClient() {
             cosmetics={cosmetics}
           />
         </div>
+        
+        {/* Git version info in bottom right */}
+        <div style={{ 
+          position: 'fixed', 
+          bottom: 8, 
+          right: 8, 
+          fontSize: 11, 
+          color: '#6b7280',
+          background: 'rgba(255, 255, 255, 0.9)',
+          padding: '4px 8px',
+          borderRadius: 4,
+          boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+        }}>
+          {process.env.NEXT_PUBLIC_GIT_HASH && (
+            <>
+              {process.env.NEXT_PUBLIC_GIT_REPO_URL ? (
+                <a 
+                  href={`${process.env.NEXT_PUBLIC_GIT_REPO_URL}/commit/${process.env.NEXT_PUBLIC_GIT_HASH}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ 
+                    color: kthColors.KthBlue?.HEX || '#004791',
+                    textDecoration: 'none',
+                    fontFamily: 'monospace'
+                  }}
+                >
+                  {process.env.NEXT_PUBLIC_GIT_HASH}
+                </a>
+              ) : (
+                <span style={{ fontFamily: 'monospace' }}>
+                  {process.env.NEXT_PUBLIC_GIT_HASH}
+                </span>
+              )}
+              {process.env.NEXT_PUBLIC_GIT_TIMESTAMP && (
+                <span style={{ marginLeft: 8 }}>
+                  {new Date(process.env.NEXT_PUBLIC_GIT_TIMESTAMP).toISOString().replace('T', ' ').substring(0, 19)}
+                </span>
+              )}
+            </>
+          )}
+        </div>
 
       </main>
     </div>
