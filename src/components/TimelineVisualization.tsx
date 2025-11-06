@@ -31,7 +31,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const STYLE = {
     fontFamily: "Figtree, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Noto Sans, 'Apple Color Emoji', 'Segoe UI Emoji'",
     legend: {
-      width: 150,
+      width: 180,
       offsetX: 95,
       offsetY: 30,
       background: 'rgba(255,255,255,0.95)',
@@ -783,7 +783,183 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // Prepare a position map for drawing arrows and markers later
   const positionMap: Record<string, { xStart: number; xEnd: number; yCenter: number; yTop: number; height: number }> = {};
 
-    // Draw courses with stacking by ECTS within each year+period (15 ECTS maps to the full year band)
+    // First pass: collect position data for all course bars
+    type BarInfo = {
+      course: Course;
+      credit: { period: string; credits: number; year: number };
+      barX: number;
+      barY: number;
+      barWidth: number;
+      barHeight: number;
+      colors: { fill: string; stroke: string; text: string };
+      periodObj: any;
+    };
+    const allBars: BarInfo[] = [];
+
+    Object.entries(slotsByYearPeriod).forEach(([key, list]) => {
+      const [yearStr, periodId] = key.split('-');
+      const year = Number(yearStr);
+      const period = academicPeriods.find((p) => p.id === (periodId as any))!;
+      const yearIndex = year - 1;
+      const yearY = yearYOffset[yearIndex];
+      const w = timeScale(period.end) - timeScale(period.start);
+      const x = timeScale(period.start);
+      const pixelsPerECTS = pxPerECTS;
+      const gapPx = STACK_GAP_PX;
+      let cursorY = verticalOffset + yearY;
+
+      list.forEach((item) => {
+        const credit = item.credit;
+        const course = item.course;
+        const rawHeight = pixelsPerECTS * credit.credits;
+        const minHeight = pixelsPerECTS * MIN_ECTS_FOR_HEIGHT;
+        const courseHeight = Math.max(rawHeight, minHeight);
+        const periodObj = academicPeriods.find(p => p.id === credit.period)!;
+        const courseWidth = timeScale(new Date(periodObj.lectureEnd)) - timeScale(new Date(periodObj.start));
+        const barX = x + 2;
+        const barWidth = Math.max(0, courseWidth - 4);
+        const colors = getCourseColors(course);
+
+        allBars.push({
+          course,
+          credit: { period: credit.period as any, credits: credit.credits, year: (credit as any).year || course.year },
+          barX,
+          barY: cursorY,
+          barWidth,
+          barHeight: courseHeight,
+          colors,
+          periodObj
+        });
+
+        positionMap[`${course.code}-${(credit as any).year}-${credit.period}`] = {
+          xStart: barX,
+          xEnd: barX + barWidth,
+          yCenter: cursorY + courseHeight / 2,
+          yTop: cursorY,
+          height: courseHeight
+        };
+
+        cursorY += courseHeight + gapPx;
+      });
+    });
+
+    // Second pass: draw connector shapes for consecutive periods within same year
+    // Also track which bars should show labels (first in each connected sequence)
+    const periodSequence = ['P1', 'P2', 'P3', 'P4'];
+    const barsWithoutLabels = new Set<string>(); // track bars that shouldn't have labels
+    const barsConnectedRight = new Set<string>(); // bars with connector on their right side
+    const barsConnectedLeft = new Set<string>(); // bars with connector on their left side
+    const connectorBorders: Array<{ points: number[][]; stroke: string; course: string }> = []; // collect connector borders to draw last
+    
+    courses.forEach((course) => {
+      const barsByYear: Record<number, BarInfo[]> = {};
+      allBars.filter(b => b.course.code === course.code).forEach(bar => {
+        const year = bar.credit.year;
+        if (!barsByYear[year]) barsByYear[year] = [];
+        barsByYear[year].push(bar);
+      });
+
+      Object.entries(barsByYear).forEach(([yearStr, yearBars]) => {
+        yearBars.sort((a, b) => periodSequence.indexOf(a.credit.period) - periodSequence.indexOf(b.credit.period));
+        
+        // Find consecutive periods
+        for (let i = 0; i < yearBars.length - 1; i++) {
+          const current = yearBars[i];
+          const next = yearBars[i + 1];
+          const currentIdx = periodSequence.indexOf(current.credit.period);
+          const nextIdx = periodSequence.indexOf(next.credit.period);
+          
+          // Check if consecutive
+          if (nextIdx === currentIdx + 1) {
+            // Mark the second bar as not needing a label
+            barsWithoutLabels.add(`${next.course.code}-${next.credit.year}-${next.credit.period}`);
+            
+            // Mark which bars are connected
+            barsConnectedRight.add(`${current.course.code}-${current.credit.year}-${current.credit.period}`);
+            barsConnectedLeft.add(`${next.course.code}-${next.credit.year}-${next.credit.period}`);
+            
+            // Draw connector polygon
+            // Connect pre-rounding points on horizontal edges of both bars
+            const cornerRadius = 4;
+            const x1 = current.barX + current.barWidth; // right edge of current bar
+            const y1Top = current.barY;
+            const y1Bottom = current.barY + current.barHeight;
+            const x2 = next.barX; // left edge of next bar
+            const y2Top = next.barY;
+            const y2Bottom = next.barY + next.barHeight;
+
+            // Pre-rounding points on horizontal edges
+            const points = [
+              [x1 - cornerRadius, y1Top],      // top-right pre-rounding
+              [x2 + cornerRadius, y2Top],      // top-left pre-rounding
+              [x2 + cornerRadius, y2Bottom],   // bottom-left pre-rounding
+              [x1 - cornerRadius, y1Bottom]    // bottom-right pre-rounding
+            ];
+
+            // Create shared tooltip text for this course
+            const allCompleted = (current.course as any).prerequisitesCompleted || current.course.prerequisites || [];
+            const allParticipation = (current.course as any).prerequisitesParticipation || [];
+            const completedStr = (allCompleted || []).length ? (allCompleted as string[]).join(', ') : '—';
+            const participationStr = (allParticipation || []).length ? (allParticipation as string[]).join(', ') : '—';
+            const dependents = courses.filter(c => {
+              const comp = (c as any).prerequisitesCompleted || c.prerequisites || [];
+              const part = (c as any).prerequisitesParticipation || [];
+              return (comp.includes(current.course.code) || part.includes(current.course.code));
+            }).map(c => c.code);
+            const dependentCodes = dependents.length ? dependents.join(', ') : '—';
+            
+            // Calculate total credits for this course
+            const totalCredits = current.course.credits.reduce((sum, c) => sum + c.credits, 0);
+            
+            // Build period credits string (e.g., "P1: 4 hp, P2: 2 hp")
+            const periodCreditsStr = current.course.credits
+              .map(c => `${c.period}: ${c.credits} ${tr[language].credits}`)
+              .join(', ');
+            
+            const tooltipText = `<strong>${current.course.code}, ${totalCredits} ${tr[language].credits}</strong><br/>${current.course.name}<br/>${periodCreditsStr}
+              <br/><em>${tr[language].legend.prerequisitesCompleted}:</em> ${completedStr}
+              <br/><em>${tr[language].legend.prerequisitesParticipation}:</em> ${participationStr}
+              <br/><em>${tr[language].requiredFor}:</em> ${dependentCodes}`;
+
+            g.append('polygon')
+              .attr('points', points.map(p => p.join(',')).join(' '))
+              .attr('fill', current.colors.fill)
+              .attr('stroke', 'none')
+              .attr('class', 'course-connector-fill')
+              .attr('data-course', course.code)
+              .style('cursor', 'pointer')
+              .on('mouseover', (event: any) => {
+                tooltip.html(tooltipText).style('display', 'block');
+              })
+              .on('mousemove', (event: any) => {
+                tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
+              })
+              .on('mouseout', () => tooltip.style('display', 'none'))
+              .on('click', (event: any) => {
+                event.stopPropagation();
+                setFocusCourse(prev => {
+                  const next = prev === current.course.code ? null : current.course.code;
+                  if (next) {
+                    setSelectedInfo({ course: current.course, credit: { period: current.credit.period as any, credits: current.credit.credits, year: current.credit.year } });
+                  } else {
+                    setSelectedInfo(null);
+                  }
+                  return next;
+                });
+              });
+            
+            // Store connector border to draw later (after all fills)
+            connectorBorders.push({
+              points,
+              stroke: current.colors.stroke,
+              course: course.code
+            });
+          }
+        }
+      });
+    });
+
+    // Third pass: draw the actual course bars
     Object.entries(slotsByYearPeriod).forEach(([key, list]) => {
     const [yearStr, periodId] = key.split('-');
       const year = Number(yearStr);
@@ -816,101 +992,209 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // Determine color based on course group and vary within family
   const colors = getCourseColors(course);
 
+  // Check if this bar is connected to others
+  const barKey = `${course.code}-${(credit as any).year}-${credit.period}`;
+  const connectedRight = barsConnectedRight.has(barKey);
+  const connectedLeft = barsConnectedLeft.has(barKey);
+
+  // Draw filled rectangle (always the same)
   block.append('rect')
     .attr('x', barX)
-          .attr('y', cursorY)
+    .attr('y', cursorY)
     .attr('width', barWidth)
-          .attr('height', courseHeight)
-            .attr('fill', colors.fill)
-            .attr('stroke', colors.stroke)
-            .attr('rx', 4)
-            .attr('ry', 4)
-            .attr('class', 'course-block')
-            .attr('data-course-code', course.code)
-            .style('cursor', 'pointer')
-            .on('mouseover', (event: any) => {
-              const allCompleted = (course as any).prerequisitesCompleted || course.prerequisites || [];
-              const allParticipation = (course as any).prerequisitesParticipation || [];
-              const completedStr = (allCompleted || []).length ? (allCompleted as string[]).join(', ') : '—';
-              const participationStr = (allParticipation || []).length ? (allParticipation as string[]).join(', ') : '—';
-              const dependents = courses.filter(c => {
-                const comp = (c as any).prerequisitesCompleted || c.prerequisites || [];
-                const part = (c as any).prerequisitesParticipation || [];
-                return (comp.includes(course.code) || part.includes(course.code));
-              }).map(c => c.code);
-              const dependentCodes = dependents.length ? dependents.join(', ') : '—';
-              const txt = `<strong>${course.code}</strong><br/>${course.name}<br/>${credit.credits} ${tr[language].credits}
-                <br/><em>${tr[language].legend.prerequisitesCompleted}:</em> ${completedStr}
-                <br/><em>${tr[language].legend.prerequisitesParticipation}:</em> ${participationStr}
-                <br/><em>${tr[language].requiredFor}:</em> ${dependentCodes}`;
-              tooltip.html(txt).style('display', 'block');
-            })
-            .on('mousemove', (event: any) => {
-              tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
-            })
-            .on('mouseout', () => tooltip.style('display', 'none'))
-            .on('click', (event: any) => {
-              event.stopPropagation();
-              setFocusCourse(prev => {
-                const next = prev === course.code ? null : course.code;
-                if (next) {
-                  setSelectedInfo({ course, credit: { period: credit.period as any, credits: credit.credits, year: (credit as any).year || course.year } });
-                } else {
-                  setSelectedInfo(null);
-                }
-                return next;
-              });
-            });
+    .attr('height', courseHeight)
+    .attr('fill', colors.fill)
+    .attr('stroke', 'none')
+    .attr('rx', 4)
+    .attr('ry', 4)
+    .attr('class', 'course-block')
+    .attr('data-course-code', course.code)
+    .style('cursor', 'pointer')
+    .on('mouseover', (event: any) => {
+      const allCompleted = (course as any).prerequisitesCompleted || course.prerequisites || [];
+      const allParticipation = (course as any).prerequisitesParticipation || [];
+      const completedStr = (allCompleted || []).length ? (allCompleted as string[]).join(', ') : '—';
+      const participationStr = (allParticipation || []).length ? (allParticipation as string[]).join(', ') : '—';
+      const dependents = courses.filter(c => {
+        const comp = (c as any).prerequisitesCompleted || c.prerequisites || [];
+        const part = (c as any).prerequisitesParticipation || [];
+        return (comp.includes(course.code) || part.includes(course.code));
+      }).map(c => c.code);
+      const dependentCodes = dependents.length ? dependents.join(', ') : '—';
+      
+      // Calculate total credits for this course
+      const totalCredits = course.credits.reduce((sum, c) => sum + c.credits, 0);
+      
+      // Build period credits string (e.g., "P1: 4 hp, P2: 2 hp")
+      const periodCreditsStr = course.credits
+        .map(c => `${c.period}: ${c.credits} ${tr[language].credits}`)
+        .join(', ');
+      
+      const txt = `<strong>${course.code}, ${totalCredits} ${tr[language].credits}</strong><br/>${course.name}<br/>${periodCreditsStr}
+        <br/><em>${tr[language].legend.prerequisitesCompleted}:</em> ${completedStr}
+        <br/><em>${tr[language].legend.prerequisitesParticipation}:</em> ${participationStr}
+        <br/><em>${tr[language].requiredFor}:</em> ${dependentCodes}`;
+      tooltip.html(txt).style('display', 'block');
+    })
+    .on('mousemove', (event: any) => {
+      tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
+    })
+    .on('mouseout', () => tooltip.style('display', 'none'))
+    .on('click', (event: any) => {
+      event.stopPropagation();
+      setFocusCourse(prev => {
+        const next = prev === course.code ? null : course.code;
+        if (next) {
+          setSelectedInfo({ course, credit: { period: credit.period as any, credits: credit.credits, year: (credit as any).year || course.year } });
+        } else {
+          setSelectedInfo(null);
+        }
+        return next;
+      });
+    });
 
-        // store positions for arrows and markers
-        positionMap[`${course.code}-${(credit as any).year}-${credit.period}`] = {
-          xStart: barX,
-          xEnd: barX + barWidth,
-          yCenter: cursorY + courseHeight / 2,
-          yTop: cursorY,
-          height: courseHeight
-        };
+  // Draw border with custom path that excludes connected edges
+  const r = 4; // corner radius
+  const x0 = barX;
+  const y0 = cursorY;
+  const x1 = barX + barWidth;
+  const y1 = cursorY + courseHeight;
+  
+  let borderPath = '';
+  
+  if (!connectedLeft && !connectedRight) {
+    // No connections: draw full rounded rectangle border
+    block.append('rect')
+      .attr('x', barX)
+      .attr('y', cursorY)
+      .attr('width', barWidth)
+      .attr('height', courseHeight)
+      .attr('fill', 'none')
+      .attr('stroke', colors.stroke)
+      .attr('rx', 4)
+      .attr('ry', 4)
+      .style('pointer-events', 'none');
+  } else {
+    // Draw custom border path excluding connected edges
+    // Start from top-left, going clockwise
+    borderPath = `M ${x0 + r} ${y0}`; // Start after top-left corner
+    
+    // Top edge
+    borderPath += ` L ${x1 - r} ${y0}`;
+    
+    // Top-right corner (only if not connected on right)
+    if (!connectedRight) {
+      borderPath += ` Q ${x1} ${y0} ${x1} ${y0 + r}`;
+      // Right edge
+      borderPath += ` L ${x1} ${y1 - r}`;
+      // Bottom-right corner
+      borderPath += ` Q ${x1} ${y1} ${x1 - r} ${y1}`;
+    } else {
+      // Skip right edge when connected
+      borderPath += ` M ${x1 - r} ${y1}`;
+    }
+    
+    // Bottom edge
+    borderPath += ` L ${x0 + r} ${y1}`;
+    
+    // Bottom-left corner (only if not connected on left)
+    if (!connectedLeft) {
+      borderPath += ` Q ${x0} ${y1} ${x0} ${y1 - r}`;
+      // Left edge
+      borderPath += ` L ${x0} ${y0 + r}`;
+      // Top-left corner
+      borderPath += ` Q ${x0} ${y0} ${x0 + r} ${y0}`;
+    } else {
+      // Skip left edge when connected
+      borderPath += ` M ${x0 + r} ${y0}`;
+    }
+    
+    block.append('path')
+      .attr('d', borderPath)
+      .attr('fill', 'none')
+      .attr('stroke', colors.stroke)
+      .style('pointer-events', 'none');
+  }
 
-        // labels inside the bar (code and name on the same row)
-        const padding = 4;
-        const textX = barX + padding;
-        const textY = cursorY + 12; // single row baseline for both code and name
-        const maxWidth = Math.max(0, barWidth - padding * 2);
+  // store positions for arrows and markers
+  positionMap[`${course.code}-${(credit as any).year}-${credit.period}`] = {
+    xStart: barX,
+    xEnd: barX + barWidth,
+    yCenter: cursorY + courseHeight / 2,
+    yTop: cursorY,
+    height: courseHeight
+  };
 
-        const label = block.append('text')
-          .attr('x', textX)
-          .attr('y', textY)
-          .attr('font-size', 11)
-          .attr('pointer-events', 'none')
-          .attr('class', 'course-label');
+  // labels inside the bar (code and name on the same row)
+  // Skip label if this bar is the second in a connected sequence
+  const shouldShowLabel = !barsWithoutLabels.has(barKey);
+        
+        if (shouldShowLabel) {
+          const padding = 4;
+          const textX = barX + padding;
+          const textY = cursorY + 12; // single row baseline for both code and name
+          const maxWidth = Math.max(0, barWidth - padding * 2);
 
-        // course code (bold)
-        label.append('tspan')
-          .text(course.code + ' ')
-          .attr('font-weight', 700)
-          .attr('fill', colors.text);
+          const label = block.append('text')
+            .attr('x', textX)
+            .attr('y', textY)
+            .attr('font-size', 11)
+            .attr('pointer-events', 'none')
+            .attr('class', 'course-label');
 
-        // course name (normal)
-        const nameTspan = label.append('tspan')
-          .text((course as any).briefName || course.name)
-          .attr('font-weight', 400)
-          .attr('fill', kthColors.KthBrokenWhite?.HEX || '#FFFFFF');
+          // course code (bold)
+          label.append('tspan')
+            .text(course.code + ' ')
+            .attr('font-weight', 700)
+            .attr('fill', colors.text);
 
-        // truncate name if it overflows available width
-        // measure combined length and trim the name portion
-        try {
-          let nameText = nameTspan.text();
-          while ((label.node() as SVGTextElement).getComputedTextLength() > maxWidth && nameText.length > 3) {
-            nameText = nameText.slice(0, -1);
-            nameTspan.text(nameText + '…');
+          // course name (normal)
+          const nameTspan = label.append('tspan')
+            .text((course as any).briefName || course.name)
+            .attr('font-weight', 400)
+            .attr('fill', kthColors.KthBrokenWhite?.HEX || '#FFFFFF');
+
+          // truncate name if it overflows available width
+          // measure combined length and trim the name portion
+          try {
+            let nameText = nameTspan.text();
+            while ((label.node() as SVGTextElement).getComputedTextLength() > maxWidth && nameText.length > 3) {
+              nameText = nameText.slice(0, -1);
+              nameTspan.text(nameText + '…');
+            }
+          } catch (e) {
+            // safe guard for environments where getComputedTextLength may fail
           }
-        } catch (e) {
-          // safe guard for environments where getComputedTextLength may fail
         }
 
         // advance cursor for next stacked item
         cursorY += courseHeight + gapPx;
       });
+    });
+
+    // Fourth pass: draw connector borders on top of everything else
+    // Only draw the top and bottom edges (not the vertical sides)
+    connectorBorders.forEach(({ points, stroke, course }) => {
+      // points are: [top-right, top-left, bottom-left, bottom-right]
+      // We want to draw: top edge (top-right to top-left) and bottom edge (bottom-left to bottom-right)
+      const topEdge = `M ${points[0][0]} ${points[0][1]} L ${points[1][0]} ${points[1][1]}`;
+      const bottomEdge = `M ${points[2][0]} ${points[2][1]} L ${points[3][0]} ${points[3][1]}`;
+      
+      g.append('path')
+        .attr('d', topEdge)
+        .attr('fill', 'none')
+        .attr('stroke', stroke)
+        .attr('class', 'course-connector-border')
+        .attr('data-course', course)
+        .style('pointer-events', 'none');
+      
+      g.append('path')
+        .attr('d', bottomEdge)
+        .attr('fill', 'none')
+        .attr('stroke', stroke)
+        .attr('class', 'course-connector-border')
+        .attr('data-course', course)
+        .style('pointer-events', 'none');
     });
 
     // Year labels on the left
@@ -1731,6 +2015,14 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .style('display', layers.courseBars ? '' : 'none')
       .style('pointer-events', layers.courseBars ? 'auto' : 'none');
 
+    // Course connectors (fills and borders between consecutive bars)
+    container.selectAll<SVGPolygonElement, any>('.course-connector-fill')
+      .interrupt()
+      .style('display', layers.courseBars ? '' : 'none');
+    container.selectAll<SVGPathElement, any>('.course-connector-border')
+      .interrupt()
+      .style('display', layers.courseBars ? '' : 'none');
+
     // Exam periods (blue)
     container.selectAll<SVGRectElement, any>('.exam-period-rect')
       .interrupt()
@@ -1749,6 +2041,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     if (!focusCourse) {
       // remove focus overrides, restore baseline from layer settings
       container.selectAll('.course-group').style('opacity', null as any);
+      container.selectAll('.course-connector-fill').style('opacity', null as any);
+      container.selectAll('.course-connector-border').style('opacity', null as any);
       container.selectAll('.exam-dot').style('opacity', null as any);
       container.selectAll('.reexam-dot').style('opacity', null as any);
       container.selectAll('.prereq-path').style('opacity', null as any);
@@ -1769,6 +2063,20 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     );
 
     container.selectAll<SVGGElement, any>('.course-group')
+      .style('opacity', function() {
+        const code = (this as Element).getAttribute('data-course');
+        const keep = !!code && (code === focusCourse || prereqSet.has(code) || dependentSet.has(code));
+        return keep ? '1' : '0.1';
+      });
+
+    container.selectAll<SVGPolygonElement, any>('.course-connector-fill')
+      .style('opacity', function() {
+        const code = (this as Element).getAttribute('data-course');
+        const keep = !!code && (code === focusCourse || prereqSet.has(code) || dependentSet.has(code));
+        return keep ? '1' : '0.1';
+      });
+
+    container.selectAll<SVGPathElement, any>('.course-connector-border')
       .style('opacity', function() {
         const code = (this as Element).getAttribute('data-course');
         const keep = !!code && (code === focusCourse || prereqSet.has(code) || dependentSet.has(code));
