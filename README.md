@@ -1,6 +1,6 @@
 # Program Visualization
 
-This project is a small Next.js + TypeScript app that visualizes courses across academic years and periods. It draws horizontal course bars spanning study periods, stacks course credits vertically (15 ECTS = full year band), shows prerequisite arrows, and marks exams (filled circles) and re-exams (open circles).
+This project is a Next.js + TypeScript app that visualizes courses across academic years and periods. It draws horizontal course bars spanning study periods, stacks course credits vertically (15 ECTS = full year band), shows prerequisite arrows, marks exams (filled circles) and re-exams (open circles), and includes visual connectors for courses spanning consecutive periods. The app supports SVG and high-quality PDF export with proper font rendering.
 
 ## Quick start (development)
 
@@ -32,6 +32,8 @@ If the dev server appears suspended (e.g. you see `zsh: suspended npm run dev`),
 
 Recommended: Vercel (works well with Next.js). Create a GitHub repo and connect it to Vercel. Default build command `npm run build` and output directory are handled by Next.js.
 
+**Important for Vercel deployment**: The PDF export feature requires Puppeteer and a serverless-compatible Chrome binary. This is handled automatically by `@sparticuz/chromium-min` and configured in `vercel.json` with increased memory (3008MB) and timeout (60s) for the PDF generation endpoint.
+
 Other hosts: Netlify or static exports (with limitations). See Next.js docs for deployment options.
 
 ## What files matter
@@ -45,38 +47,69 @@ Top-level (inside this folder):
 Key source files
 
 - `src/app/page.tsx` — main page that mounts the visualization component.
-- `src/components/TimelineVisualization.tsx` — the D3 + React visualization. This file draws the SVG, course bars, arrows, and exam/re-exam markers.
+- `src/app/HomeClient.tsx` — client-side wrapper for the visualization with program selector.
+- `src/components/TimelineVisualization.tsx` — the D3 + React visualization (~2400 lines). This file draws the SVG, course bars with visual connectors for consecutive periods, prerequisite arrows, exam/re-exam markers, and handles SVG/PDF export.
+- `src/app/api/export-pdf/route.ts` — API endpoint for server-side PDF generation using Puppeteer and `@sparticuz/chromium-min`.
 - `src/types/course.ts` — TypeScript types (Course, Period, etc.) and the exported `academicPeriods` (loaded from JSON).
+- `src/types/cosmetics.ts` — TypeScript types for program-specific visual customizations (colors, positions).
 
 Data files (rendered at runtime)
 
-- `src/data/courses.json` — primary course dataset. Each course includes fields such as `code`, `name`, `totalCredits`, `periodCredits` (P1–P4), `year`, `prerequisites`, and the generated `exams`/`reexams` arrays.
+- `src/data/programs.json` — list of available programs with their display names.
+- `src/data/CTFYS.json`, `CTMAT.json`, `COPEN.json`, `CFATE.json` — program-specific course datasets. Each course includes fields such as `code`, `name`, `totalCredits`, `periodCredits` (P1–P4), `year`, `prerequisites`, and the generated `exams`/`reexams` arrays.
+- `src/data/CTFYS-cosmetics.json`, etc. — program-specific visual customizations (colors, legend positions, course bar positions).
 - `src/data/kth-colors.json` — KTH color palette used for fills/strokes in the visualization.
 - `src/data/academic-periods.json` — academic period definitions (P1–P4) with `start`, `end`, `examStart`, `examEnd`, `reExamStart`, `reExamEnd` as ISO date strings. These are converted to Date objects in `src/types/course.ts`.
 
 How data is consumed
 
-- The app loads `courses.json` in the page layer and maps `periodCredits` into the internal `credits` arrays used by the visualization.
+- The app loads program-specific JSON files based on user selection and maps `periodCredits` into the internal `credits` arrays used by the visualization.
 - `academic-periods.json` provides the timeline boundaries and exam/re-exam ranges. The visualization reads `academicPeriods` exported from `src/types/course.ts`.
+- Cosmetics files provide program-specific visual customizations (colors, positions) that override defaults.
 
 Exam/re-exam markers
 
 - By default each course has `exams` and `reexams` fields (arrays of period ids like `"P2"`) set to the exam period following the course's last study period.
 - The visualization draws a filled circle (KTH brick color) for an exam and an open circle (stroke only) for a re-exam. Markers are positioned horizontally at the midpoint of the exam/re-exam period and vertically slightly above the course bar.
 
+## Key Features
+
+**Visual Connectors**: Courses spanning consecutive periods in the same year show visual connector fills between their bars, creating a unified appearance. Only the first bar in a sequence displays the course label.
+
+**Interactive Focus Mode**: Click any course to highlight it and show detailed information in an expanding info box at the bottom. Focus mode dims other courses and shows only the selected course's prerequisite arrows and connectors.
+
+**Layer Visibility Toggle**: The legend allows toggling visibility of different visual layers (course bars, borders, connectors, arrows, exam markers, etc.).
+
+**Export Functionality**:
+- **SVG Export**: Downloads the visualization as a vector SVG file with embedded fonts (Figtree from Google Fonts).
+- **PDF Export**: Server-side PDF generation using Puppeteer with Chrome for perfect font rendering and vector graphics. Configured for Vercel deployment with `@sparticuz/chromium-min`.
+
+**Tooltip Information**: Hover over courses to see total credits and per-period credit breakdown.
+
 Troubleshooting
 
 - Port 3000 already in use: find and kill the process `lsof -iTCP:3000 -sTCP:LISTEN -n -P` then `kill <PID>`.
 - Suspended dev job (Ctrl+Z): resume with `fg` or start a background server with `nohup` as shown above.
 - Type errors: run `npx tsc --noEmit` to see TypeScript diagnostics.
+- PDF export not working on Vercel: Ensure `vercel.json` is deployed with the project and `@sparticuz/chromium-min` is in dependencies.
 
-Next steps / enhancements
+## Dependencies
 
-- Add interactive tooltips or a modal for course details (click behavior is planned but can be improved).
-- Add a legend describing colors and marker semantics.
-- Make the data loader dynamic (allow uploading JSON or selecting different academic years).
+Key production dependencies:
+- `next` (16.x) — React framework
+- `react` (19.x) — UI library
+- `d3` (7.9.x) — Visualization and data manipulation
+- `puppeteer-core` (23.x) — Headless browser control for PDF generation
+- `@sparticuz/chromium-min` (141.x) — Serverless-compatible Chrome binary for Vercel
 
-If you'd like I can add a small legend and tooltips for exam markers, or wire the visualization to fetch data from an external URL instead of the local JSON files.
+Development dependencies include TypeScript, ESLint, and Tailwind CSS.
+
+## Configuration Files
+
+- `vercel.json` — Vercel deployment configuration with increased memory (3008MB) and timeout (60s) for the PDF export API route.
+- `tsconfig.json` — TypeScript configuration.
+- `next.config.ts` — Next.js configuration.
+- `package.json` — Project manifest and scripts (dev, build, start).
 
 ---
 
