@@ -688,7 +688,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     // Month labels across the whole timeline
     {
       const start = academicPeriods[0].start;
-      const end = academicPeriods[academicPeriods.length - 1].end;
+      const end = academicPeriods[academicPeriods.length - 1].reExamEnd;
       const months: Date[] = [];
       const d = new Date(start.getFullYear(), start.getMonth(), 1);
       while (d <= end) {
