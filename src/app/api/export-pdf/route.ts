@@ -13,10 +13,20 @@ export async function POST(req: NextRequest) {
       return new Response('Missing HTML content', { status: 400 });
     }
     
+    // Configure chromium to use CDN for serverless environments
+    const isProduction = process.env.NODE_ENV === 'production';
+    
+    // Set font support for chromium in production
+    if (isProduction) {
+      chromium.setGraphicsMode = false;
+    }
+    
     // Launch headless browser with serverless Chrome
     const browser = await puppeteer.launch({
-      args: chromium.args,
-      executablePath: await chromium.executablePath(),
+      args: isProduction ? chromium.args : ['--no-sandbox', '--disable-setuid-sandbox'],
+      executablePath: isProduction 
+        ? await chromium.executablePath('/tmp/chromium')
+        : process.env.PUPPETEER_EXECUTABLE_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
       headless: true,
     });
     
