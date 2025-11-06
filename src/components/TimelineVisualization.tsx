@@ -659,10 +659,10 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       g.append('rect')
         .attr('x', timeScale(period.start))
         .attr('y', yOffset)
-        .attr('width', timeScale(period.end) - timeScale(period.start))
+        .attr('width', timeScale(period.lectureEnd) - timeScale(period.start))
         .attr('height', periodHeight)
         .attr('class', 'study-period')
-        .attr('fill', i % 2 === 0 ? (kthColors.KthSand?.HEX || '#f3f4f6') : (kthColors.KthBrokenWhite?.HEX || '#ffffff'))
+        .attr('fill', (kthColors.KthSand?.HEX ? d3.color(kthColors.KthSand.HEX)!.copy({ opacity: 0.25 }).formatRgb() : 'rgba(235,229,224,0.25)'))
           .attr('stroke', 'none')
           .on('mouseover', () => {
             tooltip.html(`
@@ -676,7 +676,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
       // Add period label (P1, P2, etc.)
       g.append('text')
-        .attr('x', timeScale(period.start) + (timeScale(period.end) - timeScale(period.start)) / 2)
+        .attr('x', timeScale(period.start) + (timeScale(period.lectureEnd) - timeScale(period.start)) / 2)
         .attr('y', -50) // Increased distance from the period fields
         .attr('text-anchor', 'middle')
         .attr('fill', kthColors.KthBlue?.HEX)
@@ -740,7 +740,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('width', timeScale(period.examEnd) - timeScale(period.examStart))
         .attr('height', examHeight)
         .attr('class', 'exam-period-rect')
-        .attr('fill', (kthColors.KthLightBlue?.HEX ? d3.color(kthColors.KthLightBlue.HEX)!.copy({ opacity: 0.25 }).formatRgb() : 'rgba(222,240,255,0.25)'))
+        .attr('fill', (kthColors.KthLightBlue?.HEX ? d3.color(kthColors.KthLightBlue.HEX)!.copy({ opacity: 0.5 }).formatRgb() : 'rgba(222,240,255,0.5)'))
           .attr('stroke', 'none')
           .on('mouseover', () => {
             tooltip.html(`
@@ -759,7 +759,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('width', timeScale(period.reExamEnd) - timeScale(period.reExamStart))
         .attr('height', examHeight)
         .attr('class', 'reexam-period-rect')
-        .attr('fill', (kthColors.KthLightGray?.HEX ? d3.color(kthColors.KthLightGray.HEX)!.copy({ opacity: 0.18 }).formatRgb() : 'rgba(230,230,230,0.18)'))
+        .attr('fill', (kthColors.KthLightGray?.HEX ? d3.color(kthColors.KthLightGray.HEX)!.copy({ opacity: 0.5 }).formatRgb() : 'rgba(230,230,230,0.5)'))
           .attr('stroke', 'none')
           .on('mouseover', () => {
             tooltip.html(`
@@ -1065,6 +1065,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   if (!connectedLeft && !connectedRight) {
     // No connections: draw full rounded rectangle border
     block.append('rect')
+      .attr('class', 'course-bar-border')
       .attr('x', barX)
       .attr('y', cursorY)
       .attr('width', barWidth)
@@ -1110,6 +1111,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     }
     
     block.append('path')
+      .attr('class', 'course-bar-border')
       .attr('d', borderPath)
       .attr('fill', 'none')
       .attr('stroke', colors.stroke)
@@ -1426,7 +1428,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           toYearIdx: firstCourse.year - 1,
           fromPeriod: lastPrereq.period,
           toPeriod: firstCourse.period,
-          style: { stroke: '#999', markerId: 'arrow-gray', cssClass: 'prereq-completed' }
+          style: { stroke: (kthColors.KthBlue?.HEX || '#004791'), markerId: 'arrow-blue', cssClass: 'prereq-completed' }
         });
       });
       
@@ -1449,7 +1451,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           toYearIdx: firstCourse.year - 1,
           fromPeriod: lastPrereq.period,
           toPeriod: firstCourse.period,
-          style: { stroke: (kthColors.KthBlue?.HEX || '#004791'), dash: '4,3', markerId: 'arrow-blue', cssClass: 'prereq-participation' }
+          style: { stroke: '#999', dash: '4,3', markerId: 'arrow-gray', cssClass: 'prereq-participation' }
         });
       });
     });
@@ -2014,6 +2016,11 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .interrupt()
       .style('display', layers.courseBars ? '' : 'none')
       .style('pointer-events', layers.courseBars ? 'auto' : 'none');
+
+    // Course bar borders
+    container.selectAll('.course-bar-border')
+      .interrupt()
+      .style('display', layers.courseBars ? '' : 'none');
 
     // Course connectors (fills and borders between consecutive bars)
     container.selectAll<SVGPolygonElement, any>('.course-connector-fill')
