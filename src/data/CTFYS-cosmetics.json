@@ -17,6 +17,6 @@
   {
     "name": "Övrigt",
     "colorFamily": "yellow",
-    "courses": ["SA114X", "XY123Z"]
+    "courses": ["SA114X", "XY123Z", "XY456Z"]
   }
 ]

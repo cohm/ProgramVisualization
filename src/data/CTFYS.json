@@ -62,6 +62,16 @@
     "reexams": ["P4"]
   },
   {
+    "code": "SG1112",
+    "name": "Mekanik I",
+    "totalCredits": 9.0,
+    "periodCredits": { "P1": 0, "P2": 0, "P3": 4, "P4": 5 },
+    "year": 1,
+    "prerequisitesParticipation": ["SF1673"],
+    "exams": ["P4"],
+    "reexams": ["P4"]
+  },
+  {
     "code": "SK1104",
     "name": "Klassisk fysik",
     "totalCredits": 7.5,
@@ -82,16 +92,6 @@
     "reexams": []
   },
   {
-    "code": "SG1112",
-    "name": "Mekanik I",
-    "totalCredits": 9.0,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 4, "P4": 5 },
-    "year": 1,
-    "prerequisitesParticipation": ["SF1673"],
-    "exams": ["P4"],
-    "reexams": ["P4"]
-  },
-  {
     "code": "DD1301",
     "name": "Datorintroduktion (valfri)",
     "totalCredits": 1.5,
@@ -100,28 +100,6 @@
     "prerequisites": [],
     "exams": [],
     "reexams": []
-  },
-  {
-    "code": "SF1683",
-    "name": "Differentialekvationer och transformmetoder",
-    "briefName": "Diffekv & transformer",
-    "totalCredits": 9.0,
-    "periodCredits": { "P1": 5.0, "P2": 4.0, "P3": 0, "P4": 0 },
-    "year": 2,
-    "prerequisitesCompleted": ["SF1674"],
-    "exams": ["P1","P2"],
-    "reexams": ["P1", "P2"]
-  },
-  {
-    "code": "SF1544",
-    "name": "Numeriska metoder, grundkurs IV",
-    "briefName": "Numeriska met.",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 0, "P2": 1.0, "P3": 5.0, "P4": 0 },
-    "year": 2,
-    "prerequisitesCompleted": ["DD1331"],
-    "exams": ["P3"],
-    "reexams": ["P3"]
   },
   {
     "code": "SF1681",
@@ -166,14 +144,15 @@
     "reexams": ["P1"]
   },
   {
-    "code": "DD1327",
-    "name": "Grundläggande datalogi",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 0, "P4": 6.0 },
+    "code": "SF1683",
+    "name": "Differentialekvationer och transformmetoder",
+    "briefName": "Diffekv & transformer",
+    "totalCredits": 9.0,
+    "periodCredits": { "P1": 5.0, "P2": 4.0, "P3": 0, "P4": 0 },
     "year": 2,
-    "prerequisitesCompleted": ["DD1331"],
-    "exams": ["P4"],
-    "reexams": ["P4"]
+    "prerequisitesCompleted": ["SF1674"],
+    "exams": ["P1","P2"],
+    "reexams": ["P1", "P2"]
   },
   {
     "code": "SE1055",
@@ -183,6 +162,38 @@
     "periodCredits": { "P1": 0, "P2": 0, "P3": 6.0, "P4": 3.0 },
     "year": 2,
     "prerequisitesCompleted": ["SG1112"],
+    "exams": ["P4"],
+    "reexams": ["P4"]
+  },
+  {
+    "code": "SI1200",
+    "name": "Fysikens matematiska metoder",
+    "briefName": "Fysikens mat. metoder",
+    "totalCredits": 4.0,
+    "periodCredits": { "P1": 0, "P2": 0, "P3": 4.0, "P4": 0 },
+    "year": 2,
+    "prerequisites": [],
+    "exams": ["P3"],
+    "reexams": ["P3"]
+  },
+  {
+    "code": "SF1544",
+    "name": "Numeriska metoder, grundkurs IV",
+    "briefName": "Numeriska metoder",
+    "totalCredits": 6.0,
+    "periodCredits": { "P1": 0, "P2": 1.0, "P3": 5.0, "P4": 0 },
+    "year": 2,
+    "prerequisitesCompleted": ["DD1331"],
+    "exams": ["P3"],
+    "reexams": ["P3"]
+  },
+  {
+    "code": "DD1327",
+    "name": "Grundläggande datalogi",
+    "totalCredits": 6.0,
+    "periodCredits": { "P1": 0, "P2": 0, "P3": 0, "P4": 6.0 },
+    "year": 2,
+    "prerequisitesCompleted": ["DD1331"],
     "exams": ["P4"],
     "reexams": ["P4"]
   },
@@ -197,21 +208,8 @@
     "reexams": ["P4"]
   },
   {
-    "code": "SI1200",
-    "name": "Fysikens matematiska metoder",
-    "briefName": "Fysikens mat. met.",
-    "totalCredits": 4.0,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 4.0, "P4": 0 },
-    "year": 2,
-    "prerequisites": [],
-    "exams": ["P3"],
-    "reexams": ["P3"]
-  },
-
-  {
     "code": "SH1015",
     "name": "Tillämpad modern fysik",
-    "briefName": "Till. mod. fysik",
     "totalCredits": 5.0,
     "periodCredits": { "P1": 3.0, "P2": 2.0, "P3": 0, "P4": 0 },
     "year": 3,
@@ -282,7 +280,7 @@
     "reexams": ["P3"]
   },
   {
-    "code": "XY123Z",
+    "code": "XY456Z",
     "name": "Plats för valfri kurs",
     "totalCredits": 7.5,
     "periodCredits": { "P1": 0, "P2": 0, "P3": 0, "P4": 7.5 },

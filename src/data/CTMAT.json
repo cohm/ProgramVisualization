@@ -10,28 +10,6 @@
     "reexams": []
   },
   {
-    "code": "SA1006",
-    "name": "Ingenjörsfärdigheter i teknisk matematik",
-    "briefName": "Ingenjörsfärdig.",
-    "totalCredits": 8.5,
-    "periodCredits": {
-      "Year1": { "P1": 2.5, "P2": 1.5, "P3": 0, "P4": 0 },
-      "Year2": { "P1": 0, "P2": 0, "P3": 0, "P4": 1.5 },
-      "Year3": { "P1": 1.5, "P2": 1.5, "P3": 0, "P4": 0 }
-    },
-    "prerequisites": [],
-    "exams": {
-      "Year1": ["P2"],
-      "Year2": ["P4"],
-      "Year3": ["P2"]
-    },
-    "reexams": {
-      "Year1": ["P2"],
-      "Year2": ["P4"],
-      "Year3": ["P2"]
-    }
-  },
-  {
     "code": "SF1672",
     "name": "Linjär algebra",
     "totalCredits": 7.5,
@@ -106,35 +84,37 @@
     "reexams": ["P4"]
   },
   {
-    "code": "DD1301",
-    "name": "Datorintroduktion",
-    "totalCredits": 1.5,
-    "periodCredits": { "P1": 1.5, "P2": 0, "P3": 0, "P4": 0 },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "reexams": []
-  },
-  {
-    "code": "DD1380",
-    "name": "Javaprogrammering för Pythonprogrammerare",
-    "briefName": "Java för Python",
-    "totalCredits": 1.5,
-    "periodCredits": { "P1": 1.5, "P2": 0, "P3": 0, "P4": 0 },
+    "code": "SF1693",
+    "name": "Analytiska och numeriska metoder för partiella differentialekvationer och transformer",
+    "briefName": "PDE & transformer",
+    "totalCredits": 11.0,
+    "periodCredits": { "P1": 0, "P2": 5.0, "P3": 3.8, "P4": 2.2 },
     "year": 2,
     "prerequisites": [],
     "exams": [],
     "reexams": []
   },
   {
-    "code": "DD1385",
-    "name": "Programutvecklingsteknik",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 2.0, "P2": 4.0, "P3": 0, "P4": 0 },
-    "year": 2,
+    "code": "SA1006",
+    "name": "Ingenjörsfärdigheter i teknisk matematik",
+    "briefName": "Ingenjörsfärdig.",
+    "totalCredits": 8.5,
+    "periodCredits": {
+      "Year1": { "P1": 2.5, "P2": 1.5, "P3": 0, "P4": 0 },
+      "Year2": { "P1": 0, "P2": 0, "P3": 0, "P4": 1.5 },
+      "Year3": { "P1": 1.5, "P2": 1.5, "P3": 0, "P4": 0 }
+    },
     "prerequisites": [],
-    "exams": [],
-    "reexams": []
+    "exams": {
+      "Year1": ["P2"],
+      "Year2": ["P4"],
+      "Year3": ["P2"]
+    },
+    "reexams": {
+      "Year1": ["P2"],
+      "Year2": ["P4"],
+      "Year3": ["P2"]
+    }
   },
   {
     "code": "SF1681",
@@ -157,17 +137,6 @@
     "prerequisites": [],
     "exams": ["P1"],
     "reexams": ["P1"]
-  },
-  {
-    "code": "SF1693",
-    "name": "Analytiska och numeriska metoder för partiella differentialekvationer och transformer",
-    "briefName": "PDE & transformer",
-    "totalCredits": 11.0,
-    "periodCredits": { "P1": 0, "P2": 5.0, "P3": 3.8, "P4": 2.2 },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "reexams": []
   },
   {
     "code": "SF1930",
@@ -231,6 +200,27 @@
     "exams": [],
     "reexams": []
   },
+  {
+    "code": "DD1385",
+    "name": "Programutvecklingsteknik",
+    "totalCredits": 6.0,
+    "periodCredits": { "P1": 2.0, "P2": 4.0, "P3": 0, "P4": 0 },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "reexams": []
+  },
+  {
+    "code": "DD1380",
+    "name": "Javaprogrammering för Pythonprogrammerare",
+    "briefName": "Java för Python",
+    "totalCredits": 1.5,
+    "periodCredits": { "P1": 1.5, "P2": 0, "P3": 0, "P4": 0 },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "reexams": []
+  },
   
   {
     "code": "EL1000",
@@ -263,5 +253,15 @@
     "prerequisites": [],
     "exams": [],
     "reexams": []
+  },
+ {
+    "code": "DD1301",
+    "name": "Datorintroduktion",
+    "totalCredits": 1.5,
+    "periodCredits": { "P1": 1.5, "P2": 0, "P3": 0, "P4": 0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "reexams": []
   }
-]
+ ]

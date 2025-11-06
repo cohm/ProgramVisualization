@@ -1,16 +1,5 @@
 [
   {
-    "code": "SF1694",
-    "name": "Tillämpad linjär algebra",
-    "briefName": "Tillämpad lin. alg.",
-    "totalCredits": 10.5,
-    "periodCredits": { "P1": 3.0, "P2": 6.5, "P3": 1.0, "P4": 0 },
-    "year": 1,
-    "prerequisites": [],
-    "exams": ["P2"],
-    "reexams": ["P2"]
-  },
-  {
     "code": "SF1668",
     "name": "Matematisk och numerisk analys I",
     "briefName": "Mat. & num. analys I",
@@ -22,6 +11,27 @@
     "reexams": ["P1", "P2"]
   },
   {
+    "code": "SF1626",
+    "name": "Flervariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": { "P1": 0, "P2": 0, "P3": 7.5, "P4": 0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": ["P3"],
+    "reexams": ["P3"]
+  },
+  {
+    "code": "SF1694",
+    "name": "Tillämpad linjär algebra",
+    "briefName": "Tillämpad lin. alg.",
+    "totalCredits": 10.5,
+    "periodCredits": { "P1": 3.0, "P2": 6.5, "P3": 1.0, "P4": 0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": ["P2"],
+    "reexams": ["P2"]
+  },
+  {
     "code": "DD1333",
     "name": "Grundläggande programmering",
     "totalCredits": 5.0,
@@ -30,6 +40,16 @@
     "prerequisites": [],
     "exams": [],
     "reexams": []
+  },
+  {
+    "code": "SK1112",
+    "name": "Fysik I",
+    "totalCredits": 9.0,
+    "periodCredits": { "P1": 1.0, "P2": 0, "P3": 0, "P4": 8.0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": ["P4"],
+    "reexams": ["P4"]
   },
   {
     "code": "SD1002",
@@ -53,41 +73,11 @@
     "reexams": ["P4"]
   },
   {
-    "code": "SK1112",
-    "name": "Fysik I",
-    "totalCredits": 9.0,
-    "periodCredits": { "P1": 1.0, "P2": 0, "P3": 0, "P4": 8.0 },
-    "year": 1,
-    "prerequisites": [],
-    "exams": ["P4"],
-    "reexams": ["P4"]
-  },
-  {
-    "code": "SF1626",
-    "name": "Flervariabelanalys",
-    "totalCredits": 7.5,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 7.5, "P4": 0 },
-    "year": 1,
-    "prerequisites": [],
-    "exams": ["P3"],
-    "reexams": ["P3"]
-  },
-  {
     "code": "DD1301",
     "name": "Datorintroduktion",
     "totalCredits": 1.5,
     "periodCredits": { "P1": 1.5, "P2": 0, "P3": 0, "P4": 0 },
     "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "reexams": []
-  },
-  {
-    "code": "MF1024",
-    "name": "Produktutveckling",
-    "totalCredits": 11.0,
-    "periodCredits": { "P1": 0, "P2": 2.0, "P3": 6.0, "P4": 3.0 },
-    "year": 2,
     "prerequisites": [],
     "exams": [],
     "reexams": []
@@ -104,16 +94,6 @@
     "reexams": ["P1", "P2"]
   },
   {
-    "code": "SG1140",
-    "name": "Mekanik II",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 6.0, "P2": 0, "P3": 0, "P4": 0 },
-    "year": 2,
-    "prerequisites": [],
-    "exams": ["P1"],
-    "reexams": ["P1"]
-  },
-  {
     "code": "SE1010",
     "name": "Hållfasthetslära, grundkurs med projekt",
     "briefName": "Hållfasthetslära",
@@ -125,14 +105,14 @@
     "reexams": ["P2"]
   },
   {
-    "code": "SD1120",
-    "name": "Ljud och vibrationer",
-    "totalCredits": 9.0,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 3.0, "P4": 6.0 },
+    "code": "SG1140",
+    "name": "Mekanik II",
+    "totalCredits": 6.0,
+    "periodCredits": { "P1": 6.0, "P2": 0, "P3": 0, "P4": 0 },
     "year": 2,
     "prerequisites": [],
-    "exams": ["P4"],
-    "reexams": ["P4"]
+    "exams": ["P1"],
+    "reexams": ["P1"]
   },
   {
     "code": "SG1216",
@@ -154,6 +134,26 @@
     "prerequisites": [],
     "exams": ["P3"],
     "reexams": ["P3"]
+  },
+  {
+    "code": "SD1120",
+    "name": "Ljud och vibrationer",
+    "totalCredits": 9.0,
+    "periodCredits": { "P1": 0, "P2": 0, "P3": 3.0, "P4": 6.0 },
+    "year": 2,
+    "prerequisites": [],
+    "exams": ["P4"],
+    "reexams": ["P4"]
+  },
+  {
+    "code": "MF1024",
+    "name": "Produktutveckling",
+    "totalCredits": 11.0,
+    "periodCredits": { "P1": 0, "P2": 2.0, "P3": 6.0, "P4": 3.0 },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "reexams": []
   },
   {
     "code": "EL1010",
