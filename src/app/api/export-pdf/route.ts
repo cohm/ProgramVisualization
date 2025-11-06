@@ -3,6 +3,7 @@ import puppeteer from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';
 
 export const runtime = 'nodejs';
+export const maxDuration = 60; // Increase timeout for PDF generation
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,19 +14,16 @@ export async function POST(req: NextRequest) {
       return new Response('Missing HTML content', { status: 400 });
     }
     
-    // Configure chromium to use CDN for serverless environments
-    const isProduction = process.env.NODE_ENV === 'production';
+    // Detect if running on Vercel or locally
+    const isVercel = !!process.env.VERCEL;
     
-    // Set font support for chromium in production
-    if (isProduction) {
-      chromium.setGraphicsMode = false;
-    }
-    
-    // Launch headless browser with serverless Chrome
+    // Launch headless browser
     const browser = await puppeteer.launch({
-      args: isProduction ? chromium.args : ['--no-sandbox', '--disable-setuid-sandbox'],
-      executablePath: isProduction 
-        ? await chromium.executablePath('/tmp/chromium')
+      args: isVercel 
+        ? [...chromium.args, '--single-process'] 
+        : ['--no-sandbox', '--disable-setuid-sandbox'],
+      executablePath: isVercel 
+        ? await chromium.executablePath()
         : process.env.PUPPETEER_EXECUTABLE_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
       headless: true,
     });
