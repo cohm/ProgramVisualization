@@ -2121,7 +2121,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         {/* Exams */}
         <div onClick={() => setLayers(s => ({ ...s, exams: !s.exams }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.exams ? 1 : 0.4 }}>
           <svg width={16} height={16} viewBox="0 0 16 16">
-            <circle cx={8} cy={8} r={6} fill={kthColors.KthBrick?.HEX || '#E86A58'} />
+            <circle cx={8} cy={8} r={6} fill={kthColors.KthBrick?.HEX || '#E86A58'} stroke={kthColors.KthDarkBrick?.HEX || '#78001A'} strokeWidth={1.5}/>
           </svg>
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.exams}</span>
         </div>
@@ -2137,8 +2137,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   {/* Prerequisites - completion */}
   <div onClick={() => setLayers(s => ({ ...s, prereqCompleted: !s.prereqCompleted }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.prereqCompleted ? 1 : 0.4 }}>
           <svg width={16} height={16} viewBox="0 0 20 16">
-            <path d="M2 8 L18 8" stroke="#999" strokeWidth={2} fill="none" />
-            <path d="M14 6 L18 8 L14 10" fill="#999" />
+            <path d="M2 8 L18 8" stroke={kthColors.KthBlue?.HEX || '#004791'} strokeWidth={2} fill="none" />
+            <path d="M14 6 L18 8 L14 10" fill={kthColors.KthBlue?.HEX || '#004791'} />
           </svg>
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.prerequisitesCompleted}</span>
         </div>
@@ -2146,8 +2146,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   {/* Prerequisites - participation */}
   <div onClick={() => setLayers(s => ({ ...s, prereqParticipation: !s.prereqParticipation }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.prereqParticipation ? 1 : 0.4 }}>
           <svg width={16} height={16} viewBox="0 0 20 16">
-            <path d="M2 8 L18 8" stroke={kthColors.KthBlue?.HEX || '#004791'} strokeWidth={2} strokeDasharray="4,3" fill="none" />
-            <path d="M14 6 L18 8 L14 10" fill={kthColors.KthBlue?.HEX || '#004791'} />
+            <path d="M2 8 L18 8" stroke="#999" strokeWidth={2} strokeDasharray="4,3" fill="none" />
+            <path d="M14 6 L18 8 L14 10" fill="#999" />
           </svg>
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.prerequisitesParticipation}</span>
         </div>
@@ -2160,19 +2160,19 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
         {/* Study periods */}
         <div onClick={() => setLayers(s => ({ ...s, studyPeriods: !s.studyPeriods }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.studyPeriods ? 1 : 0.4 }}>
-          <div style={{ width: 18, height: 12, background: kthColors.KthSand?.HEX || '#f3f4f6', borderRadius: 2, border: '1px solid rgba(0,0,0,0.06)' }} />
+          <div style={{ width: 18, height: 12, background: kthColors.KthSand?.HEX || '#f3f4f6' }} />
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.studyPeriods}</span>
         </div>
 
         {/* Exam periods */}
         <div onClick={() => setLayers(s => ({ ...s, examPeriods: !s.examPeriods }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.examPeriods ? 1 : 0.4 }}>
-          <div style={{ width: 18, height: 12, background: kthColors.KthLightBlue?.HEX || '#DEF0FF', borderRadius: 2, border: '1px solid rgba(0,0,0,0.06)' }} />
+          <div style={{ width: 18, height: 12, background: kthColors.KthLightBlue?.HEX || '#DEF0FF' }} />
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.examPeriods}</span>
         </div>
 
         {/* Reexam periods */}
         <div onClick={() => setLayers(s => ({ ...s, reexamPeriods: !s.reexamPeriods }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.reexamPeriods ? 1 : 0.4 }}>
-          <div style={{ width: 18, height: 12, background: kthColors.KthLightGray?.HEX || '#eee', borderRadius: 2, border: '1px solid rgba(0,0,0,0.06)' }} />
+          <div style={{ width: 18, height: 12, background: kthColors.KthLightGray?.HEX || '#e6e6e6' }} />
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.reexamPeriods}</span>
         </div>
 
