@@ -17,14 +17,24 @@ export async function POST(req: NextRequest) {
     // Detect if running on Vercel or locally
     const isVercel = !!process.env.VERCEL;
     
+    let executablePath: string;
+    
+    if (isVercel) {
+      // For Vercel, use chromium-min which downloads from CDN
+      executablePath = await chromium.executablePath(
+        'https://github.com/Sparticuz/chromium/releases/download/v141.0.0/chromium-v141.0.0-pack.tar'
+      );
+    } else {
+      // For local development, use local Chrome
+      executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+    }
+    
     // Launch headless browser
     const browser = await puppeteer.launch({
       args: isVercel 
         ? [...chromium.args, '--single-process'] 
         : ['--no-sandbox', '--disable-setuid-sandbox'],
-      executablePath: isVercel 
-        ? await chromium.executablePath()
-        : process.env.PUPPETEER_EXECUTABLE_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+      executablePath,
       headless: true,
     });
     
