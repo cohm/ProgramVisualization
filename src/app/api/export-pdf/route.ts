@@ -1,25 +1,40 @@
 import { NextRequest } from 'next/server';
-import { PDFDocument } from 'pdf-lib';
+import puppeteer from 'puppeteer';
 
 export const runtime = 'nodejs';
 
 export async function POST(req: NextRequest) {
   try {
-    const arrayBuffer = await req.arrayBuffer();
-    const pngBytes = new Uint8Array(arrayBuffer);
+    // Get the HTML content from the request body
+    const { html } = await req.json();
+    
+    if (!html) {
+      return new Response('Missing HTML content', { status: 400 });
+    }
+    
+    // Launch headless browser
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    
+    const page = await browser.newPage();
+    
+    // Set the HTML content
+    await page.setContent(html, {
+      waitUntil: 'networkidle0' // Wait for fonts and resources to load
+    });
+    
+    // Generate PDF with proper settings
+    const pdfBuffer = await page.pdf({
+      printBackground: true,
+      preferCSSPageSize: true,
+      format: undefined // Use the size defined in the HTML/CSS
+    });
+    
+    await browser.close();
 
-  const pdfDoc = await PDFDocument.create();
-  // Embed the PNG as an image
-  const pngImage = await pdfDoc.embedPng(pngBytes);
-  const { width, height } = pngImage; // use native image dimensions
-
-  // Create a page sized exactly to the image and draw it without margins
-  const page = pdfDoc.addPage([width, height]);
-  page.drawImage(pngImage, { x: 0, y: 0, width, height });
-
-    const pdfBytes = await pdfDoc.save();
-
-    return new Response(Buffer.from(pdfBytes), {
+    return new Response(Buffer.from(pdfBuffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
@@ -28,6 +43,6 @@ export async function POST(req: NextRequest) {
     });
   } catch (e) {
     console.error('PDF export failed', e);
-    return new Response('Failed to generate PDF', { status: 500 });
+    return new Response(`Failed to generate PDF: ${e}`, { status: 500 });
   }
 }

@@ -179,30 +179,64 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       cloned.setAttribute('width', String(exportWidth));
       cloned.setAttribute('height', String(exportHeight));
       cloned.setAttribute('viewBox', `0 0 ${exportWidth} ${exportHeight}`);
-      // Ensure font family is applied for all text in export and try to inline Figtree
+      // Ensure font family is applied for all text in export
       cloned.setAttribute('style', `font-family: ${STYLE.fontFamily};`);
+      
       try {
         const styleEl = document.createElementNS('http://www.w3.org/2000/svg', 'style');
         styleEl.textContent = `* { font-family: ${STYLE.fontFamily}; }`;
         cloned.insertBefore(styleEl, cloned.firstChild);
 
-        // Attempt to inline Figtree font from Google Fonts to avoid fallback during export
-        const cssResp = await fetch('https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&display=swap');
-        if (cssResp.ok) {
-          const cssText = await cssResp.text();
-          const match = cssText.match(/url\((https:[^)]+\.woff2)\)/);
-          if (match && match[1]) {
-            const fontResp = await fetch(match[1]);
-            if (fontResp.ok) {
-              const buf = await fontResp.arrayBuffer();
-              const u8 = new Uint8Array(buf);
-              let binary = '';
-              for (let i = 0; i < u8.length; i++) binary += String.fromCharCode(u8[i]);
-              const base64 = btoa(binary);
-              const fontStyle = document.createElementNS('http://www.w3.org/2000/svg', 'style');
-              fontStyle.textContent = `@font-face { font-family: Figtree; src: url(data:font/woff2;base64,${base64}) format('woff2'); font-weight: 400 900; font-style: normal; font-display: swap; }`;
-              cloned.insertBefore(fontStyle, cloned.firstChild);
+        // Extract font families from the font stack and try to inline web fonts
+        // Parse font families from STYLE.fontFamily (e.g., "Figtree, ui-sans-serif, system-ui, ...")
+        const fontFamilies = STYLE.fontFamily.split(',').map(f => f.trim().replace(/['"]/g, ''));
+        
+        // Try to fetch and embed web fonts (currently supports Google Fonts)
+        for (const fontFamily of fontFamilies) {
+          // Skip generic and system fonts
+          if (['ui-sans-serif', 'system-ui', 'sans-serif', 'serif', 'monospace', '-apple-system', 
+               'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'Noto Sans'].some(s => fontFamily.includes(s))) {
+            continue;
+          }
+          
+          try {
+            // Try to fetch from Google Fonts (works for common web fonts)
+            const fontUrl = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(fontFamily)}:wght@300;400;500;600;700;800;900&display=swap`;
+            const cssResp = await fetch(fontUrl);
+            
+            if (cssResp.ok) {
+              const cssText = await cssResp.text();
+              
+              // Match all font URLs (for different weights)
+              const matches = cssText.matchAll(/url\((https:[^)]+\.(?:woff2|woff|ttf))\)/g);
+              const fontUrls = Array.from(matches).map(m => m[1]);
+              
+              if (fontUrls.length > 0) {
+                // Fetch and embed all font files
+                for (const fontFileUrl of fontUrls) {
+                  const fontResp = await fetch(fontFileUrl);
+                  
+                  if (fontResp.ok) {
+                    const buf = await fontResp.arrayBuffer();
+                    const u8 = new Uint8Array(buf);
+                    let binary = '';
+                    for (let i = 0; i < u8.length; i++) binary += String.fromCharCode(u8[i]);
+                    const fontBase64 = btoa(binary);
+                    
+                    // Determine format from URL
+                    const format = fontFileUrl.includes('.woff2') ? 'woff2' : 
+                                   fontFileUrl.includes('.woff') ? 'woff' : 'truetype';
+                    
+                    const fontStyle = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+                    fontStyle.textContent = `@font-face { font-family: '${fontFamily}'; src: url(data:font/${format};base64,${fontBase64}) format('${format}'); font-weight: 100 900; font-style: normal; }`;
+                    cloned.insertBefore(fontStyle, cloned.firstChild);
+                  }
+                }
+                break; // Successfully embedded a font, no need to try others
+              }
             }
+          } catch (e) {
+            // Continue to next font family if this one fails
           }
         }
       } catch {}
@@ -437,6 +471,75 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         return;
       }
 
+      // PDF export: use Puppeteer via API for perfect font rendering
+      if (format === 'pdf') {
+        // Create a complete HTML document with embedded SVG and fonts
+        const htmlDoc = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: Figtree, ui-sans-serif, system-ui, -apple-system, sans-serif;
+    }
+    
+    @page {
+      size: ${exportWidth}px ${exportHeight}px;
+      margin: 0;
+    }
+    
+    svg {
+      display: block;
+      width: ${exportWidth}px;
+      height: ${exportHeight}px;
+    }
+  </style>
+</head>
+<body>
+  ${svgString}
+</body>
+</html>`;
+        
+        try {
+          const response = await fetch('/api/export-pdf', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ html: htmlDoc })
+          });
+          
+          if (!response.ok) {
+            const errorText = await response.text();
+            console.error('PDF export failed:', errorText);
+            alert('PDF export failed: ' + errorText);
+            return;
+          }
+          
+          const pdfBlob = await response.blob();
+          const url = URL.createObjectURL(pdfBlob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'program-visualization.pdf';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+        } catch (error) {
+          console.error('PDF export error:', error);
+          alert('PDF export failed. Check console for details.');
+        }
+        return;
+      }
+
       // Convert to PNG via canvas
       const svg64 = btoa(unescape(encodeURIComponent(svgString)));
       const image64 = 'data:image/svg+xml;base64,' + svg64;
@@ -468,40 +571,18 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         // Draw the SVG raster (img) into SVG coordinate space
         ctx.drawImage(img, 0, 0, exportWidth, exportHeight);
 
-        if (format === 'png') {
-          canvas.toBlob((blob) => {
-            if (!blob) return;
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'program-visualization.png';
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            URL.revokeObjectURL(url);
-          }, 'image/png');
-        } else if (format === 'pdf') {
-          // Server-side PDF generation: send PNG to API and download PDF
-          canvas.toBlob(async (blob) => {
-            if (!blob) return;
-            const data = await blob.arrayBuffer();
-            const res = await fetch('/api/export-pdf', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/octet-stream' },
-              body: data
-            });
-            if (!res.ok) return;
-            const pdfBlob = await res.blob();
-            const url = URL.createObjectURL(pdfBlob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'program-visualization.pdf';
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            URL.revokeObjectURL(url);
-          }, 'image/png');
-        }
+        // PNG export
+        canvas.toBlob((blob) => {
+          if (!blob) return;
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'program-visualization.png';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+        }, 'image/png');
       };
       img.src = image64;
     }
@@ -645,7 +726,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('y', -75)
         .attr('text-anchor', 'middle')
         .attr('fill', kthColors.KthBlue?.HEX)
-        .attr('font-weight', 700)
+        .attr('font-weight', 400)
         .attr('font-size', 18)
         .text(`${programName} (${programCode})`);
     }
@@ -680,7 +761,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('y', -50) // Increased distance from the period fields
         .attr('text-anchor', 'middle')
         .attr('fill', kthColors.KthBlue?.HEX)
-        .attr('font-weight', 500)
+        .attr('font-weight', 400)
         .attr('font-size', 14)
         .text(`P${i + 1}`);
     });
@@ -1134,35 +1215,28 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         if (shouldShowLabel) {
           const padding = 4;
           const textX = barX + padding;
-          const textY = cursorY + 12; // single row baseline for both code and name
+          const textY = cursorY + 12;
           const maxWidth = Math.max(0, barWidth - padding * 2);
 
+          // Create single text string with code and name
+          const fullText = `${course.code} ${(course as any).briefName || course.name}`;
+          
           const label = block.append('text')
             .attr('x', textX)
             .attr('y', textY)
             .attr('font-size', 11)
+            .attr('font-weight', 600)
+            .attr('fill', kthColors.KthBrokenWhite?.HEX || '#FFFFFF')
             .attr('pointer-events', 'none')
-            .attr('class', 'course-label');
+            .attr('class', 'course-label')
+            .text(fullText);
 
-          // course code (bold)
-          label.append('tspan')
-            .text(course.code + ' ')
-            .attr('font-weight', 700)
-            .attr('fill', colors.text);
-
-          // course name (normal)
-          const nameTspan = label.append('tspan')
-            .text((course as any).briefName || course.name)
-            .attr('font-weight', 400)
-            .attr('fill', kthColors.KthBrokenWhite?.HEX || '#FFFFFF');
-
-          // truncate name if it overflows available width
-          // measure combined length and trim the name portion
+          // truncate text if it overflows available width
           try {
-            let nameText = nameTspan.text();
-            while ((label.node() as SVGTextElement).getComputedTextLength() > maxWidth && nameText.length > 3) {
-              nameText = nameText.slice(0, -1);
-              nameTspan.text(nameText + '…');
+            let displayText = fullText;
+            while ((label.node() as SVGTextElement).getComputedTextLength() > maxWidth && displayText.length > 3) {
+              displayText = displayText.slice(0, -1);
+              label.text(displayText + '…');
             }
           } catch (e) {
             // safe guard for environments where getComputedTextLength may fail
@@ -1250,7 +1324,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('y', yearLabelY)
         .text(`${tr[language].year} ${i + 1}`)
         .attr('font-size', 14)
-        .attr('font-weight', 700)
+        .attr('font-weight', 400)
         .attr('fill', kthColors.KthBlue?.HEX || '#111827')
         .attr('dominant-baseline', 'middle');
     }
