@@ -1,0 +1,11 @@
+{
+  "functions": {
+    "src/app/api/export-pdf/route.ts": {
+      "memory": 3008,
+      "maxDuration": 60
+    }
+  },
+  "env": {
+    "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD": "true"
+  }
+}
