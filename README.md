@@ -32,7 +32,11 @@ If the dev server appears suspended (e.g. you see `zsh: suspended npm run dev`),
 
 Recommended: Vercel (works well with Next.js). Create a GitHub repo and connect it to Vercel. Default build command `npm run build` and output directory are handled by Next.js.
 
-**Important for Vercel deployment**: The PDF export feature requires Puppeteer and a serverless-compatible Chrome binary. This is handled automatically by `@sparticuz/chromium-min` and configured in `vercel.json` with increased memory (3008MB) and timeout (60s) for the PDF generation endpoint.
+**Important for Vercel deployment**: 
+- The PDF export feature requires Puppeteer and a serverless-compatible Chrome binary. This is handled automatically by `@sparticuz/chromium-min`.
+- The `vercel.json` file configures increased memory and timeout for the PDF generation endpoint.
+- **Hobby Plan Limitation**: Vercel's Hobby (free) plan has a 1024MB default memory limit with a maximum of 2048MB for serverless functions. The configuration uses 1800MB to stay within this limit. If deployments silently fail from GitHub, check that the memory allocation in `vercel.json` is ≤2048MB.
+- Pro plans support up to 3008MB which may improve performance for larger visualizations.
 
 Other hosts: Netlify or static exports (with limitations). See Next.js docs for deployment options.
 
@@ -106,7 +110,7 @@ Development dependencies include TypeScript, ESLint, and Tailwind CSS.
 
 ## Configuration Files
 
-- `vercel.json` — Vercel deployment configuration with increased memory (3008MB) and timeout (60s) for the PDF export API route.
+- `vercel.json` — Vercel deployment configuration with increased memory (1800MB for Hobby plan, can be increased to 3008MB on Pro) and timeout (60s) for the PDF export API route.
 - `tsconfig.json` — TypeScript configuration.
 - `next.config.ts` — Next.js configuration.
 - `package.json` — Project manifest and scripts (dev, build, start).

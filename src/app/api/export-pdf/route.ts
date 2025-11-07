@@ -20,10 +20,8 @@ export async function POST(req: NextRequest) {
     let executablePath: string;
     
     if (isVercel) {
-      // For Vercel, use chromium-min which downloads from CDN
-      executablePath = await chromium.executablePath(
-        'https://github.com/Sparticuz/chromium/releases/download/v141.0.0/chromium-v141.0.0-pack.tar'
-      );
+      // For Vercel, let chromium-min auto-detect and download from its default CDN
+      executablePath = await chromium.executablePath();
     } else {
       // For local development, use local Chrome
       executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
@@ -32,7 +30,7 @@ export async function POST(req: NextRequest) {
     // Launch headless browser
     const browser = await puppeteer.launch({
       args: isVercel 
-        ? [...chromium.args, '--single-process'] 
+        ? [...chromium.args, '--single-process', '--disable-gpu'] 
         : ['--no-sandbox', '--disable-setuid-sandbox'],
       executablePath,
       headless: true,

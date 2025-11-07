@@ -1,12 +1,8 @@
 {
   "functions": {
     "src/app/api/export-pdf/route.ts": {
-      "memory": 1500,
+      "memory": 1800,
       "maxDuration": 60
     }
-  },
-  "env": {
-    "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD": "true",
-    "CHROMIUM_PATH": "https://github.com/Sparticuz/chromium/releases/download/v141.0.0/chromium-v141.0.0-pack.tar"
   }
 }
