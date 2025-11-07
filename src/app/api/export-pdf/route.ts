@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import puppeteer from 'puppeteer-core';
-import chromium from '@sparticuz/chromium-min';
+import chromium from '@sparticuz/chromium';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60; // Increase timeout for PDF generation
@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     let executablePath: string;
     
     if (isVercel) {
-      // For Vercel, let chromium-min auto-detect and download from its default CDN
+      // For Vercel, use @sparticuz/chromium which bundles the binary
       executablePath = await chromium.executablePath();
     } else {
       // For local development, use local Chrome
@@ -30,10 +30,10 @@ export async function POST(req: NextRequest) {
     // Launch headless browser
     const browser = await puppeteer.launch({
       args: isVercel 
-        ? [...chromium.args, '--single-process', '--disable-gpu'] 
+         ? chromium.args
         : ['--no-sandbox', '--disable-setuid-sandbox'],
       executablePath,
-      headless: true,
+     headless: true,
     });
     
     const page = await browser.newPage();
