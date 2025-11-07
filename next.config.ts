@@ -32,6 +32,15 @@ const gitInfo = getGitInfo();
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
+  // Ensure Chromium brotli assets are bundled with the export-pdf route
+  outputFileTracingIncludes: {
+    // Route pathname for app router
+    '/api/export-pdf': [
+      './node_modules/@sparticuz/chromium/bin/**',
+    ],
+  },
+  // Keep chromium as an external package to preserve its internal paths
+  serverExternalPackages: ['@sparticuz/chromium'],
   env: {
     NEXT_PUBLIC_GIT_HASH: gitInfo.hash,
     NEXT_PUBLIC_GIT_TIMESTAMP: gitInfo.timestamp,
