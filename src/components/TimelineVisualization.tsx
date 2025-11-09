@@ -396,7 +396,18 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               const variants = getFamilyVariants(group.colorFamily);
               const rowG = document.createElementNS(NS, 'g');
               rowG.setAttribute('transform', `translate(${legendPadding},${legendPadding + (currentIdx + gIdx) * (itemHeight + itemGap)})`);
-              
+
+              // Make group header clickable: add a transparent rect for hit area
+              const hitRect = document.createElementNS(NS, 'rect');
+              hitRect.setAttribute('x', '0');
+              hitRect.setAttribute('y', '0');
+              hitRect.setAttribute('width', String(legendWidth - legendPadding * 2));
+              hitRect.setAttribute('height', String(itemHeight));
+              hitRect.setAttribute('fill', 'transparent');
+              hitRect.setAttribute('cursor', 'pointer');
+              hitRect.addEventListener('click', () => toggleGroup(group.name));
+              rowG.appendChild(hitRect);
+
               const r = document.createElementNS(NS, 'rect');
               r.setAttribute('x', '0');
               r.setAttribute('y', String((itemHeight-12)/2));
@@ -589,16 +600,34 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   }));
 
   // layer visibility state
-  const [layers, setLayers] = useState({
-    exams: true,
-    reexams: true,
-    prereqCompleted: true,
-    prereqParticipation: true,
-    courseBars: true,
-    studyPeriods: true,
-    examPeriods: true,
-    reexamPeriods: true,
+  const [layers, setLayers] = useState(() => {
+    const base = {
+      exams: true,
+      reexams: true,
+      prereqCompleted: true,
+      prereqParticipation: true,
+      courseBars: true,
+      studyPeriods: true,
+      examPeriods: true,
+      reexamPeriods: true,
+      groups: {} as Record<string, boolean>
+    };
+    if (cosmetics && cosmetics.groups) {
+      cosmetics.groups.forEach(g => { base.groups[g.name] = true; });
+    }
+    return base;
   });
+
+  // Handler to toggle group visibility
+  const toggleGroup = (groupName: string) => {
+    setLayers(l => ({
+      ...l,
+      groups: {
+        ...l.groups,
+        [groupName]: l.groups[groupName] === false ? true : false
+      }
+    }));
+  };
 
   // focused course code for fading non-relevant elements
   const [focusCourse, setFocusCourse] = useState<string | null>(null);
@@ -1008,6 +1037,10 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               .attr('stroke', 'none')
               .attr('class', 'course-connector-fill')
               .attr('data-course', course.code)
+              .attr('data-group', () => {
+                const grp = cosmetics?.courseToGroup.get(course.code);
+                return grp ? grp.name : '';
+              })
               .style('cursor', 'pointer')
               .on('mouseover', (event: any) => {
                 tooltip.html(tooltipText).style('display', 'block');
@@ -1063,7 +1096,13 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const minHeight = pixelsPerECTS * MIN_ECTS_FOR_HEIGHT;
   const courseHeight = Math.max(rawHeight, minHeight); // ensure minimal visible height equal to 2 ECTS
 
-  const block = g.append('g').attr('class', 'course-group').attr('data-course', course.code);
+  const block = g.append('g')
+    .attr('class', 'course-group')
+    .attr('data-course', course.code)
+    .attr('data-group', () => {
+      const grp = cosmetics?.courseToGroup.get(course.code);
+      return grp ? grp.name : '';
+    });
 
   const periodObj = academicPeriods.find(p => p.id === credit.period)!;
   const courseWidth = timeScale(new Date(periodObj.lectureEnd)) - timeScale(new Date(periodObj.start));
@@ -1256,12 +1295,16 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       const topEdge = `M ${points[0][0]} ${points[0][1]} L ${points[1][0]} ${points[1][1]}`;
       const bottomEdge = `M ${points[2][0]} ${points[2][1]} L ${points[3][0]} ${points[3][1]}`;
       
+      const grp = cosmetics?.courseToGroup.get(course);
+      const groupName = grp ? grp.name : '';
+      
       g.append('path')
         .attr('d', topEdge)
         .attr('fill', 'none')
         .attr('stroke', stroke)
         .attr('class', 'course-connector-border')
         .attr('data-course', course)
+        .attr('data-group', groupName)
         .style('pointer-events', 'none');
       
       g.append('path')
@@ -1270,6 +1313,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('stroke', stroke)
         .attr('class', 'course-connector-border')
         .attr('data-course', course)
+        .attr('data-group', groupName)
         .style('pointer-events', 'none');
     });
 
@@ -1969,6 +2013,11 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       }
 
       // Step 6: Draw the path using roundedHVPolyline
+      const fromGroup = cosmetics?.courseToGroup.get(arrow.prCode);
+      const toGroup = cosmetics?.courseToGroup.get(arrow.targetCourse.code);
+      const fromGroupName = fromGroup ? fromGroup.name : '';
+      const toGroupName = toGroup ? toGroup.name : '';
+      
       const path = g.append('path')
         .attr('d', roundedHVPolyline(points, curveR))
         .attr('stroke', arrow.style.stroke)
@@ -1977,7 +2026,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('marker-end', `url(#${arrow.style.markerId})`)
         .attr('class', `prereq-path ${arrow.style.cssClass}`)
         .attr('data-from', arrow.prCode)
-        .attr('data-to', arrow.targetCourse.code);
+        .attr('data-to', arrow.targetCourse.code)
+        .attr('data-from-group', fromGroupName)
+        .attr('data-to-group', toGroupName);
       if (arrow.style.dash) path.attr('stroke-dasharray', arrow.style.dash);
     });
 
@@ -2001,6 +2052,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // Draw exam markers in topLayer, aligned horizontally to exam period and vertically to course
   examMarkers.forEach((m) => {
     const colors = getCourseColors(m.course);
+    const grp = cosmetics?.courseToGroup.get(m.course.code);
+    const groupName = grp ? grp.name : '';
+    
     topLayer.append('circle')
       .attr('cx', m.x)
       .attr('cy', m.cy)
@@ -2012,6 +2066,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .attr('class', 'exam-dot')
       .attr('data-layer', 'exams')
       .attr('data-course', m.course.code)
+      .attr('data-group', groupName)
       .on('mouseover', (event: any) => {
         tooltip.html(`<strong>${m.course.code}</strong><br/>${tr[language].exam}`).style('display', 'block');
       })
@@ -2023,6 +2078,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
   reexamMarkers.forEach((m) => {
     const colors = getCourseColors(m.course);
+    const grp = cosmetics?.courseToGroup.get(m.course.code);
+    const groupName = grp ? grp.name : '';
+    
     topLayer.append('circle')
       .attr('cx', m.x)
       .attr('cy', m.cy)
@@ -2034,6 +2092,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .attr('class', 'reexam-dot')
       .attr('data-layer', 'reexams')
       .attr('data-course', m.course.code)
+      .attr('data-group', groupName)
       .on('mouseover', (event: any) => {
         tooltip.html(`<strong>${m.course.code}</strong><br/>${tr[language].reexam}`).style('display', 'block');
       })
@@ -2114,6 +2173,57 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .interrupt()
       .style('display', layers.reexamPeriods ? '' : 'none');
   }, [layers]);
+
+  // Handle group visibility toggling without redrawing
+  useEffect(() => {
+    if (!containerRef.current || !cosmetics) return;
+    const container = d3.select(containerRef.current);
+    
+    // For each group, show/hide all elements with matching data-group attribute
+    cosmetics.groups.forEach(group => {
+      const isVisible = layers.groups[group.name] !== false;
+      const displayValue = isVisible ? '' : 'none';
+      
+      // Hide/show course groups (course bars)
+      container.selectAll(`.course-group[data-group="${group.name}"]`)
+        .interrupt()
+        .style('display', displayValue);
+      
+      // Hide/show connector fills
+      container.selectAll(`.course-connector-fill[data-group="${group.name}"]`)
+        .interrupt()
+        .style('display', displayValue);
+      
+      // Hide/show connector borders
+      container.selectAll(`.course-connector-border[data-group="${group.name}"]`)
+        .interrupt()
+        .style('display', displayValue);
+      
+      // Hide/show exam markers
+      container.selectAll(`.exam-dot[data-group="${group.name}"]`)
+        .interrupt()
+        .style('display', displayValue);
+      
+      // Hide/show reexam markers
+      container.selectAll(`.reexam-dot[data-group="${group.name}"]`)
+        .interrupt()
+        .style('display', displayValue);
+    });
+    
+    // Handle prerequisite arrows separately - hide if EITHER source OR target is hidden
+    container.selectAll<SVGPathElement, any>('.prereq-path')
+      .each(function() {
+        const arrow = d3.select(this);
+        const fromGroup = arrow.attr('data-from-group');
+        const toGroup = arrow.attr('data-to-group');
+        
+        // Hide if either group is hidden (check both from and to groups)
+        const fromHidden = fromGroup && layers.groups[fromGroup] === false;
+        const toHidden = toGroup && layers.groups[toGroup] === false;
+        
+        arrow.style('display', (fromHidden || toHidden) ? 'none' : '');
+      });
+  }, [layers.groups, cosmetics]);
 
   // Focus mode: fade out unrelated courses/markers/arrows when a course is selected
   useEffect(() => {
@@ -2264,10 +2374,18 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
                   }).join(', ')})`
                 : variants[0]?.fill || '#ccc';
               const borderColor = variants[0]?.stroke || '#999';
+              const isHidden = layers.groups[group.name] === false;
               return (
-                <div key={group.name} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                <div
+                  key={group.name}
+                  onClick={() => toggleGroup(group.name)}
+                  style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: isHidden ? 0.4 : 1 }}
+                  title={isHidden ? 'Show group' : 'Hide group'}
+                >
                   <div style={{ width: 18, height: 12, background: gradient as any, borderRadius: 2, border: `1px solid ${borderColor}` }} />
-                  <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{group.name}</span>
+                  <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>
+                    {group.name}
+                  </span>
                 </div>
               );
             })}
