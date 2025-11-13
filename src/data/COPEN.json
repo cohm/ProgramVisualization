@@ -20,6 +20,36 @@
     "reexams": []
   },
   {
+    "code": "SK1115",
+    "name": "Elektromagnetism och vågrörelselära",
+    "totalCredits": 7.5,
+    "periodCredits": { "P1": 3.5, "P2": 4.0, "P3": 0, "P4": 0 },
+    "year": 1,
+    "prerequisites": [],
+    "exams": ["P2"],
+    "reexams": ["P2"]
+  },
+  {
+    "code": "SF1546",
+    "name": "Numeriska metoder, grundkurs",
+    "totalCredits": 6.0,
+    "periodCredits": { "P1": 0, "P2": 0, "P3": 4.0, "P4": 2.0 },
+    "year": 1,
+    "prerequisitesParticipation": ["SF1625","DD1310"],
+    "exams": ["P3"],
+    "reexams": ["P3"]
+  },
+  {
+    "code": "SG1133",
+    "name": "Mekanik I",
+    "totalCredits": 9.0,
+    "periodCredits": { "P1": 0, "P2": 0, "P3": 2.0, "P4": 7.0 },
+    "year": 1,
+    "prerequisitesParticipation": ["SF1625"],
+    "exams": ["P4"],
+    "reexams": ["P4"]
+  },
+  {
     "code": "SF1624",
     "name": "Algebra och geometri",
     "totalCredits": 7.5,
@@ -40,16 +70,6 @@
     "reexams": ["P1"]
   },
   {
-    "code": "SK1115",
-    "name": "Elektromagnetism och vågrörelselära",
-    "totalCredits": 7.5,
-    "periodCredits": { "P1": 3.5, "P2": 4.0, "P3": 0, "P4": 0 },
-    "year": 1,
-    "prerequisites": [],
-    "exams": ["P2"],
-    "reexams": ["P2"]
-  },
-  {
     "code": "KD1000",
     "name": "Kemiska principer för hållbar utveckling",
     "totalCredits": 3.0,
@@ -60,16 +80,6 @@
     "reexams": ["P4"]
   },
   {
-    "code": "SF1546",
-    "name": "Numeriska metoder, grundkurs",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 4.0, "P4": 2.0 },
-    "year": 1,
-    "prerequisitesParticipation": ["SF1625","DD1310"],
-    "exams": ["P3"],
-    "reexams": ["P3"]
-  },
-  {
     "code": "SF1626",
     "name": "Flervariabelanalys",
     "totalCredits": 7.5,
@@ -78,15 +88,5 @@
     "prerequisitesParticipation": ["SF1625"],
     "exams": ["P3"],
     "reexams": ["P3"]
-  },
-  {
-    "code": "SG1133",
-    "name": "Mekanik I",
-    "totalCredits": 9.0,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 2.0, "P4": 7.0 },
-    "year": 1,
-    "prerequisitesParticipation": ["SF1625"],
-    "exams": ["P4"],
-    "reexams": ["P4"]
   }
 ]
