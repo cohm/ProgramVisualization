@@ -2,7 +2,7 @@
   {
     "name": "Matematik",
     "colorFamily": "blue",
-    "courses": ["SF1625", "SF1624", "SF1626", "SF1546"]
+    "courses": ["SF1625", "SF1624", "SF1626"]
   },
   {
     "name": "Fysik",
@@ -10,8 +10,13 @@
     "courses": ["SK1115", "SG1133"]
   },
   {
-    "name": "Ingenjörsämnen",
+    "name": "Programmering",
     "colorFamily": "brick",
-    "courses": ["DD1310", "SA1007", "KD1000"]
+    "courses": ["DD1310", "SF1546"]
+  },
+  {
+    "name": "Ingenjörsämnen",
+    "colorFamily": "yellow",
+    "courses": ["SA1007", "KD1000"]
   }
 ]
