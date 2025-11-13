@@ -12,6 +12,7 @@ import type { CourseGroup, ProgramCosmetics } from '@/types/cosmetics';
 interface ProgramConfig {
   code: string;
   name: string;
+  nameEn?: string;
   dataFile: string;
   cosmeticsFile?: string;
 }
@@ -71,7 +72,9 @@ const loadCourses = async (dataFile: string): Promise<Course[]> => {
       byCode.set(code, {
         code,
         name: c.name,
+        nameEn: c.nameEn || undefined,
         briefName: c.briefName || undefined,
+        briefNameEn: c.briefNameEn || undefined,
         perYear: nested,
         prerequisites: Array.isArray(c.prerequisites) ? [...c.prerequisites] : [],
         prerequisitesCompleted: Array.isArray(c.prerequisitesCompleted) ? [...c.prerequisitesCompleted] : [],
@@ -132,7 +135,9 @@ const loadCourses = async (dataFile: string): Promise<Course[]> => {
       existing.reexamByYear = mergeYearMap(existing.reexamByYear || {}, reexamsObj);
       // prefer existing name/briefName unless missing
       if (!existing.name && c.name) existing.name = c.name;
+      if (!existing.nameEn && c.nameEn) existing.nameEn = c.nameEn;
       if (!existing.briefName && c.briefName) existing.briefName = c.briefName;
+      if (!existing.briefNameEn && c.briefNameEn) existing.briefNameEn = c.briefNameEn;
       if (!existing.teacher && c.teacher) existing.teacher = c.teacher;
       if (!existing.webpage && c.webpage) existing.webpage = c.webpage;
       if (!existing.description && c.description) existing.description = c.description;
@@ -154,7 +159,9 @@ const loadCourses = async (dataFile: string): Promise<Course[]> => {
     return {
       code: entry.code,
       name: entry.name,
+      nameEn: entry.nameEn,
       briefName: entry.briefName,
+      briefNameEn: entry.briefNameEn,
       credits,
       year: primaryYear,
       prerequisites: entry.prerequisites || [],
@@ -240,6 +247,26 @@ export default function HomeClient() {
       router.replace(`/?${params.toString()}`);
     }
   }, [searchParams, router, selectedProgram.code]);
+
+  // Sync language from URL (?l=en or ?l=sv)
+  useEffect(() => {
+    const langParam = searchParams.get('l');
+    if (langParam === 'en' || langParam === 'sv') {
+      if (langParam !== language) {
+        setLanguage(langParam);
+      }
+    }
+  }, [searchParams]);
+
+  // Update URL when language changes
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    const currentLangParam = params.get('l');
+    if (currentLangParam !== language) {
+      params.set('l', language);
+      router.replace(`/?${params.toString()}`);
+    }
+  }, [language, searchParams, router]);
 
   // Close main menu on outside click
   useEffect(() => {
@@ -330,7 +357,7 @@ export default function HomeClient() {
             ref={vizRef} 
             courses={courses} 
             language={language}
-            programName={selectedProgram.name}
+            programName={language === 'en' ? (selectedProgram.nameEn || selectedProgram.name) : selectedProgram.name}
             programCode={selectedProgram.code}
             cosmetics={cosmetics}
           />

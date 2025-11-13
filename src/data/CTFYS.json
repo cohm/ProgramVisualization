@@ -2,9 +2,15 @@
   {
     "code": "DD1331",
     "name": "Grundläggande programmering",
+    "nameEn": "Fundamentals of Programming",
     "briefName": "Grundl. programmering",
-    "totalCredits": 5.0,
-    "periodCredits": { "P1": 2.5, "P2": 2.5, "P3": 0, "P4": 0 },
+    "totalCredits": 5,
+    "periodCredits": {
+      "P1": 2.5,
+      "P2": 2.5,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 1,
     "prerequisites": [],
     "exams": [],
@@ -13,89 +19,186 @@
   {
     "code": "SF1672",
     "name": "Linjär algebra",
+    "nameEn": "Linear Algebra",
     "totalCredits": 7.5,
-    "periodCredits": { "P1": 0, "P2": 7.5, "P3": 0, "P4": 0 },
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 1,
     "prerequisites": [],
-    "exams": ["P2"],
-    "reexams": ["P2"]
+    "exams": [
+      "P2"
+    ],
+    "reexams": [
+      "P2"
+    ]
   },
   {
     "code": "SF1673",
     "name": "Analys i en variabel",
+    "nameEn": "Analysis in one variable",
     "totalCredits": 7.5,
-    "periodCredits": { "P1": 7.5, "P2": 0, "P3": 0, "P4": 0 },
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 1,
     "prerequisites": [],
-    "exams": ["P1"],
-    "reexams": ["P1"]
+    "exams": [
+      "P1"
+    ],
+    "reexams": [
+      "P1"
+    ]
   },
   {
     "code": "SI1121",
     "name": "Termodynamik",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 5.0, "P2": 1.0, "P3": 0, "P4": 0 },
+    "nameEn": "Thermodynamics",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 5,
+      "P2": 1,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 1,
     "prerequisites": [],
-    "exams": ["P1"],
-    "reexams": ["P1"]
+    "exams": [
+      "P1"
+    ],
+    "reexams": [
+      "P1"
+    ]
   },
   {
     "code": "SF1674",
     "name": "Flervariabelanalys",
+    "nameEn": "Multivariable Calculus",
     "totalCredits": 7.5,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 7.5, "P4": 0 },
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
     "year": 1,
-    "prerequisitesParticipation": ["SF1673"],
-    "exams": ["P3"],
-    "reexams": ["P3"]
+    "prerequisitesParticipation": [
+      "SF1673"
+    ],
+    "exams": [
+      "P3"
+    ],
+    "reexams": [
+      "P3"
+    ]
   },
   {
     "code": "SF1922",
     "name": "Sannolikhetsteori och statistik",
+    "nameEn": "Probability Theory and Statistics",
     "briefName": "Sannolikhet & statistik",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 0, "P4": 6.0 },
+    "briefNameEn": "Probability Theory and Stats",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
     "year": 1,
-    "prerequisitesParticipation": ["SF1673"],
-    "exams": ["P4"],
-    "reexams": ["P4"]
+    "prerequisitesParticipation": [
+      "SF1673"
+    ],
+    "exams": [
+      "P4"
+    ],
+    "reexams": [
+      "P4"
+    ]
   },
   {
     "code": "SG1112",
     "name": "Mekanik I",
-    "totalCredits": 9.0,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 4, "P4": 5 },
+    "nameEn": "Mechanics I",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4,
+      "P4": 5
+    },
     "year": 1,
-    "prerequisitesParticipation": ["SF1673"],
-    "exams": ["P4"],
-    "reexams": ["P4"]
+    "prerequisitesParticipation": [
+      "SF1673"
+    ],
+    "exams": [
+      "P4"
+    ],
+    "reexams": [
+      "P4"
+    ]
   },
   {
     "code": "SK1104",
     "name": "Klassisk fysik",
+    "nameEn": "Classical Physics",
     "totalCredits": 7.5,
-    "periodCredits": { "P1": 0, "P2": 4, "P3": 3.5, "P4": 0 },
+    "periodCredits": {
+      "P1": 0,
+      "P2": 4,
+      "P3": 3.5,
+      "P4": 0
+    },
     "year": 1,
-    "prerequisitesParticipation": ["SF1672", "SF1673", "SF1674"],
-    "exams": ["P2", "P3"],
-    "reexams": ["P2", "P3"]
+    "prerequisitesParticipation": [
+      "SF1672",
+      "SF1673",
+      "SF1674"
+    ],
+    "exams": [
+      "P2",
+      "P3"
+    ],
+    "reexams": [
+      "P2",
+      "P3"
+    ]
   },
   {
     "code": "SK1105",
     "name": "Experimentell fysik",
-    "totalCredits": 4.0,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 0, "P4": 4 },
+    "nameEn": "Experimental Physics",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 4
+    },
     "year": 1,
-    "prerequisitesParticipation": ["SK1104"],
+    "prerequisitesParticipation": [
+      "SK1104"
+    ],
     "exams": [],
     "reexams": []
   },
   {
     "code": "DD1301",
     "name": "Datorintroduktion (valfri)",
+    "nameEn": "Computer Introduction",
     "totalCredits": 1.5,
-    "periodCredits": { "P1": 1.5, "P2": 0, "P3": 0, "P4": 0 },
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 1,
     "prerequisites": [],
     "exams": [],
@@ -104,157 +207,331 @@
   {
     "code": "SF1681",
     "name": "Linjär algebra, fortsättningskurs",
+    "nameEn": "Linear Algebra. Advanced Course",
     "briefName": "Linjär algebra fk",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 0, "P2": 6.0, "P3": 0, "P4": 0 },
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 2,
-    "prerequisitesCompleted": ["SF1672"],
-    "exams": ["P2"],
-    "reexams": ["P2"]
+    "prerequisitesCompleted": [
+      "SF1672"
+    ],
+    "exams": [
+      "P2"
+    ],
+    "reexams": [
+      "P2"
+    ]
   },
   {
     "code": "SG1113",
     "name": "Mekanik, fortsättningskurs",
+    "nameEn": "Mechanics, Continuation Course",
     "briefName": "Mekanik fk",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 6.0, "P2": 0, "P3": 0, "P4": 0 },
+    "briefNameEn": "Mechanics II",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 2,
-    "prerequisitesParticipation": ["SG1112"],
-    "exams": ["P1"],
-    "reexams": ["P1"]
+    "prerequisitesParticipation": [
+      "SG1112"
+    ],
+    "exams": [
+      "P1"
+    ],
+    "reexams": [
+      "P1"
+    ]
   },
   {
     "code": "SH1014",
     "name": "Modern fysik",
-    "totalCredits": 4.0,
-    "periodCredits": { "P1": 0, "P2": 4.0, "P3": 0, "P4": 0 },
+    "nameEn": "Modern Physics",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 2,
-    "prerequisitesCompleted": ["SK1104"],
-    "exams": ["P2"],
-    "reexams": ["P2"]
+    "prerequisitesCompleted": [
+      "SK1104"
+    ],
+    "exams": [
+      "P2"
+    ],
+    "reexams": [
+      "P2"
+    ]
   },
   {
     "code": "SI1146",
     "name": "Vektoranalys",
-    "totalCredits": 4.0,
-    "periodCredits": { "P1": 4.0, "P2": 0, "P3": 0, "P4": 0 },
+    "nameEn": "Vector Analysis",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 4,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 2,
-    "prerequisitesCompleted": ["SF1674"],
-    "exams": ["P1"],
-    "reexams": ["P1"]
+    "prerequisitesCompleted": [
+      "SF1674"
+    ],
+    "exams": [
+      "P1"
+    ],
+    "reexams": [
+      "P1"
+    ]
   },
   {
     "code": "SF1683",
     "name": "Differentialekvationer och transformmetoder",
+    "nameEn": "Differential Equations and Transforms",
     "briefName": "Diffekv & transformer",
-    "totalCredits": 9.0,
-    "periodCredits": { "P1": 5.0, "P2": 4.0, "P3": 0, "P4": 0 },
+    "briefNameEn": "Diff. Eq & Transforms",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 5,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 2,
-    "prerequisitesCompleted": ["SF1674"],
-    "exams": ["P1","P2"],
-    "reexams": ["P1", "P2"]
+    "prerequisitesCompleted": [
+      "SF1674"
+    ],
+    "exams": [
+      "P1",
+      "P2"
+    ],
+    "reexams": [
+      "P1",
+      "P2"
+    ]
   },
   {
     "code": "SE1055",
     "name": "Hållfasthetslära, grundkurs med energimetoder",
+    "nameEn": "Strength of Materials and Solid Mechanics, Basic Course with Energy Methods",
     "briefName": "Hållfasthetslära",
-    "totalCredits": 9.0,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 6.0, "P4": 3.0 },
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 3
+    },
     "year": 2,
-    "prerequisitesCompleted": ["SG1112"],
-    "exams": ["P4"],
-    "reexams": ["P4"]
+    "prerequisitesCompleted": [
+      "SG1112"
+    ],
+    "exams": [
+      "P4"
+    ],
+    "reexams": [
+      "P4"
+    ]
   },
   {
     "code": "SI1200",
     "name": "Fysikens matematiska metoder",
+    "nameEn": "Mathematical Methods in Physics",
     "briefName": "Fysikens mat. metoder",
-    "totalCredits": 4.0,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 4.0, "P4": 0 },
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4,
+      "P4": 0
+    },
     "year": 2,
     "prerequisites": [],
-    "exams": ["P3"],
-    "reexams": ["P3"]
+    "exams": [
+      "P3"
+    ],
+    "reexams": [
+      "P3"
+    ]
   },
   {
     "code": "SF1544",
     "name": "Numeriska metoder, grundkurs IV",
+    "nameEn": "Numerical Methods, Basic Course IV",
     "briefName": "Numeriska metoder",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 0, "P2": 1.0, "P3": 5.0, "P4": 0 },
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 1,
+      "P3": 5,
+      "P4": 0
+    },
     "year": 2,
-    "prerequisitesCompleted": ["DD1331"],
-    "exams": ["P3"],
-    "reexams": ["P3"]
+    "prerequisitesCompleted": [
+      "DD1331"
+    ],
+    "exams": [
+      "P3"
+    ],
+    "reexams": [
+      "P3"
+    ]
   },
   {
     "code": "DD1327",
     "name": "Grundläggande datalogi",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 0, "P4": 6.0 },
+    "nameEn": "Fundamentals of Computer Science",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
     "year": 2,
-    "prerequisitesCompleted": ["DD1331"],
-    "exams": ["P4"],
-    "reexams": ["P4"]
+    "prerequisitesCompleted": [
+      "DD1331"
+    ],
+    "exams": [
+      "P4"
+    ],
+    "reexams": [
+      "P4"
+    ]
   },
   {
     "code": "SI1155",
     "name": "Teoretisk fysik",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 0, "P4": 6.0 },
+    "nameEn": "Theoretical Physics",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
     "year": 2,
-    "prerequisitesParticipation": ["SH1014"],
-    "exams": ["P4"],
-    "reexams": ["P4"]
+    "prerequisitesParticipation": [
+      "SH1014"
+    ],
+    "exams": [
+      "P4"
+    ],
+    "reexams": [
+      "P4"
+    ]
   },
   {
     "code": "SH1015",
     "name": "Tillämpad modern fysik",
-    "totalCredits": 5.0,
-    "periodCredits": { "P1": 3.0, "P2": 2.0, "P3": 0, "P4": 0 },
+    "nameEn": "Applied Modern Physics",
+    "totalCredits": 5,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 2,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 3,
-    "prerequisitesCompleted": ["SH1014"],
+    "prerequisitesCompleted": [
+      "SH1014"
+    ],
     "exams": [],
     "reexams": []
   },
   {
     "code": "EI1320",
     "name": "Teoretisk elektroteknik",
-    "totalCredits": 9.0,
-    "periodCredits": { "P1": 6.0, "P2": 3.0, "P3": 0, "P4": 0 },
+    "nameEn": "Electromagnetic Theory",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 3,
-    "prerequisitesCompleted": ["SI1200"],
-    "exams": ["P2"],
-    "reexams": ["P2"]
+    "prerequisitesCompleted": [
+      "SI1200"
+    ],
+    "exams": [
+      "P2"
+    ],
+    "reexams": [
+      "P2"
+    ]
   },
   {
     "code": "EL1000",
     "name": "Reglerteknik, allmän kurs",
+    "nameEn": "Automatic Control, General Course",
     "briefName": "Reglerteknik",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 6.0, "P2": 0, "P3": 0, "P4": 0 },
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 3,
-    "prerequisitesCompleted": ["SF1683"],
-    "exams": ["P1"],
-    "reexams": ["P1"]
+    "prerequisitesCompleted": [
+      "SF1683"
+    ],
+    "exams": [
+      "P1"
+    ],
+    "reexams": [
+      "P1"
+    ]
   },
   {
     "code": "SG1218",
     "name": "Strömningsmekanik",
-    "totalCredits": 4.0,
-    "periodCredits": { "P1": 0, "P2": 4.0, "P3": 0, "P4": 0 },
+    "nameEn": "Fluid Mechanics",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 3,
-    "prerequisitesCompleted": ["SG1113"],
-    "exams": ["P2"],
-    "reexams": ["P2"]
+    "prerequisitesCompleted": [
+      "SG1113"
+    ],
+    "exams": [
+      "P2"
+    ],
+    "reexams": [
+      "P2"
+    ]
   },
   {
     "code": "SI1336",
     "name": "Simulering och modellering",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 0, "P2": 6.0, "P3": 0, "P4": 0 },
+    "nameEn": "Simulation and Modeling",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 3,
-    "prerequisitesCompleted": ["SF1544"],
+    "prerequisitesCompleted": [
+      "SF1544"
+    ],
     "exams": [],
     "reexams": []
   },
@@ -262,8 +539,13 @@
     "code": "SA114X",
     "name": "Kandidatexamensarbete inom teknisk fysik, grundnivå (alt. EF112X)",
     "briefName": "KEX-arbete",
-    "totalCredits": 15.0,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 7.5, "P4": 7.5 },
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
     "year": 3,
     "prerequisites": [],
     "exams": [],
@@ -273,20 +555,38 @@
     "code": "XY123Z",
     "name": "Plats för valfri kurs",
     "totalCredits": 7.5,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 7.5, "P4": 0 },
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
     "year": 3,
     "prerequisites": [],
-    "exams": ["P3"],
-    "reexams": ["P3"]
+    "exams": [
+      "P3"
+    ],
+    "reexams": [
+      "P3"
+    ]
   },
   {
     "code": "XY456Z",
     "name": "Plats för valfri kurs",
     "totalCredits": 7.5,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 0, "P4": 7.5 },
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
     "year": 3,
     "prerequisites": [],
-    "exams": ["P4"],
-    "reexams": ["P4"]
+    "exams": [
+      "P4"
+    ],
+    "reexams": [
+      "P4"
+    ]
   }
 ]

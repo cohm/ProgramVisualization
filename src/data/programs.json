@@ -2,18 +2,21 @@
   {
     "code": "CTFYS",
     "name": "Civilingenjörsutbildning i Teknisk fysik",
+    "nameEn": "Degree Program in Engineering Physics",
     "dataFile": "CTFYS.json",
     "cosmeticsFile": "CTFYS-cosmetics.json"
   },
   {
     "code": "CTMAT",
     "name": "Civilingenjörsutbildning i Teknisk matematik",
+    "nameEn": "Degree Program in Engineering Mathematics",
     "dataFile": "CTMAT.json",
     "cosmeticsFile": "CTMAT-cosmetics.json"
   },
   {
     "code": "CFATE",
     "name": "Civilingenjörsutbildning i Farkostteknik",
+    "nameEn": "Degree Program in Vehicle Engineering",
     "dataFile": "CFATE.json",
     "cosmeticsFile": "CFATE-cosmetics.json"
   }
@@ -21,6 +24,7 @@
   {
     "code": "COPEN",
     "name": "Civilingenjörsutbildning Öppen ingång",
+    "nameEn": "Degree Program in Engineering - Open Entrance",
     "dataFile": "COPEN.json",
     "cosmeticsFile": "COPEN-cosmetics.json"
   }
