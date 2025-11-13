@@ -31,8 +31,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const STYLE = {
     fontFamily: "Figtree, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Noto Sans, 'Apple Color Emoji', 'Segoe UI Emoji'",
     legend: {
-      width: 180,
-      offsetX: 95,
+      width: 170,
+      offsetX: 85,
       offsetY: 30,
       background: 'rgba(255,255,255,0.95)',
       borderColor: '#e5e7eb',
