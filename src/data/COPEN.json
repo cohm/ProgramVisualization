@@ -65,9 +65,9 @@
     "totalCredits": 6.0,
     "periodCredits": { "P1": 0, "P2": 0, "P3": 4.0, "P4": 2.0 },
     "year": 1,
-    "prerequisites": [],
-    "exams": ["P4"],
-    "reexams": ["P4"]
+    "prerequisitesParticipation": ["SF1625","DD1310"],
+    "exams": ["P3"],
+    "reexams": ["P3"]
   },
   {
     "code": "SF1626",
@@ -75,7 +75,7 @@
     "totalCredits": 7.5,
     "periodCredits": { "P1": 0, "P2": 0, "P3": 7.5, "P4": 0 },
     "year": 1,
-    "prerequisites": [],
+    "prerequisitesParticipation": ["SF1625"],
     "exams": ["P3"],
     "reexams": ["P3"]
   },
@@ -85,7 +85,7 @@
     "totalCredits": 9.0,
     "periodCredits": { "P1": 0, "P2": 0, "P3": 2.0, "P4": 7.0 },
     "year": 1,
-    "prerequisites": [],
+    "prerequisitesParticipation": ["SF1625"],
     "exams": ["P4"],
     "reexams": ["P4"]
   }
