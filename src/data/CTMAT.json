@@ -2,8 +2,14 @@
   {
     "code": "DD1333",
     "name": "Grundläggande programmering",
-    "totalCredits": 5.0,
-    "periodCredits": { "P1": 5.0, "P2": 0, "P3": 0, "P4": 0 },
+    "nameEn": "Fundamentals of Programming",
+    "totalCredits": 5,
+    "periodCredits": {
+      "P1": 5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 1,
     "prerequisites": [],
     "exams": [],
@@ -12,40 +18,76 @@
   {
     "code": "SF1672",
     "name": "Linjär algebra",
+    "nameEn": "Linear Algebra",
     "totalCredits": 7.5,
-    "periodCredits": { "P1": 0, "P2": 7.5, "P3": 0, "P4": 0 },
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 1,
     "prerequisites": [],
-    "exams": ["P2"],
-    "reexams": ["P2"]
+    "exams": [
+      "P2"
+    ],
+    "reexams": [
+      "P2"
+    ]
   },
   {
     "code": "SF1673",
     "name": "Analys i en variabel",
+    "nameEn": "Analysis in one variable",
     "totalCredits": 7.5,
-    "periodCredits": { "P1": 7.5, "P2": 0, "P3": 0, "P4": 0 },
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 1,
     "prerequisites": [],
-    "exams": ["P1"],
-    "reexams": ["P1"]
+    "exams": [
+      "P1"
+    ],
+    "reexams": [
+      "P1"
+    ]
   },
   {
     "code": "SF1918",
     "name": "Sannolikhetsteori och statistik",
+    "nameEn": "Probability Theory and Statistics",
     "briefName": "Sannolikhet & stat.",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 0, "P2": 6.0, "P3": 0, "P4": 0 },
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 1,
     "prerequisites": [],
-    "exams": ["P2"],
-    "reexams": ["P2"]
+    "exams": [
+      "P2"
+    ],
+    "reexams": [
+      "P2"
+    ]
   },
   {
     "code": "DD1328",
     "name": "Grundläggande datalogi för tekniska beräkningar",
+    "nameEn": "Fundamentals of Computer Science for Scientific Computing",
     "briefName": "Grundl. datalogi",
-    "totalCredits": 9.0,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 4.0, "P4": 5.0 },
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4,
+      "P4": 5
+    },
     "year": 1,
     "prerequisites": [],
     "exams": [],
@@ -54,9 +96,15 @@
   {
     "code": "SF1550",
     "name": "Numeriska metoder, grundkurs",
+    "nameEn": "Numerical Methods, basic course",
     "briefName": "Numeriska metoder",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 3.5, "P4": 2.5 },
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.5,
+      "P4": 2.5
+    },
     "year": 1,
     "prerequisites": [],
     "exams": [],
@@ -65,30 +113,56 @@
   {
     "code": "SF1674",
     "name": "Flervariabelanalys",
+    "nameEn": "Multivariable Calculus",
     "totalCredits": 7.5,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 7.5, "P4": 0 },
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
     "year": 1,
     "prerequisites": [],
-    "exams": ["P3"],
-    "reexams": ["P3"]
+    "exams": [
+      "P3"
+    ],
+    "reexams": [
+      "P3"
+    ]
   },
   {
     "code": "SG1115",
     "name": "Partikeldynamik med projekt",
+    "nameEn": "Particle Dynamics with project",
     "briefName": "Partikeldynamik",
     "totalCredits": 7.5,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 0, "P4": 7.5 },
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
     "year": 1,
     "prerequisites": [],
-    "exams": ["P4"],
-    "reexams": ["P4"]
+    "exams": [
+      "P4"
+    ],
+    "reexams": [
+      "P4"
+    ]
   },
   {
     "code": "SF1693",
     "name": "Analytiska och numeriska metoder för partiella differentialekvationer och transformer",
+    "nameEn": "Analytical and Numerical Methods for Partial Differential Equations and Transforms",
     "briefName": "PDE & transformer",
-    "totalCredits": 11.0,
-    "periodCredits": { "P1": 0, "P2": 5.0, "P3": 3.8, "P4": 2.2 },
+    "totalCredits": 11,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 5,
+      "P3": 3.8,
+      "P4": 2.2
+    },
     "year": 2,
     "prerequisites": [],
     "exams": [],
@@ -97,84 +171,170 @@
   {
     "code": "SA1006",
     "name": "Ingenjörsfärdigheter i teknisk matematik",
+    "nameEn": "Engineering Skills in Engineering Mathematics",
     "briefName": "Ingenjörsfärdig.",
     "totalCredits": 8.5,
     "periodCredits": {
-      "Year1": { "P1": 2.5, "P2": 1.5, "P3": 0, "P4": 0 },
-      "Year2": { "P1": 0, "P2": 0, "P3": 0, "P4": 1.5 },
-      "Year3": { "P1": 1.5, "P2": 1.5, "P3": 0, "P4": 0 }
+      "Year1": {
+        "P1": 2.5,
+        "P2": 1.5,
+        "P3": 0,
+        "P4": 0
+      },
+      "Year2": {
+        "P1": 0,
+        "P2": 0,
+        "P3": 0,
+        "P4": 1.5
+      },
+      "Year3": {
+        "P1": 1.5,
+        "P2": 1.5,
+        "P3": 0,
+        "P4": 0
+      }
     },
     "prerequisites": [],
     "exams": {
-      "Year1": ["P2"],
-      "Year2": ["P4"],
-      "Year3": ["P2"]
+      "Year1": [
+        "P2"
+      ],
+      "Year2": [
+        "P4"
+      ],
+      "Year3": [
+        "P2"
+      ]
     },
     "reexams": {
-      "Year1": ["P2"],
-      "Year2": ["P4"],
-      "Year3": ["P2"]
+      "Year1": [
+        "P2"
+      ],
+      "Year2": [
+        "P4"
+      ],
+      "Year3": [
+        "P2"
+      ]
     }
   },
   {
     "code": "SF1681",
     "name": "Linjär algebra, fortsättningskurs",
+    "nameEn": "Linear Algebra. Advanced Course",
     "briefName": "Linjär algebra fk",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 0, "P2": 6.0, "P3": 0, "P4": 0 },
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 2,
-    "prerequisites": ["SF1672"],
-    "exams": ["P2"],
-    "reexams": ["P2"]
+    "prerequisites": [
+      "SF1672"
+    ],
+    "exams": [
+      "P2"
+    ],
+    "reexams": [
+      "P2"
+    ]
   },
   {
     "code": "SF1692",
     "name": "Analytiska och numeriska metoder för ordinära differentialekvationer",
+    "nameEn": "Analytical and Numerical Methods for Ordinary Differential Equations",
     "briefName": "ODE-metoder",
     "totalCredits": 5.5,
-    "periodCredits": { "P1": 5.5, "P2": 0, "P3": 0, "P4": 0 },
+    "periodCredits": {
+      "P1": 5.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 2,
     "prerequisites": [],
-    "exams": ["P1"],
-    "reexams": ["P1"]
+    "exams": [
+      "P1"
+    ],
+    "reexams": [
+      "P1"
+    ]
   },
   {
     "code": "SF1930",
     "name": "Statistisk inlärning och dataanalys",
+    "nameEn": "Statistical Learning and Data Analysis",
     "briefName": "Stat. inlärning",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 6.0, "P2": 0, "P3": 0, "P4": 0 },
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 2,
     "prerequisites": [],
-    "exams": ["P1"],
-    "reexams": ["P1"]
+    "exams": [
+      "P1"
+    ],
+    "reexams": [
+      "P1"
+    ]
   },
   {
     "code": "SF1679",
     "name": "Diskret matematik",
+    "nameEn": "Discrete Mathematics",
     "totalCredits": 7.5,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 7.5, "P4": 0 },
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
     "year": 2,
     "prerequisites": [],
-    "exams": ["P3"],
-    "reexams": ["P3"]
+    "exams": [
+      "P3"
+    ],
+    "reexams": [
+      "P3"
+    ]
   },
   {
     "code": "SH1017",
     "name": "Fysik för teknisk matematik",
+    "nameEn": "Physics for Engineering Mathematics",
     "briefName": "Fysik för tekn. mat.",
     "totalCredits": 7.5,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 0, "P4": 7.5 },
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
     "year": 2,
     "prerequisites": [],
-    "exams": ["P4"],
-    "reexams": ["P4"]
+    "exams": [
+      "P4"
+    ],
+    "reexams": [
+      "P4"
+    ]
   },
   {
     "code": "SF1677",
     "name": "Analysens grunder",
+    "nameEn": "Foundations of Analysis",
     "totalCredits": 7.5,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 3.7, "P4": 3.8 },
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
     "year": 2,
     "prerequisites": [],
     "exams": [],
@@ -183,8 +343,14 @@
   {
     "code": "SF1678",
     "name": "Grupper och ringar",
+    "nameEn": "Groups and Rings",
     "totalCredits": 7.5,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 3.7, "P4": 3.8 },
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
     "year": 2,
     "prerequisites": [],
     "exams": [],
@@ -193,8 +359,14 @@
   {
     "code": "SF1691",
     "name": "Komplex analys",
+    "nameEn": "Complex Analysis",
     "totalCredits": 7.5,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 3.7, "P4": 3.8 },
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
     "year": 2,
     "prerequisites": [],
     "exams": [],
@@ -203,8 +375,14 @@
   {
     "code": "DD1385",
     "name": "Programutvecklingsteknik",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 2.0, "P2": 4.0, "P3": 0, "P4": 0 },
+    "nameEn": "Software Engineering",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 2,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 2,
     "prerequisites": [],
     "exams": [],
@@ -213,55 +391,91 @@
   {
     "code": "DD1380",
     "name": "Javaprogrammering för Pythonprogrammerare",
+    "nameEn": "Java Programming for Python Programmers",
     "briefName": "Java för Python",
     "totalCredits": 1.5,
-    "periodCredits": { "P1": 1.5, "P2": 0, "P3": 0, "P4": 0 },
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 2,
     "prerequisites": [],
     "exams": [],
     "reexams": []
   },
-  
   {
     "code": "EL1000",
     "name": "Reglerteknik, allmän kurs",
+    "nameEn": "Automatic Control, General Course",
     "briefName": "Reglerteknik",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 6.0, "P2": 0, "P3": 0, "P4": 0 },
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 3,
     "prerequisites": [],
-    "exams": ["P1"],
-    "reexams": ["P1"]
+    "exams": [
+      "P1"
+    ],
+    "reexams": [
+      "P1"
+    ]
   },
   {
     "code": "SF1811",
     "name": "Optimeringslära",
-    "totalCredits": 6.0,
-    "periodCredits": { "P1": 0, "P2": 6.0, "P3": 0, "P4": 0 },
+    "nameEn": "Optimization",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 3,
     "prerequisites": [],
-    "exams": ["P2"],
-    "reexams": ["P2"]
+    "exams": [
+      "P2"
+    ],
+    "reexams": [
+      "P2"
+    ]
   },
   {
     "code": "SA120X",
     "name": "Examensarbete inom teknisk matematik, grundnivå (alt. EF112X)",
     "briefName": "KEX-jobb",
-    "totalCredits": 15.0,
-    "periodCredits": { "P1": 0, "P2": 0, "P3": 7.5, "P4": 7.5 },
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
     "year": 3,
     "prerequisites": [],
     "exams": [],
     "reexams": []
   },
- {
+  {
     "code": "DD1301",
     "name": "Datorintroduktion",
+    "nameEn": "Computer Introduction",
     "totalCredits": 1.5,
-    "periodCredits": { "P1": 1.5, "P2": 0, "P3": 0, "P4": 0 },
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
     "year": 1,
     "prerequisites": [],
     "exams": [],
     "reexams": []
   }
- ]
+]

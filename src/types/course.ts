@@ -18,7 +18,9 @@ export interface CourseCredit {
 export interface Course {
   code: string;
   name: string;
+  nameEn?: string;
   briefName?: string;
+  briefNameEn?: string;
   credits: CourseCredit[];
   year: number; // Primary year (min of credits.year). Kept for backwards compatibility.
   // Back-compat flat prerequisites (treated as completion unless detailed lists below are provided)

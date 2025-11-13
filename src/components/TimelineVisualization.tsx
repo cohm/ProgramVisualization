@@ -444,7 +444,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               text.setAttribute('y', String(itemHeight/2 + 4));
               text.setAttribute('fill', STYLE.legend.textColor);
               text.setAttribute('font-size', '12');
-              text.textContent = group.name;
+              text.textContent = language === 'en' ? (group.nameEn || group.name) : group.name;
               rowG.appendChild(text);
 
               legendG.appendChild(rowG);
@@ -1026,7 +1026,12 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               .map(c => `${c.period}: ${c.credits} ${tr[language].credits}`)
               .join(', ');
             
-            const tooltipText = `<strong>${current.course.code}, ${totalCredits} ${tr[language].credits}</strong><br/>${current.course.name}<br/>${periodCreditsStr}
+            // Get language-appropriate course name
+            const courseName = language === 'en' 
+              ? ((current.course as any).nameEn || current.course.name)
+              : current.course.name;
+            
+            const tooltipText = `<strong>${current.course.code}, ${totalCredits} ${tr[language].credits}</strong><br/>${courseName}<br/>${periodCreditsStr}
               <br/><em>${tr[language].legend.prerequisitesCompleted}:</em> ${completedStr}
               <br/><em>${tr[language].legend.prerequisitesParticipation}:</em> ${participationStr}
               <br/><em>${tr[language].requiredFor}:</em> ${dependentCodes}`;
@@ -1150,7 +1155,12 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .map(c => `${c.period}: ${c.credits} ${tr[language].credits}`)
         .join(', ');
       
-      const txt = `<strong>${course.code}, ${totalCredits} ${tr[language].credits}</strong><br/>${course.name}<br/>${periodCreditsStr}
+      // Get language-appropriate course name
+      const courseName = language === 'en' 
+        ? ((course as any).nameEn || course.name)
+        : course.name;
+      
+      const txt = `<strong>${course.code}, ${totalCredits} ${tr[language].credits}</strong><br/>${courseName}<br/>${periodCreditsStr}
         <br/><em>${tr[language].legend.prerequisitesCompleted}:</em> ${completedStr}
         <br/><em>${tr[language].legend.prerequisitesParticipation}:</em> ${participationStr}
         <br/><em>${tr[language].requiredFor}:</em> ${dependentCodes}`;
@@ -1257,8 +1267,14 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           const textY = cursorY + 12;
           const maxWidth = Math.max(0, barWidth - padding * 2);
 
-          // Create single text string with code and name
-          const fullText = `${course.code} ${(course as any).briefName || course.name}`;
+          // Create single text string with code and name, using language-appropriate version
+          let displayName: string;
+          if (language === 'en') {
+            displayName = (course as any).briefNameEn || (course as any).nameEn || (course as any).briefName || course.name;
+          } else {
+            displayName = (course as any).briefName || course.name;
+          }
+          const fullText = `${course.code} ${displayName}`;
           
           const label = block.append('text')
             .attr('x', textX)
@@ -2384,7 +2400,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
                 >
                   <div style={{ width: 18, height: 12, background: gradient as any, borderRadius: 2, border: `1px solid ${borderColor}` }} />
                   <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>
-                    {group.name}
+                    {language === 'en' ? (group.nameEn || group.name) : group.name}
                   </span>
                 </div>
               );
@@ -2402,14 +2418,16 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               <div>
                 <div style={{ fontWeight: 700, marginBottom: 4 }}>
                   {selectedInfo.course.code}{' '}
-                  <a href={`https://www.kth.se/student/kurser/kurs/${selectedInfo.course.code.toLowerCase()}`}
+                  <a href={`https://www.kth.se/student/kurser/kurs/${selectedInfo.course.code.toLowerCase()}${language === 'en' ? '?l=en' : ''}`}
                      target="_blank" rel="noopener noreferrer"
                      style={{ color: kthColors.KthHeaven?.HEX, textDecoration: 'none', fontWeight: 500 }}>
                     {tr[language].viewCourse}
                   </a>
                 </div>
                 <div style={{ marginBottom: 8 }}>
-                  {selectedInfo.course.name}
+                  {language === 'en' 
+                    ? ((selectedInfo.course as any).nameEn || selectedInfo.course.name)
+                    : selectedInfo.course.name}
                   {selectedInfo.credit ? `, ${selectedInfo.credit.credits} ${tr[language].credits}` : ''}
                 </div>
               </div>
