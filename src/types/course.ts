@@ -35,7 +35,6 @@ export interface Course {
   reexamsByYear?: Record<number, Period['id'][]>;
   // Optional metadata per course
   teacher: string;
-  webpage: string;
   description: string;
 }
 
