@@ -2468,11 +2468,12 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             </div>
             {selectedInfo.course.teacher ? (
               <div style={{ marginBottom: 8 }}>
-                <strong>{tr[language].teacher}:</strong> {selectedInfo.course.teacher}
+                {tr[language].teacher}: {selectedInfo.course.teacher}
               </div>
             ) : null}
             {selectedInfo.course.description ? (
-              <div style={{ marginBottom: 8 }}>{selectedInfo.course.description}</div>
+              <div style={{ marginBottom: 8 }}>
+                Info: {selectedInfo.course.description}</div>
             ) : null}
           </div>
         ) : (
