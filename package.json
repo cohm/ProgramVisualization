@@ -12,7 +12,7 @@
     "@sparticuz/chromium": "^141.0.0",
     "@types/d3": "^7.4.3",
     "d3": "^7.9.0",
-    "next": "16.0.1",
+    "next": "^16.0.7",
     "puppeteer-core": "^24.29.1",
     "react": "19.2.0",
     "react-dom": "19.2.0"
@@ -24,7 +24,7 @@
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
-    "eslint-config-next": "16.0.1",
+    "eslint-config-next": "^16.0.7",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
