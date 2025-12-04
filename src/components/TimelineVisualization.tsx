@@ -127,7 +127,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       year: 'År',
       credits: 'hp',
       teacher: 'Lärare',
-      viewCourse: '(kurshemsida)',
+      viewCourse: 'kurshemsida',
+      viewSchedule: 'schema',
       requires: 'Särskild behörighet',
       requiredFor: 'Krävs för',
       months: ['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec']
@@ -154,7 +155,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       year: 'Year',
       credits: 'ECTS',
       teacher: 'Teacher',
-      viewCourse: '(course webpage)',
+      viewCourse: 'course webpage',
+      viewSchedule: 'schedule',
       requires: 'Requires',
       requiredFor: 'Required for',
       months: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
@@ -2417,18 +2419,20 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', gap: 12, flexWrap: 'wrap' }}>
               <div>
                 <div style={{ fontWeight: 700, marginBottom: 4 }}>
-                  {selectedInfo.course.code}{' '}
+                  {selectedInfo.course.code}{' '}{language === 'en' 
+                    ? ((selectedInfo.course as any).nameEn || selectedInfo.course.name)
+                    : selectedInfo.course.name}
+                  {selectedInfo.credit ? `, ${selectedInfo.credit.credits} ${tr[language].credits}` : ''}{' '}
                   <a href={`https://www.kth.se/student/kurser/kurs/${selectedInfo.course.code.toLowerCase()}${language === 'en' ? '?l=en' : ''}`}
                      target="_blank" rel="noopener noreferrer"
                      style={{ color: kthColors.KthHeaven?.HEX, textDecoration: 'none', fontWeight: 500 }}>
-                    {tr[language].viewCourse}
+                    ({tr[language].viewCourse},&nbsp;
                   </a>
-                </div>
-                <div style={{ marginBottom: 8 }}>
-                  {language === 'en' 
-                    ? ((selectedInfo.course as any).nameEn || selectedInfo.course.name)
-                    : selectedInfo.course.name}
-                  {selectedInfo.credit ? `, ${selectedInfo.credit.credits} ${tr[language].credits}` : ''}
+                  <a href={`https://www.kth.se/social/course/${selectedInfo.course.code.toLowerCase()}/calendar`}
+                     target="_blank" rel="noopener noreferrer"
+                     style={{ color: kthColors.KthHeaven?.HEX, textDecoration: 'none', fontWeight: 500 }}>
+                    {tr[language].viewSchedule})
+                  </a>
                 </div>
               </div>
               <div>
@@ -2441,30 +2445,26 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             </div>
             <div style={{ marginBottom: 6 }}>
               <div>
-                <strong>{tr[language].legend.prerequisitesCompleted}:</strong>{' '}
+                {tr[language].legend.prerequisitesCompleted}:{' '}
                 {(() => {
                   const list = (selectedInfo.course as any).prerequisitesCompleted || selectedInfo.course.prerequisites || [];
                   return (list.length ? (list as string[]).join(', ') : '—');
-                })()}
-              </div>
-              <div>
-                <strong>{tr[language].legend.prerequisitesParticipation}:</strong>{' '}
+                })()}{', '}
+                {tr[language].legend.prerequisitesParticipation}:{' '}
                 {(() => {
                   const list = (selectedInfo.course as any).prerequisitesParticipation || [];
                   return (list.length ? (list as string[]).join(', ') : '—');
+                })()}{', '}
+                {tr[language].requiredFor}:{' '}
+                {(() => {
+                  const dependents = courses.filter(c => {
+                    const comp = (c as any).prerequisitesCompleted || c.prerequisites || [];
+                    const part = (c as any).prerequisitesParticipation || [];
+                    return (comp.includes(selectedInfo.course.code) || part.includes(selectedInfo.course.code));
+                  }).map(c => c.code);
+                  return dependents.length ? dependents.join(', ') : '—';
                 })()}
               </div>
-            </div>
-            <div style={{ marginBottom: 10 }}>
-              <strong>{tr[language].requiredFor}:</strong>{' '}
-              {(() => {
-                const dependents = courses.filter(c => {
-                  const comp = (c as any).prerequisitesCompleted || c.prerequisites || [];
-                  const part = (c as any).prerequisitesParticipation || [];
-                  return (comp.includes(selectedInfo.course.code) || part.includes(selectedInfo.course.code));
-                }).map(c => c.code);
-                return dependents.length ? dependents.join(', ') : '—';
-              })()}
             </div>
             {selectedInfo.course.teacher ? (
               <div style={{ marginBottom: 8 }}>
