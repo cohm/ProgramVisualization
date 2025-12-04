@@ -375,6 +375,15 @@ export default function HomeClient() {
           borderRadius: 4,
           boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
         }}>
+          <a 
+            href='https://github.com/cohm/ProgramVisualization'
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ 
+              color: kthColors.KthBlue?.HEX || '#004791',
+              textDecoration: 'none',
+              fontFamily: 'monospace'
+            }}>github</a>{' - '}
           {process.env.NEXT_PUBLIC_GIT_HASH && (
             <>
               {process.env.NEXT_PUBLIC_GIT_REPO_URL ? (
