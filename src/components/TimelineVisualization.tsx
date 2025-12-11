@@ -23,6 +23,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // Preserve the initial chart height to keep a stable px-per-ECTS baseline across re-renders/toggles
   const initialChartHeightRef = useRef<number | null>(null);
 
+  // Year focus state for highlighting a whole year
+  const [focusYear, setFocusYear] = useState<number | null>(null);
+
   // Marker visual parameters - centralized for consistency
   const EXAM_MARKER_RADIUS = 4;
   const EXAM_MARKER_STROKE_WIDTH = 1;
@@ -707,6 +710,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   svg.on('click', () => {
     setFocusCourse(null);
     setSelectedInfo(null);
+    setFocusYear(null);
   });
 
   const maxYear = Math.max(1, ...courses.flatMap(c => c.credits.map(cr => (cr as any).year || c.year || 1)));
@@ -1418,14 +1422,26 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     });
     for (let i = 0; i < numYears; i++) {
       const yearLabelY = yearYOffset[i] + yearBandHeights[i] / 2;
-      g.append('text')
+      const label = g.append('text')
         .attr('x', -margin.left + 12)
         .attr('y', yearLabelY)
         .text(`${tr[language].year} ${i + 1}`)
         .attr('font-size', 14)
         .attr('font-weight', 400)
         .attr('fill', kthColors.KthBlue?.HEX || '#111827')
-        .attr('dominant-baseline', 'middle');
+        .attr('dominant-baseline', 'middle')
+        .attr('class', 'year-label')
+        .attr('data-year', String(i + 1))
+        .style('cursor', 'pointer')
+        .on('click', (event: any) => {
+          event.stopPropagation();
+          setFocusYear((prev) => (prev === i + 1 ? null : i + 1));
+        });
+
+      // Visually indicate active year label
+      if (focusYear === i + 1) {
+        label.attr('font-weight', 600);
+      }
     }
 
     // Draw arrows for prerequisites using stored positions
@@ -2344,6 +2360,71 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         return keep ? '1' : '0.1';
       });
   }, [focusCourse, courses]);
+
+  // Year focus mode: clicking a year label fades other years and all prerequisite arrows
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const container = d3.select(containerRef.current);
+    // If a single course is focused, year focus is ignored
+    if (focusCourse) return;
+
+    if (!focusYear) {
+      container.selectAll('.course-group').style('opacity', null as any);
+      container.selectAll('.course-connector-fill').style('opacity', null as any);
+      container.selectAll('.course-connector-border').style('opacity', null as any);
+      container.selectAll('.exam-dot').style('opacity', null as any);
+      container.selectAll('.reexam-dot').style('opacity', null as any);
+      container.selectAll('.prereq-path').style('opacity', null as any);
+      container.selectAll<SVGTextElement, any>('.year-label').style('opacity', null as any);
+      return;
+    }
+
+    // Helper to check if a course has credits in the focused year
+    const courseHasYear = (code: string) => {
+      const c = courses.find(cc => cc.code === code);
+      if (!c) return false;
+      return c.credits.some((cr: any) => Number((cr as any).year) === focusYear);
+    };
+
+    container.selectAll<SVGGElement, any>('.course-group')
+      .style('opacity', function() {
+        const code = (this as Element).getAttribute('data-course');
+        const keep = !!code && courseHasYear(code);
+        return keep ? '1' : '0.1';
+      });
+
+    container.selectAll<SVGPolygonElement, any>('.course-connector-fill')
+      .style('opacity', function() {
+        const code = (this as Element).getAttribute('data-course');
+        const keep = !!code && courseHasYear(code);
+        return keep ? '1' : '0.1';
+      });
+
+    container.selectAll<SVGPathElement, any>('.course-connector-border')
+      .style('opacity', function() {
+        const code = (this as Element).getAttribute('data-course');
+        const keep = !!code && courseHasYear(code);
+        return keep ? '1' : '0.1';
+      });
+
+    container.selectAll<SVGCircleElement, any>('.exam-dot, .reexam-dot')
+      .style('opacity', function() {
+        const code = (this as Element).getAttribute('data-course');
+        const keep = !!code && courseHasYear(code);
+        return keep ? '1' : '0.1';
+      });
+
+    // Fade all prerequisite arrows when focusing a year
+    container.selectAll<SVGPathElement, any>('.prereq-path')
+      .style('opacity', '0.1');
+
+    // Fade year labels not in focus
+    container.selectAll<SVGTextElement, any>('.year-label')
+      .style('opacity', function() {
+        const year = parseInt((this as Element).getAttribute('data-year') || '0');
+        return year === focusYear ? '1' : '0.3';
+      });
+  }, [focusYear, focusCourse, courses]);
 
   return (
     <div ref={containerRef}>
