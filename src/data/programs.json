@@ -4,21 +4,27 @@
     "name": "Civilingenjörsutbildning i Teknisk fysik",
     "nameEn": "Degree Program in Engineering Physics",
     "dataFile": "CTFYS.json",
-    "cosmeticsFile": "CTFYS-cosmetics.json"
+    "cosmeticsFile": "CTFYS-cosmetics.json",
+    "comment": "Utbildningsplanen verifierad av programansvarig Christian Ohm i november 2025",
+    "studyplan": "https://www.kth.se/student/kurser/program/CTFYS"
   },
   {
     "code": "CTMAT",
     "name": "Civilingenjörsutbildning i Teknisk matematik",
     "nameEn": "Degree Program in Engineering Mathematics",
     "dataFile": "CTMAT.json",
-    "cosmeticsFile": "CTMAT-cosmetics.json"
+    "cosmeticsFile": "CTMAT-cosmetics.json",
+    "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
+    "studyplan": "https://www.kth.se/student/kurser/program/CTMAT"
   },
   {
     "code": "CFATE",
     "name": "Civilingenjörsutbildning i Farkostteknik",
     "nameEn": "Degree Program in Vehicle Engineering",
     "dataFile": "CFATE.json",
-    "cosmeticsFile": "CFATE-cosmetics.json"
+    "cosmeticsFile": "CFATE-cosmetics.json",
+    "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
+    "studyplan": "https://www.kth.se/student/kurser/program/CFATE"
   }
   ,
   {
@@ -26,6 +32,8 @@
     "name": "Civilingenjörsutbildning Öppen ingång",
     "nameEn": "Degree Program in Engineering - Open Entrance",
     "dataFile": "COPEN.json",
-    "cosmeticsFile": "COPEN-cosmetics.json"
+    "cosmeticsFile": "COPEN-cosmetics.json",
+    "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
+    "studyplan": "https://www.kth.se/student/kurser/program/COPEN"
   }
 ]

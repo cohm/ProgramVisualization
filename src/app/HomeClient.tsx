@@ -15,6 +15,8 @@ interface ProgramConfig {
   nameEn?: string;
   dataFile: string;
   cosmeticsFile?: string;
+  comment?: string;
+  studyplan?: string;
 }
 
 const programs: ProgramConfig[] = programsConfig as any;
@@ -359,6 +361,8 @@ export default function HomeClient() {
             language={language}
             programName={language === 'en' ? (selectedProgram.nameEn || selectedProgram.name) : selectedProgram.name}
             programCode={selectedProgram.code}
+            studyplanUrl={selectedProgram.studyplan}
+            programComment={selectedProgram.comment}
             cosmetics={cosmetics}
           />
         </div>

@@ -12,10 +12,12 @@ interface TimelineVisualizationProps {
   language?: Lang;
   programName?: string;
   programCode?: string;
+  studyplanUrl?: string;
+  programComment?: string;
   cosmetics?: ProgramCosmetics | null;
 }
 
-const TimelineVisualization = forwardRef(function TimelineVisualization({ courses, language = 'sv', programName, programCode, cosmetics }: TimelineVisualizationProps, ref: any) {
+const TimelineVisualization = forwardRef(function TimelineVisualization({ courses, language = 'sv', programName, programCode, studyplanUrl, programComment, cosmetics }: TimelineVisualizationProps, ref: any) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   // Preserve the initial chart height to keep a stable px-per-ECTS baseline across re-renders/toggles
@@ -468,6 +470,25 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         }
       }
 
+      // Optionally add a bottom comment into the cloned SVG for export
+      if (programComment && programComment.trim().length > 0) {
+        try {
+          const NS = 'http://www.w3.org/2000/svg';
+          const commentText = document.createElementNS(NS, 'text');
+          // place inside left margin area at bottom
+          const x = 12; // small left padding within SVG
+          const y = exportHeight - 8; // a few pixels from bottom
+          commentText.setAttribute('x', String(x));
+          commentText.setAttribute('y', String(y));
+          commentText.setAttribute('fill', '#6b7280');
+          commentText.setAttribute('font-size', '11');
+          commentText.textContent = programComment;
+          cloned.appendChild(commentText);
+        } catch (e) {
+          // ignore comment failures
+        }
+      }
+
       const serializer = new XMLSerializer();
       const svgString = serializer.serializeToString(cloned);
 
@@ -752,14 +773,30 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
     // Draw program title first (at the top)
     if (programName && programCode) {
-      g.append('text')
+      const title = g.append('text')
         .attr('x', width / 2)
         .attr('y', -75)
         .attr('text-anchor', 'middle')
         .attr('fill', kthColors.KthBlue?.HEX)
         .attr('font-weight', 400)
-        .attr('font-size', 18)
-        .text(`${programName} (${programCode})`);
+        .attr('font-size', 18);
+
+      title.append('tspan').text(`${programName} `);
+      const codeText = `(${programCode})`;
+      const linkUrl = studyplanUrl ? (language === 'en' ? `${studyplanUrl}?l=en` : studyplanUrl) : undefined;
+      if (linkUrl) {
+        const anchor = title.append('a')
+          .attr('href', linkUrl)
+          .attr('target', '_blank');
+        anchor.append('tspan')
+          .text(codeText)
+          .attr('fill', kthColors.KthHeaven?.HEX || '#6298D2')
+          .style('text-decoration', 'none')
+          .style('cursor', 'pointer');
+      } else {
+        title.append('tspan')
+          .text(codeText);
+      }
     }
 
     // Draw period backgrounds with extension above and below
@@ -2482,6 +2519,13 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           </div>
         )}
       </div>
+
+      {/* Program comment below info panel */}
+      {programComment && programComment.trim().length > 0 && (
+        <div style={{ marginTop: 8, fontSize: 11, color: '#6b7280' }}>
+          {programComment}
+        </div>
+      )}
     </div>
   );
 });
