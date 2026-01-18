@@ -373,6 +373,23 @@
     "reexams": []
   },
   {
+    "type": "optionGroup",
+    "name": "Valbara mattekurser",
+    "nameEn": "Optional math courses",
+    "year": 2,
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "options": ["SF1677", "SF1678", "SF1691"],
+    "allowedNumberOfOptions": 1,
+    "exams": [],
+    "reexams": []
+  },
+  {
     "code": "DD1385",
     "name": "Programutvecklingsteknik",
     "nameEn": "Software Engineering",

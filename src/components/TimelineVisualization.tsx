@@ -2,13 +2,15 @@
 
 import React, { useEffect, useRef, forwardRef, useImperativeHandle, useState } from 'react';
 import * as d3 from 'd3';
-import { Course, Period, academicPeriods } from '@/types/course';
+import { Course, OptionGroup, Period, academicPeriods } from '@/types/course';
 import kthColors from '@/data/kth-colors.json';
 import type { ProgramCosmetics } from '@/types/cosmetics';
 
 type Lang = 'sv' | 'en';
+type CourseOrOptionGroup = Course | OptionGroup;
+
 interface TimelineVisualizationProps {
-  courses: Course[];
+  courses: CourseOrOptionGroup[];
   language?: Lang;
   programName?: string;
   programCode?: string;
@@ -16,6 +18,15 @@ interface TimelineVisualizationProps {
   programComment?: string;
   cosmetics?: ProgramCosmetics | null;
 }
+
+// Type guard to distinguish between Course and OptionGroup
+const isCourse = (item: CourseOrOptionGroup): item is Course => {
+  return 'code' in item && !('type' in item);
+};
+
+const isOptionGroup = (item: CourseOrOptionGroup): item is OptionGroup => {
+  return 'type' in item && (item as any).type === 'optionGroup';
+};
 
 const TimelineVisualization = forwardRef(function TimelineVisualization({ courses, language = 'sv', programName, programCode, studyplanUrl, programComment, cosmetics }: TimelineVisualizationProps, ref: any) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -25,6 +36,28 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
   // Year focus state for highlighting a whole year
   const [focusYear, setFocusYear] = useState<number | null>(null);
+
+  // Option group modal state
+  const [selectedOptionGroup, setSelectedOptionGroup] = useState<OptionGroup | null>(null);
+  
+  // Track which option is currently highlighted in the modal
+  const [highlightedOptionCode, setHighlightedOptionCode] = useState<string | null>(null);
+  
+  // Track user's selection: which course was chosen for each option group
+  // Maps option group name -> selected course code
+  const [selectedOptionPerGroup, setSelectedOptionPerGroup] = useState<Record<string, string>>({});
+
+  // When the modal opens/closes, reset or initialize highlighting
+  useEffect(() => {
+    if (selectedOptionGroup) {
+      // Modal is opening: initialize highlighting based on current selection
+      const currentSelection = selectedOptionPerGroup[selectedOptionGroup.name];
+      setHighlightedOptionCode(currentSelection || null);
+    } else {
+      // Modal is closing: reset highlighting
+      setHighlightedOptionCode(null);
+    }
+  }, [selectedOptionGroup]);
 
   // Marker visual parameters - centralized for consistency
   const EXAM_MARKER_RADIUS = 4;
@@ -136,6 +169,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       viewSchedule: 'schema',
       requires: 'Särskild behörighet',
       requiredFor: 'Krävs för',
+      totalCredits: 'Totalt',
+      options: 'Alternativ',
       months: ['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec']
     },
     en: {
@@ -164,6 +199,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       viewSchedule: 'schedule',
       requires: 'Requires',
       requiredFor: 'Required for',
+      totalCredits: 'Total',
+      options: 'Options',
       months: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
     }
   } as const;
@@ -701,6 +738,44 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // Clear previous content
   svg.selectAll('*').remove();
 
+  // Create SVG defs for patterns (option group stripes)
+  const defs = svg.append('defs');
+  
+  // Create a striped pattern for each option group using colors of its option courses
+  courses.filter(isOptionGroup).forEach(og => {
+    const optionGroup = og as OptionGroup;
+    const patternId = `option-group-pattern-${optionGroup.name.replace(/\s+/g, '-')}`;
+    
+    // Get colors for each option course
+    const optionColors = optionGroup.options
+      .map(optionCode => {
+        const optionCourse = courses.find(c => isCourse(c) && (c as Course).code === optionCode) as Course | undefined;
+        return optionCourse ? getCourseColors(optionCourse).fill : null;
+      })
+      .filter(color => color !== null) as string[];
+    
+    // Create diagonal striped pattern at 45 degrees
+    if (optionColors.length > 0) {
+      const stripeWidth = 16; // Width of each diagonal stripe
+      const pattern = defs.append('pattern')
+        .attr('id', patternId)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .attr('width', optionColors.length * stripeWidth)
+        .attr('height', optionColors.length * stripeWidth)
+        .attr('patternTransform', 'rotate(45)');
+      
+      // Add a rect for each color
+      optionColors.forEach((color, index) => {
+        pattern.append('rect')
+          .attr('x', index * stripeWidth)
+          .attr('y', 0)
+          .attr('width', stripeWidth)
+          .attr('height', '100%')
+          .attr('fill', color);
+      });
+    }
+  });
+
   const g = svg.append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);    // Create scales
     const timeScale = d3.scaleTime()
@@ -713,8 +788,39 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     setFocusYear(null);
   });
 
-  const maxYear = Math.max(1, ...courses.flatMap(c => c.credits.map(cr => (cr as any).year || c.year || 1)));
+  const maxYear = Math.max(1, ...courses.flatMap(c => {
+    if (isCourse(c)) {
+      return c.credits.map(cr => (cr as any).year || c.year || 1);
+    } else {
+      return [(c as OptionGroup).year || 1];
+    }
+  }));
   const numYears = Math.max(1, maxYear);
+  
+  // Separate option groups and individual courses, and identify courses that should be hidden
+  const optionGroups = courses.filter(isOptionGroup);
+  const coursesInOptionGroups = new Set<string>();
+  optionGroups.forEach(og => {
+    og.options.forEach(optionCode => {
+      // Don't hide courses that have been selected as the chosen option
+      if (selectedOptionPerGroup[og.name] !== optionCode) {
+        coursesInOptionGroups.add(optionCode);
+      }
+    });
+  });
+  
+  // Filter courses to only include individual courses (not in option groups)
+  const individualCourses = courses.filter(c => {
+    if (isOptionGroup(c)) return false;
+    return !coursesInOptionGroups.has((c as Course).code);
+  }) as Course[];
+  
+  // Combine individual courses with option groups for rendering (selected courses are now in individualCourses)
+  const displayItems: Array<Course | OptionGroup> = [
+    ...individualCourses,
+    ...optionGroups.filter(og => !selectedOptionPerGroup[og.name])
+  ];
+  
   // Increased vertical gap between year rows (px)
   // Increase inter-year gap by 20% (from 48 to ~57.6). Use integer for pixel grid.
   const yearRowGap = 58; // was 48
@@ -729,12 +835,20 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const STACK_GAP_PX = 4; // gap between stacked bars
 
   // Build mapping of courses per year+period to compute stacking lanes (needed for sizing and layout)
-  const slotsByYearPeriod: Record<string, Array<{ course: Course; credit: { period: string; credits: number; year: number } }>> = {};
-  courses.forEach((course) => {
-    course.credits.forEach((credit) => {
+  const slotsByYearPeriod: Record<string, Array<{ item: Course | OptionGroup; credit: { period: string; credits: number; year: number } }>> = {};
+  displayItems.forEach((item) => {
+    const credits = isCourse(item) ? item.credits : Object.entries((item as OptionGroup).periodCredits)
+      .filter(([period, credits]) => credits > 0)  // Only include periods with credits > 0
+      .map(([period, credits]) => ({
+        period: period as 'P1' | 'P2' | 'P3' | 'P4',
+        credits,
+        year: (item as OptionGroup).year
+      }));
+    
+    credits.forEach((credit) => {
       const key = `${(credit as any).year}-${credit.period}`;
       if (!slotsByYearPeriod[key]) slotsByYearPeriod[key] = [];
-      slotsByYearPeriod[key].push({ course, credit });
+      slotsByYearPeriod[key].push({ item, credit });
     });
   });
 
@@ -938,7 +1052,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
     // First pass: collect position data for all course bars
     type BarInfo = {
-      course: Course;
+      item: Course | OptionGroup;
       credit: { period: string; credits: number; year: number };
       barX: number;
       barY: number;
@@ -961,9 +1075,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       const gapPx = STACK_GAP_PX;
       let cursorY = verticalOffset + yearY;
 
-      list.forEach((item) => {
-        const credit = item.credit;
-        const course = item.course;
+      list.forEach((itemWrapper) => {
+        const credit = itemWrapper.credit;
+        const item = itemWrapper.item;
         const rawHeight = pixelsPerECTS * credit.credits;
         const minHeight = pixelsPerECTS * MIN_ECTS_FOR_HEIGHT;
         const courseHeight = Math.max(rawHeight, minHeight);
@@ -971,11 +1085,13 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         const courseWidth = timeScale(new Date(periodObj.lectureEnd)) - timeScale(new Date(periodObj.start));
         const barX = x + 2;
         const barWidth = Math.max(0, courseWidth - 4);
-        const colors = getCourseColors(course);
+        
+        // Handle both courses and option groups for colors
+        const colors = isCourse(item) ? getCourseColors(item) : getColorForFamily('yellow');
 
         allBars.push({
-          course,
-          credit: { period: credit.period as any, credits: credit.credits, year: (credit as any).year || course.year },
+          item,
+          credit: { period: credit.period as any, credits: credit.credits, year: (credit as any).year || (isCourse(item) ? item.year : (item as OptionGroup).year) },
           barX,
           barY: cursorY,
           barWidth,
@@ -984,7 +1100,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           periodObj
         });
 
-        positionMap[`${course.code}-${(credit as any).year}-${credit.period}`] = {
+        const itemId = isCourse(item) ? item.code : `optionGroup-${(item as OptionGroup).name}`;
+        positionMap[`${itemId}-${(credit as any).year}-${credit.period}`] = {
           xStart: barX,
           xEnd: barX + barWidth,
           yCenter: cursorY + courseHeight / 2,
@@ -998,15 +1115,26 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
     // Second pass: draw connector shapes for consecutive periods within same year
     // Also track which bars should show labels (first in each connected sequence)
+    // Handle connectors for both courses and option groups that span multiple periods
     const periodSequence = ['P1', 'P2', 'P3', 'P4'];
     const barsWithoutLabels = new Set<string>(); // track bars that shouldn't have labels
     const barsConnectedRight = new Set<string>(); // bars with connector on their right side
     const barsConnectedLeft = new Set<string>(); // bars with connector on their left side
-    const connectorBorders: Array<{ points: number[][]; stroke: string; course: string }> = []; // collect connector borders to draw last
+    const connectorBorders: Array<{ points: number[][]; stroke: string; itemId: string }> = []; // collect connector borders to draw last
     
-    courses.forEach((course) => {
+    // Process both courses and option groups
+    const processItem = (item: Course | OptionGroup) => {
+      const itemId = isCourse(item) ? (item as Course).code : `optionGroup-${(item as OptionGroup).name}`;
       const barsByYear: Record<number, BarInfo[]> = {};
-      allBars.filter(b => b.course.code === course.code).forEach(bar => {
+      
+      // Find all bars for this item
+      allBars.filter(b => {
+        if (isCourse(item)) {
+          return isCourse(b.item) && (b.item as Course).code === (item as Course).code;
+        } else {
+          return isOptionGroup(b.item) && (b.item as OptionGroup).name === (item as OptionGroup).name;
+        }
+      }).forEach(bar => {
         const year = bar.credit.year;
         if (!barsByYear[year]) barsByYear[year] = [];
         barsByYear[year].push(bar);
@@ -1025,11 +1153,11 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           // Check if consecutive
           if (nextIdx === currentIdx + 1) {
             // Mark the second bar as not needing a label
-            barsWithoutLabels.add(`${next.course.code}-${next.credit.year}-${next.credit.period}`);
+            barsWithoutLabels.add(`${itemId}-${next.credit.year}-${next.credit.period}`);
             
             // Mark which bars are connected
-            barsConnectedRight.add(`${current.course.code}-${current.credit.year}-${current.credit.period}`);
-            barsConnectedLeft.add(`${next.course.code}-${next.credit.year}-${next.credit.period}`);
+            barsConnectedRight.add(`${itemId}-${current.credit.year}-${current.credit.period}`);
+            barsConnectedLeft.add(`${itemId}-${next.credit.year}-${next.credit.period}`);
             
             // Draw connector polygon
             // Connect pre-rounding points on horizontal edges of both bars
@@ -1049,45 +1177,77 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               [x1 - cornerRadius, y1Bottom]    // bottom-right pre-rounding
             ];
 
-            // Create shared tooltip text for this course
-            const allCompleted = (current.course as any).prerequisitesCompleted || current.course.prerequisites || [];
-            const allParticipation = (current.course as any).prerequisitesParticipation || [];
-            const completedStr = (allCompleted || []).length ? (allCompleted as string[]).join(', ') : '—';
-            const participationStr = (allParticipation || []).length ? (allParticipation as string[]).join(', ') : '—';
-            const dependents = courses.filter(c => {
-              const comp = (c as any).prerequisitesCompleted || c.prerequisites || [];
-              const part = (c as any).prerequisitesParticipation || [];
-              return (comp.includes(current.course.code) || part.includes(current.course.code));
-            }).map(c => c.code);
-            const dependentCodes = dependents.length ? dependents.join(', ') : '—';
+            // Get the colors
+            const connectorColors = isCourse(item) ? getCourseColors(item as Course) : getColorForFamily('yellow');
             
-            // Calculate total credits for this course
-            const totalCredits = current.course.credits.reduce((sum, c) => sum + c.credits, 0);
-            
-            // Build period credits string (e.g., "P1: 4 hp, P2: 2 hp")
-            const periodCreditsStr = current.course.credits
-              .map(c => `${c.period}: ${c.credits} ${tr[language].credits}`)
-              .join(', ');
-            
-            // Get language-appropriate course name
-            const courseName = language === 'en' 
-              ? ((current.course as any).nameEn || current.course.name)
-              : current.course.name;
-            
-            const tooltipText = `<strong>${current.course.code}, ${totalCredits} ${tr[language].credits}</strong><br/>${courseName}<br/>${periodCreditsStr}
-              <br/><em>${tr[language].legend.prerequisitesCompleted}:</em> ${completedStr}
-              <br/><em>${tr[language].legend.prerequisitesParticipation}:</em> ${participationStr}
-              <br/><em>${tr[language].requiredFor}:</em> ${dependentCodes}`;
+            // For option groups, use a striped pattern fill in connectors too
+            const connectorFillValue = isOptionGroup(item) 
+              ? `url(#option-group-pattern-${(item as OptionGroup).name.replace(/\s+/g, '-')})`
+              : connectorColors.fill;
+
+            // Create tooltip text for this item
+            let tooltipText = '';
+            if (isCourse(item)) {
+              const course = item as Course;
+              const allCompleted = course.prerequisitesCompleted || course.prerequisites || [];
+              const allParticipation = course.prerequisitesParticipation || [];
+              const completedStr = (allCompleted || []).length ? (allCompleted as string[]).join(', ') : '—';
+              const participationStr = (allParticipation || []).length ? (allParticipation as string[]).join(', ') : '—';
+              const dependents = individualCourses.filter(c => {
+                const comp = c.prerequisitesCompleted || c.prerequisites || [];
+                const part = c.prerequisitesParticipation || [];
+                return (comp.includes(course.code) || part.includes(course.code));
+              }).map(c => c.code);
+              const dependentCodes = dependents.length ? dependents.join(', ') : '—';
+              
+              // Calculate total credits for this course
+              const totalCredits = course.credits.reduce((sum, c) => sum + c.credits, 0);
+              
+              // Build period credits string (e.g., "P1: 4 hp, P2: 2 hp")
+              const periodCreditsStr = course.credits
+                .map(c => `${c.period}: ${c.credits} ${tr[language].credits}`)
+                .join(', ');
+              
+              // Get language-appropriate course name
+              const courseName = language === 'en' 
+                ? (course.nameEn || course.name)
+                : course.name;
+              
+              tooltipText = `<strong>${course.code}, ${totalCredits} ${tr[language].credits}</strong><br/>${courseName}<br/>${periodCreditsStr}
+                <br/><em>${tr[language].legend.prerequisitesCompleted}:</em> ${completedStr}
+                <br/><em>${tr[language].legend.prerequisitesParticipation}:</em> ${participationStr}
+                <br/><em>${tr[language].requiredFor}:</em> ${dependentCodes}`;
+            } else {
+              const og = item as OptionGroup;
+              const ogName = language === 'en' ? (og.nameEn || og.name) : og.name;
+              const totalCredits = og.totalCredits;
+              
+              // Build option list - look up course details from course codes
+              const optionsList = og.options
+                .map(optionCode => {
+                  const optionCourse = courses.find(c => isCourse(c) && (c as Course).code === optionCode) as Course | undefined;
+                  if (!optionCourse) return null;
+                  const optName = language === 'en' ? (optionCourse.nameEn || optionCourse.name) : optionCourse.name;
+                  return `${optionCode}: ${optName}`;
+                })
+                .filter(opt => opt !== null)
+                .join('<br/>');
+              
+              tooltipText = `<strong>${ogName}</strong><br/>${tr[language].totalCredits}: ${totalCredits} ${tr[language].credits}<br/><strong>${tr[language].options}:</strong><br/>${optionsList}`;
+            }
 
             g.append('polygon')
               .attr('points', points.map(p => p.join(',')).join(' '))
-              .attr('fill', current.colors.fill)
+              .attr('fill', connectorFillValue)
               .attr('stroke', 'none')
               .attr('class', 'course-connector-fill')
-              .attr('data-course', course.code)
+              .attr('data-course', itemId)
               .attr('data-group', () => {
-                const grp = cosmetics?.courseToGroup.get(course.code);
-                return grp ? grp.name : '';
+                if (isCourse(item)) {
+                  const grp = cosmetics?.courseToGroup.get((item as Course).code);
+                  return grp ? grp.name : '';
+                }
+                return '';
               })
               .style('cursor', 'pointer')
               .on('mouseover', (event: any) => {
@@ -1099,26 +1259,42 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               .on('mouseout', () => tooltip.style('display', 'none'))
               .on('click', (event: any) => {
                 event.stopPropagation();
-                setFocusCourse(prev => {
-                  const next = prev === current.course.code ? null : current.course.code;
-                  if (next) {
-                    setSelectedInfo({ course: current.course, credit: { period: current.credit.period as any, credits: current.credit.credits, year: current.credit.year } });
-                  } else {
-                    setSelectedInfo(null);
-                  }
-                  return next;
-                });
+                if (isCourse(item)) {
+                  const course = item as Course;
+                  setFocusCourse(prev => {
+                    const next = prev === course.code ? null : course.code;
+                    if (next) {
+                      setSelectedInfo({ course, credit: { period: current.credit.period as any, credits: current.credit.credits, year: current.credit.year } });
+                    } else {
+                      setSelectedInfo(null);
+                    }
+                    return next;
+                  });
+                } else {
+                  // For option groups, open the modal
+                  setSelectedOptionGroup(item as OptionGroup);
+                }
               });
             
             // Store connector border to draw later (after all fills)
             connectorBorders.push({
               points,
-              stroke: current.colors.stroke,
-              course: course.code
+              stroke: connectorColors.stroke,
+              itemId: itemId
             });
           }
         }
       });
+    };
+
+    // Process individual courses
+    individualCourses.forEach((course) => {
+      processItem(course);
+    });
+
+    // Process option groups
+    optionGroups.forEach((og) => {
+      processItem(og);
     });
 
     // Third pass: draw the actual course bars
@@ -1137,31 +1313,49 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     const gapPx = STACK_GAP_PX; // doubled gap between stacked bars (was 2)
     let cursorY = verticalOffset + yearY; // start at the top of the year band
 
-      list.forEach((item) => {
-        const credit = item.credit;
-        const course = item.course;
+      list.forEach((itemWrapper) => {
+        const credit = itemWrapper.credit;
+        const item = itemWrapper.item;
+
+        // Skip courses that are part of option groups (defensive check)
+        if (isCourse(item) && coursesInOptionGroups.has((item as Course).code)) {
+          return;
+        }
+
   const rawHeight = pixelsPerECTS * credit.credits;
   const minHeight = pixelsPerECTS * MIN_ECTS_FOR_HEIGHT;
   const courseHeight = Math.max(rawHeight, minHeight); // ensure minimal visible height equal to 2 ECTS
 
+  // Generate item ID for tracking
+  const itemId = isCourse(item) ? (item as Course).code : `optionGroup-${(item as OptionGroup).name}`;
+  
+  // For courses, use course group information; for option groups, use generic styling
+  let dataGroup = '';
+  if (isCourse(item)) {
+    const grp = cosmetics?.courseToGroup.get(item.code);
+    dataGroup = grp ? grp.name : '';
+  }
+
   const block = g.append('g')
     .attr('class', 'course-group')
-    .attr('data-course', course.code)
-    .attr('data-group', () => {
-      const grp = cosmetics?.courseToGroup.get(course.code);
-      return grp ? grp.name : '';
-    });
+    .attr('data-course', itemId)
+    .attr('data-group', dataGroup);
 
   const periodObj = academicPeriods.find(p => p.id === credit.period)!;
   const courseWidth = timeScale(new Date(periodObj.lectureEnd)) - timeScale(new Date(periodObj.start));
   const barX = x + 2;
   const barWidth = Math.max(0, courseWidth - 4);
 
-  // Determine color based on course group and vary within family
-  const colors = getCourseColors(course);
+  // Determine color based on item type
+  const colors = isCourse(item) ? getCourseColors(item) : getColorForFamily('yellow');
+  
+  // For option groups, use a striped pattern fill
+  const fillValue = isOptionGroup(item) 
+    ? `url(#option-group-pattern-${(item as OptionGroup).name.replace(/\s+/g, '-')})`
+    : colors.fill;
 
-  // Check if this bar is connected to others
-  const barKey = `${course.code}-${(credit as any).year}-${credit.period}`;
+  // Check if this bar is connected to others (applies to both courses and option groups)
+  const barKey = `${itemId}-${(credit as any).year}-${credit.period}`;
   const connectedRight = barsConnectedRight.has(barKey);
   const connectedLeft = barsConnectedLeft.has(barKey);
 
@@ -1171,43 +1365,67 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     .attr('y', cursorY)
     .attr('width', barWidth)
     .attr('height', courseHeight)
-    .attr('fill', colors.fill)
+    .attr('fill', fillValue)
     .attr('stroke', 'none')
     .attr('rx', 4)
     .attr('ry', 4)
     .attr('class', 'course-block')
-    .attr('data-course-code', course.code)
+    .attr('data-course-code', itemId)
     .style('cursor', 'pointer')
     .on('mouseover', (event: any) => {
-      const allCompleted = (course as any).prerequisitesCompleted || course.prerequisites || [];
-      const allParticipation = (course as any).prerequisitesParticipation || [];
-      const completedStr = (allCompleted || []).length ? (allCompleted as string[]).join(', ') : '—';
-      const participationStr = (allParticipation || []).length ? (allParticipation as string[]).join(', ') : '—';
-      const dependents = courses.filter(c => {
-        const comp = (c as any).prerequisitesCompleted || c.prerequisites || [];
-        const part = (c as any).prerequisitesParticipation || [];
-        return (comp.includes(course.code) || part.includes(course.code));
-      }).map(c => c.code);
-      const dependentCodes = dependents.length ? dependents.join(', ') : '—';
+      // Build tooltip based on item type
+      let tooltipText = '';
       
-      // Calculate total credits for this course
-      const totalCredits = course.credits.reduce((sum, c) => sum + c.credits, 0);
+      if (isCourse(item)) {
+        const course = item as Course;
+        const allCompleted = course.prerequisitesCompleted || course.prerequisites || [];
+        const allParticipation = course.prerequisitesParticipation || [];
+        const completedStr = (allCompleted || []).length ? (allCompleted as string[]).join(', ') : '—';
+        const participationStr = (allParticipation || []).length ? (allParticipation as string[]).join(', ') : '—';
+        const dependents = individualCourses.filter(c => {
+          const comp = c.prerequisitesCompleted || c.prerequisites || [];
+          const part = c.prerequisitesParticipation || [];
+          return (comp.includes(course.code) || part.includes(course.code));
+        }).map(c => c.code);
+        const dependentCodes = dependents.length ? dependents.join(', ') : '—';
+        
+        // Calculate total credits for this course
+        const totalCredits = course.credits.reduce((sum, c) => sum + c.credits, 0);
+        
+        // Build period credits string (e.g., "P1: 4 hp, P2: 2 hp")
+        const periodCreditsStr = course.credits
+          .map(c => `${c.period}: ${c.credits} ${tr[language].credits}`)
+          .join(', ');
+        
+        // Get language-appropriate course name
+        const courseName = language === 'en' 
+          ? (course.nameEn || course.name)
+          : course.name;
+        
+        tooltipText = `<strong>${course.code}, ${totalCredits} ${tr[language].credits}</strong><br/>${courseName}<br/>${periodCreditsStr}
+          <br/><em>${tr[language].legend.prerequisitesCompleted}:</em> ${completedStr}
+          <br/><em>${tr[language].legend.prerequisitesParticipation}:</em> ${participationStr}
+          <br/><em>${tr[language].requiredFor}:</em> ${dependentCodes}`;
+      } else {
+        const og = item as OptionGroup;
+        const ogName = language === 'en' ? (og.nameEn || og.name) : og.name;
+        const totalCredits = og.totalCredits;
+        
+        // Build option list - look up course details from course codes
+        const optionsList = og.options
+          .map(optionCode => {
+            const optionCourse = courses.find(c => isCourse(c) && (c as Course).code === optionCode) as Course | undefined;
+            if (!optionCourse) return null;
+            const optName = language === 'en' ? (optionCourse.nameEn || optionCourse.name) : optionCourse.name;
+            return `${optionCode}: ${optName}`;
+          })
+          .filter(opt => opt !== null)
+          .join('<br/>');
+        
+        tooltipText = `<strong>${ogName}</strong><br/>${tr[language].totalCredits}: ${totalCredits} ${tr[language].credits}<br/><strong>${tr[language].options}:</strong><br/>${optionsList}`;
+      }
       
-      // Build period credits string (e.g., "P1: 4 hp, P2: 2 hp")
-      const periodCreditsStr = course.credits
-        .map(c => `${c.period}: ${c.credits} ${tr[language].credits}`)
-        .join(', ');
-      
-      // Get language-appropriate course name
-      const courseName = language === 'en' 
-        ? ((course as any).nameEn || course.name)
-        : course.name;
-      
-      const txt = `<strong>${course.code}, ${totalCredits} ${tr[language].credits}</strong><br/>${courseName}<br/>${periodCreditsStr}
-        <br/><em>${tr[language].legend.prerequisitesCompleted}:</em> ${completedStr}
-        <br/><em>${tr[language].legend.prerequisitesParticipation}:</em> ${participationStr}
-        <br/><em>${tr[language].requiredFor}:</em> ${dependentCodes}`;
-      tooltip.html(txt).style('display', 'block');
+      tooltip.html(tooltipText).style('display', 'block');
     })
     .on('mousemove', (event: any) => {
       tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
@@ -1215,15 +1433,38 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     .on('mouseout', () => tooltip.style('display', 'none'))
     .on('click', (event: any) => {
       event.stopPropagation();
-      setFocusCourse(prev => {
-        const next = prev === course.code ? null : course.code;
-        if (next) {
-          setSelectedInfo({ course, credit: { period: credit.period as any, credits: credit.credits, year: (credit as any).year || course.year } });
+      if (isCourse(item)) {
+        const course = item as Course;
+        // Check if this course is a selected option from an option group
+        const optionGroupForCourse = Object.entries(selectedOptionPerGroup).find(
+          ([groupName, selectedCode]) => selectedCode === course.code
+        )?.[0];
+        
+        if (optionGroupForCourse) {
+          // This course is a selected option, open the modal for its option group
+          const ogToReopen = courses.find(c => isOptionGroup(c) && (c as OptionGroup).name === optionGroupForCourse) as OptionGroup | undefined;
+          if (ogToReopen) {
+            setSelectedOptionGroup(ogToReopen);
+            setHighlightedOptionCode(null);
+            setSelectedInfo(null);
+          }
         } else {
-          setSelectedInfo(null);
+          // Normal course click - show in bottom panel
+          setFocusCourse(prev => {
+            const next = prev === course.code ? null : course.code;
+            if (next) {
+              setSelectedInfo({ course, credit: { period: credit.period as any, credits: credit.credits, year: (credit as any).year || course.year } });
+            } else {
+              setSelectedInfo(null);
+            }
+            return next;
+          });
         }
-        return next;
-      });
+      } else {
+        // For option groups, open the modal
+        setSelectedOptionGroup(item as OptionGroup);
+        setHighlightedOptionCode(null);
+      }
     });
 
   // Draw border with custom path that excludes connected edges
@@ -1292,7 +1533,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   }
 
   // store positions for arrows and markers
-  positionMap[`${course.code}-${(credit as any).year}-${credit.period}`] = {
+  positionMap[`${itemId}-${(credit as any).year}-${credit.period}`] = {
     xStart: barX,
     xEnd: barX + barWidth,
     yCenter: cursorY + courseHeight / 2,
@@ -1301,23 +1542,65 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   };
 
   // labels inside the bar (code and name on the same row)
-  // Skip label if this bar is the second in a connected sequence
+  // Skip label if this bar is the second in a connected sequence (applies to both courses and option groups)
   const shouldShowLabel = !barsWithoutLabels.has(barKey);
         
         if (shouldShowLabel) {
           const padding = 4;
-          const textX = barX + padding;
+          let textX = barX + padding;
           const textY = cursorY + 12;
-          const maxWidth = Math.max(0, barWidth - padding * 2);
+          let maxWidth = Math.max(0, barWidth - padding * 2);
+
+          // For option groups, draw a circled number indicator before the text
+          if (isOptionGroup(item)) {
+            const og = item as OptionGroup;
+            const numOptions = og.options.length;
+            const circleRadius = 7;
+            const circleCenterX = textX + circleRadius;
+            const circleCenterY = cursorY + circleRadius + 2;
+            
+            // Draw circle
+            block.append('circle')
+              .attr('cx', circleCenterX)
+              .attr('cy', circleCenterY)
+              .attr('r', circleRadius)
+              .attr('fill', 'none')
+              .attr('stroke', kthColors.KthBrokenWhite?.HEX || '#FFFFFF')
+              .attr('stroke-width', 1.5)
+              .attr('pointer-events', 'none');
+            
+            // Draw number inside circle
+            block.append('text')
+              .attr('x', circleCenterX)
+              .attr('y', circleCenterY)
+              .attr('text-anchor', 'middle')
+              .attr('dominant-baseline', 'central')
+              .attr('font-size', 10)
+              .attr('font-weight', 600)
+              .attr('fill', kthColors.KthBrokenWhite?.HEX || '#FFFFFF')
+              .attr('pointer-events', 'none')
+              .text(numOptions);
+            
+            // Adjust text position to be after the circle
+            textX += circleRadius * 2 + 4;
+            maxWidth -= circleRadius * 2 + 4;
+          }
 
           // Create single text string with code and name, using language-appropriate version
-          let displayName: string;
-          if (language === 'en') {
-            displayName = (course as any).briefNameEn || (course as any).nameEn || (course as any).briefName || course.name;
-          } else {
-            displayName = (course as any).briefName || course.name;
+          let fullText: string = '';
+          if (isCourse(item)) {
+            const course = item as Course;
+            let displayName: string = '';
+            if (language === 'en') {
+              displayName = course.briefNameEn || course.nameEn || course.briefName || course.name || '';
+            } else {
+              displayName = course.briefName || course.name || '';
+            }
+            fullText = `${course.code} ${displayName}`.trim();
+          } else if (isOptionGroup(item)) {
+            const og = item as OptionGroup;
+            fullText = language === 'en' ? (og.nameEn || og.name) : og.name;
           }
-          const fullText = `${course.code} ${displayName}`;
           
           const label = block.append('text')
             .attr('x', textX)
@@ -1348,21 +1631,28 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
     // Fourth pass: draw connector borders on top of everything else
     // Only draw the top and bottom edges (not the vertical sides)
-    connectorBorders.forEach(({ points, stroke, course }) => {
+    connectorBorders.forEach(({ points, stroke, itemId }) => {
+      // Skip if itemId is undefined
+      if (!itemId) return;
+      
       // points are: [top-right, top-left, bottom-left, bottom-right]
       // We want to draw: top edge (top-right to top-left) and bottom edge (bottom-left to bottom-right)
       const topEdge = `M ${points[0][0]} ${points[0][1]} L ${points[1][0]} ${points[1][1]}`;
       const bottomEdge = `M ${points[2][0]} ${points[2][1]} L ${points[3][0]} ${points[3][1]}`;
       
-      const grp = cosmetics?.courseToGroup.get(course);
-      const groupName = grp ? grp.name : '';
+      // Only apply group styling for courses, not option groups
+      let groupName = '';
+      if (itemId && !itemId.startsWith('optionGroup-')) {
+        const grp = cosmetics?.courseToGroup.get(itemId);
+        groupName = grp ? grp.name : '';
+      }
       
       g.append('path')
         .attr('d', topEdge)
         .attr('fill', 'none')
         .attr('stroke', stroke)
         .attr('class', 'course-connector-border')
-        .attr('data-course', course)
+        .attr('data-course', itemId)
         .attr('data-group', groupName)
         .style('pointer-events', 'none');
       
@@ -1371,7 +1661,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('fill', 'none')
         .attr('stroke', stroke)
         .attr('class', 'course-connector-border')
-        .attr('data-course', course)
+        .attr('data-course', itemId)
         .attr('data-group', groupName)
         .style('pointer-events', 'none');
     });
@@ -1380,9 +1670,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     // Collect exam / re-exam markers so we can draw them on the top layer later
     const examMarkers: Array<any> = [];
     const reexamMarkers: Array<any> = [];
-    courses.forEach((course) => {
-  const examsGlobal: string[] = (course as any).exams || [];
-  const reexamsGlobal: string[] = (course as any).reexams || [];
+    individualCourses.forEach((course) => {
+  const examsGlobal: string[] = course.exams || [];
+  const reexamsGlobal: string[] = course.reexams || [];
   const examByYear = (course as any).examsByYear as Record<number, string[]> | undefined;
   const reexamByYear = (course as any).reexamsByYear as Record<number, string[]> | undefined;
 
@@ -1447,8 +1737,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     // Draw arrows for prerequisites using stored positions
     const periodOrder: Record<string, number> = { P1: 1, P2: 2, P3: 3, P4: 4 };
 
-    // Add arrow marker definitions (gray and blue)
-    const defs = svg.append('defs');
+    // Add arrow marker definitions (gray and blue) to existing defs
     defs.append('marker')
       .attr('id', 'arrow-gray')
       .attr('viewBox', '0 -5 10 10')
@@ -1590,17 +1879,17 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     };
     const allArrows: ArrowData[] = [];
     
-    courses.forEach((course) => {
+    individualCourses.forEach((course) => {
       const courseCreditsSorted = [...course.credits].sort((a: any, b: any) => (a.year - b.year) || (periodOrder[a.period] - periodOrder[b.period]));
       const firstCourse = courseCreditsSorted[0];
       if (!firstCourse) return;
       
-      const completed = (course as any).prerequisitesCompleted || course.prerequisites || [];
-      const participated = (course as any).prerequisitesParticipation || [];
+      const completed = course.prerequisitesCompleted || course.prerequisites || [];
+      const participated = course.prerequisitesParticipation || [];
       
       // Process completed prerequisites
       completed.forEach((prCode: string) => {
-        const prereq = courses.find((c) => c.code === prCode);
+        const prereq = individualCourses.find((c) => c.code === prCode);
         if (!prereq) return;
         const prereqCreditsSorted = [...prereq.credits].sort((a: any, b: any) => (a.year - b.year) || (periodOrder[a.period] - periodOrder[b.period]));
         const lastPrereq = prereqCreditsSorted[prereqCreditsSorted.length - 1];
@@ -1623,7 +1912,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       
       // Process participation prerequisites
       participated.forEach((prCode: string) => {
-        const prereq = courses.find((c) => c.code === prCode);
+        const prereq = individualCourses.find((c) => c.code === prCode);
         if (!prereq) return;
         const prereqCreditsSorted = [...prereq.credits].sort((a: any, b: any) => (a.year - b.year) || (periodOrder[a.period] - periodOrder[b.period]));
         const lastPrereq = prereqCreditsSorted[prereqCreditsSorted.length - 1];
@@ -2173,7 +2462,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .on('mouseout', () => tooltip.style('display', 'none'));
   });
 
-  }, [courses, layers, language]);
+  }, [courses, layers, language, selectedOptionPerGroup]);
 
   // Removed popup; outside clicks handled by svg.on('click') above
 
@@ -2311,15 +2600,28 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       return;
     }
 
-    const selected = courses.find(c => c.code === focusCourse);
+    // Reconstruct filtered courses list
+    const optionGroupsList = courses.filter(isOptionGroup);
+    const coursesInOptionGroupsSet = new Set<string>();
+    optionGroupsList.forEach(og => {
+      og.options.forEach(optionCode => {
+        coursesInOptionGroupsSet.add(optionCode);
+      });
+    });
+    const filteredCourses = courses.filter(c => {
+      if (isOptionGroup(c)) return false;
+      return !coursesInOptionGroupsSet.has((c as Course).code);
+    }) as Course[];
+
+    const selected = filteredCourses.find(c => c.code === focusCourse);
     if (!selected) return;
-    const prereqCompleted = ((selected as any).prerequisitesCompleted || selected.prerequisites || []) as string[];
-    const prereqParticipation = ((selected as any).prerequisitesParticipation || []) as string[];
+    const prereqCompleted = (selected.prerequisitesCompleted || selected.prerequisites || []) as string[];
+    const prereqParticipation = (selected.prerequisitesParticipation || []) as string[];
     const prereqSet = new Set([...(prereqCompleted || []), ...(prereqParticipation || [])]);
     const dependentSet = new Set(
-      courses.filter(c => {
-        const comp = (c as any).prerequisitesCompleted || c.prerequisites || [];
-        const part = (c as any).prerequisitesParticipation || [];
+      filteredCourses.filter(c => {
+        const comp = c.prerequisitesCompleted || c.prerequisites || [];
+        const part = c.prerequisitesParticipation || [];
         return (comp.includes(selected.code) || part.includes(selected.code));
       }).map(c => c.code)
     );
@@ -2379,9 +2681,17 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       return;
     }
 
-    // Helper to check if a course has credits in the focused year
-    const courseHasYear = (code: string) => {
-      const c = courses.find(cc => cc.code === code);
+    // Helper to check if a course/option group has credits in the focused year
+    const itemHasYear = (id: string) => {
+      // Check if it's an option group (id starts with optionGroup-)
+      if (id.startsWith('optionGroup-')) {
+        // Find option group by name
+        const ogName = id.substring('optionGroup-'.length);
+        const og = courses.filter(isOptionGroup).find(c => (c as OptionGroup).name === ogName) as OptionGroup | undefined;
+        return og ? og.year === focusYear : false;
+      }
+      // Otherwise it's a course code
+      const c = courses.find(cc => isCourse(cc) && (cc as Course).code === id) as Course | undefined;
       if (!c) return false;
       return c.credits.some((cr: any) => Number((cr as any).year) === focusYear);
     };
@@ -2389,28 +2699,28 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     container.selectAll<SVGGElement, any>('.course-group')
       .style('opacity', function() {
         const code = (this as Element).getAttribute('data-course');
-        const keep = !!code && courseHasYear(code);
+        const keep = !!code && itemHasYear(code);
         return keep ? '1' : '0.1';
       });
 
     container.selectAll<SVGPolygonElement, any>('.course-connector-fill')
       .style('opacity', function() {
         const code = (this as Element).getAttribute('data-course');
-        const keep = !!code && courseHasYear(code);
+        const keep = !!code && itemHasYear(code);
         return keep ? '1' : '0.1';
       });
 
     container.selectAll<SVGPathElement, any>('.course-connector-border')
       .style('opacity', function() {
         const code = (this as Element).getAttribute('data-course');
-        const keep = !!code && courseHasYear(code);
+        const keep = !!code && itemHasYear(code);
         return keep ? '1' : '0.1';
       });
 
     container.selectAll<SVGCircleElement, any>('.exam-dot, .reexam-dot')
       .style('opacity', function() {
         const code = (this as Element).getAttribute('data-course');
-        const keep = !!code && courseHasYear(code);
+        const keep = !!code && itemHasYear(code);
         return keep ? '1' : '0.1';
       });
 
@@ -2575,9 +2885,22 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
                 })()}{', '}
                 {tr[language].requiredFor}:{' '}
                 {(() => {
-                  const dependents = courses.filter(c => {
-                    const comp = (c as any).prerequisitesCompleted || c.prerequisites || [];
-                    const part = (c as any).prerequisitesParticipation || [];
+                  // Only check individual courses, not option groups
+                  const optGroupsList = courses.filter(isOptionGroup);
+                  const coursesInOptGroups = new Set<string>();
+                  optGroupsList.forEach(og => {
+                    og.options.forEach(optionCode => {
+                      coursesInOptGroups.add(optionCode);
+                    });
+                  });
+                  const filteredCoursesList = courses.filter(c => {
+                    if (isOptionGroup(c)) return false;
+                    return !coursesInOptGroups.has((c as Course).code);
+                  }) as Course[];
+
+                  const dependents = filteredCoursesList.filter(c => {
+                    const comp = c.prerequisitesCompleted || c.prerequisites || [];
+                    const part = c.prerequisitesParticipation || [];
                     return (comp.includes(selectedInfo.course.code) || part.includes(selectedInfo.course.code));
                   }).map(c => c.code);
                   return dependents.length ? dependents.join(', ') : '—';
@@ -2607,6 +2930,233 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           {programComment}
         </div>
       )}
+
+      {/* Option Group Modal - rendered as SVG overlay */}
+      {selectedOptionGroup && (() => {
+        // Calculate modal dimensions based on content
+        const headerHeight = 75;
+        const optionHeight = 50; // height for each option bar
+        const optionSpacing = 12; // spacing between options
+        const padding = 20;
+        
+        const numOptions = selectedOptionGroup.options.length;
+        const contentHeight = headerHeight + (numOptions * optionHeight) + ((numOptions - 1) * optionSpacing);
+        const svgHeight = Math.min(contentHeight + padding + padding, 700); // Cap at 700px (padding on top + bottom)
+        const svgWidth = 500;
+        
+        return (
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.3)',
+              zIndex: 500,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'Figtree, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Noto Sans',
+            }}
+            onClick={() => setSelectedOptionGroup(null)}
+          >
+            <svg
+              width={svgWidth}
+              height={svgHeight}
+              style={{
+                backgroundColor: 'white',
+                borderRadius: '8px',
+                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
+                pointerEvents: 'auto',
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                // Click on empty SVG area deselects current option
+                if ((e.target as SVGElement).tagName === 'svg') {
+                  setHighlightedOptionCode(null);
+                  setSelectedInfo(null);
+                }
+              }}
+            >
+              {/* Title */}
+              <text
+                x={padding}
+                y={padding + 20}
+                fontSize={18}
+                fontWeight={600}
+                fill="#004791"
+              >
+                {language === 'en' ? (selectedOptionGroup.nameEn || selectedOptionGroup.name) : selectedOptionGroup.name}
+              </text>
+
+              {/* Info line */}
+              <text
+                x={padding}
+                y={padding + 40}
+                fontSize={12}
+                fill="#666"
+              >
+                {language === 'en' ? 'Total credits:' : 'Totalt poäng:'}{' '}
+                <tspan fontWeight={600}>{selectedOptionGroup.totalCredits}</tspan>
+              </text>
+
+              {/* Divider line */}
+              <line
+                x1={padding}
+                y1={padding + 55}
+                x2={svgWidth - padding}
+                y2={padding + 55}
+                stroke="#e5e7eb"
+                strokeWidth={1}
+              />
+              
+              {/* Choose and Cancel buttons - positioned in header area on the right */}
+              {/* Choose button background - can be used to select/deselect an option */}
+              <rect
+                x={svgWidth - padding - 160}
+                y={padding + 6}
+                width={70}
+                height={32}
+                fill={(kthColors.KthBlue?.HEX || '#004791')}
+                rx={4}
+                ry={4}
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  if (selectedOptionGroup) {
+                    if (highlightedOptionCode) {
+                      // Choose the highlighted option
+                      setSelectedOptionPerGroup(prev => ({
+                        ...prev,
+                        [selectedOptionGroup.name]: highlightedOptionCode,
+                      }));
+                    } else {
+                      // Clear the selection (deselect) - delete the entry so option group shows again
+                      setSelectedOptionPerGroup(prev => {
+                        const updated = { ...prev };
+                        delete updated[selectedOptionGroup.name];
+                        return updated;
+                      });
+                    }
+                    setSelectedOptionGroup(null);
+                    setHighlightedOptionCode(null);
+                  }
+                }}
+              />
+              
+              {/* Choose button text */}
+              <text
+                x={svgWidth - padding - 125}
+                y={padding + 22}
+                textAnchor="middle"
+                dominantBaseline="central"
+                fontSize={13}
+                fontWeight={600}
+                fill="#FFFFFF"
+                style={{ cursor: 'pointer', pointerEvents: 'none' }}
+              >
+                {language === 'en' ? 'Choose' : 'Välj'}
+              </text>
+              
+              {/* Cancel button background */}
+              <rect
+                x={svgWidth - padding - 80}
+                y={padding + 6}
+                width={70}
+                height={32}
+                fill="#e5e7eb"
+                rx={4}
+                ry={4}
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  setSelectedOptionGroup(null);
+                  setHighlightedOptionCode(null);
+                }}
+              />
+              
+              {/* Cancel button text */}
+              <text
+                x={svgWidth - padding - 45}
+                y={padding + 22}
+                textAnchor="middle"
+                dominantBaseline="central"
+                fontSize={13}
+                fontWeight={600}
+                fill="#4B5563"
+                style={{ cursor: 'pointer', pointerEvents: 'none' }}
+              >
+                {language === 'en' ? 'Cancel' : 'Avbryt'}
+              </text>
+
+              {/* Course option bars */}
+              {selectedOptionGroup.options.map((optionCode, index) => {
+                const optionCourse = courses.find(c => isCourse(c) && (c as Course).code === optionCode) as Course | undefined;
+                if (!optionCourse) return null;
+
+                const barY = padding + headerHeight + index * (optionHeight + optionSpacing);
+                const barHeight = optionHeight;
+                const barWidth = svgWidth - 2 * padding;
+                const barX = padding;
+                const colors = getCourseColors(optionCourse);
+
+                // Get option name
+                const optionName = language === 'en' ? (optionCourse.nameEn || optionCourse.name) : optionCourse.name;
+                const totalCredits = optionCourse.credits.reduce((sum, c) => sum + c.credits, 0);
+
+                return (
+                  <g
+                    key={index}
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => {
+                      // Toggle: if already selected, deselect; otherwise select
+                      if (highlightedOptionCode === optionCode) {
+                        setHighlightedOptionCode(null);
+                        setSelectedInfo(null);
+                      } else {
+                        setHighlightedOptionCode(optionCode);
+                        setSelectedInfo({
+                          course: optionCourse,
+                          credit: {
+                            period: optionCourse.credits[0]?.period || 'P1',
+                            credits: totalCredits,
+                            year: optionCourse.year,
+                          },
+                        });
+                      }
+                    }}
+                  >
+                    {/* Bar background - highlight if selected */}
+                    <rect
+                      x={barX}
+                      y={barY}
+                      width={barWidth}
+                      height={barHeight}
+                      fill={colors.fill}
+                      stroke={highlightedOptionCode === optionCode ? '#FFD700' : colors.stroke}
+                      strokeWidth={highlightedOptionCode === optionCode ? 3 : 1.5}
+                      rx={3}
+                      ry={3}
+                    />
+
+                    {/* Code, name, and credits text - single line */}
+                    <text
+                      x={barX + 6}
+                      y={barY + optionHeight / 2}
+                      fontSize={11}
+                      fontWeight={600}
+                      fill={kthColors.KthBrokenWhite?.HEX || '#FFFFFF'}
+                      dominantBaseline="central"
+                    >
+                      {optionCode} {optionName}, {totalCredits} {tr[language].credits}
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+        );
+      })()}
+
     </div>
   );
 });
