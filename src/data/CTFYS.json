@@ -536,9 +536,43 @@
     "reexams": []
   },
   {
+    "type": "optionGroup",
+    "name": "Kandidatexamensarbete",
+    "nameEn": "Bachelor Thesis",
+    "year": 3,
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "options": ["SA114X", "EF112X"],
+    "allowedNumberOfOptions": 1,
+    "exams": [],
+    "reexams": []
+  },
+  {
     "code": "SA114X",
-    "name": "Kandidatexamensarbete inom teknisk fysik, grundnivå (alt. EF112X)",
-    "briefName": "KEX-arbete",
+    "name": "Kandidatexamensarbete inom teknisk fysik, grundnivå",
+    "briefName": "KEX i fysik",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "reexams": []
+  },
+  {
+    "code": "EF112X",
+    "name": "Examensarbete inom elektroteknik, grundnivå",
+    "briefName": "KEX i elektroteknik",
+
     "totalCredits": 15,
     "periodCredits": {
       "P1": 0,
