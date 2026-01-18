@@ -94,10 +94,7 @@ const OptionGroupModal: React.FC<OptionGroupModalProps> = ({ optionGroup, langua
                   borderLeft: '3px solid #004791',
                 }}
               >
-                <div style={{ fontWeight: 600, color: '#004791' }}>{option.code}</div>
-                <div style={{ color: '#666', fontSize: '14px', marginTop: '4px' }}>
-                  {language === 'en' ? (option.nameEn || option.name) : option.name}
-                </div>
+                <div style={{ fontWeight: 600, color: '#004791' }}>{option}</div>
               </li>
             ))}
           </ul>
