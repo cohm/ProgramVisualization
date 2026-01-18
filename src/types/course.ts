@@ -15,6 +15,19 @@ export interface CourseCredit {
   year: number; // Academic year this credit belongs to (1, 2, 3, ...)
 }
 
+export interface OptionGroup {
+  type: 'optionGroup';
+  name: string;
+  nameEn?: string;
+  year: number;
+  totalCredits: number;
+  periodCredits: Record<'P1' | 'P2' | 'P3' | 'P4', number>;
+  options: string[]; // Array of course codes
+  allowedNumberOfOptions: number; // How many courses can be selected from this group
+  exams: Period['id'][];
+  reexams: Period['id'][];
+}
+
 export interface Course {
   code: string;
   name: string;

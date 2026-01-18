@@ -39,11 +39,16 @@ const loadCosmetics = async (cosmeticsFile: string | undefined): Promise<Program
 };
 
 // Helper to load and map course data
-const loadCourses = async (dataFile: string): Promise<Course[]> => {
+const loadCourses = async (dataFile: string): Promise<(Course | any)[]> => {
   const rawCourses = await import(`@/data/${dataFile}`);
+  // Separate option groups from regular courses
+  const rawData = rawCourses.default as any[];
+  const optionGroups = rawData.filter(c => c.type === 'optionGroup');
+  const regularCourses = rawData.filter(c => c.type !== 'optionGroup');
+  
   // Merge entries by code to support multi-year courses represented across multiple rows or nested per-year dicts
   const byCode = new Map<string, any>();
-  (rawCourses.default as any[]).forEach((c) => {
+  regularCourses.forEach((c) => {
     // Normalize to nested per-year map: { Year1: {P1:..}, ... }
     let nested: Record<string, Record<string, number>> = {};
     const pc = c.periodCredits || {};
@@ -180,7 +185,7 @@ const loadCourses = async (dataFile: string): Promise<Course[]> => {
     } as Course;
   });
 
-  return courses;
+  return [...courses, ...optionGroups];
 };
 
 type Lang = 'sv' | 'en';
