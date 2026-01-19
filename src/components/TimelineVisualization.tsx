@@ -1760,7 +1760,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .attr('orient', 'auto')
       .append('path')
       .attr('d', 'M0,-5L10,0L0,5')
-      .attr('fill', kthColors.KthBlue?.HEX || '#004791');
+      .attr('fill', kthColors.KthHeaven?.HEX || '#6298D2');
 
     // Helper: create a rounded-corner SVG path from a polyline of only horizontal/vertical segments
     function roundedHVPolyline(points: [number, number][], radius: number) {
@@ -1902,7 +1902,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           toYearIdx: firstCourse.year - 1,
           fromPeriod: lastPrereq.period,
           toPeriod: firstCourse.period,
-          style: { stroke: (kthColors.KthBlue?.HEX || '#004791'), markerId: 'arrow-blue', cssClass: 'prereq-completed' }
+          style: { stroke: (kthColors.KthHeaven?.HEX || '#6298D2'), markerId: 'arrow-blue', cssClass: 'prereq-completed' }
         });
       });
       
@@ -2770,8 +2770,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   {/* Prerequisites - completion */}
   <div onClick={() => setLayers(s => ({ ...s, prereqCompleted: !s.prereqCompleted }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.prereqCompleted ? 1 : 0.4 }}>
           <svg width={16} height={16} viewBox="0 0 20 16">
-            <path d="M2 8 L16 8" stroke={kthColors.KthBlue?.HEX || '#004791'} strokeWidth={2} fill="none" />
-            <path d="M12 4 L20 8 L12 12" fill={kthColors.KthBlue?.HEX || '#004791'} />
+            <path d="M2 8 L16 8" stroke={kthColors.KthHeaven?.HEX || '#6298D2'} strokeWidth={2} fill="none" />
+            <path d="M12 4 L20 8 L12 12" fill={kthColors.KthHeaven?.HEX || '#6298D2'} />
           </svg>
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.prerequisitesCompleted}</span>
         </div>
