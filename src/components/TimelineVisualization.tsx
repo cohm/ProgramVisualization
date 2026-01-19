@@ -3147,7 +3147,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
                       y={barY + optionHeight / 2}
                       fontSize={11}
                       fontWeight={600}
-                      fill={kthColors.KthBrokenWhite?.HEX || '#FFFFFF'}
+                      fill={kthColors.KthMarine?.HEX || '#000061'}
                       dominantBaseline="central"
                     >
                       {optionCode} {optionName}, {totalCredits} {tr[language].credits}
