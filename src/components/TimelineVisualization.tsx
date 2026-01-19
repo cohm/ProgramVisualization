@@ -96,33 +96,32 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const getFamilyVariants = (family: 'blue' | 'green' | 'turquoise' | 'brick' | 'yellow') => {
     if (family === 'blue') {
       return [
-        { fill: kthColors.KthMarine?.HEX || '#000061', stroke: kthColors.KthBlue?.HEX || '#004791', text: kthColors.KthLightBlue?.HEX || '#DEF0FF' },
-        { fill: kthColors.KthBlue?.HEX || '#004791', stroke: kthColors.KthMarine?.HEX || '#000061', text: kthColors.KthLightBlue?.HEX || '#DEF0FF' },
-        { fill: kthColors.KthHeaven?.HEX || '#6298D2', stroke: kthColors.KthMarine?.HEX || '#000061', text: kthColors.KthLightBlue?.HEX || '#DEF0FF' },
+        //{ fill: kthColors.KthHeaven?.HEX || '#6298D2', stroke: kthColors.KthMarine?.HEX || '#000061', text: kthColors.KthMarine?.HEX || '#000061' },
+        { fill: kthColors.KthLightBlue?.HEX || '#6298D2', stroke: kthColors.KthMarine?.HEX || '#000061', text: kthColors.KthMarine?.HEX || '#000061' },
       ];
     }
     if (family === 'green') {
       return [
-        { fill: kthColors.KthGreen?.HEX || '#4DA061', stroke: kthColors.KthDarkGreen?.HEX || '#0D4A21', text: kthColors.KthLightGreen?.HEX || '#C7EBBA' },
-        { fill: kthColors.KthDarkGreen?.HEX || '#0D4A21', stroke: kthColors.KthGreen?.HEX || '#4DA061', text: kthColors.KthLightGreen?.HEX || '#C7EBBA' },
+        //{ fill: kthColors.KthGreen?.HEX || '#4DA061', stroke: kthColors.KthDarkGreen?.HEX || '#0D4A21', text: kthColors.KthLightGreen?.HEX || '#C7EBBA' },
+        { fill: kthColors.KthLightGreen?.HEX || '#C7EBBA', stroke: kthColors.KthDarkGreen?.HEX || '#0D4A21', text: kthColors.KthLightGreen?.HEX || '#C7EBBA' },
       ];
     }
     if (family === 'turquoise') {
       return [
-        { fill: kthColors.KthTurquoise?.HEX || '#339C9C', stroke: kthColors.KthDarkTurquoise?.HEX || '#1C434C', text: kthColors.KthLightTurquoise?.HEX || '#B2E0E0' },
-        { fill: kthColors.KthDarkTurquoise?.HEX || '#1C434C', stroke: kthColors.KthTurquoise?.HEX || '#339C9C', text: kthColors.KthLightTurquoise?.HEX || '#B2E0E0' },
+        //{ fill: kthColors.KthTurquoise?.HEX || '#339C9C', stroke: kthColors.KthDarkTurquoise?.HEX || '#1C434C', text: kthColors.KthLightTurquoise?.HEX || '#B2E0E0' },
+        { fill: kthColors.KthLightTurquoise?.HEX || '#B2E0E0', stroke: kthColors.KthDarkTurquoise?.HEX || '#1C434C', text: kthColors.KthLightTurquoise?.HEX || '#B2E0E0' },
       ];
     }
     if (family === 'brick') {
       return [
-        { fill: kthColors.KthBrick?.HEX || '#E86A58', stroke: kthColors.KthDarkBrick?.HEX || '#78001A', text: kthColors.KthLightBrick?.HEX || '#FFCCC4' },
-        { fill: kthColors.KthDarkBrick?.HEX || '#78001A', stroke: kthColors.KthBrick?.HEX || '#E86A58', text: kthColors.KthLightBrick?.HEX || '#FFCCC4' },
+        //{ fill: kthColors.KthBrick?.HEX || '#E86A58', stroke: kthColors.KthDarkBrick?.HEX || '#78001A', text: kthColors.KthDarkBrick?.HEX || '#78001A' },
+        { fill: kthColors.KthLightBrick?.HEX || '#FFCCC4', stroke: kthColors.KthDarkBrick?.HEX || '#78001A', text: kthColors.KthDarkBrick?.HEX || '#78001A' },
       ];
     }
     // yellow
     return [
-      { fill: kthColors.KthYellow?.HEX || '#FFBE00', stroke: kthColors.KthDarkYellow?.HEX || '#A65900', text: kthColors.KthLightYellow?.HEX || '#FFF0B0' },
-      { fill: kthColors.KthDarkYellow?.HEX || '#A65900', stroke: kthColors.KthYellow?.HEX || '#FFBE00', text: kthColors.KthLightYellow?.HEX || '#FFF0B0' },
+      //{ fill: kthColors.KthYellow?.HEX || '#FFBE00', stroke: kthColors.KthDarkYellow?.HEX || '#A65900', text: kthColors.KthDarkYellow?.HEX || '#A65900' },
+      { fill: kthColors.KthLightYellow?.HEX || '#FFF0B0', stroke: kthColors.KthDarkYellow?.HEX || '#A65900', text: kthColors.KthDarkYellow?.HEX || '#A65900' },
     ];
   };
 
@@ -338,16 +337,19 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               c.setAttribute('cx', '9');
               c.setAttribute('cy', String(itemHeight/2));
               c.setAttribute('r', '6');
-              c.setAttribute('fill', kthColors.KthBrick?.HEX || '#E86A58');
+              c.setAttribute('fill', kthColors.KthLightBrick?.HEX || '#FFCCC4');
+              c.style.stroke = kthColors.KthDarkBrick?.HEX || '#B35A4A';
+              c.style.strokeWidth = '1.5';
               rowG.appendChild(c);
             } else if (item.type === 'reexam') {
               const c = document.createElementNS(NS, 'circle');
               c.setAttribute('cx', '9');
               c.setAttribute('cy', String(itemHeight/2));
               c.setAttribute('r', '6');
-              c.setAttribute('fill', 'none');
-              c.setAttribute('stroke', kthColors.KthBrick?.HEX || '#E86A58');
-              c.setAttribute('stroke-width', '1.5');
+              c.setAttribute('fill', kthColors.KthLightBrick?.HEX || '#FFCCC4');
+              c.style.stroke = kthColors.KthDarkBrick?.HEX || '#B35A4A';
+              c.style.strokeWidth = '1.5';
+              c.style.strokeDasharray = '3 2';
               rowG.appendChild(c);
             } else if (item.type === 'prereqCompleted') {
               const line = document.createElementNS(NS, 'line');
@@ -1565,7 +1567,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               .attr('cy', circleCenterY)
               .attr('r', circleRadius)
               .attr('fill', 'none')
-              .attr('stroke', kthColors.KthBrokenWhite?.HEX || '#FFFFFF')
+              .attr('stroke', kthColors.KthMarine?.HEX || '#000061')
               .attr('stroke-width', 1.5)
               .attr('pointer-events', 'none');
             
@@ -1577,7 +1579,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               .attr('dominant-baseline', 'central')
               .attr('font-size', 10)
               .attr('font-weight', 600)
-              .attr('fill', kthColors.KthBrokenWhite?.HEX || '#FFFFFF')
+              .attr('fill', kthColors.KthMarine?.HEX || '#000061')
               .attr('pointer-events', 'none')
               .text(numOptions);
             
@@ -1607,7 +1609,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             .attr('y', textY)
             .attr('font-size', 11)
             .attr('font-weight', 600)
-            .attr('fill', kthColors.KthBrokenWhite?.HEX || '#FFFFFF')
+            .attr('fill', kthColors.KthMarine?.HEX || '#000061')
             .attr('pointer-events', 'none')
             .attr('class', 'course-label')
             .text(fullText);
@@ -1795,9 +1797,17 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             
             segments.push({ type: 'L', coords: [prevX, prevY] });
             lastX = prevX; lastY = prevY;
-            segments.push({ type: 'Q', coords: [x0, y0, nextX, nextY] });
-            lastX = nextX; lastY = nextY;
-            continue;
+            if (i === points.length - 1) {
+              // Last corner: curve directly into the exact target
+              segments.push({ type: 'Q', coords: [x0, y0, x1, y1] });
+              lastX = x1; lastY = y1;
+              continue;
+            } else {
+              // Intermediate corner: curve to shortened point
+              segments.push({ type: 'Q', coords: [x0, y0, nextX, nextY] });
+              lastX = nextX; lastY = nextY;
+              continue;
+            }
           }
         }
         
@@ -1808,45 +1818,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       // Check if we ended at the target point
       const [targetX, targetY] = points[points.length - 1];
       
-      // If we're short of the target, adjust the last horizontal segment instead of adding a backward line
+      // If we're short of the target, append a final segment to reach target exactly
       if (lastX !== targetX || lastY !== targetY) {
-        // Find the last horizontal segment (L command where Y doesn't change from previous point)
-        let adjusted = false;
-        for (let i = segments.length - 1; i >= 1; i--) {
-          if (segments[i].type === 'L') {
-            const prevSeg = segments[i - 1];
-            let prevY: number;
-            
-            if (prevSeg.type === 'L') {
-              prevY = prevSeg.coords[1];
-            } else if (prevSeg.type === 'Q') {
-              prevY = prevSeg.coords[3]; // quadratic ends at coords[2], coords[3]
-            } else if (prevSeg.type === 'M') {
-              prevY = prevSeg.coords[1];
-            } else {
-              continue;
-            }
-            
-            const thisY = segments[i].coords[1];
-            
-            // Is this a horizontal segment (same Y)?
-            if (Math.abs(thisY - prevY) < 0.1 && thisY === targetY) {
-              // Adjust this horizontal segment to end at targetX
-              segments[i].coords[0] = targetX;
-              adjusted = true;
-              break;
-            }
-          }
-        }
-        
-        // If we couldn't adjust a horizontal segment, only add final L if it goes forward
-        if (!adjusted) {
-          const wouldGoForward = (targetX > lastX && Math.abs(targetY - lastY) < 0.1) || 
-                                 (targetY !== lastY && targetX === lastX);
-          if (wouldGoForward) {
-            segments.push({ type: 'L', coords: [targetX, targetY] });
-          }
-        }
+        segments.push({ type: 'L', coords: [targetX, targetY] });
       }
       
       // Convert segments to path string
@@ -2288,7 +2262,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       const vPad = 8;
       const curveR = 8;
       const laneSpacing = 4;
-      const vLaneSpacing = 4;
+      const vLaneSpacing = 7;
 
       const isSameYear = arrow.fromYearIdx === arrow.toYearIdx;
       const fromPeriodNum = periodOrder[arrow.fromPeriod];
@@ -2445,9 +2419,10 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .attr('cx', m.x)
       .attr('cy', m.cy)
       .attr('r', REEXAM_MARKER_RADIUS)
-      .attr('fill', 'none')
+      .attr('fill', colors.fill)
       .attr('stroke', colors.stroke)
       .attr('stroke-width', REEXAM_MARKER_STROKE_WIDTH)
+      .attr('stroke-dasharray', '2 2')
       .style('pointer-events', 'auto')
       .attr('class', 'reexam-dot')
       .attr('data-layer', 'reexams')
@@ -2751,7 +2726,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         {/* Exams */}
         <div onClick={() => setLayers(s => ({ ...s, exams: !s.exams }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.exams ? 1 : 0.4 }}>
           <svg width={16} height={16} viewBox="0 0 16 16">
-            <circle cx={8} cy={8} r={6} fill={kthColors.KthBrick?.HEX || '#E86A58'} stroke={kthColors.KthDarkBrick?.HEX || '#78001A'} strokeWidth={1.5}/>
+            <circle cx={8} cy={8} r={6} fill={kthColors.KthLightBrick?.HEX || '#FFCCC4'} stroke={kthColors.KthDarkBrick?.HEX || '#B35A4A'} strokeWidth={1.5}/>
           </svg>
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.exams}</span>
         </div>
@@ -2759,7 +2734,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         {/* Reexams */}
         <div onClick={() => setLayers(s => ({ ...s, reexams: !s.reexams }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.reexams ? 1 : 0.4 }}>
           <svg width={16} height={16} viewBox="0 0 16 16">
-            <circle cx={8} cy={8} r={6} fill="none" stroke={kthColors.KthBrick?.HEX || '#E86A58'} strokeWidth={1.5} />
+            <circle cx={8} cy={8} r={6} fill={kthColors.KthLightBrick?.HEX || '#FFCCC4'} stroke={kthColors.KthDarkBrick?.HEX || '#B35A4A'} strokeWidth={1.5} strokeDasharray="3 2" />
           </svg>
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.reexams}</span>
         </div>
