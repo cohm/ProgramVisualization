@@ -1778,6 +1778,25 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         const [x0, y0] = points[i - 1];
         const [x1, y1] = points[i];
         
+        // Check if there's a corner at the next point when we're at i=1
+        // If so, skip the straight line segment and let the corner logic handle it at i=2
+        let skipStraightSegment = false;
+        if (i === 1 && points.length >= 3) {
+          const [x2, y2] = points[i + 1];
+          const dx0 = x1 - x0;
+          const dy0 = y1 - y0;
+          const dx1 = x2 - x1;
+          const dy1 = y2 - y1;
+          
+          // If there's a corner coming, skip the straight line
+          if ((dx0 === 0 && dy1 === 0 && dx1 !== 0) || (dy0 === 0 && dx1 === 0 && dy1 !== 0)) {
+            skipStraightSegment = true;
+            // Still update lastX/lastY to point[1] even though we skipped the segment,
+            // so the corner logic at i=2 sees the correct previous position
+            lastX = x1; lastY = y1;
+          }
+        }
+        
         // If direction changes (i.e., from horizontal to vertical or vice versa), round the corner
         if (i > 1) {
           const [xPrev, yPrev] = points[i - 2];
@@ -1811,8 +1830,11 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           }
         }
         
-        segments.push({ type: 'L', coords: [x1, y1] });
-        lastX = x1; lastY = y1;
+        // Skip the straight line segment if we detected a corner is coming
+        if (!skipStraightSegment) {
+          segments.push({ type: 'L', coords: [x1, y1] });
+          lastX = x1; lastY = y1;
+        }
       }
       
       // Check if we ended at the target point
@@ -2308,11 +2330,17 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         // Start at bar edge
         points.push([startX, startY]);
         // Short horizontal to clear the bar, then vertical to routing Y level
-        const xRouting = startX + vLaneSpacing + vLaneIdxStart * vLaneSpacing;
+        let xRouting = startX + vLaneSpacing + vLaneIdxStart * vLaneSpacing;
+        // Check if the lane offset would push us too far past the target
+        // If so, reduce it to avoid unnecessary back-and-forth routing
+        const xNearEnd = endX - vLaneSpacing - vLaneIdxEnd * vLaneSpacing;
+        if (xRouting > xNearEnd) {
+          // Lane offset is pushing us too far; reduce it
+          xRouting = startX + vLaneSpacing;
+        }
         points.push([xRouting, startY]);
         points.push([xRouting, routingY]);
         // Horizontal segment across to near the target
-        const xNearEnd = endX - vLaneSpacing - vLaneIdxEnd * vLaneSpacing;
         points.push([xNearEnd, routingY]);
         // Vertical down to target Y, then horizontal into target at exact edge
         points.push([xNearEnd, endY]);
@@ -2742,8 +2770,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   {/* Prerequisites - completion */}
   <div onClick={() => setLayers(s => ({ ...s, prereqCompleted: !s.prereqCompleted }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.prereqCompleted ? 1 : 0.4 }}>
           <svg width={16} height={16} viewBox="0 0 20 16">
-            <path d="M2 8 L18 8" stroke={kthColors.KthBlue?.HEX || '#004791'} strokeWidth={2} fill="none" />
-            <path d="M14 6 L18 8 L14 10" fill={kthColors.KthBlue?.HEX || '#004791'} />
+            <path d="M2 8 L16 8" stroke={kthColors.KthBlue?.HEX || '#004791'} strokeWidth={2} fill="none" />
+            <path d="M12 4 L20 8 L12 12" fill={kthColors.KthBlue?.HEX || '#004791'} />
           </svg>
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.prerequisitesCompleted}</span>
         </div>
@@ -2751,8 +2779,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   {/* Prerequisites - participation */}
   <div onClick={() => setLayers(s => ({ ...s, prereqParticipation: !s.prereqParticipation }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.prereqParticipation ? 1 : 0.4 }}>
           <svg width={16} height={16} viewBox="0 0 20 16">
-            <path d="M2 8 L18 8" stroke="#999" strokeWidth={2} strokeDasharray="4,3" fill="none" />
-            <path d="M14 6 L18 8 L14 10" fill="#999" />
+            <path d="M2 8 L16 8" stroke="#999" strokeWidth={2} strokeDasharray="4,3" fill="none" />
+            <path d="M12 4 L20 8 L12 12" fill="#999" />
           </svg>
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.prerequisitesParticipation}</span>
         </div>
