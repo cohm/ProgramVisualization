@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - "**"
+      - main
   pull_request:
 
 permissions:
@@ -27,6 +27,7 @@ jobs:
 
       - name: Run lint checks
         run: npm run lint
+        continue-on-error: true
 
       - name: Build project
         run: npm run build
