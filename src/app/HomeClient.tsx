@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import TimelineVisualization from '@/components/TimelineVisualization';
-import { Course } from '@/types/course';
+import TimelineVisualization, { TimelineVisualizationHandle } from '@/components/TimelineVisualization';
+import { Course, OptionGroup, Period } from '@/types/course';
 import kthColors from '@/data/kth-colors.json';
 import programsConfig from '@/data/programs.json';
 import type { CourseGroup, ProgramCosmetics } from '@/types/cosmetics';
@@ -19,7 +19,46 @@ interface ProgramConfig {
   studyplan?: string;
 }
 
-const programs: ProgramConfig[] = programsConfig as any;
+const programs: ProgramConfig[] = programsConfig as unknown as ProgramConfig[];
+
+interface RawCourseEntry {
+  code: string;
+  name: string;
+  nameEn?: string;
+  briefName?: string;
+  briefNameEn?: string;
+  type?: string;
+  year?: number;
+  periodCredits?: Record<string, unknown>;
+  prerequisites?: string[];
+  prerequisitesCompleted?: string[];
+  prerequisitesParticipation?: string[];
+  exams?: unknown;
+  reexams?: unknown;
+  teacher?: string;
+  webpage?: string;
+  description?: string;
+  [key: string]: unknown;
+}
+
+interface RawEntry {
+  code: string;
+  name: string;
+  nameEn?: string;
+  briefName?: string;
+  briefNameEn?: string;
+  perYear: Record<string, Record<string, number>>;
+  prerequisites: string[];
+  prerequisitesCompleted: string[];
+  prerequisitesParticipation: string[];
+  exams: string[];
+  reexams: string[];
+  examByYear?: Record<number, string[]>;
+  reexamByYear?: Record<number, string[]>;
+  teacher: string;
+  webpage: string;
+  description: string;
+}
 
 // Helper to load cosmetics for a program
 const loadCosmetics = async (cosmeticsFile: string | undefined): Promise<ProgramCosmetics | null> => {
@@ -39,15 +78,15 @@ const loadCosmetics = async (cosmeticsFile: string | undefined): Promise<Program
 };
 
 // Helper to load and map course data
-const loadCourses = async (dataFile: string): Promise<(Course | any)[]> => {
+const loadCourses = async (dataFile: string): Promise<(Course | OptionGroup)[]> => {
   const rawCourses = await import(`@/data/${dataFile}`);
   // Separate option groups from regular courses
-  const rawData = rawCourses.default as any[];
+  const rawData = rawCourses.default as RawCourseEntry[];
   const optionGroups = rawData.filter(c => c.type === 'optionGroup');
   const regularCourses = rawData.filter(c => c.type !== 'optionGroup');
   
   // Merge entries by code to support multi-year courses represented across multiple rows or nested per-year dicts
-  const byCode = new Map<string, any>();
+  const byCode = new Map<string, RawEntry>();
   regularCourses.forEach((c) => {
     // Normalize to nested per-year map: { Year1: {P1:..}, ... }
     let nested: Record<string, Record<string, number>> = {};
@@ -56,9 +95,9 @@ const loadCourses = async (dataFile: string): Promise<(Course | any)[]> => {
     if (hasYearBuckets) {
       // Already nested
       nested = {};
-      Object.entries(pc).forEach(([yk, periods]: any) => {
+      Object.entries(pc as Record<string, Record<string, unknown>>).forEach(([yk, periods]) => {
         nested[yk] = {};
-        Object.entries(periods || {}).forEach(([p, val]: any) => {
+        Object.entries(periods || {}).forEach(([p, val]) => {
           const num = Number(val) || 0;
           if (num > 0) nested[yk][p] = num;
         });
@@ -67,7 +106,7 @@ const loadCourses = async (dataFile: string): Promise<(Course | any)[]> => {
       const yearNum = c.year || 1;
       const yk = `Year${yearNum}`;
       nested[yk] = {};
-      Object.entries(pc).forEach(([p, val]: any) => {
+      Object.entries(pc as Record<string, unknown>).forEach(([p, val]) => {
         const num = Number(val) || 0;
         if (num > 0) nested[yk][p] = num;
       });
@@ -90,12 +129,12 @@ const loadCourses = async (dataFile: string): Promise<(Course | any)[]> => {
         reexams: Array.isArray(c.reexams) ? [...c.reexams] : [],
         examByYear: !Array.isArray(c.exams) && c.exams && typeof c.exams === 'object'
           ? Object.fromEntries(
-              Object.entries(c.exams).map(([yk, arr]: any) => [Number(String(yk).replace(/\D/g, '')) || 1, Array.isArray(arr) ? arr : []])
+              Object.entries(c.exams as Record<string, unknown>).map(([yk, arr]) => [Number(String(yk).replace(/\D/g, '')) || 1, Array.isArray(arr) ? arr : []])
             )
           : undefined,
         reexamByYear: !Array.isArray(c.reexams) && c.reexams && typeof c.reexams === 'object'
           ? Object.fromEntries(
-              Object.entries(c.reexams).map(([yk, arr]: any) => [Number(String(yk).replace(/\D/g, '')) || 1, Array.isArray(arr) ? arr : []])
+              Object.entries(c.reexams as Record<string, unknown>).map(([yk, arr]) => [Number(String(yk).replace(/\D/g, '')) || 1, Array.isArray(arr) ? arr : []])
             )
           : undefined,
         teacher: c.teacher || '',
@@ -112,12 +151,12 @@ const loadCourses = async (dataFile: string): Promise<(Course | any)[]> => {
         });
       });
       // merge arrays uniquely
-      const unique = (arr: any[]) => Array.from(new Set(arr));
+      const unique = <T,>(arr: T[]) => Array.from(new Set(arr));
   existing.prerequisites = unique([...(existing.prerequisites || []), ...(c.prerequisites || [])]);
   existing.prerequisitesCompleted = unique([...(existing.prerequisitesCompleted || []), ...(c.prerequisitesCompleted || [])]);
   existing.prerequisitesParticipation = unique([...(existing.prerequisitesParticipation || []), ...(c.prerequisitesParticipation || [])]);
-      existing.exams = unique([...(existing.exams || []), ...(c.exams || [])]);
-      existing.reexams = unique([...(existing.reexams || []), ...(c.reexams || [])]);
+      existing.exams = unique([...(existing.exams || []), ...(Array.isArray(c.exams) ? c.exams as string[] : [])]);
+      existing.reexams = unique([...(existing.reexams || []), ...(Array.isArray(c.reexams) ? c.reexams as string[] : [])]);
       // merge year-specific exam maps
       const mergeYearMap = (dst: Record<number, string[]>, src: Record<number, string[]> | undefined) => {
         if (!src) return dst;
@@ -130,12 +169,12 @@ const loadCourses = async (dataFile: string): Promise<(Course | any)[]> => {
       };
       const examsObj = !Array.isArray(c.exams) && c.exams && typeof c.exams === 'object'
         ? Object.fromEntries(
-            Object.entries(c.exams).map(([yk, arr]: any) => [Number(String(yk).replace(/\D/g, '')) || 1, Array.isArray(arr) ? arr : []])
+            Object.entries(c.exams as Record<string, unknown>).map(([yk, arr]) => [Number(String(yk).replace(/\D/g, '')) || 1, Array.isArray(arr) ? arr : []])
           ) as Record<number, string[]>
         : undefined;
       const reexamsObj = !Array.isArray(c.reexams) && c.reexams && typeof c.reexams === 'object'
         ? Object.fromEntries(
-            Object.entries(c.reexams).map(([yk, arr]: any) => [Number(String(yk).replace(/\D/g, '')) || 1, Array.isArray(arr) ? arr : []])
+            Object.entries(c.reexams as Record<string, unknown>).map(([yk, arr]) => [Number(String(yk).replace(/\D/g, '')) || 1, Array.isArray(arr) ? arr : []])
           ) as Record<number, string[]>
         : undefined;
       existing.examByYear = mergeYearMap(existing.examByYear || {}, examsObj);
@@ -158,7 +197,7 @@ const loadCourses = async (dataFile: string): Promise<(Course | any)[]> => {
       const year = Number(String(yk).replace(/\D/g, '')) || 1;
       Object.entries(periods).forEach(([p, val]) => {
         const num = Number(val) || 0;
-        if (num > 0) credits.push({ period: p as any, credits: num, year });
+        if (num > 0) credits.push({ period: p as Period['id'], credits: num, year });
       });
     });
     // Determine primary year for compatibility
@@ -185,7 +224,7 @@ const loadCourses = async (dataFile: string): Promise<(Course | any)[]> => {
     } as Course;
   });
 
-  return [...courses, ...optionGroups];
+  return [...courses, ...optionGroups as unknown as OptionGroup[]];
 };
 
 type Lang = 'sv' | 'en';
@@ -217,11 +256,9 @@ const ui = {
 } as const;
 
 export default function HomeClient() {
-  const [selectedProgram, setSelectedProgram] = useState(programs[0]);
-  const [language, setLanguage] = useState<Lang>('sv');
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [courses, setCourses] = useState<(Course | OptionGroup)[]>([]);
   const [cosmetics, setCosmetics] = useState<ProgramCosmetics | null>(null);
-  const vizRef = useRef<any>(null);
+  const vizRef = useRef<TimelineVisualizationHandle | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [exportSubOpen, setExportSubOpen] = useState(false);
   const [includeLegend, setIncludeLegend] = useState(true);
@@ -230,50 +267,44 @@ export default function HomeClient() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  const selectedProgram = useMemo(() => {
+    const param = (searchParams.get('program') || '').trim();
+    return (param ? programs.find(p => p.code.toLowerCase() === param.toLowerCase()) : null) ?? programs[0];
+  }, [searchParams]);
+
+  const language = useMemo<Lang>(() => {
+    const langParam = searchParams.get('l');
+    return (langParam === 'en' || langParam === 'sv') ? langParam : 'sv';
+  }, [searchParams]);
+
+  const setLanguage = (lang: Lang) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('l', lang);
+    router.replace(`/?${params.toString()}`);
+  };
+
   // Load courses and cosmetics when program changes
   useEffect(() => {
     loadCourses(selectedProgram.dataFile).then(setCourses);
     loadCosmetics(selectedProgram.cosmeticsFile).then(setCosmetics);
   }, [selectedProgram]);
 
-  // Sync selected program from URL (?program=CODE)
-  useEffect(() => {
-    const param = (searchParams.get('program') || '').trim();
-    const fromUrl = param
-      ? programs.find(p => p.code.toLowerCase() === param.toLowerCase())
-      : undefined;
-    if (fromUrl && fromUrl.code !== selectedProgram.code) {
-      setSelectedProgram(fromUrl);
-      return;
-    }
-    // If no param, write current selection to URL for persistence
-    if (!param) {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set('program', selectedProgram.code);
-      // replace to avoid polluting history
-      router.replace(`/?${params.toString()}`);
-    }
-  }, [searchParams, router, selectedProgram.code]);
-
-  // Sync language from URL (?l=en or ?l=sv)
-  useEffect(() => {
-    const langParam = searchParams.get('l');
-    if (langParam === 'en' || langParam === 'sv') {
-      if (langParam !== language) {
-        setLanguage(langParam);
-      }
-    }
-  }, [searchParams]);
-
-  // Update URL when language changes
+  // Initialize missing URL params
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
-    const currentLangParam = params.get('l');
-    if (currentLangParam !== language) {
+    let changed = false;
+    if (!params.get('program')) {
+      params.set('program', selectedProgram.code);
+      changed = true;
+    }
+    if (!params.get('l')) {
       params.set('l', language);
+      changed = true;
+    }
+    if (changed) {
       router.replace(`/?${params.toString()}`);
     }
-  }, [language, searchParams, router]);
+  }, [searchParams, router, selectedProgram, language]);
 
   // Close main menu on outside click
   useEffect(() => {
@@ -302,8 +333,6 @@ export default function HomeClient() {
             onChange={(e) => {
               const program = programs.find(p => p.code === e.target.value);
               if (program) {
-                setSelectedProgram(program);
-                // Update URL param to persist selection across reloads
                 const params = new URLSearchParams(searchParams.toString());
                 params.set('program', program.code);
                 router.replace(`/?${params.toString()}`);

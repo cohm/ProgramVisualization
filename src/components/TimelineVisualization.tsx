@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, forwardRef, useImperativeHandle, useState } from 'react';
 import * as d3 from 'd3';
-import { Course, OptionGroup, Period, academicPeriods } from '@/types/course';
+import { Course, CourseCredit, OptionGroup, Period, academicPeriods } from '@/types/course';
 import kthColors from '@/data/kth-colors.json';
 import type { ProgramCosmetics } from '@/types/cosmetics';
 
@@ -25,10 +25,14 @@ const isCourse = (item: CourseOrOptionGroup): item is Course => {
 };
 
 const isOptionGroup = (item: CourseOrOptionGroup): item is OptionGroup => {
-  return 'type' in item && (item as any).type === 'optionGroup';
+  return 'type' in item && item.type === 'optionGroup';
 };
 
-const TimelineVisualization = forwardRef(function TimelineVisualization({ courses, language = 'sv', programName, programCode, studyplanUrl, programComment, cosmetics }: TimelineVisualizationProps, ref: any) {
+export interface TimelineVisualizationHandle {
+  exportChart: (format: 'png' | 'svg' | 'pdf', options?: { includeLegend?: boolean }) => Promise<void>;
+}
+
+const TimelineVisualization = forwardRef(function TimelineVisualization({ courses, language = 'sv', programName, programCode, studyplanUrl, programComment, cosmetics }: TimelineVisualizationProps, ref: React.ForwardedRef<TimelineVisualizationHandle>) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   // Preserve the initial chart height to keep a stable px-per-ECTS baseline across re-renders/toggles
@@ -460,7 +464,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               r.setAttribute('width', '18');
               r.setAttribute('height', '12');
               // Create linear gradient for this group
-              let gradId = `legendGrad_${gIdx}`;
+              const gradId = `legendGrad_${gIdx}`;
               const lg = document.createElementNS(NS, 'linearGradient');
               lg.setAttribute('id', gradId);
               lg.setAttribute('x1', '0%');
@@ -792,7 +796,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
   const maxYear = Math.max(1, ...courses.flatMap(c => {
     if (isCourse(c)) {
-      return c.credits.map(cr => (cr as any).year || c.year || 1);
+      return c.credits.map(cr => cr.year || c.year || 1);
     } else {
       return [(c as OptionGroup).year || 1];
     }
@@ -848,7 +852,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       }));
     
     credits.forEach((credit) => {
-      const key = `${(credit as any).year}-${credit.period}`;
+      const key = `${credit.year}-${credit.period}`;
       if (!slotsByYearPeriod[key]) slotsByYearPeriod[key] = [];
       slotsByYearPeriod[key].push({ item, credit });
     });
@@ -938,7 +942,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               <strong>${tr[language].period} P${i + 1}</strong>
             `).style('display', 'block');
           })
-          .on('mousemove', (event: any) => {
+          .on('mousemove', (event: MouseEvent) => {
             tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
           })
           .on('mouseout', () => tooltip.style('display', 'none'));
@@ -1016,7 +1020,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               <strong>${tr[language].examPeriodLabel} ${period.id}</strong><br/>
             `).style('display', 'block');
           })
-          .on('mousemove', (event: any) => {
+          .on('mousemove', (event: MouseEvent) => {
             tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
           })
           .on('mouseout', () => tooltip.style('display', 'none'));
@@ -1035,7 +1039,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               <strong>${tr[language].reexamPeriodLabel} ${period.id}</strong><br/>
             `).style('display', 'block');
           })
-          .on('mousemove', (event: any) => {
+          .on('mousemove', (event: MouseEvent) => {
             tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
           })
           .on('mouseout', () => tooltip.style('display', 'none'));
@@ -1061,17 +1065,16 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       barWidth: number;
       barHeight: number;
       colors: { fill: string; stroke: string; text: string };
-      periodObj: any;
+      periodObj: Period;
     };
     const allBars: BarInfo[] = [];
 
     Object.entries(slotsByYearPeriod).forEach(([key, list]) => {
       const [yearStr, periodId] = key.split('-');
       const year = Number(yearStr);
-      const period = academicPeriods.find((p) => p.id === (periodId as any))!;
+      const period = academicPeriods.find((p) => p.id === (periodId as Period['id']))!;
       const yearIndex = year - 1;
       const yearY = yearYOffset[yearIndex];
-      const w = timeScale(period.end) - timeScale(period.start);
       const x = timeScale(period.start);
       const pixelsPerECTS = pxPerECTS;
       const gapPx = STACK_GAP_PX;
@@ -1093,7 +1096,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
         allBars.push({
           item,
-          credit: { period: credit.period as any, credits: credit.credits, year: (credit as any).year || (isCourse(item) ? item.year : (item as OptionGroup).year) },
+          credit: { period: credit.period as Period['id'], credits: credit.credits, year: credit.year || (isCourse(item) ? item.year : (item as OptionGroup).year) },
           barX,
           barY: cursorY,
           barWidth,
@@ -1103,7 +1106,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         });
 
         const itemId = isCourse(item) ? item.code : `optionGroup-${(item as OptionGroup).name}`;
-        positionMap[`${itemId}-${(credit as any).year}-${credit.period}`] = {
+        positionMap[`${itemId}-${credit.year}-${credit.period}`] = {
           xStart: barX,
           xEnd: barX + barWidth,
           yCenter: cursorY + courseHeight / 2,
@@ -1252,21 +1255,21 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
                 return '';
               })
               .style('cursor', 'pointer')
-              .on('mouseover', (event: any) => {
+              .on('mouseover', () => {
                 tooltip.html(tooltipText).style('display', 'block');
               })
-              .on('mousemove', (event: any) => {
+              .on('mousemove', (event: MouseEvent) => {
                 tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
               })
               .on('mouseout', () => tooltip.style('display', 'none'))
-              .on('click', (event: any) => {
+              .on('click', (event: MouseEvent) => {
                 event.stopPropagation();
                 if (isCourse(item)) {
                   const course = item as Course;
                   setFocusCourse(prev => {
                     const next = prev === course.code ? null : course.code;
                     if (next) {
-                      setSelectedInfo({ course, credit: { period: current.credit.period as any, credits: current.credit.credits, year: current.credit.year } });
+                      setSelectedInfo({ course, credit: { period: current.credit.period as Period['id'], credits: current.credit.credits, year: current.credit.year } });
                     } else {
                       setSelectedInfo(null);
                     }
@@ -1303,10 +1306,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     Object.entries(slotsByYearPeriod).forEach(([key, list]) => {
     const [yearStr, periodId] = key.split('-');
       const year = Number(yearStr);
-      const period = academicPeriods.find((p) => p.id === (periodId as any))!;
+      const period = academicPeriods.find((p) => p.id === (periodId as Period['id']))!;
   const yearIndex = year - 1;
   const yearY = yearYOffset[yearIndex];
-      const w = timeScale(period.end) - timeScale(period.start);
       const x = timeScale(period.start);
 
     // pixels per ECTS for the year band (baseline set from initial layout)
@@ -1357,7 +1359,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     : colors.fill;
 
   // Check if this bar is connected to others (applies to both courses and option groups)
-  const barKey = `${itemId}-${(credit as any).year}-${credit.period}`;
+  const barKey = `${itemId}-${credit.year}-${credit.period}`;
   const connectedRight = barsConnectedRight.has(barKey);
   const connectedLeft = barsConnectedLeft.has(barKey);
 
@@ -1374,7 +1376,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     .attr('class', 'course-block')
     .attr('data-course-code', itemId)
     .style('cursor', 'pointer')
-    .on('mouseover', (event: any) => {
+    .on('mouseover', () => {
       // Build tooltip based on item type
       let tooltipText = '';
       
@@ -1429,11 +1431,11 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       
       tooltip.html(tooltipText).style('display', 'block');
     })
-    .on('mousemove', (event: any) => {
+    .on('mousemove', (event: MouseEvent) => {
       tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
     })
     .on('mouseout', () => tooltip.style('display', 'none'))
-    .on('click', (event: any) => {
+    .on('click', (event: MouseEvent) => {
       event.stopPropagation();
       if (isCourse(item)) {
         const course = item as Course;
@@ -1455,7 +1457,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           setFocusCourse(prev => {
             const next = prev === course.code ? null : course.code;
             if (next) {
-              setSelectedInfo({ course, credit: { period: credit.period as any, credits: credit.credits, year: (credit as any).year || course.year } });
+              setSelectedInfo({ course, credit: { period: credit.period as Period['id'], credits: credit.credits, year: credit.year || course.year } });
             } else {
               setSelectedInfo(null);
             }
@@ -1535,7 +1537,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   }
 
   // store positions for arrows and markers
-  positionMap[`${itemId}-${(credit as any).year}-${credit.period}`] = {
+  positionMap[`${itemId}-${credit.year}-${credit.period}`] = {
     xStart: barX,
     xEnd: barX + barWidth,
     yCenter: cursorY + courseHeight / 2,
@@ -1670,28 +1672,30 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
     // Year labels on the left
     // Collect exam / re-exam markers so we can draw them on the top layer later
-    const examMarkers: Array<any> = [];
-    const reexamMarkers: Array<any> = [];
+    type ExamMarker = { x: number; cy: number; r: number; course: Course; examPeriod: Period };
+    type ReexamMarker = { x: number; cy: number; r: number; course: Course; rePeriod: Period };
+    const examMarkers: ExamMarker[] = [];
+    const reexamMarkers: ReexamMarker[] = [];
     individualCourses.forEach((course) => {
   const examsGlobal: string[] = course.exams || [];
   const reexamsGlobal: string[] = course.reexams || [];
-  const examByYear = (course as any).examsByYear as Record<number, string[]> | undefined;
-  const reexamByYear = (course as any).reexamsByYear as Record<number, string[]> | undefined;
+  const examByYear = course.examsByYear;
+  const reexamByYear = course.reexamsByYear;
 
       course.credits.forEach((credit) => {
-        const y = (credit as any).year as number;
+        const y = credit.year;
         const examsForYear = examByYear?.[y];
         const reexamsForYear = reexamByYear?.[y];
 
         const hasExam = Array.isArray(examsForYear)
-          ? examsForYear.includes(credit.period as any)
-          : examsGlobal.includes(credit.period as any);
+          ? examsForYear.includes(credit.period)
+          : examsGlobal.includes(credit.period);
         const hasReexam = Array.isArray(reexamsForYear)
-          ? reexamsForYear.includes(credit.period as any)
-          : reexamsGlobal.includes(credit.period as any);
+          ? reexamsForYear.includes(credit.period)
+          : reexamsGlobal.includes(credit.period);
 
         if (hasExam) {
-          const examPeriod = academicPeriods.find(p => p.id === (credit.period as any));
+          const examPeriod = academicPeriods.find(p => p.id === credit.period);
           if (examPeriod) {
             const pos = positionMap[`${course.code}-${y}-${credit.period}`];
             if (pos) {
@@ -1701,7 +1705,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           }
         }
         if (hasReexam) {
-          const rePeriod = academicPeriods.find(p => p.id === (credit.period as any));
+          const rePeriod = academicPeriods.find(p => p.id === credit.period);
           if (rePeriod) {
             const pos = positionMap[`${course.code}-${y}-${credit.period}`];
             if (pos) {
@@ -1725,7 +1729,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('class', 'year-label')
         .attr('data-year', String(i + 1))
         .style('cursor', 'pointer')
-        .on('click', (event: any) => {
+        .on('click', (event: MouseEvent) => {
           event.stopPropagation();
           setFocusYear((prev) => (prev === i + 1 ? null : i + 1));
         });
@@ -1862,11 +1866,12 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
     // Arrow routing: assign global lanes per gap so arrows do not overlap
     // Collect ALL arrows first (both completed and participation prereqs for all courses)
+    type PositionEntry = { xStart: number; xEnd: number; yCenter: number; yTop: number; height: number };
     type ArrowData = {
       prCode: string;
       targetCourse: Course;
-      from: any;
-      to: any;
+      from: PositionEntry;
+      to: PositionEntry;
       fromYearIdx: number;
       toYearIdx: number;
       fromPeriod: string;
@@ -1876,7 +1881,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     const allArrows: ArrowData[] = [];
     
     individualCourses.forEach((course) => {
-      const courseCreditsSorted = [...course.credits].sort((a: any, b: any) => (a.year - b.year) || (periodOrder[a.period] - periodOrder[b.period]));
+      const courseCreditsSorted = [...course.credits].sort((a: CourseCredit, b: CourseCredit) => (a.year - b.year) || (periodOrder[a.period] - periodOrder[b.period]));
       const firstCourse = courseCreditsSorted[0];
       if (!firstCourse) return;
       
@@ -1887,7 +1892,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       completed.forEach((prCode: string) => {
         const prereq = individualCourses.find((c) => c.code === prCode);
         if (!prereq) return;
-        const prereqCreditsSorted = [...prereq.credits].sort((a: any, b: any) => (a.year - b.year) || (periodOrder[a.period] - periodOrder[b.period]));
+        const prereqCreditsSorted = [...prereq.credits].sort((a: CourseCredit, b: CourseCredit) => (a.year - b.year) || (periodOrder[a.period] - periodOrder[b.period]));
         const lastPrereq = prereqCreditsSorted[prereqCreditsSorted.length - 1];
         if (!lastPrereq) return;
         const from = positionMap[`${prereq.code}-${lastPrereq.year}-${lastPrereq.period}`];
@@ -1910,7 +1915,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       participated.forEach((prCode: string) => {
         const prereq = individualCourses.find((c) => c.code === prCode);
         if (!prereq) return;
-        const prereqCreditsSorted = [...prereq.credits].sort((a: any, b: any) => (a.year - b.year) || (periodOrder[a.period] - periodOrder[b.period]));
+        const prereqCreditsSorted = [...prereq.credits].sort((a: CourseCredit, b: CourseCredit) => (a.year - b.year) || (periodOrder[a.period] - periodOrder[b.period]));
         const lastPrereq = prereqCreditsSorted[prereqCreditsSorted.length - 1];
         if (!lastPrereq) return;
         const from = positionMap[`${prereq.code}-${lastPrereq.year}-${lastPrereq.period}`];
@@ -2429,10 +2434,10 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .attr('data-layer', 'exams')
       .attr('data-course', m.course.code)
       .attr('data-group', groupName)
-      .on('mouseover', (event: any) => {
+      .on('mouseover', () => {
         tooltip.html(`<strong>${m.course.code}</strong><br/>${tr[language].exam}`).style('display', 'block');
       })
-      .on('mousemove', (event: any) => {
+      .on('mousemove', (event: MouseEvent) => {
         tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
       })
       .on('mouseout', () => tooltip.style('display', 'none'));
@@ -2456,10 +2461,10 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .attr('data-layer', 'reexams')
       .attr('data-course', m.course.code)
       .attr('data-group', groupName)
-      .on('mouseover', (event: any) => {
+      .on('mouseover', () => {
         tooltip.html(`<strong>${m.course.code}</strong><br/>${tr[language].reexam}`).style('display', 'block');
       })
-      .on('mousemove', (event: any) => {
+      .on('mousemove', (event: MouseEvent) => {
         tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
       })
       .on('mouseout', () => tooltip.style('display', 'none'));
@@ -2475,40 +2480,40 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     const container = d3.select(containerRef.current);
 
     // Exams: hide/show completely and adjust pointer-events
-    container.selectAll<SVGCircleElement, any>('.exam-dot')
+    container.selectAll<SVGCircleElement, unknown>('.exam-dot')
       .interrupt()
       .style('display', layers.exams ? '' : 'none')
       .style('opacity', layers.exams ? '1' : '0.2')
       .style('pointer-events', layers.exams ? 'auto' : 'none');
 
     // Reexams
-    container.selectAll<SVGCircleElement, any>('.reexam-dot')
+    container.selectAll<SVGCircleElement, unknown>('.reexam-dot')
       .interrupt()
       .style('display', layers.reexams ? '' : 'none')
       .style('opacity', layers.reexams ? '1' : '0.2')
       .style('pointer-events', layers.reexams ? 'auto' : 'none');
 
     // Prerequisites - completed
-    container.selectAll<SVGPathElement, any>('.prereq-path.prereq-completed')
+    container.selectAll<SVGPathElement, unknown>('.prereq-path.prereq-completed')
       .interrupt()
       .style('display', layers.prereqCompleted ? '' : 'none')
       .style('opacity', layers.prereqCompleted ? '1' : '0.15')
       .style('pointer-events', layers.prereqCompleted ? 'auto' : 'none');
 
     // Prerequisites - participation
-    container.selectAll<SVGPathElement, any>('.prereq-path.prereq-participation')
+    container.selectAll<SVGPathElement, unknown>('.prereq-path.prereq-participation')
       .interrupt()
       .style('display', layers.prereqParticipation ? '' : 'none')
       .style('opacity', layers.prereqParticipation ? '1' : '0.15')
       .style('pointer-events', layers.prereqParticipation ? 'auto' : 'none');
 
     // Study periods (background alternating)
-    container.selectAll<SVGRectElement, any>('.study-period')
+    container.selectAll<SVGRectElement, unknown>('.study-period')
       .interrupt()
       .style('display', layers.studyPeriods ? '' : 'none');
 
     // Course bars (main course rectangles)
-    container.selectAll<SVGRectElement, any>('.course-block')
+    container.selectAll<SVGRectElement, unknown>('.course-block')
       .interrupt()
       .style('display', layers.courseBars ? '' : 'none')
       .style('pointer-events', layers.courseBars ? 'auto' : 'none');
@@ -2519,20 +2524,20 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .style('display', layers.courseBars ? '' : 'none');
 
     // Course connectors (fills and borders between consecutive bars)
-    container.selectAll<SVGPolygonElement, any>('.course-connector-fill')
+    container.selectAll<SVGPolygonElement, unknown>('.course-connector-fill')
       .interrupt()
       .style('display', layers.courseBars ? '' : 'none');
-    container.selectAll<SVGPathElement, any>('.course-connector-border')
+    container.selectAll<SVGPathElement, unknown>('.course-connector-border')
       .interrupt()
       .style('display', layers.courseBars ? '' : 'none');
 
     // Exam periods (blue)
-    container.selectAll<SVGRectElement, any>('.exam-period-rect')
+    container.selectAll<SVGRectElement, unknown>('.exam-period-rect')
       .interrupt()
       .style('display', layers.examPeriods ? '' : 'none');
 
     // Reexam periods (gray)
-    container.selectAll<SVGRectElement, any>('.reexam-period-rect')
+    container.selectAll<SVGRectElement, unknown>('.reexam-period-rect')
       .interrupt()
       .style('display', layers.reexamPeriods ? '' : 'none');
   }, [layers]);
@@ -2574,7 +2579,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     });
     
     // Handle prerequisite arrows separately - hide if EITHER source OR target is hidden
-    container.selectAll<SVGPathElement, any>('.prereq-path')
+    container.selectAll<SVGPathElement, unknown>('.prereq-path')
       .each(function() {
         const arrow = d3.select(this);
         const fromGroup = arrow.attr('data-from-group');
@@ -2594,12 +2599,12 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     const container = d3.select(containerRef.current);
     if (!focusCourse) {
       // remove focus overrides, restore baseline from layer settings
-      container.selectAll('.course-group').style('opacity', null as any);
-      container.selectAll('.course-connector-fill').style('opacity', null as any);
-      container.selectAll('.course-connector-border').style('opacity', null as any);
-      container.selectAll('.exam-dot').style('opacity', null as any);
-      container.selectAll('.reexam-dot').style('opacity', null as any);
-      container.selectAll('.prereq-path').style('opacity', null as any);
+      container.selectAll('.course-group').style('opacity', null);
+      container.selectAll('.course-connector-fill').style('opacity', null);
+      container.selectAll('.course-connector-border').style('opacity', null);
+      container.selectAll('.exam-dot').style('opacity', null);
+      container.selectAll('.reexam-dot').style('opacity', null);
+      container.selectAll('.prereq-path').style('opacity', null);
       return;
     }
 
@@ -2629,35 +2634,35 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       }).map(c => c.code)
     );
 
-    container.selectAll<SVGGElement, any>('.course-group')
+    container.selectAll<SVGGElement, unknown>('.course-group')
       .style('opacity', function() {
         const code = (this as Element).getAttribute('data-course');
         const keep = !!code && (code === focusCourse || prereqSet.has(code) || dependentSet.has(code));
         return keep ? '1' : '0.1';
       });
 
-    container.selectAll<SVGPolygonElement, any>('.course-connector-fill')
+    container.selectAll<SVGPolygonElement, unknown>('.course-connector-fill')
       .style('opacity', function() {
         const code = (this as Element).getAttribute('data-course');
         const keep = !!code && (code === focusCourse || prereqSet.has(code) || dependentSet.has(code));
         return keep ? '1' : '0.1';
       });
 
-    container.selectAll<SVGPathElement, any>('.course-connector-border')
+    container.selectAll<SVGPathElement, unknown>('.course-connector-border')
       .style('opacity', function() {
         const code = (this as Element).getAttribute('data-course');
         const keep = !!code && (code === focusCourse || prereqSet.has(code) || dependentSet.has(code));
         return keep ? '1' : '0.1';
       });
 
-    container.selectAll<SVGCircleElement, any>('.exam-dot, .reexam-dot')
+    container.selectAll<SVGCircleElement, unknown>('.exam-dot, .reexam-dot')
       .style('opacity', function() {
         const code = (this as Element).getAttribute('data-course');
         const keep = !!code && (code === focusCourse || prereqSet.has(code) || dependentSet.has(code));
         return keep ? '1' : '0.1';
       });
 
-    container.selectAll<SVGPathElement, any>('.prereq-path')
+    container.selectAll<SVGPathElement, unknown>('.prereq-path')
       .style('opacity', function() {
         const from = (this as Element).getAttribute('data-from');
         const to = (this as Element).getAttribute('data-to');
@@ -2674,13 +2679,13 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     if (focusCourse) return;
 
     if (!focusYear) {
-      container.selectAll('.course-group').style('opacity', null as any);
-      container.selectAll('.course-connector-fill').style('opacity', null as any);
-      container.selectAll('.course-connector-border').style('opacity', null as any);
-      container.selectAll('.exam-dot').style('opacity', null as any);
-      container.selectAll('.reexam-dot').style('opacity', null as any);
-      container.selectAll('.prereq-path').style('opacity', null as any);
-      container.selectAll<SVGTextElement, any>('.year-label').style('opacity', null as any);
+      container.selectAll('.course-group').style('opacity', null);
+      container.selectAll('.course-connector-fill').style('opacity', null);
+      container.selectAll('.course-connector-border').style('opacity', null);
+      container.selectAll('.exam-dot').style('opacity', null);
+      container.selectAll('.reexam-dot').style('opacity', null);
+      container.selectAll('.prereq-path').style('opacity', null);
+      container.selectAll<SVGTextElement, unknown>('.year-label').style('opacity', null);
       return;
     }
 
@@ -2696,31 +2701,31 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       // Otherwise it's a course code
       const c = courses.find(cc => isCourse(cc) && (cc as Course).code === id) as Course | undefined;
       if (!c) return false;
-      return c.credits.some((cr: any) => Number((cr as any).year) === focusYear);
+      return c.credits.some((cr: CourseCredit) => Number(cr.year) === focusYear);
     };
 
-    container.selectAll<SVGGElement, any>('.course-group')
+    container.selectAll<SVGGElement, unknown>('.course-group')
       .style('opacity', function() {
         const code = (this as Element).getAttribute('data-course');
         const keep = !!code && itemHasYear(code);
         return keep ? '1' : '0.1';
       });
 
-    container.selectAll<SVGPolygonElement, any>('.course-connector-fill')
+    container.selectAll<SVGPolygonElement, unknown>('.course-connector-fill')
       .style('opacity', function() {
         const code = (this as Element).getAttribute('data-course');
         const keep = !!code && itemHasYear(code);
         return keep ? '1' : '0.1';
       });
 
-    container.selectAll<SVGPathElement, any>('.course-connector-border')
+    container.selectAll<SVGPathElement, unknown>('.course-connector-border')
       .style('opacity', function() {
         const code = (this as Element).getAttribute('data-course');
         const keep = !!code && itemHasYear(code);
         return keep ? '1' : '0.1';
       });
 
-    container.selectAll<SVGCircleElement, any>('.exam-dot, .reexam-dot')
+    container.selectAll<SVGCircleElement, unknown>('.exam-dot, .reexam-dot')
       .style('opacity', function() {
         const code = (this as Element).getAttribute('data-course');
         const keep = !!code && itemHasYear(code);
@@ -2728,11 +2733,11 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       });
 
     // Fade all prerequisite arrows when focusing a year
-    container.selectAll<SVGPathElement, any>('.prereq-path')
+    container.selectAll<SVGPathElement, unknown>('.prereq-path')
       .style('opacity', '0.1');
 
     // Fade year labels not in focus
-    container.selectAll<SVGTextElement, any>('.year-label')
+    container.selectAll<SVGTextElement, unknown>('.year-label')
       .style('opacity', function() {
         const year = parseInt((this as Element).getAttribute('data-year') || '0');
         return year === focusYear ? '1' : '0.3';
@@ -2831,7 +2836,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
                   style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: isHidden ? 0.4 : 1 }}
                   title={isHidden ? 'Show group' : 'Hide group'}
                 >
-                  <div style={{ width: 18, height: 12, background: gradient as any, borderRadius: 2, border: `1px solid ${borderColor}` }} />
+                  <div style={{ width: 18, height: 12, background: gradient, borderRadius: 2, border: `1px solid ${borderColor}` }} />
                   <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>
                     {language === 'en' ? (group.nameEn || group.name) : group.name}
                   </span>
@@ -2851,7 +2856,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               <div>
                 <div style={{ fontWeight: 700, marginBottom: 4 }}>
                   {selectedInfo.course.code}{' '}{language === 'en' 
-                    ? ((selectedInfo.course as any).nameEn || selectedInfo.course.name)
+                    ? (selectedInfo.course.nameEn || selectedInfo.course.name)
                     : selectedInfo.course.name}
                   {selectedInfo.credit ? `, ${selectedInfo.credit.credits} ${tr[language].credits}` : ''}{' '}
                   <a href={`https://www.kth.se/student/kurser/kurs/${selectedInfo.course.code.toLowerCase()}${language === 'en' ? '?l=en' : ''}`}
@@ -2878,12 +2883,12 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               <div>
                 {tr[language].legend.prerequisitesCompleted}:{' '}
                 {(() => {
-                  const list = (selectedInfo.course as any).prerequisitesCompleted || selectedInfo.course.prerequisites || [];
+                  const list = selectedInfo.course.prerequisitesCompleted || selectedInfo.course.prerequisites || [];
                   return (list.length ? (list as string[]).join(', ') : '—');
                 })()}{', '}
                 {tr[language].legend.prerequisitesParticipation}:{' '}
                 {(() => {
-                  const list = (selectedInfo.course as any).prerequisitesParticipation || [];
+                  const list = selectedInfo.course.prerequisitesParticipation || [];
                   return (list.length ? (list as string[]).join(', ') : '—');
                 })()}{', '}
                 {tr[language].requiredFor}:{' '}
