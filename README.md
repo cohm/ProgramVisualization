@@ -33,7 +33,7 @@ If the dev server appears suspended (e.g. you see `zsh: suspended npm run dev`),
 Recommended: Vercel (works well with Next.js). Create a GitHub repo and connect it to Vercel. Default build command `npm run build` and output directory are handled by Next.js.
 
 **Important for Vercel deployment**: 
-- The PDF export feature requires Puppeteer and a serverless-compatible Chrome binary. This is handled automatically by `@sparticuz/chromium-min`.
+- The PDF export feature requires Puppeteer and a serverless-compatible Chrome binary. This is handled automatically by `@sparticuz/chromium`.
 - The `vercel.json` file configures increased memory and timeout for the PDF generation endpoint.
 - **Hobby Plan Limitation**: Vercel's Hobby (free) plan has a 1024MB default memory limit with a maximum of 2048MB for serverless functions. The configuration uses 1800MB to stay within this limit. If deployments silently fail from GitHub, check that the memory allocation in `vercel.json` is ≤2048MB.
 - Pro plans support up to 3008MB which may improve performance for larger visualizations.
@@ -53,7 +53,7 @@ Key source files
 - `src/app/page.tsx` — main page that mounts the visualization component.
 - `src/app/HomeClient.tsx` — client-side wrapper for the visualization with program selector.
 - `src/components/TimelineVisualization.tsx` — the D3 + React visualization (~2400 lines). This file draws the SVG, course bars with visual connectors for consecutive periods, prerequisite arrows, exam/re-exam markers, and handles SVG/PDF export.
-- `src/app/api/export-pdf/route.ts` — API endpoint for server-side PDF generation using Puppeteer and `@sparticuz/chromium-min`.
+- `src/app/api/export-pdf/route.ts` — API endpoint for server-side PDF generation using Puppeteer and `@sparticuz/chromium`.
 - `src/types/course.ts` — TypeScript types (Course, Period, etc.) and the exported `academicPeriods` (loaded from JSON).
 - `src/types/cosmetics.ts` — TypeScript types for program-specific visual customizations (colors, positions).
 
@@ -86,7 +86,7 @@ Exam/re-exam markers
 
 **Export Functionality**:
 - **SVG Export**: Downloads the visualization as a vector SVG file with embedded fonts (Figtree from Google Fonts).
-- **PDF Export**: Server-side PDF generation using Puppeteer with Chrome for perfect font rendering and vector graphics. Configured for Vercel deployment with `@sparticuz/chromium-min`.
+- **PDF Export**: Server-side PDF generation using Puppeteer with Chrome for perfect font rendering and vector graphics. Configured for Vercel deployment with `@sparticuz/chromium`.
 
 **Tooltip Information**: Hover over courses to see total credits and per-period credit breakdown.
 
@@ -95,7 +95,7 @@ Troubleshooting
 - Port 3000 already in use: find and kill the process `lsof -iTCP:3000 -sTCP:LISTEN -n -P` then `kill <PID>`.
 - Suspended dev job (Ctrl+Z): resume with `fg` or start a background server with `nohup` as shown above.
 - Type errors: run `npx tsc --noEmit` to see TypeScript diagnostics.
-- PDF export not working on Vercel: Ensure `vercel.json` is deployed with the project and `@sparticuz/chromium-min` is in dependencies.
+- PDF export not working on Vercel: Ensure `vercel.json` is deployed with the project and `@sparticuz/chromium` is in dependencies.
 
 ## Dependencies
 
@@ -104,7 +104,7 @@ Key production dependencies:
 - `react` (19.x) — UI library
 - `d3` (7.9.x) — Visualization and data manipulation
 - `puppeteer-core` (23.x) — Headless browser control for PDF generation
-- `@sparticuz/chromium-min` (141.x) — Serverless-compatible Chrome binary for Vercel
+- `@sparticuz/chromium` (141.x) — Serverless-compatible Chrome binary for Vercel
 
 Development dependencies include TypeScript, ESLint, and Tailwind CSS.
 
