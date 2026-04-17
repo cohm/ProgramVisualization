@@ -26,14 +26,14 @@ const getGitInfo = () => {
         } else if (remoteUrl.startsWith('https://')) {
           repoUrl = remoteUrl.replace(/\.git$/, '');
         }
-      } catch (e) {
+      } catch {
         // No remote configured, use hardcoded fallback for this repo
         repoUrl = 'https://github.com/cohm/ProgramVisualization';
       }
     }
     
     return { hash, timestamp, repoUrl };
-  } catch (e) {
+  } catch {
     return { 
       hash: process.env.VERCEL_GIT_COMMIT_SHA?.substring(0, 7) || 'unknown', 
       timestamp: new Date().toISOString(), 

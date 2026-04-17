@@ -53,9 +53,20 @@ export interface Course {
 
 import rawPeriods from '@/data/academic-periods.json';
 
+interface RawPeriod {
+  id: string;
+  start: string;
+  end: string;
+  lectureEnd: string;
+  examStart: string;
+  examEnd: string;
+  reExamStart: string;
+  reExamEnd: string;
+}
+
 // Convert JSON strings to Date objects
-export const academicPeriods: Period[] = (rawPeriods as Array<any>).map((p) => ({
-  id: p.id,
+export const academicPeriods: Period[] = (rawPeriods as RawPeriod[]).map((p) => ({
+  id: p.id as Period['id'],
   start: new Date(p.start),
   end: new Date(p.end),
   lectureEnd: new Date(p.lectureEnd),
