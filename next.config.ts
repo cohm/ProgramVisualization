@@ -31,7 +31,7 @@ const getGitInfo = () => {
         repoUrl = 'https://github.com/cohm/ProgramVisualization';
       }
     }
-    
+
     return { hash, timestamp, repoUrl };
   } catch {
     return { 

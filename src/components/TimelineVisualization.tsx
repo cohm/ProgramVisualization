@@ -1,6 +1,6 @@
 
 
-import React, { useEffect, useRef, forwardRef, useImperativeHandle, useState } from 'react';
+import React, { useEffect, useRef, forwardRef, useImperativeHandle, useState, useCallback } from 'react';
 import * as d3 from 'd3';
 import { Course, CourseCredit, OptionGroup, Period, academicPeriods } from '@/types/course';
 import kthColors from '@/data/kth-colors.json';
@@ -32,6 +32,126 @@ export interface TimelineVisualizationHandle {
   exportChart: (format: 'png' | 'svg' | 'pdf', options?: { includeLegend?: boolean }) => Promise<void>;
 }
 
+// Centralized styling constants (module-level so they're stable across renders)
+const STYLE = {
+  fontFamily: "Figtree, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Noto Sans, 'Apple Color Emoji', 'Segoe UI Emoji'",
+  legend: {
+    width: 170,
+    offsetX: 85,
+    offsetY: 30,
+    background: 'rgba(255,255,255,0.95)',
+    borderColor: '#e5e7eb',
+    requires: 'Särskild behörighet',
+    requiredFor: 'Krävs för',
+    textColor: kthColors.KthBlue?.HEX || '#004791'
+  }
+} as const;
+
+// Default color for courses not in any cosmetics group
+const defaultColor = { fill: kthColors.KthHeaven?.HEX || '#6298D2', stroke: kthColors.KthBlue?.HEX || '#004791', text: kthColors.KthLightBlue?.HEX || '#DEF0FF' };
+
+const getColorForFamily = (family: 'blue' | 'green' | 'turquoise' | 'brick' | 'yellow') => {
+  const families = {
+    blue: { fill: kthColors.KthBlue?.HEX || '#004791', stroke: kthColors.KthMarine?.HEX || '#000061', text: kthColors.KthLightBlue?.HEX || '#DEF0FF' },
+    green: { fill: kthColors.KthGreen?.HEX || '#4DA061', stroke: kthColors.KthDarkGreen?.HEX || '#0D4A21', text: kthColors.KthLightGreen?.HEX || '#C7EBBA' },
+    turquoise: { fill: kthColors.KthTurquoise?.HEX || '#339C9C', stroke: kthColors.KthDarkTurquoise?.HEX || '#1C434C', text: kthColors.KthLightTurquoise?.HEX || '#B2E0E0' },
+    brick: { fill: kthColors.KthBrick?.HEX || '#E86A58', stroke: kthColors.KthDarkBrick?.HEX || '#78001A', text: kthColors.KthLightBrick?.HEX || '#FFCCC4' },
+    yellow: { fill: kthColors.KthYellow?.HEX || '#FFBE00', stroke: kthColors.KthDarkYellow?.HEX || '#A65900', text: kthColors.KthLightYellow?.HEX || '#FFF0B0' }
+  };
+  return families[family];
+};
+
+const getFamilyVariants = (family: 'blue' | 'green' | 'turquoise' | 'brick' | 'yellow') => {
+  if (family === 'blue') {
+    return [
+      { fill: kthColors.KthLightBlue?.HEX || '#6298D2', stroke: kthColors.KthMarine?.HEX || '#000061', text: kthColors.KthMarine?.HEX || '#000061' },
+    ];
+  }
+  if (family === 'green') {
+    return [
+      { fill: kthColors.KthLightGreen?.HEX || '#C7EBBA', stroke: kthColors.KthDarkGreen?.HEX || '#0D4A21', text: kthColors.KthLightGreen?.HEX || '#C7EBBA' },
+    ];
+  }
+  if (family === 'turquoise') {
+    return [
+      { fill: kthColors.KthLightTurquoise?.HEX || '#B2E0E0', stroke: kthColors.KthDarkTurquoise?.HEX || '#1C434C', text: kthColors.KthLightTurquoise?.HEX || '#B2E0E0' },
+    ];
+  }
+  if (family === 'brick') {
+    return [
+      { fill: kthColors.KthLightBrick?.HEX || '#FFCCC4', stroke: kthColors.KthDarkBrick?.HEX || '#78001A', text: kthColors.KthDarkBrick?.HEX || '#78001A' },
+    ];
+  }
+  // yellow
+  return [
+    { fill: kthColors.KthLightYellow?.HEX || '#FFF0B0', stroke: kthColors.KthDarkYellow?.HEX || '#A65900', text: kthColors.KthDarkYellow?.HEX || '#A65900' },
+  ];
+};
+
+// Translations (static — module-level so they're stable across renders)
+const tr = {
+  sv: {
+    legend: {
+      exams: 'Tentor',
+      reexams: 'Omtentor',
+      prerequisitesCompleted: 'Kräver avklarad kurs',
+      prerequisitesParticipation: 'Kräver deltagande',
+      courses: 'Kurser',
+      studyPeriods: 'Läsperioder',
+      examPeriods: 'Tentaperioder',
+      reexamPeriods: 'Omtentaperioder'
+    },
+    examPeriodLabel: 'Tentaperiod',
+    reexamPeriodLabel: 'Omtentaperiod',
+    period: 'Läsperiod',
+    start: 'Start',
+    lectureEnd: 'Föreläsningar slutar',
+    end: 'Slut',
+    exam: 'Tenta',
+    reexam: 'Omtenta',
+    year: 'År',
+    credits: 'hp',
+    teacher: 'Lärare',
+    viewCourse: 'kurshemsida',
+    viewSchedule: 'schema',
+    requires: 'Särskild behörighet',
+    requiredFor: 'Krävs för',
+    totalCredits: 'Totalt',
+    options: 'Alternativ',
+    months: ['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec']
+  },
+  en: {
+    legend: {
+      exams: 'Exams',
+      reexams: 'Re-exams',
+      prerequisitesCompleted: 'Requires completion',
+      prerequisitesParticipation: 'Requires participation',
+      courses: 'Courses',
+      studyPeriods: 'Study periods',
+      examPeriods: 'Exam periods',
+      reexamPeriods: 'Re-exam periods'
+    },
+    examPeriodLabel: 'Exam period',
+    reexamPeriodLabel: 'Re-exam period',
+    period: 'Study period',
+    start: 'Start',
+    lectureEnd: 'Lecture end',
+    end: 'End',
+    exam: 'Exam',
+    reexam: 'Re-exam',
+    year: 'Year',
+    credits: 'ECTS',
+    teacher: 'Teacher',
+    viewCourse: 'course webpage',
+    viewSchedule: 'schedule',
+    requires: 'Requires',
+    requiredFor: 'Required for',
+    totalCredits: 'Total',
+    options: 'Options',
+    months: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+  }
+} as const;
+
 const TimelineVisualization = forwardRef(function TimelineVisualization({ courses, language = 'sv', programName, programCode, studyplanUrl, programComment, cosmetics }: TimelineVisualizationProps, ref: React.ForwardedRef<TimelineVisualizationHandle>) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -51,16 +171,17 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // Maps option group name -> selected course code
   const [selectedOptionPerGroup, setSelectedOptionPerGroup] = useState<Record<string, string>>({});
 
-  // When the modal opens/closes, reset or initialize highlighting
+  // When the modal opens/closes, reset or initialize highlighting.
+  // selectedOptionPerGroup is intentionally excluded: we only want to react to the
+  // modal open/close event, not to individual option selections within the modal.
   useEffect(() => {
     if (selectedOptionGroup) {
-      // Modal is opening: initialize highlighting based on current selection
       const currentSelection = selectedOptionPerGroup[selectedOptionGroup.name];
       setHighlightedOptionCode(currentSelection || null);
     } else {
-      // Modal is closing: reset highlighting
       setHighlightedOptionCode(null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOptionGroup]);
 
   // Marker visual parameters - centralized for consistency
@@ -69,144 +190,16 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const REEXAM_MARKER_RADIUS = 4;
   const REEXAM_MARKER_STROKE_WIDTH = 1;
 
-  // Centralized styling and layout constants
-  const STYLE = {
-    fontFamily: "Figtree, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Noto Sans, 'Apple Color Emoji', 'Segoe UI Emoji'",
-    legend: {
-      width: 170,
-      offsetX: 85,
-      offsetY: 30,
-      background: 'rgba(255,255,255,0.95)',
-      borderColor: '#e5e7eb',
-      requires: 'Särskild behörighet',
-      requiredFor: 'Krävs för',
-      textColor: kthColors.KthBlue?.HEX || '#004791'
-    }
-  } as const;
-
-  // Map color family to KTH color shades for course bars
-  const getColorForFamily = (family: 'blue' | 'green' | 'turquoise' | 'brick' | 'yellow') => {
-    const families = {
-      blue: { fill: kthColors.KthBlue?.HEX || '#004791', stroke: kthColors.KthMarine?.HEX || '#000061', text: kthColors.KthLightBlue?.HEX || '#DEF0FF' },
-      green: { fill: kthColors.KthGreen?.HEX || '#4DA061', stroke: kthColors.KthDarkGreen?.HEX || '#0D4A21', text: kthColors.KthLightGreen?.HEX || '#C7EBBA' },
-      turquoise: { fill: kthColors.KthTurquoise?.HEX || '#339C9C', stroke: kthColors.KthDarkTurquoise?.HEX || '#1C434C', text: kthColors.KthLightTurquoise?.HEX || '#B2E0E0' },
-      brick: { fill: kthColors.KthBrick?.HEX || '#E86A58', stroke: kthColors.KthDarkBrick?.HEX || '#78001A', text: kthColors.KthLightBrick?.HEX || '#FFCCC4' },
-      yellow: { fill: kthColors.KthYellow?.HEX || '#FFBE00', stroke: kthColors.KthDarkYellow?.HEX || '#A65900', text: kthColors.KthLightYellow?.HEX || '#FFF0B0' }
-    };
-    return families[family];
-  };
-
-  // Provide multiple distinct variants within a family so courses in the same group can use different tones
-  const getFamilyVariants = (family: 'blue' | 'green' | 'turquoise' | 'brick' | 'yellow') => {
-    if (family === 'blue') {
-      return [
-        //{ fill: kthColors.KthHeaven?.HEX || '#6298D2', stroke: kthColors.KthMarine?.HEX || '#000061', text: kthColors.KthMarine?.HEX || '#000061' },
-        { fill: kthColors.KthLightBlue?.HEX || '#6298D2', stroke: kthColors.KthMarine?.HEX || '#000061', text: kthColors.KthMarine?.HEX || '#000061' },
-      ];
-    }
-    if (family === 'green') {
-      return [
-        //{ fill: kthColors.KthGreen?.HEX || '#4DA061', stroke: kthColors.KthDarkGreen?.HEX || '#0D4A21', text: kthColors.KthLightGreen?.HEX || '#C7EBBA' },
-        { fill: kthColors.KthLightGreen?.HEX || '#C7EBBA', stroke: kthColors.KthDarkGreen?.HEX || '#0D4A21', text: kthColors.KthLightGreen?.HEX || '#C7EBBA' },
-      ];
-    }
-    if (family === 'turquoise') {
-      return [
-        //{ fill: kthColors.KthTurquoise?.HEX || '#339C9C', stroke: kthColors.KthDarkTurquoise?.HEX || '#1C434C', text: kthColors.KthLightTurquoise?.HEX || '#B2E0E0' },
-        { fill: kthColors.KthLightTurquoise?.HEX || '#B2E0E0', stroke: kthColors.KthDarkTurquoise?.HEX || '#1C434C', text: kthColors.KthLightTurquoise?.HEX || '#B2E0E0' },
-      ];
-    }
-    if (family === 'brick') {
-      return [
-        //{ fill: kthColors.KthBrick?.HEX || '#E86A58', stroke: kthColors.KthDarkBrick?.HEX || '#78001A', text: kthColors.KthDarkBrick?.HEX || '#78001A' },
-        { fill: kthColors.KthLightBrick?.HEX || '#FFCCC4', stroke: kthColors.KthDarkBrick?.HEX || '#78001A', text: kthColors.KthDarkBrick?.HEX || '#78001A' },
-      ];
-    }
-    // yellow
-    return [
-      //{ fill: kthColors.KthYellow?.HEX || '#FFBE00', stroke: kthColors.KthDarkYellow?.HEX || '#A65900', text: kthColors.KthDarkYellow?.HEX || '#A65900' },
-      { fill: kthColors.KthLightYellow?.HEX || '#FFF0B0', stroke: kthColors.KthDarkYellow?.HEX || '#A65900', text: kthColors.KthDarkYellow?.HEX || '#A65900' },
-    ];
-  };
-
-  // Stable per-course color selection within a group
-  const getCourseColors = (course: Course) => {
+  // Per-course color selection within a cosmetics group (depends only on cosmetics prop)
+  const getCourseColors = useCallback((course: Course) => {
     const group = cosmetics?.courseToGroup.get(course.code);
     if (!group) return defaultColor;
     const variants = getFamilyVariants(group.colorFamily);
-    // Use course order in the group if present; fallback to a hash of course code
     const idxInGroup = (group.courses || []).findIndex(c => c === course.code);
     const baseIndex = idxInGroup >= 0 ? idxInGroup : Array.from(course.code).reduce((s, ch) => s + ch.charCodeAt(0), 0);
     const variant = variants[baseIndex % variants.length];
     return variant || getColorForFamily(group.colorFamily);
-  };
-
-  // Default color for courses not in any group
-  const defaultColor = { fill: kthColors.KthHeaven?.HEX || '#6298D2', stroke: kthColors.KthBlue?.HEX || '#004791', text: kthColors.KthLightBlue?.HEX || '#DEF0FF' };
-
-  // Translations
-  const tr = {
-    sv: {
-      legend: {
-        exams: 'Tentor',
-        reexams: 'Omtentor',
-        prerequisitesCompleted: 'Kräver avklarad kurs',
-        prerequisitesParticipation: 'Kräver deltagande',
-        courses: 'Kurser',
-        studyPeriods: 'Läsperioder',
-        examPeriods: 'Tentaperioder',
-        reexamPeriods: 'Omtentaperioder'
-      },
-      examPeriodLabel: 'Tentaperiod',
-      reexamPeriodLabel: 'Omtentaperiod',
-      period: 'Läsperiod',
-      start: 'Start',
-      lectureEnd: 'Föreläsningar slutar',
-      end: 'Slut',
-      exam: 'Tenta',
-      reexam: 'Omtenta',
-      year: 'År',
-      credits: 'hp',
-      teacher: 'Lärare',
-      viewCourse: 'kurshemsida',
-      viewSchedule: 'schema',
-      requires: 'Särskild behörighet',
-      requiredFor: 'Krävs för',
-      totalCredits: 'Totalt',
-      options: 'Alternativ',
-      months: ['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec']
-    },
-    en: {
-      legend: {
-        exams: 'Exams',
-        reexams: 'Re-exams',
-        prerequisitesCompleted: 'Requires completion',
-        prerequisitesParticipation: 'Requires participation',
-        courses: 'Courses',
-        studyPeriods: 'Study periods',
-        examPeriods: 'Exam periods',
-        reexamPeriods: 'Re-exam periods'
-      },
-      examPeriodLabel: 'Exam period',
-      reexamPeriodLabel: 'Re-exam period',
-      period: 'Study period',
-      start: 'Start',
-      lectureEnd: 'Lecture end',
-      end: 'End',
-      exam: 'Exam',
-      reexam: 'Re-exam',
-      year: 'Year',
-      credits: 'ECTS',
-      teacher: 'Teacher',
-      viewCourse: 'course webpage',
-      viewSchedule: 'schedule',
-      requires: 'Requires',
-      requiredFor: 'Required for',
-      totalCredits: 'Total',
-      options: 'Options',
-      months: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-    }
-  } as const;
+  }, [cosmetics]);
 
   // expose methods to parent via ref
   useImperativeHandle(ref, () => ({
@@ -282,7 +275,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
                 break; // Successfully embedded a font, no need to try others
               }
             }
-          } catch (e) {
+          } catch {
             // Continue to next font family if this one fails
           }
         }
@@ -530,7 +523,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           commentText.setAttribute('font-size', '11');
           commentText.textContent = programComment;
           cloned.appendChild(commentText);
-        } catch (e) {
+        } catch {
           // ignore comment failures
         }
       }
@@ -711,12 +704,6 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
     const container = d3.select(containerRef.current);
     
-    // Helper function to format dates without year (ISO format: MM-DD)
-    const formatDateNoYear = (date: Date) => {
-      const iso = date.toISOString().split('T')[0]; // YYYY-MM-DD
-      return iso.substring(5); // MM-DD
-    };
-    
     // setup tooltip container
     container.selectAll('.pv-tooltip').remove();
     const tooltip = container.append('div')
@@ -844,7 +831,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const slotsByYearPeriod: Record<string, Array<{ item: Course | OptionGroup; credit: { period: string; credits: number; year: number } }>> = {};
   displayItems.forEach((item) => {
     const credits = isCourse(item) ? item.credits : Object.entries((item as OptionGroup).periodCredits)
-      .filter(([period, credits]) => credits > 0)  // Only include periods with credits > 0
+      .filter(([, credits]) => credits > 0)
       .map(([period, credits]) => ({
         period: period as 'P1' | 'P2' | 'P3' | 'P4',
         credits,
@@ -1145,7 +1132,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         barsByYear[year].push(bar);
       });
 
-      Object.entries(barsByYear).forEach(([yearStr, yearBars]) => {
+      Object.entries(barsByYear).forEach(([, yearBars]) => {
         yearBars.sort((a, b) => periodSequence.indexOf(a.credit.period) - periodSequence.indexOf(b.credit.period));
         
         // Find consecutive periods
@@ -1441,7 +1428,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         const course = item as Course;
         // Check if this course is a selected option from an option group
         const optionGroupForCourse = Object.entries(selectedOptionPerGroup).find(
-          ([groupName, selectedCode]) => selectedCode === course.code
+          ([, selectedCode]) => selectedCode === course.code
         )?.[0];
         
         if (optionGroupForCourse) {
@@ -1623,7 +1610,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               displayText = displayText.slice(0, -1);
               label.text(displayText + '…');
             }
-          } catch (e) {
+          } catch {
             // safe guard for environments where getComputedTextLength may fail
           }
         }
@@ -2241,7 +2228,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         const startCol = vAll.filter(s => s.x1 <= midX);
         const endCol = vAll.filter(s => s.x1 > midX);
 
-        const assignColumnLanes = (colSegs: ArrowSegment[], columnLabel: 'start' | 'end') => {
+        const assignColumnLanes = (colSegs: ArrowSegment[]) => {
           if (colSegs.length === 0) return;
           // Group by Y-overlap using normalized intervals [yMin, yMax]
           const normalized = colSegs.map(s => ({
@@ -2277,14 +2264,14 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           });
         };
 
-        assignColumnLanes(startCol, 'start');
-        assignColumnLanes(endCol, 'end');
+        assignColumnLanes(startCol);
+        assignColumnLanes(endCol);
       }
     });
 
     // Step 4.5: Add endpoint connector segments and prepare for drawing
     // Now draw all arrows using the new segment and lane assignment structures
-    allArrows.forEach((arrow, idx) => {
+    allArrows.forEach((arrow) => {
       // Routing parameters
       const vPad = 8;
       const curveR = 8;
@@ -2470,7 +2457,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .on('mouseout', () => tooltip.style('display', 'none'));
   });
 
-  }, [courses, layers, language, selectedOptionPerGroup]);
+  }, [courses, layers, language, selectedOptionPerGroup, focusYear, cosmetics, programCode, programName, studyplanUrl, getCourseColors]);
 
   // Removed popup; outside clicks handled by svg.on('click') above
 
