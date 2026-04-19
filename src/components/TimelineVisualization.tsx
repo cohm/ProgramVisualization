@@ -2165,7 +2165,6 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
       // Vertical segments: group by y overlap (not used yet, but structure is ready)
       const vSegs = segsByDir.vertical || [];
-      console.log(`Gap ${gapType}: ${vSegs.length} vertical segments from arrows:`, vSegs.map(s => s.arrowId));
       const vGroups: OverlapGroup[] = [];
       const sortedV = [...vSegs].sort((a, b) => a.y1 - b.y1);
       let vCurrentGroup: ArrowSegment[] = [];
@@ -2181,7 +2180,6 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         }
       });
       if (vCurrentGroup.length > 0) vGroups.push(vCurrentGroup);
-      console.log(`Gap ${gapType}: ${vGroups.length} vertical overlap groups`);
 
       overlapGroupsByGap[gapType] = { horizontal: hGroups, vertical: vGroups };
     });
@@ -2304,9 +2302,6 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       
       const vLaneIdxStart = segmentLanes[`${arrow.prCode}->${arrow.targetCourse.code}`]?.[`vertical-${vGapTypeStart}-start`] ?? 0;
       const vLaneIdxEnd = segmentLanes[`${arrow.prCode}->${arrow.targetCourse.code}`]?.[`vertical-${vGapTypeEnd}-end`] ?? 0;
-
-      const arrowId = `${arrow.prCode}->${arrow.targetCourse.code}`;
-      console.log(`Arrow ${arrowId}: isImmediatelyAfter=${isImmediatelyAfter}, hLaneIdx=${hLaneIdx}, vLaneStart=${vLaneIdxStart}, vLaneEnd=${vLaneIdxEnd}`);
 
       // Compute the main routing points (including endpoints)
       const points: [number, number][] = [];
@@ -2504,6 +2499,11 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .interrupt()
       .style('display', layers.courseBars ? '' : 'none')
       .style('pointer-events', layers.courseBars ? 'auto' : 'none');
+
+    // Course labels (follow bar visibility)
+    container.selectAll('.course-label')
+      .interrupt()
+      .style('display', layers.courseBars ? '' : 'none');
 
     // Course bar borders
     container.selectAll('.course-bar-border')
