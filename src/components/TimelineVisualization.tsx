@@ -1112,11 +1112,15 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     const barsWithoutLabels = new Set<string>(); // track bars that shouldn't have labels
     const barsConnectedRight = new Set<string>(); // bars with connector on their right side
     const barsConnectedLeft = new Set<string>(); // bars with connector on their left side
-    const connectorBorders: Array<{ points: number[][]; stroke: string; itemId: string }> = []; // collect connector borders to draw last
+    const connectorBorders: Array<{ points: number[][]; stroke: string; itemId: string; groupName: string }> = []; // collect connector borders to draw last
     
     // Process both courses and option groups
     const processItem = (item: Course | OptionGroup) => {
       const itemId = isCourse(item) ? (item as Course).code : `optionGroup-${(item as OptionGroup).name}`;
+      // Resolve cosmetics group for courses directly; for option groups look up any constituent course
+      const itemGroupName = isCourse(item)
+        ? (cosmetics?.courseToGroup.get((item as Course).code)?.name ?? '')
+        : ((item as OptionGroup).options.map(c => cosmetics?.courseToGroup.get(c)?.name).find(Boolean) ?? '');
       const barsByYear: Record<number, BarInfo[]> = {};
       
       // Find all bars for this item
@@ -1234,13 +1238,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               .attr('stroke', 'none')
               .attr('class', 'course-connector-fill')
               .attr('data-course', itemId)
-              .attr('data-group', () => {
-                if (isCourse(item)) {
-                  const grp = cosmetics?.courseToGroup.get((item as Course).code);
-                  return grp ? grp.name : '';
-                }
-                return '';
-              })
+              .attr('data-group', itemGroupName)
               .style('cursor', 'pointer')
               .on('mouseover', () => {
                 tooltip.html(tooltipText).style('display', 'block');
@@ -1272,7 +1270,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             connectorBorders.push({
               points,
               stroke: connectorColors.stroke,
-              itemId: itemId
+              itemId: itemId,
+              groupName: itemGroupName
             });
           }
         }
@@ -1320,12 +1319,10 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // Generate item ID for tracking
   const itemId = isCourse(item) ? (item as Course).code : `optionGroup-${(item as OptionGroup).name}`;
   
-  // For courses, use course group information; for option groups, use generic styling
-  let dataGroup = '';
-  if (isCourse(item)) {
-    const grp = cosmetics?.courseToGroup.get(item.code);
-    dataGroup = grp ? grp.name : '';
-  }
+  // Resolve cosmetics group for courses directly; for option groups look up any constituent course
+  const dataGroup = isCourse(item)
+    ? (cosmetics?.courseToGroup.get(item.code)?.name ?? '')
+    : ((item as OptionGroup).options.map(c => cosmetics?.courseToGroup.get(c)?.name).find(Boolean) ?? '');
 
   const block = g.append('g')
     .attr('class', 'course-group')
@@ -1622,21 +1619,11 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
     // Fourth pass: draw connector borders on top of everything else
     // Only draw the top and bottom edges (not the vertical sides)
-    connectorBorders.forEach(({ points, stroke, itemId }) => {
-      // Skip if itemId is undefined
+    connectorBorders.forEach(({ points, stroke, itemId, groupName }) => {
       if (!itemId) return;
-      
-      // points are: [top-right, top-left, bottom-left, bottom-right]
-      // We want to draw: top edge (top-right to top-left) and bottom edge (bottom-left to bottom-right)
+
       const topEdge = `M ${points[0][0]} ${points[0][1]} L ${points[1][0]} ${points[1][1]}`;
       const bottomEdge = `M ${points[2][0]} ${points[2][1]} L ${points[3][0]} ${points[3][1]}`;
-      
-      // Only apply group styling for courses, not option groups
-      let groupName = '';
-      if (itemId && !itemId.startsWith('optionGroup-')) {
-        const grp = cosmetics?.courseToGroup.get(itemId);
-        groupName = grp ? grp.name : '';
-      }
       
       g.append('path')
         .attr('d', topEdge)
