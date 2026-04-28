@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "validate-data": "node scripts/validate-data.mjs"
   },
   "dependencies": {
     "@sparticuz/chromium": "^141.0.0",
