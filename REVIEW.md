@@ -128,10 +128,7 @@ and let the visualization render either as today (when one option must be picked
 
 This naming contradicts the *Riktlinje om läsårets förläggning*, §1.1 ("Omprov finns inte i period 1") — there is no re-exam period inside P1 at all. New readers consistently misread this.
 
-**Recommendation.** Either:
-
-- Rename the field to `reexamSlot` / `reexamFor`, or
-- Better: store re-exam scheduling implicitly (drop the field, let the application compute it from `exams` plus the academic-periods rules), since the *Riktlinje* already prescribes the slot per exam period.
+**Resolved (Suggestion 6).** The `reexams` field is now optional; when omitted, the loader defaults it to a copy of `exams`, matching the riktlinje's rule that the re-exam slot is fixed by the ordinary exam period. All four data files were migrated to drop the redundant field. Authors can still set it explicitly to add EXTRA tillfällen (e.g. for a critical first-year math course); the validator warns only if the explicit value is redundant or covers fewer slots than `exams`. **Known limitation:** the renderer anchors re-exam markers to the course's bar in the same period (`TimelineVisualization.tsx:1659–1691`), so an extra slot in a period where the course has no credits isn't drawn yet — that's a follow-up.
 
 ### 2.4 Multiple, undocumented data shapes for `periodCredits`/`exams`
 
@@ -311,7 +308,7 @@ The riktlinje also says: *"Utbildningsplan ska inte innehålla länk eller hänv
 - An obligatorisk kurs *bör omfatta minst sex högskolepoäng*. The data has several < 6 hp courses, e.g. `DD1310` (6 — at the limit), `DD1301` (1.5 — but this is `valfri`), `KD1000` (3), `SK1105` (4), `SI1146` (4), `SI1200` (4). The validator could flag mandatory courses below 6 hp as a warning, once category is in the model (§2.1).
 - The kursplan must specify **betygssystem (A–F / P–F / VG-G-U)**. Showing this in the info-panel (e.g. a small `A–F` badge) would be a small, high-value addition.
 - Two-grade scale (P/F) is mandatory for examensarbete on grundnivå och avancerad nivå. The KEX option groups in the data are unmarked; if you add a `gradingScale` field, the KEX courses are the canonical place to start.
-- *"Antalet tentamenstillfällen (skriftlig tentamen) ska vara minst två per kurs och läsår"*. Today this is enforced only by convention (each course has matching `exams` and `reexams`). The validator could check that every course with `exams.length > 0` also has a `reexams` slot — but see §2.3 about what `reexams: ["P1"]` actually means.
+- *"Antalet tentamenstillfällen (skriftlig tentamen) ska vara minst två per kurs och läsår"*. After Suggestion 6, the loader defaults `reexams` to `exams`, so every course with an ordinary exam automatically has a re-exam slot — the rule is now satisfied by the data model itself. The validator additionally warns when an explicit `reexams` is a strict subset of `exams`.
 - *"Fler än två ordinarie skriftliga tentamina bör därför undvikas i tentamensperioderna"*. The tool already shows when many exams stack on the same period (filled circles cluster vertically). It could explicitly highlight periods where the obligatory-course count exceeds 2 — useful feedback for programmes designing a new study year.
 
 ### 4.3 *Riktlinje om läsårets förläggning* (V-2019-0109)

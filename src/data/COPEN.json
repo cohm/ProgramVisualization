@@ -12,8 +12,7 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
-    "reexams": []
+    "exams": []
   },
   {
     "code": "DD1310",
@@ -28,8 +27,7 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
-    "reexams": []
+    "exams": []
   },
   {
     "code": "SK1115",
@@ -45,9 +43,6 @@
     "year": 1,
     "prerequisites": [],
     "exams": [
-      "P2"
-    ],
-    "reexams": [
       "P2"
     ]
   },
@@ -69,9 +64,6 @@
     ],
     "exams": [
       "P3"
-    ],
-    "reexams": [
-      "P3"
     ]
   },
   {
@@ -91,9 +83,6 @@
     ],
     "exams": [
       "P4"
-    ],
-    "reexams": [
-      "P4"
     ]
   },
   {
@@ -110,9 +99,6 @@
     "year": 1,
     "prerequisites": [],
     "exams": [
-      "P2"
-    ],
-    "reexams": [
       "P2"
     ]
   },
@@ -131,9 +117,6 @@
     "prerequisites": [],
     "exams": [
       "P1"
-    ],
-    "reexams": [
-      "P1"
     ]
   },
   {
@@ -150,9 +133,6 @@
     "year": 1,
     "prerequisites": [],
     "exams": [
-      "P4"
-    ],
-    "reexams": [
       "P4"
     ]
   },
@@ -172,9 +152,6 @@
       "SF1625"
     ],
     "exams": [
-      "P3"
-    ],
-    "reexams": [
       "P3"
     ]
   }

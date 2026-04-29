@@ -81,6 +81,22 @@ const loadCosmetics = async (cosmeticsFile: string | undefined): Promise<Program
   }
 };
 
+// Parse an exams/reexams JSON value into the canonical { flat, byYear } shape.
+// Accepts an array (flat) or a Year<n>-keyed object. Returns empty flat + undefined byYear if absent/invalid.
+const parsePeriodList = (raw: unknown): { flat: string[]; byYear: Record<number, string[]> | undefined } => {
+  if (Array.isArray(raw)) return { flat: [...raw as string[]], byYear: undefined };
+  if (raw && typeof raw === 'object') {
+    const byYear = Object.fromEntries(
+      Object.entries(raw as Record<string, unknown>).map(([yk, arr]) => [
+        Number(String(yk).replace(/\D/g, '')) || 1,
+        Array.isArray(arr) ? (arr as string[]) : [],
+      ])
+    ) as Record<number, string[]>;
+    return { flat: [], byYear };
+  }
+  return { flat: [], byYear: undefined };
+};
+
 // Helper to load and map course data
 const loadCourses = async (dataFile: string): Promise<(Course | OptionGroup)[]> => {
   const rawCourses = await import(`@/data/${dataFile}`);
@@ -88,7 +104,7 @@ const loadCourses = async (dataFile: string): Promise<(Course | OptionGroup)[]> 
   const rawData = rawCourses.default as RawCourseEntry[];
   const optionGroups = rawData.filter(c => c.type === 'optionGroup');
   const regularCourses = rawData.filter(c => c.type !== 'optionGroup');
-  
+
   // Merge entries by code to support multi-year courses represented across multiple rows or nested per-year dicts
   const byCode = new Map<string, RawEntry>();
   regularCourses.forEach((c) => {
@@ -116,6 +132,15 @@ const loadCourses = async (dataFile: string): Promise<(Course | OptionGroup)[]> 
       });
     }
 
+    // Re-exam scheduling defaults to follow the ordinary exams: per
+    // *Riktlinje om läsårets förläggning* §1.1 each exam period has a fixed
+    // re-exam slot. Authors only need to set `reexams` to add EXTRA slots
+    // (e.g. an additional tillfälle for a critical first-year math course).
+    const examShape = parsePeriodList(c.exams);
+    const reexamShape = c.reexams !== undefined && c.reexams !== null
+      ? parsePeriodList(c.reexams)
+      : examShape;
+
     const code: string = c.code;
     const existing = byCode.get(code);
     if (!existing) {
@@ -129,18 +154,10 @@ const loadCourses = async (dataFile: string): Promise<(Course | OptionGroup)[]> 
         prerequisites: Array.isArray(c.prerequisites) ? [...c.prerequisites] : [],
         prerequisitesCompleted: Array.isArray(c.prerequisitesCompleted) ? [...c.prerequisitesCompleted] : [],
         prerequisitesParticipation: Array.isArray(c.prerequisitesParticipation) ? [...c.prerequisitesParticipation] : [],
-        exams: Array.isArray(c.exams) ? [...c.exams] : [],
-        reexams: Array.isArray(c.reexams) ? [...c.reexams] : [],
-        examByYear: !Array.isArray(c.exams) && c.exams && typeof c.exams === 'object'
-          ? Object.fromEntries(
-              Object.entries(c.exams as Record<string, unknown>).map(([yk, arr]) => [Number(String(yk).replace(/\D/g, '')) || 1, Array.isArray(arr) ? arr : []])
-            )
-          : undefined,
-        reexamByYear: !Array.isArray(c.reexams) && c.reexams && typeof c.reexams === 'object'
-          ? Object.fromEntries(
-              Object.entries(c.reexams as Record<string, unknown>).map(([yk, arr]) => [Number(String(yk).replace(/\D/g, '')) || 1, Array.isArray(arr) ? arr : []])
-            )
-          : undefined,
+        exams: examShape.flat,
+        reexams: reexamShape.flat,
+        examByYear: examShape.byYear,
+        reexamByYear: reexamShape.byYear,
         teacher: c.teacher || '',
         webpage: c.webpage || '',
         description: c.description || '',
@@ -161,8 +178,8 @@ const loadCourses = async (dataFile: string): Promise<(Course | OptionGroup)[]> 
   existing.prerequisites = unique([...(existing.prerequisites || []), ...(c.prerequisites || [])]);
   existing.prerequisitesCompleted = unique([...(existing.prerequisitesCompleted || []), ...(c.prerequisitesCompleted || [])]);
   existing.prerequisitesParticipation = unique([...(existing.prerequisitesParticipation || []), ...(c.prerequisitesParticipation || [])]);
-      existing.exams = unique([...(existing.exams || []), ...(Array.isArray(c.exams) ? c.exams as string[] : [])]);
-      existing.reexams = unique([...(existing.reexams || []), ...(Array.isArray(c.reexams) ? c.reexams as string[] : [])]);
+      existing.exams = unique([...(existing.exams || []), ...examShape.flat]);
+      existing.reexams = unique([...(existing.reexams || []), ...reexamShape.flat]);
       // merge year-specific exam maps
       const mergeYearMap = (dst: Record<number, string[]>, src: Record<number, string[]> | undefined) => {
         if (!src) return dst;
@@ -173,18 +190,8 @@ const loadCourses = async (dataFile: string): Promise<(Course | OptionGroup)[]> 
         });
         return dst;
       };
-      const examsObj = !Array.isArray(c.exams) && c.exams && typeof c.exams === 'object'
-        ? Object.fromEntries(
-            Object.entries(c.exams as Record<string, unknown>).map(([yk, arr]) => [Number(String(yk).replace(/\D/g, '')) || 1, Array.isArray(arr) ? arr : []])
-          ) as Record<number, string[]>
-        : undefined;
-      const reexamsObj = !Array.isArray(c.reexams) && c.reexams && typeof c.reexams === 'object'
-        ? Object.fromEntries(
-            Object.entries(c.reexams as Record<string, unknown>).map(([yk, arr]) => [Number(String(yk).replace(/\D/g, '')) || 1, Array.isArray(arr) ? arr : []])
-          ) as Record<number, string[]>
-        : undefined;
-      existing.examByYear = mergeYearMap(existing.examByYear || {}, examsObj);
-      existing.reexamByYear = mergeYearMap(existing.reexamByYear || {}, reexamsObj);
+      existing.examByYear = mergeYearMap(existing.examByYear || {}, examShape.byYear);
+      existing.reexamByYear = mergeYearMap(existing.reexamByYear || {}, reexamShape.byYear);
       // prefer existing name/briefName unless missing
       if (!existing.name && c.name) existing.name = c.name;
       if (!existing.nameEn && c.nameEn) existing.nameEn = c.nameEn;

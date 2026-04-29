@@ -43,6 +43,8 @@ A Next.js + D3.js visualization app that renders KTH engineering degree programs
   The same dual shape applies to `exams` / `reexams`: either an array `["P2"]` or a `Year<n>`-keyed object `{ "Year1": ["P2"], "Year2": ["P4"] }`. The `Course` type exposes the parsed by-year form as `examsByYear` / `reexamsByYear`.
 - **`<PROGRAM>-cosmetics.json`** — Maps course codes to color family groups (blue/green/turquoise/brick/yellow). Hard-capped at 5 families.
 - **`academic-periods.json`** — P1–P4 date ranges (lecture/exam/re-exam) for one läsår at a time (currently 2025/2026); converted to `Date` objects in `src/types/course.ts`. Note: the file's `reExamStart`/`reExamEnd` for period `P1` actually fall in December — i.e. between P1 and P2, per *Riktlinje om läsårets förläggning* §1.1. A course's `"reexams": ["P1"]` therefore means "uses the P1 re-exam slot (December)", not "re-exam during P1".
+
+  The `reexams` field on a course is **optional**: when omitted, the loader defaults it to a copy of `exams`, which matches the riktlinje's rule that the re-exam slot is fixed by the ordinary exam period. Set it explicitly only to add EXTRA tillfällen (e.g. an additional re-exam for a critical first-year math course). Known limitation: extra slots in periods where the course has no credits aren't visualised yet — the renderer anchors markers to the course's bar in the same period (`TimelineVisualization.tsx:1659–1691`).
 - **`kth-colors.json`** — KTH official color palette.
 
 ### Types (`src/types/`)
