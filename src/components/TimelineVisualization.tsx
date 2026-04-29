@@ -118,6 +118,13 @@ const tr = {
     requiredFor: 'Krävs för',
     totalCredits: 'Totalt',
     options: 'Alternativ',
+    gradingScale: 'Betygsskala',
+    category: {
+      mandatory: 'Obligatorisk',
+      conditionallyElective: 'Villkorligt valbar',
+      electivePlaceholder: 'Plats för valfri kurs',
+      recommended: 'Rekommenderad',
+    },
     months: ['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec']
   },
   en: {
@@ -148,6 +155,13 @@ const tr = {
     requiredFor: 'Required for',
     totalCredits: 'Total',
     options: 'Options',
+    gradingScale: 'Grading scale',
+    category: {
+      mandatory: 'Mandatory',
+      conditionallyElective: 'Conditionally elective',
+      electivePlaceholder: 'Free elective slot',
+      recommended: 'Recommended',
+    },
     months: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
   }
 } as const;
@@ -2852,6 +2866,20 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
                 </button>
               </div>
             </div>
+            {(selectedInfo.course.category || selectedInfo.course.gradingScale) && (
+              <div style={{ display: 'flex', gap: 6, marginBottom: 6, flexWrap: 'wrap' }}>
+                {selectedInfo.course.category && (
+                  <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 10, border: `1px solid ${kthColors.KthHeaven?.HEX || '#6298D2'}`, color: kthColors.KthBlue?.HEX || '#004791', background: kthColors.KthLightBlue?.HEX || '#DEF0FF' }}>
+                    {tr[language].category[selectedInfo.course.category]}
+                  </span>
+                )}
+                {selectedInfo.course.gradingScale && (
+                  <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 10, border: '1px solid #d1d5db', color: '#374151', background: '#f3f4f6' }}>
+                    {tr[language].gradingScale}: {selectedInfo.course.gradingScale}
+                  </span>
+                )}
+              </div>
+            )}
             <div style={{ marginBottom: 6 }}>
               <div>
                 {tr[language].legend.prerequisitesCompleted}:{' '}

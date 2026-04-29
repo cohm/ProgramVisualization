@@ -29,6 +29,9 @@
 //        flat     -> Array<"P1"|"P2"|"P3"|"P4">
 //        by-year  -> { Year1: ["P2"], Year2: [...] }
 //     teacher?, webpage?, description?: string
+//     category?: "mandatory" | "conditionallyElective"
+//             | "electivePlaceholder" | "recommended"
+//     gradingScale?: "A-F" | "P/F" | "VG/G/U"
 //
 //   OptionGroup:
 //     type: "optionGroup"
@@ -40,6 +43,7 @@
 //     options: Array<courseCode>          (must each exist in same file)
 //     allowedNumberOfOptions: integer
 //     exams?, reexams?: Array<periodId>
+//     category?, gradingScale?: same as Course
 //
 // <PROGRAM>-cosmetics.json:
 //   Array<{ name, nameEn?, colorFamily, courses: Array<courseCode> }>
@@ -59,6 +63,8 @@ const dataDir = join(repoRoot, 'src', 'data');
 
 const PERIOD_IDS = new Set(['P1', 'P2', 'P3', 'P4']);
 const COLOR_FAMILIES = new Set(['blue', 'green', 'turquoise', 'brick', 'yellow']);
+const COURSE_CATEGORIES = new Set(['mandatory', 'conditionallyElective', 'electivePlaceholder', 'recommended']);
+const GRADING_SCALES = new Set(['A-F', 'P/F', 'VG/G/U']);
 const CREDIT_TOLERANCE = 0.05; // hp; tolerates rounding (e.g. 3.7 + 3.8)
 
 let errorCount = 0;
@@ -279,6 +285,15 @@ function validateCourse(c, ctx, file) {
 
   validatePeriodList(c.exams, 'exams', c, ctx, file);
   validatePeriodList(c.reexams, 'reexams', c, ctx, file);
+  validateOptionalEnum(c.category, 'category', COURSE_CATEGORIES, c.code, ctx, file);
+  validateOptionalEnum(c.gradingScale, 'gradingScale', GRADING_SCALES, c.code, ctx, file);
+}
+
+function validateOptionalEnum(value, fieldName, allowed, codeOrName, ctx, file) {
+  if (value == null) return;
+  if (!allowed.has(value)) {
+    err(file, `${ctx} ${codeOrName}: invalid '${fieldName}' '${value}' (allowed: ${[...allowed].join(', ')})`);
+  }
 }
 
 function validatePeriodList(value, fieldName, c, ctx, file) {
@@ -350,6 +365,8 @@ function validateOptionGroup(og, ctx, file) {
 
   validatePeriodList(og.exams, 'exams', { code: `optionGroup '${og.name}'` }, ctx, file);
   validatePeriodList(og.reexams, 'reexams', { code: `optionGroup '${og.name}'` }, ctx, file);
+  validateOptionalEnum(og.category, 'category', COURSE_CATEGORIES, `optionGroup '${og.name}'`, ctx, file);
+  validateOptionalEnum(og.gradingScale, 'gradingScale', GRADING_SCALES, `optionGroup '${og.name}'`, ctx, file);
 }
 
 function validateCosmetics(cosmetics, file, courseCodes) {

@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import TimelineVisualization, { TimelineVisualizationHandle } from '@/components/TimelineVisualization';
-import { Course, OptionGroup, Period } from '@/types/course';
+import { Course, CourseCategory, GradingScale, OptionGroup, Period } from '@/types/course';
 import kthColors from '@/data/kth-colors.json';
 import programsConfig from '@/data/programs.json';
 import type { CourseGroup, ProgramCosmetics } from '@/types/cosmetics';
@@ -38,6 +38,8 @@ interface RawCourseEntry {
   teacher?: string;
   webpage?: string;
   description?: string;
+  category?: CourseCategory;
+  gradingScale?: GradingScale;
   [key: string]: unknown;
 }
 
@@ -58,6 +60,8 @@ interface RawEntry {
   teacher: string;
   webpage: string;
   description: string;
+  category?: CourseCategory;
+  gradingScale?: GradingScale;
 }
 
 // Helper to load cosmetics for a program
@@ -139,7 +143,9 @@ const loadCourses = async (dataFile: string): Promise<(Course | OptionGroup)[]> 
           : undefined,
         teacher: c.teacher || '',
         webpage: c.webpage || '',
-        description: c.description || ''
+        description: c.description || '',
+        category: c.category,
+        gradingScale: c.gradingScale,
       });
   } else {
       // merge nested perYear
@@ -187,6 +193,8 @@ const loadCourses = async (dataFile: string): Promise<(Course | OptionGroup)[]> 
       if (!existing.teacher && c.teacher) existing.teacher = c.teacher;
       if (!existing.webpage && c.webpage) existing.webpage = c.webpage;
       if (!existing.description && c.description) existing.description = c.description;
+      if (!existing.category && c.category) existing.category = c.category;
+      if (!existing.gradingScale && c.gradingScale) existing.gradingScale = c.gradingScale;
     }
   });
 
@@ -220,7 +228,9 @@ const loadCourses = async (dataFile: string): Promise<(Course | OptionGroup)[]> 
       reexamsByYear: entry.reexamByYear,
       teacher: entry.teacher || '',
       webpage: entry.webpage || '',
-      description: entry.description || ''
+      description: entry.description || '',
+      category: entry.category,
+      gradingScale: entry.gradingScale,
     } as Course;
   });
 
