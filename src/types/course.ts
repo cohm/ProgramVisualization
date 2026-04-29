@@ -15,6 +15,21 @@ export interface CourseCredit {
   year: number; // Academic year this credit belongs to (1, 2, 3, ...)
 }
 
+// KTH course categories per *Riktlinje om utbildningsplan* (V-2018-0608).
+// When undefined, the course/group is treated as mandatory by the renderer
+// (existing behaviour). Mark electives explicitly to opt in to category-aware
+// rendering and filtering.
+export type CourseCategory =
+  | 'mandatory'             // obligatorisk
+  | 'conditionallyElective' // villkorligt valbar
+  | 'electivePlaceholder'   // valfri – plats för
+  | 'recommended';          // rekommenderad
+
+// KTH grading scales per *Riktlinje om kursplan* (V-2020-0650 §2). When
+// undefined, no scale badge is shown in the UI. P/F is mandated for
+// examensarbete on grundnivå and avancerad nivå.
+export type GradingScale = 'A-F' | 'P/F' | 'VG/G/U';
+
 export interface OptionGroup {
   type: 'optionGroup';
   name: string;
@@ -26,6 +41,10 @@ export interface OptionGroup {
   allowedNumberOfOptions: number; // How many courses can be selected from this group
   exams: Period['id'][];
   reexams: Period['id'][];
+  // Optional KTH metadata. category typically applies to the whole group;
+  // gradingScale typically applies to all options in the group.
+  category?: CourseCategory;
+  gradingScale?: GradingScale;
 }
 
 export interface Course {
@@ -49,6 +68,9 @@ export interface Course {
   // Optional metadata per course
   teacher: string;
   description: string;
+  // Optional KTH metadata (Riktlinje om utbildningsplan, Riktlinje om kursplan)
+  category?: CourseCategory;
+  gradingScale?: GradingScale;
 }
 
 import rawPeriods from '@/data/academic-periods.json';

@@ -552,7 +552,9 @@
     "options": ["SA114X", "EF112X"],
     "allowedNumberOfOptions": 1,
     "exams": [],
-    "reexams": []
+    "reexams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "P/F"
   },
   {
     "code": "SA114X",
@@ -568,7 +570,8 @@
     "year": 3,
     "prerequisites": [],
     "exams": [],
-    "reexams": []
+    "reexams": [],
+    "gradingScale": "P/F"
   },
   {
     "code": "EF112X",
@@ -585,7 +588,8 @@
     "year": 3,
     "prerequisites": [],
     "exams": [],
-    "reexams": []
+    "reexams": [],
+    "gradingScale": "P/F"
   },
   {
     "code": "XY123Z",
@@ -604,7 +608,8 @@
     ],
     "reexams": [
       "P3"
-    ]
+    ],
+    "category": "electivePlaceholder"
   },
   {
     "code": "XY456Z",
@@ -623,6 +628,7 @@
     ],
     "reexams": [
       "P4"
-    ]
+    ],
+    "category": "electivePlaceholder"
   }
 ]

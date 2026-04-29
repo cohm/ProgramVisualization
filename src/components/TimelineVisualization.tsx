@@ -1,6 +1,6 @@
 
 
-import React, { useEffect, useRef, forwardRef, useImperativeHandle, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useRef, forwardRef, useImperativeHandle, useState, useCallback } from 'react';
 import * as d3 from 'd3';
 import { Course, CourseCredit, OptionGroup, Period, academicPeriods } from '@/types/course';
 import kthColors from '@/data/kth-colors.json';
@@ -8,6 +8,13 @@ import type { ProgramCosmetics } from '@/types/cosmetics';
 
 type Lang = 'sv' | 'en';
 type CourseOrOptionGroup = Course | OptionGroup;
+
+// Top-level layer keys that can be hidden via the legend / URL `hide=` param.
+type TopLayerKey =
+  | 'exams' | 'reexams'
+  | 'prereqCompleted' | 'prereqParticipation'
+  | 'courseBars'
+  | 'studyPeriods' | 'examPeriods' | 'reexamPeriods';
 
 interface TimelineVisualizationProps {
   courses: CourseOrOptionGroup[];
@@ -17,6 +24,14 @@ interface TimelineVisualizationProps {
   studyplanUrl?: string;
   programComment?: string;
   cosmetics?: ProgramCosmetics | null;
+  // URL-derived view state (controlled by the parent so it can be persisted to
+  // query params and survive page reloads / sharing).
+  selectedOptionPerGroup: Record<string, string>;
+  onSelectedOptionPerGroupChange: (next: Record<string, string>) => void;
+  hiddenLayers: Set<string>;
+  onHiddenLayersChange: (next: Set<string>) => void;
+  hiddenGroups: Set<string>;
+  onHiddenGroupsChange: (next: Set<string>) => void;
 }
 
 // Type guard to distinguish between Course and OptionGroup
@@ -118,6 +133,13 @@ const tr = {
     requiredFor: 'Krävs för',
     totalCredits: 'Totalt',
     options: 'Alternativ',
+    gradingScale: 'Betygsskala',
+    category: {
+      mandatory: 'Obligatorisk',
+      conditionallyElective: 'Villkorligt valbar',
+      electivePlaceholder: 'Plats för valfri kurs',
+      recommended: 'Rekommenderad',
+    },
     months: ['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec']
   },
   en: {
@@ -148,11 +170,18 @@ const tr = {
     requiredFor: 'Required for',
     totalCredits: 'Total',
     options: 'Options',
+    gradingScale: 'Grading scale',
+    category: {
+      mandatory: 'Mandatory',
+      conditionallyElective: 'Conditionally elective',
+      electivePlaceholder: 'Free elective slot',
+      recommended: 'Recommended',
+    },
     months: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
   }
 } as const;
 
-const TimelineVisualization = forwardRef(function TimelineVisualization({ courses, language = 'sv', programName, programCode, studyplanUrl, programComment, cosmetics }: TimelineVisualizationProps, ref: React.ForwardedRef<TimelineVisualizationHandle>) {
+const TimelineVisualization = forwardRef(function TimelineVisualization({ courses, language = 'sv', programName, programCode, studyplanUrl, programComment, cosmetics, selectedOptionPerGroup, onSelectedOptionPerGroupChange, hiddenLayers, onHiddenLayersChange, hiddenGroups, onHiddenGroupsChange }: TimelineVisualizationProps, ref: React.ForwardedRef<TimelineVisualizationHandle>) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   // Preserve the initial chart height to keep a stable px-per-ECTS baseline across re-renders/toggles
@@ -166,10 +195,6 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   
   // Track which option is currently highlighted in the modal
   const [highlightedOptionCode, setHighlightedOptionCode] = useState<string | null>(null);
-  
-  // Track user's selection: which course was chosen for each option group
-  // Maps option group name -> selected course code
-  const [selectedOptionPerGroup, setSelectedOptionPerGroup] = useState<Record<string, string>>({});
 
   // When the modal opens/closes, reset or initialize highlighting.
   // selectedOptionPerGroup is intentionally excluded: we only want to react to the
@@ -661,35 +686,37 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     }
   }));
 
-  // layer visibility state
-  const [layers, setLayers] = useState(() => {
+  // Layer visibility, derived from URL-controlled props. Memoised so that
+  // post-render effects keyed off `[layers]` don't churn on every render.
+  const layers = useMemo(() => {
     const base = {
-      exams: true,
-      reexams: true,
-      prereqCompleted: true,
-      prereqParticipation: true,
-      courseBars: true,
-      studyPeriods: true,
-      examPeriods: true,
-      reexamPeriods: true,
-      groups: {} as Record<string, boolean>
+      exams: !hiddenLayers.has('exams'),
+      reexams: !hiddenLayers.has('reexams'),
+      prereqCompleted: !hiddenLayers.has('prereqCompleted'),
+      prereqParticipation: !hiddenLayers.has('prereqParticipation'),
+      courseBars: !hiddenLayers.has('courseBars'),
+      studyPeriods: !hiddenLayers.has('studyPeriods'),
+      examPeriods: !hiddenLayers.has('examPeriods'),
+      reexamPeriods: !hiddenLayers.has('reexamPeriods'),
+      groups: {} as Record<string, boolean>,
     };
     if (cosmetics && cosmetics.groups) {
-      cosmetics.groups.forEach(g => { base.groups[g.name] = true; });
+      cosmetics.groups.forEach(g => { base.groups[g.name] = !hiddenGroups.has(g.name); });
     }
     return base;
-  });
+  }, [hiddenLayers, hiddenGroups, cosmetics]);
 
-  // Handler to toggle group visibility
-  const toggleGroup = (groupName: string) => {
-    setLayers(l => ({
-      ...l,
-      groups: {
-        ...l.groups,
-        [groupName]: l.groups[groupName] === false ? true : false
-      }
-    }));
-  };
+  const toggleLayer = useCallback((key: TopLayerKey) => {
+    const next = new Set(hiddenLayers);
+    if (next.has(key)) next.delete(key); else next.add(key);
+    onHiddenLayersChange(next);
+  }, [hiddenLayers, onHiddenLayersChange]);
+
+  const toggleGroup = useCallback((groupName: string) => {
+    const next = new Set(hiddenGroups);
+    if (next.has(groupName)) next.delete(groupName); else next.add(groupName);
+    onHiddenGroupsChange(next);
+  }, [hiddenGroups, onHiddenGroupsChange]);
 
   // focused course code for fading non-relevant elements
   const [focusCourse, setFocusCourse] = useState<string | null>(null);
@@ -1692,7 +1719,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     });
     for (let i = 0; i < numYears; i++) {
       const yearLabelY = yearYOffset[i] + yearBandHeights[i] / 2;
-      const label = g.append('text')
+      // Active-year highlighting (font-weight) is applied by the focusYear
+      // post-render effect, so toggling focus does not require a full redraw.
+      g.append('text')
         .attr('x', -margin.left + 12)
         .attr('y', yearLabelY)
         .text(`${tr[language].year} ${i + 1}`)
@@ -1707,11 +1736,6 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           event.stopPropagation();
           setFocusYear((prev) => (prev === i + 1 ? null : i + 1));
         });
-
-      // Visually indicate active year label
-      if (focusYear === i + 1) {
-        label.attr('font-weight', 600);
-      }
     }
 
     // Draw arrows for prerequisites using stored positions
@@ -2368,17 +2392,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       if (arrow.style.dash) path.attr('stroke-dasharray', arrow.style.dash);
     });
 
-  // style initial visibility based on layers state
-  // note: this will run on each redraw so it's safe to set here
-  container.selectAll('.study-period').style('display', layers.studyPeriods ? '' : 'none');
-  container.selectAll('.exam-period-rect').style('display', layers.examPeriods ? '' : 'none');
-  container.selectAll('.reexam-period-rect').style('display', layers.reexamPeriods ? '' : 'none');
-  // course blocks and labels
-  container.selectAll('.course-block').style('display', layers.courseBars ? '' : 'none');
-  container.selectAll('.course-label').style('display', layers.courseBars ? '' : 'none');
-  // exam/reexam markers
-  container.selectAll('.exam-dot').style('display', layers.exams ? '' : 'none');
-  container.selectAll('.reexam-dot').style('display', layers.reexams ? '' : 'none');
+  // Initial layer visibility is applied by the dedicated `layers` post-render
+  // effect below; that effect runs after this one on every render and covers
+  // every selector. No need to duplicate the work here.
 
   // create a dedicated top layer group so markers always render above chart elements
   const topLayer = svg.append('g')
@@ -2439,7 +2455,11 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .on('mouseout', () => tooltip.style('display', 'none'));
   });
 
-  }, [courses, layers, language, selectedOptionPerGroup, focusYear, cosmetics, programCode, programName, studyplanUrl, getCourseColors]);
+  // `layers` and `focusYear` are intentionally NOT in this dep list. Their
+  // visual effects (visibility toggles, year-label highlight) are applied by
+  // the dedicated post-render effects below, which keeps a layer toggle or
+  // year-focus click from triggering a full ~3 000-call SVG rebuild.
+  }, [courses, language, selectedOptionPerGroup, cosmetics, programCode, programName, studyplanUrl, getCourseColors]);
 
   // Removed popup; outside clicks handled by svg.on('click') above
 
@@ -2659,7 +2679,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       container.selectAll('.exam-dot').style('opacity', null);
       container.selectAll('.reexam-dot').style('opacity', null);
       container.selectAll('.prereq-path').style('opacity', null);
-      container.selectAll<SVGTextElement, unknown>('.year-label').style('opacity', null);
+      container.selectAll<SVGTextElement, unknown>('.year-label')
+        .style('opacity', null)
+        .attr('font-weight', 400);
       return;
     }
 
@@ -2710,11 +2732,15 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     container.selectAll<SVGPathElement, unknown>('.prereq-path')
       .style('opacity', '0.1');
 
-    // Fade year labels not in focus
+    // Fade year labels not in focus and bold the active one.
     container.selectAll<SVGTextElement, unknown>('.year-label')
       .style('opacity', function() {
         const year = parseInt((this as Element).getAttribute('data-year') || '0');
         return year === focusYear ? '1' : '0.3';
+      })
+      .attr('font-weight', function() {
+        const year = parseInt((this as Element).getAttribute('data-year') || '0');
+        return year === focusYear ? 600 : 400;
       });
   }, [focusYear, focusCourse, courses]);
 
@@ -2731,7 +2757,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         {/* Legend positioned as an overlay in bottom-right of the SVG wrapper */}
         <div style={{ position: 'absolute', right: STYLE.legend.offsetX, bottom: STYLE.legend.offsetY, width: STYLE.legend.width, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start', padding: '8px 12px', background: STYLE.legend.background, border: `1px solid ${STYLE.legend.borderColor}`, borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.12)', zIndex: 1000 }}>
         {/* Exams */}
-        <div onClick={() => setLayers(s => ({ ...s, exams: !s.exams }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.exams ? 1 : 0.4 }}>
+        <div onClick={() => toggleLayer('exams')} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.exams ? 1 : 0.4 }}>
           <svg width={16} height={16} viewBox="0 0 16 16">
             <circle cx={8} cy={8} r={6} fill={kthColors.KthLightBrick?.HEX || '#FFCCC4'} stroke={kthColors.KthDarkBrick?.HEX || '#B35A4A'} strokeWidth={1.5}/>
           </svg>
@@ -2739,7 +2765,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         </div>
 
         {/* Reexams */}
-        <div onClick={() => setLayers(s => ({ ...s, reexams: !s.reexams }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.reexams ? 1 : 0.4 }}>
+        <div onClick={() => toggleLayer('reexams')} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.reexams ? 1 : 0.4 }}>
           <svg width={16} height={16} viewBox="0 0 16 16">
             <circle cx={8} cy={8} r={6} fill={kthColors.KthLightBrick?.HEX || '#FFCCC4'} stroke={kthColors.KthDarkBrick?.HEX || '#B35A4A'} strokeWidth={1.5} strokeDasharray="3 2" />
           </svg>
@@ -2747,7 +2773,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         </div>
 
   {/* Prerequisites - completion */}
-  <div onClick={() => setLayers(s => ({ ...s, prereqCompleted: !s.prereqCompleted }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.prereqCompleted ? 1 : 0.4 }}>
+  <div onClick={() => toggleLayer('prereqCompleted')} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.prereqCompleted ? 1 : 0.4 }}>
           <svg width={16} height={16} viewBox="0 0 20 16">
             <path d="M2 8 L16 8" stroke={kthColors.KthHeaven?.HEX || '#6298D2'} strokeWidth={2} fill="none" />
             <path d="M12 4 L20 8 L12 12" fill={kthColors.KthHeaven?.HEX || '#6298D2'} />
@@ -2756,7 +2782,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         </div>
 
   {/* Prerequisites - participation */}
-  <div onClick={() => setLayers(s => ({ ...s, prereqParticipation: !s.prereqParticipation }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.prereqParticipation ? 1 : 0.4 }}>
+  <div onClick={() => toggleLayer('prereqParticipation')} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.prereqParticipation ? 1 : 0.4 }}>
           <svg width={16} height={16} viewBox="0 0 20 16">
             <path d="M2 8 L16 8" stroke="#999" strokeWidth={2} strokeDasharray="4,3" fill="none" />
             <path d="M12 4 L20 8 L12 12" fill="#999" />
@@ -2765,25 +2791,25 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         </div>
 
         {/* Courses */}
-        <div onClick={() => setLayers(s => ({ ...s, courseBars: !s.courseBars }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.courseBars ? 1 : 0.4 }}>
+        <div onClick={() => toggleLayer('courseBars')} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.courseBars ? 1 : 0.4 }}>
           <div style={{ width: 18, height: 12, background: kthColors.KthHeaven?.HEX || '#6298D2', borderRadius: 2, border: '1px solid rgba(0,0,0,0.06)' }} />
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.courses}</span>
         </div>
 
         {/* Study periods */}
-        <div onClick={() => setLayers(s => ({ ...s, studyPeriods: !s.studyPeriods }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.studyPeriods ? 1 : 0.4 }}>
+        <div onClick={() => toggleLayer('studyPeriods')} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.studyPeriods ? 1 : 0.4 }}>
           <div style={{ width: 18, height: 12, background: kthColors.KthSand?.HEX || '#f3f4f6' }} />
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.studyPeriods}</span>
         </div>
 
         {/* Exam periods */}
-        <div onClick={() => setLayers(s => ({ ...s, examPeriods: !s.examPeriods }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.examPeriods ? 1 : 0.4 }}>
+        <div onClick={() => toggleLayer('examPeriods')} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.examPeriods ? 1 : 0.4 }}>
           <div style={{ width: 18, height: 12, background: kthColors.KthLightBlue?.HEX || '#DEF0FF' }} />
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.examPeriods}</span>
         </div>
 
         {/* Reexam periods */}
-        <div onClick={() => setLayers(s => ({ ...s, reexamPeriods: !s.reexamPeriods }))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.reexamPeriods ? 1 : 0.4 }}>
+        <div onClick={() => toggleLayer('reexamPeriods')} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.reexamPeriods ? 1 : 0.4 }}>
           <div style={{ width: 18, height: 12, background: kthColors.KthLightGray?.HEX || '#e6e6e6' }} />
           <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.reexamPeriods}</span>
         </div>
@@ -2853,6 +2879,20 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
                 </button>
               </div>
             </div>
+            {(selectedInfo.course.category || selectedInfo.course.gradingScale) && (
+              <div style={{ display: 'flex', gap: 6, marginBottom: 6, flexWrap: 'wrap' }}>
+                {selectedInfo.course.category && (
+                  <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 10, border: `1px solid ${kthColors.KthHeaven?.HEX || '#6298D2'}`, color: kthColors.KthBlue?.HEX || '#004791', background: kthColors.KthLightBlue?.HEX || '#DEF0FF' }}>
+                    {tr[language].category[selectedInfo.course.category]}
+                  </span>
+                )}
+                {selectedInfo.course.gradingScale && (
+                  <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 10, border: '1px solid #d1d5db', color: '#374151', background: '#f3f4f6' }}>
+                    {tr[language].gradingScale}: {selectedInfo.course.gradingScale}
+                  </span>
+                )}
+              </div>
+            )}
             <div style={{ marginBottom: 6 }}>
               <div>
                 {tr[language].legend.prerequisitesCompleted}:{' '}
@@ -3007,18 +3047,16 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
                 onClick={() => {
                   if (selectedOptionGroup) {
                     if (highlightedOptionCode) {
-                      // Choose the highlighted option
-                      setSelectedOptionPerGroup(prev => ({
-                        ...prev,
+                      // Choose the highlighted option.
+                      onSelectedOptionPerGroupChange({
+                        ...selectedOptionPerGroup,
                         [selectedOptionGroup.name]: highlightedOptionCode,
-                      }));
-                    } else {
-                      // Clear the selection (deselect) - delete the entry so option group shows again
-                      setSelectedOptionPerGroup(prev => {
-                        const updated = { ...prev };
-                        delete updated[selectedOptionGroup.name];
-                        return updated;
                       });
+                    } else {
+                      // Clear the selection (deselect) so the option group shows again.
+                      const next = { ...selectedOptionPerGroup };
+                      delete next[selectedOptionGroup.name];
+                      onSelectedOptionPerGroupChange(next);
                     }
                     setSelectedOptionGroup(null);
                     setHighlightedOptionCode(null);
