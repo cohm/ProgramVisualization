@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import TimelineVisualization, { TimelineVisualizationHandle } from '@/components/TimelineVisualization';
 import { Course, CourseCategory, GradingScale, OptionGroup, Period } from '@/types/course';
@@ -293,6 +293,68 @@ export default function HomeClient() {
     router.replace(`/?${params.toString()}`);
   };
 
+  // ----- View state derived from URL params -----
+  // og=Group1:Code1,Group2:Code2 — user's pick per option group
+  // hide=layer1,layer2          — top-level layers that are off
+  // hideGroups=Name1,Name2      — cosmetics course-groups that are off
+  // All three are absent by default; absence = "default visibility / no choice".
+  // Selections persist across program switches (an `og` entry that doesn't match
+  // the new program is simply ignored).
+
+  const selectedOptionPerGroup = useMemo<Record<string, string>>(() => {
+    const og = searchParams.get('og');
+    if (!og) return {};
+    const out: Record<string, string> = {};
+    for (const pair of og.split(',')) {
+      const colon = pair.indexOf(':');
+      if (colon <= 0) continue;
+      const name = decodeURIComponent(pair.slice(0, colon));
+      const code = decodeURIComponent(pair.slice(colon + 1));
+      if (name && code) out[name] = code;
+    }
+    return out;
+  }, [searchParams]);
+
+  const hiddenLayers = useMemo<Set<string>>(() => {
+    const v = searchParams.get('hide');
+    if (!v) return new Set();
+    return new Set(v.split(',').map(s => s.trim()).filter(Boolean));
+  }, [searchParams]);
+
+  const hiddenGroups = useMemo<Set<string>>(() => {
+    const v = searchParams.get('hideGroups');
+    if (!v) return new Set();
+    return new Set(v.split(',').map(s => decodeURIComponent(s.trim())).filter(Boolean));
+  }, [searchParams]);
+
+  const replaceParams = useCallback((mutate: (p: URLSearchParams) => void) => {
+    const params = new URLSearchParams(searchParams.toString());
+    mutate(params);
+    router.replace(`/?${params.toString()}`);
+  }, [searchParams, router]);
+
+  const setSelectedOptionPerGroup = useCallback((next: Record<string, string>) => {
+    replaceParams((p) => {
+      const entries = Object.entries(next).filter(([, v]) => !!v).sort(([a], [b]) => a.localeCompare(b));
+      if (entries.length === 0) p.delete('og');
+      else p.set('og', entries.map(([k, v]) => `${encodeURIComponent(k)}:${encodeURIComponent(v)}`).join(','));
+    });
+  }, [replaceParams]);
+
+  const setHiddenLayers = useCallback((next: Set<string>) => {
+    replaceParams((p) => {
+      if (next.size === 0) p.delete('hide');
+      else p.set('hide', [...next].sort().join(','));
+    });
+  }, [replaceParams]);
+
+  const setHiddenGroups = useCallback((next: Set<string>) => {
+    replaceParams((p) => {
+      if (next.size === 0) p.delete('hideGroups');
+      else p.set('hideGroups', [...next].sort().map(encodeURIComponent).join(','));
+    });
+  }, [replaceParams]);
+
   // Load courses and cosmetics when program changes
   useEffect(() => {
     loadCourses(selectedProgram.dataFile).then(setCourses);
@@ -399,15 +461,21 @@ export default function HomeClient() {
           </div>
         </div>
         <div className="bg-white rounded-lg shadow-lg p-6 min-h-[600px]">
-          <TimelineVisualization 
-            ref={vizRef} 
-            courses={courses} 
+          <TimelineVisualization
+            ref={vizRef}
+            courses={courses}
             language={language}
             programName={language === 'en' ? (selectedProgram.nameEn || selectedProgram.name) : selectedProgram.name}
             programCode={selectedProgram.code}
             studyplanUrl={selectedProgram.studyplan}
             programComment={selectedProgram.comment}
             cosmetics={cosmetics}
+            selectedOptionPerGroup={selectedOptionPerGroup}
+            onSelectedOptionPerGroupChange={setSelectedOptionPerGroup}
+            hiddenLayers={hiddenLayers}
+            onHiddenLayersChange={setHiddenLayers}
+            hiddenGroups={hiddenGroups}
+            onHiddenGroupsChange={setHiddenGroups}
           />
         </div>
         
