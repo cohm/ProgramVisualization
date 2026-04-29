@@ -1692,7 +1692,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     });
     for (let i = 0; i < numYears; i++) {
       const yearLabelY = yearYOffset[i] + yearBandHeights[i] / 2;
-      const label = g.append('text')
+      // Active-year highlighting (font-weight) is applied by the focusYear
+      // post-render effect, so toggling focus does not require a full redraw.
+      g.append('text')
         .attr('x', -margin.left + 12)
         .attr('y', yearLabelY)
         .text(`${tr[language].year} ${i + 1}`)
@@ -1707,11 +1709,6 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           event.stopPropagation();
           setFocusYear((prev) => (prev === i + 1 ? null : i + 1));
         });
-
-      // Visually indicate active year label
-      if (focusYear === i + 1) {
-        label.attr('font-weight', 600);
-      }
     }
 
     // Draw arrows for prerequisites using stored positions
@@ -2368,17 +2365,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       if (arrow.style.dash) path.attr('stroke-dasharray', arrow.style.dash);
     });
 
-  // style initial visibility based on layers state
-  // note: this will run on each redraw so it's safe to set here
-  container.selectAll('.study-period').style('display', layers.studyPeriods ? '' : 'none');
-  container.selectAll('.exam-period-rect').style('display', layers.examPeriods ? '' : 'none');
-  container.selectAll('.reexam-period-rect').style('display', layers.reexamPeriods ? '' : 'none');
-  // course blocks and labels
-  container.selectAll('.course-block').style('display', layers.courseBars ? '' : 'none');
-  container.selectAll('.course-label').style('display', layers.courseBars ? '' : 'none');
-  // exam/reexam markers
-  container.selectAll('.exam-dot').style('display', layers.exams ? '' : 'none');
-  container.selectAll('.reexam-dot').style('display', layers.reexams ? '' : 'none');
+  // Initial layer visibility is applied by the dedicated `layers` post-render
+  // effect below; that effect runs after this one on every render and covers
+  // every selector. No need to duplicate the work here.
 
   // create a dedicated top layer group so markers always render above chart elements
   const topLayer = svg.append('g')
@@ -2439,7 +2428,11 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .on('mouseout', () => tooltip.style('display', 'none'));
   });
 
-  }, [courses, layers, language, selectedOptionPerGroup, focusYear, cosmetics, programCode, programName, studyplanUrl, getCourseColors]);
+  // `layers` and `focusYear` are intentionally NOT in this dep list. Their
+  // visual effects (visibility toggles, year-label highlight) are applied by
+  // the dedicated post-render effects below, which keeps a layer toggle or
+  // year-focus click from triggering a full ~3 000-call SVG rebuild.
+  }, [courses, language, selectedOptionPerGroup, cosmetics, programCode, programName, studyplanUrl, getCourseColors]);
 
   // Removed popup; outside clicks handled by svg.on('click') above
 
@@ -2659,7 +2652,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       container.selectAll('.exam-dot').style('opacity', null);
       container.selectAll('.reexam-dot').style('opacity', null);
       container.selectAll('.prereq-path').style('opacity', null);
-      container.selectAll<SVGTextElement, unknown>('.year-label').style('opacity', null);
+      container.selectAll<SVGTextElement, unknown>('.year-label')
+        .style('opacity', null)
+        .attr('font-weight', 400);
       return;
     }
 
@@ -2710,11 +2705,15 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     container.selectAll<SVGPathElement, unknown>('.prereq-path')
       .style('opacity', '0.1');
 
-    // Fade year labels not in focus
+    // Fade year labels not in focus and bold the active one.
     container.selectAll<SVGTextElement, unknown>('.year-label')
       .style('opacity', function() {
         const year = parseInt((this as Element).getAttribute('data-year') || '0');
         return year === focusYear ? '1' : '0.3';
+      })
+      .attr('font-weight', function() {
+        const year = parseInt((this as Element).getAttribute('data-year') || '0');
+        return year === focusYear ? 600 : 400;
       });
   }, [focusYear, focusCourse, courses]);
 
