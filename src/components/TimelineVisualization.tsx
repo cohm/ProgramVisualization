@@ -2,19 +2,19 @@
 
 import React, { useEffect, useMemo, useRef, forwardRef, useImperativeHandle, useState, useCallback } from 'react';
 import * as d3 from 'd3';
-import { Course, CourseCredit, OptionGroup, Period, academicPeriods } from '@/types/course';
+import { Course, CourseCredit, OptionGroup, Period, SelectedInfo, academicPeriods } from '@/types/course';
 import kthColors from '@/data/kth-colors.json';
 import type { ProgramCosmetics } from '@/types/cosmetics';
+import { STYLE, defaultColor, getColorForFamily, getFamilyVariants } from '@/lib/colors';
+import { tr, type Lang } from '@/lib/translations';
+import Legend, { type ToggleableLayerKey } from '@/components/Legend';
+import InfoPanel from '@/components/InfoPanel';
+import OptionGroupModal from '@/components/OptionGroupModal';
 
-type Lang = 'sv' | 'en';
 type CourseOrOptionGroup = Course | OptionGroup;
 
 // Top-level layer keys that can be hidden via the legend / URL `hide=` param.
-type TopLayerKey =
-  | 'exams' | 'reexams'
-  | 'prereqCompleted' | 'prereqParticipation'
-  | 'courseBars'
-  | 'studyPeriods' | 'examPeriods' | 'reexamPeriods';
+type TopLayerKey = ToggleableLayerKey;
 
 interface TimelineVisualizationProps {
   courses: CourseOrOptionGroup[];
@@ -46,140 +46,6 @@ const isOptionGroup = (item: CourseOrOptionGroup): item is OptionGroup => {
 export interface TimelineVisualizationHandle {
   exportChart: (format: 'png' | 'svg' | 'pdf', options?: { includeLegend?: boolean }) => Promise<void>;
 }
-
-// Centralized styling constants (module-level so they're stable across renders)
-const STYLE = {
-  fontFamily: "Figtree, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Noto Sans, 'Apple Color Emoji', 'Segoe UI Emoji'",
-  legend: {
-    width: 170,
-    offsetX: 85,
-    offsetY: 30,
-    background: 'rgba(255,255,255,0.95)',
-    borderColor: '#e5e7eb',
-    requires: 'Särskild behörighet',
-    requiredFor: 'Krävs för',
-    textColor: kthColors.KthBlue?.HEX || '#004791'
-  }
-} as const;
-
-// Default color for courses not in any cosmetics group
-const defaultColor = { fill: kthColors.KthHeaven?.HEX || '#6298D2', stroke: kthColors.KthBlue?.HEX || '#004791', text: kthColors.KthLightBlue?.HEX || '#DEF0FF' };
-
-const getColorForFamily = (family: 'blue' | 'green' | 'turquoise' | 'brick' | 'yellow') => {
-  const families = {
-    blue: { fill: kthColors.KthBlue?.HEX || '#004791', stroke: kthColors.KthMarine?.HEX || '#000061', text: kthColors.KthLightBlue?.HEX || '#DEF0FF' },
-    green: { fill: kthColors.KthGreen?.HEX || '#4DA061', stroke: kthColors.KthDarkGreen?.HEX || '#0D4A21', text: kthColors.KthLightGreen?.HEX || '#C7EBBA' },
-    turquoise: { fill: kthColors.KthTurquoise?.HEX || '#339C9C', stroke: kthColors.KthDarkTurquoise?.HEX || '#1C434C', text: kthColors.KthLightTurquoise?.HEX || '#B2E0E0' },
-    brick: { fill: kthColors.KthBrick?.HEX || '#E86A58', stroke: kthColors.KthDarkBrick?.HEX || '#78001A', text: kthColors.KthLightBrick?.HEX || '#FFCCC4' },
-    yellow: { fill: kthColors.KthYellow?.HEX || '#FFBE00', stroke: kthColors.KthDarkYellow?.HEX || '#A65900', text: kthColors.KthLightYellow?.HEX || '#FFF0B0' }
-  };
-  return families[family];
-};
-
-const getFamilyVariants = (family: 'blue' | 'green' | 'turquoise' | 'brick' | 'yellow') => {
-  if (family === 'blue') {
-    return [
-      { fill: kthColors.KthLightBlue?.HEX || '#6298D2', stroke: kthColors.KthMarine?.HEX || '#000061', text: kthColors.KthMarine?.HEX || '#000061' },
-    ];
-  }
-  if (family === 'green') {
-    return [
-      { fill: kthColors.KthLightGreen?.HEX || '#C7EBBA', stroke: kthColors.KthDarkGreen?.HEX || '#0D4A21', text: kthColors.KthLightGreen?.HEX || '#C7EBBA' },
-    ];
-  }
-  if (family === 'turquoise') {
-    return [
-      { fill: kthColors.KthLightTurquoise?.HEX || '#B2E0E0', stroke: kthColors.KthDarkTurquoise?.HEX || '#1C434C', text: kthColors.KthLightTurquoise?.HEX || '#B2E0E0' },
-    ];
-  }
-  if (family === 'brick') {
-    return [
-      { fill: kthColors.KthLightBrick?.HEX || '#FFCCC4', stroke: kthColors.KthDarkBrick?.HEX || '#78001A', text: kthColors.KthDarkBrick?.HEX || '#78001A' },
-    ];
-  }
-  // yellow
-  return [
-    { fill: kthColors.KthLightYellow?.HEX || '#FFF0B0', stroke: kthColors.KthDarkYellow?.HEX || '#A65900', text: kthColors.KthDarkYellow?.HEX || '#A65900' },
-  ];
-};
-
-// Translations (static — module-level so they're stable across renders)
-const tr = {
-  sv: {
-    legend: {
-      exams: 'Tentor',
-      reexams: 'Omtentor',
-      prerequisitesCompleted: 'Kräver avklarad kurs',
-      prerequisitesParticipation: 'Kräver deltagande',
-      courses: 'Kurser',
-      studyPeriods: 'Läsperioder',
-      examPeriods: 'Tentaperioder',
-      reexamPeriods: 'Omtentaperioder'
-    },
-    examPeriodLabel: 'Tentaperiod',
-    reexamPeriodLabel: 'Omtentaperiod',
-    period: 'Läsperiod',
-    start: 'Start',
-    lectureEnd: 'Föreläsningar slutar',
-    end: 'Slut',
-    exam: 'Tenta',
-    reexam: 'Omtenta',
-    year: 'År',
-    credits: 'hp',
-    teacher: 'Lärare',
-    viewCourse: 'kurshemsida',
-    viewSchedule: 'schema',
-    requires: 'Särskild behörighet',
-    requiredFor: 'Krävs för',
-    totalCredits: 'Totalt',
-    options: 'Alternativ',
-    gradingScale: 'Betygsskala',
-    category: {
-      mandatory: 'Obligatorisk',
-      conditionallyElective: 'Villkorligt valbar',
-      electivePlaceholder: 'Plats för valfri kurs',
-      recommended: 'Rekommenderad',
-    },
-    months: ['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec']
-  },
-  en: {
-    legend: {
-      exams: 'Exams',
-      reexams: 'Re-exams',
-      prerequisitesCompleted: 'Requires completion',
-      prerequisitesParticipation: 'Requires participation',
-      courses: 'Courses',
-      studyPeriods: 'Study periods',
-      examPeriods: 'Exam periods',
-      reexamPeriods: 'Re-exam periods'
-    },
-    examPeriodLabel: 'Exam period',
-    reexamPeriodLabel: 'Re-exam period',
-    period: 'Study period',
-    start: 'Start',
-    lectureEnd: 'Lecture end',
-    end: 'End',
-    exam: 'Exam',
-    reexam: 'Re-exam',
-    year: 'Year',
-    credits: 'ECTS',
-    teacher: 'Teacher',
-    viewCourse: 'course webpage',
-    viewSchedule: 'schedule',
-    requires: 'Requires',
-    requiredFor: 'Required for',
-    totalCredits: 'Total',
-    options: 'Options',
-    gradingScale: 'Grading scale',
-    category: {
-      mandatory: 'Mandatory',
-      conditionallyElective: 'Conditionally elective',
-      electivePlaceholder: 'Free elective slot',
-      recommended: 'Recommended',
-    },
-    months: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-  }
-} as const;
 
 const TimelineVisualization = forwardRef(function TimelineVisualization({ courses, language = 'sv', programName, programCode, studyplanUrl, programComment, cosmetics, selectedOptionPerGroup, onSelectedOptionPerGroupChange, hiddenLayers, onHiddenLayersChange, hiddenGroups, onHiddenGroupsChange }: TimelineVisualizationProps, ref: React.ForwardedRef<TimelineVisualizationHandle>) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -721,10 +587,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // focused course code for fading non-relevant elements
   const [focusCourse, setFocusCourse] = useState<string | null>(null);
   // Info panel selection
-  const [selectedInfo, setSelectedInfo] = useState<{
-    course: Course;
-    credit?: { period: string; credits: number; year: number };
-  } | null>(null);
+  const [selectedInfo, setSelectedInfo] = useState<SelectedInfo | null>(null);
 
   useEffect(() => {
     if (!svgRef.current || !containerRef.current || !courses.length) return;
@@ -2754,197 +2617,21 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           style={{ minHeight: '600px' }}
         />
 
-        {/* Legend positioned as an overlay in bottom-right of the SVG wrapper */}
-        <div style={{ position: 'absolute', right: STYLE.legend.offsetX, bottom: STYLE.legend.offsetY, width: STYLE.legend.width, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start', padding: '8px 12px', background: STYLE.legend.background, border: `1px solid ${STYLE.legend.borderColor}`, borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.12)', zIndex: 1000 }}>
-        {/* Exams */}
-        <div onClick={() => toggleLayer('exams')} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.exams ? 1 : 0.4 }}>
-          <svg width={16} height={16} viewBox="0 0 16 16">
-            <circle cx={8} cy={8} r={6} fill={kthColors.KthLightBrick?.HEX || '#FFCCC4'} stroke={kthColors.KthDarkBrick?.HEX || '#B35A4A'} strokeWidth={1.5}/>
-          </svg>
-          <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.exams}</span>
-        </div>
-
-        {/* Reexams */}
-        <div onClick={() => toggleLayer('reexams')} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.reexams ? 1 : 0.4 }}>
-          <svg width={16} height={16} viewBox="0 0 16 16">
-            <circle cx={8} cy={8} r={6} fill={kthColors.KthLightBrick?.HEX || '#FFCCC4'} stroke={kthColors.KthDarkBrick?.HEX || '#B35A4A'} strokeWidth={1.5} strokeDasharray="3 2" />
-          </svg>
-          <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.reexams}</span>
-        </div>
-
-  {/* Prerequisites - completion */}
-  <div onClick={() => toggleLayer('prereqCompleted')} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.prereqCompleted ? 1 : 0.4 }}>
-          <svg width={16} height={16} viewBox="0 0 20 16">
-            <path d="M2 8 L16 8" stroke={kthColors.KthHeaven?.HEX || '#6298D2'} strokeWidth={2} fill="none" />
-            <path d="M12 4 L20 8 L12 12" fill={kthColors.KthHeaven?.HEX || '#6298D2'} />
-          </svg>
-          <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.prerequisitesCompleted}</span>
-        </div>
-
-  {/* Prerequisites - participation */}
-  <div onClick={() => toggleLayer('prereqParticipation')} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.prereqParticipation ? 1 : 0.4 }}>
-          <svg width={16} height={16} viewBox="0 0 20 16">
-            <path d="M2 8 L16 8" stroke="#999" strokeWidth={2} strokeDasharray="4,3" fill="none" />
-            <path d="M12 4 L20 8 L12 12" fill="#999" />
-          </svg>
-          <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.prerequisitesParticipation}</span>
-        </div>
-
-        {/* Courses */}
-        <div onClick={() => toggleLayer('courseBars')} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.courseBars ? 1 : 0.4 }}>
-          <div style={{ width: 18, height: 12, background: kthColors.KthHeaven?.HEX || '#6298D2', borderRadius: 2, border: '1px solid rgba(0,0,0,0.06)' }} />
-          <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.courses}</span>
-        </div>
-
-        {/* Study periods */}
-        <div onClick={() => toggleLayer('studyPeriods')} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.studyPeriods ? 1 : 0.4 }}>
-          <div style={{ width: 18, height: 12, background: kthColors.KthSand?.HEX || '#f3f4f6' }} />
-          <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.studyPeriods}</span>
-        </div>
-
-        {/* Exam periods */}
-        <div onClick={() => toggleLayer('examPeriods')} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.examPeriods ? 1 : 0.4 }}>
-          <div style={{ width: 18, height: 12, background: kthColors.KthLightBlue?.HEX || '#DEF0FF' }} />
-          <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.examPeriods}</span>
-        </div>
-
-        {/* Reexam periods */}
-        <div onClick={() => toggleLayer('reexamPeriods')} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.reexamPeriods ? 1 : 0.4 }}>
-          <div style={{ width: 18, height: 12, background: kthColors.KthLightGray?.HEX || '#e6e6e6' }} />
-          <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.reexamPeriods}</span>
-        </div>
-
-        {/* Course groups if cosmetics available */}
-        {cosmetics && cosmetics.groups.length > 0 && (
-          <>
-            <div style={{ width: '100%', height: 1, background: '#e5e7eb', margin: '4px 0' }} />
-            {cosmetics.groups.map((group) => {
-              const variants = getFamilyVariants(group.colorFamily);
-              const gradient = variants.length > 1
-                ? `linear-gradient(90deg, ${variants.map((v, i) => {
-                    const start = Math.round((i / variants.length) * 100);
-                    const end = Math.round(((i + 1) / variants.length) * 100);
-                    return `${v.fill} ${start}%, ${v.fill} ${end}%`;
-                  }).join(', ')})`
-                : variants[0]?.fill || '#ccc';
-              const borderColor = variants[0]?.stroke || '#999';
-              const isHidden = layers.groups[group.name] === false;
-              return (
-                <div
-                  key={group.name}
-                  onClick={() => toggleGroup(group.name)}
-                  style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: isHidden ? 0.4 : 1 }}
-                  title={isHidden ? 'Show group' : 'Hide group'}
-                >
-                  <div style={{ width: 18, height: 12, background: gradient, borderRadius: 2, border: `1px solid ${borderColor}` }} />
-                  <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>
-                    {language === 'en' ? (group.nameEn || group.name) : group.name}
-                  </span>
-                </div>
-              );
-            })}
-          </>
-        )}
-        </div>
+        <Legend
+          language={language}
+          layers={layers}
+          cosmetics={cosmetics}
+          toggleLayer={toggleLayer}
+          toggleGroup={toggleGroup}
+        />
       </div>
 
-      {/* Info Panel below chart (outside SVG wrapper) */}
-      <div style={{ marginTop: 12, padding: '12px 14px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8 }}>
-        {selectedInfo ? (
-          <div style={{ color: kthColors.KthBlue?.HEX || '#004791' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', gap: 12, flexWrap: 'wrap' }}>
-              <div>
-                <div style={{ fontWeight: 700, marginBottom: 4 }}>
-                  {selectedInfo.course.code}{' '}{language === 'en' 
-                    ? (selectedInfo.course.nameEn || selectedInfo.course.name)
-                    : selectedInfo.course.name}
-                  {selectedInfo.credit ? `, ${selectedInfo.credit.credits} ${tr[language].credits}` : ''}{' '}
-                  <a href={`https://www.kth.se/student/kurser/kurs/${selectedInfo.course.code.toLowerCase()}${language === 'en' ? '?l=en' : ''}`}
-                     target="_blank" rel="noopener noreferrer"
-                     style={{ color: kthColors.KthHeaven?.HEX, textDecoration: 'none', fontWeight: 500 }}>
-                    ({tr[language].viewCourse},&nbsp;
-                  </a>
-                  <a href={`https://www.kth.se/social/course/${selectedInfo.course.code.toLowerCase()}/calendar`}
-                     target="_blank" rel="noopener noreferrer"
-                     style={{ color: kthColors.KthHeaven?.HEX, textDecoration: 'none', fontWeight: 500 }}>
-                    {tr[language].viewSchedule})
-                  </a>
-                </div>
-              </div>
-              <div>
-                <button onClick={() => { setFocusCourse(null); setSelectedInfo(null); }}
-                        className="px-2 py-1 border border-gray-300 rounded-md shadow-sm"
-                        style={{ color: kthColors.KthBlue?.HEX }}>
-                  ×
-                </button>
-              </div>
-            </div>
-            {(selectedInfo.course.category || selectedInfo.course.gradingScale) && (
-              <div style={{ display: 'flex', gap: 6, marginBottom: 6, flexWrap: 'wrap' }}>
-                {selectedInfo.course.category && (
-                  <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 10, border: `1px solid ${kthColors.KthHeaven?.HEX || '#6298D2'}`, color: kthColors.KthBlue?.HEX || '#004791', background: kthColors.KthLightBlue?.HEX || '#DEF0FF' }}>
-                    {tr[language].category[selectedInfo.course.category]}
-                  </span>
-                )}
-                {selectedInfo.course.gradingScale && (
-                  <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 10, border: '1px solid #d1d5db', color: '#374151', background: '#f3f4f6' }}>
-                    {tr[language].gradingScale}: {selectedInfo.course.gradingScale}
-                  </span>
-                )}
-              </div>
-            )}
-            <div style={{ marginBottom: 6 }}>
-              <div>
-                {tr[language].legend.prerequisitesCompleted}:{' '}
-                {(() => {
-                  const list = selectedInfo.course.prerequisitesCompleted || selectedInfo.course.prerequisites || [];
-                  return (list.length ? (list as string[]).join(', ') : '—');
-                })()}{', '}
-                {tr[language].legend.prerequisitesParticipation}:{' '}
-                {(() => {
-                  const list = selectedInfo.course.prerequisitesParticipation || [];
-                  return (list.length ? (list as string[]).join(', ') : '—');
-                })()}{', '}
-                {tr[language].requiredFor}:{' '}
-                {(() => {
-                  // Only check individual courses, not option groups
-                  const optGroupsList = courses.filter(isOptionGroup);
-                  const coursesInOptGroups = new Set<string>();
-                  optGroupsList.forEach(og => {
-                    og.options.forEach(optionCode => {
-                      coursesInOptGroups.add(optionCode);
-                    });
-                  });
-                  const filteredCoursesList = courses.filter(c => {
-                    if (isOptionGroup(c)) return false;
-                    return !coursesInOptGroups.has((c as Course).code);
-                  }) as Course[];
-
-                  const dependents = filteredCoursesList.filter(c => {
-                    const comp = c.prerequisitesCompleted || c.prerequisites || [];
-                    const part = c.prerequisitesParticipation || [];
-                    return (comp.includes(selectedInfo.course.code) || part.includes(selectedInfo.course.code));
-                  }).map(c => c.code);
-                  return dependents.length ? dependents.join(', ') : '—';
-                })()}
-              </div>
-            </div>
-            {selectedInfo.course.teacher ? (
-              <div style={{ marginBottom: 8 }}>
-                {tr[language].teacher}: {selectedInfo.course.teacher}
-              </div>
-            ) : null}
-            {selectedInfo.course.description ? (
-              <div style={{ marginBottom: 8 }}>
-                Info: {selectedInfo.course.description}</div>
-            ) : null}
-          </div>
-        ) : (
-          <div style={{ color: '#6b7280' }}>
-            {/* Empty state */}
-          </div>
-        )}
-      </div>
+      <InfoPanel
+        language={language}
+        info={selectedInfo}
+        courses={courses}
+        onClose={() => { setFocusCourse(null); setSelectedInfo(null); }}
+      />
 
       {/* Program comment below info panel */}
       {programComment && programComment.trim().length > 0 && (
@@ -2953,229 +2640,20 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         </div>
       )}
 
-      {/* Option Group Modal - rendered as SVG overlay */}
-      {selectedOptionGroup && (() => {
-        // Calculate modal dimensions based on content
-        const headerHeight = 75;
-        const optionHeight = 50; // height for each option bar
-        const optionSpacing = 12; // spacing between options
-        const padding = 20;
-        
-        const numOptions = selectedOptionGroup.options.length;
-        const contentHeight = headerHeight + (numOptions * optionHeight) + ((numOptions - 1) * optionSpacing);
-        const svgHeight = Math.min(contentHeight + padding + padding, 700); // Cap at 700px (padding on top + bottom)
-        const svgWidth = 500;
-        
-        return (
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: 'rgba(0, 0, 0, 0.3)',
-              zIndex: 500,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontFamily: 'Figtree, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Noto Sans',
-            }}
-            onClick={() => setSelectedOptionGroup(null)}
-          >
-            <svg
-              width={svgWidth}
-              height={svgHeight}
-              style={{
-                backgroundColor: 'white',
-                borderRadius: '8px',
-                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
-                pointerEvents: 'auto',
-              }}
-              onClick={(e) => {
-                e.stopPropagation();
-                // Click on empty SVG area deselects current option
-                if ((e.target as SVGElement).tagName === 'svg') {
-                  setHighlightedOptionCode(null);
-                  setSelectedInfo(null);
-                }
-              }}
-            >
-              {/* Title */}
-              <text
-                x={padding}
-                y={padding + 20}
-                fontSize={18}
-                fontWeight={600}
-                fill="#004791"
-              >
-                {language === 'en' ? (selectedOptionGroup.nameEn || selectedOptionGroup.name) : selectedOptionGroup.name}
-              </text>
-
-              {/* Info line */}
-              <text
-                x={padding}
-                y={padding + 40}
-                fontSize={12}
-                fill="#666"
-              >
-                {language === 'en' ? 'Total credits:' : 'Totalt poäng:'}{' '}
-                <tspan fontWeight={600}>{selectedOptionGroup.totalCredits}</tspan>
-              </text>
-
-              {/* Divider line */}
-              <line
-                x1={padding}
-                y1={padding + 55}
-                x2={svgWidth - padding}
-                y2={padding + 55}
-                stroke="#e5e7eb"
-                strokeWidth={1}
-              />
-              
-              {/* Choose and Cancel buttons - positioned in header area on the right */}
-              {/* Choose button background - can be used to select/deselect an option */}
-              <rect
-                x={svgWidth - padding - 160}
-                y={padding + 6}
-                width={70}
-                height={32}
-                fill={(kthColors.KthBlue?.HEX || '#004791')}
-                rx={4}
-                ry={4}
-                style={{ cursor: 'pointer' }}
-                onClick={() => {
-                  if (selectedOptionGroup) {
-                    if (highlightedOptionCode) {
-                      // Choose the highlighted option.
-                      onSelectedOptionPerGroupChange({
-                        ...selectedOptionPerGroup,
-                        [selectedOptionGroup.name]: highlightedOptionCode,
-                      });
-                    } else {
-                      // Clear the selection (deselect) so the option group shows again.
-                      const next = { ...selectedOptionPerGroup };
-                      delete next[selectedOptionGroup.name];
-                      onSelectedOptionPerGroupChange(next);
-                    }
-                    setSelectedOptionGroup(null);
-                    setHighlightedOptionCode(null);
-                  }
-                }}
-              />
-              
-              {/* Choose button text */}
-              <text
-                x={svgWidth - padding - 125}
-                y={padding + 22}
-                textAnchor="middle"
-                dominantBaseline="central"
-                fontSize={13}
-                fontWeight={600}
-                fill="#FFFFFF"
-                style={{ cursor: 'pointer', pointerEvents: 'none' }}
-              >
-                {language === 'en' ? 'Choose' : 'Välj'}
-              </text>
-              
-              {/* Cancel button background */}
-              <rect
-                x={svgWidth - padding - 80}
-                y={padding + 6}
-                width={70}
-                height={32}
-                fill="#e5e7eb"
-                rx={4}
-                ry={4}
-                style={{ cursor: 'pointer' }}
-                onClick={() => {
-                  setSelectedOptionGroup(null);
-                  setHighlightedOptionCode(null);
-                }}
-              />
-              
-              {/* Cancel button text */}
-              <text
-                x={svgWidth - padding - 45}
-                y={padding + 22}
-                textAnchor="middle"
-                dominantBaseline="central"
-                fontSize={13}
-                fontWeight={600}
-                fill="#4B5563"
-                style={{ cursor: 'pointer', pointerEvents: 'none' }}
-              >
-                {language === 'en' ? 'Cancel' : 'Avbryt'}
-              </text>
-
-              {/* Course option bars */}
-              {selectedOptionGroup.options.map((optionCode, index) => {
-                const optionCourse = courses.find(c => isCourse(c) && (c as Course).code === optionCode) as Course | undefined;
-                if (!optionCourse) return null;
-
-                const barY = padding + headerHeight + index * (optionHeight + optionSpacing);
-                const barHeight = optionHeight;
-                const barWidth = svgWidth - 2 * padding;
-                const barX = padding;
-                const colors = getCourseColors(optionCourse);
-
-                // Get option name
-                const optionName = language === 'en' ? (optionCourse.nameEn || optionCourse.name) : optionCourse.name;
-                const totalCredits = optionCourse.credits.reduce((sum, c) => sum + c.credits, 0);
-
-                return (
-                  <g
-                    key={index}
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => {
-                      // Toggle: if already selected, deselect; otherwise select
-                      if (highlightedOptionCode === optionCode) {
-                        setHighlightedOptionCode(null);
-                        setSelectedInfo(null);
-                      } else {
-                        setHighlightedOptionCode(optionCode);
-                        setSelectedInfo({
-                          course: optionCourse,
-                          credit: {
-                            period: optionCourse.credits[0]?.period || 'P1',
-                            credits: totalCredits,
-                            year: optionCourse.year,
-                          },
-                        });
-                      }
-                    }}
-                  >
-                    {/* Bar background - highlight if selected */}
-                    <rect
-                      x={barX}
-                      y={barY}
-                      width={barWidth}
-                      height={barHeight}
-                      fill={colors.fill}
-                      stroke={highlightedOptionCode === optionCode ? '#FFD700' : colors.stroke}
-                      strokeWidth={highlightedOptionCode === optionCode ? 3 : 1.5}
-                      rx={3}
-                      ry={3}
-                    />
-
-                    {/* Code, name, and credits text - single line */}
-                    <text
-                      x={barX + 6}
-                      y={barY + optionHeight / 2}
-                      fontSize={11}
-                      fontWeight={600}
-                      fill={kthColors.KthMarine?.HEX || '#000061'}
-                      dominantBaseline="central"
-                    >
-                      {optionCode} {optionName}, {totalCredits} {tr[language].credits}
-                    </text>
-                  </g>
-                );
-              })}
-            </svg>
-          </div>
-        );
-      })()}
+      {selectedOptionGroup && (
+        <OptionGroupModal
+          optionGroup={selectedOptionGroup}
+          language={language}
+          courses={courses}
+          getCourseColors={getCourseColors}
+          highlightedOptionCode={highlightedOptionCode}
+          onHighlightedOptionCodeChange={setHighlightedOptionCode}
+          selectedOptionPerGroup={selectedOptionPerGroup}
+          onSelectedOptionPerGroupChange={onSelectedOptionPerGroupChange}
+          onSelectedInfoChange={setSelectedInfo}
+          onClose={() => setSelectedOptionGroup(null)}
+        />
+      )}
 
     </div>
   );
