@@ -2399,56 +2399,58 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .style('display', layers.reexamPeriods ? '' : 'none');
   }, [layers]);
 
-  // Handle group visibility toggling without redrawing
+  // Compose group visibility with the top-level layer flags. Runs after the
+  // pure `[layers]` effect above and writes the COMPOSITE display (group AND
+  // layer) for every element that has a data-group attribute. Without the
+  // composition, this effect would overwrite the first effect's `display:none`
+  // and silently re-show elements when their group is visible.
   useEffect(() => {
     if (!containerRef.current || !cosmetics) return;
     const container = d3.select(containerRef.current);
-    
-    // For each group, show/hide all elements with matching data-group attribute
+
     cosmetics.groups.forEach(group => {
-      const isVisible = layers.groups[group.name] !== false;
-      const displayValue = isVisible ? '' : 'none';
-      
-      // Hide/show course groups (course bars)
+      const isGroupVisible = layers.groups[group.name] !== false;
+      const courseDisplay = (isGroupVisible && layers.courseBars) ? '' : 'none';
+      const examDisplay = (isGroupVisible && layers.exams) ? '' : 'none';
+      const reexamDisplay = (isGroupVisible && layers.reexams) ? '' : 'none';
+
       container.selectAll(`.course-group[data-group="${group.name}"]`)
         .interrupt()
-        .style('display', displayValue);
-      
-      // Hide/show connector fills
+        .style('display', courseDisplay);
+
       container.selectAll(`.course-connector-fill[data-group="${group.name}"]`)
         .interrupt()
-        .style('display', displayValue);
-      
-      // Hide/show connector borders
+        .style('display', courseDisplay);
+
       container.selectAll(`.course-connector-border[data-group="${group.name}"]`)
         .interrupt()
-        .style('display', displayValue);
-      
-      // Hide/show exam markers
+        .style('display', courseDisplay);
+
       container.selectAll(`.exam-dot[data-group="${group.name}"]`)
         .interrupt()
-        .style('display', displayValue);
-      
-      // Hide/show reexam markers
+        .style('display', examDisplay);
+
       container.selectAll(`.reexam-dot[data-group="${group.name}"]`)
         .interrupt()
-        .style('display', displayValue);
+        .style('display', reexamDisplay);
     });
-    
-    // Handle prerequisite arrows separately - hide if EITHER source OR target is hidden
+
+    // Prereq arrows: composite of (relevant prereq* layer) AND (both endpoint
+    // groups visible). The arrow's CSS classes indicate which layer applies.
     container.selectAll<SVGPathElement, unknown>('.prereq-path')
       .each(function() {
         const arrow = d3.select(this);
         const fromGroup = arrow.attr('data-from-group');
         const toGroup = arrow.attr('data-to-group');
-        
-        // Hide if either group is hidden (check both from and to groups)
         const fromHidden = fromGroup && layers.groups[fromGroup] === false;
         const toHidden = toGroup && layers.groups[toGroup] === false;
-        
-        arrow.style('display', (fromHidden || toHidden) ? 'none' : '');
+        const el = this as Element;
+        const isCompleted = el.classList.contains('prereq-completed');
+        const isParticipation = el.classList.contains('prereq-participation');
+        const layerOn = (isCompleted && layers.prereqCompleted) || (isParticipation && layers.prereqParticipation);
+        arrow.style('display', (fromHidden || toHidden || !layerOn) ? 'none' : '');
       });
-  }, [layers.groups, cosmetics]);
+  }, [layers, cosmetics]);
 
   // Focus mode: fade out unrelated courses/markers/arrows when a course is selected
   useEffect(() => {
