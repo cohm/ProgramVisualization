@@ -44,7 +44,9 @@ export default function InfoPanel({ language, info, courses, onClose }: InfoPane
             <div>
               <button onClick={onClose}
                       className="px-2 py-1 border border-gray-300 rounded-md shadow-sm"
-                      style={{ color: kthColors.KthBlue?.HEX }}>
+                      style={{ color: kthColors.KthBlue?.HEX }}
+                      aria-label={language === 'en' ? 'Close info panel' : 'Stäng infopanel'}
+                      title={language === 'en' ? 'Close' : 'Stäng'}>
                 ×
               </button>
             </div>

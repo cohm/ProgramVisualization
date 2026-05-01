@@ -1115,6 +1115,21 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const connectedRight = barsConnectedRight.has(barKey);
   const connectedLeft = barsConnectedLeft.has(barKey);
 
+  // Accessible label: "{code} {name}, {totalCredits} hp" for courses,
+  // "{group name}, {totalCredits} hp ({option group})" for option groups.
+  const barAriaLabel = (() => {
+    if (isCourse(item)) {
+      const c = item as Course;
+      const name = language === 'en' ? (c.nameEn || c.name) : c.name;
+      const total = c.credits.reduce((s, cr) => s + cr.credits, 0);
+      return `${c.code} ${name}, ${total} ${tr[language].credits}`;
+    }
+    const og = item as OptionGroup;
+    const name = language === 'en' ? (og.nameEn || og.name) : og.name;
+    const groupWord = language === 'en' ? 'option group' : 'kursgrupp';
+    return `${name}, ${og.totalCredits} ${tr[language].credits} (${groupWord})`;
+  })();
+
   // Draw filled rectangle (always the same)
   block.append('rect')
     .attr('x', barX)
@@ -1130,6 +1145,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     .attr('data-course', itemId)
     .attr('data-year', String(credit.year))
     .attr('data-period', credit.period)
+    .attr('tabindex', '0')
+    .attr('aria-label', barAriaLabel)
     .style('cursor', 'pointer');
 
   // Draw border with custom path that excludes connected edges
@@ -1382,6 +1399,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('class', 'year-label')
         .attr('data-kind', 'year-label')
         .attr('data-year', String(i + 1))
+        .attr('tabindex', '0')
+        .attr('aria-label', `${tr[language].year} ${i + 1}`)
         .style('cursor', 'pointer');
     }
 
@@ -2090,6 +2109,16 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .attr('data-group', groupName);
   });
 
+  // SVG accessibility: title + desc referenced by aria-labelledby on the
+  // root <svg>. Re-appended each render so they stay in sync with the
+  // current program / data after `selectAll('*').remove()`.
+  const titleText = programName && programCode
+    ? `${programName} (${programCode}) — ${tr[language].year} 1${numYears > 1 ? `–${numYears}` : ''}`
+    : `${tr[language].year} 1${numYears > 1 ? `–${numYears}` : ''}`;
+  const descText = `${individualCourses.length} ${language === 'en' ? 'courses' : 'kurser'}, ${optionGroups.length} ${language === 'en' ? 'option groups' : 'kursgrupper'}, ${allArrows.length} ${language === 'en' ? 'prerequisite arrows' : 'förkunskapspilar'}.`;
+  svg.insert('title', ':first-child').attr('id', 'chart-title').text(titleText);
+  svg.insert('desc', 'title + *').attr('id', 'chart-desc').text(descText);
+
   // Build the per-render tooltip cache and dispatch context. The delegated
   // mouseover/click handler (installed once, see effect below) reads these
   // refs to look up tooltip HTML and resolve clicked elements back to their
@@ -2228,12 +2257,11 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       hideTooltip();
     };
 
-    const onClick = (event: MouseEvent) => {
-      const target = event.target as Element | null;
-      const el = target?.closest('[data-kind]') ?? null;
+    // Extracted so click and keyboard activation share the same logic.
+    const dispatchActivation = (el: Element | null) => {
       const ctx = dispatchCtxRef.current;
       if (!el) {
-        // Empty-space click clears focus / info / year.
+        // Empty-space activation clears focus / info / year.
         setFocusCourse(null);
         setSelectedInfo(null);
         setFocusYear(null);
@@ -2286,20 +2314,81 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         });
         return;
       }
-      // Other kinds (period rects, exam/reexam dots) are tooltip-only — no
-      // click action, but we also should not clear focus when clicking them.
+      // Other kinds (period rects, exam/reexam dots) have no click action,
+      // and clicking them shouldn't clear focus either.
+    };
+
+    const onClick = (event: MouseEvent) => {
+      const target = event.target as Element | null;
+      const el = target?.closest('[data-kind]') ?? null;
+      dispatchActivation(el);
+    };
+
+    // Keyboard activation: Enter or Space on a focusable element fires the
+    // same dispatcher as a click. We intercept the default Space behaviour
+    // (page scroll) so screen-reader / keyboard users see the action.
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Enter' && event.key !== ' ' && event.key !== 'Spacebar') return;
+      const target = event.target as Element | null;
+      const el = target?.closest('[data-kind]') ?? null;
+      if (!el) return;
+      // Only activate kinds that have a click action; ignore decorative ones
+      // so Space scrolls normally when no actionable element is focused.
+      const kind = el.getAttribute('data-kind');
+      if (kind !== 'bar' && kind !== 'connector' && kind !== 'year-label') return;
+      event.preventDefault();
+      dispatchActivation(el);
+    };
+
+    // Show the tooltip when a focusable element receives keyboard focus,
+    // anchored to the element's bounding box (no mouse coords available).
+    const showTooltipForElement = (el: Element) => {
+      const key = cacheKeyFor(el);
+      if (!key) return;
+      const html = tooltipCacheRef.current.get(key);
+      if (!html) return;
+      const rect = el.getBoundingClientRect();
+      const pageX = rect.left + window.scrollX;
+      const pageY = rect.bottom + window.scrollY;
+      tooltip
+        .html(html)
+        .style('display', 'block')
+        .style('left', (pageX) + 'px')
+        .style('top', (pageY + 8) + 'px');
+      currentTooltipKeyRef.current = key;
+    };
+
+    const onFocusIn = (event: FocusEvent) => {
+      const target = event.target as Element | null;
+      const el = target?.closest('[data-kind]') ?? null;
+      if (el) showTooltipForElement(el);
+    };
+
+    const onFocusOut = (event: FocusEvent) => {
+      const target = event.target as Element | null;
+      const related = event.relatedTarget as Element | null;
+      const fromKind = target?.closest('[data-kind]') ?? null;
+      const toKind = related?.closest('[data-kind]') ?? null;
+      if (fromKind && fromKind === toKind) return;
+      hideTooltip();
     };
 
     svgEl.addEventListener('mouseover', onMouseOver);
     svgEl.addEventListener('mousemove', onMouseMove);
     svgEl.addEventListener('mouseout', onMouseOut);
     svgEl.addEventListener('click', onClick);
+    svgEl.addEventListener('keydown', onKeyDown);
+    svgEl.addEventListener('focusin', onFocusIn);
+    svgEl.addEventListener('focusout', onFocusOut);
 
     return () => {
       svgEl.removeEventListener('mouseover', onMouseOver);
       svgEl.removeEventListener('mousemove', onMouseMove);
       svgEl.removeEventListener('mouseout', onMouseOut);
       svgEl.removeEventListener('click', onClick);
+      svgEl.removeEventListener('keydown', onKeyDown);
+      svgEl.removeEventListener('focusin', onFocusIn);
+      svgEl.removeEventListener('focusout', onFocusOut);
       tooltip.remove();
       tooltipElRef.current = null;
     };
@@ -2598,10 +2687,12 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     <div ref={containerRef}>
       {/* Visualization canvas wrapper so legend anchors to the SVG area only */}
       <div style={{ position: 'relative' }}>
-        <svg 
-          ref={svgRef} 
+        <svg
+          ref={svgRef}
           className="w-full h-full"
           style={{ minHeight: '600px' }}
+          role="img"
+          aria-labelledby="chart-title chart-desc"
         />
 
         <Legend

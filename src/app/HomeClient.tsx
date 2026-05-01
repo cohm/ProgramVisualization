@@ -35,6 +35,7 @@ const ui = {
     language: 'Språk',
     swedish: 'Svenska',
     english: 'Engelska',
+    menu: 'Meny för export och språk',
   },
   en: {
     title: 'Education program visualization',
@@ -47,6 +48,7 @@ const ui = {
     language: 'Language',
     swedish: 'Swedish',
     english: 'English',
+    menu: 'Export and language menu',
   }
 } as const;
 
@@ -204,7 +206,7 @@ export default function HomeClient() {
           </select>
           
             <div style={{ position: 'relative' }}>
-              <button ref={exportBtnRef} onClick={() => setMenuOpen(v => !v)} className="px-2 py-2 border border-gray-300 rounded-md shadow-sm" aria-label="Menu">
+              <button ref={exportBtnRef} onClick={() => setMenuOpen(v => !v)} className="px-2 py-2 border border-gray-300 rounded-md shadow-sm" aria-label={ui[language].menu} aria-expanded={menuOpen} aria-haspopup="menu">
                 <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect x="2" y="3" width="16" height="2" rx="1" fill={kthColors.KthBlue?.HEX || '#004791'} />
                   <rect x="2" y="7" width="16" height="2" rx="1" fill={kthColors.KthBlue?.HEX || '#004791'} />

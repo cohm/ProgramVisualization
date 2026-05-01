@@ -28,3 +28,17 @@ body {
 html {
   overflow-y: scroll;
 }
+
+/* Visible keyboard-focus indicator for the in-chart focusable elements
+   (course bars and year labels) and the legend toggles. SVG elements ignore
+   the default user-agent focus ring, so we draw an explicit outline. */
+.course-block:focus-visible,
+.year-label:focus-visible {
+  outline: 2px solid #004791; /* KthBlue */
+  outline-offset: 2px;
+}
+[role="button"]:focus-visible {
+  outline: 2px solid #004791;
+  outline-offset: 2px;
+  border-radius: 2px;
+}

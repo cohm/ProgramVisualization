@@ -362,7 +362,7 @@ Roughly in cost-vs-value order. Status as of 2026-05-02; commit links are to `co
 
    Partially addressed in [`ec8963f`](https://github.com/cohm/ProgramVisualization/commit/ec8963f): `Legend`, `InfoPanel`, `OptionGroupModal`, and `useCourseModel` extracted; `ChartLayout`, `ArrowRouter`, `BarRenderer`, and `Export` still live inside `TimelineVisualization.tsx`.
 8. ✅ **Switch the per-bar event handlers to delegated handlers** with a cached tooltip text map (§3.2). — [`e24761f`](https://github.com/cohm/ProgramVisualization/commit/e24761f) (also closes the latent tooltip-XSS noted in §3.4 by escaping JSON values in the new `src/lib/tooltipText.ts`)
-9. ⏳ **Cache embedded fonts and the Puppeteer browser instance** (§3.5).
+9. ✅ **Cache embedded fonts and the Puppeteer browser instance** (§3.5). — [`eb3b92f`](https://github.com/cohm/ProgramVisualization/commit/eb3b92f) (new `src/lib/fonts.ts` cache, inline `@font-face` in PDF HTML, `waitUntil: networkidle0` → `load`, module-level `cachedBrowser` in `route.ts`)
 10. ⏳ **Accessibility pass:** keyboard focus on bars, `role="img"` + title on the SVG, `aria-label`s on icon buttons (§1.4).
 11. ⏳ **Add inriktning support and a track filter** when Y4–Y5 data is added (§2.5, §2.6).
 12. ⏳ **Drop or restore `getFamilyVariants`** (§2.9).
