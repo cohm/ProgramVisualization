@@ -13,8 +13,7 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
-    "reexams": []
+    "exams": []
   },
   {
     "code": "SF1672",
@@ -30,9 +29,6 @@
     "year": 1,
     "prerequisites": [],
     "exams": [
-      "P2"
-    ],
-    "reexams": [
       "P2"
     ]
   },
@@ -51,9 +47,6 @@
     "prerequisites": [],
     "exams": [
       "P1"
-    ],
-    "reexams": [
-      "P1"
     ]
   },
   {
@@ -70,9 +63,6 @@
     "year": 1,
     "prerequisites": [],
     "exams": [
-      "P1"
-    ],
-    "reexams": [
       "P1"
     ]
   },
@@ -92,9 +82,6 @@
       "SF1673"
     ],
     "exams": [
-      "P3"
-    ],
-    "reexams": [
       "P3"
     ]
   },
@@ -117,9 +104,6 @@
     ],
     "exams": [
       "P4"
-    ],
-    "reexams": [
-      "P4"
     ]
   },
   {
@@ -138,9 +122,6 @@
       "SF1673"
     ],
     "exams": [
-      "P4"
-    ],
-    "reexams": [
       "P4"
     ]
   },
@@ -164,10 +145,6 @@
     "exams": [
       "P2",
       "P3"
-    ],
-    "reexams": [
-      "P2",
-      "P3"
     ]
   },
   {
@@ -185,8 +162,7 @@
     "prerequisitesParticipation": [
       "SK1104"
     ],
-    "exams": [],
-    "reexams": []
+    "exams": []
   },
   {
     "code": "DD1301",
@@ -201,8 +177,7 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
-    "reexams": []
+    "exams": []
   },
   {
     "code": "SF1681",
@@ -221,9 +196,6 @@
       "SF1672"
     ],
     "exams": [
-      "P2"
-    ],
-    "reexams": [
       "P2"
     ]
   },
@@ -246,9 +218,6 @@
     ],
     "exams": [
       "P1"
-    ],
-    "reexams": [
-      "P1"
     ]
   },
   {
@@ -268,9 +237,6 @@
     ],
     "exams": [
       "P2"
-    ],
-    "reexams": [
-      "P2"
     ]
   },
   {
@@ -289,9 +255,6 @@
       "SF1674"
     ],
     "exams": [
-      "P1"
-    ],
-    "reexams": [
       "P1"
     ]
   },
@@ -315,10 +278,6 @@
     "exams": [
       "P1",
       "P2"
-    ],
-    "reexams": [
-      "P1",
-      "P2"
     ]
   },
   {
@@ -339,9 +298,6 @@
     ],
     "exams": [
       "P4"
-    ],
-    "reexams": [
-      "P4"
     ]
   },
   {
@@ -359,9 +315,6 @@
     "year": 2,
     "prerequisites": [],
     "exams": [
-      "P3"
-    ],
-    "reexams": [
       "P3"
     ]
   },
@@ -383,9 +336,6 @@
     ],
     "exams": [
       "P3"
-    ],
-    "reexams": [
-      "P3"
     ]
   },
   {
@@ -404,9 +354,6 @@
       "DD1331"
     ],
     "exams": [
-      "P4"
-    ],
-    "reexams": [
       "P4"
     ]
   },
@@ -427,9 +374,6 @@
     ],
     "exams": [
       "P4"
-    ],
-    "reexams": [
-      "P4"
     ]
   },
   {
@@ -447,8 +391,7 @@
     "prerequisitesCompleted": [
       "SH1014"
     ],
-    "exams": [],
-    "reexams": []
+    "exams": []
   },
   {
     "code": "EI1320",
@@ -466,10 +409,6 @@
       "SI1200"
     ],
     "exams": [
-      "P1",
-      "P2"
-    ],
-    "reexams": [
       "P1",
       "P2"
     ]
@@ -492,9 +431,6 @@
     ],
     "exams": [
       "P1"
-    ],
-    "reexams": [
-      "P1"
     ]
   },
   {
@@ -514,9 +450,6 @@
     ],
     "exams": [
       "P2"
-    ],
-    "reexams": [
-      "P2"
     ]
   },
   {
@@ -534,8 +467,7 @@
     "prerequisitesCompleted": [
       "SF1544"
     ],
-    "exams": [],
-    "reexams": []
+    "exams": []
   },
   {
     "type": "optionGroup",
@@ -549,7 +481,10 @@
       "P3": 7.5,
       "P4": 7.5
     },
-    "options": ["SA114X", "EF112X"],
+    "options": [
+      "SA114X",
+      "EF112X"
+    ],
     "allowedNumberOfOptions": 1,
     "exams": [],
     "reexams": [],
@@ -570,14 +505,12 @@
     "year": 3,
     "prerequisites": [],
     "exams": [],
-    "reexams": [],
     "gradingScale": "P/F"
   },
   {
     "code": "EF112X",
     "name": "Examensarbete inom elektroteknik, grundnivå",
     "briefName": "KEX i elektroteknik",
-
     "totalCredits": 15,
     "periodCredits": {
       "P1": 0,
@@ -588,7 +521,6 @@
     "year": 3,
     "prerequisites": [],
     "exams": [],
-    "reexams": [],
     "gradingScale": "P/F"
   },
   {
@@ -606,9 +538,6 @@
     "exams": [
       "P3"
     ],
-    "reexams": [
-      "P3"
-    ],
     "category": "electivePlaceholder"
   },
   {
@@ -624,9 +553,6 @@
     "year": 3,
     "prerequisites": [],
     "exams": [
-      "P4"
-    ],
-    "reexams": [
       "P4"
     ],
     "category": "electivePlaceholder"

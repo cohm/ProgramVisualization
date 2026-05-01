@@ -12,8 +12,7 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
-    "reexams": []
+    "exams": []
   },
   {
     "code": "SF1672",
@@ -29,9 +28,6 @@
     "year": 1,
     "prerequisites": [],
     "exams": [
-      "P2"
-    ],
-    "reexams": [
       "P2"
     ]
   },
@@ -49,9 +45,6 @@
     "year": 1,
     "prerequisites": [],
     "exams": [
-      "P1"
-    ],
-    "reexams": [
       "P1"
     ]
   },
@@ -71,9 +64,6 @@
     "prerequisites": [],
     "exams": [
       "P2"
-    ],
-    "reexams": [
-      "P2"
     ]
   },
   {
@@ -90,8 +80,7 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
-    "reexams": []
+    "exams": []
   },
   {
     "code": "SF1550",
@@ -107,8 +96,7 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
-    "reexams": []
+    "exams": []
   },
   {
     "code": "SF1674",
@@ -124,9 +112,6 @@
     "year": 1,
     "prerequisites": [],
     "exams": [
-      "P3"
-    ],
-    "reexams": [
       "P3"
     ]
   },
@@ -146,9 +131,6 @@
     "prerequisites": [],
     "exams": [
       "P4"
-    ],
-    "reexams": [
-      "P4"
     ]
   },
   {
@@ -165,8 +147,7 @@
     },
     "year": 2,
     "prerequisites": [],
-    "exams": [],
-    "reexams": []
+    "exams": []
   },
   {
     "code": "SA1006",
@@ -205,17 +186,6 @@
       "Year3": [
         "P2"
       ]
-    },
-    "reexams": {
-      "Year1": [
-        "P2"
-      ],
-      "Year2": [
-        "P4"
-      ],
-      "Year3": [
-        "P2"
-      ]
     }
   },
   {
@@ -236,9 +206,6 @@
     ],
     "exams": [
       "P2"
-    ],
-    "reexams": [
-      "P2"
     ]
   },
   {
@@ -256,9 +223,6 @@
     "year": 2,
     "prerequisites": [],
     "exams": [
-      "P1"
-    ],
-    "reexams": [
       "P1"
     ]
   },
@@ -278,9 +242,6 @@
     "prerequisites": [],
     "exams": [
       "P1"
-    ],
-    "reexams": [
-      "P1"
     ]
   },
   {
@@ -297,9 +258,6 @@
     "year": 2,
     "prerequisites": [],
     "exams": [
-      "P3"
-    ],
-    "reexams": [
       "P3"
     ]
   },
@@ -319,9 +277,6 @@
     "prerequisites": [],
     "exams": [
       "P4"
-    ],
-    "reexams": [
-      "P4"
     ]
   },
   {
@@ -337,8 +292,7 @@
     },
     "year": 2,
     "prerequisites": [],
-    "exams": [],
-    "reexams": []
+    "exams": []
   },
   {
     "code": "SF1678",
@@ -353,8 +307,7 @@
     },
     "year": 2,
     "prerequisites": [],
-    "exams": [],
-    "reexams": []
+    "exams": []
   },
   {
     "code": "SF1691",
@@ -369,8 +322,7 @@
     },
     "year": 2,
     "prerequisites": [],
-    "exams": [],
-    "reexams": []
+    "exams": []
   },
   {
     "type": "optionGroup",
@@ -384,7 +336,11 @@
       "P3": 3.7,
       "P4": 3.8
     },
-    "options": ["SF1677", "SF1678", "SF1691"],
+    "options": [
+      "SF1677",
+      "SF1678",
+      "SF1691"
+    ],
     "allowedNumberOfOptions": 1,
     "exams": [],
     "reexams": []
@@ -402,8 +358,7 @@
     },
     "year": 2,
     "prerequisites": [],
-    "exams": [],
-    "reexams": []
+    "exams": []
   },
   {
     "code": "DD1380",
@@ -419,8 +374,7 @@
     },
     "year": 2,
     "prerequisites": [],
-    "exams": [],
-    "reexams": []
+    "exams": []
   },
   {
     "code": "EL1000",
@@ -437,9 +391,6 @@
     "year": 3,
     "prerequisites": [],
     "exams": [
-      "P1"
-    ],
-    "reexams": [
       "P1"
     ]
   },
@@ -458,9 +409,6 @@
     "prerequisites": [],
     "exams": [
       "P2"
-    ],
-    "reexams": [
-      "P2"
     ]
   },
   {
@@ -476,8 +424,7 @@
     },
     "year": 3,
     "prerequisites": [],
-    "exams": [],
-    "reexams": []
+    "exams": []
   },
   {
     "code": "DD1301",
@@ -492,7 +439,6 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
-    "reexams": []
+    "exams": []
   }
 ]

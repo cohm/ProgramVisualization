@@ -47,6 +47,14 @@ export interface OptionGroup {
   gradingScale?: GradingScale;
 }
 
+// What the bottom info panel shows when the user clicks a course or option.
+// Lives here so the InfoPanel/OptionGroupModal components can type their props
+// without depending on the parent TimelineVisualization module.
+export interface SelectedInfo {
+  course: Course;
+  credit?: { period: string; credits: number; year: number };
+}
+
 export interface Course {
   code: string;
   name: string;

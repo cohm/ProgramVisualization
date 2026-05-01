@@ -287,6 +287,58 @@ function validateCourse(c, ctx, file) {
   validatePeriodList(c.reexams, 'reexams', c, ctx, file);
   validateOptionalEnum(c.category, 'category', COURSE_CATEGORIES, c.code, ctx, file);
   validateOptionalEnum(c.gradingScale, 'gradingScale', GRADING_SCALES, c.code, ctx, file);
+  validateReexamConsistency(c, ctx, file);
+}
+
+// Per *Riktlinje om läsårets förläggning* (V-2019-0109) §1.1, the re-exam slot
+// is fixed by the ordinary exam period. The loader therefore defaults `reexams`
+// to `exams` when the field is omitted; authors only need to set `reexams` to
+// add EXTRA tillfällen beyond the default.
+//
+// This check warns when the JSON contains a `reexams` value that is either
+// redundant (matches `exams` exactly) or insufficient (a strict subset of
+// `exams`). Supersets — i.e. extra slots — pass without complaint.
+function validateReexamConsistency(c, ctx, file) {
+  if (c.reexams === undefined || c.reexams === null) return; // using default
+
+  const examPairs = collectPeriodPairs(c.exams, c.year);
+  const reexamPairs = collectPeriodPairs(c.reexams, c.year);
+  if (examPairs == null || reexamPairs == null) return; // structural error already reported
+
+  const sameSet = examPairs.size === reexamPairs.size && [...examPairs].every(p => reexamPairs.has(p));
+  if (sameSet) {
+    warn(file, `${ctx} ${c.code}: 'reexams' duplicates 'exams' — omit it to use the default per Riktlinje om läsårets förläggning §1.1`);
+    return;
+  }
+  const missing = [...examPairs].filter(p => !reexamPairs.has(p));
+  if (missing.length > 0) {
+    warn(file, `${ctx} ${c.code}: 'reexams' is missing slot(s) [${missing.join(', ')}] that exist in 'exams' — per Riktlinje om läsårets förläggning §2.1 every written exam should have ≥2 tillfällen per läsår`);
+  }
+}
+
+// Collect (year, period) pairs from an exams/reexams field. Accepts a flat
+// array (uses the course's top-level year) or a Year<n>-keyed object.
+// Returns null on shapes the structural validator would already have flagged.
+function collectPeriodPairs(value, fallbackYear) {
+  const out = new Set();
+  if (Array.isArray(value)) {
+    const y = fallbackYear || 1;
+    for (const p of value) {
+      if (typeof p === 'string') out.add(`Year${y}.${p}`);
+    }
+    return out;
+  }
+  if (value && typeof value === 'object') {
+    for (const [yk, arr] of Object.entries(value)) {
+      if (!Array.isArray(arr)) return null;
+      const y = Number(String(yk).replace(/\D/g, '')) || 1;
+      for (const p of arr) {
+        if (typeof p === 'string') out.add(`Year${y}.${p}`);
+      }
+    }
+    return out;
+  }
+  return null;
 }
 
 function validateOptionalEnum(value, fieldName, allowed, codeOrName, ctx, file) {
