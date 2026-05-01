@@ -2331,33 +2331,39 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     if (!containerRef.current) return;
     const container = d3.select(containerRef.current);
 
-    // Exams: hide/show completely and adjust pointer-events
+    // Exams: hide/show completely and adjust pointer-events.
+    // Hiding course bars also hides exam markers — markers are anchored to
+    // bars, so showing them without their bars looks orphaned.
+    const examsVisible = layers.exams && layers.courseBars;
     container.selectAll<SVGCircleElement, unknown>('.exam-dot')
       .interrupt()
-      .style('display', layers.exams ? '' : 'none')
-      .style('opacity', layers.exams ? '1' : '0.2')
-      .style('pointer-events', layers.exams ? 'auto' : 'none');
+      .style('display', examsVisible ? '' : 'none')
+      .style('opacity', examsVisible ? '1' : '0.2')
+      .style('pointer-events', examsVisible ? 'auto' : 'none');
 
-    // Reexams
+    // Reexams (same rationale as exams)
+    const reexamsVisible = layers.reexams && layers.courseBars;
     container.selectAll<SVGCircleElement, unknown>('.reexam-dot')
       .interrupt()
-      .style('display', layers.reexams ? '' : 'none')
-      .style('opacity', layers.reexams ? '1' : '0.2')
-      .style('pointer-events', layers.reexams ? 'auto' : 'none');
+      .style('display', reexamsVisible ? '' : 'none')
+      .style('opacity', reexamsVisible ? '1' : '0.2')
+      .style('pointer-events', reexamsVisible ? 'auto' : 'none');
 
-    // Prerequisites - completed
+    // Prerequisites - completed (arrows connect bars; hide with bars)
+    const prereqCompletedVisible = layers.prereqCompleted && layers.courseBars;
     container.selectAll<SVGPathElement, unknown>('.prereq-path.prereq-completed')
       .interrupt()
-      .style('display', layers.prereqCompleted ? '' : 'none')
-      .style('opacity', layers.prereqCompleted ? '1' : '0.15')
-      .style('pointer-events', layers.prereqCompleted ? 'auto' : 'none');
+      .style('display', prereqCompletedVisible ? '' : 'none')
+      .style('opacity', prereqCompletedVisible ? '1' : '0.15')
+      .style('pointer-events', prereqCompletedVisible ? 'auto' : 'none');
 
     // Prerequisites - participation
+    const prereqParticipationVisible = layers.prereqParticipation && layers.courseBars;
     container.selectAll<SVGPathElement, unknown>('.prereq-path.prereq-participation')
       .interrupt()
-      .style('display', layers.prereqParticipation ? '' : 'none')
-      .style('opacity', layers.prereqParticipation ? '1' : '0.15')
-      .style('pointer-events', layers.prereqParticipation ? 'auto' : 'none');
+      .style('display', prereqParticipationVisible ? '' : 'none')
+      .style('opacity', prereqParticipationVisible ? '1' : '0.15')
+      .style('pointer-events', prereqParticipationVisible ? 'auto' : 'none');
 
     // Study periods (background alternating)
     container.selectAll<SVGRectElement, unknown>('.study-period')
@@ -2411,8 +2417,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     cosmetics.groups.forEach(group => {
       const isGroupVisible = layers.groups[group.name] !== false;
       const courseDisplay = (isGroupVisible && layers.courseBars) ? '' : 'none';
-      const examDisplay = (isGroupVisible && layers.exams) ? '' : 'none';
-      const reexamDisplay = (isGroupVisible && layers.reexams) ? '' : 'none';
+      const examDisplay = (isGroupVisible && layers.exams && layers.courseBars) ? '' : 'none';
+      const reexamDisplay = (isGroupVisible && layers.reexams && layers.courseBars) ? '' : 'none';
 
       container.selectAll(`.course-group[data-group="${group.name}"]`)
         .interrupt()
@@ -2447,7 +2453,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         const el = this as Element;
         const isCompleted = el.classList.contains('prereq-completed');
         const isParticipation = el.classList.contains('prereq-participation');
-        const layerOn = (isCompleted && layers.prereqCompleted) || (isParticipation && layers.prereqParticipation);
+        const layerOn = layers.courseBars && ((isCompleted && layers.prereqCompleted) || (isParticipation && layers.prereqParticipation));
         arrow.style('display', (fromHidden || toHidden || !layerOn) ? 'none' : '');
       });
   }, [layers, cosmetics]);
