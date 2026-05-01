@@ -19,6 +19,7 @@ import {
   buildCourseTooltip,
   buildOptionGroupTooltip,
 } from '@/lib/tooltipText';
+import { getEmbeddedFontFaces } from '@/lib/fonts';
 
 type CourseOrOptionGroup = Course | OptionGroup;
 
@@ -148,57 +149,14 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         styleEl.textContent = `* { font-family: ${STYLE.fontFamily}; }`;
         cloned.insertBefore(styleEl, cloned.firstChild);
 
-        // Extract font families from the font stack and try to inline web fonts
-        // Parse font families from STYLE.fontFamily (e.g., "Figtree, ui-sans-serif, system-ui, ...")
-        const fontFamilies = STYLE.fontFamily.split(',').map(f => f.trim().replace(/['"]/g, ''));
-        
-        // Try to fetch and embed web fonts (currently supports Google Fonts)
-        for (const fontFamily of fontFamilies) {
-          // Skip generic and system fonts
-          if (['ui-sans-serif', 'system-ui', 'sans-serif', 'serif', 'monospace', '-apple-system', 
-               'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'Noto Sans'].some(s => fontFamily.includes(s))) {
-            continue;
-          }
-          
-          try {
-            // Try to fetch from Google Fonts (works for common web fonts)
-            const fontUrl = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(fontFamily)}:wght@300;400;500;600;700;800;900&display=swap`;
-            const cssResp = await fetch(fontUrl);
-            
-            if (cssResp.ok) {
-              const cssText = await cssResp.text();
-              
-              // Match all font URLs (for different weights)
-              const matches = cssText.matchAll(/url\((https:[^)]+\.(?:woff2|woff|ttf))\)/g);
-              const fontUrls = Array.from(matches).map(m => m[1]);
-              
-              if (fontUrls.length > 0) {
-                // Fetch and embed all font files
-                for (const fontFileUrl of fontUrls) {
-                  const fontResp = await fetch(fontFileUrl);
-                  
-                  if (fontResp.ok) {
-                    const buf = await fontResp.arrayBuffer();
-                    const u8 = new Uint8Array(buf);
-                    let binary = '';
-                    for (let i = 0; i < u8.length; i++) binary += String.fromCharCode(u8[i]);
-                    const fontBase64 = btoa(binary);
-                    
-                    // Determine format from URL
-                    const format = fontFileUrl.includes('.woff2') ? 'woff2' : 
-                                   fontFileUrl.includes('.woff') ? 'woff' : 'truetype';
-                    
-                    const fontStyle = document.createElementNS('http://www.w3.org/2000/svg', 'style');
-                    fontStyle.textContent = `@font-face { font-family: '${fontFamily}'; src: url(data:font/${format};base64,${fontBase64}) format('${format}'); font-weight: 100 900; font-style: normal; }`;
-                    cloned.insertBefore(fontStyle, cloned.firstChild);
-                  }
-                }
-                break; // Successfully embedded a font, no need to try others
-              }
-            }
-          } catch {
-            // Continue to next font family if this one fails
-          }
+        // Inline web-font @font-face declarations (Figtree, served via
+        // Google Fonts) so the exported SVG/PNG renders the same outside
+        // the browser. Cached after first call — see src/lib/fonts.ts.
+        const fontFaces = await getEmbeddedFontFaces(STYLE.fontFamily);
+        if (fontFaces) {
+          const fontStyle = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+          fontStyle.textContent = fontFaces;
+          cloned.insertBefore(fontStyle, cloned.firstChild);
         }
       } catch {}
 
@@ -467,29 +425,33 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
       // PDF export: use Puppeteer via API for perfect font rendering
       if (format === 'pdf') {
+        // Inline the same @font-face block we embed in SVG/PNG exports.
+        // This lets the API switch from `waitUntil: networkidle0` to the
+        // much faster `load` (no external resources to await).
+        const pdfFontFaces = await getEmbeddedFontFaces(STYLE.fontFamily);
         // Create a complete HTML document with embedded SVG and fonts
         const htmlDoc = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&display=swap');
-    
+    ${pdfFontFaces}
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    
+
     body {
-      font-family: Figtree, ui-sans-serif, system-ui, -apple-system, sans-serif;
+      font-family: ${STYLE.fontFamily};
     }
-    
+
     @page {
       size: ${exportWidth}px ${exportHeight}px;
       margin: 0;
     }
-    
+
     svg {
       display: block;
       width: ${exportWidth}px;
