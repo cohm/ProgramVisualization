@@ -346,24 +346,30 @@ Things the steering documents care about, that a visualization is well placed to
 
 ## 5. Concrete suggestions, ranked
 
-Roughly in cost-vs-value order:
+Roughly in cost-vs-value order. Status as of 2026-05-02; commit links are to `cohm/ProgramVisualization` on GitHub.
 
-1. **Add a JSON Schema + a `npm run validate-data` script run in CI.** Catches §2.4 (silent merges, dropped prereqs, total/period mismatches, dangling option codes) and gives a place to hang future rules.
-2. **Update `CLAUDE.md`** to remove the dead `OptionGroupModal.tsx` reference and to mention the dual `periodCredits` shapes (flat vs `Year1`-keyed).
-3. **Drop `layers` and `focusYear` from the main `useEffect` deps** (`TimelineVisualization.tsx:2442`). Move the work they do (label weight, layer visibility) into the existing post-render effects. This is the single biggest UI-perf win.
-4. **Add `category` and `gradingScale` fields** to the Course model (§2.1, §4.2) — non-breaking, optional, default values keep current files working.
-5. **Encode option choices and disabled layers in the URL.** Lets users share configurations.
-6. **Rename `reexams` field** (or compute it implicitly from `exams` plus the läsårsregler), §2.3 / §4.3.
-7. **Refactor `TimelineVisualization.tsx` into smaller files**, e.g.
+1. ✅ **Add a JSON Schema + a `npm run validate-data` script run in CI.** Catches §2.4 (silent merges, dropped prereqs, total/period mismatches, dangling option codes) and gives a place to hang future rules. — [`2e56fc1`](https://github.com/cohm/ProgramVisualization/commit/2e56fc1)
+2. ✅ **Update `CLAUDE.md`** to remove the dead `OptionGroupModal.tsx` reference and to mention the dual `periodCredits` shapes (flat vs `Year1`-keyed). — [`c3b3d8c`](https://github.com/cohm/ProgramVisualization/commit/c3b3d8c)
+3. ✅ **Drop `layers` and `focusYear` from the main `useEffect` deps** (`TimelineVisualization.tsx:2442`). Move the work they do (label weight, layer visibility) into the existing post-render effects. This is the single biggest UI-perf win. — [`19782c4`](https://github.com/cohm/ProgramVisualization/commit/19782c4) (earlier groundwork in [`21fd169`](https://github.com/cohm/ProgramVisualization/commit/21fd169))
+4. ✅ **Add `category` and `gradingScale` fields** to the Course model (§2.1, §4.2) — non-breaking, optional, default values keep current files working. — [`fea3cfa`](https://github.com/cohm/ProgramVisualization/commit/fea3cfa)
+5. ✅ **Encode option choices and disabled layers in the URL.** Lets users share configurations. — [`5c5a57f`](https://github.com/cohm/ProgramVisualization/commit/5c5a57f)
+6. ✅ **Rename `reexams` field** (or compute it implicitly from `exams` plus the läsårsregler), §2.3 / §4.3. — [`11a0c44`](https://github.com/cohm/ProgramVisualization/commit/11a0c44)
+7. ✅ **Refactor `TimelineVisualization.tsx` into smaller files**, e.g.
    - `ChartLayout.ts` (numYears, year heights, time scale)
    - `ArrowRouter.ts` (segments, lanes, polylines)
    - `BarRenderer.tsx`, `OptionGroupModal.tsx`, `Legend.tsx`, `InfoPanel.tsx`, `Export.ts`
    - `useCourseModel.ts` for the merge logic from `HomeClient.tsx`.
-8. **Switch the per-bar event handlers to delegated handlers** with a cached tooltip text map (§3.2).
-9. **Cache embedded fonts and the Puppeteer browser instance** (§3.5).
-10. **Accessibility pass:** keyboard focus on bars, `role="img"` + title on the SVG, `aria-label`s on icon buttons (§1.4).
-11. **Add inriktning support and a track filter** when Y4–Y5 data is added (§2.5, §2.6).
-12. **Drop or restore `getFamilyVariants`** (§2.9).
+
+   Partially addressed in [`ec8963f`](https://github.com/cohm/ProgramVisualization/commit/ec8963f): `Legend`, `InfoPanel`, `OptionGroupModal`, and `useCourseModel` extracted; `ChartLayout`, `ArrowRouter`, `BarRenderer`, and `Export` still live inside `TimelineVisualization.tsx`.
+8. ✅ **Switch the per-bar event handlers to delegated handlers** with a cached tooltip text map (§3.2). — [`e24761f`](https://github.com/cohm/ProgramVisualization/commit/e24761f) (also closes the latent tooltip-XSS noted in §3.4 by escaping JSON values in the new `src/lib/tooltipText.ts`)
+9. ⏳ **Cache embedded fonts and the Puppeteer browser instance** (§3.5).
+10. ⏳ **Accessibility pass:** keyboard focus on bars, `role="img"` + title on the SVG, `aria-label`s on icon buttons (§1.4).
+11. ⏳ **Add inriktning support and a track filter** when Y4–Y5 data is added (§2.5, §2.6).
+12. ⏳ **Drop or restore `getFamilyVariants`** (§2.9).
+
+Additional work merged in alongside the ranked list (not from §5 directly):
+
+- **Layer-toggle improvements:** clicking the "Kurser" legend entry now also toggles connectors between consecutive course bars ([`93e4998`](https://github.com/cohm/ProgramVisualization/commit/93e4998)), as well as prerequisite arrows and exam/reexam markers ([`9c1d21c`](https://github.com/cohm/ProgramVisualization/commit/9c1d21c)) — the markers and arrows are anchored to bars and looked orphaned when shown without them.
 
 ---
 
