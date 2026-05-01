@@ -10,6 +10,15 @@ import { tr, type Lang } from '@/lib/translations';
 import Legend, { type ToggleableLayerKey } from '@/components/Legend';
 import InfoPanel from '@/components/InfoPanel';
 import OptionGroupModal from '@/components/OptionGroupModal';
+import {
+  buildStudyPeriodTooltip,
+  buildExamPeriodTooltip,
+  buildReexamPeriodTooltip,
+  buildExamDotTooltip,
+  buildReexamDotTooltip,
+  buildCourseTooltip,
+  buildOptionGroupTooltip,
+} from '@/lib/tooltipText';
 
 type CourseOrOptionGroup = Course | OptionGroup;
 
@@ -52,6 +61,27 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const svgRef = useRef<SVGSVGElement>(null);
   // Preserve the initial chart height to keep a stable px-per-ECTS baseline across re-renders/toggles
   const initialChartHeightRef = useRef<number | null>(null);
+  // Single delegated tooltip element, persisted across renders.
+  const tooltipElRef = useRef<HTMLDivElement | null>(null);
+  // Pre-built tooltip HTML, keyed by `${kind}|${id}`. Populated at the end of
+  // the main render and read by the delegated mouseover handler.
+  const tooltipCacheRef = useRef<Map<string, string>>(new Map());
+  // Latest data needed by the delegated click handler. Updated each render so
+  // the handler (attached once) sees current props/state without re-binding.
+  const dispatchCtxRef = useRef<{
+    coursesByCode: Map<string, Course>;
+    optionGroupsByName: Map<string, OptionGroup>;
+    individualCoursesByCode: Map<string, Course>;
+    selectedOptionPerGroup: Record<string, string>;
+  }>({
+    coursesByCode: new Map(),
+    optionGroupsByName: new Map(),
+    individualCoursesByCode: new Map(),
+    selectedOptionPerGroup: {},
+  });
+  // Currently displayed tooltip key — used to suppress redundant updates as
+  // the cursor moves between child elements within the same kind-element.
+  const currentTooltipKeyRef = useRef<string | null>(null);
 
   // Year focus state for highlighting a whole year
   const [focusYear, setFocusYear] = useState<number | null>(null);
@@ -592,22 +622,6 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   useEffect(() => {
     if (!svgRef.current || !containerRef.current || !courses.length) return;
 
-    const container = d3.select(containerRef.current);
-    
-    // setup tooltip container
-    container.selectAll('.pv-tooltip').remove();
-    const tooltip = container.append('div')
-      .attr('class', 'pv-tooltip')
-      .style('position', 'absolute')
-      .style('pointer-events', 'none')
-      .style('display', 'none')
-      .style('background', `rgba(${(kthColors.KthMarine?.RGB || [0, 0, 97]).join(',')}, 0.8)`)
-      .style('color', '#fff')
-      .style('padding', '6px 8px')
-      .style('border-radius', '4px')
-      .style('font-size', '12px')
-      .style('z-index', '1001');
-
   const svg = d3.select(svgRef.current);
   // Apply global font family to all SVG text
   svg.style('font-family', STYLE.fontFamily);
@@ -664,12 +678,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     const timeScale = d3.scaleTime()
       .domain([academicPeriods[0].start, academicPeriods[3].reExamEnd])
       .range([0, width]);
-  // Clicking on empty SVG space clears focus and closes popup
-  svg.on('click', () => {
-    setFocusCourse(null);
-    setSelectedInfo(null);
-    setFocusYear(null);
-  });
+  // Empty-space clicks (clearing focus / info / year) are handled by the
+  // delegated click listener installed once on the container.
 
   const maxYear = Math.max(1, ...courses.flatMap(c => {
     if (isCourse(c)) {
@@ -813,16 +823,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('height', periodHeight)
         .attr('class', 'study-period')
         .attr('fill', (kthColors.KthSand?.HEX ? d3.color(kthColors.KthSand.HEX)!.copy({ opacity: 0.25 }).formatRgb() : 'rgba(235,229,224,0.25)'))
-          .attr('stroke', 'none')
-          .on('mouseover', () => {
-            tooltip.html(`
-              <strong>${tr[language].period} P${i + 1}</strong>
-            `).style('display', 'block');
-          })
-          .on('mousemove', (event: MouseEvent) => {
-            tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
-          })
-          .on('mouseout', () => tooltip.style('display', 'none'));
+        .attr('stroke', 'none')
+        .attr('data-kind', 'study-period')
+        .attr('data-period', period.id);
 
       // Add period label (P1, P2, etc.)
       g.append('text')
@@ -891,16 +894,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('height', examHeight)
         .attr('class', 'exam-period-rect')
         .attr('fill', (kthColors.KthLightBlue?.HEX ? d3.color(kthColors.KthLightBlue.HEX)!.copy({ opacity: 0.5 }).formatRgb() : 'rgba(222,240,255,0.5)'))
-          .attr('stroke', 'none')
-          .on('mouseover', () => {
-            tooltip.html(`
-              <strong>${tr[language].examPeriodLabel} ${period.id}</strong><br/>
-            `).style('display', 'block');
-          })
-          .on('mousemove', (event: MouseEvent) => {
-            tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
-          })
-          .on('mouseout', () => tooltip.style('display', 'none'));
+        .attr('stroke', 'none')
+        .attr('data-kind', 'exam-period')
+        .attr('data-period', period.id);
 
       // Re-exam period (light gray)
       g.append('rect')
@@ -910,16 +906,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('height', examHeight)
         .attr('class', 'reexam-period-rect')
         .attr('fill', (kthColors.KthLightGray?.HEX ? d3.color(kthColors.KthLightGray.HEX)!.copy({ opacity: 0.5 }).formatRgb() : 'rgba(230,230,230,0.5)'))
-          .attr('stroke', 'none')
-          .on('mouseover', () => {
-            tooltip.html(`
-              <strong>${tr[language].reexamPeriodLabel} ${period.id}</strong><br/>
-            `).style('display', 'block');
-          })
-          .on('mousemove', (event: MouseEvent) => {
-            tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
-          })
-          .on('mouseout', () => tooltip.style('display', 'none'));
+        .attr('stroke', 'none')
+        .attr('data-kind', 'reexam-period')
+        .attr('data-period', period.id);
     });
 
     // Compute max parallel slots per year to determine lane heights
@@ -1071,90 +1060,17 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               ? `url(#option-group-pattern-${(item as OptionGroup).name.replace(/\s+/g, '-')})`
               : connectorColors.fill;
 
-            // Create tooltip text for this item
-            let tooltipText = '';
-            if (isCourse(item)) {
-              const course = item as Course;
-              const allCompleted = course.prerequisitesCompleted || course.prerequisites || [];
-              const allParticipation = course.prerequisitesParticipation || [];
-              const completedStr = (allCompleted || []).length ? (allCompleted as string[]).join(', ') : '—';
-              const participationStr = (allParticipation || []).length ? (allParticipation as string[]).join(', ') : '—';
-              const dependents = individualCourses.filter(c => {
-                const comp = c.prerequisitesCompleted || c.prerequisites || [];
-                const part = c.prerequisitesParticipation || [];
-                return (comp.includes(course.code) || part.includes(course.code));
-              }).map(c => c.code);
-              const dependentCodes = dependents.length ? dependents.join(', ') : '—';
-              
-              // Calculate total credits for this course
-              const totalCredits = course.credits.reduce((sum, c) => sum + c.credits, 0);
-              
-              // Build period credits string (e.g., "P1: 4 hp, P2: 2 hp")
-              const periodCreditsStr = course.credits
-                .map(c => `${c.period}: ${c.credits} ${tr[language].credits}`)
-                .join(', ');
-              
-              // Get language-appropriate course name
-              const courseName = language === 'en' 
-                ? (course.nameEn || course.name)
-                : course.name;
-              
-              tooltipText = `<strong>${course.code}, ${totalCredits} ${tr[language].credits}</strong><br/>${courseName}<br/>${periodCreditsStr}
-                <br/><em>${tr[language].legend.prerequisitesCompleted}:</em> ${completedStr}
-                <br/><em>${tr[language].legend.prerequisitesParticipation}:</em> ${participationStr}
-                <br/><em>${tr[language].requiredFor}:</em> ${dependentCodes}`;
-            } else {
-              const og = item as OptionGroup;
-              const ogName = language === 'en' ? (og.nameEn || og.name) : og.name;
-              const totalCredits = og.totalCredits;
-              
-              // Build option list - look up course details from course codes
-              const optionsList = og.options
-                .map(optionCode => {
-                  const optionCourse = courses.find(c => isCourse(c) && (c as Course).code === optionCode) as Course | undefined;
-                  if (!optionCourse) return null;
-                  const optName = language === 'en' ? (optionCourse.nameEn || optionCourse.name) : optionCourse.name;
-                  return `${optionCode}: ${optName}`;
-                })
-                .filter(opt => opt !== null)
-                .join('<br/>');
-              
-              tooltipText = `<strong>${ogName}</strong><br/>${tr[language].totalCredits}: ${totalCredits} ${tr[language].credits}<br/><strong>${tr[language].options}:</strong><br/>${optionsList}`;
-            }
-
             g.append('polygon')
               .attr('points', points.map(p => p.join(',')).join(' '))
               .attr('fill', connectorFillValue)
               .attr('stroke', 'none')
               .attr('class', 'course-connector-fill')
+              .attr('data-kind', 'connector')
               .attr('data-course', itemId)
               .attr('data-group', itemGroupName)
-              .style('cursor', 'pointer')
-              .on('mouseover', () => {
-                tooltip.html(tooltipText).style('display', 'block');
-              })
-              .on('mousemove', (event: MouseEvent) => {
-                tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
-              })
-              .on('mouseout', () => tooltip.style('display', 'none'))
-              .on('click', (event: MouseEvent) => {
-                event.stopPropagation();
-                if (isCourse(item)) {
-                  const course = item as Course;
-                  setFocusCourse(prev => {
-                    const next = prev === course.code ? null : course.code;
-                    if (next) {
-                      setSelectedInfo({ course, credit: { period: current.credit.period as Period['id'], credits: current.credit.credits, year: current.credit.year } });
-                    } else {
-                      setSelectedInfo(null);
-                    }
-                    return next;
-                  });
-                } else {
-                  // For option groups, open the modal
-                  setSelectedOptionGroup(item as OptionGroup);
-                }
-              });
+              .attr('data-year', String(current.credit.year))
+              .attr('data-period', current.credit.period)
+              .style('cursor', 'pointer');
             
             // Store connector border to draw later (after all fills)
             connectorBorders.push({
@@ -1248,102 +1164,11 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     .attr('rx', 4)
     .attr('ry', 4)
     .attr('class', 'course-block')
-    .attr('data-course-code', itemId)
-    .style('cursor', 'pointer')
-    .on('mouseover', () => {
-      // Build tooltip based on item type
-      let tooltipText = '';
-      
-      if (isCourse(item)) {
-        const course = item as Course;
-        const allCompleted = course.prerequisitesCompleted || course.prerequisites || [];
-        const allParticipation = course.prerequisitesParticipation || [];
-        const completedStr = (allCompleted || []).length ? (allCompleted as string[]).join(', ') : '—';
-        const participationStr = (allParticipation || []).length ? (allParticipation as string[]).join(', ') : '—';
-        const dependents = individualCourses.filter(c => {
-          const comp = c.prerequisitesCompleted || c.prerequisites || [];
-          const part = c.prerequisitesParticipation || [];
-          return (comp.includes(course.code) || part.includes(course.code));
-        }).map(c => c.code);
-        const dependentCodes = dependents.length ? dependents.join(', ') : '—';
-        
-        // Calculate total credits for this course
-        const totalCredits = course.credits.reduce((sum, c) => sum + c.credits, 0);
-        
-        // Build period credits string (e.g., "P1: 4 hp, P2: 2 hp")
-        const periodCreditsStr = course.credits
-          .map(c => `${c.period}: ${c.credits} ${tr[language].credits}`)
-          .join(', ');
-        
-        // Get language-appropriate course name
-        const courseName = language === 'en' 
-          ? (course.nameEn || course.name)
-          : course.name;
-        
-        tooltipText = `<strong>${course.code}, ${totalCredits} ${tr[language].credits}</strong><br/>${courseName}<br/>${periodCreditsStr}
-          <br/><em>${tr[language].legend.prerequisitesCompleted}:</em> ${completedStr}
-          <br/><em>${tr[language].legend.prerequisitesParticipation}:</em> ${participationStr}
-          <br/><em>${tr[language].requiredFor}:</em> ${dependentCodes}`;
-      } else {
-        const og = item as OptionGroup;
-        const ogName = language === 'en' ? (og.nameEn || og.name) : og.name;
-        const totalCredits = og.totalCredits;
-        
-        // Build option list - look up course details from course codes
-        const optionsList = og.options
-          .map(optionCode => {
-            const optionCourse = courses.find(c => isCourse(c) && (c as Course).code === optionCode) as Course | undefined;
-            if (!optionCourse) return null;
-            const optName = language === 'en' ? (optionCourse.nameEn || optionCourse.name) : optionCourse.name;
-            return `${optionCode}: ${optName}`;
-          })
-          .filter(opt => opt !== null)
-          .join('<br/>');
-        
-        tooltipText = `<strong>${ogName}</strong><br/>${tr[language].totalCredits}: ${totalCredits} ${tr[language].credits}<br/><strong>${tr[language].options}:</strong><br/>${optionsList}`;
-      }
-      
-      tooltip.html(tooltipText).style('display', 'block');
-    })
-    .on('mousemove', (event: MouseEvent) => {
-      tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
-    })
-    .on('mouseout', () => tooltip.style('display', 'none'))
-    .on('click', (event: MouseEvent) => {
-      event.stopPropagation();
-      if (isCourse(item)) {
-        const course = item as Course;
-        // Check if this course is a selected option from an option group
-        const optionGroupForCourse = Object.entries(selectedOptionPerGroup).find(
-          ([, selectedCode]) => selectedCode === course.code
-        )?.[0];
-        
-        if (optionGroupForCourse) {
-          // This course is a selected option, open the modal for its option group
-          const ogToReopen = courses.find(c => isOptionGroup(c) && (c as OptionGroup).name === optionGroupForCourse) as OptionGroup | undefined;
-          if (ogToReopen) {
-            setSelectedOptionGroup(ogToReopen);
-            setHighlightedOptionCode(null);
-            setSelectedInfo(null);
-          }
-        } else {
-          // Normal course click - show in bottom panel
-          setFocusCourse(prev => {
-            const next = prev === course.code ? null : course.code;
-            if (next) {
-              setSelectedInfo({ course, credit: { period: credit.period as Period['id'], credits: credit.credits, year: credit.year || course.year } });
-            } else {
-              setSelectedInfo(null);
-            }
-            return next;
-          });
-        }
-      } else {
-        // For option groups, open the modal
-        setSelectedOptionGroup(item as OptionGroup);
-        setHighlightedOptionCode(null);
-      }
-    });
+    .attr('data-kind', 'bar')
+    .attr('data-course', itemId)
+    .attr('data-year', String(credit.year))
+    .attr('data-period', credit.period)
+    .style('cursor', 'pointer');
 
   // Draw border with custom path that excludes connected edges
   const r = 4; // corner radius
@@ -1593,12 +1418,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('fill', kthColors.KthBlue?.HEX || '#111827')
         .attr('dominant-baseline', 'middle')
         .attr('class', 'year-label')
+        .attr('data-kind', 'year-label')
         .attr('data-year', String(i + 1))
-        .style('cursor', 'pointer')
-        .on('click', (event: MouseEvent) => {
-          event.stopPropagation();
-          setFocusYear((prev) => (prev === i + 1 ? null : i + 1));
-        });
+        .style('cursor', 'pointer');
     }
 
     // Draw arrows for prerequisites using stored positions
@@ -2279,16 +2101,10 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .attr('stroke-width', EXAM_MARKER_STROKE_WIDTH)
       .style('pointer-events', 'auto')
       .attr('class', 'exam-dot')
+      .attr('data-kind', 'exam-dot')
       .attr('data-layer', 'exams')
       .attr('data-course', m.course.code)
-      .attr('data-group', groupName)
-      .on('mouseover', () => {
-        tooltip.html(`<strong>${m.course.code}</strong><br/>${tr[language].exam}`).style('display', 'block');
-      })
-      .on('mousemove', (event: MouseEvent) => {
-        tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
-      })
-      .on('mouseout', () => tooltip.style('display', 'none'));
+      .attr('data-group', groupName);
   });
 
   reexamMarkers.forEach((m) => {
@@ -2306,17 +2122,51 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .attr('stroke-dasharray', '2 2')
       .style('pointer-events', 'auto')
       .attr('class', 'reexam-dot')
+      .attr('data-kind', 'reexam-dot')
       .attr('data-layer', 'reexams')
       .attr('data-course', m.course.code)
-      .attr('data-group', groupName)
-      .on('mouseover', () => {
-        tooltip.html(`<strong>${m.course.code}</strong><br/>${tr[language].reexam}`).style('display', 'block');
-      })
-      .on('mousemove', (event: MouseEvent) => {
-        tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
-      })
-      .on('mouseout', () => tooltip.style('display', 'none'));
+      .attr('data-group', groupName);
   });
+
+  // Build the per-render tooltip cache and dispatch context. The delegated
+  // mouseover/click handler (installed once, see effect below) reads these
+  // refs to look up tooltip HTML and resolve clicked elements back to their
+  // Course / OptionGroup objects. Building once per render means hover never
+  // recomputes the same string, and we get a single place to escape user
+  // strings (also closes the latent tooltip-XSS in REVIEW.md §3.4).
+  const tooltipCache = new Map<string, string>();
+  const coursesByCode = new Map<string, Course>();
+  const optionGroupsByName = new Map<string, OptionGroup>();
+  const individualCoursesByCode = new Map<string, Course>();
+  courses.forEach(c => {
+    if (isCourse(c)) coursesByCode.set((c as Course).code, c as Course);
+    else if (isOptionGroup(c)) optionGroupsByName.set((c as OptionGroup).name, c as OptionGroup);
+  });
+  individualCourses.forEach(c => individualCoursesByCode.set(c.code, c));
+
+  academicPeriods.forEach(p => {
+    tooltipCache.set(`study-period|${p.id}`, buildStudyPeriodTooltip(language, p.id));
+    tooltipCache.set(`exam-period|${p.id}`, buildExamPeriodTooltip(language, p.id));
+    tooltipCache.set(`reexam-period|${p.id}`, buildReexamPeriodTooltip(language, p.id));
+  });
+  // One tooltip per item — content is the same for every bar / connector of
+  // the same course or option group.
+  individualCourses.forEach(c => {
+    tooltipCache.set(`course|${c.code}`, buildCourseTooltip(c, language, { individualCourses }));
+    tooltipCache.set(`exam-dot|${c.code}`, buildExamDotTooltip(language, c.code));
+    tooltipCache.set(`reexam-dot|${c.code}`, buildReexamDotTooltip(language, c.code));
+  });
+  optionGroups.forEach(og => {
+    tooltipCache.set(`option-group|${og.name}`, buildOptionGroupTooltip(og, language, { courseByCode: coursesByCode }));
+  });
+
+  tooltipCacheRef.current = tooltipCache;
+  dispatchCtxRef.current = {
+    coursesByCode,
+    optionGroupsByName,
+    individualCoursesByCode,
+    selectedOptionPerGroup,
+  };
 
   // `layers` and `focusYear` are intentionally NOT in this dep list. Their
   // visual effects (visibility toggles, year-label highlight) are applied by
@@ -2324,7 +2174,174 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // year-focus click from triggering a full ~3 000-call SVG rebuild.
   }, [courses, language, selectedOptionPerGroup, cosmetics, programCode, programName, studyplanUrl, getCourseColors]);
 
-  // Removed popup; outside clicks handled by svg.on('click') above
+  // One-time setup: tooltip element + delegated mouseover/move/out/click on
+  // the SVG. Replaces the per-element listeners that used to be attached on
+  // every redraw (~hundreds of allocations per render). The handler walks
+  // `closest('[data-kind]')` from the event target, looks up the pre-built
+  // tooltip in tooltipCacheRef, and dispatches clicks via the current data
+  // in dispatchCtxRef. We bind to the SVG specifically (not the wrapping
+  // container `<div>`) so clicks on Legend / InfoPanel / OptionGroupModal —
+  // which are siblings under the same container — don't fall into the
+  // empty-space branch and clear focus.
+  useEffect(() => {
+    const containerEl = containerRef.current;
+    const svgEl = svgRef.current;
+    if (!containerEl || !svgEl) return;
+
+    // Create the tooltip div once and reuse it.
+    const container = d3.select(containerEl);
+    container.selectAll('.pv-tooltip').remove();
+    const tooltip = container.append('div')
+      .attr('class', 'pv-tooltip')
+      .style('position', 'absolute')
+      .style('pointer-events', 'none')
+      .style('display', 'none')
+      .style('background', `rgba(${(kthColors.KthMarine?.RGB || [0, 0, 97]).join(',')}, 0.8)`)
+      .style('color', '#fff')
+      .style('padding', '6px 8px')
+      .style('border-radius', '4px')
+      .style('font-size', '12px')
+      .style('z-index', '1001');
+    tooltipElRef.current = tooltip.node() as HTMLDivElement;
+
+    const hideTooltip = () => {
+      tooltip.style('display', 'none');
+      currentTooltipKeyRef.current = null;
+    };
+
+    // Resolve the cache key for a given kind-element. Bars and connectors
+    // resolve to either a course or an option-group entry, depending on
+    // whether the data-course is an option-group's synthetic id.
+    const cacheKeyFor = (el: Element): string | null => {
+      const kind = el.getAttribute('data-kind');
+      if (!kind) return null;
+      if (kind === 'study-period' || kind === 'exam-period' || kind === 'reexam-period') {
+        return `${kind}|${el.getAttribute('data-period') ?? ''}`;
+      }
+      if (kind === 'exam-dot' || kind === 'reexam-dot') {
+        return `${kind}|${el.getAttribute('data-course') ?? ''}`;
+      }
+      if (kind === 'bar' || kind === 'connector') {
+        const id = el.getAttribute('data-course') ?? '';
+        if (id.startsWith('optionGroup-')) {
+          return `option-group|${id.slice('optionGroup-'.length)}`;
+        }
+        return `course|${id}`;
+      }
+      return null;
+    };
+
+    const onMouseOver = (event: MouseEvent) => {
+      const target = event.target as Element | null;
+      const el = target?.closest('[data-kind]') ?? null;
+      if (!el) {
+        hideTooltip();
+        return;
+      }
+      const key = cacheKeyFor(el);
+      if (!key) {
+        hideTooltip();
+        return;
+      }
+      if (key === currentTooltipKeyRef.current) return; // already showing this
+      const html = tooltipCacheRef.current.get(key);
+      if (!html) return;
+      tooltip.html(html).style('display', 'block');
+      currentTooltipKeyRef.current = key;
+    };
+
+    const onMouseMove = (event: MouseEvent) => {
+      tooltip
+        .style('left', (event.pageX + 50) + 'px')
+        .style('top', (event.pageY + 50) + 'px');
+    };
+
+    const onMouseOut = (event: MouseEvent) => {
+      const target = event.target as Element | null;
+      const related = event.relatedTarget as Element | null;
+      const fromKind = target?.closest('[data-kind]') ?? null;
+      const toKind = related?.closest('[data-kind]') ?? null;
+      // Still inside the same kind-element — keep the tooltip up.
+      if (fromKind && fromKind === toKind) return;
+      hideTooltip();
+    };
+
+    const onClick = (event: MouseEvent) => {
+      const target = event.target as Element | null;
+      const el = target?.closest('[data-kind]') ?? null;
+      const ctx = dispatchCtxRef.current;
+      if (!el) {
+        // Empty-space click clears focus / info / year.
+        setFocusCourse(null);
+        setSelectedInfo(null);
+        setFocusYear(null);
+        return;
+      }
+      const kind = el.getAttribute('data-kind');
+      if (kind === 'year-label') {
+        const y = Number(el.getAttribute('data-year'));
+        if (Number.isFinite(y)) setFocusYear(prev => (prev === y ? null : y));
+        return;
+      }
+      if (kind === 'bar' || kind === 'connector') {
+        const id = el.getAttribute('data-course') ?? '';
+        const periodId = (el.getAttribute('data-period') ?? '') as Period['id'];
+        const yearAttr = Number(el.getAttribute('data-year'));
+        if (id.startsWith('optionGroup-')) {
+          const og = ctx.optionGroupsByName.get(id.slice('optionGroup-'.length));
+          if (og) {
+            setSelectedOptionGroup(og);
+            setHighlightedOptionCode(null);
+          }
+          return;
+        }
+        const course = ctx.coursesByCode.get(id);
+        if (!course) return;
+        // Course shown as the chosen option of an option group — open the
+        // owning option-group modal instead of just focusing.
+        const owningGroup = Object.entries(ctx.selectedOptionPerGroup).find(
+          ([, selectedCode]) => selectedCode === course.code
+        )?.[0];
+        if (owningGroup) {
+          const og = ctx.optionGroupsByName.get(owningGroup);
+          if (og) {
+            setSelectedOptionGroup(og);
+            setHighlightedOptionCode(null);
+            setSelectedInfo(null);
+          }
+          return;
+        }
+        // Normal course click: toggle focus + info-panel.
+        const credit = course.credits.find(cr => cr.period === periodId && cr.year === yearAttr);
+        setFocusCourse(prev => {
+          const next = prev === course.code ? null : course.code;
+          if (next && credit) {
+            setSelectedInfo({ course, credit: { period: credit.period as Period['id'], credits: credit.credits, year: credit.year || course.year } });
+          } else {
+            setSelectedInfo(null);
+          }
+          return next;
+        });
+        return;
+      }
+      // Other kinds (period rects, exam/reexam dots) are tooltip-only — no
+      // click action, but we also should not clear focus when clicking them.
+    };
+
+    svgEl.addEventListener('mouseover', onMouseOver);
+    svgEl.addEventListener('mousemove', onMouseMove);
+    svgEl.addEventListener('mouseout', onMouseOut);
+    svgEl.addEventListener('click', onClick);
+
+    return () => {
+      svgEl.removeEventListener('mouseover', onMouseOver);
+      svgEl.removeEventListener('mousemove', onMouseMove);
+      svgEl.removeEventListener('mouseout', onMouseOut);
+      svgEl.removeEventListener('click', onClick);
+      tooltip.remove();
+      tooltipElRef.current = null;
+    };
+  }, []);
 
   // Update element opacities when layers change
   useEffect(() => {
