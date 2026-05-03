@@ -4,12 +4,13 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation';
 import TimelineVisualization, { TimelineVisualizationHandle } from '@/components/TimelineVisualization';
 import SpecializationFilter from '@/components/SpecializationFilter';
+import Toast, { type ToastMessage } from '@/components/Toast';
 import { Course, OptionGroup } from '@/types/course';
 import kthColors from '@/data/kth-colors.json';
 import programsConfig from '@/data/programs.json';
 import type { ProgramCosmetics } from '@/types/cosmetics';
 import { loadCourses, loadCosmetics } from '@/lib/useCourseModel';
-import type { Lang } from '@/lib/translations';
+import { tr, type Lang } from '@/lib/translations';
 
 // Program configuration type
 interface SpecializationDef {
@@ -85,6 +86,9 @@ const ui = {
 export default function HomeClient() {
   const [courses, setCourses] = useState<(Course | OptionGroup)[]>([]);
   const [cosmetics, setCosmetics] = useState<ProgramCosmetics | null>(null);
+  // Page-level toast for non-blocking failures (PDF export errors,
+  // cosmetics-load failures). Children emit via the `onToast` callback.
+  const [toast, setToast] = useState<ToastMessage | null>(null);
   const vizRef = useRef<TimelineVisualizationHandle | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [exportSubOpen, setExportSubOpen] = useState(false);
@@ -212,7 +216,18 @@ export default function HomeClient() {
   // Load courses and cosmetics when program changes
   useEffect(() => {
     loadCourses(selectedProgram.dataFile).then(setCourses);
-    loadCosmetics(selectedProgram.cosmeticsFile).then(setCosmetics);
+    loadCosmetics(selectedProgram.cosmeticsFile)
+      .then(setCosmetics)
+      .catch((e) => {
+        console.warn('Failed to load cosmetics:', e);
+        setCosmetics(null);
+        setToast({ title: tr[language].cosmeticsLoadFailed, detail: String(e).slice(0, 200) });
+      });
+    // Disabling exhaustive-deps because `language` is intentionally not a
+    // dep — switching language shouldn't re-fetch the cosmetics file. The
+    // toast text uses whatever `language` was at the moment the failure
+    // fires, which is acceptable for a transient banner.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProgram]);
 
   // Initialize missing URL params
@@ -341,8 +356,10 @@ export default function HomeClient() {
             onHiddenGroupsChange={setHiddenGroups}
             selectedSpecializations={selectedSpecializations}
             specGroupMap={specGroupMap}
+            onToast={setToast}
           />
         </div>
+        <Toast language={language} toast={toast} onClose={() => setToast(null)} />
         
         {/* Git version info in bottom right */}
         <div style={{ 

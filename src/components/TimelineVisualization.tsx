@@ -10,6 +10,7 @@ import { tr, type Lang } from '@/lib/translations';
 import Legend, { type ToggleableLayerKey } from '@/components/Legend';
 import InfoPanel from '@/components/InfoPanel';
 import OptionGroupModal from '@/components/OptionGroupModal';
+import { type ToastMessage } from '@/components/Toast';
 import {
   buildStudyPeriodTooltip,
   buildExamPeriodTooltip,
@@ -52,6 +53,9 @@ interface TimelineVisualizationProps {
   // Map from spec code → group code. Courses with specs from multiple
   // groups must match the user's pick in EACH of those groups.
   specGroupMap?: Map<string, string>;
+  // Optional callback for surfacing toast messages (PDF export errors etc.)
+  // up to the page-level Toast renderer in HomeClient.
+  onToast?: (toast: ToastMessage | null) => void;
 }
 
 // Type guard to distinguish between Course and OptionGroup
@@ -67,7 +71,7 @@ export interface TimelineVisualizationHandle {
   exportChart: (format: 'png' | 'svg' | 'pdf', options?: { includeLegend?: boolean }) => Promise<void>;
 }
 
-const TimelineVisualization = forwardRef(function TimelineVisualization({ courses: rawCourses, language = 'sv', programName, programCode, studyplanUrl, programComment, cosmetics, selectedOptionPerGroup, onSelectedOptionPerGroupChange, hiddenLayers, onHiddenLayersChange, hiddenGroups, onHiddenGroupsChange, selectedSpecializations, specGroupMap }: TimelineVisualizationProps, ref: React.ForwardedRef<TimelineVisualizationHandle>) {
+const TimelineVisualization = forwardRef(function TimelineVisualization({ courses: rawCourses, language = 'sv', programName, programCode, studyplanUrl, programComment, cosmetics, selectedOptionPerGroup, onSelectedOptionPerGroupChange, hiddenLayers, onHiddenLayersChange, hiddenGroups, onHiddenGroupsChange, selectedSpecializations, specGroupMap, onToast }: TimelineVisualizationProps, ref: React.ForwardedRef<TimelineVisualizationHandle>) {
   // Filter courses by the active inriktning selection. AND across spec
   // groups: for every group represented in a course's `specializations`,
   // the user's pick from that group must be one of the course's specs.
@@ -128,13 +132,12 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // Year focus state for highlighting a whole year
   const [focusYear, setFocusYear] = useState<number | null>(null);
 
-  // Toast notification (PDF export errors etc.). Auto-dismissed after 6s.
-  const [toast, setToast] = useState<{ title: string; detail?: string } | null>(null);
-  useEffect(() => {
-    if (!toast) return;
-    const id = window.setTimeout(() => setToast(null), 6000);
-    return () => window.clearTimeout(id);
-  }, [toast]);
+  // Toast emitter — forwards to the page-level Toast renderer in HomeClient
+  // via the `onToast` prop. Stable reference for use inside the imperative
+  // export handler.
+  const emitToast = useCallback((t: ToastMessage | null) => {
+    onToast?.(t);
+  }, [onToast]);
 
   // Option group modal state
   const [selectedOptionGroup, setSelectedOptionGroup] = useState<OptionGroup | null>(null);
@@ -190,6 +193,26 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       cloned.setAttribute('viewBox', `0 0 ${exportWidth} ${exportHeight}`);
       // Ensure font family is applied for all text in export
       cloned.setAttribute('style', `font-family: ${STYLE.fontFamily};`);
+
+      // Prune hidden subtrees and strip data-* attributes from the clone.
+      // Layer toggles set `display: none` inline on hidden elements; serialising
+      // them just bloats the file (and the PDF) with content that won't paint.
+      // data-* attributes are runtime hooks (data-kind, data-course, …) used by
+      // the delegated event handler; they're meaningless in a static SVG.
+      const removeHidden = (node: Element) => {
+        // Walk children first so removal during the loop is safe (toArray copy).
+        Array.from(node.children).forEach(child => removeHidden(child));
+        const inlineDisplay = (node as SVGElement | HTMLElement).style?.display;
+        if (inlineDisplay === 'none') {
+          node.parentNode?.removeChild(node);
+          return;
+        }
+        // Strip data-* attributes on the elements we're keeping.
+        Array.from(node.attributes)
+          .filter(a => a.name.startsWith('data-'))
+          .forEach(a => node.removeAttribute(a.name));
+      };
+      removeHidden(cloned);
       
       try {
         const styleEl = document.createElementNS('http://www.w3.org/2000/svg', 'style');
@@ -525,7 +548,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             // Truncate the server response — a failed render of a 5 MB SVG
             // can return a huge stack trace; the toast is cosmetic.
             const detail = errorText.length > 200 ? errorText.slice(0, 200) + '…' : errorText;
-            setToast({ title: tr[language].pdfExportFailed, detail });
+            emitToast({ title: tr[language].pdfExportFailed, detail });
             return;
           }
           
@@ -540,7 +563,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           URL.revokeObjectURL(url);
         } catch (error) {
           console.error('PDF export error:', error);
-          setToast({ title: tr[language].pdfExportFailed, detail: String(error).slice(0, 200) });
+          emitToast({ title: tr[language].pdfExportFailed, detail: String(error).slice(0, 200) });
         }
         return;
       }
@@ -2782,38 +2805,6 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           onSelectedInfoChange={setSelectedInfo}
           onClose={() => setSelectedOptionGroup(null)}
         />
-      )}
-
-      {toast && (
-        <div
-          role="status"
-          aria-live="polite"
-          style={{
-            position: 'fixed',
-            bottom: 16,
-            right: 16,
-            maxWidth: 380,
-            padding: '10px 14px',
-            background: kthColors.KthMarine?.HEX || '#000061',
-            color: '#fff',
-            borderRadius: 6,
-            boxShadow: '0 4px 12px rgba(0,0,0,0.18)',
-            zIndex: 2000,
-            fontSize: 13,
-            cursor: 'pointer',
-          }}
-          onClick={() => setToast(null)}
-          title={tr[language].closeToast}
-        >
-          <div style={{ fontWeight: 600, marginBottom: toast.detail ? 4 : 0 }}>
-            {toast.title}
-          </div>
-          {toast.detail && (
-            <div style={{ fontSize: 11, opacity: 0.85, wordBreak: 'break-word' }}>
-              {toast.detail}
-            </div>
-          )}
-        </div>
       )}
 
     </div>
