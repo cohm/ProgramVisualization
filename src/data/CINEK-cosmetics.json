@@ -1,0 +1,88 @@
+[
+  {
+    "name": "Industriell ekonomi",
+    "nameEn": "Industrial Management",
+    "colorFamily": "blue",
+    "courses": [
+      "ME1306",
+      "ME1308",
+      "ME1309",
+      "ME1310",
+      "ME1311",
+      "ME1314",
+      "ME1315",
+      "ME1316",
+      "ME1317"
+    ]
+  },
+  {
+    "name": "Matematik",
+    "nameEn": "Mathematics",
+    "colorFamily": "green",
+    "courses": [
+      "SF100X",
+      "SF1545",
+      "SF1624",
+      "SF1625",
+      "SF1626",
+      "SF1633",
+      "SF1687",
+      "SF1861",
+      "SF1904",
+      "SF1918",
+      "SF2863",
+      "SF2930",
+      "SF2940",
+      "SG1109"
+    ]
+  },
+  {
+    "name": "Datateknik",
+    "nameEn": "Computer Science",
+    "colorFamily": "turquoise",
+    "courses": [
+      "DD1301",
+      "DD1317",
+      "DD1320",
+      "DD1324",
+      "DD1334",
+      "DD1380",
+      "DD1385",
+      "DD1386",
+      "DD1418",
+      "DH1623"
+    ]
+  },
+  {
+    "name": "Maskin- och energiteknik",
+    "nameEn": "Mechanical and Energy Engineering",
+    "colorFamily": "brick",
+    "courses": [
+      "EL1010",
+      "EP1200",
+      "MF1016",
+      "MF1017",
+      "MF1039",
+      "MF134X",
+      "MG1002",
+      "MG1026",
+      "MG1028",
+      "MG115X",
+      "MJ1112",
+      "MJ1141",
+      "MJ1145",
+      "MJ1401",
+      "MJ148X"
+    ]
+  },
+  {
+    "name": "Övrigt",
+    "nameEn": "Other",
+    "colorFamily": "yellow",
+    "courses": [
+      "DA151X",
+      "EG2240",
+      "SK1110"
+    ]
+  }
+]

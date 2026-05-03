@@ -8,7 +8,9 @@
 // Schema (informal):
 //
 // programs.json:
-//   Array<{ code, name, nameEn?, dataFile, cosmeticsFile?, comment?, studyplan? }>
+//   Array<{ code, name, nameEn?, dataFile, cosmeticsFile?, comment?, studyplan?,
+//           specializations?: Array<{ code, name, nameEn?, group? }>,
+//           specializationGroups?: Array<{ code, name, nameEn? }> }>
 //
 // <PROGRAM>.json:
 //   Array<Course | OptionGroup>
@@ -32,6 +34,7 @@
 //     category?: "mandatory" | "conditionallyElective"
 //             | "electivePlaceholder" | "recommended"
 //     gradingScale?: "A-F" | "P/F" | "VG/G/U"
+//     specializations?: Array<specCode>   (must reference programs.json registry)
 //
 //   OptionGroup:
 //     type: "optionGroup"
@@ -43,7 +46,7 @@
 //     options: Array<courseCode>          (must each exist in same file)
 //     allowedNumberOfOptions: integer
 //     exams?, reexams?: Array<periodId>
-//     category?, gradingScale?: same as Course
+//     category?, gradingScale?, specializations?: same as Course
 //
 // <PROGRAM>-cosmetics.json:
 //   Array<{ name, nameEn?, colorFamily, courses: Array<courseCode> }>
@@ -99,6 +102,55 @@ function validateProgramsJson(programs, file) {
     if (p.cosmeticsFile && !existsSync(join(dataDir, p.cosmeticsFile))) {
       err(file, `${ctx} ${p.code}: cosmeticsFile '${p.cosmeticsFile}' not found`);
     }
+
+    // Specialization groups (optional). When present, every group must
+    // have { code, name } and codes must be unique within the program.
+    const groupCodes = new Set();
+    if (p.specializationGroups !== undefined) {
+      if (!Array.isArray(p.specializationGroups)) {
+        err(file, `${ctx} ${p.code}: 'specializationGroups' must be an array`);
+      } else {
+        p.specializationGroups.forEach((g, j) => {
+          const gctx = `${ctx}.specializationGroups[${j}]`;
+          if (!g || typeof g !== 'object') { err(file, `${gctx}: not an object`); return; }
+          if (!g.code || typeof g.code !== 'string') err(file, `${gctx}: missing or invalid 'code'`);
+          if (!g.name || typeof g.name !== 'string') err(file, `${gctx}: missing or invalid 'name'`);
+          if (g.code) {
+            if (groupCodes.has(g.code)) err(file, `${gctx}: duplicate group code '${g.code}'`);
+            groupCodes.add(g.code);
+          }
+        });
+      }
+    }
+
+    // Specializations registry (optional). When present, every entry must
+    // have { code, name } and codes must be unique within the program. If
+    // a spec carries `group`, it must reference a known group code.
+    if (p.specializations !== undefined) {
+      if (!Array.isArray(p.specializations)) {
+        err(file, `${ctx} ${p.code}: 'specializations' must be an array`);
+      } else {
+        const specCodes = new Set();
+        p.specializations.forEach((s, j) => {
+          const sctx = `${ctx}.specializations[${j}]`;
+          if (!s || typeof s !== 'object') { err(file, `${sctx}: not an object`); return; }
+          if (!s.code || typeof s.code !== 'string') err(file, `${sctx}: missing or invalid 'code'`);
+          if (!s.name || typeof s.name !== 'string') err(file, `${sctx}: missing or invalid 'name'`);
+          if (s.code) {
+            if (specCodes.has(s.code)) err(file, `${sctx}: duplicate specialization code '${s.code}'`);
+            specCodes.add(s.code);
+          }
+          if (s.group !== undefined) {
+            if (typeof s.group !== 'string') err(file, `${sctx}: 'group' must be a string`);
+            else if (groupCodes.size > 0 && !groupCodes.has(s.group)) {
+              err(file, `${sctx}: unknown group '${s.group}' (allowed: ${[...groupCodes].join(', ')})`);
+            }
+            // If specializationGroups isn't declared at all, accept any
+            // group string (the UI falls back to a single implicit group).
+          }
+        });
+      }
+    }
   });
 }
 
@@ -149,6 +201,14 @@ function validateProgramData(program, file) {
   const courseCodes = new Set();
   const optionGroupNames = new Set();
 
+  // Specializations registry from programs.json (may be undefined). When
+  // undefined or empty, no entry in this file is allowed to carry the
+  // `specializations` field — catches typos before they confuse the UI.
+  const specCodes = Array.isArray(program.specializations)
+    ? new Set(program.specializations.map(s => s?.code).filter(Boolean))
+    : new Set();
+  const specsDeclared = specCodes.size > 0;
+
   data.forEach((entry, i) => {
     const ctx = `[${i}]`;
     if (entry?.type === 'optionGroup') {
@@ -173,6 +233,25 @@ function validateProgramData(program, file) {
   // Cross-reference checks.
   data.forEach((entry, i) => {
     const ctx = `[${i}]`;
+
+    // Specializations: every code on a course/option-group must reference
+    // the program's registry. When the program declares none, no entry may
+    // carry the field at all.
+    if (entry && Array.isArray(entry.specializations)) {
+      const ownerLabel = entry?.type === 'optionGroup'
+        ? `optionGroup '${entry.name}'`
+        : (entry.code || '<unknown>');
+      if (!specsDeclared) {
+        err(file, `${ctx} ${ownerLabel}: 'specializations' is set but program '${program.code}' has no specializations registered in programs.json`);
+      } else {
+        for (const sc of entry.specializations) {
+          if (typeof sc !== 'string' || !specCodes.has(sc)) {
+            err(file, `${ctx} ${ownerLabel}: unknown specialization code '${sc}' (allowed: ${[...specCodes].join(', ')})`);
+          }
+        }
+      }
+    }
+
     if (entry?.type === 'optionGroup') {
       (entry.options || []).forEach(opt => {
         if (!courseCodes.has(opt)) {

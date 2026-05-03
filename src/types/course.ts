@@ -45,6 +45,12 @@ export interface OptionGroup {
   // gradingScale typically applies to all options in the group.
   category?: CourseCategory;
   gradingScale?: GradingScale;
+  // Inriktning (specialization) codes this option group belongs to.
+  // Undefined / empty = common to all specializations of the program.
+  // Codes must reference the program's `specializations` registry in
+  // programs.json. Currently scoped to the bachelor part of a civilingenjör
+  // program; spår (master-program tracks) will be a separate field.
+  specializations?: string[];
 }
 
 // What the bottom info panel shows when the user clicks a course or option.
@@ -79,6 +85,8 @@ export interface Course {
   // Optional KTH metadata (Riktlinje om utbildningsplan, Riktlinje om kursplan)
   category?: CourseCategory;
   gradingScale?: GradingScale;
+  // See OptionGroup.specializations.
+  specializations?: string[];
 }
 
 import rawPeriods from '@/data/academic-periods.json';

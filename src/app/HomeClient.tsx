@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import TimelineVisualization, { TimelineVisualizationHandle } from '@/components/TimelineVisualization';
+import SpecializationFilter from '@/components/SpecializationFilter';
 import { Course, OptionGroup } from '@/types/course';
 import kthColors from '@/data/kth-colors.json';
 import programsConfig from '@/data/programs.json';
@@ -11,6 +12,24 @@ import { loadCourses, loadCosmetics } from '@/lib/useCourseModel';
 import type { Lang } from '@/lib/translations';
 
 // Program configuration type
+interface SpecializationDef {
+  code: string;
+  name: string;
+  nameEn?: string;
+  // Optional group code; references `specializationGroups[].code` below.
+  // Programs whose inriktningar are organised as several pick-one buckets
+  // (e.g. CINEK = pick one technical AND one business) tag each spec with
+  // the bucket it belongs to. If omitted, all specs share an implicit
+  // single group ("default").
+  group?: string;
+}
+
+interface SpecializationGroupDef {
+  code: string;
+  name: string;
+  nameEn?: string;
+}
+
 interface ProgramConfig {
   code: string;
   name: string;
@@ -19,6 +38,14 @@ interface ProgramConfig {
   cosmeticsFile?: string;
   comment?: string;
   studyplan?: string;
+  // Optional inriktningar (specializations) for civilingenjör programs that
+  // split their bachelor years by inriktning. When undefined / empty, the
+  // SpecializationFilter is hidden.
+  specializations?: SpecializationDef[];
+  // Optional human-readable groups that organise the specs into multiple
+  // pick-one rows (e.g. "Tekniskt val" + "Verksamhetsinriktning"). When
+  // omitted, all specs are treated as one implicit group.
+  specializationGroups?: SpecializationGroupDef[];
 }
 
 const programs: ProgramConfig[] = programsConfig as unknown as ProgramConfig[];
@@ -114,6 +141,36 @@ export default function HomeClient() {
     return new Set(v.split(',').map(s => decodeURIComponent(s.trim())).filter(Boolean));
   }, [searchParams]);
 
+  // Map spec code → group code, derived from the program's registry. The
+  // filter pre-pass uses this to enforce AND-across-groups semantics.
+  const specGroupMap = useMemo<Map<string, string>>(() => {
+    const m = new Map<string, string>();
+    for (const s of selectedProgram.specializations || []) {
+      m.set(s.code, s.group || '__default__');
+    }
+    return m;
+  }, [selectedProgram]);
+
+  // ?spec=A,B = the user's pick per spec group. When the program has a
+  // specs registry, the visualisation defaults to the first option in each
+  // group so the chart isn't ambiguous on first load.
+  const selectedSpecializations = useMemo<Set<string>>(() => {
+    const v = searchParams.get('spec');
+    if (v) return new Set(v.split(',').map(s => decodeURIComponent(s.trim())).filter(Boolean));
+    // Default: first spec per group.
+    const specs = selectedProgram.specializations;
+    if (!specs || specs.length === 0) return new Set();
+    const seenGroups = new Set<string>();
+    const defaults = new Set<string>();
+    for (const s of specs) {
+      const g = s.group || '__default__';
+      if (seenGroups.has(g)) continue;
+      seenGroups.add(g);
+      defaults.add(s.code);
+    }
+    return defaults;
+  }, [searchParams, selectedProgram]);
+
   const replaceParams = useCallback((mutate: (p: URLSearchParams) => void) => {
     const params = new URLSearchParams(searchParams.toString());
     mutate(params);
@@ -139,6 +196,13 @@ export default function HomeClient() {
     replaceParams((p) => {
       if (next.size === 0) p.delete('hideGroups');
       else p.set('hideGroups', [...next].sort().map(encodeURIComponent).join(','));
+    });
+  }, [replaceParams]);
+
+  const setSelectedSpecializations = useCallback((next: Set<string>) => {
+    replaceParams((p) => {
+      if (next.size === 0) p.delete('spec');
+      else p.set('spec', [...next].sort().map(encodeURIComponent).join(','));
     });
   }, [replaceParams]);
 
@@ -248,6 +312,15 @@ export default function HomeClient() {
           </div>
         </div>
         <div className="bg-white rounded-lg shadow-lg p-6 min-h-[600px]">
+          {selectedProgram.specializations && selectedProgram.specializations.length > 0 && (
+            <SpecializationFilter
+              language={language}
+              specializations={selectedProgram.specializations}
+              groups={selectedProgram.specializationGroups}
+              selected={selectedSpecializations}
+              onChange={setSelectedSpecializations}
+            />
+          )}
           <TimelineVisualization
             ref={vizRef}
             courses={courses}
@@ -263,6 +336,8 @@ export default function HomeClient() {
             onHiddenLayersChange={setHiddenLayers}
             hiddenGroups={hiddenGroups}
             onHiddenGroupsChange={setHiddenGroups}
+            selectedSpecializations={selectedSpecializations}
+            specGroupMap={specGroupMap}
           />
         </div>
         

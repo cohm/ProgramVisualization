@@ -42,6 +42,16 @@ interface TimelineVisualizationProps {
   onHiddenLayersChange: (next: Set<string>) => void;
   hiddenGroups: Set<string>;
   onHiddenGroupsChange: (next: Set<string>) => void;
+  // Inriktningar (specializations) the user has picked. The student picks
+  // exactly one spec per group (e.g. CINEK = one tech + one business);
+  // when the program declares no registry, this is empty and no filter
+  // applies. Filter passes a course iff for every group represented in its
+  // `specializations`, at least one matches the user's pick from that
+  // group. Courses without `specializations` always pass.
+  selectedSpecializations?: Set<string>;
+  // Map from spec code → group code. Courses with specs from multiple
+  // groups must match the user's pick in EACH of those groups.
+  specGroupMap?: Map<string, string>;
 }
 
 // Type guard to distinguish between Course and OptionGroup
@@ -57,7 +67,38 @@ export interface TimelineVisualizationHandle {
   exportChart: (format: 'png' | 'svg' | 'pdf', options?: { includeLegend?: boolean }) => Promise<void>;
 }
 
-const TimelineVisualization = forwardRef(function TimelineVisualization({ courses, language = 'sv', programName, programCode, studyplanUrl, programComment, cosmetics, selectedOptionPerGroup, onSelectedOptionPerGroupChange, hiddenLayers, onHiddenLayersChange, hiddenGroups, onHiddenGroupsChange }: TimelineVisualizationProps, ref: React.ForwardedRef<TimelineVisualizationHandle>) {
+const TimelineVisualization = forwardRef(function TimelineVisualization({ courses: rawCourses, language = 'sv', programName, programCode, studyplanUrl, programComment, cosmetics, selectedOptionPerGroup, onSelectedOptionPerGroupChange, hiddenLayers, onHiddenLayersChange, hiddenGroups, onHiddenGroupsChange, selectedSpecializations, specGroupMap }: TimelineVisualizationProps, ref: React.ForwardedRef<TimelineVisualizationHandle>) {
+  // Filter courses by the active inriktning selection. AND across spec
+  // groups: for every group represented in a course's `specializations`,
+  // the user's pick from that group must be one of the course's specs.
+  // Courses with no `specializations` are common to every inriktning and
+  // always pass.
+  const courses = useMemo<CourseOrOptionGroup[]>(() => {
+    if (!selectedSpecializations || selectedSpecializations.size === 0) return rawCourses;
+    const sel = selectedSpecializations;
+    const grpOf = (s: string) => specGroupMap?.get(s) || '__default__';
+    // Bucket the user's picks by group for O(1) lookup.
+    const pickByGroup = new Map<string, string>();
+    for (const code of sel) pickByGroup.set(grpOf(code), code);
+    return rawCourses.filter(c => {
+      const specs = (c as Course | OptionGroup).specializations;
+      if (!specs || specs.length === 0) return true;
+      // Bucket the course's specs by group.
+      const specsByGroup = new Map<string, string[]>();
+      for (const s of specs) {
+        const g = grpOf(s);
+        const arr = specsByGroup.get(g) || [];
+        arr.push(s);
+        specsByGroup.set(g, arr);
+      }
+      // Each group represented in the course must include the user's pick.
+      for (const [g, list] of specsByGroup) {
+        const pick = pickByGroup.get(g);
+        if (!pick || !list.includes(pick)) return false;
+      }
+      return true;
+    });
+  }, [rawCourses, selectedSpecializations, specGroupMap]);
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   // Preserve the initial chart height to keep a stable px-per-ECTS baseline across re-renders/toggles

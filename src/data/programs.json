@@ -35,5 +35,44 @@
     "cosmeticsFile": "COPEN-cosmetics.json",
     "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
     "studyplan": "https://www.kth.se/student/kurser/program/COPEN"
+  },
+  {
+    "code": "CINEK",
+    "name": "Civilingenjörsutbildning i Industriell ekonomi",
+    "nameEn": "Degree Program in Industrial Engineering and Management",
+    "dataFile": "CINEK.json",
+    "cosmeticsFile": "CINEK-cosmetics.json",
+    "comment": "Hämtad automatiskt från KTH studiehandbok 2024-cohort, ej manuellt verifierad. Y4-Y5 ligger i masterprogrammen och visas inte här.",
+    "studyplan": "https://www.kth.se/student/kurser/program/CINEK",
+    "specializationGroups": [
+      { "code": "tech", "name": "Tekniskt val", "nameEn": "Technical specialization" },
+      { "code": "business", "name": "Verksamhetsinriktning", "nameEn": "Business specialization" }
+    ],
+    "specializations": [
+      { "code": "DTOI", "name": "Datateknik", "nameEn": "Computer Technology", "group": "tech" },
+      { "code": "TMAI", "name": "Tillämpad matematik", "nameEn": "Applied Mathematics", "group": "tech" },
+      { "code": "EHUI", "name": "Energisystem och hållbar utveckling", "nameEn": "Energy Systems and Sustainable Development", "group": "business" },
+      { "code": "PPUI", "name": "Produkt- och produktionsutveckling", "nameEn": "Product and Production Development", "group": "business" }
+    ]
+  },
+  {
+    "code": "TIEMM",
+    "name": "Masterprogram, industriell ekonomi",
+    "nameEn": "Master's Programme, Industrial Engineering and Management",
+    "dataFile": "TIEMM.json",
+    "cosmeticsFile": "TIEMM-cosmetics.json",
+    "comment": "Masterprogram (motsvarar år 4-5 av civilingenjörsprogrammet CINEK). Hämtad automatiskt från KTH studiehandbok 2024-cohort, ej manuellt verifierad. Spår modelleras tills vidare som specializations i samma fält.",
+    "studyplan": "https://www.kth.se/student/kurser/program/TIEMM",
+    "specializations": [
+      { "code": "CYPS", "name": "Spår, Cyberfysiska system", "nameEn": "Track, Cyber-Physical Systems" },
+      { "code": "EEAA", "name": "Spår, effektiv energianvändning", "nameEn": "Track, Efficient Energy Use" },
+      { "code": "FMIB", "name": "Spår, finansiell matematik", "nameEn": "Track, Financial Mathematics" },
+      { "code": "HKPA", "name": "Spår, hållbar kraftproduktion", "nameEn": "Track, Sustainable Power Production" },
+      { "code": "IAVN", "name": "Spår, interaktion och visualisering", "nameEn": "Track, Interaction and Visualisation" },
+      { "code": "MAIG", "name": "Spår, maskininlärning", "nameEn": "Track, Machine Learning" },
+      { "code": "MOPR", "name": "Spår, Modern produktion", "nameEn": "Track, Modern Production" },
+      { "code": "OSYT", "name": "Spår, optimeringslära och systemteori", "nameEn": "Track, Optimisation and Systems Theory" },
+      { "code": "PUET", "name": "Spår, programutvecklingsteknik", "nameEn": "Track, Software Engineering" }
+    ]
   }
 ]

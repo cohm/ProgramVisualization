@@ -33,6 +33,8 @@ export const tr = {
     totalCredits: 'Totalt',
     options: 'Alternativ',
     gradingScale: 'Betygsskala',
+    specializations: 'Inriktningar',
+    allSpecializations: 'Alla',
     category: {
       mandatory: 'Obligatorisk',
       conditionallyElective: 'Villkorligt valbar',
@@ -70,6 +72,8 @@ export const tr = {
     totalCredits: 'Total',
     options: 'Options',
     gradingScale: 'Grading scale',
+    specializations: 'Specializations',
+    allSpecializations: 'All',
     category: {
       mandatory: 'Mandatory',
       conditionallyElective: 'Conditionally elective',
