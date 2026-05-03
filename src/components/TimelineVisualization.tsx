@@ -741,6 +741,11 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     if (isOptionGroup(c)) return false;
     return !coursesInOptionGroups.has((c as Course).code);
   }) as Course[];
+  // Lookup map built once and reused everywhere a Course needs to be
+  // resolved by code (prereq routing, focus mode, dispatch context). This
+  // turns several per-arrow / per-bar O(n) `find(...)` scans into O(1).
+  const individualCoursesByCodeMap = new Map<string, Course>();
+  individualCourses.forEach(c => individualCoursesByCodeMap.set(c.code, c));
   
   // Combine individual courses with option groups for rendering (selected courses are now in individualCourses)
   const displayItems: Array<Course | OptionGroup> = [
@@ -1628,7 +1633,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       
       // Process completed prerequisites
       completed.forEach((prCode: string) => {
-        const prereq = individualCourses.find((c) => c.code === prCode);
+        const prereq = individualCoursesByCodeMap.get(prCode);
         if (!prereq) return;
         const prereqCreditsSorted = [...prereq.credits].sort((a: CourseCredit, b: CourseCredit) => (a.year - b.year) || (periodOrder[a.period] - periodOrder[b.period]));
         const lastPrereq = prereqCreditsSorted[prereqCreditsSorted.length - 1];
@@ -1651,7 +1656,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       
       // Process participation prerequisites
       participated.forEach((prCode: string) => {
-        const prereq = individualCourses.find((c) => c.code === prCode);
+        const prereq = individualCoursesByCodeMap.get(prCode);
         if (!prereq) return;
         const prereqCreditsSorted = [...prereq.credits].sort((a: CourseCredit, b: CourseCredit) => (a.year - b.year) || (periodOrder[a.period] - periodOrder[b.period]));
         const lastPrereq = prereqCreditsSorted[prereqCreditsSorted.length - 1];
@@ -2202,12 +2207,13 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const tooltipCache = new Map<string, string>();
   const coursesByCode = new Map<string, Course>();
   const optionGroupsByName = new Map<string, OptionGroup>();
-  const individualCoursesByCode = new Map<string, Course>();
   courses.forEach(c => {
     if (isCourse(c)) coursesByCode.set((c as Course).code, c as Course);
     else if (isOptionGroup(c)) optionGroupsByName.set((c as OptionGroup).name, c as OptionGroup);
   });
-  individualCourses.forEach(c => individualCoursesByCode.set(c.code, c));
+  // Reuse the map built up at the top of the render; no need to walk
+  // individualCourses a second time.
+  const individualCoursesByCode = individualCoursesByCodeMap;
 
   academicPeriods.forEach(p => {
     tooltipCache.set(`study-period|${p.id}`, buildStudyPeriodTooltip(language, p.id));
@@ -2615,21 +2621,15 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       return;
     }
 
-    // Reconstruct filtered courses list
-    const optionGroupsList = courses.filter(isOptionGroup);
-    const coursesInOptionGroupsSet = new Set<string>();
-    optionGroupsList.forEach(og => {
-      og.options.forEach(optionCode => {
-        coursesInOptionGroupsSet.add(optionCode);
-      });
-    });
-    const filteredCourses = courses.filter(c => {
-      if (isOptionGroup(c)) return false;
-      return !coursesInOptionGroupsSet.has((c as Course).code);
-    }) as Course[];
-
-    const selected = filteredCourses.find(c => c.code === focusCourse);
+    // Resolve the focused course via the dispatch-context map (built each
+    // render — no need to re-derive `filteredCourses` here just to scan it).
+    // Fall back to scanning courses if the map isn't populated yet (first
+    // tick after mount).
+    const filteredCoursesMap = dispatchCtxRef.current.individualCoursesByCode;
+    const selected = filteredCoursesMap.get(focusCourse)
+      ?? (courses.find(c => isCourse(c) && (c as Course).code === focusCourse) as Course | undefined);
     if (!selected) return;
+    const filteredCourses = Array.from(filteredCoursesMap.values());
     const prereqCompleted = (selected.prerequisitesCompleted || selected.prerequisites || []) as string[];
     const prereqParticipation = (selected.prerequisitesParticipation || []) as string[];
     const prereqSet = new Set([...(prereqCompleted || []), ...(prereqParticipation || [])]);

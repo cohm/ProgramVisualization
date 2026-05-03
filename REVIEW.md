@@ -387,3 +387,31 @@ Additional work merged in alongside the ranked list (not from §5 directly):
 - ✅ `next.config.ts:8` shells out to `git rev-parse` at build time; on Vercel this works because the repo is checked out. Anywhere else the fallback is `'unknown'`. If you ever build from a tarball, set `NEXT_PUBLIC_GIT_HASH` explicitly. — addressed (documentation): `next.config.ts` `getGitInfo` now has a comment explaining the three contexts (Vercel / git checkout / tarball-or-Docker) and pointing to `NEXT_PUBLIC_GIT_HASH` (and the timestamp / repo URL counterparts) as the explicit-override path.
 - ✅ `vercel.json:6` and `next.config.ts:51-56` double-declare the Chromium include. This is intentional (Vercel needs the explicit hint), but the duplication is fragile if either changes. — addressed (documentation): `next.config.ts` now carries a comment cross-linking to `vercel.json` and stating that both are required (Next uses `outputFileTracingIncludes` during the build, Vercel uses `includeFiles` when packaging the function). `vercel.json` is strict JSON and can't carry a matching comment, so the cross-link lives one-way.
 - ✅ `.DS_Store` files are committed in `src/` and at the repo root; add to `.gitignore` and remove from history. — already addressed in a prior pass: `.gitignore` includes `.DS_Store`, and `git ls-files` confirms no `.DS_Store` files are tracked. The remaining files in the working tree are local OS metadata, not source.
+
+---
+
+## 7. Additional improvement batches (post-§5 follow-ups)
+
+After the §5 ranked list closed out, several smaller items from §1, §3 and §4 were addressed in two grouped batches.
+
+### Batch A — UX polish — [`d8be310`](https://github.com/cohm/ProgramVisualization/commit/d8be310)
+
+- ✅ §1.1 **Empty info-panel placeholder** — italic "Klicka på en kurs för detaljer / Click a course for details" replaces the blank state.
+- ✅ §1.1 **Year labels & option-group circle hint** — year-label `<title>` ("Klicka för att fokusera årskursen / Click to focus this year"); option-group tooltip now leads with "välj 1 av N alternativ / pick 1 of N options".
+- ✅ §1.1 **Legend "click to hide" hint** — `title` attribute on every layer-toggle row ("Klicka för att dölja/visa lager").
+- ✅ §1.4 **Emoji flags → textual SV/EN** — bold "SV"/"EN" pills replace 🇸🇪/🇺🇸; same active-outline + `aria-label`. Fixes Windows rendering and the awkward 🇺🇸-for-English at a Swedish university.
+- ✅ §1.5 **Hard-coded SV/EN modal strings** — "Choose"/"Cancel"/"Total credits" + Legend "Show/Hide group" all routed through `tr` (new keys `choose`, `cancel`, `showGroup`, `hideGroup`, `clickCourseForDetails`, `yearFocusHint`, `optionGroupHint`, `legendToggleHint`, `pdfExportFailed`, `cosmeticsLoadFailed`, `closeToast`).
+- ✅ §1.5 **`alert()` for PDF errors → inline toast** — fixed-position banner bottom-right, auto-dismiss after 6 s, click to close, server response truncated to 200 chars.
+- ✅ §1.5 **Default export footer** — every exported SVG/PNG/PDF now carries an audit line with program code · build hash · ISO date in light grey, regardless of whether `comment` is set; the user-supplied comment renders above it when present.
+- ✅ §4.4 **`commentEn` on programs** — optional English-language comment; UI prefers it when language is EN. English translations added for all six existing programs.
+
+### Batch B — data quality + export polish — [`4bb1587`](https://github.com/cohm/ProgramVisualization/commit/4bb1587)
+
+- ✅ §1.5 **Cosmetics-load failure now user-visible** — `loadCosmetics` rejects on actual failure; `HomeClient`'s `.catch` shows a localised toast (extracted `Toast` to `src/components/Toast.tsx`, hoisted state to `HomeClient` so PDF errors and cosmetics failures share one banner).
+- ✅ **Loader prereq fix** (latent bug) — `useCourseModel.ts` was silently dropping the legacy `prerequisites` array whenever `prerequisitesCompleted` had any entry, even when they contained different course codes. Now: `prerequisites` is unioned into `prerequisitesCompleted`, and any code present in both completion AND participation is removed from participation (completion subsumes participation, no double-arrows on the chart).
+- ✅ §3.5 **Prune hidden DOM + `data-*` attrs before SVG export** — depth-first walk on the cloned SVG removes every element with inline `display: none` and strips `data-*` attributes from kept elements. Smaller PDF payload, cleaner exported SVG.
+
+### Items deferred / declined
+
+- ⏭ §4.2 **Mandatory < 6 hp warning** — declined: the riktlinje phrasing is "bör" (should), not "ska" (must), and several real KTH courses legitimately fall below 6 hp. The warning would be noise.
+- ⏭ §1.5 **Validator typo guard for `prerequisites` + `prerequisitesCompleted` both set** — superseded by Batch B's loader fix (both being present is now valid: they're unioned).
