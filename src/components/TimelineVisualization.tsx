@@ -766,8 +766,15 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const MIN_ECTS_FOR_HEIGHT = 2;
   const STACK_GAP_PX = 4; // gap between stacked bars
 
+  // O(1) lookup map for academic-period objects by id. Replaces the
+  // `academicPeriods.find(p => p.id === ...)` scans done per-credit and
+  // per-slot below.
+  const periodById = new Map<Period['id'], Period>();
+  academicPeriods.forEach(p => periodById.set(p.id, p));
+
   // Build mapping of courses per year+period to compute stacking lanes (needed for sizing and layout)
-  const slotsByYearPeriod: Record<string, Array<{ item: Course | OptionGroup; credit: { period: string; credits: number; year: number } }>> = {};
+  type SlotEntry = { item: Course | OptionGroup; credit: { period: string; credits: number; year: number } };
+  const slotsByYearPeriod: Record<string, SlotEntry[]> = {};
   displayItems.forEach((item) => {
     const credits = isCourse(item) ? item.credits : Object.entries((item as OptionGroup).periodCredits)
       .filter(([, credits]) => credits > 0)
@@ -776,12 +783,23 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         credits,
         year: (item as OptionGroup).year
       }));
-    
+
     credits.forEach((credit) => {
       const key = `${credit.year}-${credit.period}`;
       if (!slotsByYearPeriod[key]) slotsByYearPeriod[key] = [];
       slotsByYearPeriod[key].push({ item, credit });
     });
+  });
+
+  // Pre-parse keys + resolve the Period object once. The three render passes
+  // below all iterate the same map, so doing the split/find work here saves
+  // 3× the per-key parsing and avoids a linear `academicPeriods.find` in
+  // each iteration.
+  const slotEntries: Array<{ year: number; period: Period; list: SlotEntry[] }> = [];
+  Object.entries(slotsByYearPeriod).forEach(([key, list]) => {
+    const [yearStr, periodId] = key.split('-');
+    const period = periodById.get(periodId as Period['id'])!;
+    slotEntries.push({ year: Number(yearStr), period, list });
   });
 
   // Compute required band height per year considering the minimum bar height corresponding to 2 ECTS
@@ -952,10 +970,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
     // Compute max parallel slots per year to determine lane heights
     const maxSlotsPerYear: Record<number, number> = {};
-    Object.keys(slotsByYearPeriod).forEach((key) => {
-      const [yearStr] = key.split('-');
-      const year = Number(yearStr);
-      maxSlotsPerYear[year] = Math.max(maxSlotsPerYear[year] || 0, slotsByYearPeriod[key].length);
+    slotEntries.forEach(({ year, list }) => {
+      maxSlotsPerYear[year] = Math.max(maxSlotsPerYear[year] || 0, list.length);
     });
 
   // Prepare a position map for drawing arrows and markers later
@@ -974,10 +990,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     };
     const allBars: BarInfo[] = [];
 
-    Object.entries(slotsByYearPeriod).forEach(([key, list]) => {
-      const [yearStr, periodId] = key.split('-');
-      const year = Number(yearStr);
-      const period = academicPeriods.find((p) => p.id === (periodId as Period['id']))!;
+    slotEntries.forEach(({ year, period, list }) => {
       const yearIndex = year - 1;
       const yearY = yearYOffset[yearIndex];
       const x = timeScale(period.start);
@@ -991,8 +1004,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         const rawHeight = pixelsPerECTS * credit.credits;
         const minHeight = pixelsPerECTS * MIN_ECTS_FOR_HEIGHT;
         const courseHeight = Math.max(rawHeight, minHeight);
-        const periodObj = academicPeriods.find(p => p.id === credit.period)!;
-        const courseWidth = timeScale(new Date(periodObj.lectureEnd)) - timeScale(new Date(periodObj.start));
+        const periodObj = periodById.get(credit.period as Period['id'])!;
+        const courseWidth = timeScale(periodObj.lectureEnd) - timeScale(periodObj.start);
         const barX = x + 2;
         const barWidth = Math.max(0, courseWidth - 4);
         
@@ -1134,10 +1147,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     });
 
     // Third pass: draw the actual course bars
-    Object.entries(slotsByYearPeriod).forEach(([key, list]) => {
-    const [yearStr, periodId] = key.split('-');
-      const year = Number(yearStr);
-      const period = academicPeriods.find((p) => p.id === (periodId as Period['id']))!;
+    slotEntries.forEach(({ year, period, list }) => {
   const yearIndex = year - 1;
   const yearY = yearYOffset[yearIndex];
       const x = timeScale(period.start);
@@ -1174,8 +1184,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     .attr('data-course', itemId)
     .attr('data-group', dataGroup);
 
-  const periodObj = academicPeriods.find(p => p.id === credit.period)!;
-  const courseWidth = timeScale(new Date(periodObj.lectureEnd)) - timeScale(new Date(periodObj.start));
+  const periodObj = periodById.get(credit.period as Period['id'])!;
+  const courseWidth = timeScale(periodObj.lectureEnd) - timeScale(periodObj.start);
   const barX = x + 2;
   const barWidth = Math.max(0, courseWidth - 4);
 
@@ -1371,12 +1381,30 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             .attr('class', 'course-label')
             .text(fullText);
 
-          // truncate text if it overflows available width
+          // Truncate text if it overflows available width. Binary-search the
+          // longest prefix that still fits — much faster than the previous
+          // one-character-at-a-time shrink for long course names in narrow
+          // bars (O(log n) measurement calls instead of O(n)).
           try {
-            let displayText = fullText;
-            while ((label.node() as SVGTextElement).getComputedTextLength() > maxWidth && displayText.length > 3) {
-              displayText = displayText.slice(0, -1);
-              label.text(displayText + '…');
+            const node = label.node() as SVGTextElement;
+            // The original implementation only truncated when fullText.length > 3,
+            // so preserve that lower bound here.
+            if (node.getComputedTextLength() > maxWidth && fullText.length > 3) {
+              const MIN_LEN = 3;
+              let lo = MIN_LEN;
+              let hi = fullText.length - 1;
+              let best = MIN_LEN;
+              while (lo <= hi) {
+                const mid = (lo + hi) >> 1;
+                label.text(fullText.slice(0, mid) + '…');
+                if (node.getComputedTextLength() <= maxWidth) {
+                  best = mid;
+                  lo = mid + 1;
+                } else {
+                  hi = mid - 1;
+                }
+              }
+              label.text(fullText.slice(0, best) + '…');
             }
           } catch {
             // safe guard for environments where getComputedTextLength may fail
@@ -1440,7 +1468,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           : reexamsGlobal.includes(credit.period);
 
         if (hasExam) {
-          const examPeriod = academicPeriods.find(p => p.id === credit.period);
+          const examPeriod = periodById.get(credit.period);
           if (examPeriod) {
             const pos = positionMap[`${course.code}-${y}-${credit.period}`];
             if (pos) {
@@ -1450,7 +1478,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           }
         }
         if (hasReexam) {
-          const rePeriod = academicPeriods.find(p => p.id === credit.period);
+          const rePeriod = periodById.get(credit.period);
           if (rePeriod) {
             const pos = positionMap[`${course.code}-${y}-${credit.period}`];
             if (pos) {

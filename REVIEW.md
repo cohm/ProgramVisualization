@@ -411,6 +411,15 @@ After the §5 ranked list closed out, several smaller items from §1, §3 and §
 - ✅ **Loader prereq fix** (latent bug) — `useCourseModel.ts` was silently dropping the legacy `prerequisites` array whenever `prerequisitesCompleted` had any entry, even when they contained different course codes. Now: `prerequisites` is unioned into `prerequisitesCompleted`, and any code present in both completion AND participation is removed from participation (completion subsumes participation, no double-arrows on the chart).
 - ✅ §3.5 **Prune hidden DOM + `data-*` attrs before SVG export** — depth-first walk on the cloned SVG removes every element with inline `display: none` and strips `data-*` attributes from kept elements. Smaller PDF payload, cleaner exported SVG.
 
+### Batch C — render-loop micro-optimisations
+
+A continuation of the §3 performance pass; no behaviour change, just less work per render.
+
+- ✅ §3 **Reuse `individualCoursesByCode` map** ([`f0f932d`](https://github.com/cohm/ProgramVisualization/commit/f0f932d)) — the lookup map was being rebuilt twice per render (once for prereq routing, once for the dispatch context); now built once at the top of the render pass and reused everywhere. Also lets the focus-mode handler skip re-deriving `filteredCourses`.
+- ✅ §3 **Cache `slotsByYearPeriod` entries + period-by-id map** — the three render passes (max-slot computation, position pass, draw pass) all iterated `Object.entries(slotsByYearPeriod)` independently and called `academicPeriods.find(p => p.id === periodId)` per iteration. Now a single `slotEntries` array is precomputed with `{ year, period, list }` already resolved, and a `periodById` Map replaces every `academicPeriods.find` call (also used by the exam/re-exam marker pass).
+- ✅ §3 **Drop redundant `new Date(...)` wrappings** — `periodObj.lectureEnd` and `periodObj.start` are already `Date` objects (parsed in `src/types/course.ts`), so wrapping them in `new Date(...)` allocated a fresh Date per credit per render. Removed at both bar-position sites.
+- ✅ §3 **Binary-search label truncation** — the per-bar text fitter shrank one character at a time, calling `getComputedTextLength()` once per character. Switched to a binary search over prefix length: O(log n) measurement calls instead of O(n), preserving the original short-circuit (skip when `fullText` already fits) and the original 3-char minimum.
+
 ### Items deferred / declined
 
 - ⏭ §4.2 **Mandatory < 6 hp warning** — declined: the riktlinje phrasing is "bör" (should), not "ska" (must), and several real KTH courses legitimately fall below 6 hp. The warning would be noise.
