@@ -31,14 +31,30 @@ html {
 
 /* Visible keyboard-focus indicator for the in-chart focusable elements
    (course bars and year labels) and the legend toggles. SVG elements ignore
-   the default user-agent focus ring, so we draw an explicit outline. */
+   the default user-agent focus ring, so we draw an explicit outline. The
+   `border-radius` matches the course bar's own `rx=4` so the outline echoes
+   the bar shape; KthHeaven (lighter blue) is used instead of KthBlue so the
+   ring reads as a focus hint rather than competing with the bar fill. */
 .course-block:focus-visible,
 .year-label:focus-visible {
-  outline: 2px solid #004791; /* KthBlue */
+  outline: 2px solid #6298D2; /* KthHeaven */
   outline-offset: 2px;
+  border-radius: 4px;
 }
-[role="button"]:focus-visible {
-  outline: 2px solid #004791;
+[role="button"]:focus-visible,
+[role="radio"]:focus-visible {
+  outline: 2px solid #6298D2;
   outline-offset: 2px;
-  border-radius: 2px;
+  border-radius: 12px; /* matches chip pill radius */
+}
+
+/* Suppress the focus ring when the focus came from a mouse click (e.g.
+   clicking a course bar) — `:focus-visible` already does this in modern
+   browsers, but Chromium occasionally shows the ring on click for SVG
+   elements with `tabindex`. Belt-and-braces. */
+.course-block:focus:not(:focus-visible),
+.year-label:focus:not(:focus-visible),
+[role="button"]:focus:not(:focus-visible),
+[role="radio"]:focus:not(:focus-visible) {
+  outline: none;
 }
