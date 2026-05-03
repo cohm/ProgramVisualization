@@ -47,7 +47,7 @@ export default function Legend({ language, layers, cosmetics, toggleLayer, toggl
   return (
     <div style={{ position: 'absolute', right: STYLE.legend.offsetX, bottom: STYLE.legend.offsetY, width: STYLE.legend.width, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start', padding: '8px 12px', background: STYLE.legend.background, border: `1px solid ${STYLE.legend.borderColor}`, borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.12)', zIndex: 1000 }}>
       {/* Exams */}
-      <div role="button" tabIndex={0} aria-pressed={layers.exams} onClick={() => toggleLayer('exams')} onKeyDown={(e) => activate(e, () => toggleLayer('exams'))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.exams ? 1 : 0.4 }}>
+      <div role="button" tabIndex={0} aria-pressed={layers.exams} onClick={() => toggleLayer('exams')} onKeyDown={(e) => activate(e, () => toggleLayer('exams'))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.exams ? 1 : 0.4 }} title={tr[language].legendToggleHint}>
         <svg width={16} height={16} viewBox="0 0 16 16">
           <circle cx={8} cy={8} r={6} fill={kthColors.KthLightBrick?.HEX || '#FFCCC4'} stroke={kthColors.KthDarkBrick?.HEX || '#B35A4A'} strokeWidth={1.5}/>
         </svg>
@@ -55,7 +55,7 @@ export default function Legend({ language, layers, cosmetics, toggleLayer, toggl
       </div>
 
       {/* Reexams */}
-      <div role="button" tabIndex={0} aria-pressed={layers.reexams} onClick={() => toggleLayer('reexams')} onKeyDown={(e) => activate(e, () => toggleLayer('reexams'))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.reexams ? 1 : 0.4 }}>
+      <div role="button" tabIndex={0} aria-pressed={layers.reexams} onClick={() => toggleLayer('reexams')} onKeyDown={(e) => activate(e, () => toggleLayer('reexams'))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.reexams ? 1 : 0.4 }} title={tr[language].legendToggleHint}>
         <svg width={16} height={16} viewBox="0 0 16 16">
           <circle cx={8} cy={8} r={6} fill={kthColors.KthLightBrick?.HEX || '#FFCCC4'} stroke={kthColors.KthDarkBrick?.HEX || '#B35A4A'} strokeWidth={1.5} strokeDasharray="3 2" />
         </svg>
@@ -63,7 +63,7 @@ export default function Legend({ language, layers, cosmetics, toggleLayer, toggl
       </div>
 
       {/* Prerequisites - completion */}
-      <div role="button" tabIndex={0} aria-pressed={layers.prereqCompleted} onClick={() => toggleLayer('prereqCompleted')} onKeyDown={(e) => activate(e, () => toggleLayer('prereqCompleted'))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.prereqCompleted ? 1 : 0.4 }}>
+      <div role="button" tabIndex={0} aria-pressed={layers.prereqCompleted} onClick={() => toggleLayer('prereqCompleted')} onKeyDown={(e) => activate(e, () => toggleLayer('prereqCompleted'))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.prereqCompleted ? 1 : 0.4 }} title={tr[language].legendToggleHint}>
         <svg width={16} height={16} viewBox="0 0 20 16">
           <path d="M2 8 L16 8" stroke={kthColors.KthHeaven?.HEX || '#6298D2'} strokeWidth={2} fill="none" />
           <path d="M12 4 L20 8 L12 12" fill={kthColors.KthHeaven?.HEX || '#6298D2'} />
@@ -72,7 +72,7 @@ export default function Legend({ language, layers, cosmetics, toggleLayer, toggl
       </div>
 
       {/* Prerequisites - participation */}
-      <div role="button" tabIndex={0} aria-pressed={layers.prereqParticipation} onClick={() => toggleLayer('prereqParticipation')} onKeyDown={(e) => activate(e, () => toggleLayer('prereqParticipation'))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.prereqParticipation ? 1 : 0.4 }}>
+      <div role="button" tabIndex={0} aria-pressed={layers.prereqParticipation} onClick={() => toggleLayer('prereqParticipation')} onKeyDown={(e) => activate(e, () => toggleLayer('prereqParticipation'))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.prereqParticipation ? 1 : 0.4 }} title={tr[language].legendToggleHint}>
         <svg width={16} height={16} viewBox="0 0 20 16">
           <path d="M2 8 L16 8" stroke="#999" strokeWidth={2} strokeDasharray="4,3" fill="none" />
           <path d="M12 4 L20 8 L12 12" fill="#999" />
@@ -81,25 +81,25 @@ export default function Legend({ language, layers, cosmetics, toggleLayer, toggl
       </div>
 
       {/* Courses */}
-      <div role="button" tabIndex={0} aria-pressed={layers.courseBars} onClick={() => toggleLayer('courseBars')} onKeyDown={(e) => activate(e, () => toggleLayer('courseBars'))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.courseBars ? 1 : 0.4 }}>
+      <div role="button" tabIndex={0} aria-pressed={layers.courseBars} onClick={() => toggleLayer('courseBars')} onKeyDown={(e) => activate(e, () => toggleLayer('courseBars'))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.courseBars ? 1 : 0.4 }} title={tr[language].legendToggleHint}>
         <div style={{ width: 18, height: 12, background: kthColors.KthHeaven?.HEX || '#6298D2', borderRadius: 2, border: '1px solid rgba(0,0,0,0.06)' }} />
         <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.courses}</span>
       </div>
 
       {/* Study periods */}
-      <div role="button" tabIndex={0} aria-pressed={layers.studyPeriods} onClick={() => toggleLayer('studyPeriods')} onKeyDown={(e) => activate(e, () => toggleLayer('studyPeriods'))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.studyPeriods ? 1 : 0.4 }}>
+      <div role="button" tabIndex={0} aria-pressed={layers.studyPeriods} onClick={() => toggleLayer('studyPeriods')} onKeyDown={(e) => activate(e, () => toggleLayer('studyPeriods'))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.studyPeriods ? 1 : 0.4 }} title={tr[language].legendToggleHint}>
         <div style={{ width: 18, height: 12, background: kthColors.KthSand?.HEX || '#f3f4f6' }} />
         <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.studyPeriods}</span>
       </div>
 
       {/* Exam periods */}
-      <div role="button" tabIndex={0} aria-pressed={layers.examPeriods} onClick={() => toggleLayer('examPeriods')} onKeyDown={(e) => activate(e, () => toggleLayer('examPeriods'))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.examPeriods ? 1 : 0.4 }}>
+      <div role="button" tabIndex={0} aria-pressed={layers.examPeriods} onClick={() => toggleLayer('examPeriods')} onKeyDown={(e) => activate(e, () => toggleLayer('examPeriods'))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.examPeriods ? 1 : 0.4 }} title={tr[language].legendToggleHint}>
         <div style={{ width: 18, height: 12, background: kthColors.KthLightBlue?.HEX || '#DEF0FF' }} />
         <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.examPeriods}</span>
       </div>
 
       {/* Reexam periods */}
-      <div role="button" tabIndex={0} aria-pressed={layers.reexamPeriods} onClick={() => toggleLayer('reexamPeriods')} onKeyDown={(e) => activate(e, () => toggleLayer('reexamPeriods'))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.reexamPeriods ? 1 : 0.4 }}>
+      <div role="button" tabIndex={0} aria-pressed={layers.reexamPeriods} onClick={() => toggleLayer('reexamPeriods')} onKeyDown={(e) => activate(e, () => toggleLayer('reexamPeriods'))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.reexamPeriods ? 1 : 0.4 }} title={tr[language].legendToggleHint}>
         <div style={{ width: 18, height: 12, background: kthColors.KthLightGray?.HEX || '#e6e6e6' }} />
         <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>{tr[language].legend.reexamPeriods}</span>
       </div>
@@ -120,7 +120,7 @@ export default function Legend({ language, layers, cosmetics, toggleLayer, toggl
                 onClick={() => toggleGroup(group.name)}
                 onKeyDown={(e) => activate(e, () => toggleGroup(group.name))}
                 style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: isHidden ? 0.4 : 1 }}
-                title={isHidden ? (language === 'en' ? 'Show group' : 'Visa grupp') : (language === 'en' ? 'Hide group' : 'Dölj grupp')}
+                title={isHidden ? tr[language].showGroup : tr[language].hideGroup}
               >
                 <div style={{ width: 18, height: 12, background: color.fill, borderRadius: 2, border: `1px solid ${color.stroke}` }} />
                 <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>

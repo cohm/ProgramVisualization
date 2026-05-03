@@ -37,6 +37,9 @@ interface ProgramConfig {
   dataFile: string;
   cosmeticsFile?: string;
   comment?: string;
+  // Optional English-language comment shown when the page language is `en`.
+  // Falls back to `comment` if missing — keeps existing entries valid.
+  commentEn?: string;
   studyplan?: string;
   // Optional inriktningar (specializations) for civilingenjör programs that
   // split their bachelor years by inriktning. When undefined / empty, the
@@ -302,8 +305,8 @@ export default function HomeClient() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'space-between' }}>
                     {/* <div style={{ color: kthColors.KthBlue?.HEX, fontWeight: 600 }}>{ui[language].language}</div> */}
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <button onClick={() => { setLanguage('sv'); setMenuOpen(false); setExportSubOpen(false); }} className="px-2 py-1 border border-gray-300 rounded-md shadow-sm" aria-label="Svenska" title="Svenska" style={{ outline: language==='sv' ? `2px solid ${kthColors.KthBlue?.HEX}` : 'none' }}>🇸🇪</button>
-                      <button onClick={() => { setLanguage('en'); setMenuOpen(false); setExportSubOpen(false); }} className="px-2 py-1 border border-gray-300 rounded-md shadow-sm" aria-label="English" title="English" style={{ outline: language==='en' ? `2px solid ${kthColors.KthBlue?.HEX}` : 'none' }}>🇺🇸</button>
+                      <button onClick={() => { setLanguage('sv'); setMenuOpen(false); setExportSubOpen(false); }} className="px-3 py-1 border border-gray-300 rounded-md shadow-sm font-semibold" aria-label="Svenska" title="Svenska" style={{ color: kthColors.KthBlue?.HEX, fontSize: 13, outline: language==='sv' ? `2px solid ${kthColors.KthBlue?.HEX}` : 'none' }}>SV</button>
+                      <button onClick={() => { setLanguage('en'); setMenuOpen(false); setExportSubOpen(false); }} className="px-3 py-1 border border-gray-300 rounded-md shadow-sm font-semibold" aria-label="English" title="English" style={{ color: kthColors.KthBlue?.HEX, fontSize: 13, outline: language==='en' ? `2px solid ${kthColors.KthBlue?.HEX}` : 'none' }}>EN</button>
                     </div>
                   </div>
                 </div>
@@ -328,7 +331,7 @@ export default function HomeClient() {
             programName={language === 'en' ? (selectedProgram.nameEn || selectedProgram.name) : selectedProgram.name}
             programCode={selectedProgram.code}
             studyplanUrl={selectedProgram.studyplan}
-            programComment={selectedProgram.comment}
+            programComment={language === 'en' ? (selectedProgram.commentEn || selectedProgram.comment) : selectedProgram.comment}
             cosmetics={cosmetics}
             selectedOptionPerGroup={selectedOptionPerGroup}
             onSelectedOptionPerGroupChange={setSelectedOptionPerGroup}

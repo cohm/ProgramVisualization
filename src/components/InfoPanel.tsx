@@ -112,8 +112,8 @@ export default function InfoPanel({ language, info, courses, onClose }: InfoPane
           ) : null}
         </div>
       ) : (
-        <div style={{ color: '#6b7280' }}>
-          {/* Empty state */}
+        <div style={{ color: '#6b7280', fontStyle: 'italic' }}>
+          {tr[language].clickCourseForDetails}
         </div>
       )}
     </div>

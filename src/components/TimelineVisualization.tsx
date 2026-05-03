@@ -128,6 +128,14 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // Year focus state for highlighting a whole year
   const [focusYear, setFocusYear] = useState<number | null>(null);
 
+  // Toast notification (PDF export errors etc.). Auto-dismissed after 6s.
+  const [toast, setToast] = useState<{ title: string; detail?: string } | null>(null);
+  useEffect(() => {
+    if (!toast) return;
+    const id = window.setTimeout(() => setToast(null), 6000);
+    return () => window.clearTimeout(id);
+  }, [toast]);
+
   // Option group modal state
   const [selectedOptionGroup, setSelectedOptionGroup] = useState<OptionGroup | null>(null);
   
@@ -405,23 +413,44 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         }
       }
 
-      // Optionally add a bottom comment into the cloned SVG for export
-      if (programComment && programComment.trim().length > 0) {
-        try {
-          const NS = 'http://www.w3.org/2000/svg';
+      // Always add an audit footer to exported files: program code + git
+      // commit + ISO date. The user-supplied comment renders above it when
+      // present. This guarantees every exported SVG/PNG/PDF carries enough
+      // identification to track it back to a specific build.
+      try {
+        const NS = 'http://www.w3.org/2000/svg';
+        const stampParts: string[] = [];
+        if (programCode) stampParts.push(programCode);
+        const gitHash = process.env.NEXT_PUBLIC_GIT_HASH;
+        if (gitHash) stampParts.push(`build ${gitHash}`);
+        stampParts.push(new Date().toISOString().slice(0, 10));
+        const stamp = stampParts.join(' · ');
+
+        const x = 12;
+        const baseY = exportHeight - 8;
+        const lineGap = 14;
+
+        // Bottom line is always the audit stamp.
+        const stampText = document.createElementNS(NS, 'text');
+        stampText.setAttribute('x', String(x));
+        stampText.setAttribute('y', String(baseY));
+        stampText.setAttribute('fill', '#9ca3af');
+        stampText.setAttribute('font-size', '10');
+        stampText.textContent = stamp;
+        cloned.appendChild(stampText);
+
+        // Above it (when provided) goes the human-readable comment.
+        if (programComment && programComment.trim().length > 0) {
           const commentText = document.createElementNS(NS, 'text');
-          // place inside left margin area at bottom
-          const x = 12; // small left padding within SVG
-          const y = exportHeight - 8; // a few pixels from bottom
           commentText.setAttribute('x', String(x));
-          commentText.setAttribute('y', String(y));
+          commentText.setAttribute('y', String(baseY - lineGap));
           commentText.setAttribute('fill', '#6b7280');
           commentText.setAttribute('font-size', '11');
           commentText.textContent = programComment;
           cloned.appendChild(commentText);
-        } catch {
-          // ignore comment failures
         }
+      } catch {
+        // ignore footer failures
       }
 
       const serializer = new XMLSerializer();
@@ -493,7 +522,10 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           if (!response.ok) {
             const errorText = await response.text();
             console.error('PDF export failed:', errorText);
-            alert('PDF export failed: ' + errorText);
+            // Truncate the server response — a failed render of a 5 MB SVG
+            // can return a huge stack trace; the toast is cosmetic.
+            const detail = errorText.length > 200 ? errorText.slice(0, 200) + '…' : errorText;
+            setToast({ title: tr[language].pdfExportFailed, detail });
             return;
           }
           
@@ -508,7 +540,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           URL.revokeObjectURL(url);
         } catch (error) {
           console.error('PDF export error:', error);
-          alert('PDF export failed. Check console for details.');
+          setToast({ title: tr[language].pdfExportFailed, detail: String(error).slice(0, 200) });
         }
         return;
       }
@@ -1405,7 +1437,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       const yearLabelY = yearYOffset[i] + yearBandHeights[i] / 2;
       // Active-year highlighting (font-weight) is applied by the focusYear
       // post-render effect, so toggling focus does not require a full redraw.
-      g.append('text')
+      const yearLabelEl = g.append('text')
         .attr('x', -margin.left + 12)
         .attr('y', yearLabelY)
         .text(`${tr[language].year} ${i + 1}`)
@@ -1419,6 +1451,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('tabindex', '0')
         .attr('aria-label', `${tr[language].year} ${i + 1}`)
         .style('cursor', 'pointer');
+      // Native browser tooltip explaining what clicking the label does.
+      yearLabelEl.append('title').text(tr[language].yearFocusHint);
     }
 
     // Draw arrows for prerequisites using stored positions
@@ -2748,6 +2782,38 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           onSelectedInfoChange={setSelectedInfo}
           onClose={() => setSelectedOptionGroup(null)}
         />
+      )}
+
+      {toast && (
+        <div
+          role="status"
+          aria-live="polite"
+          style={{
+            position: 'fixed',
+            bottom: 16,
+            right: 16,
+            maxWidth: 380,
+            padding: '10px 14px',
+            background: kthColors.KthMarine?.HEX || '#000061',
+            color: '#fff',
+            borderRadius: 6,
+            boxShadow: '0 4px 12px rgba(0,0,0,0.18)',
+            zIndex: 2000,
+            fontSize: 13,
+            cursor: 'pointer',
+          }}
+          onClick={() => setToast(null)}
+          title={tr[language].closeToast}
+        >
+          <div style={{ fontWeight: 600, marginBottom: toast.detail ? 4 : 0 }}>
+            {toast.title}
+          </div>
+          {toast.detail && (
+            <div style={{ fontSize: 11, opacity: 0.85, wordBreak: 'break-word' }}>
+              {toast.detail}
+            </div>
+          )}
+        </div>
       )}
 
     </div>

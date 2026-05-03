@@ -8,7 +8,8 @@
 // Schema (informal):
 //
 // programs.json:
-//   Array<{ code, name, nameEn?, dataFile, cosmeticsFile?, comment?, studyplan?,
+//   Array<{ code, name, nameEn?, dataFile, cosmeticsFile?, comment?,
+//           commentEn?, studyplan?,
 //           specializations?: Array<{ code, name, nameEn?, group? }>,
 //           specializationGroups?: Array<{ code, name, nameEn? }> }>
 //

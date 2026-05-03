@@ -83,5 +83,8 @@ export function buildOptionGroupTooltip(og: OptionGroup, language: Lang, deps: O
     .filter((opt): opt is string => opt !== null)
     .join('<br/>');
 
-  return `<strong>${escapeHtml(ogName)}</strong><br/>${escapeHtml(tr[language].totalCredits)}: ${og.totalCredits} ${escapeHtml(tr[language].credits)}<br/><strong>${escapeHtml(tr[language].options)}:</strong><br/>${optionsList}`;
+  // Hint line, e.g. "pick 1 of 3 options" — substitutes {N}.
+  const hint = tr[language].optionGroupHint.replace('{N}', String(og.options.length));
+
+  return `<strong>${escapeHtml(ogName)}</strong><br/><em>${escapeHtml(hint)}</em><br/>${escapeHtml(tr[language].totalCredits)}: ${og.totalCredits} ${escapeHtml(tr[language].credits)}<br/><strong>${escapeHtml(tr[language].options)}:</strong><br/>${optionsList}`;
 }

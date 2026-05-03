@@ -106,7 +106,7 @@ export default function OptionGroupModal({
 
         {/* Info line */}
         <text x={padding} y={padding + 40} fontSize={12} fill="#666">
-          {language === 'en' ? 'Total credits:' : 'Totalt poäng:'}{' '}
+          {tr[language].totalCredits}:{' '}
           <tspan fontWeight={600}>{optionGroup.totalCredits}</tspan>
         </text>
 
@@ -135,7 +135,7 @@ export default function OptionGroupModal({
           fill="#FFFFFF"
           style={{ cursor: 'pointer', pointerEvents: 'none' }}
         >
-          {language === 'en' ? 'Choose' : 'Välj'}
+          {tr[language].choose}
         </text>
 
         {/* Cancel button */}
@@ -160,7 +160,7 @@ export default function OptionGroupModal({
           fill="#4B5563"
           style={{ cursor: 'pointer', pointerEvents: 'none' }}
         >
-          {language === 'en' ? 'Cancel' : 'Avbryt'}
+          {tr[language].cancel}
         </text>
 
         {/* Course option bars */}
