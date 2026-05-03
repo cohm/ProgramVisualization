@@ -5,7 +5,7 @@ import * as d3 from 'd3';
 import { Course, CourseCredit, OptionGroup, Period, SelectedInfo, academicPeriods } from '@/types/course';
 import kthColors from '@/data/kth-colors.json';
 import type { ProgramCosmetics } from '@/types/cosmetics';
-import { STYLE, defaultColor, getColorForFamily, getFamilyVariants } from '@/lib/colors';
+import { STYLE, defaultColor, getColorForFamily, getCosmeticsColor } from '@/lib/colors';
 import { tr, type Lang } from '@/lib/translations';
 import Legend, { type ToggleableLayerKey } from '@/components/Legend';
 import InfoPanel from '@/components/InfoPanel';
@@ -153,15 +153,13 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const REEXAM_MARKER_RADIUS = 4;
   const REEXAM_MARKER_STROKE_WIDTH = 1;
 
-  // Per-course color selection within a cosmetics group (depends only on cosmetics prop)
+  // Per-course color selection: one fill per cosmetics family. (Multi-shade
+  // per group was removed in REVIEW.md §2.9 — the previous code dispatched
+  // through a length-1 variant array, doing nothing.)
   const getCourseColors = useCallback((course: Course) => {
     const group = cosmetics?.courseToGroup.get(course.code);
     if (!group) return defaultColor;
-    const variants = getFamilyVariants(group.colorFamily);
-    const idxInGroup = (group.courses || []).findIndex(c => c === course.code);
-    const baseIndex = idxInGroup >= 0 ? idxInGroup : Array.from(course.code).reduce((s, ch) => s + ch.charCodeAt(0), 0);
-    const variant = variants[baseIndex % variants.length];
-    return variant || getColorForFamily(group.colorFamily);
+    return getCosmeticsColor(group.colorFamily);
   }, [cosmetics]);
 
   // expose methods to parent via ref
@@ -356,7 +354,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
             currentIdx++; // account for separator space
             cosmetics.groups.forEach((group, gIdx) => {
-              const variants = getFamilyVariants(group.colorFamily);
+              const color = getCosmeticsColor(group.colorFamily);
               const rowG = document.createElementNS(NS, 'g');
               rowG.setAttribute('transform', `translate(${legendPadding},${legendPadding + (currentIdx + gIdx) * (itemHeight + itemGap)})`);
 
@@ -376,30 +374,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               r.setAttribute('y', String((itemHeight-12)/2));
               r.setAttribute('width', '18');
               r.setAttribute('height', '12');
-              // Create linear gradient for this group
-              const gradId = `legendGrad_${gIdx}`;
-              const lg = document.createElementNS(NS, 'linearGradient');
-              lg.setAttribute('id', gradId);
-              lg.setAttribute('x1', '0%');
-              lg.setAttribute('y1', '0%');
-              lg.setAttribute('x2', '100%');
-              lg.setAttribute('y2', '0%');
-              const n = Math.max(1, variants.length);
-              variants.forEach((v, i) => {
-                const start = Math.round((i / n) * 100);
-                const end = Math.round(((i + 1) / n) * 100);
-                const s1 = document.createElementNS(NS, 'stop');
-                s1.setAttribute('offset', `${start}%`);
-                s1.setAttribute('stop-color', v.fill);
-                const s2 = document.createElementNS(NS, 'stop');
-                s2.setAttribute('offset', `${end}%`);
-                s2.setAttribute('stop-color', v.fill);
-                lg.appendChild(s1);
-                lg.appendChild(s2);
-              });
-              defs.appendChild(lg);
-              r.setAttribute('fill', `url(#${gradId})`);
-              r.setAttribute('stroke', (variants[0]?.stroke) || '#999');
+              r.setAttribute('fill', color.fill);
+              r.setAttribute('stroke', color.stroke);
               rowG.appendChild(r);
 
               const text = document.createElementNS(NS, 'text');

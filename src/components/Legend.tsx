@@ -2,7 +2,7 @@
 
 import React, { type KeyboardEvent } from 'react';
 import kthColors from '@/data/kth-colors.json';
-import { STYLE, getFamilyVariants } from '@/lib/colors';
+import { STYLE, getCosmeticsColor } from '@/lib/colors';
 import { tr, type Lang } from '@/lib/translations';
 import type { ProgramCosmetics } from '@/types/cosmetics';
 
@@ -109,15 +109,7 @@ export default function Legend({ language, layers, cosmetics, toggleLayer, toggl
         <>
           <div style={{ width: '100%', height: 1, background: '#e5e7eb', margin: '4px 0' }} />
           {cosmetics.groups.map((group) => {
-            const variants = getFamilyVariants(group.colorFamily);
-            const gradient = variants.length > 1
-              ? `linear-gradient(90deg, ${variants.map((v, i) => {
-                  const start = Math.round((i / variants.length) * 100);
-                  const end = Math.round(((i + 1) / variants.length) * 100);
-                  return `${v.fill} ${start}%, ${v.fill} ${end}%`;
-                }).join(', ')})`
-              : variants[0]?.fill || '#ccc';
-            const borderColor = variants[0]?.stroke || '#999';
+            const color = getCosmeticsColor(group.colorFamily);
             const isHidden = layers.groups[group.name] === false;
             return (
               <div
@@ -130,7 +122,7 @@ export default function Legend({ language, layers, cosmetics, toggleLayer, toggl
                 style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: isHidden ? 0.4 : 1 }}
                 title={isHidden ? (language === 'en' ? 'Show group' : 'Visa grupp') : (language === 'en' ? 'Hide group' : 'Dölj grupp')}
               >
-                <div style={{ width: 18, height: 12, background: gradient, borderRadius: 2, border: `1px solid ${borderColor}` }} />
+                <div style={{ width: 18, height: 12, background: color.fill, borderRadius: 2, border: `1px solid ${color.stroke}` }} />
                 <span style={{ fontSize: 12, color: STYLE.legend.textColor }}>
                   {language === 'en' ? (group.nameEn || group.name) : group.name}
                 </span>
