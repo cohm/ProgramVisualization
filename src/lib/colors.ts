@@ -29,6 +29,9 @@ export const defaultColor = {
   text: kthColors.KthLightBlue?.HEX || '#DEF0FF',
 };
 
+// Saturated KTH-primary palette. Used as a fallback when a course has no
+// cosmetics group (e.g. option-group bars) and for the option-group striped
+// pattern.
 export const getColorForFamily = (family: FamilyName) => {
   const families = {
     blue: { fill: kthColors.KthBlue?.HEX || '#004791', stroke: kthColors.KthMarine?.HEX || '#000061', text: kthColors.KthLightBlue?.HEX || '#DEF0FF' },
@@ -40,29 +43,18 @@ export const getColorForFamily = (family: FamilyName) => {
   return families[family];
 };
 
-export const getFamilyVariants = (family: FamilyName) => {
-  if (family === 'blue') {
-    return [
-      { fill: kthColors.KthLightBlue?.HEX || '#6298D2', stroke: kthColors.KthMarine?.HEX || '#000061', text: kthColors.KthMarine?.HEX || '#000061' },
-    ];
-  }
-  if (family === 'green') {
-    return [
-      { fill: kthColors.KthLightGreen?.HEX || '#C7EBBA', stroke: kthColors.KthDarkGreen?.HEX || '#0D4A21', text: kthColors.KthLightGreen?.HEX || '#C7EBBA' },
-    ];
-  }
-  if (family === 'turquoise') {
-    return [
-      { fill: kthColors.KthLightTurquoise?.HEX || '#B2E0E0', stroke: kthColors.KthDarkTurquoise?.HEX || '#1C434C', text: kthColors.KthLightTurquoise?.HEX || '#B2E0E0' },
-    ];
-  }
-  if (family === 'brick') {
-    return [
-      { fill: kthColors.KthLightBrick?.HEX || '#FFCCC4', stroke: kthColors.KthDarkBrick?.HEX || '#78001A', text: kthColors.KthDarkBrick?.HEX || '#78001A' },
-    ];
-  }
-  // yellow
-  return [
-    { fill: kthColors.KthLightYellow?.HEX || '#FFF0B0', stroke: kthColors.KthDarkYellow?.HEX || '#A65900', text: kthColors.KthDarkYellow?.HEX || '#A65900' },
-  ];
+// Light-tone palette used by every course assigned to a cosmetics group.
+// One light shade per family — established in commit 3a4391a as the
+// preferred per-group fill (better in-bar text contrast than the saturated
+// primary). Stroke + text colours are taken from the dark/marine companions
+// so labels stay legible.
+export const getCosmeticsColor = (family: FamilyName) => {
+  const families = {
+    blue:      { fill: kthColors.KthLightBlue?.HEX      || '#DEF0FF', stroke: kthColors.KthMarine?.HEX        || '#000061', text: kthColors.KthMarine?.HEX        || '#000061' },
+    green:     { fill: kthColors.KthLightGreen?.HEX     || '#C7EBBA', stroke: kthColors.KthDarkGreen?.HEX     || '#0D4A21', text: kthColors.KthLightGreen?.HEX    || '#C7EBBA' },
+    turquoise: { fill: kthColors.KthLightTurquoise?.HEX || '#B2E0E0', stroke: kthColors.KthDarkTurquoise?.HEX || '#1C434C', text: kthColors.KthLightTurquoise?.HEX|| '#B2E0E0' },
+    brick:     { fill: kthColors.KthLightBrick?.HEX     || '#FFCCC4', stroke: kthColors.KthDarkBrick?.HEX     || '#78001A', text: kthColors.KthDarkBrick?.HEX     || '#78001A' },
+    yellow:    { fill: kthColors.KthLightYellow?.HEX    || '#FFF0B0', stroke: kthColors.KthDarkYellow?.HEX    || '#A65900', text: kthColors.KthDarkYellow?.HEX    || '#A65900' },
+  };
+  return families[family];
 };

@@ -1,7 +1,15 @@
 import type { NextConfig } from "next";
 import { execSync } from 'child_process';
 
-// Get git commit hash, timestamp, and repository URL at build time
+// Get git commit hash, timestamp, and repository URL at build time.
+//
+// Build context affects what's available:
+// - Vercel: VERCEL_GIT_* env vars are set; we use those.
+// - Local / GitHub Actions checkout: shell out to `git`.
+// - Tarball / Docker layer with no .git: the catch returns 'unknown'.
+//   To avoid the silent fallback in that case, set NEXT_PUBLIC_GIT_HASH (and
+//   optionally NEXT_PUBLIC_GIT_TIMESTAMP / NEXT_PUBLIC_GIT_REPO_URL) in the
+//   build environment — Next inlines them just like the values produced here.
 const getGitInfo = () => {
   try {
     // On Vercel, use their environment variables if available
@@ -47,7 +55,11 @@ const gitInfo = getGitInfo();
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
-  // Ensure Chromium brotli assets are bundled with the export-pdf route
+  // Ensure Chromium brotli assets are bundled with the export-pdf route.
+  // The same path is also declared in `vercel.json` (functions →
+  // src/app/api/export-pdf/route.ts → includeFiles); keep them in sync.
+  // Both are required: Next uses outputFileTracingIncludes during the build
+  // step, Vercel uses includeFiles when packaging the serverless function.
   outputFileTracingIncludes: {
     // Route pathname for app router
     '/api/export-pdf': [

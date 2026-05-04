@@ -3,6 +3,7 @@
 import React from 'react';
 import kthColors from '@/data/kth-colors.json';
 import { tr, type Lang } from '@/lib/translations';
+import { getCourseLevel } from '@/lib/courseLevel';
 import type { Course, OptionGroup, SelectedInfo } from '@/types/course';
 
 const isOptionGroup = (item: Course | OptionGroup): item is OptionGroup =>
@@ -44,25 +45,38 @@ export default function InfoPanel({ language, info, courses, onClose }: InfoPane
             <div>
               <button onClick={onClose}
                       className="px-2 py-1 border border-gray-300 rounded-md shadow-sm"
-                      style={{ color: kthColors.KthBlue?.HEX }}>
+                      style={{ color: kthColors.KthBlue?.HEX }}
+                      aria-label={language === 'en' ? 'Close info panel' : 'Stäng infopanel'}
+                      title={language === 'en' ? 'Close' : 'Stäng'}>
                 ×
               </button>
             </div>
           </div>
-          {(info.course.category || info.course.gradingScale) && (
-            <div style={{ display: 'flex', gap: 6, marginBottom: 6, flexWrap: 'wrap' }}>
-              {info.course.category && (
-                <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 10, border: `1px solid ${kthColors.KthHeaven?.HEX || '#6298D2'}`, color: kthColors.KthBlue?.HEX || '#004791', background: kthColors.KthLightBlue?.HEX || '#DEF0FF' }}>
-                  {tr[language].category[info.course.category]}
-                </span>
-              )}
-              {info.course.gradingScale && (
-                <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 10, border: '1px solid #d1d5db', color: '#374151', background: '#f3f4f6' }}>
-                  {tr[language].gradingScale}: {info.course.gradingScale}
-                </span>
-              )}
-            </div>
-          )}
+          {(() => {
+            const level = getCourseLevel(info.course);
+            const hasBadge = info.course.category || info.course.gradingScale || level;
+            if (!hasBadge) return null;
+            return (
+              <div style={{ display: 'flex', gap: 6, marginBottom: 6, flexWrap: 'wrap' }}>
+                {info.course.category && (
+                  <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 10, border: `1px solid ${kthColors.KthHeaven?.HEX || '#6298D2'}`, color: kthColors.KthBlue?.HEX || '#004791', background: kthColors.KthLightBlue?.HEX || '#DEF0FF' }}>
+                    {tr[language].category[info.course.category]}
+                  </span>
+                )}
+                {info.course.gradingScale && (
+                  <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 10, border: '1px solid #d1d5db', color: '#374151', background: '#f3f4f6' }}>
+                    {tr[language].gradingScale}: {info.course.gradingScale}
+                  </span>
+                )}
+                {level && (
+                  <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 10, border: '1px solid #d1d5db', color: '#374151', background: '#f3f4f6' }}
+                        title={tr[language].courseLevelTitle[level]}>
+                    {level}
+                  </span>
+                )}
+              </div>
+            );
+          })()}
           <div style={{ marginBottom: 6 }}>
             <div>
               {tr[language].legend.prerequisitesCompleted}:{' '}
@@ -110,8 +124,8 @@ export default function InfoPanel({ language, info, courses, onClose }: InfoPane
           ) : null}
         </div>
       ) : (
-        <div style={{ color: '#6b7280' }}>
-          {/* Empty state */}
+        <div style={{ color: '#6b7280', fontStyle: 'italic' }}>
+          {tr[language].clickCourseForDetails}
         </div>
       )}
     </div>

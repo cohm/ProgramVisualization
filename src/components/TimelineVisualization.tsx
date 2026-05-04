@@ -5,11 +5,22 @@ import * as d3 from 'd3';
 import { Course, CourseCredit, OptionGroup, Period, SelectedInfo, academicPeriods } from '@/types/course';
 import kthColors from '@/data/kth-colors.json';
 import type { ProgramCosmetics } from '@/types/cosmetics';
-import { STYLE, defaultColor, getColorForFamily, getFamilyVariants } from '@/lib/colors';
+import { STYLE, defaultColor, getColorForFamily, getCosmeticsColor } from '@/lib/colors';
 import { tr, type Lang } from '@/lib/translations';
 import Legend, { type ToggleableLayerKey } from '@/components/Legend';
 import InfoPanel from '@/components/InfoPanel';
 import OptionGroupModal from '@/components/OptionGroupModal';
+import { type ToastMessage } from '@/components/Toast';
+import {
+  buildStudyPeriodTooltip,
+  buildExamPeriodTooltip,
+  buildReexamPeriodTooltip,
+  buildExamDotTooltip,
+  buildReexamDotTooltip,
+  buildCourseTooltip,
+  buildOptionGroupTooltip,
+} from '@/lib/tooltipText';
+import { getEmbeddedFontFaces } from '@/lib/fonts';
 
 type CourseOrOptionGroup = Course | OptionGroup;
 
@@ -26,12 +37,27 @@ interface TimelineVisualizationProps {
   cosmetics?: ProgramCosmetics | null;
   // URL-derived view state (controlled by the parent so it can be persisted to
   // query params and survive page reloads / sharing).
-  selectedOptionPerGroup: Record<string, string>;
-  onSelectedOptionPerGroupChange: (next: Record<string, string>) => void;
+  // Per-group user selection: for kind: 'pickN' (the default), the array is
+  // capped at pickN entries; for kind: 'minCredits' it has no cap.
+  selectedOptionPerGroup: Record<string, string[]>;
+  onSelectedOptionPerGroupChange: (next: Record<string, string[]>) => void;
   hiddenLayers: Set<string>;
   onHiddenLayersChange: (next: Set<string>) => void;
   hiddenGroups: Set<string>;
   onHiddenGroupsChange: (next: Set<string>) => void;
+  // Inriktningar (specializations) the user has picked. The student picks
+  // exactly one spec per group (e.g. CINEK = one tech + one business);
+  // when the program declares no registry, this is empty and no filter
+  // applies. Filter passes a course iff for every group represented in its
+  // `specializations`, at least one matches the user's pick from that
+  // group. Courses without `specializations` always pass.
+  selectedSpecializations?: Set<string>;
+  // Map from spec code → group code. Courses with specs from multiple
+  // groups must match the user's pick in EACH of those groups.
+  specGroupMap?: Map<string, string>;
+  // Optional callback for surfacing toast messages (PDF export errors etc.)
+  // up to the page-level Toast renderer in HomeClient.
+  onToast?: (toast: ToastMessage | null) => void;
 }
 
 // Type guard to distinguish between Course and OptionGroup
@@ -47,20 +73,80 @@ export interface TimelineVisualizationHandle {
   exportChart: (format: 'png' | 'svg' | 'pdf', options?: { includeLegend?: boolean }) => Promise<void>;
 }
 
-const TimelineVisualization = forwardRef(function TimelineVisualization({ courses, language = 'sv', programName, programCode, studyplanUrl, programComment, cosmetics, selectedOptionPerGroup, onSelectedOptionPerGroupChange, hiddenLayers, onHiddenLayersChange, hiddenGroups, onHiddenGroupsChange }: TimelineVisualizationProps, ref: React.ForwardedRef<TimelineVisualizationHandle>) {
+const TimelineVisualization = forwardRef(function TimelineVisualization({ courses: rawCourses, language = 'sv', programName, programCode, studyplanUrl, programComment, cosmetics, selectedOptionPerGroup, onSelectedOptionPerGroupChange, hiddenLayers, onHiddenLayersChange, hiddenGroups, onHiddenGroupsChange, selectedSpecializations, specGroupMap, onToast }: TimelineVisualizationProps, ref: React.ForwardedRef<TimelineVisualizationHandle>) {
+  // Filter courses by the active inriktning selection. AND across spec
+  // groups: for every group represented in a course's `specializations`,
+  // the user's pick from that group must be one of the course's specs.
+  // Courses with no `specializations` are common to every inriktning and
+  // always pass.
+  const courses = useMemo<CourseOrOptionGroup[]>(() => {
+    if (!selectedSpecializations || selectedSpecializations.size === 0) return rawCourses;
+    const sel = selectedSpecializations;
+    const grpOf = (s: string) => specGroupMap?.get(s) || '__default__';
+    // Bucket the user's picks by group for O(1) lookup.
+    const pickByGroup = new Map<string, string>();
+    for (const code of sel) pickByGroup.set(grpOf(code), code);
+    return rawCourses.filter(c => {
+      const specs = (c as Course | OptionGroup).specializations;
+      if (!specs || specs.length === 0) return true;
+      // Bucket the course's specs by group.
+      const specsByGroup = new Map<string, string[]>();
+      for (const s of specs) {
+        const g = grpOf(s);
+        const arr = specsByGroup.get(g) || [];
+        arr.push(s);
+        specsByGroup.set(g, arr);
+      }
+      // Each group represented in the course must include the user's pick.
+      for (const [g, list] of specsByGroup) {
+        const pick = pickByGroup.get(g);
+        if (!pick || !list.includes(pick)) return false;
+      }
+      return true;
+    });
+  }, [rawCourses, selectedSpecializations, specGroupMap]);
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   // Preserve the initial chart height to keep a stable px-per-ECTS baseline across re-renders/toggles
   const initialChartHeightRef = useRef<number | null>(null);
+  // Single delegated tooltip element, persisted across renders.
+  const tooltipElRef = useRef<HTMLDivElement | null>(null);
+  // Pre-built tooltip HTML, keyed by `${kind}|${id}`. Populated at the end of
+  // the main render and read by the delegated mouseover handler.
+  const tooltipCacheRef = useRef<Map<string, string>>(new Map());
+  // Latest data needed by the delegated click handler. Updated each render so
+  // the handler (attached once) sees current props/state without re-binding.
+  const dispatchCtxRef = useRef<{
+    coursesByCode: Map<string, Course>;
+    optionGroupsByName: Map<string, OptionGroup>;
+    individualCoursesByCode: Map<string, Course>;
+    selectedOptionPerGroup: Record<string, string[]>;
+  }>({
+    coursesByCode: new Map(),
+    optionGroupsByName: new Map(),
+    individualCoursesByCode: new Map(),
+    selectedOptionPerGroup: {},
+  });
+  // Currently displayed tooltip key — used to suppress redundant updates as
+  // the cursor moves between child elements within the same kind-element.
+  const currentTooltipKeyRef = useRef<string | null>(null);
 
   // Year focus state for highlighting a whole year
   const [focusYear, setFocusYear] = useState<number | null>(null);
 
+  // Toast emitter — forwards to the page-level Toast renderer in HomeClient
+  // via the `onToast` prop. Stable reference for use inside the imperative
+  // export handler.
+  const emitToast = useCallback((t: ToastMessage | null) => {
+    onToast?.(t);
+  }, [onToast]);
+
   // Option group modal state
   const [selectedOptionGroup, setSelectedOptionGroup] = useState<OptionGroup | null>(null);
   
-  // Track which option is currently highlighted in the modal
-  const [highlightedOptionCode, setHighlightedOptionCode] = useState<string | null>(null);
+  // Track which options are currently highlighted in the modal. For pickN
+  // groups the array is capped at pickN; for minCredits groups it has no cap.
+  const [highlightedOptionCodes, setHighlightedOptionCodes] = useState<string[]>([]);
 
   // When the modal opens/closes, reset or initialize highlighting.
   // selectedOptionPerGroup is intentionally excluded: we only want to react to the
@@ -68,9 +154,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   useEffect(() => {
     if (selectedOptionGroup) {
       const currentSelection = selectedOptionPerGroup[selectedOptionGroup.name];
-      setHighlightedOptionCode(currentSelection || null);
+      setHighlightedOptionCodes(currentSelection ? [...currentSelection] : []);
     } else {
-      setHighlightedOptionCode(null);
+      setHighlightedOptionCodes([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOptionGroup]);
@@ -81,15 +167,13 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const REEXAM_MARKER_RADIUS = 4;
   const REEXAM_MARKER_STROKE_WIDTH = 1;
 
-  // Per-course color selection within a cosmetics group (depends only on cosmetics prop)
+  // Per-course color selection: one fill per cosmetics family. (Multi-shade
+  // per group was removed in REVIEW.md §2.9 — the previous code dispatched
+  // through a length-1 variant array, doing nothing.)
   const getCourseColors = useCallback((course: Course) => {
     const group = cosmetics?.courseToGroup.get(course.code);
     if (!group) return defaultColor;
-    const variants = getFamilyVariants(group.colorFamily);
-    const idxInGroup = (group.courses || []).findIndex(c => c === course.code);
-    const baseIndex = idxInGroup >= 0 ? idxInGroup : Array.from(course.code).reduce((s, ch) => s + ch.charCodeAt(0), 0);
-    const variant = variants[baseIndex % variants.length];
-    return variant || getColorForFamily(group.colorFamily);
+    return getCosmeticsColor(group.colorFamily);
   }, [cosmetics]);
 
   // expose methods to parent via ref
@@ -112,63 +196,40 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       cloned.setAttribute('viewBox', `0 0 ${exportWidth} ${exportHeight}`);
       // Ensure font family is applied for all text in export
       cloned.setAttribute('style', `font-family: ${STYLE.fontFamily};`);
+
+      // Prune hidden subtrees and strip data-* attributes from the clone.
+      // Layer toggles set `display: none` inline on hidden elements; serialising
+      // them just bloats the file (and the PDF) with content that won't paint.
+      // data-* attributes are runtime hooks (data-kind, data-course, …) used by
+      // the delegated event handler; they're meaningless in a static SVG.
+      const removeHidden = (node: Element) => {
+        // Walk children first so removal during the loop is safe (toArray copy).
+        Array.from(node.children).forEach(child => removeHidden(child));
+        const inlineDisplay = (node as SVGElement | HTMLElement).style?.display;
+        if (inlineDisplay === 'none') {
+          node.parentNode?.removeChild(node);
+          return;
+        }
+        // Strip data-* attributes on the elements we're keeping.
+        Array.from(node.attributes)
+          .filter(a => a.name.startsWith('data-'))
+          .forEach(a => node.removeAttribute(a.name));
+      };
+      removeHidden(cloned);
       
       try {
         const styleEl = document.createElementNS('http://www.w3.org/2000/svg', 'style');
         styleEl.textContent = `* { font-family: ${STYLE.fontFamily}; }`;
         cloned.insertBefore(styleEl, cloned.firstChild);
 
-        // Extract font families from the font stack and try to inline web fonts
-        // Parse font families from STYLE.fontFamily (e.g., "Figtree, ui-sans-serif, system-ui, ...")
-        const fontFamilies = STYLE.fontFamily.split(',').map(f => f.trim().replace(/['"]/g, ''));
-        
-        // Try to fetch and embed web fonts (currently supports Google Fonts)
-        for (const fontFamily of fontFamilies) {
-          // Skip generic and system fonts
-          if (['ui-sans-serif', 'system-ui', 'sans-serif', 'serif', 'monospace', '-apple-system', 
-               'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'Noto Sans'].some(s => fontFamily.includes(s))) {
-            continue;
-          }
-          
-          try {
-            // Try to fetch from Google Fonts (works for common web fonts)
-            const fontUrl = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(fontFamily)}:wght@300;400;500;600;700;800;900&display=swap`;
-            const cssResp = await fetch(fontUrl);
-            
-            if (cssResp.ok) {
-              const cssText = await cssResp.text();
-              
-              // Match all font URLs (for different weights)
-              const matches = cssText.matchAll(/url\((https:[^)]+\.(?:woff2|woff|ttf))\)/g);
-              const fontUrls = Array.from(matches).map(m => m[1]);
-              
-              if (fontUrls.length > 0) {
-                // Fetch and embed all font files
-                for (const fontFileUrl of fontUrls) {
-                  const fontResp = await fetch(fontFileUrl);
-                  
-                  if (fontResp.ok) {
-                    const buf = await fontResp.arrayBuffer();
-                    const u8 = new Uint8Array(buf);
-                    let binary = '';
-                    for (let i = 0; i < u8.length; i++) binary += String.fromCharCode(u8[i]);
-                    const fontBase64 = btoa(binary);
-                    
-                    // Determine format from URL
-                    const format = fontFileUrl.includes('.woff2') ? 'woff2' : 
-                                   fontFileUrl.includes('.woff') ? 'woff' : 'truetype';
-                    
-                    const fontStyle = document.createElementNS('http://www.w3.org/2000/svg', 'style');
-                    fontStyle.textContent = `@font-face { font-family: '${fontFamily}'; src: url(data:font/${format};base64,${fontBase64}) format('${format}'); font-weight: 100 900; font-style: normal; }`;
-                    cloned.insertBefore(fontStyle, cloned.firstChild);
-                  }
-                }
-                break; // Successfully embedded a font, no need to try others
-              }
-            }
-          } catch {
-            // Continue to next font family if this one fails
-          }
+        // Inline web-font @font-face declarations (Figtree, served via
+        // Google Fonts) so the exported SVG/PNG renders the same outside
+        // the browser. Cached after first call — see src/lib/fonts.ts.
+        const fontFaces = await getEmbeddedFontFaces(STYLE.fontFamily);
+        if (fontFaces) {
+          const fontStyle = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+          fontStyle.textContent = fontFaces;
+          cloned.insertBefore(fontStyle, cloned.firstChild);
         }
       } catch {}
 
@@ -327,7 +388,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
             currentIdx++; // account for separator space
             cosmetics.groups.forEach((group, gIdx) => {
-              const variants = getFamilyVariants(group.colorFamily);
+              const color = getCosmeticsColor(group.colorFamily);
               const rowG = document.createElementNS(NS, 'g');
               rowG.setAttribute('transform', `translate(${legendPadding},${legendPadding + (currentIdx + gIdx) * (itemHeight + itemGap)})`);
 
@@ -347,30 +408,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               r.setAttribute('y', String((itemHeight-12)/2));
               r.setAttribute('width', '18');
               r.setAttribute('height', '12');
-              // Create linear gradient for this group
-              const gradId = `legendGrad_${gIdx}`;
-              const lg = document.createElementNS(NS, 'linearGradient');
-              lg.setAttribute('id', gradId);
-              lg.setAttribute('x1', '0%');
-              lg.setAttribute('y1', '0%');
-              lg.setAttribute('x2', '100%');
-              lg.setAttribute('y2', '0%');
-              const n = Math.max(1, variants.length);
-              variants.forEach((v, i) => {
-                const start = Math.round((i / n) * 100);
-                const end = Math.round(((i + 1) / n) * 100);
-                const s1 = document.createElementNS(NS, 'stop');
-                s1.setAttribute('offset', `${start}%`);
-                s1.setAttribute('stop-color', v.fill);
-                const s2 = document.createElementNS(NS, 'stop');
-                s2.setAttribute('offset', `${end}%`);
-                s2.setAttribute('stop-color', v.fill);
-                lg.appendChild(s1);
-                lg.appendChild(s2);
-              });
-              defs.appendChild(lg);
-              r.setAttribute('fill', `url(#${gradId})`);
-              r.setAttribute('stroke', (variants[0]?.stroke) || '#999');
+              r.setAttribute('fill', color.fill);
+              r.setAttribute('stroke', color.stroke);
               rowG.appendChild(r);
 
               const text = document.createElementNS(NS, 'text');
@@ -400,23 +439,44 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         }
       }
 
-      // Optionally add a bottom comment into the cloned SVG for export
-      if (programComment && programComment.trim().length > 0) {
-        try {
-          const NS = 'http://www.w3.org/2000/svg';
+      // Always add an audit footer to exported files: program code + git
+      // commit + ISO date. The user-supplied comment renders above it when
+      // present. This guarantees every exported SVG/PNG/PDF carries enough
+      // identification to track it back to a specific build.
+      try {
+        const NS = 'http://www.w3.org/2000/svg';
+        const stampParts: string[] = [];
+        if (programCode) stampParts.push(programCode);
+        const gitHash = process.env.NEXT_PUBLIC_GIT_HASH;
+        if (gitHash) stampParts.push(`build ${gitHash}`);
+        stampParts.push(new Date().toISOString().slice(0, 10));
+        const stamp = stampParts.join(' · ');
+
+        const x = 12;
+        const baseY = exportHeight - 8;
+        const lineGap = 14;
+
+        // Bottom line is always the audit stamp.
+        const stampText = document.createElementNS(NS, 'text');
+        stampText.setAttribute('x', String(x));
+        stampText.setAttribute('y', String(baseY));
+        stampText.setAttribute('fill', '#9ca3af');
+        stampText.setAttribute('font-size', '10');
+        stampText.textContent = stamp;
+        cloned.appendChild(stampText);
+
+        // Above it (when provided) goes the human-readable comment.
+        if (programComment && programComment.trim().length > 0) {
           const commentText = document.createElementNS(NS, 'text');
-          // place inside left margin area at bottom
-          const x = 12; // small left padding within SVG
-          const y = exportHeight - 8; // a few pixels from bottom
           commentText.setAttribute('x', String(x));
-          commentText.setAttribute('y', String(y));
+          commentText.setAttribute('y', String(baseY - lineGap));
           commentText.setAttribute('fill', '#6b7280');
           commentText.setAttribute('font-size', '11');
           commentText.textContent = programComment;
           cloned.appendChild(commentText);
-        } catch {
-          // ignore comment failures
         }
+      } catch {
+        // ignore footer failures
       }
 
       const serializer = new XMLSerializer();
@@ -437,29 +497,33 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
       // PDF export: use Puppeteer via API for perfect font rendering
       if (format === 'pdf') {
+        // Inline the same @font-face block we embed in SVG/PNG exports.
+        // This lets the API switch from `waitUntil: networkidle0` to the
+        // much faster `load` (no external resources to await).
+        const pdfFontFaces = await getEmbeddedFontFaces(STYLE.fontFamily);
         // Create a complete HTML document with embedded SVG and fonts
         const htmlDoc = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&display=swap');
-    
+    ${pdfFontFaces}
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    
+
     body {
-      font-family: Figtree, ui-sans-serif, system-ui, -apple-system, sans-serif;
+      font-family: ${STYLE.fontFamily};
     }
-    
+
     @page {
       size: ${exportWidth}px ${exportHeight}px;
       margin: 0;
     }
-    
+
     svg {
       display: block;
       width: ${exportWidth}px;
@@ -484,7 +548,10 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           if (!response.ok) {
             const errorText = await response.text();
             console.error('PDF export failed:', errorText);
-            alert('PDF export failed: ' + errorText);
+            // Truncate the server response — a failed render of a 5 MB SVG
+            // can return a huge stack trace; the toast is cosmetic.
+            const detail = errorText.length > 200 ? errorText.slice(0, 200) + '…' : errorText;
+            emitToast({ title: tr[language].pdfExportFailed, detail });
             return;
           }
           
@@ -499,7 +566,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           URL.revokeObjectURL(url);
         } catch (error) {
           console.error('PDF export error:', error);
-          alert('PDF export failed. Check console for details.');
+          emitToast({ title: tr[language].pdfExportFailed, detail: String(error).slice(0, 200) });
         }
         return;
       }
@@ -592,22 +659,6 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   useEffect(() => {
     if (!svgRef.current || !containerRef.current || !courses.length) return;
 
-    const container = d3.select(containerRef.current);
-    
-    // setup tooltip container
-    container.selectAll('.pv-tooltip').remove();
-    const tooltip = container.append('div')
-      .attr('class', 'pv-tooltip')
-      .style('position', 'absolute')
-      .style('pointer-events', 'none')
-      .style('display', 'none')
-      .style('background', `rgba(${(kthColors.KthMarine?.RGB || [0, 0, 97]).join(',')}, 0.8)`)
-      .style('color', '#fff')
-      .style('padding', '6px 8px')
-      .style('border-radius', '4px')
-      .style('font-size', '12px')
-      .style('z-index', '1001');
-
   const svg = d3.select(svgRef.current);
   // Apply global font family to all SVG text
   svg.style('font-family', STYLE.fontFamily);
@@ -664,12 +715,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     const timeScale = d3.scaleTime()
       .domain([academicPeriods[0].start, academicPeriods[3].reExamEnd])
       .range([0, width]);
-  // Clicking on empty SVG space clears focus and closes popup
-  svg.on('click', () => {
-    setFocusCourse(null);
-    setSelectedInfo(null);
-    setFocusYear(null);
-  });
+  // Empty-space clicks (clearing focus / info / year) are handled by the
+  // delegated click listener installed once on the container.
 
   const maxYear = Math.max(1, ...courses.flatMap(c => {
     if (isCourse(c)) {
@@ -684,24 +731,34 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const optionGroups = courses.filter(isOptionGroup);
   const coursesInOptionGroups = new Set<string>();
   optionGroups.forEach(og => {
+    const selectedCodes = selectedOptionPerGroup[og.name] ?? [];
     og.options.forEach(optionCode => {
-      // Don't hide courses that have been selected as the chosen option
-      if (selectedOptionPerGroup[og.name] !== optionCode) {
+      // Hide options that weren't picked. Picked options surface in
+      // `individualCourses` and render as their own bars.
+      if (!selectedCodes.includes(optionCode)) {
         coursesInOptionGroups.add(optionCode);
       }
     });
   });
-  
+
   // Filter courses to only include individual courses (not in option groups)
   const individualCourses = courses.filter(c => {
     if (isOptionGroup(c)) return false;
     return !coursesInOptionGroups.has((c as Course).code);
   }) as Course[];
-  
-  // Combine individual courses with option groups for rendering (selected courses are now in individualCourses)
+  // Lookup map built once and reused everywhere a Course needs to be
+  // resolved by code (prereq routing, focus mode, dispatch context). This
+  // turns several per-arrow / per-bar O(n) `find(...)` scans into O(1).
+  const individualCoursesByCodeMap = new Map<string, Course>();
+  individualCourses.forEach(c => individualCoursesByCodeMap.set(c.code, c));
+
+  // Combine individual courses with option groups for rendering. The
+  // placeholder bar is hidden as soon as any option in the group has been
+  // picked (first cut: simple all-or-nothing — partial-fill rendering for
+  // multi-select groups is a follow-up).
   const displayItems: Array<Course | OptionGroup> = [
     ...individualCourses,
-    ...optionGroups.filter(og => !selectedOptionPerGroup[og.name])
+    ...optionGroups.filter(og => (selectedOptionPerGroup[og.name]?.length ?? 0) === 0)
   ];
   
   // Increased vertical gap between year rows (px)
@@ -717,8 +774,15 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const MIN_ECTS_FOR_HEIGHT = 2;
   const STACK_GAP_PX = 4; // gap between stacked bars
 
+  // O(1) lookup map for academic-period objects by id. Replaces the
+  // `academicPeriods.find(p => p.id === ...)` scans done per-credit and
+  // per-slot below.
+  const periodById = new Map<Period['id'], Period>();
+  academicPeriods.forEach(p => periodById.set(p.id, p));
+
   // Build mapping of courses per year+period to compute stacking lanes (needed for sizing and layout)
-  const slotsByYearPeriod: Record<string, Array<{ item: Course | OptionGroup; credit: { period: string; credits: number; year: number } }>> = {};
+  type SlotEntry = { item: Course | OptionGroup; credit: { period: string; credits: number; year: number } };
+  const slotsByYearPeriod: Record<string, SlotEntry[]> = {};
   displayItems.forEach((item) => {
     const credits = isCourse(item) ? item.credits : Object.entries((item as OptionGroup).periodCredits)
       .filter(([, credits]) => credits > 0)
@@ -727,12 +791,23 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         credits,
         year: (item as OptionGroup).year
       }));
-    
+
     credits.forEach((credit) => {
       const key = `${credit.year}-${credit.period}`;
       if (!slotsByYearPeriod[key]) slotsByYearPeriod[key] = [];
       slotsByYearPeriod[key].push({ item, credit });
     });
+  });
+
+  // Pre-parse keys + resolve the Period object once. The three render passes
+  // below all iterate the same map, so doing the split/find work here saves
+  // 3× the per-key parsing and avoids a linear `academicPeriods.find` in
+  // each iteration.
+  const slotEntries: Array<{ year: number; period: Period; list: SlotEntry[] }> = [];
+  Object.entries(slotsByYearPeriod).forEach(([key, list]) => {
+    const [yearStr, periodId] = key.split('-');
+    const period = periodById.get(periodId as Period['id'])!;
+    slotEntries.push({ year: Number(yearStr), period, list });
   });
 
   // Compute required band height per year considering the minimum bar height corresponding to 2 ECTS
@@ -813,16 +888,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('height', periodHeight)
         .attr('class', 'study-period')
         .attr('fill', (kthColors.KthSand?.HEX ? d3.color(kthColors.KthSand.HEX)!.copy({ opacity: 0.25 }).formatRgb() : 'rgba(235,229,224,0.25)'))
-          .attr('stroke', 'none')
-          .on('mouseover', () => {
-            tooltip.html(`
-              <strong>${tr[language].period} P${i + 1}</strong>
-            `).style('display', 'block');
-          })
-          .on('mousemove', (event: MouseEvent) => {
-            tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
-          })
-          .on('mouseout', () => tooltip.style('display', 'none'));
+        .attr('stroke', 'none')
+        .attr('data-kind', 'study-period')
+        .attr('data-period', period.id);
 
       // Add period label (P1, P2, etc.)
       g.append('text')
@@ -891,16 +959,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('height', examHeight)
         .attr('class', 'exam-period-rect')
         .attr('fill', (kthColors.KthLightBlue?.HEX ? d3.color(kthColors.KthLightBlue.HEX)!.copy({ opacity: 0.5 }).formatRgb() : 'rgba(222,240,255,0.5)'))
-          .attr('stroke', 'none')
-          .on('mouseover', () => {
-            tooltip.html(`
-              <strong>${tr[language].examPeriodLabel} ${period.id}</strong><br/>
-            `).style('display', 'block');
-          })
-          .on('mousemove', (event: MouseEvent) => {
-            tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
-          })
-          .on('mouseout', () => tooltip.style('display', 'none'));
+        .attr('stroke', 'none')
+        .attr('data-kind', 'exam-period')
+        .attr('data-period', period.id);
 
       // Re-exam period (light gray)
       g.append('rect')
@@ -910,24 +971,15 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('height', examHeight)
         .attr('class', 'reexam-period-rect')
         .attr('fill', (kthColors.KthLightGray?.HEX ? d3.color(kthColors.KthLightGray.HEX)!.copy({ opacity: 0.5 }).formatRgb() : 'rgba(230,230,230,0.5)'))
-          .attr('stroke', 'none')
-          .on('mouseover', () => {
-            tooltip.html(`
-              <strong>${tr[language].reexamPeriodLabel} ${period.id}</strong><br/>
-            `).style('display', 'block');
-          })
-          .on('mousemove', (event: MouseEvent) => {
-            tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
-          })
-          .on('mouseout', () => tooltip.style('display', 'none'));
+        .attr('stroke', 'none')
+        .attr('data-kind', 'reexam-period')
+        .attr('data-period', period.id);
     });
 
     // Compute max parallel slots per year to determine lane heights
     const maxSlotsPerYear: Record<number, number> = {};
-    Object.keys(slotsByYearPeriod).forEach((key) => {
-      const [yearStr] = key.split('-');
-      const year = Number(yearStr);
-      maxSlotsPerYear[year] = Math.max(maxSlotsPerYear[year] || 0, slotsByYearPeriod[key].length);
+    slotEntries.forEach(({ year, list }) => {
+      maxSlotsPerYear[year] = Math.max(maxSlotsPerYear[year] || 0, list.length);
     });
 
   // Prepare a position map for drawing arrows and markers later
@@ -946,10 +998,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     };
     const allBars: BarInfo[] = [];
 
-    Object.entries(slotsByYearPeriod).forEach(([key, list]) => {
-      const [yearStr, periodId] = key.split('-');
-      const year = Number(yearStr);
-      const period = academicPeriods.find((p) => p.id === (periodId as Period['id']))!;
+    slotEntries.forEach(({ year, period, list }) => {
       const yearIndex = year - 1;
       const yearY = yearYOffset[yearIndex];
       const x = timeScale(period.start);
@@ -963,8 +1012,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         const rawHeight = pixelsPerECTS * credit.credits;
         const minHeight = pixelsPerECTS * MIN_ECTS_FOR_HEIGHT;
         const courseHeight = Math.max(rawHeight, minHeight);
-        const periodObj = academicPeriods.find(p => p.id === credit.period)!;
-        const courseWidth = timeScale(new Date(periodObj.lectureEnd)) - timeScale(new Date(periodObj.start));
+        const periodObj = periodById.get(credit.period as Period['id'])!;
+        const courseWidth = timeScale(periodObj.lectureEnd) - timeScale(periodObj.start);
         const barX = x + 2;
         const barWidth = Math.max(0, courseWidth - 4);
         
@@ -1071,90 +1120,17 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
               ? `url(#option-group-pattern-${(item as OptionGroup).name.replace(/\s+/g, '-')})`
               : connectorColors.fill;
 
-            // Create tooltip text for this item
-            let tooltipText = '';
-            if (isCourse(item)) {
-              const course = item as Course;
-              const allCompleted = course.prerequisitesCompleted || course.prerequisites || [];
-              const allParticipation = course.prerequisitesParticipation || [];
-              const completedStr = (allCompleted || []).length ? (allCompleted as string[]).join(', ') : '—';
-              const participationStr = (allParticipation || []).length ? (allParticipation as string[]).join(', ') : '—';
-              const dependents = individualCourses.filter(c => {
-                const comp = c.prerequisitesCompleted || c.prerequisites || [];
-                const part = c.prerequisitesParticipation || [];
-                return (comp.includes(course.code) || part.includes(course.code));
-              }).map(c => c.code);
-              const dependentCodes = dependents.length ? dependents.join(', ') : '—';
-              
-              // Calculate total credits for this course
-              const totalCredits = course.credits.reduce((sum, c) => sum + c.credits, 0);
-              
-              // Build period credits string (e.g., "P1: 4 hp, P2: 2 hp")
-              const periodCreditsStr = course.credits
-                .map(c => `${c.period}: ${c.credits} ${tr[language].credits}`)
-                .join(', ');
-              
-              // Get language-appropriate course name
-              const courseName = language === 'en' 
-                ? (course.nameEn || course.name)
-                : course.name;
-              
-              tooltipText = `<strong>${course.code}, ${totalCredits} ${tr[language].credits}</strong><br/>${courseName}<br/>${periodCreditsStr}
-                <br/><em>${tr[language].legend.prerequisitesCompleted}:</em> ${completedStr}
-                <br/><em>${tr[language].legend.prerequisitesParticipation}:</em> ${participationStr}
-                <br/><em>${tr[language].requiredFor}:</em> ${dependentCodes}`;
-            } else {
-              const og = item as OptionGroup;
-              const ogName = language === 'en' ? (og.nameEn || og.name) : og.name;
-              const totalCredits = og.totalCredits;
-              
-              // Build option list - look up course details from course codes
-              const optionsList = og.options
-                .map(optionCode => {
-                  const optionCourse = courses.find(c => isCourse(c) && (c as Course).code === optionCode) as Course | undefined;
-                  if (!optionCourse) return null;
-                  const optName = language === 'en' ? (optionCourse.nameEn || optionCourse.name) : optionCourse.name;
-                  return `${optionCode}: ${optName}`;
-                })
-                .filter(opt => opt !== null)
-                .join('<br/>');
-              
-              tooltipText = `<strong>${ogName}</strong><br/>${tr[language].totalCredits}: ${totalCredits} ${tr[language].credits}<br/><strong>${tr[language].options}:</strong><br/>${optionsList}`;
-            }
-
             g.append('polygon')
               .attr('points', points.map(p => p.join(',')).join(' '))
               .attr('fill', connectorFillValue)
               .attr('stroke', 'none')
               .attr('class', 'course-connector-fill')
+              .attr('data-kind', 'connector')
               .attr('data-course', itemId)
               .attr('data-group', itemGroupName)
-              .style('cursor', 'pointer')
-              .on('mouseover', () => {
-                tooltip.html(tooltipText).style('display', 'block');
-              })
-              .on('mousemove', (event: MouseEvent) => {
-                tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
-              })
-              .on('mouseout', () => tooltip.style('display', 'none'))
-              .on('click', (event: MouseEvent) => {
-                event.stopPropagation();
-                if (isCourse(item)) {
-                  const course = item as Course;
-                  setFocusCourse(prev => {
-                    const next = prev === course.code ? null : course.code;
-                    if (next) {
-                      setSelectedInfo({ course, credit: { period: current.credit.period as Period['id'], credits: current.credit.credits, year: current.credit.year } });
-                    } else {
-                      setSelectedInfo(null);
-                    }
-                    return next;
-                  });
-                } else {
-                  // For option groups, open the modal
-                  setSelectedOptionGroup(item as OptionGroup);
-                }
-              });
+              .attr('data-year', String(current.credit.year))
+              .attr('data-period', current.credit.period)
+              .style('cursor', 'pointer');
             
             // Store connector border to draw later (after all fills)
             connectorBorders.push({
@@ -1179,10 +1155,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     });
 
     // Third pass: draw the actual course bars
-    Object.entries(slotsByYearPeriod).forEach(([key, list]) => {
-    const [yearStr, periodId] = key.split('-');
-      const year = Number(yearStr);
-      const period = academicPeriods.find((p) => p.id === (periodId as Period['id']))!;
+    slotEntries.forEach(({ year, period, list }) => {
   const yearIndex = year - 1;
   const yearY = yearYOffset[yearIndex];
       const x = timeScale(period.start);
@@ -1219,8 +1192,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     .attr('data-course', itemId)
     .attr('data-group', dataGroup);
 
-  const periodObj = academicPeriods.find(p => p.id === credit.period)!;
-  const courseWidth = timeScale(new Date(periodObj.lectureEnd)) - timeScale(new Date(periodObj.start));
+  const periodObj = periodById.get(credit.period as Period['id'])!;
+  const courseWidth = timeScale(periodObj.lectureEnd) - timeScale(periodObj.start);
   const barX = x + 2;
   const barWidth = Math.max(0, courseWidth - 4);
 
@@ -1237,6 +1210,21 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const connectedRight = barsConnectedRight.has(barKey);
   const connectedLeft = barsConnectedLeft.has(barKey);
 
+  // Accessible label: "{code} {name}, {totalCredits} hp" for courses,
+  // "{group name}, {totalCredits} hp ({option group})" for option groups.
+  const barAriaLabel = (() => {
+    if (isCourse(item)) {
+      const c = item as Course;
+      const name = language === 'en' ? (c.nameEn || c.name) : c.name;
+      const total = c.credits.reduce((s, cr) => s + cr.credits, 0);
+      return `${c.code} ${name}, ${total} ${tr[language].credits}`;
+    }
+    const og = item as OptionGroup;
+    const name = language === 'en' ? (og.nameEn || og.name) : og.name;
+    const groupWord = language === 'en' ? 'option group' : 'kursgrupp';
+    return `${name}, ${og.totalCredits} ${tr[language].credits} (${groupWord})`;
+  })();
+
   // Draw filled rectangle (always the same)
   block.append('rect')
     .attr('x', barX)
@@ -1248,102 +1236,13 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     .attr('rx', 4)
     .attr('ry', 4)
     .attr('class', 'course-block')
-    .attr('data-course-code', itemId)
-    .style('cursor', 'pointer')
-    .on('mouseover', () => {
-      // Build tooltip based on item type
-      let tooltipText = '';
-      
-      if (isCourse(item)) {
-        const course = item as Course;
-        const allCompleted = course.prerequisitesCompleted || course.prerequisites || [];
-        const allParticipation = course.prerequisitesParticipation || [];
-        const completedStr = (allCompleted || []).length ? (allCompleted as string[]).join(', ') : '—';
-        const participationStr = (allParticipation || []).length ? (allParticipation as string[]).join(', ') : '—';
-        const dependents = individualCourses.filter(c => {
-          const comp = c.prerequisitesCompleted || c.prerequisites || [];
-          const part = c.prerequisitesParticipation || [];
-          return (comp.includes(course.code) || part.includes(course.code));
-        }).map(c => c.code);
-        const dependentCodes = dependents.length ? dependents.join(', ') : '—';
-        
-        // Calculate total credits for this course
-        const totalCredits = course.credits.reduce((sum, c) => sum + c.credits, 0);
-        
-        // Build period credits string (e.g., "P1: 4 hp, P2: 2 hp")
-        const periodCreditsStr = course.credits
-          .map(c => `${c.period}: ${c.credits} ${tr[language].credits}`)
-          .join(', ');
-        
-        // Get language-appropriate course name
-        const courseName = language === 'en' 
-          ? (course.nameEn || course.name)
-          : course.name;
-        
-        tooltipText = `<strong>${course.code}, ${totalCredits} ${tr[language].credits}</strong><br/>${courseName}<br/>${periodCreditsStr}
-          <br/><em>${tr[language].legend.prerequisitesCompleted}:</em> ${completedStr}
-          <br/><em>${tr[language].legend.prerequisitesParticipation}:</em> ${participationStr}
-          <br/><em>${tr[language].requiredFor}:</em> ${dependentCodes}`;
-      } else {
-        const og = item as OptionGroup;
-        const ogName = language === 'en' ? (og.nameEn || og.name) : og.name;
-        const totalCredits = og.totalCredits;
-        
-        // Build option list - look up course details from course codes
-        const optionsList = og.options
-          .map(optionCode => {
-            const optionCourse = courses.find(c => isCourse(c) && (c as Course).code === optionCode) as Course | undefined;
-            if (!optionCourse) return null;
-            const optName = language === 'en' ? (optionCourse.nameEn || optionCourse.name) : optionCourse.name;
-            return `${optionCode}: ${optName}`;
-          })
-          .filter(opt => opt !== null)
-          .join('<br/>');
-        
-        tooltipText = `<strong>${ogName}</strong><br/>${tr[language].totalCredits}: ${totalCredits} ${tr[language].credits}<br/><strong>${tr[language].options}:</strong><br/>${optionsList}`;
-      }
-      
-      tooltip.html(tooltipText).style('display', 'block');
-    })
-    .on('mousemove', (event: MouseEvent) => {
-      tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
-    })
-    .on('mouseout', () => tooltip.style('display', 'none'))
-    .on('click', (event: MouseEvent) => {
-      event.stopPropagation();
-      if (isCourse(item)) {
-        const course = item as Course;
-        // Check if this course is a selected option from an option group
-        const optionGroupForCourse = Object.entries(selectedOptionPerGroup).find(
-          ([, selectedCode]) => selectedCode === course.code
-        )?.[0];
-        
-        if (optionGroupForCourse) {
-          // This course is a selected option, open the modal for its option group
-          const ogToReopen = courses.find(c => isOptionGroup(c) && (c as OptionGroup).name === optionGroupForCourse) as OptionGroup | undefined;
-          if (ogToReopen) {
-            setSelectedOptionGroup(ogToReopen);
-            setHighlightedOptionCode(null);
-            setSelectedInfo(null);
-          }
-        } else {
-          // Normal course click - show in bottom panel
-          setFocusCourse(prev => {
-            const next = prev === course.code ? null : course.code;
-            if (next) {
-              setSelectedInfo({ course, credit: { period: credit.period as Period['id'], credits: credit.credits, year: credit.year || course.year } });
-            } else {
-              setSelectedInfo(null);
-            }
-            return next;
-          });
-        }
-      } else {
-        // For option groups, open the modal
-        setSelectedOptionGroup(item as OptionGroup);
-        setHighlightedOptionCode(null);
-      }
-    });
+    .attr('data-kind', 'bar')
+    .attr('data-course', itemId)
+    .attr('data-year', String(credit.year))
+    .attr('data-period', credit.period)
+    .attr('tabindex', '0')
+    .attr('aria-label', barAriaLabel)
+    .style('cursor', 'pointer');
 
   // Draw border with custom path that excludes connected edges
   const r = 4; // corner radius
@@ -1490,12 +1389,30 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             .attr('class', 'course-label')
             .text(fullText);
 
-          // truncate text if it overflows available width
+          // Truncate text if it overflows available width. Binary-search the
+          // longest prefix that still fits — much faster than the previous
+          // one-character-at-a-time shrink for long course names in narrow
+          // bars (O(log n) measurement calls instead of O(n)).
           try {
-            let displayText = fullText;
-            while ((label.node() as SVGTextElement).getComputedTextLength() > maxWidth && displayText.length > 3) {
-              displayText = displayText.slice(0, -1);
-              label.text(displayText + '…');
+            const node = label.node() as SVGTextElement;
+            // The original implementation only truncated when fullText.length > 3,
+            // so preserve that lower bound here.
+            if (node.getComputedTextLength() > maxWidth && fullText.length > 3) {
+              const MIN_LEN = 3;
+              let lo = MIN_LEN;
+              let hi = fullText.length - 1;
+              let best = MIN_LEN;
+              while (lo <= hi) {
+                const mid = (lo + hi) >> 1;
+                label.text(fullText.slice(0, mid) + '…');
+                if (node.getComputedTextLength() <= maxWidth) {
+                  best = mid;
+                  lo = mid + 1;
+                } else {
+                  hi = mid - 1;
+                }
+              }
+              label.text(fullText.slice(0, best) + '…');
             }
           } catch {
             // safe guard for environments where getComputedTextLength may fail
@@ -1559,7 +1476,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           : reexamsGlobal.includes(credit.period);
 
         if (hasExam) {
-          const examPeriod = academicPeriods.find(p => p.id === credit.period);
+          const examPeriod = periodById.get(credit.period);
           if (examPeriod) {
             const pos = positionMap[`${course.code}-${y}-${credit.period}`];
             if (pos) {
@@ -1569,7 +1486,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           }
         }
         if (hasReexam) {
-          const rePeriod = academicPeriods.find(p => p.id === credit.period);
+          const rePeriod = periodById.get(credit.period);
           if (rePeriod) {
             const pos = positionMap[`${course.code}-${y}-${credit.period}`];
             if (pos) {
@@ -1580,11 +1497,27 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         }
       });
     });
+    // Per-year credit total for the year-label hover tooltip. Counts
+    // every individual course's credits in that year plus the planned
+    // total for any option group in that year (group totals stay constant
+    // across pickN/minCredits selection states).
+    const totalCreditsByYear = Array.from({ length: numYears }, () => 0);
+    individualCourses.forEach(c => c.credits.forEach(cr => {
+      if (cr.year >= 1 && cr.year <= numYears) totalCreditsByYear[cr.year - 1] += cr.credits;
+    }));
+    optionGroups.forEach(og => {
+      if (og.year >= 1 && og.year <= numYears) totalCreditsByYear[og.year - 1] += og.totalCredits;
+    });
+    const formatCredits = (n: number) => {
+      const r = Math.round(n * 10) / 10;
+      return Number.isInteger(r) ? String(r) : r.toFixed(1);
+    };
+
     for (let i = 0; i < numYears; i++) {
       const yearLabelY = yearYOffset[i] + yearBandHeights[i] / 2;
       // Active-year highlighting (font-weight) is applied by the focusYear
       // post-render effect, so toggling focus does not require a full redraw.
-      g.append('text')
+      const yearLabelEl = g.append('text')
         .attr('x', -margin.left + 12)
         .attr('y', yearLabelY)
         .text(`${tr[language].year} ${i + 1}`)
@@ -1593,12 +1526,15 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('fill', kthColors.KthBlue?.HEX || '#111827')
         .attr('dominant-baseline', 'middle')
         .attr('class', 'year-label')
+        .attr('data-kind', 'year-label')
         .attr('data-year', String(i + 1))
-        .style('cursor', 'pointer')
-        .on('click', (event: MouseEvent) => {
-          event.stopPropagation();
-          setFocusYear((prev) => (prev === i + 1 ? null : i + 1));
-        });
+        .attr('tabindex', '0')
+        .attr('aria-label', `${tr[language].year} ${i + 1}`)
+        .style('cursor', 'pointer');
+      // Native browser tooltip: per-year credit summary on the first line,
+      // focus-mode hint on the second.
+      const summary = `${tr[language].year} ${i + 1}: ${formatCredits(totalCreditsByYear[i])} / 60 ${tr[language].credits}`;
+      yearLabelEl.append('title').text(`${summary}\n${tr[language].yearFocusHint}`);
     }
 
     // Draw arrows for prerequisites using stored positions
@@ -1751,7 +1687,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       
       // Process completed prerequisites
       completed.forEach((prCode: string) => {
-        const prereq = individualCourses.find((c) => c.code === prCode);
+        const prereq = individualCoursesByCodeMap.get(prCode);
         if (!prereq) return;
         const prereqCreditsSorted = [...prereq.credits].sort((a: CourseCredit, b: CourseCredit) => (a.year - b.year) || (periodOrder[a.period] - periodOrder[b.period]));
         const lastPrereq = prereqCreditsSorted[prereqCreditsSorted.length - 1];
@@ -1774,7 +1710,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       
       // Process participation prerequisites
       participated.forEach((prCode: string) => {
-        const prereq = individualCourses.find((c) => c.code === prCode);
+        const prereq = individualCoursesByCodeMap.get(prCode);
         if (!prereq) return;
         const prereqCreditsSorted = [...prereq.credits].sort((a: CourseCredit, b: CourseCredit) => (a.year - b.year) || (periodOrder[a.period] - periodOrder[b.period]));
         const lastPrereq = prereqCreditsSorted[prereqCreditsSorted.length - 1];
@@ -2279,16 +2215,10 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .attr('stroke-width', EXAM_MARKER_STROKE_WIDTH)
       .style('pointer-events', 'auto')
       .attr('class', 'exam-dot')
+      .attr('data-kind', 'exam-dot')
       .attr('data-layer', 'exams')
       .attr('data-course', m.course.code)
-      .attr('data-group', groupName)
-      .on('mouseover', () => {
-        tooltip.html(`<strong>${m.course.code}</strong><br/>${tr[language].exam}`).style('display', 'block');
-      })
-      .on('mousemove', (event: MouseEvent) => {
-        tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
-      })
-      .on('mouseout', () => tooltip.style('display', 'none'));
+      .attr('data-group', groupName);
   });
 
   reexamMarkers.forEach((m) => {
@@ -2306,17 +2236,62 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       .attr('stroke-dasharray', '2 2')
       .style('pointer-events', 'auto')
       .attr('class', 'reexam-dot')
+      .attr('data-kind', 'reexam-dot')
       .attr('data-layer', 'reexams')
       .attr('data-course', m.course.code)
-      .attr('data-group', groupName)
-      .on('mouseover', () => {
-        tooltip.html(`<strong>${m.course.code}</strong><br/>${tr[language].reexam}`).style('display', 'block');
-      })
-      .on('mousemove', (event: MouseEvent) => {
-        tooltip.style('left', (event.pageX + 50) + 'px').style('top', (event.pageY + 50) + 'px');
-      })
-      .on('mouseout', () => tooltip.style('display', 'none'));
+      .attr('data-group', groupName);
   });
+
+  // SVG accessibility: title + desc referenced by aria-labelledby on the
+  // root <svg>. Re-appended each render so they stay in sync with the
+  // current program / data after `selectAll('*').remove()`.
+  const titleText = programName && programCode
+    ? `${programName} (${programCode}) — ${tr[language].year} 1${numYears > 1 ? `–${numYears}` : ''}`
+    : `${tr[language].year} 1${numYears > 1 ? `–${numYears}` : ''}`;
+  const descText = `${individualCourses.length} ${language === 'en' ? 'courses' : 'kurser'}, ${optionGroups.length} ${language === 'en' ? 'option groups' : 'kursgrupper'}, ${allArrows.length} ${language === 'en' ? 'prerequisite arrows' : 'förkunskapspilar'}.`;
+  svg.insert('title', ':first-child').attr('id', 'chart-title').text(titleText);
+  svg.insert('desc', 'title + *').attr('id', 'chart-desc').text(descText);
+
+  // Build the per-render tooltip cache and dispatch context. The delegated
+  // mouseover/click handler (installed once, see effect below) reads these
+  // refs to look up tooltip HTML and resolve clicked elements back to their
+  // Course / OptionGroup objects. Building once per render means hover never
+  // recomputes the same string, and we get a single place to escape user
+  // strings (also closes the latent tooltip-XSS in REVIEW.md §3.4).
+  const tooltipCache = new Map<string, string>();
+  const coursesByCode = new Map<string, Course>();
+  const optionGroupsByName = new Map<string, OptionGroup>();
+  courses.forEach(c => {
+    if (isCourse(c)) coursesByCode.set((c as Course).code, c as Course);
+    else if (isOptionGroup(c)) optionGroupsByName.set((c as OptionGroup).name, c as OptionGroup);
+  });
+  // Reuse the map built up at the top of the render; no need to walk
+  // individualCourses a second time.
+  const individualCoursesByCode = individualCoursesByCodeMap;
+
+  academicPeriods.forEach(p => {
+    tooltipCache.set(`study-period|${p.id}`, buildStudyPeriodTooltip(language, p.id));
+    tooltipCache.set(`exam-period|${p.id}`, buildExamPeriodTooltip(language, p.id));
+    tooltipCache.set(`reexam-period|${p.id}`, buildReexamPeriodTooltip(language, p.id));
+  });
+  // One tooltip per item — content is the same for every bar / connector of
+  // the same course or option group.
+  individualCourses.forEach(c => {
+    tooltipCache.set(`course|${c.code}`, buildCourseTooltip(c, language, { individualCourses }));
+    tooltipCache.set(`exam-dot|${c.code}`, buildExamDotTooltip(language, c.code));
+    tooltipCache.set(`reexam-dot|${c.code}`, buildReexamDotTooltip(language, c.code));
+  });
+  optionGroups.forEach(og => {
+    tooltipCache.set(`option-group|${og.name}`, buildOptionGroupTooltip(og, language, { courseByCode: coursesByCode }));
+  });
+
+  tooltipCacheRef.current = tooltipCache;
+  dispatchCtxRef.current = {
+    coursesByCode,
+    optionGroupsByName,
+    individualCoursesByCode,
+    selectedOptionPerGroup,
+  };
 
   // `layers` and `focusYear` are intentionally NOT in this dep list. Their
   // visual effects (visibility toggles, year-label highlight) are applied by
@@ -2324,7 +2299,257 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // year-focus click from triggering a full ~3 000-call SVG rebuild.
   }, [courses, language, selectedOptionPerGroup, cosmetics, programCode, programName, studyplanUrl, getCourseColors]);
 
-  // Removed popup; outside clicks handled by svg.on('click') above
+  // One-time setup: tooltip element + delegated mouseover/move/out/click on
+  // the SVG. Replaces the per-element listeners that used to be attached on
+  // every redraw (~hundreds of allocations per render). The handler walks
+  // `closest('[data-kind]')` from the event target, looks up the pre-built
+  // tooltip in tooltipCacheRef, and dispatches clicks via the current data
+  // in dispatchCtxRef. We bind to the SVG specifically (not the wrapping
+  // container `<div>`) so clicks on Legend / InfoPanel / OptionGroupModal —
+  // which are siblings under the same container — don't fall into the
+  // empty-space branch and clear focus.
+  useEffect(() => {
+    const containerEl = containerRef.current;
+    const svgEl = svgRef.current;
+    if (!containerEl || !svgEl) return;
+
+    // Create the tooltip div once and reuse it.
+    const container = d3.select(containerEl);
+    container.selectAll('.pv-tooltip').remove();
+    const tooltip = container.append('div')
+      .attr('class', 'pv-tooltip')
+      .style('position', 'absolute')
+      .style('pointer-events', 'none')
+      .style('display', 'none')
+      .style('background', `rgba(${(kthColors.KthMarine?.RGB || [0, 0, 97]).join(',')}, 0.8)`)
+      .style('color', '#fff')
+      .style('padding', '6px 8px')
+      .style('border-radius', '4px')
+      .style('font-size', '12px')
+      .style('z-index', '1001');
+    tooltipElRef.current = tooltip.node() as HTMLDivElement;
+
+    const hideTooltip = () => {
+      tooltip.style('display', 'none');
+      currentTooltipKeyRef.current = null;
+    };
+
+    // Position the tooltip near (anchorX, anchorY) in page coordinates,
+    // offset by (gapX, gapY). If the resulting placement would overflow
+    // the viewport on the right or bottom, flip to the opposite side of
+    // the anchor so the tooltip stays fully visible. Display must already
+    // be 'block' before calling — getBoundingClientRect needs real layout.
+    const placeTooltip = (anchorX: number, anchorY: number, gapX: number, gapY: number) => {
+      const node = tooltipElRef.current;
+      if (!node) return;
+      let left = anchorX + gapX;
+      let top = anchorY + gapY;
+      node.style.left = `${left}px`;
+      node.style.top = `${top}px`;
+      const r = node.getBoundingClientRect();
+      const viewportPad = 8;
+      if (r.right > window.innerWidth - viewportPad) {
+        left = anchorX - r.width - gapX;
+        const minLeft = window.scrollX + viewportPad;
+        if (left < minLeft) left = minLeft;
+        node.style.left = `${left}px`;
+      }
+      if (r.bottom > window.innerHeight - viewportPad) {
+        top = anchorY - r.height - gapY;
+        const minTop = window.scrollY + viewportPad;
+        if (top < minTop) top = minTop;
+        node.style.top = `${top}px`;
+      }
+    };
+
+    // Resolve the cache key for a given kind-element. Bars and connectors
+    // resolve to either a course or an option-group entry, depending on
+    // whether the data-course is an option-group's synthetic id.
+    const cacheKeyFor = (el: Element): string | null => {
+      const kind = el.getAttribute('data-kind');
+      if (!kind) return null;
+      if (kind === 'study-period' || kind === 'exam-period' || kind === 'reexam-period') {
+        return `${kind}|${el.getAttribute('data-period') ?? ''}`;
+      }
+      if (kind === 'exam-dot' || kind === 'reexam-dot') {
+        return `${kind}|${el.getAttribute('data-course') ?? ''}`;
+      }
+      if (kind === 'bar' || kind === 'connector') {
+        const id = el.getAttribute('data-course') ?? '';
+        if (id.startsWith('optionGroup-')) {
+          return `option-group|${id.slice('optionGroup-'.length)}`;
+        }
+        return `course|${id}`;
+      }
+      return null;
+    };
+
+    const onMouseOver = (event: MouseEvent) => {
+      const target = event.target as Element | null;
+      const el = target?.closest('[data-kind]') ?? null;
+      if (!el) {
+        hideTooltip();
+        return;
+      }
+      const key = cacheKeyFor(el);
+      if (!key) {
+        hideTooltip();
+        return;
+      }
+      if (key === currentTooltipKeyRef.current) return; // already showing this
+      const html = tooltipCacheRef.current.get(key);
+      if (!html) return;
+      tooltip.html(html).style('display', 'block');
+      currentTooltipKeyRef.current = key;
+    };
+
+    const onMouseMove = (event: MouseEvent) => {
+      placeTooltip(event.pageX, event.pageY, 50, 50);
+    };
+
+    const onMouseOut = (event: MouseEvent) => {
+      const target = event.target as Element | null;
+      const related = event.relatedTarget as Element | null;
+      const fromKind = target?.closest('[data-kind]') ?? null;
+      const toKind = related?.closest('[data-kind]') ?? null;
+      // Still inside the same kind-element — keep the tooltip up.
+      if (fromKind && fromKind === toKind) return;
+      hideTooltip();
+    };
+
+    // Extracted so click and keyboard activation share the same logic.
+    const dispatchActivation = (el: Element | null) => {
+      const ctx = dispatchCtxRef.current;
+      if (!el) {
+        // Empty-space activation clears focus / info / year.
+        setFocusCourse(null);
+        setSelectedInfo(null);
+        setFocusYear(null);
+        return;
+      }
+      const kind = el.getAttribute('data-kind');
+      if (kind === 'year-label') {
+        const y = Number(el.getAttribute('data-year'));
+        if (Number.isFinite(y)) setFocusYear(prev => (prev === y ? null : y));
+        return;
+      }
+      if (kind === 'bar' || kind === 'connector') {
+        const id = el.getAttribute('data-course') ?? '';
+        const periodId = (el.getAttribute('data-period') ?? '') as Period['id'];
+        const yearAttr = Number(el.getAttribute('data-year'));
+        if (id.startsWith('optionGroup-')) {
+          const og = ctx.optionGroupsByName.get(id.slice('optionGroup-'.length));
+          if (og) {
+            setSelectedOptionGroup(og);
+            setHighlightedOptionCodes([]);
+          }
+          return;
+        }
+        const course = ctx.coursesByCode.get(id);
+        if (!course) return;
+        // Course shown as the chosen option of an option group — open the
+        // owning option-group modal instead of just focusing.
+        const owningGroup = Object.entries(ctx.selectedOptionPerGroup).find(
+          ([, selectedCodes]) => selectedCodes.includes(course.code)
+        )?.[0];
+        if (owningGroup) {
+          const og = ctx.optionGroupsByName.get(owningGroup);
+          if (og) {
+            setSelectedOptionGroup(og);
+            setHighlightedOptionCodes([]);
+            setSelectedInfo(null);
+          }
+          return;
+        }
+        // Normal course click: toggle focus + info-panel.
+        const credit = course.credits.find(cr => cr.period === periodId && cr.year === yearAttr);
+        setFocusCourse(prev => {
+          const next = prev === course.code ? null : course.code;
+          if (next && credit) {
+            setSelectedInfo({ course, credit: { period: credit.period as Period['id'], credits: credit.credits, year: credit.year || course.year } });
+          } else {
+            setSelectedInfo(null);
+          }
+          return next;
+        });
+        return;
+      }
+      // Other kinds (period rects, exam/reexam dots) have no click action,
+      // and clicking them shouldn't clear focus either.
+    };
+
+    const onClick = (event: MouseEvent) => {
+      const target = event.target as Element | null;
+      const el = target?.closest('[data-kind]') ?? null;
+      dispatchActivation(el);
+    };
+
+    // Keyboard activation: Enter or Space on a focusable element fires the
+    // same dispatcher as a click. We intercept the default Space behaviour
+    // (page scroll) so screen-reader / keyboard users see the action.
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Enter' && event.key !== ' ' && event.key !== 'Spacebar') return;
+      const target = event.target as Element | null;
+      const el = target?.closest('[data-kind]') ?? null;
+      if (!el) return;
+      // Only activate kinds that have a click action; ignore decorative ones
+      // so Space scrolls normally when no actionable element is focused.
+      const kind = el.getAttribute('data-kind');
+      if (kind !== 'bar' && kind !== 'connector' && kind !== 'year-label') return;
+      event.preventDefault();
+      dispatchActivation(el);
+    };
+
+    // Show the tooltip when a focusable element receives keyboard focus,
+    // anchored to the element's bounding box (no mouse coords available).
+    const showTooltipForElement = (el: Element) => {
+      const key = cacheKeyFor(el);
+      if (!key) return;
+      const html = tooltipCacheRef.current.get(key);
+      if (!html) return;
+      const rect = el.getBoundingClientRect();
+      const pageX = rect.left + window.scrollX;
+      const pageY = rect.bottom + window.scrollY;
+      tooltip.html(html).style('display', 'block');
+      placeTooltip(pageX, pageY, 0, 8);
+      currentTooltipKeyRef.current = key;
+    };
+
+    const onFocusIn = (event: FocusEvent) => {
+      const target = event.target as Element | null;
+      const el = target?.closest('[data-kind]') ?? null;
+      if (el) showTooltipForElement(el);
+    };
+
+    const onFocusOut = (event: FocusEvent) => {
+      const target = event.target as Element | null;
+      const related = event.relatedTarget as Element | null;
+      const fromKind = target?.closest('[data-kind]') ?? null;
+      const toKind = related?.closest('[data-kind]') ?? null;
+      if (fromKind && fromKind === toKind) return;
+      hideTooltip();
+    };
+
+    svgEl.addEventListener('mouseover', onMouseOver);
+    svgEl.addEventListener('mousemove', onMouseMove);
+    svgEl.addEventListener('mouseout', onMouseOut);
+    svgEl.addEventListener('click', onClick);
+    svgEl.addEventListener('keydown', onKeyDown);
+    svgEl.addEventListener('focusin', onFocusIn);
+    svgEl.addEventListener('focusout', onFocusOut);
+
+    return () => {
+      svgEl.removeEventListener('mouseover', onMouseOver);
+      svgEl.removeEventListener('mousemove', onMouseMove);
+      svgEl.removeEventListener('mouseout', onMouseOut);
+      svgEl.removeEventListener('click', onClick);
+      svgEl.removeEventListener('keydown', onKeyDown);
+      svgEl.removeEventListener('focusin', onFocusIn);
+      svgEl.removeEventListener('focusout', onFocusOut);
+      tooltip.remove();
+      tooltipElRef.current = null;
+    };
+  }, []);
 
   // Update element opacities when layers change
   useEffect(() => {
@@ -2414,31 +2639,26 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     if (!containerRef.current || !cosmetics) return;
     const container = d3.select(containerRef.current);
 
+    // Helpers for safe group-name filtering — defined once here and reused
+    // for all groups so we don't reallocate closures inside the forEach loop.
+    // Using filter functions instead of CSS [data-group="…"] attribute selectors
+    // prevents group names with special CSS characters from corrupting the selector.
+    const selectByGroup = (cls: string, name: string) =>
+      container.selectAll(cls).filter(function() {
+        return (this as Element).getAttribute('data-group') === name;
+      });
+
     cosmetics.groups.forEach(group => {
       const isGroupVisible = layers.groups[group.name] !== false;
       const courseDisplay = (isGroupVisible && layers.courseBars) ? '' : 'none';
       const examDisplay = (isGroupVisible && layers.exams && layers.courseBars) ? '' : 'none';
       const reexamDisplay = (isGroupVisible && layers.reexams && layers.courseBars) ? '' : 'none';
 
-      container.selectAll(`.course-group[data-group="${group.name}"]`)
-        .interrupt()
-        .style('display', courseDisplay);
-
-      container.selectAll(`.course-connector-fill[data-group="${group.name}"]`)
-        .interrupt()
-        .style('display', courseDisplay);
-
-      container.selectAll(`.course-connector-border[data-group="${group.name}"]`)
-        .interrupt()
-        .style('display', courseDisplay);
-
-      container.selectAll(`.exam-dot[data-group="${group.name}"]`)
-        .interrupt()
-        .style('display', examDisplay);
-
-      container.selectAll(`.reexam-dot[data-group="${group.name}"]`)
-        .interrupt()
-        .style('display', reexamDisplay);
+      selectByGroup('.course-group', group.name).interrupt().style('display', courseDisplay);
+      selectByGroup('.course-connector-fill', group.name).interrupt().style('display', courseDisplay);
+      selectByGroup('.course-connector-border', group.name).interrupt().style('display', courseDisplay);
+      selectByGroup('.exam-dot', group.name).interrupt().style('display', examDisplay);
+      selectByGroup('.reexam-dot', group.name).interrupt().style('display', reexamDisplay);
     });
 
     // Prereq arrows: composite of (relevant prereq* layer) AND (both endpoint
@@ -2473,21 +2693,15 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       return;
     }
 
-    // Reconstruct filtered courses list
-    const optionGroupsList = courses.filter(isOptionGroup);
-    const coursesInOptionGroupsSet = new Set<string>();
-    optionGroupsList.forEach(og => {
-      og.options.forEach(optionCode => {
-        coursesInOptionGroupsSet.add(optionCode);
-      });
-    });
-    const filteredCourses = courses.filter(c => {
-      if (isOptionGroup(c)) return false;
-      return !coursesInOptionGroupsSet.has((c as Course).code);
-    }) as Course[];
-
-    const selected = filteredCourses.find(c => c.code === focusCourse);
+    // Resolve the focused course via the dispatch-context map (built each
+    // render — no need to re-derive `filteredCourses` here just to scan it).
+    // Fall back to scanning courses if the map isn't populated yet (first
+    // tick after mount).
+    const filteredCoursesMap = dispatchCtxRef.current.individualCoursesByCode;
+    const selected = filteredCoursesMap.get(focusCourse)
+      ?? (courses.find(c => isCourse(c) && (c as Course).code === focusCourse) as Course | undefined);
     if (!selected) return;
+    const filteredCourses = Array.from(filteredCoursesMap.values());
     const prereqCompleted = (selected.prerequisitesCompleted || selected.prerequisites || []) as string[];
     const prereqParticipation = (selected.prerequisitesParticipation || []) as string[];
     const prereqSet = new Set([...(prereqCompleted || []), ...(prereqParticipation || [])]);
@@ -2619,10 +2833,12 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     <div ref={containerRef}>
       {/* Visualization canvas wrapper so legend anchors to the SVG area only */}
       <div style={{ position: 'relative' }}>
-        <svg 
-          ref={svgRef} 
+        <svg
+          ref={svgRef}
           className="w-full h-full"
           style={{ minHeight: '600px' }}
+          role="img"
+          aria-labelledby="chart-title chart-desc"
         />
 
         <Legend
@@ -2654,8 +2870,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           language={language}
           courses={courses}
           getCourseColors={getCourseColors}
-          highlightedOptionCode={highlightedOptionCode}
-          onHighlightedOptionCodeChange={setHighlightedOptionCode}
+          highlightedOptionCodes={highlightedOptionCodes}
+          onHighlightedOptionCodesChange={setHighlightedOptionCodes}
           selectedOptionPerGroup={selectedOptionPerGroup}
           onSelectedOptionPerGroupChange={onSelectedOptionPerGroupChange}
           onSelectedInfoChange={setSelectedInfo}

@@ -346,31 +346,108 @@ Things the steering documents care about, that a visualization is well placed to
 
 ## 5. Concrete suggestions, ranked
 
-Roughly in cost-vs-value order:
+Roughly in cost-vs-value order. Status as of 2026-05-02; commit links are to `cohm/ProgramVisualization` on GitHub.
 
-1. **Add a JSON Schema + a `npm run validate-data` script run in CI.** Catches §2.4 (silent merges, dropped prereqs, total/period mismatches, dangling option codes) and gives a place to hang future rules.
-2. **Update `CLAUDE.md`** to remove the dead `OptionGroupModal.tsx` reference and to mention the dual `periodCredits` shapes (flat vs `Year1`-keyed).
-3. **Drop `layers` and `focusYear` from the main `useEffect` deps** (`TimelineVisualization.tsx:2442`). Move the work they do (label weight, layer visibility) into the existing post-render effects. This is the single biggest UI-perf win.
-4. **Add `category` and `gradingScale` fields** to the Course model (§2.1, §4.2) — non-breaking, optional, default values keep current files working.
-5. **Encode option choices and disabled layers in the URL.** Lets users share configurations.
-6. **Rename `reexams` field** (or compute it implicitly from `exams` plus the läsårsregler), §2.3 / §4.3.
-7. **Refactor `TimelineVisualization.tsx` into smaller files**, e.g.
+1. ✅ **Add a JSON Schema + a `npm run validate-data` script run in CI.** Catches §2.4 (silent merges, dropped prereqs, total/period mismatches, dangling option codes) and gives a place to hang future rules. — [`2e56fc1`](https://github.com/cohm/ProgramVisualization/commit/2e56fc1)
+2. ✅ **Update `CLAUDE.md`** to remove the dead `OptionGroupModal.tsx` reference and to mention the dual `periodCredits` shapes (flat vs `Year1`-keyed). — [`c3b3d8c`](https://github.com/cohm/ProgramVisualization/commit/c3b3d8c)
+3. ✅ **Drop `layers` and `focusYear` from the main `useEffect` deps** (`TimelineVisualization.tsx:2442`). Move the work they do (label weight, layer visibility) into the existing post-render effects. This is the single biggest UI-perf win. — [`19782c4`](https://github.com/cohm/ProgramVisualization/commit/19782c4) (earlier groundwork in [`21fd169`](https://github.com/cohm/ProgramVisualization/commit/21fd169))
+4. ✅ **Add `category` and `gradingScale` fields** to the Course model (§2.1, §4.2) — non-breaking, optional, default values keep current files working. — [`fea3cfa`](https://github.com/cohm/ProgramVisualization/commit/fea3cfa)
+5. ✅ **Encode option choices and disabled layers in the URL.** Lets users share configurations. — [`5c5a57f`](https://github.com/cohm/ProgramVisualization/commit/5c5a57f)
+6. ✅ **Rename `reexams` field** (or compute it implicitly from `exams` plus the läsårsregler), §2.3 / §4.3. — [`11a0c44`](https://github.com/cohm/ProgramVisualization/commit/11a0c44)
+7. ✅ **Refactor `TimelineVisualization.tsx` into smaller files**, e.g.
    - `ChartLayout.ts` (numYears, year heights, time scale)
    - `ArrowRouter.ts` (segments, lanes, polylines)
    - `BarRenderer.tsx`, `OptionGroupModal.tsx`, `Legend.tsx`, `InfoPanel.tsx`, `Export.ts`
    - `useCourseModel.ts` for the merge logic from `HomeClient.tsx`.
-8. **Switch the per-bar event handlers to delegated handlers** with a cached tooltip text map (§3.2).
-9. **Cache embedded fonts and the Puppeteer browser instance** (§3.5).
-10. **Accessibility pass:** keyboard focus on bars, `role="img"` + title on the SVG, `aria-label`s on icon buttons (§1.4).
-11. **Add inriktning support and a track filter** when Y4–Y5 data is added (§2.5, §2.6).
-12. **Drop or restore `getFamilyVariants`** (§2.9).
+
+   Partially addressed in [`ec8963f`](https://github.com/cohm/ProgramVisualization/commit/ec8963f): `Legend`, `InfoPanel`, `OptionGroupModal`, and `useCourseModel` extracted; `ChartLayout`, `ArrowRouter`, `BarRenderer`, and `Export` still live inside `TimelineVisualization.tsx`.
+8. ✅ **Switch the per-bar event handlers to delegated handlers** with a cached tooltip text map (§3.2). — [`e24761f`](https://github.com/cohm/ProgramVisualization/commit/e24761f) (also closes the latent tooltip-XSS noted in §3.4 by escaping JSON values in the new `src/lib/tooltipText.ts`)
+9. ✅ **Cache embedded fonts and the Puppeteer browser instance** (§3.5). — [`eb3b92f`](https://github.com/cohm/ProgramVisualization/commit/eb3b92f) (new `src/lib/fonts.ts` cache, inline `@font-face` in PDF HTML, `waitUntil: networkidle0` → `load`, module-level `cachedBrowser` in `route.ts`)
+10. ✅ **Accessibility pass:** keyboard focus on bars, `role="img"` + title on the SVG, `aria-label`s on icon buttons (§1.4). — [`88edfcf`](https://github.com/cohm/ProgramVisualization/commit/88edfcf) (SVG `role="img"` + dynamic `<title>`/`<desc>`, `tabindex` + `aria-label` on course bars and year labels, delegated keydown / focusin / focusout in the SVG handler, `role="button"` + `aria-pressed` + Enter/Space on every legend row, localised `aria-label`s on InfoPanel close and the hamburger menu, `:focus-visible` outline in `globals.css`)
+11. ✅ **Add inriktning support and a track filter** when Y4–Y5 data is added (§2.5, §2.6). — [`ad5c5c5`](https://github.com/cohm/ProgramVisualization/commit/ad5c5c5)
+    - Schema: optional `Course.specializations` / `OptionGroup.specializations` plus `programs.json` registries `specializations` (with optional `group` per entry) and `specializationGroups` for grouping into pick-one buckets.
+    - Validator: cross-references registry + group codes; rejects the field on programs that don't declare a registry.
+    - URL state `?spec=A,B`; pick-one-per-group radio chips in `SpecializationFilter.tsx` (with `role="radio"` + Enter/Space). Defaults to the first option in each group on first load.
+    - Filter is AND-across-groups — for every group represented in a course's specs the student's pick from that group must match. Courses without `specializations` are common.
+    - Two new programs: **CINEK** (51 courses, Y1–Y3, four inriktningar split into two pick-one groups: tech = {DTOI, TMAI}, business = {EHUI, PPUI}) and **TIEMM** (101 courses, Y1–Y2 of the masterprogram, 9 spår modelled as one flat pick-one for now).
+    - Data scraped from KOPPS SSR JSON (`window.__compressedApplicationStore__` / `__compressedData__DATA`) — fast, no headless-browser dependency. Caveats noted in the program comments: courses currently have empty `exams: []` and `prerequisites: []` because the course-memo endpoint isn't scraped yet, and four courses with no parseable round-period split were dropped.
+    - Spår support for masterprograms is still flagged as deferred — TIEMM uses the same `specializations` field as a stop-gap; a proper masterprogram registry is a separate refactor.
+12. ✅ **Drop or restore `getFamilyVariants`** (§2.9). — [`a5a93e3`](https://github.com/cohm/ProgramVisualization/commit/a5a93e3) (chose "drop with rename": `getFamilyVariants` removed; replaced with a single-fill `getCosmeticsColor(family)` returning the same light-tone triple the length-1 variant array returned. The index-mod-length math in `getCourseColors`, the legend gradient, and the SVG export `<linearGradient>` block all collapse to a solid colour. `getColorForFamily` (saturated KTH primaries) is kept for option-group fallbacks; the two functions are now documented with their distinct purposes.)
+
+Additional work merged in alongside the ranked list (not from §5 directly):
+
+- **Layer-toggle improvements:** clicking the "Kurser" legend entry now also toggles connectors between consecutive course bars ([`93e4998`](https://github.com/cohm/ProgramVisualization/commit/93e4998)), as well as prerequisite arrows and exam/reexam markers ([`9c1d21c`](https://github.com/cohm/ProgramVisualization/commit/9c1d21c)) — the markers and arrows are anchored to bars and looked orphaned when shown without them.
 
 ---
 
 ## 6. Out of scope (worth noting)
 
-- The `eslint` script (`package.json:9`) is just `eslint` with no path; on Next 16 it relies on `eslint-config-next` discovering files. CI's `npm run lint` (`.github/workflows/ci.yml:29`) doesn't fail on warnings. Consider `eslint .` and `--max-warnings 0`.
-- `tsconfig.json` doesn't include `tsc --noEmit` in CI — only lint and build. Adding a separate `npx tsc --noEmit` step would catch type regressions earlier than build.
-- `next.config.ts:8` shells out to `git rev-parse` at build time; on Vercel this works because the repo is checked out. Anywhere else the fallback is `'unknown'`. If you ever build from a tarball, set `NEXT_PUBLIC_GIT_HASH` explicitly.
-- `vercel.json:6` and `next.config.ts:51-56` double-declare the Chromium include. This is intentional (Vercel needs the explicit hint), but the duplication is fragile if either changes.
-- `.DS_Store` files are committed in `src/` and at the repo root; add to `.gitignore` and remove from history.
+- ✅ The `eslint` script (`package.json:9`) is just `eslint` with no path; on Next 16 it relies on `eslint-config-next` discovering files. CI's `npm run lint` (`.github/workflows/ci.yml:29`) doesn't fail on warnings. Consider `eslint .` and `--max-warnings 0`. — addressed: `package.json` now runs `eslint . --max-warnings 0`.
+- ✅ `tsconfig.json` doesn't include `tsc --noEmit` in CI — only lint and build. Adding a separate `npx tsc --noEmit` step would catch type regressions earlier than build. — addressed: `.github/workflows/ci.yml` runs `npx tsc --noEmit` between lint and build.
+- ✅ `next.config.ts:8` shells out to `git rev-parse` at build time; on Vercel this works because the repo is checked out. Anywhere else the fallback is `'unknown'`. If you ever build from a tarball, set `NEXT_PUBLIC_GIT_HASH` explicitly. — addressed (documentation): `next.config.ts` `getGitInfo` now has a comment explaining the three contexts (Vercel / git checkout / tarball-or-Docker) and pointing to `NEXT_PUBLIC_GIT_HASH` (and the timestamp / repo URL counterparts) as the explicit-override path.
+- ✅ `vercel.json:6` and `next.config.ts:51-56` double-declare the Chromium include. This is intentional (Vercel needs the explicit hint), but the duplication is fragile if either changes. — addressed (documentation): `next.config.ts` now carries a comment cross-linking to `vercel.json` and stating that both are required (Next uses `outputFileTracingIncludes` during the build, Vercel uses `includeFiles` when packaging the function). `vercel.json` is strict JSON and can't carry a matching comment, so the cross-link lives one-way.
+- ✅ `.DS_Store` files are committed in `src/` and at the repo root; add to `.gitignore` and remove from history. — already addressed in a prior pass: `.gitignore` includes `.DS_Store`, and `git ls-files` confirms no `.DS_Store` files are tracked. The remaining files in the working tree are local OS metadata, not source.
+
+---
+
+## 7. Additional improvement batches (post-§5 follow-ups)
+
+After the §5 ranked list closed out, several smaller items from §1, §3 and §4 were addressed in two grouped batches.
+
+### Batch A — UX polish — [`d8be310`](https://github.com/cohm/ProgramVisualization/commit/d8be310)
+
+- ✅ §1.1 **Empty info-panel placeholder** — italic "Klicka på en kurs för detaljer / Click a course for details" replaces the blank state.
+- ✅ §1.1 **Year labels & option-group circle hint** — year-label `<title>` ("Klicka för att fokusera årskursen / Click to focus this year"); option-group tooltip now leads with "välj 1 av N alternativ / pick 1 of N options".
+- ✅ §1.1 **Legend "click to hide" hint** — `title` attribute on every layer-toggle row ("Klicka för att dölja/visa lager").
+- ✅ §1.4 **Emoji flags → textual SV/EN** — bold "SV"/"EN" pills replace 🇸🇪/🇺🇸; same active-outline + `aria-label`. Fixes Windows rendering and the awkward 🇺🇸-for-English at a Swedish university.
+- ✅ §1.5 **Hard-coded SV/EN modal strings** — "Choose"/"Cancel"/"Total credits" + Legend "Show/Hide group" all routed through `tr` (new keys `choose`, `cancel`, `showGroup`, `hideGroup`, `clickCourseForDetails`, `yearFocusHint`, `optionGroupHint`, `legendToggleHint`, `pdfExportFailed`, `cosmeticsLoadFailed`, `closeToast`).
+- ✅ §1.5 **`alert()` for PDF errors → inline toast** — fixed-position banner bottom-right, auto-dismiss after 6 s, click to close, server response truncated to 200 chars.
+- ✅ §1.5 **Default export footer** — every exported SVG/PNG/PDF now carries an audit line with program code · build hash · ISO date in light grey, regardless of whether `comment` is set; the user-supplied comment renders above it when present.
+- ✅ §4.4 **`commentEn` on programs** — optional English-language comment; UI prefers it when language is EN. English translations added for all six existing programs.
+
+### Batch B — data quality + export polish — [`4bb1587`](https://github.com/cohm/ProgramVisualization/commit/4bb1587)
+
+- ✅ §1.5 **Cosmetics-load failure now user-visible** — `loadCosmetics` rejects on actual failure; `HomeClient`'s `.catch` shows a localised toast (extracted `Toast` to `src/components/Toast.tsx`, hoisted state to `HomeClient` so PDF errors and cosmetics failures share one banner).
+- ✅ **Loader prereq fix** (latent bug) — `useCourseModel.ts` was silently dropping the legacy `prerequisites` array whenever `prerequisitesCompleted` had any entry, even when they contained different course codes. Now: `prerequisites` is unioned into `prerequisitesCompleted`, and any code present in both completion AND participation is removed from participation (completion subsumes participation, no double-arrows on the chart).
+- ✅ §3.5 **Prune hidden DOM + `data-*` attrs before SVG export** — depth-first walk on the cloned SVG removes every element with inline `display: none` and strips `data-*` attributes from kept elements. Smaller PDF payload, cleaner exported SVG.
+
+### Batch C — render-loop micro-optimisations — [`f0f932d`](https://github.com/cohm/ProgramVisualization/commit/f0f932d) + [`040e292`](https://github.com/cohm/ProgramVisualization/commit/040e292)
+
+A continuation of the §3 performance pass; no behaviour change, just less work per render.
+
+- ✅ §3 **Reuse `individualCoursesByCode` map** ([`f0f932d`](https://github.com/cohm/ProgramVisualization/commit/f0f932d)) — the lookup map was being rebuilt twice per render (once for prereq routing, once for the dispatch context); now built once at the top of the render pass and reused everywhere. Also lets the focus-mode handler skip re-deriving `filteredCourses`.
+- ✅ §3 **Cache `slotsByYearPeriod` entries + period-by-id map** — the three render passes (max-slot computation, position pass, draw pass) all iterated `Object.entries(slotsByYearPeriod)` independently and called `academicPeriods.find(p => p.id === periodId)` per iteration. Now a single `slotEntries` array is precomputed with `{ year, period, list }` already resolved, and a `periodById` Map replaces every `academicPeriods.find` call (also used by the exam/re-exam marker pass).
+- ✅ §3 **Drop redundant `new Date(...)` wrappings** — `periodObj.lectureEnd` and `periodObj.start` are already `Date` objects (parsed in `src/types/course.ts`), so wrapping them in `new Date(...)` allocated a fresh Date per credit per render. Removed at both bar-position sites.
+- ✅ §3 **Binary-search label truncation** — the per-bar text fitter shrank one character at a time, calling `getComputedTextLength()` once per character. Switched to a binary search over prefix length: O(log n) measurement calls instead of O(n), preserving the original short-circuit (skip when `fullText` already fits) and the original 3-char minimum.
+
+### Batch D — responsive + a11y leftovers — [`e8e4d6e`](https://github.com/cohm/ProgramVisualization/commit/e8e4d6e)
+
+The user reviewed the four candidates and accepted D1 + D4; D2 and D3 were declined (rationale below).
+
+- ✅ §1.3 **Tooltip viewport-clamping** — `placeTooltip(anchorX, anchorY, gapX, gapY)` helper in `TimelineVisualization.tsx` shows the tooltip at the default below-right offset, measures `getBoundingClientRect()`, and flips left / up when the result would overflow the viewport (with an 8 px viewport pad). Used at both the mouse-move and the keyboard-focus call sites.
+- ✅ §1.4 **Modal focus trap** — `OptionGroupModal.tsx` now wraps its overlay in a ref, captures `document.activeElement` on mount, focuses the first interactive control on the next animation frame, and registers a `keydown` listener that (a) calls `cancel()` on `Escape` and (b) traps Tab / Shift+Tab inside the modal. On unmount the listener is removed and focus is restored to the bar that opened the modal. Choose, Cancel, and each option `<g>` now have `tabIndex={0}`, `role="button"`, an `aria-label`, and an Enter/Space activation handler so SVG controls participate in the trap.
+
+### Batch E — year-label credit summary — [`e8e4d6e`](https://github.com/cohm/ProgramVisualization/commit/e8e4d6e)
+
+Reduced from the original three candidates: only E1 was accepted, and only as a tooltip (not a chart-area badge).
+
+- ✅ §4.5 **Per-year credit total in year-label tooltip** — `TimelineVisualization.tsx` now precomputes `totalCreditsByYear` once before the year-label loop (summing each individual course's per-credit entries plus each option group's `totalCredits`) and appends `${year}: X / 60 ${tr.credits}` as the first line of the year label's `<title>`. The existing `yearFocusHint` becomes the second line.
+
+### Batch F — data model extensions — [`e8e4d6e`](https://github.com/cohm/ProgramVisualization/commit/e8e4d6e)
+
+The user accepted F1 (course level) and F4 (richer option groups). The remaining items (cohort year, per-läsår periods, structured prerequisites) were declined for now.
+
+- ✅ §2.7 **Course level G/A inferred from code** — new helper `src/lib/courseLevel.ts` exports `inferCourseLevel(code)` (parses the first digit after the letters: 1 → G grundnivå, 2 → A avancerad nivå, anything else → undefined) and `getCourseLevel(course)` (prefers explicit `courseLevel` field over inference). Optional `courseLevel?: 'G' | 'A'` field on `Course` for the rare overrides. `InfoPanel.tsx` renders a small G/A badge in the existing badges flex row, with a localised `<title>` tooltip (`Grundnivå` / `First-cycle`). Validator gained a `COURSE_LEVELS` enum.
+- ✅ §2.2 **Richer `OptionGroup` (`kind: 'pickN' | 'minCredits'`)** — schema gains `kind`, `pickN`, and `minCredits` fields (all optional, with full back-compat: legacy data without `kind` is treated as `pickN` with `pickN = allowedNumberOfOptions`). New helper `src/lib/optionGroupKind.ts` centralises the resolution. Selection state changed from `Record<string, string>` to `Record<string, string[]>` everywhere (HomeClient state hook + URL serializer, TimelineVisualization props + dispatch context, OptionGroupModal props). The URL `og` parameter now joins multiple codes per group with `+`; old single-code bookmarks still parse. The modal supports multi-select: pickN groups cap at N (FIFO drop on overflow), minCredits groups have no cap, and a rule banner shows running totals (`X / Y hp` for minCredits; `N / pickN` for pickN > 1). Renderer first-cut: when *any* option is selected, the placeholder is hidden and the selected options render as their own bars. Validator enforces per-kind required fields and warns when `pickN` / `minCredits` are set without an explicit `kind`.
+
+### Items deferred / declined (cumulative)
+
+- ⏭ §4.2 **Mandatory < 6 hp warning** (Batches A–C) — declined: the riktlinje phrasing is "bör" (should), not "ska" (must), and several real KTH courses legitimately fall below 6 hp. The warning would be noise.
+- ⏭ §1.5 **Validator typo guard for `prerequisites` + `prerequisitesCompleted` both set** (Batches A–C) — superseded by Batch B's loader fix (both being present is now valid: they're unioned).
+- ⏭ §1.3 **Tap-to-tooltip on touch devices** (Batch D, D2) — declined: on touch devices, tapping a course already opens the bottom info panel, which is richer than the floating tooltip. The tooltip is fundamentally a hover/keyboard-focus aid; adding a long-press or two-tap gesture would conflict with the existing tap-to-open behaviour without giving the user new information.
+- ⏭ §1.4 **Color-blind redundancy** (Batch D, D3) — declined: small corner shape badges per cosmetics family would clutter the bars; cosmetics colour-coding is not load-bearing for the visualisation (the chart still reads correctly without it).
+- ⏭ §4.5 **>2 obligatoriska tentor warning** (Batch E, E2) — declined for now: useful for programme designers but not for students reading the chart; can be added later as an opt-in overlay.
+- ⏭ §4.5 **Läsår in chart title** (Batch E, E3) — declined: this tool renders the *current study plan starting at year 1*, not a calendar-year view. "Year 1" maps to whatever läsår the student is in. A `cohort` field on programs would unblock this; see F2 below.
+- ⏭ §4.4 **Cohort year on programs** (Batch F, F2) — deferred: needs the long-term shift to cohort-specific study plans (currently each program has one current snapshot; Ladok structure isn't programmatically reliable enough to scrape historical plans).
+- ⏭ §2.6 + §4.3 **Per-läsår `academic-periods`** (Batch F, F3) — deferred: tied to F2; also worth questioning whether *exact* per-läsår dates add visual value over the current generic-läsår layout (might just be visual noise).
+- ⏭ §2.8 **Structured prerequisites** (Batch F, F5) — deferred: large, ripples through the prereq router; not blocking any current use case.

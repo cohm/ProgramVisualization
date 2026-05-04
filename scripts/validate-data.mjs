@@ -8,7 +8,10 @@
 // Schema (informal):
 //
 // programs.json:
-//   Array<{ code, name, nameEn?, dataFile, cosmeticsFile?, comment?, studyplan? }>
+//   Array<{ code, name, nameEn?, dataFile, cosmeticsFile?, comment?,
+//           commentEn?, studyplan?,
+//           specializations?: Array<{ code, name, nameEn?, group? }>,
+//           specializationGroups?: Array<{ code, name, nameEn? }> }>
 //
 // <PROGRAM>.json:
 //   Array<Course | OptionGroup>
@@ -32,6 +35,7 @@
 //     category?: "mandatory" | "conditionallyElective"
 //             | "electivePlaceholder" | "recommended"
 //     gradingScale?: "A-F" | "P/F" | "VG/G/U"
+//     specializations?: Array<specCode>   (must reference programs.json registry)
 //
 //   OptionGroup:
 //     type: "optionGroup"
@@ -43,7 +47,7 @@
 //     options: Array<courseCode>          (must each exist in same file)
 //     allowedNumberOfOptions: integer
 //     exams?, reexams?: Array<periodId>
-//     category?, gradingScale?: same as Course
+//     category?, gradingScale?, specializations?: same as Course
 //
 // <PROGRAM>-cosmetics.json:
 //   Array<{ name, nameEn?, colorFamily, courses: Array<courseCode> }>
@@ -65,6 +69,7 @@ const PERIOD_IDS = new Set(['P1', 'P2', 'P3', 'P4']);
 const COLOR_FAMILIES = new Set(['blue', 'green', 'turquoise', 'brick', 'yellow']);
 const COURSE_CATEGORIES = new Set(['mandatory', 'conditionallyElective', 'electivePlaceholder', 'recommended']);
 const GRADING_SCALES = new Set(['A-F', 'P/F', 'VG/G/U']);
+const COURSE_LEVELS = new Set(['G', 'A']);
 const CREDIT_TOLERANCE = 0.05; // hp; tolerates rounding (e.g. 3.7 + 3.8)
 
 let errorCount = 0;
@@ -98,6 +103,55 @@ function validateProgramsJson(programs, file) {
     }
     if (p.cosmeticsFile && !existsSync(join(dataDir, p.cosmeticsFile))) {
       err(file, `${ctx} ${p.code}: cosmeticsFile '${p.cosmeticsFile}' not found`);
+    }
+
+    // Specialization groups (optional). When present, every group must
+    // have { code, name } and codes must be unique within the program.
+    const groupCodes = new Set();
+    if (p.specializationGroups !== undefined) {
+      if (!Array.isArray(p.specializationGroups)) {
+        err(file, `${ctx} ${p.code}: 'specializationGroups' must be an array`);
+      } else {
+        p.specializationGroups.forEach((g, j) => {
+          const gctx = `${ctx}.specializationGroups[${j}]`;
+          if (!g || typeof g !== 'object') { err(file, `${gctx}: not an object`); return; }
+          if (!g.code || typeof g.code !== 'string') err(file, `${gctx}: missing or invalid 'code'`);
+          if (!g.name || typeof g.name !== 'string') err(file, `${gctx}: missing or invalid 'name'`);
+          if (g.code) {
+            if (groupCodes.has(g.code)) err(file, `${gctx}: duplicate group code '${g.code}'`);
+            groupCodes.add(g.code);
+          }
+        });
+      }
+    }
+
+    // Specializations registry (optional). When present, every entry must
+    // have { code, name } and codes must be unique within the program. If
+    // a spec carries `group`, it must reference a known group code.
+    if (p.specializations !== undefined) {
+      if (!Array.isArray(p.specializations)) {
+        err(file, `${ctx} ${p.code}: 'specializations' must be an array`);
+      } else {
+        const specCodes = new Set();
+        p.specializations.forEach((s, j) => {
+          const sctx = `${ctx}.specializations[${j}]`;
+          if (!s || typeof s !== 'object') { err(file, `${sctx}: not an object`); return; }
+          if (!s.code || typeof s.code !== 'string') err(file, `${sctx}: missing or invalid 'code'`);
+          if (!s.name || typeof s.name !== 'string') err(file, `${sctx}: missing or invalid 'name'`);
+          if (s.code) {
+            if (specCodes.has(s.code)) err(file, `${sctx}: duplicate specialization code '${s.code}'`);
+            specCodes.add(s.code);
+          }
+          if (s.group !== undefined) {
+            if (typeof s.group !== 'string') err(file, `${sctx}: 'group' must be a string`);
+            else if (groupCodes.size > 0 && !groupCodes.has(s.group)) {
+              err(file, `${sctx}: unknown group '${s.group}' (allowed: ${[...groupCodes].join(', ')})`);
+            }
+            // If specializationGroups isn't declared at all, accept any
+            // group string (the UI falls back to a single implicit group).
+          }
+        });
+      }
     }
   });
 }
@@ -149,6 +203,14 @@ function validateProgramData(program, file) {
   const courseCodes = new Set();
   const optionGroupNames = new Set();
 
+  // Specializations registry from programs.json (may be undefined). When
+  // undefined or empty, no entry in this file is allowed to carry the
+  // `specializations` field — catches typos before they confuse the UI.
+  const specCodes = Array.isArray(program.specializations)
+    ? new Set(program.specializations.map(s => s?.code).filter(Boolean))
+    : new Set();
+  const specsDeclared = specCodes.size > 0;
+
   data.forEach((entry, i) => {
     const ctx = `[${i}]`;
     if (entry?.type === 'optionGroup') {
@@ -173,6 +235,25 @@ function validateProgramData(program, file) {
   // Cross-reference checks.
   data.forEach((entry, i) => {
     const ctx = `[${i}]`;
+
+    // Specializations: every code on a course/option-group must reference
+    // the program's registry. When the program declares none, no entry may
+    // carry the field at all.
+    if (entry && Array.isArray(entry.specializations)) {
+      const ownerLabel = entry?.type === 'optionGroup'
+        ? `optionGroup '${entry.name}'`
+        : (entry.code || '<unknown>');
+      if (!specsDeclared) {
+        err(file, `${ctx} ${ownerLabel}: 'specializations' is set but program '${program.code}' has no specializations registered in programs.json`);
+      } else {
+        for (const sc of entry.specializations) {
+          if (typeof sc !== 'string' || !specCodes.has(sc)) {
+            err(file, `${ctx} ${ownerLabel}: unknown specialization code '${sc}' (allowed: ${[...specCodes].join(', ')})`);
+          }
+        }
+      }
+    }
+
     if (entry?.type === 'optionGroup') {
       (entry.options || []).forEach(opt => {
         if (!courseCodes.has(opt)) {
@@ -287,6 +368,7 @@ function validateCourse(c, ctx, file) {
   validatePeriodList(c.reexams, 'reexams', c, ctx, file);
   validateOptionalEnum(c.category, 'category', COURSE_CATEGORIES, c.code, ctx, file);
   validateOptionalEnum(c.gradingScale, 'gradingScale', GRADING_SCALES, c.code, ctx, file);
+  validateOptionalEnum(c.courseLevel, 'courseLevel', COURSE_LEVELS, c.code, ctx, file);
   validateReexamConsistency(c, ctx, file);
 }
 
@@ -391,6 +473,32 @@ function validateOptionGroup(og, ctx, file) {
     err(file, `${ctx} optionGroup '${og.name}': 'options' must be a non-empty array of course codes`);
   } else if (og.allowedNumberOfOptions > og.options.length) {
     err(file, `${ctx} optionGroup '${og.name}': allowedNumberOfOptions (${og.allowedNumberOfOptions}) > options.length (${og.options.length})`);
+  }
+
+  // 'kind' discriminator (introduced for minCredits-style groups). When
+  // omitted, the group is treated as 'pickN' with N = allowedNumberOfOptions.
+  if (og.kind != null) {
+    if (og.kind !== 'pickN' && og.kind !== 'minCredits') {
+      err(file, `${ctx} optionGroup '${og.name}': 'kind' must be 'pickN' or 'minCredits'`);
+    } else if (og.kind === 'pickN') {
+      if (og.pickN != null && (typeof og.pickN !== 'number' || og.pickN < 1)) {
+        err(file, `${ctx} optionGroup '${og.name}': 'pickN' must be a positive integer`);
+      }
+      if (og.minCredits != null) {
+        warn(file, `${ctx} optionGroup '${og.name}': 'minCredits' is ignored when kind === 'pickN'`);
+      }
+    } else if (og.kind === 'minCredits') {
+      if (typeof og.minCredits !== 'number' || og.minCredits < 1) {
+        err(file, `${ctx} optionGroup '${og.name}': 'minCredits' is required (≥ 1) when kind === 'minCredits'`);
+      } else if (typeof og.totalCredits === 'number' && og.totalCredits < og.minCredits) {
+        err(file, `${ctx} optionGroup '${og.name}': totalCredits (${og.totalCredits}) < minCredits (${og.minCredits}); the placeholder cannot fit the requirement`);
+      }
+      if (og.pickN != null) {
+        warn(file, `${ctx} optionGroup '${og.name}': 'pickN' is ignored when kind === 'minCredits'`);
+      }
+    }
+  } else if (og.pickN != null || og.minCredits != null) {
+    warn(file, `${ctx} optionGroup '${og.name}': 'pickN' / 'minCredits' set without an explicit 'kind' — set kind: 'pickN' or 'minCredits' to use them`);
   }
 
   if (og.periodCredits && typeof og.periodCredits === 'object') {

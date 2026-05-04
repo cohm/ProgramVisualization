@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import puppeteer from 'puppeteer-core';
+import puppeteer, { Browser } from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';
 
 export const runtime = 'nodejs';
@@ -17,6 +17,34 @@ const LOCAL_CHROME_PATHS = [
   '/usr/bin/chromium',
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
 ];
+
+// Module-level Browser cache. Survives across requests within the same warm
+// Lambda instance, saving the ~2-4 s @sparticuz/chromium cold-start on every
+// PDF after the first. Vercel runs one request per instance by default, so
+// concurrent reuse isn't a concern. The browser dies with the process.
+let cachedBrowser: Browser | null = null;
+
+async function getBrowser(): Promise<Browser> {
+  if (cachedBrowser?.connected) return cachedBrowser;
+
+  const isVercel = !!process.env.VERCEL;
+  let executablePath: string;
+  if (isVercel) {
+    executablePath = await chromium.executablePath();
+  } else if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+    executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
+  } else {
+    const { existsSync } = await import('fs');
+    executablePath = LOCAL_CHROME_PATHS.find(existsSync) ?? LOCAL_CHROME_PATHS[LOCAL_CHROME_PATHS.length - 1];
+  }
+
+  cachedBrowser = await puppeteer.launch({
+    args: isVercel ? chromium.args : ['--no-sandbox', '--disable-setuid-sandbox'],
+    executablePath,
+    headless: true,
+  });
+  return cachedBrowser;
+}
 
 export async function POST(req: NextRequest) {
   // Enforce payload size limit before parsing JSON.
@@ -41,45 +69,19 @@ export async function POST(req: NextRequest) {
     return new Response('Payload too large', { status: 413 });
   }
 
-  // Detect if running on Vercel or locally
-  const isVercel = !!process.env.VERCEL;
-
-  let executablePath: string;
-  if (isVercel) {
-    // Use @sparticuz/chromium which bundles the binary for serverless environments.
-    executablePath = await chromium.executablePath();
-  } else {
-    // Prefer an explicit override, then fall back through common install paths.
-    if (process.env.PUPPETEER_EXECUTABLE_PATH) {
-      executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
-    } else {
-      const { existsSync } = await import('fs');
-      executablePath = LOCAL_CHROME_PATHS.find(existsSync) ?? LOCAL_CHROME_PATHS[LOCAL_CHROME_PATHS.length - 1];
-    }
-  }
-
-  let browser;
+  let page;
   try {
-    browser = await puppeteer.launch({
-      args: isVercel
-        ? chromium.args
-        : ['--no-sandbox', '--disable-setuid-sandbox'],
-      executablePath,
-      headless: true,
-    });
+    const browser = await getBrowser();
+    page = await browser.newPage();
 
-    const page = await browser.newPage();
+    // Fonts are inlined as base64 in the HTML, so the page has no external
+    // resources to wait for — `load` returns essentially immediately.
+    await page.setContent(html, { waitUntil: 'load' });
 
-    // Set the HTML content
-    await page.setContent(html, {
-      waitUntil: 'networkidle0', // Wait for fonts and resources to load
-    });
-
-    // Generate PDF with proper settings
     const pdfBuffer = await page.pdf({
       printBackground: true,
       preferCSSPageSize: true,
-      format: undefined, // Use the size defined in the HTML/CSS
+      format: undefined,
     });
 
     return new Response(Buffer.from(pdfBuffer), {
@@ -91,9 +93,14 @@ export async function POST(req: NextRequest) {
     });
   } catch (e) {
     console.error('PDF export failed', e);
+    // If the cached browser is dead (process died, page crash), drop it so
+    // the next request relaunches.
+    if (cachedBrowser && !cachedBrowser.connected) {
+      cachedBrowser = null;
+    }
     return new Response('Failed to generate PDF. Check server logs for details.', { status: 500 });
   } finally {
-    // Always close the browser to avoid leaking processes, even on error.
-    await browser?.close();
+    // Close only the page; keep the browser warm for subsequent requests.
+    await page?.close().catch(() => {});
   }
 }

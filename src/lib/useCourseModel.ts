@@ -59,6 +59,7 @@ interface RawEntry {
   description: string;
   category?: CourseCategory;
   gradingScale?: GradingScale;
+  specializations?: string[];
 }
 
 // Parse an exams/reexams JSON value into the canonical { flat, byYear } shape.
@@ -143,6 +144,7 @@ export const loadCourses = async (dataFile: string): Promise<(Course | OptionGro
         description: c.description || '',
         category: c.category,
         gradingScale: c.gradingScale,
+        specializations: Array.isArray(c.specializations) ? [...c.specializations as string[]] : undefined,
       });
     } else {
       // Merge nested perYear (sums credits if duplicates exist).
@@ -179,6 +181,9 @@ export const loadCourses = async (dataFile: string): Promise<(Course | OptionGro
       if (!existing.description && c.description) existing.description = c.description;
       if (!existing.category && c.category) existing.category = c.category;
       if (!existing.gradingScale && c.gradingScale) existing.gradingScale = c.gradingScale;
+      if (Array.isArray(c.specializations)) {
+        existing.specializations = Array.from(new Set([...(existing.specializations || []), ...(c.specializations as string[])]));
+      }
     }
   });
 
@@ -202,10 +207,25 @@ export const loadCourses = async (dataFile: string): Promise<(Course | OptionGro
       credits,
       year: primaryYear,
       prerequisites: entry.prerequisites || [],
-      // Backward compatibility: if detailed arrays are empty but flat
-      // prerequisites exist, treat the flat list as completion prereqs.
-      prerequisitesCompleted: (entry.prerequisitesCompleted && entry.prerequisitesCompleted.length ? entry.prerequisitesCompleted : (entry.prerequisites || [])),
-      prerequisitesParticipation: entry.prerequisitesParticipation || [],
+      // Completion prereqs: the flat `prerequisites` field is back-compat
+      // for the same concept (must-be-completed), so we UNION the two
+      // instead of dropping the legacy field when the new one is also set.
+      // Then we dedupe across participation: completion subsumes
+      // participation, so any code in both is removed from participation.
+      prerequisitesCompleted: (() => {
+        const merged = Array.from(new Set([
+          ...(entry.prerequisitesCompleted || []),
+          ...(entry.prerequisites || []),
+        ]));
+        return merged;
+      })(),
+      prerequisitesParticipation: (() => {
+        const completedSet = new Set([
+          ...(entry.prerequisitesCompleted || []),
+          ...(entry.prerequisites || []),
+        ]);
+        return (entry.prerequisitesParticipation || []).filter(c => !completedSet.has(c));
+      })(),
       exams: entry.exams || [],
       reexams: entry.reexams || [],
       examsByYear: entry.examByYear,
@@ -215,27 +235,25 @@ export const loadCourses = async (dataFile: string): Promise<(Course | OptionGro
       description: entry.description || '',
       category: entry.category,
       gradingScale: entry.gradingScale,
+      specializations: entry.specializations,
     } as Course;
   });
 
   return [...courses, ...optionGroups as unknown as OptionGroup[]];
 };
 
-// Load a program's cosmetics (course-group → colour-family map). Returns null
-// if no file is configured or the import fails (gracefully degrading to the
-// default colour for every course).
+// Load a program's cosmetics (course-group → colour-family map). Returns
+// null when the program has no `cosmeticsFile` configured (silent degrade
+// to the default colour for every course). When a file IS configured but
+// the import fails, the promise REJECTS so the caller can surface the
+// failure to the user rather than silently degrading.
 export const loadCosmetics = async (cosmeticsFile: string | undefined): Promise<ProgramCosmetics | null> => {
   if (!cosmeticsFile) return null;
-  try {
-    const rawGroups = await import(`@/data/${cosmeticsFile}`);
-    const groups: CourseGroup[] = rawGroups.default as CourseGroup[];
-    const courseToGroup = new Map<string, CourseGroup>();
-    groups.forEach(group => {
-      group.courses.forEach(code => courseToGroup.set(code, group));
-    });
-    return { groups, courseToGroup };
-  } catch (e) {
-    console.warn('Failed to load cosmetics:', e);
-    return null;
-  }
+  const rawGroups = await import(`@/data/${cosmeticsFile}`);
+  const groups: CourseGroup[] = rawGroups.default as CourseGroup[];
+  const courseToGroup = new Map<string, CourseGroup>();
+  groups.forEach(group => {
+    group.courses.forEach(code => courseToGroup.set(code, group));
+  });
+  return { groups, courseToGroup };
 };

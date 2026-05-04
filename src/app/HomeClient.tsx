@@ -3,14 +3,34 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import TimelineVisualization, { TimelineVisualizationHandle } from '@/components/TimelineVisualization';
+import SpecializationFilter from '@/components/SpecializationFilter';
+import Toast, { type ToastMessage } from '@/components/Toast';
 import { Course, OptionGroup } from '@/types/course';
 import kthColors from '@/data/kth-colors.json';
 import programsConfig from '@/data/programs.json';
 import type { ProgramCosmetics } from '@/types/cosmetics';
 import { loadCourses, loadCosmetics } from '@/lib/useCourseModel';
-import type { Lang } from '@/lib/translations';
+import { tr, type Lang } from '@/lib/translations';
 
 // Program configuration type
+interface SpecializationDef {
+  code: string;
+  name: string;
+  nameEn?: string;
+  // Optional group code; references `specializationGroups[].code` below.
+  // Programs whose inriktningar are organised as several pick-one buckets
+  // (e.g. CINEK = pick one technical AND one business) tag each spec with
+  // the bucket it belongs to. If omitted, all specs share an implicit
+  // single group ("default").
+  group?: string;
+}
+
+interface SpecializationGroupDef {
+  code: string;
+  name: string;
+  nameEn?: string;
+}
+
 interface ProgramConfig {
   code: string;
   name: string;
@@ -18,7 +38,18 @@ interface ProgramConfig {
   dataFile: string;
   cosmeticsFile?: string;
   comment?: string;
+  // Optional English-language comment shown when the page language is `en`.
+  // Falls back to `comment` if missing — keeps existing entries valid.
+  commentEn?: string;
   studyplan?: string;
+  // Optional inriktningar (specializations) for civilingenjör programs that
+  // split their bachelor years by inriktning. When undefined / empty, the
+  // SpecializationFilter is hidden.
+  specializations?: SpecializationDef[];
+  // Optional human-readable groups that organise the specs into multiple
+  // pick-one rows (e.g. "Tekniskt val" + "Verksamhetsinriktning"). When
+  // omitted, all specs are treated as one implicit group.
+  specializationGroups?: SpecializationGroupDef[];
 }
 
 const programs: ProgramConfig[] = programsConfig as unknown as ProgramConfig[];
@@ -35,6 +66,7 @@ const ui = {
     language: 'Språk',
     swedish: 'Svenska',
     english: 'Engelska',
+    menu: 'Meny för export och språk',
   },
   en: {
     title: 'Education program visualization',
@@ -47,12 +79,16 @@ const ui = {
     language: 'Language',
     swedish: 'Swedish',
     english: 'English',
+    menu: 'Export and language menu',
   }
 } as const;
 
 export default function HomeClient() {
   const [courses, setCourses] = useState<(Course | OptionGroup)[]>([]);
   const [cosmetics, setCosmetics] = useState<ProgramCosmetics | null>(null);
+  // Page-level toast for non-blocking failures (PDF export errors,
+  // cosmetics-load failures). Children emit via the `onToast` callback.
+  const [toast, setToast] = useState<ToastMessage | null>(null);
   const vizRef = useRef<TimelineVisualizationHandle | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [exportSubOpen, setExportSubOpen] = useState(false);
@@ -86,16 +122,22 @@ export default function HomeClient() {
   // Selections persist across program switches (an `og` entry that doesn't match
   // the new program is simply ignored).
 
-  const selectedOptionPerGroup = useMemo<Record<string, string>>(() => {
+  // Codes after the colon are joined with '+' — multi-select for groups
+  // with kind: 'pickN' (pickN > 1) or kind: 'minCredits'. Single-string
+  // form is still accepted for back-compat with bookmarks from the
+  // pre-multiselect days.
+  const selectedOptionPerGroup = useMemo<Record<string, string[]>>(() => {
     const og = searchParams.get('og');
     if (!og) return {};
-    const out: Record<string, string> = {};
+    const out: Record<string, string[]> = {};
     for (const pair of og.split(',')) {
       const colon = pair.indexOf(':');
       if (colon <= 0) continue;
       const name = decodeURIComponent(pair.slice(0, colon));
-      const code = decodeURIComponent(pair.slice(colon + 1));
-      if (name && code) out[name] = code;
+      const codesRaw = pair.slice(colon + 1);
+      if (!name || !codesRaw) continue;
+      const codes = codesRaw.split('+').map(c => decodeURIComponent(c)).filter(Boolean);
+      if (codes.length > 0) out[name] = codes;
     }
     return out;
   }, [searchParams]);
@@ -112,17 +154,51 @@ export default function HomeClient() {
     return new Set(v.split(',').map(s => decodeURIComponent(s.trim())).filter(Boolean));
   }, [searchParams]);
 
+  // Map spec code → group code, derived from the program's registry. The
+  // filter pre-pass uses this to enforce AND-across-groups semantics.
+  const specGroupMap = useMemo<Map<string, string>>(() => {
+    const m = new Map<string, string>();
+    for (const s of selectedProgram.specializations || []) {
+      m.set(s.code, s.group || '__default__');
+    }
+    return m;
+  }, [selectedProgram]);
+
+  // ?spec=A,B = the user's pick per spec group. When the program has a
+  // specs registry, the visualisation defaults to the first option in each
+  // group so the chart isn't ambiguous on first load.
+  const selectedSpecializations = useMemo<Set<string>>(() => {
+    const v = searchParams.get('spec');
+    if (v) return new Set(v.split(',').map(s => decodeURIComponent(s.trim())).filter(Boolean));
+    // Default: first spec per group.
+    const specs = selectedProgram.specializations;
+    if (!specs || specs.length === 0) return new Set();
+    const seenGroups = new Set<string>();
+    const defaults = new Set<string>();
+    for (const s of specs) {
+      const g = s.group || '__default__';
+      if (seenGroups.has(g)) continue;
+      seenGroups.add(g);
+      defaults.add(s.code);
+    }
+    return defaults;
+  }, [searchParams, selectedProgram]);
+
   const replaceParams = useCallback((mutate: (p: URLSearchParams) => void) => {
     const params = new URLSearchParams(searchParams.toString());
     mutate(params);
     router.replace(`/?${params.toString()}`);
   }, [searchParams, router]);
 
-  const setSelectedOptionPerGroup = useCallback((next: Record<string, string>) => {
+  const setSelectedOptionPerGroup = useCallback((next: Record<string, string[]>) => {
     replaceParams((p) => {
-      const entries = Object.entries(next).filter(([, v]) => !!v).sort(([a], [b]) => a.localeCompare(b));
+      const entries = Object.entries(next)
+        .filter(([, codes]) => Array.isArray(codes) && codes.length > 0)
+        .sort(([a], [b]) => a.localeCompare(b));
       if (entries.length === 0) p.delete('og');
-      else p.set('og', entries.map(([k, v]) => `${encodeURIComponent(k)}:${encodeURIComponent(v)}`).join(','));
+      else p.set('og', entries
+        .map(([k, codes]) => `${encodeURIComponent(k)}:${codes.map(c => encodeURIComponent(c)).join('+')}`)
+        .join(','));
     });
   }, [replaceParams]);
 
@@ -140,10 +216,28 @@ export default function HomeClient() {
     });
   }, [replaceParams]);
 
+  const setSelectedSpecializations = useCallback((next: Set<string>) => {
+    replaceParams((p) => {
+      if (next.size === 0) p.delete('spec');
+      else p.set('spec', [...next].sort().map(encodeURIComponent).join(','));
+    });
+  }, [replaceParams]);
+
   // Load courses and cosmetics when program changes
   useEffect(() => {
     loadCourses(selectedProgram.dataFile).then(setCourses);
-    loadCosmetics(selectedProgram.cosmeticsFile).then(setCosmetics);
+    loadCosmetics(selectedProgram.cosmeticsFile)
+      .then(setCosmetics)
+      .catch((e) => {
+        console.warn('Failed to load cosmetics:', e);
+        setCosmetics(null);
+        setToast({ title: tr[language].cosmeticsLoadFailed, detail: String(e).slice(0, 200) });
+      });
+    // Disabling exhaustive-deps because `language` is intentionally not a
+    // dep — switching language shouldn't re-fetch the cosmetics file. The
+    // toast text uses whatever `language` was at the moment the failure
+    // fires, which is acceptable for a transient banner.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProgram]);
 
   // Initialize missing URL params
@@ -204,7 +298,7 @@ export default function HomeClient() {
           </select>
           
             <div style={{ position: 'relative' }}>
-              <button ref={exportBtnRef} onClick={() => setMenuOpen(v => !v)} className="px-2 py-2 border border-gray-300 rounded-md shadow-sm" aria-label="Menu">
+              <button ref={exportBtnRef} onClick={() => setMenuOpen(v => !v)} className="px-2 py-2 border border-gray-300 rounded-md shadow-sm" aria-label={ui[language].menu} aria-expanded={menuOpen} aria-haspopup="menu">
                 <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect x="2" y="3" width="16" height="2" rx="1" fill={kthColors.KthBlue?.HEX || '#004791'} />
                   <rect x="2" y="7" width="16" height="2" rx="1" fill={kthColors.KthBlue?.HEX || '#004791'} />
@@ -236,8 +330,8 @@ export default function HomeClient() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'space-between' }}>
                     {/* <div style={{ color: kthColors.KthBlue?.HEX, fontWeight: 600 }}>{ui[language].language}</div> */}
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <button onClick={() => { setLanguage('sv'); setMenuOpen(false); setExportSubOpen(false); }} className="px-2 py-1 border border-gray-300 rounded-md shadow-sm" aria-label="Svenska" title="Svenska" style={{ outline: language==='sv' ? `2px solid ${kthColors.KthBlue?.HEX}` : 'none' }}>🇸🇪</button>
-                      <button onClick={() => { setLanguage('en'); setMenuOpen(false); setExportSubOpen(false); }} className="px-2 py-1 border border-gray-300 rounded-md shadow-sm" aria-label="English" title="English" style={{ outline: language==='en' ? `2px solid ${kthColors.KthBlue?.HEX}` : 'none' }}>🇺🇸</button>
+                      <button onClick={() => { setLanguage('sv'); setMenuOpen(false); setExportSubOpen(false); }} className="px-3 py-1 border border-gray-300 rounded-md shadow-sm font-semibold" aria-label="Svenska" title="Svenska" style={{ color: kthColors.KthBlue?.HEX, fontSize: 13, outline: language==='sv' ? `2px solid ${kthColors.KthBlue?.HEX}` : 'none' }}>SV</button>
+                      <button onClick={() => { setLanguage('en'); setMenuOpen(false); setExportSubOpen(false); }} className="px-3 py-1 border border-gray-300 rounded-md shadow-sm font-semibold" aria-label="English" title="English" style={{ color: kthColors.KthBlue?.HEX, fontSize: 13, outline: language==='en' ? `2px solid ${kthColors.KthBlue?.HEX}` : 'none' }}>EN</button>
                     </div>
                   </div>
                 </div>
@@ -246,6 +340,15 @@ export default function HomeClient() {
           </div>
         </div>
         <div className="bg-white rounded-lg shadow-lg p-6 min-h-[600px]">
+          {selectedProgram.specializations && selectedProgram.specializations.length > 0 && (
+            <SpecializationFilter
+              language={language}
+              specializations={selectedProgram.specializations}
+              groups={selectedProgram.specializationGroups}
+              selected={selectedSpecializations}
+              onChange={setSelectedSpecializations}
+            />
+          )}
           <TimelineVisualization
             ref={vizRef}
             courses={courses}
@@ -253,7 +356,7 @@ export default function HomeClient() {
             programName={language === 'en' ? (selectedProgram.nameEn || selectedProgram.name) : selectedProgram.name}
             programCode={selectedProgram.code}
             studyplanUrl={selectedProgram.studyplan}
-            programComment={selectedProgram.comment}
+            programComment={language === 'en' ? (selectedProgram.commentEn || selectedProgram.comment) : selectedProgram.comment}
             cosmetics={cosmetics}
             selectedOptionPerGroup={selectedOptionPerGroup}
             onSelectedOptionPerGroupChange={setSelectedOptionPerGroup}
@@ -261,8 +364,12 @@ export default function HomeClient() {
             onHiddenLayersChange={setHiddenLayers}
             hiddenGroups={hiddenGroups}
             onHiddenGroupsChange={setHiddenGroups}
+            selectedSpecializations={selectedSpecializations}
+            specGroupMap={specGroupMap}
+            onToast={setToast}
           />
         </div>
+        <Toast language={language} toast={toast} onClose={() => setToast(null)} />
         
         {/* Git version info in bottom right */}
         <div style={{ 
