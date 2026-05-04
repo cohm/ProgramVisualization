@@ -53,6 +53,10 @@ export const tr = {
       electivePlaceholder: 'Plats för valfri kurs',
       recommended: 'Rekommenderad',
     },
+    courseLevelTitle: {
+      G: 'Grundnivå',
+      A: 'Avancerad nivå',
+    },
     months: ['jan', 'feb', 'mar', 'apr', 'maj', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
   },
   en: {
@@ -103,6 +107,10 @@ export const tr = {
       conditionallyElective: 'Conditionally elective',
       electivePlaceholder: 'Free elective slot',
       recommended: 'Recommended',
+    },
+    courseLevelTitle: {
+      G: 'First-cycle (grundnivå)',
+      A: 'Second-cycle (avancerad nivå)',
     },
     months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
   },

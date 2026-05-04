@@ -69,6 +69,7 @@ const PERIOD_IDS = new Set(['P1', 'P2', 'P3', 'P4']);
 const COLOR_FAMILIES = new Set(['blue', 'green', 'turquoise', 'brick', 'yellow']);
 const COURSE_CATEGORIES = new Set(['mandatory', 'conditionallyElective', 'electivePlaceholder', 'recommended']);
 const GRADING_SCALES = new Set(['A-F', 'P/F', 'VG/G/U']);
+const COURSE_LEVELS = new Set(['G', 'A']);
 const CREDIT_TOLERANCE = 0.05; // hp; tolerates rounding (e.g. 3.7 + 3.8)
 
 let errorCount = 0;
@@ -367,6 +368,7 @@ function validateCourse(c, ctx, file) {
   validatePeriodList(c.reexams, 'reexams', c, ctx, file);
   validateOptionalEnum(c.category, 'category', COURSE_CATEGORIES, c.code, ctx, file);
   validateOptionalEnum(c.gradingScale, 'gradingScale', GRADING_SCALES, c.code, ctx, file);
+  validateOptionalEnum(c.courseLevel, 'courseLevel', COURSE_LEVELS, c.code, ctx, file);
   validateReexamConsistency(c, ctx, file);
 }
 
@@ -471,6 +473,32 @@ function validateOptionGroup(og, ctx, file) {
     err(file, `${ctx} optionGroup '${og.name}': 'options' must be a non-empty array of course codes`);
   } else if (og.allowedNumberOfOptions > og.options.length) {
     err(file, `${ctx} optionGroup '${og.name}': allowedNumberOfOptions (${og.allowedNumberOfOptions}) > options.length (${og.options.length})`);
+  }
+
+  // 'kind' discriminator (introduced for minCredits-style groups). When
+  // omitted, the group is treated as 'pickN' with N = allowedNumberOfOptions.
+  if (og.kind != null) {
+    if (og.kind !== 'pickN' && og.kind !== 'minCredits') {
+      err(file, `${ctx} optionGroup '${og.name}': 'kind' must be 'pickN' or 'minCredits'`);
+    } else if (og.kind === 'pickN') {
+      if (og.pickN != null && (typeof og.pickN !== 'number' || og.pickN < 1)) {
+        err(file, `${ctx} optionGroup '${og.name}': 'pickN' must be a positive integer`);
+      }
+      if (og.minCredits != null) {
+        warn(file, `${ctx} optionGroup '${og.name}': 'minCredits' is ignored when kind === 'pickN'`);
+      }
+    } else if (og.kind === 'minCredits') {
+      if (typeof og.minCredits !== 'number' || og.minCredits < 1) {
+        err(file, `${ctx} optionGroup '${og.name}': 'minCredits' is required (≥ 1) when kind === 'minCredits'`);
+      } else if (typeof og.totalCredits === 'number' && og.totalCredits < og.minCredits) {
+        err(file, `${ctx} optionGroup '${og.name}': totalCredits (${og.totalCredits}) < minCredits (${og.minCredits}); the placeholder cannot fit the requirement`);
+      }
+      if (og.pickN != null) {
+        warn(file, `${ctx} optionGroup '${og.name}': 'pickN' is ignored when kind === 'minCredits'`);
+      }
+    }
+  } else if (og.pickN != null || og.minCredits != null) {
+    warn(file, `${ctx} optionGroup '${og.name}': 'pickN' / 'minCredits' set without an explicit 'kind' — set kind: 'pickN' or 'minCredits' to use them`);
   }
 
   if (og.periodCredits && typeof og.periodCredits === 'object') {

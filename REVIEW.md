@@ -420,7 +420,34 @@ A continuation of the §3 performance pass; no behaviour change, just less work 
 - ✅ §3 **Drop redundant `new Date(...)` wrappings** — `periodObj.lectureEnd` and `periodObj.start` are already `Date` objects (parsed in `src/types/course.ts`), so wrapping them in `new Date(...)` allocated a fresh Date per credit per render. Removed at both bar-position sites.
 - ✅ §3 **Binary-search label truncation** — the per-bar text fitter shrank one character at a time, calling `getComputedTextLength()` once per character. Switched to a binary search over prefix length: O(log n) measurement calls instead of O(n), preserving the original short-circuit (skip when `fullText` already fits) and the original 3-char minimum.
 
-### Items deferred / declined
+### Batch D — responsive + a11y leftovers
 
-- ⏭ §4.2 **Mandatory < 6 hp warning** — declined: the riktlinje phrasing is "bör" (should), not "ska" (must), and several real KTH courses legitimately fall below 6 hp. The warning would be noise.
-- ⏭ §1.5 **Validator typo guard for `prerequisites` + `prerequisitesCompleted` both set** — superseded by Batch B's loader fix (both being present is now valid: they're unioned).
+The user reviewed the four candidates and accepted D1 + D4; D2 and D3 were declined (rationale below).
+
+- ✅ §1.3 **Tooltip viewport-clamping** — `placeTooltip(anchorX, anchorY, gapX, gapY)` helper in `TimelineVisualization.tsx` shows the tooltip at the default below-right offset, measures `getBoundingClientRect()`, and flips left / up when the result would overflow the viewport (with an 8 px viewport pad). Used at both the mouse-move and the keyboard-focus call sites.
+- ✅ §1.4 **Modal focus trap** — `OptionGroupModal.tsx` now wraps its overlay in a ref, captures `document.activeElement` on mount, focuses the first interactive control on the next animation frame, and registers a `keydown` listener that (a) calls `cancel()` on `Escape` and (b) traps Tab / Shift+Tab inside the modal. On unmount the listener is removed and focus is restored to the bar that opened the modal. Choose, Cancel, and each option `<g>` now have `tabIndex={0}`, `role="button"`, an `aria-label`, and an Enter/Space activation handler so SVG controls participate in the trap.
+
+### Batch E — year-label credit summary
+
+Reduced from the original three candidates: only E1 was accepted, and only as a tooltip (not a chart-area badge).
+
+- ✅ §4.5 **Per-year credit total in year-label tooltip** — `TimelineVisualization.tsx` now precomputes `totalCreditsByYear` once before the year-label loop (summing each individual course's per-credit entries plus each option group's `totalCredits`) and appends `${year}: X / 60 ${tr.credits}` as the first line of the year label's `<title>`. The existing `yearFocusHint` becomes the second line.
+
+### Batch F — data model extensions
+
+The user accepted F1 (course level) and F4 (richer option groups). The remaining items (cohort year, per-läsår periods, structured prerequisites) were declined for now.
+
+- ✅ §2.7 **Course level G/A inferred from code** — new helper `src/lib/courseLevel.ts` exports `inferCourseLevel(code)` (parses the first digit after the letters: 1 → G grundnivå, 2 → A avancerad nivå, anything else → undefined) and `getCourseLevel(course)` (prefers explicit `courseLevel` field over inference). Optional `courseLevel?: 'G' | 'A'` field on `Course` for the rare overrides. `InfoPanel.tsx` renders a small G/A badge in the existing badges flex row, with a localised `<title>` tooltip (`Grundnivå` / `First-cycle`). Validator gained a `COURSE_LEVELS` enum.
+- ✅ §2.2 **Richer `OptionGroup` (`kind: 'pickN' | 'minCredits'`)** — schema gains `kind`, `pickN`, and `minCredits` fields (all optional, with full back-compat: legacy data without `kind` is treated as `pickN` with `pickN = allowedNumberOfOptions`). New helper `src/lib/optionGroupKind.ts` centralises the resolution. Selection state changed from `Record<string, string>` to `Record<string, string[]>` everywhere (HomeClient state hook + URL serializer, TimelineVisualization props + dispatch context, OptionGroupModal props). The URL `og` parameter now joins multiple codes per group with `+`; old single-code bookmarks still parse. The modal supports multi-select: pickN groups cap at N (FIFO drop on overflow), minCredits groups have no cap, and a rule banner shows running totals (`X / Y hp` for minCredits; `N / pickN` for pickN > 1). Renderer first-cut: when *any* option is selected, the placeholder is hidden and the selected options render as their own bars. Validator enforces per-kind required fields and warns when `pickN` / `minCredits` are set without an explicit `kind`.
+
+### Items deferred / declined (cumulative)
+
+- ⏭ §4.2 **Mandatory < 6 hp warning** (Batches A–C) — declined: the riktlinje phrasing is "bör" (should), not "ska" (must), and several real KTH courses legitimately fall below 6 hp. The warning would be noise.
+- ⏭ §1.5 **Validator typo guard for `prerequisites` + `prerequisitesCompleted` both set** (Batches A–C) — superseded by Batch B's loader fix (both being present is now valid: they're unioned).
+- ⏭ §1.3 **Tap-to-tooltip on touch devices** (Batch D, D2) — declined: on touch devices, tapping a course already opens the bottom info panel, which is richer than the floating tooltip. The tooltip is fundamentally a hover/keyboard-focus aid; adding a long-press or two-tap gesture would conflict with the existing tap-to-open behaviour without giving the user new information.
+- ⏭ §1.4 **Color-blind redundancy** (Batch D, D3) — declined: small corner shape badges per cosmetics family would clutter the bars; cosmetics colour-coding is not load-bearing for the visualisation (the chart still reads correctly without it).
+- ⏭ §4.5 **>2 obligatoriska tentor warning** (Batch E, E2) — declined for now: useful for programme designers but not for students reading the chart; can be added later as an opt-in overlay.
+- ⏭ §4.5 **Läsår in chart title** (Batch E, E3) — declined: this tool renders the *current study plan starting at year 1*, not a calendar-year view. "Year 1" maps to whatever läsår the student is in. A `cohort` field on programs would unblock this; see F2 below.
+- ⏭ §4.4 **Cohort year on programs** (Batch F, F2) — deferred: needs the long-term shift to cohort-specific study plans (currently each program has one current snapshot; Ladok structure isn't programmatically reliable enough to scrape historical plans).
+- ⏭ §2.6 + §4.3 **Per-läsår `academic-periods`** (Batch F, F3) — deferred: tied to F2; also worth questioning whether *exact* per-läsår dates add visual value over the current generic-läsår layout (might just be visual noise).
+- ⏭ §2.8 **Structured prerequisites** (Batch F, F5) — deferred: large, ripples through the prereq router; not blocking any current use case.

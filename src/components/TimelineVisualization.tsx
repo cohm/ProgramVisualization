@@ -37,8 +37,10 @@ interface TimelineVisualizationProps {
   cosmetics?: ProgramCosmetics | null;
   // URL-derived view state (controlled by the parent so it can be persisted to
   // query params and survive page reloads / sharing).
-  selectedOptionPerGroup: Record<string, string>;
-  onSelectedOptionPerGroupChange: (next: Record<string, string>) => void;
+  // Per-group user selection: for kind: 'pickN' (the default), the array is
+  // capped at pickN entries; for kind: 'minCredits' it has no cap.
+  selectedOptionPerGroup: Record<string, string[]>;
+  onSelectedOptionPerGroupChange: (next: Record<string, string[]>) => void;
   hiddenLayers: Set<string>;
   onHiddenLayersChange: (next: Set<string>) => void;
   hiddenGroups: Set<string>;
@@ -118,7 +120,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     coursesByCode: Map<string, Course>;
     optionGroupsByName: Map<string, OptionGroup>;
     individualCoursesByCode: Map<string, Course>;
-    selectedOptionPerGroup: Record<string, string>;
+    selectedOptionPerGroup: Record<string, string[]>;
   }>({
     coursesByCode: new Map(),
     optionGroupsByName: new Map(),
@@ -142,8 +144,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // Option group modal state
   const [selectedOptionGroup, setSelectedOptionGroup] = useState<OptionGroup | null>(null);
   
-  // Track which option is currently highlighted in the modal
-  const [highlightedOptionCode, setHighlightedOptionCode] = useState<string | null>(null);
+  // Track which options are currently highlighted in the modal. For pickN
+  // groups the array is capped at pickN; for minCredits groups it has no cap.
+  const [highlightedOptionCodes, setHighlightedOptionCodes] = useState<string[]>([]);
 
   // When the modal opens/closes, reset or initialize highlighting.
   // selectedOptionPerGroup is intentionally excluded: we only want to react to the
@@ -151,9 +154,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   useEffect(() => {
     if (selectedOptionGroup) {
       const currentSelection = selectedOptionPerGroup[selectedOptionGroup.name];
-      setHighlightedOptionCode(currentSelection || null);
+      setHighlightedOptionCodes(currentSelection ? [...currentSelection] : []);
     } else {
-      setHighlightedOptionCode(null);
+      setHighlightedOptionCodes([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOptionGroup]);
@@ -728,14 +731,16 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const optionGroups = courses.filter(isOptionGroup);
   const coursesInOptionGroups = new Set<string>();
   optionGroups.forEach(og => {
+    const selectedCodes = selectedOptionPerGroup[og.name] ?? [];
     og.options.forEach(optionCode => {
-      // Don't hide courses that have been selected as the chosen option
-      if (selectedOptionPerGroup[og.name] !== optionCode) {
+      // Hide options that weren't picked. Picked options surface in
+      // `individualCourses` and render as their own bars.
+      if (!selectedCodes.includes(optionCode)) {
         coursesInOptionGroups.add(optionCode);
       }
     });
   });
-  
+
   // Filter courses to only include individual courses (not in option groups)
   const individualCourses = courses.filter(c => {
     if (isOptionGroup(c)) return false;
@@ -746,11 +751,14 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // turns several per-arrow / per-bar O(n) `find(...)` scans into O(1).
   const individualCoursesByCodeMap = new Map<string, Course>();
   individualCourses.forEach(c => individualCoursesByCodeMap.set(c.code, c));
-  
-  // Combine individual courses with option groups for rendering (selected courses are now in individualCourses)
+
+  // Combine individual courses with option groups for rendering. The
+  // placeholder bar is hidden as soon as any option in the group has been
+  // picked (first cut: simple all-or-nothing — partial-fill rendering for
+  // multi-select groups is a follow-up).
   const displayItems: Array<Course | OptionGroup> = [
     ...individualCourses,
-    ...optionGroups.filter(og => !selectedOptionPerGroup[og.name])
+    ...optionGroups.filter(og => (selectedOptionPerGroup[og.name]?.length ?? 0) === 0)
   ];
   
   // Increased vertical gap between year rows (px)
@@ -1489,6 +1497,22 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         }
       });
     });
+    // Per-year credit total for the year-label hover tooltip. Counts
+    // every individual course's credits in that year plus the planned
+    // total for any option group in that year (group totals stay constant
+    // across pickN/minCredits selection states).
+    const totalCreditsByYear = Array.from({ length: numYears }, () => 0);
+    individualCourses.forEach(c => c.credits.forEach(cr => {
+      if (cr.year >= 1 && cr.year <= numYears) totalCreditsByYear[cr.year - 1] += cr.credits;
+    }));
+    optionGroups.forEach(og => {
+      if (og.year >= 1 && og.year <= numYears) totalCreditsByYear[og.year - 1] += og.totalCredits;
+    });
+    const formatCredits = (n: number) => {
+      const r = Math.round(n * 10) / 10;
+      return Number.isInteger(r) ? String(r) : r.toFixed(1);
+    };
+
     for (let i = 0; i < numYears; i++) {
       const yearLabelY = yearYOffset[i] + yearBandHeights[i] / 2;
       // Active-year highlighting (font-weight) is applied by the focusYear
@@ -1507,8 +1531,10 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('tabindex', '0')
         .attr('aria-label', `${tr[language].year} ${i + 1}`)
         .style('cursor', 'pointer');
-      // Native browser tooltip explaining what clicking the label does.
-      yearLabelEl.append('title').text(tr[language].yearFocusHint);
+      // Native browser tooltip: per-year credit summary on the first line,
+      // focus-mode hint on the second.
+      const summary = `${tr[language].year} ${i + 1}: ${formatCredits(totalCreditsByYear[i])} / 60 ${tr[language].credits}`;
+      yearLabelEl.append('title').text(`${summary}\n${tr[language].yearFocusHint}`);
     }
 
     // Draw arrows for prerequisites using stored positions
@@ -2308,6 +2334,34 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       currentTooltipKeyRef.current = null;
     };
 
+    // Position the tooltip near (anchorX, anchorY) in page coordinates,
+    // offset by (gapX, gapY). If the resulting placement would overflow
+    // the viewport on the right or bottom, flip to the opposite side of
+    // the anchor so the tooltip stays fully visible. Display must already
+    // be 'block' before calling — getBoundingClientRect needs real layout.
+    const placeTooltip = (anchorX: number, anchorY: number, gapX: number, gapY: number) => {
+      const node = tooltipElRef.current;
+      if (!node) return;
+      let left = anchorX + gapX;
+      let top = anchorY + gapY;
+      node.style.left = `${left}px`;
+      node.style.top = `${top}px`;
+      const r = node.getBoundingClientRect();
+      const viewportPad = 8;
+      if (r.right > window.innerWidth - viewportPad) {
+        left = anchorX - r.width - gapX;
+        const minLeft = window.scrollX + viewportPad;
+        if (left < minLeft) left = minLeft;
+        node.style.left = `${left}px`;
+      }
+      if (r.bottom > window.innerHeight - viewportPad) {
+        top = anchorY - r.height - gapY;
+        const minTop = window.scrollY + viewportPad;
+        if (top < minTop) top = minTop;
+        node.style.top = `${top}px`;
+      }
+    };
+
     // Resolve the cache key for a given kind-element. Bars and connectors
     // resolve to either a course or an option-group entry, depending on
     // whether the data-course is an option-group's synthetic id.
@@ -2350,9 +2404,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     };
 
     const onMouseMove = (event: MouseEvent) => {
-      tooltip
-        .style('left', (event.pageX + 50) + 'px')
-        .style('top', (event.pageY + 50) + 'px');
+      placeTooltip(event.pageX, event.pageY, 50, 50);
     };
 
     const onMouseOut = (event: MouseEvent) => {
@@ -2389,7 +2441,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           const og = ctx.optionGroupsByName.get(id.slice('optionGroup-'.length));
           if (og) {
             setSelectedOptionGroup(og);
-            setHighlightedOptionCode(null);
+            setHighlightedOptionCodes([]);
           }
           return;
         }
@@ -2398,13 +2450,13 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         // Course shown as the chosen option of an option group — open the
         // owning option-group modal instead of just focusing.
         const owningGroup = Object.entries(ctx.selectedOptionPerGroup).find(
-          ([, selectedCode]) => selectedCode === course.code
+          ([, selectedCodes]) => selectedCodes.includes(course.code)
         )?.[0];
         if (owningGroup) {
           const og = ctx.optionGroupsByName.get(owningGroup);
           if (og) {
             setSelectedOptionGroup(og);
-            setHighlightedOptionCode(null);
+            setHighlightedOptionCodes([]);
             setSelectedInfo(null);
           }
           return;
@@ -2458,11 +2510,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       const rect = el.getBoundingClientRect();
       const pageX = rect.left + window.scrollX;
       const pageY = rect.bottom + window.scrollY;
-      tooltip
-        .html(html)
-        .style('display', 'block')
-        .style('left', (pageX) + 'px')
-        .style('top', (pageY + 8) + 'px');
+      tooltip.html(html).style('display', 'block');
+      placeTooltip(pageX, pageY, 0, 8);
       currentTooltipKeyRef.current = key;
     };
 
@@ -2826,8 +2875,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           language={language}
           courses={courses}
           getCourseColors={getCourseColors}
-          highlightedOptionCode={highlightedOptionCode}
-          onHighlightedOptionCodeChange={setHighlightedOptionCode}
+          highlightedOptionCodes={highlightedOptionCodes}
+          onHighlightedOptionCodesChange={setHighlightedOptionCodes}
           selectedOptionPerGroup={selectedOptionPerGroup}
           onSelectedOptionPerGroupChange={onSelectedOptionPerGroupChange}
           onSelectedInfoChange={setSelectedInfo}

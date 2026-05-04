@@ -38,7 +38,18 @@ export interface OptionGroup {
   totalCredits: number;
   periodCredits: Record<'P1' | 'P2' | 'P3' | 'P4', number>;
   options: string[]; // Array of course codes
-  allowedNumberOfOptions: number; // How many courses can be selected from this group
+  // Discriminator for the group's selection rule.
+  //   'pickN'      — pick exactly N courses (the historical default; N comes
+  //                  from `pickN` if set, otherwise from `allowedNumberOfOptions`)
+  //   'minCredits' — pick any number of courses summing to at least
+  //                  `minCredits` hp (e.g. "minst 30 hp ur följande grupp")
+  // When omitted, the group is treated as 'pickN'. See src/lib/optionGroupKind.ts.
+  kind?: 'pickN' | 'minCredits';
+  pickN?: number;       // used when kind === 'pickN' (defaults to allowedNumberOfOptions)
+  minCredits?: number;  // required when kind === 'minCredits'
+  // Legacy field, kept for backward compatibility. New 'pickN' groups should
+  // prefer `pickN`; new 'minCredits' groups can leave this at any value (1).
+  allowedNumberOfOptions: number;
   exams: Period['id'][];
   reexams: Period['id'][];
   // Optional KTH metadata. category typically applies to the whole group;
@@ -85,6 +96,11 @@ export interface Course {
   // Optional KTH metadata (Riktlinje om utbildningsplan, Riktlinje om kursplan)
   category?: CourseCategory;
   gradingScale?: GradingScale;
+  // Cycle level: 'G' = grundnivå (first cycle), 'A' = avancerad nivå (second
+  // cycle). When omitted, the level is inferred from the first digit after
+  // the letters in `code` (1 → G, 2 → A); set explicitly only to override
+  // the inference (rare). See src/lib/courseLevel.ts.
+  courseLevel?: 'G' | 'A';
   // See OptionGroup.specializations.
   specializations?: string[];
 }

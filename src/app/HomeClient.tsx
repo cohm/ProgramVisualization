@@ -122,16 +122,22 @@ export default function HomeClient() {
   // Selections persist across program switches (an `og` entry that doesn't match
   // the new program is simply ignored).
 
-  const selectedOptionPerGroup = useMemo<Record<string, string>>(() => {
+  // Codes after the colon are joined with '+' — multi-select for groups
+  // with kind: 'pickN' (pickN > 1) or kind: 'minCredits'. Single-string
+  // form is still accepted for back-compat with bookmarks from the
+  // pre-multiselect days.
+  const selectedOptionPerGroup = useMemo<Record<string, string[]>>(() => {
     const og = searchParams.get('og');
     if (!og) return {};
-    const out: Record<string, string> = {};
+    const out: Record<string, string[]> = {};
     for (const pair of og.split(',')) {
       const colon = pair.indexOf(':');
       if (colon <= 0) continue;
       const name = decodeURIComponent(pair.slice(0, colon));
-      const code = decodeURIComponent(pair.slice(colon + 1));
-      if (name && code) out[name] = code;
+      const codesRaw = pair.slice(colon + 1);
+      if (!name || !codesRaw) continue;
+      const codes = codesRaw.split('+').map(c => decodeURIComponent(c)).filter(Boolean);
+      if (codes.length > 0) out[name] = codes;
     }
     return out;
   }, [searchParams]);
@@ -184,11 +190,15 @@ export default function HomeClient() {
     router.replace(`/?${params.toString()}`);
   }, [searchParams, router]);
 
-  const setSelectedOptionPerGroup = useCallback((next: Record<string, string>) => {
+  const setSelectedOptionPerGroup = useCallback((next: Record<string, string[]>) => {
     replaceParams((p) => {
-      const entries = Object.entries(next).filter(([, v]) => !!v).sort(([a], [b]) => a.localeCompare(b));
+      const entries = Object.entries(next)
+        .filter(([, codes]) => Array.isArray(codes) && codes.length > 0)
+        .sort(([a], [b]) => a.localeCompare(b));
       if (entries.length === 0) p.delete('og');
-      else p.set('og', entries.map(([k, v]) => `${encodeURIComponent(k)}:${encodeURIComponent(v)}`).join(','));
+      else p.set('og', entries
+        .map(([k, codes]) => `${encodeURIComponent(k)}:${codes.map(c => encodeURIComponent(c)).join('+')}`)
+        .join(','));
     });
   }, [replaceParams]);
 
