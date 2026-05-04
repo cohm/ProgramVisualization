@@ -19,7 +19,8 @@ const WEIGHTS = '300;400;500;600;700;800;900';
 const cache = new Map<string, Promise<string>>();
 
 function isSystemFont(name: string): boolean {
-  return Array.from(SYSTEM_FONTS).some(s => name.includes(s));
+  for (const s of SYSTEM_FONTS) if (name.includes(s)) return true;
+  return false;
 }
 
 async function fetchFontFaceCss(family: string): Promise<string> {
@@ -43,8 +44,9 @@ async function fetchFontFaceCss(family: string): Promise<string> {
     if (!fontResp.ok) continue;
     const buf = await fontResp.arrayBuffer();
     const u8 = new Uint8Array(buf);
-    let binary = '';
-    for (let i = 0; i < u8.length; i++) binary += String.fromCharCode(u8[i]);
+    // Array.from + join is O(n) — avoids the O(n²) intermediate-string
+    // churn of the naive `for (…) binary += String.fromCharCode(…)` loop.
+    const binary = Array.from(u8, b => String.fromCharCode(b)).join('');
     const base64 = btoa(binary);
     const format = url.includes('.woff2') ? 'woff2' : url.includes('.woff') ? 'woff' : 'truetype';
     faces.push(`@font-face { font-family: '${family}'; src: url(data:font/${format};base64,${base64}) format('${format}'); font-weight: 100 900; font-style: normal; }`);

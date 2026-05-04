@@ -2639,31 +2639,26 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     if (!containerRef.current || !cosmetics) return;
     const container = d3.select(containerRef.current);
 
+    // Helpers for safe group-name filtering — defined once here and reused
+    // for all groups so we don't reallocate closures inside the forEach loop.
+    // Using filter functions instead of CSS [data-group="…"] attribute selectors
+    // prevents group names with special CSS characters from corrupting the selector.
+    const selectByGroup = (cls: string, name: string) =>
+      container.selectAll(cls).filter(function() {
+        return (this as Element).getAttribute('data-group') === name;
+      });
+
     cosmetics.groups.forEach(group => {
       const isGroupVisible = layers.groups[group.name] !== false;
       const courseDisplay = (isGroupVisible && layers.courseBars) ? '' : 'none';
       const examDisplay = (isGroupVisible && layers.exams && layers.courseBars) ? '' : 'none';
       const reexamDisplay = (isGroupVisible && layers.reexams && layers.courseBars) ? '' : 'none';
 
-      container.selectAll(`.course-group[data-group="${group.name}"]`)
-        .interrupt()
-        .style('display', courseDisplay);
-
-      container.selectAll(`.course-connector-fill[data-group="${group.name}"]`)
-        .interrupt()
-        .style('display', courseDisplay);
-
-      container.selectAll(`.course-connector-border[data-group="${group.name}"]`)
-        .interrupt()
-        .style('display', courseDisplay);
-
-      container.selectAll(`.exam-dot[data-group="${group.name}"]`)
-        .interrupt()
-        .style('display', examDisplay);
-
-      container.selectAll(`.reexam-dot[data-group="${group.name}"]`)
-        .interrupt()
-        .style('display', reexamDisplay);
+      selectByGroup('.course-group', group.name).interrupt().style('display', courseDisplay);
+      selectByGroup('.course-connector-fill', group.name).interrupt().style('display', courseDisplay);
+      selectByGroup('.course-connector-border', group.name).interrupt().style('display', courseDisplay);
+      selectByGroup('.exam-dot', group.name).interrupt().style('display', examDisplay);
+      selectByGroup('.reexam-dot', group.name).interrupt().style('display', reexamDisplay);
     });
 
     // Prereq arrows: composite of (relevant prereq* layer) AND (both endpoint
