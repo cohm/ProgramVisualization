@@ -6,6 +6,13 @@ on:
       - main
   pull_request:
 
+# Cancel superseded runs on the same ref (e.g. when a PR is force-pushed).
+# `main` keeps in-progress runs because we usually want every commit on main
+# to produce a final result.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 permissions:
   contents: read
 
@@ -25,6 +32,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Audit dependencies
+        # Fails on HIGH or CRITICAL CVEs in installed packages. Escape hatches
+        # if a transitive vuln has no upstream fix yet, in order of preference:
+        #   1. `npm audit fix` (or `--force` only after verifying the bumps
+        #      are non-breaking) — usually resolves it.
+        #   2. Pin the offender via `package.json` `overrides` to a patched
+        #      version if one exists.
+        #   3. As a last resort, temporarily relax to `--audit-level=critical`
+        #      here and leave a comment pointing at the advisory + why we're
+        #      accepting it. Avoid `|| true`; that hides everything.
+        run: npm audit --audit-level=high
+
       - name: Validate program data files
         run: npm run validate-data
 
@@ -36,3 +55,10 @@ jobs:
 
       - name: Build project
         run: npm run build
+
+      - name: Check bundle size
+        # Fails when the brotlied client JS exceeds the budget in
+        # `package.json` → `size-limit`. Bump the limit deliberately when an
+        # increase is justified (new feature, dep upgrade); the diff documents
+        # why. The current budget has ~27% headroom over the baseline.
+        run: npm run size

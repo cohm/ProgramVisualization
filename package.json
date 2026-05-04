@@ -7,8 +7,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --max-warnings 0",
-    "validate-data": "node scripts/validate-data.mjs"
+    "validate-data": "node scripts/validate-data.mjs",
+    "size": "size-limit"
   },
+  "size-limit": [
+    {
+      "name": "Client JS (brotlied, all static chunks)",
+      "path": ".next/static/chunks/**/*.js",
+      "limit": "250 KB"
+    }
+  ],
   "dependencies": {
     "@sparticuz/chromium": "^141.0.0",
     "@types/d3": "^7.4.3",
@@ -19,6 +27,7 @@
     "react-dom": "^19.2.1"
   },
   "devDependencies": {
+    "@size-limit/file": "^12.1.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -26,6 +35,7 @@
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "^16.0.10",
+    "size-limit": "^12.1.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

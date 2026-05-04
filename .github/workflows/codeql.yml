@@ -1,0 +1,58 @@
+# GitHub-native static analysis. Catches XSS, prototype pollution, unsafe
+# regexes, and other common JS/TS issues that lint won't flag.
+#
+# Runs on PRs, on every push to main, and on a weekly cron so newly-published
+# rules find existing code without waiting for the next PR.
+
+name: CodeQL
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:
+    # Mondays 05:30 UTC. Off-peak; far from typical PR traffic.
+    - cron: "30 5 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # `javascript-typescript` covers both JS and TS in one analysis pass.
+        language: [javascript-typescript]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          # `security-extended` adds a few rule packs over the default set
+          # (e.g. extra taint-tracking) without going to the full
+          # `security-and-quality` (which is noisy with style nits).
+          queries: security-extended
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"

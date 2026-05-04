@@ -1,0 +1,33 @@
+# Dependabot keeps dependencies and CI actions current. Two ecosystems:
+#   - npm:           src/package.json (production + dev deps)
+#   - github-actions: pinned action versions in .github/workflows/*.yml
+#
+# Weekly cadence is enough for a low-traffic project; bump to daily if security
+# alerts feel slow to surface. PRs are grouped to keep the queue reviewable.
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    groups:
+      # Bundle minor + patch bumps so we don't get N PRs per week. Major
+      # bumps stay separate because they typically need manual review
+      # (Next/React/D3 majors all carry breaking changes).
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      # @sparticuz/chromium must track the Chromium version in puppeteer-core.
+      # Auto-bumping it independently can break PDF export on Vercel; bump
+      # this and puppeteer-core together by hand.
+      - dependency-name: "@sparticuz/chromium"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
