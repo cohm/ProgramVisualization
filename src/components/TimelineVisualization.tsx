@@ -126,7 +126,15 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // length — years stack vertically — so this is a constant, not data-driven.
   // Below this, the outer wrapper scrolls horizontally rather than letting
   // D3's clientWidth-based layout cramp the bars and labels.
-  const chartMinWidth = 1000;
+  //
+  // 1200 px keeps the legend inside the summer gap between the P4 ordinary
+  // exam period (ending ~Jun 1) and the August re-exams (starting ~Aug 10):
+  // the legend's bottom-right slot is fixed at [W−255, W−85] (offsetX 85,
+  // width 170), which at 1200 px lands at x≈945–1115, while the Jun 1 and
+  // Aug 10 marks fall at x≈922 and x≈1127 respectively. Stay roughly within
+  // [1100, 1600] to keep the legend in that gap; outside it the legend
+  // starts overlapping P4 course bars or the August re-exam markers.
+  const chartMinWidth = 1200;
 
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
