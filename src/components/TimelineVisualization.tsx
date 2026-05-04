@@ -105,6 +105,29 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       return true;
     });
   }, [rawCourses, selectedSpecializations, specGroupMap]);
+
+  // Highest year referenced anywhere in the (filtered) course list. Years
+  // stack vertically, so this drives chart *height*, not width. Hoisted out
+  // of the render effect because the JSX below also needs it (for the chart
+  // title etc. via dependencies).
+  const numYears = useMemo(() => {
+    const maxYear = Math.max(1, ...courses.flatMap(c => {
+      if (isCourse(c)) {
+        return c.credits.map(cr => cr.year || c.year || 1);
+      } else {
+        return [(c as OptionGroup).year || 1];
+      }
+    }));
+    return Math.max(1, maxYear);
+  }, [courses]);
+
+  // Minimum CSS-pixel width the chart needs to stay legible. The horizontal
+  // axis spans one academic year (P1 → P4 re-exam) regardless of program
+  // length — years stack vertically — so this is a constant, not data-driven.
+  // Below this, the outer wrapper scrolls horizontally rather than letting
+  // D3's clientWidth-based layout cramp the bars and labels.
+  const chartMinWidth = 1000;
+
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   // Preserve the initial chart height to keep a stable px-per-ECTS baseline across re-renders/toggles
@@ -718,15 +741,6 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // Empty-space clicks (clearing focus / info / year) are handled by the
   // delegated click listener installed once on the container.
 
-  const maxYear = Math.max(1, ...courses.flatMap(c => {
-    if (isCourse(c)) {
-      return c.credits.map(cr => cr.year || c.year || 1);
-    } else {
-      return [(c as OptionGroup).year || 1];
-    }
-  }));
-  const numYears = Math.max(1, maxYear);
-  
   // Separate option groups and individual courses, and identify courses that should be hidden
   const optionGroups = courses.filter(isOptionGroup);
   const coursesInOptionGroups = new Set<string>();
@@ -2297,7 +2311,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // visual effects (visibility toggles, year-label highlight) are applied by
   // the dedicated post-render effects below, which keeps a layer toggle or
   // year-focus click from triggering a full ~3 000-call SVG rebuild.
-  }, [courses, language, selectedOptionPerGroup, cosmetics, programCode, programName, studyplanUrl, getCourseColors]);
+  }, [courses, numYears, language, selectedOptionPerGroup, cosmetics, programCode, programName, studyplanUrl, getCourseColors]);
 
   // One-time setup: tooltip element + delegated mouseover/move/out/click on
   // the SVG. Replaces the per-element listeners that used to be attached on
@@ -2831,23 +2845,28 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
   return (
     <div ref={containerRef}>
-      {/* Visualization canvas wrapper so legend anchors to the SVG area only */}
-      <div style={{ position: 'relative' }}>
-        <svg
-          ref={svgRef}
-          className="w-full h-full"
-          style={{ minHeight: '600px' }}
-          role="img"
-          aria-labelledby="chart-title chart-desc"
-        />
+      {/* Horizontal-scroll container: when the viewport is narrower than
+          `chartMinWidth`, the inner wrapper (and the SVG it pins) overflow
+          here and produce a scrollbar instead of cramping the layout. */}
+      <div style={{ overflowX: 'auto' }}>
+        {/* Visualization canvas wrapper so legend anchors to the SVG area only */}
+        <div style={{ position: 'relative', minWidth: chartMinWidth }}>
+          <svg
+            ref={svgRef}
+            className="w-full h-full"
+            style={{ minHeight: '600px' }}
+            role="img"
+            aria-labelledby="chart-title chart-desc"
+          />
 
-        <Legend
-          language={language}
-          layers={layers}
-          cosmetics={cosmetics}
-          toggleLayer={toggleLayer}
-          toggleGroup={toggleGroup}
-        />
+          <Legend
+            language={language}
+            layers={layers}
+            cosmetics={cosmetics}
+            toggleLayer={toggleLayer}
+            toggleGroup={toggleGroup}
+          />
+        </div>
       </div>
 
       <InfoPanel
