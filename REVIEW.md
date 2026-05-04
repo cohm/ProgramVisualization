@@ -411,7 +411,7 @@ After the §5 ranked list closed out, several smaller items from §1, §3 and §
 - ✅ **Loader prereq fix** (latent bug) — `useCourseModel.ts` was silently dropping the legacy `prerequisites` array whenever `prerequisitesCompleted` had any entry, even when they contained different course codes. Now: `prerequisites` is unioned into `prerequisitesCompleted`, and any code present in both completion AND participation is removed from participation (completion subsumes participation, no double-arrows on the chart).
 - ✅ §3.5 **Prune hidden DOM + `data-*` attrs before SVG export** — depth-first walk on the cloned SVG removes every element with inline `display: none` and strips `data-*` attributes from kept elements. Smaller PDF payload, cleaner exported SVG.
 
-### Batch C — render-loop micro-optimisations
+### Batch C — render-loop micro-optimisations — [`f0f932d`](https://github.com/cohm/ProgramVisualization/commit/f0f932d) + [`040e292`](https://github.com/cohm/ProgramVisualization/commit/040e292)
 
 A continuation of the §3 performance pass; no behaviour change, just less work per render.
 
@@ -420,20 +420,20 @@ A continuation of the §3 performance pass; no behaviour change, just less work 
 - ✅ §3 **Drop redundant `new Date(...)` wrappings** — `periodObj.lectureEnd` and `periodObj.start` are already `Date` objects (parsed in `src/types/course.ts`), so wrapping them in `new Date(...)` allocated a fresh Date per credit per render. Removed at both bar-position sites.
 - ✅ §3 **Binary-search label truncation** — the per-bar text fitter shrank one character at a time, calling `getComputedTextLength()` once per character. Switched to a binary search over prefix length: O(log n) measurement calls instead of O(n), preserving the original short-circuit (skip when `fullText` already fits) and the original 3-char minimum.
 
-### Batch D — responsive + a11y leftovers
+### Batch D — responsive + a11y leftovers — [`e8e4d6e`](https://github.com/cohm/ProgramVisualization/commit/e8e4d6e)
 
 The user reviewed the four candidates and accepted D1 + D4; D2 and D3 were declined (rationale below).
 
 - ✅ §1.3 **Tooltip viewport-clamping** — `placeTooltip(anchorX, anchorY, gapX, gapY)` helper in `TimelineVisualization.tsx` shows the tooltip at the default below-right offset, measures `getBoundingClientRect()`, and flips left / up when the result would overflow the viewport (with an 8 px viewport pad). Used at both the mouse-move and the keyboard-focus call sites.
 - ✅ §1.4 **Modal focus trap** — `OptionGroupModal.tsx` now wraps its overlay in a ref, captures `document.activeElement` on mount, focuses the first interactive control on the next animation frame, and registers a `keydown` listener that (a) calls `cancel()` on `Escape` and (b) traps Tab / Shift+Tab inside the modal. On unmount the listener is removed and focus is restored to the bar that opened the modal. Choose, Cancel, and each option `<g>` now have `tabIndex={0}`, `role="button"`, an `aria-label`, and an Enter/Space activation handler so SVG controls participate in the trap.
 
-### Batch E — year-label credit summary
+### Batch E — year-label credit summary — [`e8e4d6e`](https://github.com/cohm/ProgramVisualization/commit/e8e4d6e)
 
 Reduced from the original three candidates: only E1 was accepted, and only as a tooltip (not a chart-area badge).
 
 - ✅ §4.5 **Per-year credit total in year-label tooltip** — `TimelineVisualization.tsx` now precomputes `totalCreditsByYear` once before the year-label loop (summing each individual course's per-credit entries plus each option group's `totalCredits`) and appends `${year}: X / 60 ${tr.credits}` as the first line of the year label's `<title>`. The existing `yearFocusHint` becomes the second line.
 
-### Batch F — data model extensions
+### Batch F — data model extensions — [`e8e4d6e`](https://github.com/cohm/ProgramVisualization/commit/e8e4d6e)
 
 The user accepted F1 (course level) and F4 (richer option groups). The remaining items (cohort year, per-läsår periods, structured prerequisites) were declined for now.
 
