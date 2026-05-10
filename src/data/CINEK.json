@@ -64,12 +64,7 @@
     "year": 2,
     "prerequisites": [],
     "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "DTOI",
-      "PPUI",
-      "TMAI"
-    ]
+    "gradingScale": "A-F"
   },
   {
     "code": "DD1324",

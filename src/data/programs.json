@@ -49,15 +49,11 @@
     "comment": "Hämtad automatiskt från KTH studiehandbok 2024-cohort, ej manuellt verifierad. Y4-Y5 ligger i masterprogrammen och visas inte här.",
     "commentEn": "Auto-scraped from the KTH study handbook (2024 cohort), not manually verified. Y4-Y5 live in the master programmes and are not shown here.",
     "studyplan": "https://www.kth.se/student/kurser/program/CINEK",
-    "specializationGroups": [
-      { "code": "tech", "name": "Tekniskt val", "nameEn": "Technical specialization" },
-      { "code": "business", "name": "Verksamhetsinriktning", "nameEn": "Business specialization" }
-    ],
     "specializations": [
-      { "code": "DTOI", "name": "Datateknik", "nameEn": "Computer Technology", "group": "tech" },
-      { "code": "TMAI", "name": "Tillämpad matematik", "nameEn": "Applied Mathematics", "group": "tech" },
-      { "code": "EHUI", "name": "Energisystem och hållbar utveckling", "nameEn": "Energy Systems and Sustainable Development", "group": "business" },
-      { "code": "PPUI", "name": "Produkt- och produktionsutveckling", "nameEn": "Product and Production Development", "group": "business" }
+      { "code": "DTOI", "name": "Datateknik", "nameEn": "Computer Technology" },
+      { "code": "TMAI", "name": "Tillämpad matematik", "nameEn": "Applied Mathematics" },
+      { "code": "EHUI", "name": "Energisystem och hållbar utveckling", "nameEn": "Energy Systems and Sustainable Development" },
+      { "code": "PPUI", "name": "Produkt- och produktionsutveckling", "nameEn": "Product and Production Development" }
     ]
   },
   {
