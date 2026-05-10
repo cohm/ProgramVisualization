@@ -64,7 +64,11 @@
     "year": 2,
     "prerequisites": [],
     "exams": [],
-    "gradingScale": "A-F"
+    "gradingScale": "A-F",
+    "specializations": [
+      "DTOI",
+      "TMAI"
+    ]
   },
   {
     "code": "DD1324",
@@ -915,6 +919,14 @@
       "EHUI",
       "PPUI",
       "TMAI"
-    ]
+    ],
+    "periodCreditsBySpecialization": {
+      "PPUI": {
+        "P1": 0,
+        "P2": 0,
+        "P3": 0,
+        "P4": 7.5
+      }
+    }
   }
 ]

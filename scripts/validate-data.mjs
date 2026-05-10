@@ -36,6 +36,10 @@
 //             | "electivePlaceholder" | "recommended"
 //     gradingScale?: "A-F" | "P/F" | "VG/G/U"
 //     specializations?: Array<specCode>   (must reference programs.json registry)
+//     periodCreditsBySpecialization?: Record<specCode, { P1, P2, P3, P4 }>
+//        Per-specialization period override. Flat-shape courses only. Each
+//        spec code must already be in this course's `specializations`. Each
+//        override's period sum must equal `totalCredits`.
 //
 //   OptionGroup:
 //     type: "optionGroup"
@@ -361,6 +365,47 @@ function validateCourse(c, ctx, file) {
     const totalSum = Object.values(sumPerYear).reduce((a, b) => a + b, 0);
     if (Math.abs(totalSum - c.totalCredits) > CREDIT_TOLERANCE) {
       err(file, `${ctx} ${c.code}: Σ periodCredits = ${round(totalSum)} ≠ totalCredits = ${c.totalCredits}`);
+    }
+  }
+
+  // Per-specialization period override. The renderer applies the override
+  // when the user picks an inriktning whose code matches a key here. Flat
+  // shape only; multi-year overrides aren't modelled yet.
+  if (c.periodCreditsBySpecialization !== undefined) {
+    if (!c.periodCreditsBySpecialization || typeof c.periodCreditsBySpecialization !== 'object') {
+      err(file, `${ctx} ${c.code}: 'periodCreditsBySpecialization' must be an object`);
+    } else if (yearKeys.length > 0) {
+      err(file, `${ctx} ${c.code}: 'periodCreditsBySpecialization' is not supported on courses that use the by-year periodCredits shape`);
+    } else if (!Array.isArray(c.specializations) || c.specializations.length === 0) {
+      err(file, `${ctx} ${c.code}: 'periodCreditsBySpecialization' requires a non-empty 'specializations' array on the course`);
+    } else {
+      const ownSpecs = new Set(c.specializations);
+      for (const [specCode, periods] of Object.entries(c.periodCreditsBySpecialization)) {
+        const sctx = `${ctx} ${c.code}.periodCreditsBySpecialization.${specCode}`;
+        if (!ownSpecs.has(specCode)) {
+          err(file, `${sctx}: '${specCode}' is not in this course's specializations (${[...ownSpecs].join(', ')})`);
+          continue;
+        }
+        if (!periods || typeof periods !== 'object') {
+          err(file, `${sctx}: must be an object`);
+          continue;
+        }
+        let sum = 0;
+        for (const [pid, val] of Object.entries(periods)) {
+          if (!PERIOD_IDS.has(pid)) {
+            err(file, `${sctx}: unknown period '${pid}' (expected P1..P4)`);
+            continue;
+          }
+          if (typeof val !== 'number' || Number.isNaN(val) || val < 0) {
+            err(file, `${sctx}.${pid}: credits must be a non-negative number`);
+          } else {
+            sum += val;
+          }
+        }
+        if (typeof c.totalCredits === 'number' && Math.abs(sum - c.totalCredits) > CREDIT_TOLERANCE) {
+          err(file, `${sctx}: Σ = ${round(sum)} ≠ totalCredits = ${c.totalCredits}`);
+        }
+      }
     }
   }
 

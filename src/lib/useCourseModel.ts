@@ -60,6 +60,7 @@ interface RawEntry {
   category?: CourseCategory;
   gradingScale?: GradingScale;
   specializations?: string[];
+  periodCreditsBySpecialization?: Record<string, Record<'P1' | 'P2' | 'P3' | 'P4', number>>;
 }
 
 // Parse an exams/reexams JSON value into the canonical { flat, byYear } shape.
@@ -145,6 +146,7 @@ export const loadCourses = async (dataFile: string): Promise<(Course | OptionGro
         category: c.category,
         gradingScale: c.gradingScale,
         specializations: Array.isArray(c.specializations) ? [...c.specializations as string[]] : undefined,
+        periodCreditsBySpecialization: (c as RawCourseEntry & { periodCreditsBySpecialization?: Record<string, Record<'P1' | 'P2' | 'P3' | 'P4', number>> }).periodCreditsBySpecialization,
       });
     } else {
       // Merge nested perYear (sums credits if duplicates exist).
@@ -236,6 +238,7 @@ export const loadCourses = async (dataFile: string): Promise<(Course | OptionGro
       category: entry.category,
       gradingScale: entry.gradingScale,
       specializations: entry.specializations,
+      periodCreditsBySpecialization: entry.periodCreditsBySpecialization,
     } as Course;
   });
 
