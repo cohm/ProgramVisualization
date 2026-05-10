@@ -1,0 +1,74 @@
+name: Deploy to GitHub Pages
+
+# Builds a static-export variant of the app (no server-side PDF route)
+# and deploys it to GitHub Pages on every push to main. The Vercel
+# deployment continues to host the full version with PDF export.
+#
+# Setup (one-time, on the repo): Settings → Pages → "Build and
+# deployment" → Source: "GitHub Actions". After the first successful
+# run, the site is at https://<user>.github.io/<repo>/.
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one Pages deploy at a time, but don't cancel an in-flight
+# deploy mid-upload — we want every push to main to publish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Strip server-only API routes
+        # `next export` (output: 'export') refuses to build with route
+        # handlers in the tree. Delete them; the "Save PDF" button is
+        # gated on NEXT_PUBLIC_DISABLE_PDF=1 so nothing in the client
+        # bundle still calls /api/export-pdf.
+        run: rm -rf src/app/api
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build static site
+        env:
+          BUILD_TARGET: pages
+          NEXT_PUBLIC_DISABLE_PDF: '1'
+        run: npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

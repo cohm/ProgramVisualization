@@ -13,14 +13,14 @@ import { execSync } from 'child_process';
 const getGitInfo = () => {
   try {
     // On Vercel, use their environment variables if available
-    const hash = process.env.VERCEL_GIT_COMMIT_SHA?.substring(0, 7) || 
+    const hash = process.env.VERCEL_GIT_COMMIT_SHA?.substring(0, 7) ||
                  execSync('git rev-parse --short HEAD').toString().trim();
-    
+
     const timestamp = execSync('git log -1 --format=%cd --date=iso-strict').toString().trim();
-    
+
     // Try to get the repository URL from git remote or Vercel env vars
     let repoUrl = '';
-    
+
     // Check Vercel environment variables first
     if (process.env.VERCEL_GIT_PROVIDER && process.env.VERCEL_GIT_REPO_OWNER && process.env.VERCEL_GIT_REPO_SLUG) {
       repoUrl = `https://${process.env.VERCEL_GIT_PROVIDER}.com/${process.env.VERCEL_GIT_REPO_OWNER}/${process.env.VERCEL_GIT_REPO_SLUG}`;
@@ -42,9 +42,9 @@ const getGitInfo = () => {
 
     return { hash, timestamp, repoUrl };
   } catch {
-    return { 
-      hash: process.env.VERCEL_GIT_COMMIT_SHA?.substring(0, 7) || 'unknown', 
-      timestamp: new Date().toISOString(), 
+    return {
+      hash: process.env.VERCEL_GIT_COMMIT_SHA?.substring(0, 7) || 'unknown',
+      timestamp: new Date().toISOString(),
       repoUrl: 'https://github.com/cohm/ProgramVisualization'
     };
   }
@@ -52,27 +52,54 @@ const getGitInfo = () => {
 
 const gitInfo = getGitInfo();
 
-const nextConfig: NextConfig = {
-  /* config options here */
-  reactCompiler: true,
-  // Ensure Chromium brotli assets are bundled with the export-pdf route.
-  // The same path is also declared in `vercel.json` (functions →
-  // src/app/api/export-pdf/route.ts → includeFiles); keep them in sync.
-  // Both are required: Next uses outputFileTracingIncludes during the build
-  // step, Vercel uses includeFiles when packaging the serverless function.
-  outputFileTracingIncludes: {
-    // Route pathname for app router
-    '/api/export-pdf': [
-      './node_modules/@sparticuz/chromium/bin/**',
-    ],
-  },
-  // Keep chromium as an external package to preserve its internal paths
-  serverExternalPackages: ['@sparticuz/chromium'],
-  env: {
-    NEXT_PUBLIC_GIT_HASH: gitInfo.hash,
-    NEXT_PUBLIC_GIT_TIMESTAMP: gitInfo.timestamp,
-    NEXT_PUBLIC_GIT_REPO_URL: gitInfo.repoUrl,
-  },
+// `BUILD_TARGET=pages` switches to a static export for GitHub Pages: no
+// server runtime, basePath set to the repo slug, image optimisation off.
+// The Pages workflow also deletes `src/app/api` before building so the
+// PDF route doesn't make `next build` fail under `output: 'export'`. The
+// Vercel build leaves BUILD_TARGET unset and keeps the original
+// server-mode config.
+//
+// IMPORTANT: keep the two configs as separate top-level objects rather
+// than spreading conditional fragments. Next 16's config loader silently
+// drops fields produced by `...(cond ? {...} : {...})` spreads — empirically
+// `output: 'export'` was being ignored that way and the build never
+// produced an `out/` directory. Top-level branching avoids the issue.
+const isPagesBuild = process.env.BUILD_TARGET === 'pages';
+const repoSlug = process.env.GITHUB_REPOSITORY?.split('/')[1] || 'ProgramVisualization';
+const basePath = isPagesBuild ? `/${repoSlug}` : '';
+
+const sharedEnv = {
+  NEXT_PUBLIC_GIT_HASH: gitInfo.hash,
+  NEXT_PUBLIC_GIT_TIMESTAMP: gitInfo.timestamp,
+  NEXT_PUBLIC_GIT_REPO_URL: gitInfo.repoUrl,
 };
+
+const nextConfig: NextConfig = isPagesBuild
+  ? {
+      reactCompiler: true,
+      output: 'export',
+      basePath,
+      assetPrefix: `${basePath}/`,
+      images: { unoptimized: true },
+      trailingSlash: true,
+      env: sharedEnv,
+    }
+  : {
+      reactCompiler: true,
+      // Ensure Chromium brotli assets are bundled with the export-pdf route.
+      // The same path is also declared in `vercel.json` (functions →
+      // src/app/api/export-pdf/route.ts → includeFiles); keep them in sync.
+      // Both are required: Next uses outputFileTracingIncludes during the
+      // build step, Vercel uses includeFiles when packaging the serverless
+      // function.
+      outputFileTracingIncludes: {
+        '/api/export-pdf': [
+          './node_modules/@sparticuz/chromium/bin/**',
+        ],
+      },
+      // Keep chromium as an external package to preserve its internal paths
+      serverExternalPackages: ['@sparticuz/chromium'],
+      env: sharedEnv,
+    };
 
 export default nextConfig;
