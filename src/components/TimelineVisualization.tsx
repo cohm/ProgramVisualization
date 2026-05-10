@@ -78,7 +78,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // groups: for every group represented in a course's `specializations`,
   // the user's pick from that group must be one of the course's specs.
   // Courses with no `specializations` are common to every inriktning and
-  // always pass.
+  // always pass. After filtering, apply any per-spec period override
+  // (`periodCreditsBySpecialization`) so the same KTH course can render in
+  // different periods depending on the selected inriktning.
   const courses = useMemo<CourseOrOptionGroup[]>(() => {
     if (!selectedSpecializations || selectedSpecializations.size === 0) return rawCourses;
     const sel = selectedSpecializations;
@@ -86,7 +88,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     // Bucket the user's picks by group for O(1) lookup.
     const pickByGroup = new Map<string, string>();
     for (const code of sel) pickByGroup.set(grpOf(code), code);
-    return rawCourses.filter(c => {
+    const filtered = rawCourses.filter(c => {
       const specs = (c as Course | OptionGroup).specializations;
       if (!specs || specs.length === 0) return true;
       // Bucket the course's specs by group.
@@ -103,6 +105,48 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         if (!pick || !list.includes(pick)) return false;
       }
       return true;
+    });
+    return filtered.map(c => {
+      if (!isCourse(c)) return c;
+      const overrides = c.periodCreditsBySpecialization;
+      if (!overrides) return c;
+      // First selected spec that has an override wins. The validator
+      // already prevents nonsensical inputs (override key must be one of
+      // the course's specs), so in practice at most one selected spec can
+      // match.
+      for (const code of sel) {
+        const ov = overrides[code];
+        if (!ov) continue;
+        const newCredits: CourseCredit[] = [];
+        const overridePeriods: Period['id'][] = [];
+        for (const [period, val] of Object.entries(ov)) {
+          if (val > 0) {
+            const p = period as Period['id'];
+            newCredits.push({ period: p, credits: val, year: c.year });
+            overridePeriods.push(p);
+          }
+        }
+        // The exam slot tracks the lecture period (Riktlinje om läsårets
+        // förläggning §1.1), so when the lecture moves the exam and re-exam
+        // move with it. Auto-shift only when both base and override sit in
+        // a single period — multi-period bars (e.g. P3+P4) would need an
+        // explicit per-period mapping that we don't model yet, so leave
+        // those untouched.
+        const basePeriods = Array.from(new Set(c.credits.map(cr => cr.period)));
+        const remapPeriods = (slots: Period['id'][]): Period['id'][] => {
+          if (basePeriods.length !== 1 || overridePeriods.length !== 1) return slots;
+          const from = basePeriods[0];
+          const to = overridePeriods[0];
+          return slots.map(p => p === from ? to : p);
+        };
+        return {
+          ...c,
+          credits: newCredits,
+          exams: remapPeriods(c.exams),
+          reexams: remapPeriods(c.reexams),
+        };
+      }
+      return c;
     });
   }, [rawCourses, selectedSpecializations, specGroupMap]);
 

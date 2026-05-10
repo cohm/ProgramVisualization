@@ -67,7 +67,6 @@
     "gradingScale": "A-F",
     "specializations": [
       "DTOI",
-      "PPUI",
       "TMAI"
     ]
   },
@@ -920,6 +919,14 @@
       "EHUI",
       "PPUI",
       "TMAI"
-    ]
+    ],
+    "periodCreditsBySpecialization": {
+      "PPUI": {
+        "P1": 0,
+        "P2": 0,
+        "P3": 0,
+        "P4": 7.5
+      }
+    }
   }
 ]

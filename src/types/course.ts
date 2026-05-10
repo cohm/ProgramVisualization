@@ -103,6 +103,16 @@ export interface Course {
   courseLevel?: 'G' | 'A';
   // See OptionGroup.specializations.
   specializations?: string[];
+  // Per-specialization period override. When the visualisation filters down
+  // to a single inriktning whose code matches a key here, the entries in
+  // `credits` are replaced by the override's flat {P1..P4} map (year is
+  // taken from the course's primary `year`). Use this when one inriktning
+  // takes the same KTH course in a different period than the others — the
+  // course code stays unique, so the duplicate-code merge in
+  // `useCourseModel.ts` still rejects accidental duplicates.
+  // Restriction: flat (single-year) periodCredits only; multi-year courses
+  // would need a richer override shape and aren't supported yet.
+  periodCreditsBySpecialization?: Record<string, Record<'P1' | 'P2' | 'P3' | 'P4', number>>;
 }
 
 import rawPeriods from '@/data/academic-periods.json';
