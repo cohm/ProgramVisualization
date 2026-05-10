@@ -126,6 +126,8 @@ Development dependencies include TypeScript, ESLint, and Tailwind CSS.
 - `next.config.ts` — Next.js configuration.
 - `package.json` — Project manifest and scripts (dev, build, start).
 
----
+## License & data attribution
 
-This project was bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app). For Next.js features, deployment options, and API reference, see the [Next.js documentation](https://nextjs.org/docs).
+The source code in this repository is released under the MIT License — see [LICENSE.md](LICENSE.md). You're welcome to use, fork, and adapt it; please keep the copyright notice intact.
+
+The course data in `src/data/` was compiled from KTH's publicly available study plans (utbildningsplaner) and is included here for visualisation purposes only. The underlying programme content belongs to KTH and is not covered by this repository's license. If you reuse the app for another institution or programme, please replace the data files with your own source.
