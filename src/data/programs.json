@@ -5,6 +5,7 @@
     "nameEn": "Degree Program in Engineering Physics",
     "dataFile": "CTFYS.json",
     "cosmeticsFile": "CTFYS-cosmetics.json",
+    "verified": true,
     "comment": "Utbildningsplanen verifierad av programansvarig Christian Ohm i november 2025",
     "commentEn": "Study plan verified by program director Christian Ohm in November 2025",
     "studyplan": "https://www.kth.se/student/kurser/program/CTFYS"
@@ -15,6 +16,7 @@
     "nameEn": "Degree Program in Engineering Mathematics",
     "dataFile": "CTMAT.json",
     "cosmeticsFile": "CTMAT-cosmetics.json",
+    "verified": false,
     "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
     "commentEn": "Study plan not yet verified — use with caution!",
     "studyplan": "https://www.kth.se/student/kurser/program/CTMAT"
@@ -25,6 +27,7 @@
     "nameEn": "Degree Program in Vehicle Engineering",
     "dataFile": "CFATE.json",
     "cosmeticsFile": "CFATE-cosmetics.json",
+    "verified": false,
     "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
     "commentEn": "Study plan not yet verified — use with caution!",
     "studyplan": "https://www.kth.se/student/kurser/program/CFATE"
@@ -36,6 +39,7 @@
     "nameEn": "Degree Program in Engineering - Open Entrance",
     "dataFile": "COPEN.json",
     "cosmeticsFile": "COPEN-cosmetics.json",
+    "verified": false,
     "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
     "commentEn": "Study plan not yet verified — use with caution!",
     "studyplan": "https://www.kth.se/student/kurser/program/COPEN"
@@ -46,6 +50,7 @@
     "nameEn": "Degree Program in Industrial Engineering and Management",
     "dataFile": "CINEK.json",
     "cosmeticsFile": "CINEK-cosmetics.json",
+    "verified": false,
     "comment": "Hämtad automatiskt från KTH studiehandbok 2024-cohort, ej manuellt verifierad. Y4-Y5 ligger i masterprogrammen och visas inte här.",
     "commentEn": "Auto-scraped from the KTH study handbook (2024 cohort), not manually verified. Y4-Y5 live in the master programmes and are not shown here.",
     "studyplan": "https://www.kth.se/student/kurser/program/CINEK",
@@ -62,6 +67,7 @@
     "nameEn": "Master's Programme, Industrial Engineering and Management",
     "dataFile": "TIEMM.json",
     "cosmeticsFile": "TIEMM-cosmetics.json",
+    "verified": false,
     "comment": "Masterprogram (motsvarar år 4-5 av civilingenjörsprogrammet CINEK). Hämtad automatiskt från KTH studiehandbok 2024-cohort, ej manuellt verifierad. Spår modelleras tills vidare som specializations i samma fält.",
     "commentEn": "Master programme (corresponds to year 4-5 of the CINEK degree program). Auto-scraped from the KTH study handbook (2024 cohort), not manually verified. Tracks (spår) are temporarily modelled in the same `specializations` field.",
     "studyplan": "https://www.kth.se/student/kurser/program/TIEMM",

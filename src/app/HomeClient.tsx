@@ -37,6 +37,11 @@ interface ProgramConfig {
   nameEn?: string;
   dataFile: string;
   cosmeticsFile?: string;
+  // Whether the study plan has been verified by the program director or
+  // admin personnel. Unverified plans are hidden from the program-selector
+  // dropdown unless the user opts in via the "show unverified" checkbox.
+  // Missing field is treated as `false`.
+  verified?: boolean;
   comment?: string;
   // Optional English-language comment shown when the page language is `en`.
   // Falls back to `comment` if missing — keeps existing entries valid.
@@ -67,6 +72,8 @@ const ui = {
     swedish: 'Svenska',
     english: 'Engelska',
     menu: 'Meny för export och språk',
+    showUnverified: 'Visa icke-verifierade utbildningsplaner',
+    unverifiedSuffix: '(inte verifierad)',
   },
   en: {
     title: 'Education program visualization',
@@ -80,6 +87,8 @@ const ui = {
     swedish: 'Swedish',
     english: 'English',
     menu: 'Export and language menu',
+    showUnverified: 'Show unverified study plans',
+    unverifiedSuffix: '(unverified)',
   }
 } as const;
 
@@ -108,11 +117,31 @@ export default function HomeClient() {
     return (langParam === 'en' || langParam === 'sv') ? langParam : 'sv';
   }, [searchParams]);
 
+  // Whether unverified study plans are shown in the program dropdown.
+  // Off by default; flipped via the checkbox next to the selector.
+  // Persisted in the URL as `unverified=1` so bookmarks survive reloads.
+  const showUnverified = useMemo<boolean>(() => searchParams.get('unverified') === '1', [searchParams]);
+
   const setLanguage = (lang: Lang) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set('l', lang);
     router.replace(`/?${params.toString()}`);
   };
+
+  const setShowUnverified = (next: boolean) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (next) params.set('unverified', '1');
+    else params.delete('unverified');
+    router.replace(`/?${params.toString()}`);
+  };
+
+  // Always include the currently-selected program even if it's unverified
+  // and the toggle is off — otherwise a bookmarked `?program=CTMAT` would
+  // hide its own entry from the dropdown and silently look broken.
+  const visiblePrograms = useMemo<ProgramConfig[]>(() => {
+    if (showUnverified) return programs;
+    return programs.filter(p => p.verified === true || p.code === selectedProgram.code);
+  }, [showUnverified, selectedProgram]);
 
   // ----- View state derived from URL params -----
   // og=Group1:Code1,Group2:Code2 — user's pick per option group
@@ -279,7 +308,7 @@ export default function HomeClient() {
           <h1 className="text-3xl font-bold" style={{ color: kthColors.KthHeaven?.HEX }}>{ui[language].title}</h1>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <label style={{ color: kthColors.KthBlue?.HEX, fontWeight: 600 }}>{ui[language].programLabel}</label>
-            <select 
+            <select
             value={selectedProgram.code}
             onChange={(e) => {
               const program = programs.find(p => p.code === e.target.value);
@@ -292,11 +321,21 @@ export default function HomeClient() {
             style={{ color: kthColors.KthBlue?.HEX }}
             className="px-4 py-2 border border-gray-300 rounded-md shadow-sm"
           >
-            {programs.map(program => (
-              <option key={program.code} value={program.code}>{program.code}</option>
+            {visiblePrograms.map(program => (
+              <option key={program.code} value={program.code}>
+                {program.verified === true ? program.code : `${program.code} ${ui[language].unverifiedSuffix}`}
+              </option>
             ))}
           </select>
-          
+            <label style={{ display: 'flex', alignItems: 'center', gap: 6, color: kthColors.KthBlue?.HEX, fontSize: 13 }}>
+              <input
+                type="checkbox"
+                checked={showUnverified}
+                onChange={(e) => setShowUnverified(e.target.checked)}
+              />
+              {ui[language].showUnverified}
+            </label>
+
             <div style={{ position: 'relative' }}>
               <button ref={exportBtnRef} onClick={() => setMenuOpen(v => !v)} className="px-2 py-2 border border-gray-300 rounded-md shadow-sm" aria-label={ui[language].menu} aria-expanded={menuOpen} aria-haspopup="menu">
                 <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
