@@ -8,7 +8,7 @@
 // Schema (informal):
 //
 // programs.json:
-//   Array<{ code, name, nameEn?, dataFile, cosmeticsFile?, comment?,
+//   Array<{ code, name, nameEn?, dataFile, cosmeticsFile?, verified?, comment?,
 //           commentEn?, studyplan?,
 //           specializations?: Array<{ code, name, nameEn?, group? }>,
 //           specializationGroups?: Array<{ code, name, nameEn? }> }>
@@ -107,6 +107,10 @@ function validateProgramsJson(programs, file) {
     }
     if (p.cosmeticsFile && !existsSync(join(dataDir, p.cosmeticsFile))) {
       err(file, `${ctx} ${p.code}: cosmeticsFile '${p.cosmeticsFile}' not found`);
+    }
+
+    if (p.verified !== undefined && typeof p.verified !== 'boolean') {
+      err(file, `${ctx} ${p.code}: 'verified' must be a boolean if present`);
     }
 
     // Specialization groups (optional). When present, every group must
