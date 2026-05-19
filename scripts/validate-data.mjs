@@ -615,6 +615,24 @@ function round(x) { return Math.round(x * 100) / 100; }
 
 // ---------- main ----------
 
+// Parse --include flags. Format: --include <programCode>=<path>
+// Validates <path> using the program entry for <programCode> from
+// programs.json (so specialization cross-refs etc. still work). Used to
+// check candidate JSON produced by scripts/extract-from-ladok.py.
+const includes = []; // [{ programCode, path }]
+for (let i = 2; i < process.argv.length; i++) {
+  const a = process.argv[i];
+  if (a === '--include') {
+    const next = process.argv[++i];
+    if (!next || !next.includes('=')) {
+      console.error(`error: --include expects <programCode>=<path>, got '${next ?? ''}'`);
+      process.exit(2);
+    }
+    const [programCode, ...rest] = next.split('=');
+    includes.push({ programCode, path: rest.join('=') });
+  }
+}
+
 console.log('Validating program data files...\n');
 
 const programsFile = join(dataDir, 'programs.json');
@@ -630,6 +648,24 @@ if (programs != null) {
       validateProgramData(p, dataPath);
     }
   }
+}
+
+// Validate any --include candidate files against their programme entry.
+for (const inc of includes) {
+  const programEntry = Array.isArray(programs)
+    ? programs.find(p => p?.code === inc.programCode)
+    : null;
+  if (!programEntry) {
+    err(programsFile, `--include ${inc.programCode}=${inc.path}: no such program in programs.json`);
+    continue;
+  }
+  const candidatePath = join(repoRoot, inc.path);
+  if (!existsSync(candidatePath)) {
+    err(candidatePath, `--include candidate file not found`);
+    continue;
+  }
+  console.log(`• ${inc.programCode} (candidate ${rel(candidatePath)})`);
+  validateProgramData(programEntry, candidatePath);
 }
 
 const periodsFile = join(dataDir, 'academic-periods.json');

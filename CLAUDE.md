@@ -10,6 +10,18 @@ npm run build          # Production build
 npm run lint           # ESLint
 npm run validate-data  # Validate src/data/*.json (also runs in CI)
 npx tsc --noEmit       # Type-check without emitting
+
+# Bootstrap a study plan from Ladok + KOPPS (writes candidate JSON alongside
+# the verified files — never overwrites). One-time setup:
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r scripts/requirements.txt
+ladok login              # caches creds in the keyring; CLI has no env flag
+# Subsequent runs (re-activate the venv first if not already active):
+python scripts/extract-from-ladok.py CTFYS [--cohort HT25 | --cohort-range 2016-2025]
+# Default is start.test.ladok.se (MFA every run, since ladok3 can't cache a
+# test-env session). Pass --use-production-server for start.ladok.se (MFA once).
+node scripts/validate-data.mjs --include CTFYS=src/data/CTFYS.ladok.json
 ```
 
 There are no automated tests in this project, but `validate-data` enforces the data-file schema and cross-reference invariants.
