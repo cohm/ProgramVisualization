@@ -615,6 +615,23 @@ function round(x) { return Math.round(x * 100) / 100; }
 
 // ---------- main ----------
 
+// `--include <PROGRAM>=<path>` validates a data file that is NOT registered in
+// programs.json, against that program's registry entry. This is how a candidate
+// produced by scripts/extract-from-kopps.mjs gets schema-checked before anyone
+// merges it, without first having to point programs.json at unverified data.
+// Repeatable. Everything registered in programs.json is still validated too.
+const includes = [];
+for (let i = 2; i < process.argv.length; i++) {
+  if (process.argv[i] !== '--include') continue;
+  const spec = process.argv[++i];
+  const eq = spec == null ? -1 : spec.indexOf('=');
+  if (eq <= 0) {
+    console.error(`  ERROR  --include expects <PROGRAM>=<path>, got '${spec ?? ''}'`);
+    process.exit(2);
+  }
+  includes.push({ code: spec.slice(0, eq).toUpperCase(), path: join(repoRoot, spec.slice(eq + 1)) });
+}
+
 console.log('Validating program data files...\n');
 
 const programsFile = join(dataDir, 'programs.json');
@@ -628,6 +645,17 @@ if (programs != null) {
       if (!existsSync(dataPath)) continue; // already reported
       console.log(`• ${p.code}`);
       validateProgramData(p, dataPath);
+    }
+
+    for (const inc of includes) {
+      const program = programs.find((p) => p?.code === inc.code);
+      if (!program) {
+        err(programsFile, `--include ${inc.code}: no program with that code in programs.json`);
+        continue;
+      }
+      if (!existsSync(inc.path)) { err(inc.path, 'file not found (--include)'); continue; }
+      console.log(`• ${inc.code} (--include ${rel(inc.path)})`);
+      validateProgramData(program, inc.path);
     }
   }
 }
