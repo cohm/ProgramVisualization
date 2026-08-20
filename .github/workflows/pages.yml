@@ -35,7 +35,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
-          node-version: 20
+          # Node 24 (Krypton) is the current active LTS, EOL 2028-04-30.
+          # Node 20 went EOL 2026-04-30 and is below the floor declared by
+          # puppeteer-core and size-limit (engines.node >= 22.12.0), which is
+          # what the EBADENGINE warnings on every `npm ci` were about.
+          node-version: 24
           cache: npm
 
       - name: Install dependencies
