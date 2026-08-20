@@ -26,8 +26,36 @@ updates:
       # this and puppeteer-core together by hand.
       - dependency-name: "@sparticuz/chromium"
 
+      # ESLint majors are blocked upstream, not by us. `eslint-config-next`
+      # depends on `eslint-plugin-react: ^7.37.0`, and 7.37.5 (the latest)
+      # still declares `peerDependencies.eslint: "... || ^9.7"`. On ESLint 10
+      # `npm run lint` dies before linting anything:
+      #   TypeError: contextOrFilename.getFilename is not a function
+      #     while loading rule 'react/display-name'
+      # Drop this entry once eslint-plugin-react ships ESLint 10 support (and
+      # eslint-config-next picks it up); minor/patch bumps within 9.x still
+      # flow through the minor-and-patch group.
+      - dependency-name: "eslint"
+        update-types:
+          - "version-update:semver-major"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 5
+    ignore:
+      # Every action here is pinned to a floating major tag (`@v7`, `@v4`, ...),
+      # so patch and minor releases are picked up automatically on the next run
+      # — a PR for them changes nothing but the diff. Worse, Dependabot reads
+      # `@v4` as "version 4" and proposes `@v4.37.4`, which would *downgrade*
+      # us from a self-updating tag to a hard pin and generate a PR per patch
+      # release forever (that was #48). Majors are what need human review, and
+      # those still come through.
+      #
+      # If we ever switch to full commit-SHA pinning for supply-chain
+      # hardening, delete this block — SHA pins need every update proposed.
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-minor"
+          - "version-update:semver-patch"
