@@ -88,7 +88,7 @@ deliberately abstract electives into `Plats för valfri kurs` placeholders.
 `--electives` overrides.
 
 **Accuracy, measured against the six curated files** (231 overlapping courses):
-`totalCredits` 231/231, `periodCredits` 228/231, `nameEn` 225/227, `exams` 48/58.
+`totalCredits` 231/231, `periodCredits` 228/231, `nameEn` 226/227, `exams` 50/58.
 The `periodCredits` misses are all in TIEMM, whose curated file is an unverified
 2024-cohort extraction; the live source agrees with the extractor and the 2024
 plan is no longer online. Two `nameEn` misses are KOPPS typos the curated files
@@ -98,10 +98,14 @@ fixed by hand.
 teaching period, per *Riktlinje om läsårets förläggning* §1.1) — 13/13 on CTFYS.
 Multi-period courses are **not derivable**: SE1055 puts its single exam in the
 last period while SI1121 puts its in the credit-majority period, which rules out
-every simple rule. Those get a convention (one exam per exam-bearing module, in
-the last N periods; 5/7 on CTFYS) and are all flagged for review. Replacing this
-with facts means joining Ladok's aktivitetstillfällen — which the sibling
-`academic-performance-portal` already imports into its `exam_occasions` table.
+every simple rule. Those get a convention — one exam per exam-bearing module, in
+the highest-credit periods — measured at 10/17 over every multi-period course
+with a curated value across all six programmes (placing them in the *last*
+periods instead scores 8/17). Every such placement is flagged for review. The
+7 residual misses are unreachable from module count in either direction, so
+closing them needs real timetable data: Ladok's aktivitetstillfällen, which the
+sibling `academic-performance-portal` already imports into its `exam_occasions`
+table.
 
 **Not extractable:** `teacher`, `description`, cosmetics files, and the case where
 inriktningar take one course in *different study years* (CINEK's DD1320) — the
@@ -133,3 +137,13 @@ flags the rest.
 - **D3.js 7** for all SVG rendering
 - **Tailwind CSS 4**
 - **Puppeteer-core + @sparticuz/chromium** for server-side PDF
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

@@ -326,29 +326,44 @@ function levelFromSwedish(text) {
 // single-period CTFYS courses carrying curated `exams` reproduce exactly.
 //
 // TIER 2 — CONVENTION, with a measured error rate. Multi-period courses are not
-// derivable from credits plus module structure; the counterexamples rule out
-// every simple rule:
+// derivable from credits plus module structure, and the counterexamples rule
+// out every simple rule:
 //
-//   SE1055 (P3 6, P4 3, one TEN)  -> curated ['P4']       = the LAST period
-//   SI1121 (P1 5, P2 1, one TEN)  -> curated ['P1']       = the credit MAJORITY
+//   SE1055 (P3 6, P4 3, one TEN)  -> curated ['P4']   = the LAST period
+//   SI1121 (P1 5, P2 1, one TEN)  -> curated ['P1']   = the credit MAJORITY
 //
-// Those two are mutually exclusive, so no placement rule gets both. The rule
-// used here — one exam per exam-bearing module, in the LAST N teaching periods —
-// scores 5 of 7 on the CTFYS multi-period sample:
+// Those two are mutually exclusive, so no placement rule gets both. Measured
+// over every multi-period course carrying a curated `exams` value across all
+// six programmes (17 courses), placing one exam per exam-bearing module in the
+// HIGHEST-CREDIT periods beats placing them in the LAST periods, 10/17 vs 8/17:
 //
-//   EI1320  P1 6, P2 3   TEN1+TEN2  -> [P1,P2]  curated [P1,P2]   ok
-//   SF1683  P1 5, P2 4   TEN1+TEN2  -> [P1,P2]  curated [P1,P2]   ok
-//   SK1104  P2 4, P3 3.5 3x TEN     -> [P2,P3]  curated [P2,P3]   ok
-//   SF1544  P2 1, P3 5   TEN1       -> [P3]     curated [P3]      ok
-//   SE1055  P3 6, P4 3   TEN1       -> [P4]     curated [P4]      ok
-//   SG1112  P3 4, P4 5   TEN1+TEN2  -> [P3,P4]  curated [P4]      MISS
-//   SI1121  P1 5, P2 1   TEN1       -> [P2]     curated [P1]      MISS
+//   prog   course  periods              #mod curated       last-N     majority-N
+//   CTFYS  EI1320  P1 6/P2 3             2   [P1,P2]       ok         ok
+//   CTFYS  SE1055  P3 6/P4 3             1   [P4]          ok         MISS
+//   CTFYS  SF1544  P2 1/P3 5             1   [P3]          ok         ok
+//   CTFYS  SF1683  P1 5/P2 4             2   [P1,P2]       ok         ok
+//   CTFYS  SG1112  P3 4/P4 5             2   [P4]          MISS       MISS
+//   CTFYS  SI1121  P1 5/P2 1             1   [P1]          MISS       ok
+//   CTFYS  SK1104  P2 4/P3 3.5           3   [P2,P3]       ok         ok
+//   CFATE  SD1120  P3 3/P4 6             2   [P4]          MISS       MISS
+//   CFATE  SE1010  P1 3/P2 9             1   [P2]          ok         ok
+//   CFATE  SF1668  P1 6/P2 4             1   [P1,P2]       MISS       MISS
+//   CFATE  SF1682  P1 6/P2 5             1   [P1,P2]       MISS       MISS
+//   CFATE  SF1694  P1 3/P2 6.5/P3 1      1   [P2]          MISS       ok
+//   CFATE  SG1132  P2 1.5/P3 4.5/P4 5    2   [P4]          MISS       MISS
+//   CFATE  SK1112  P1 1/P4 8             1   [P4]          ok         ok
+//   COPEN  SF1546  P3 4/P4 2             1   [P3]          MISS       ok
+//   COPEN  SG1133  P3 2/P4 7             2   [P4]          MISS       MISS
+//   COPEN  SK1115  P1 3.5/P2 4           1   [P2]          ok         ok
 //
-// A tempting refinement — drop a trailing period too small to host the exam,
-// which fixes SI1121 — breaks SE1055 (its 6 hp TEN follows a 3 hp final
-// period), so it is deliberately not applied. With 7 samples, a rule tuned to
-// score 7/7 would be fitting noise; a statable rule with a known error rate is
-// worth more than an opaque one that happens to match this program.
+// Majority is used. The 7 residual misses are unreachable from module count in
+// either direction: four have two TEN modules where the curated file lists one
+// exam period (SG1112, SD1120, SG1132, SG1133), and two have one module where
+// it lists two (SF1668, SF1682). Closing those needs real timetable data —
+// Ladok's aktivitetstillfällen — not a better heuristic.
+//
+// Note the earlier CTFYS-only figure for this rule was 5/7, which read as more
+// general than it was; 8/17 and 10/17 are the numbers across all six.
 //
 // Every tier-2 placement is flagged for review, so the reviewer sees a
 // starting value and knows not to trust it. The definitive fix is to replace
@@ -368,15 +383,20 @@ function examsForPeriods(code, periodCredits, examBearing, label) {
   // Tier 1.
   if (active.length === 1) return [active[0]];
 
-  // Tier 2.
+  // Tier 2: one exam per exam-bearing module, in the highest-credit periods,
+  // returned in period order.
   const n = Math.min(examBearing.length, active.length);
-  const placed = active.slice(active.length - n);
+  const placed = active
+    .slice()
+    .sort((a, b) => periodCredits[b] - periodCredits[a])
+    .slice(0, n)
+    .sort((a, b) => PERIOD_IDS.indexOf(a) - PERIOD_IDS.indexOf(b));
   const mods = examBearing.map((m) => m.code).join(', ');
   flag(
     `${code}${label}: taught across ${active.length} periods [${active.join(', ')}] with ` +
     `${examBearing.length} examination module(s) [${mods}] — exams set to ` +
-    `[${placed.join(', ')}] by convention (last ${n} teaching period(s)), NOT from a ` +
-    `timetable. This rule scores 5/7 on the CTFYS sample; verify.`,
+    `[${placed.join(', ')}] by convention (the ${n} highest-credit period(s)), NOT from a ` +
+    `timetable. This rule scores 10/17 across the six curated programmes; verify.`,
   );
   return placed;
 }

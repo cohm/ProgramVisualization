@@ -45,3 +45,6 @@ next-env.d.ts
 # src/data/ on purpose: useCourseModel.ts does `import(`@/data/${dataFile}`)`,
 # so anything in that directory is pulled into the client bundle.
 /extracted/
+
+# Local handoff artifacts (suggested commit messages, PR bodies, patches).
+handoff/
