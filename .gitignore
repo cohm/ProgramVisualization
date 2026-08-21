@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Study-plan extraction candidates (scripts/extract-from-kopps.mjs). Generated
+# inputs for human diff-and-merge, never the verified data. Kept out of
+# src/data/ on purpose: useCourseModel.ts does `import(`@/data/${dataFile}`)`,
+# so anything in that directory is pulled into the client bundle.
+/extracted/
+
+# Local handoff artifacts (suggested commit messages, PR bodies, patches).
+handoff/

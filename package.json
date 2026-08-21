@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint . --max-warnings 0",
     "validate-data": "node scripts/validate-data.mjs",
+    "extract-plan": "node scripts/extract-from-kopps.mjs",
     "size": "size-limit"
   },
   "size-limit": [
