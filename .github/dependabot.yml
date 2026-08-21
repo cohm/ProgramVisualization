@@ -20,6 +20,14 @@ updates:
         update-types:
           - "minor"
           - "patch"
+      # size-limit and @size-limit/file pin each other with an EXACT peer
+      # dependency (@size-limit/file@13.0.3 requires size-limit@13.0.3), so a PR
+      # bumping one without the other fails `npm ci` with ERESOLVE. That is what
+      # sank #54 and #57. Grouping them means one PR carries both.
+      size-limit:
+        patterns:
+          - "size-limit"
+          - "@size-limit/*"
     ignore:
       # @sparticuz/chromium must track the Chromium version in puppeteer-core.
       # Auto-bumping it independently can break PDF export on Vercel; bump
@@ -36,6 +44,17 @@ updates:
       # eslint-config-next picks it up); minor/patch bumps within 9.x still
       # flow through the minor-and-patch group.
       - dependency-name: "eslint"
+        update-types:
+          - "version-update:semver-major"
+
+      # TypeScript majors are blocked the same way ESLint majors are, one layer
+      # down: `eslint-config-next` bundles typescript-eslint, which refuses to
+      # load on TS 7 —
+      #   Error: typescript-eslint does not support TS 7.0
+      # so `npm run lint` dies before linting anything (that was #55). Drop this
+      # once typescript-eslint supports TS 7 and eslint-config-next picks it up;
+      # 6.x minor/patch bumps still flow through the minor-and-patch group.
+      - dependency-name: "typescript"
         update-types:
           - "version-update:semver-major"
 

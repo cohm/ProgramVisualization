@@ -77,6 +77,10 @@ const sharedEnv = {
 const nextConfig: NextConfig = isPagesBuild
   ? {
       reactCompiler: true,
+      // `next dev` on Next 16.3.x otherwise re-appends a generic
+      // <!-- BEGIN:nextjs-agent-rules --> block to the hand-maintained
+      // CLAUDE.md on every run, dirtying the working tree each time.
+      agentRules: false,
       output: 'export',
       basePath,
       assetPrefix: `${basePath}/`,
@@ -86,6 +90,9 @@ const nextConfig: NextConfig = isPagesBuild
     }
   : {
       reactCompiler: true,
+      // Set in both branches deliberately, not spread in: see the note above
+      // about Next 16's loader dropping fields from conditional spreads.
+      agentRules: false,
       // Ensure Chromium brotli assets are bundled with the export-pdf route.
       // The same path is also declared in `vercel.json` (functions →
       // src/app/api/export-pdf/route.ts → includeFiles); keep them in sync.
