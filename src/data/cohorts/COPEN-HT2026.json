@@ -43,7 +43,9 @@
       "P4": 2
     },
     "year": 1,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "teacher": "",
     "description": "",
     "category": "mandatory",
@@ -66,7 +68,10 @@
       "P4": 7
     },
     "year": 1,
-    "exams": [],
+    "exams": [
+      "P3",
+      "P4"
+    ],
     "teacher": "",
     "description": "",
     "category": "mandatory",
@@ -198,7 +203,9 @@
       "P4": 0
     },
     "year": 1,
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "teacher": "",
     "description": "",
     "category": "mandatory",

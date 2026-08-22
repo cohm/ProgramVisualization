@@ -157,7 +157,8 @@
     "year": 1,
     "prerequisites": [],
     "exams": [
-      "P1"
+      "P1",
+      "P2"
     ],
     "teacher": "",
     "description": "",
@@ -208,7 +209,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -255,7 +258,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -285,9 +290,7 @@
     "allowedNumberOfOptions": 1,
     "kind": "pickN",
     "pickN": 1,
-    "exams": [
-      "P1"
-    ],
+    "exams": [],
     "category": "conditionallyElective"
   },
   {
@@ -402,7 +405,9 @@
       "P4": 7.5
     },
     "year": 1,
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -428,7 +433,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -704,7 +711,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -752,7 +761,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -775,7 +786,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -869,7 +882,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -1035,7 +1050,9 @@
       "P4": 0
     },
     "year": 1,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -1061,7 +1078,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -1083,7 +1102,9 @@
       "P4": 3
     },
     "year": 1,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -1189,7 +1210,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -1407,7 +1430,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -1437,7 +1462,9 @@
     "allowedNumberOfOptions": 1,
     "kind": "pickN",
     "pickN": 1,
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "category": "conditionallyElective"
   },
   {
@@ -1534,7 +1561,9 @@
       "P4": 0
     },
     "year": 1,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -1775,7 +1804,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -1847,7 +1878,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -1895,9 +1928,7 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [
-      "P1"
-    ],
+    "exams": [],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -1944,7 +1975,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -2058,7 +2091,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -2114,7 +2149,8 @@
     "kind": "pickN",
     "pickN": 1,
     "exams": [
-      "P1"
+      "P1",
+      "P2"
     ],
     "category": "conditionallyElective"
   },
@@ -2241,7 +2277,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -2272,7 +2310,9 @@
     "allowedNumberOfOptions": 1,
     "kind": "pickN",
     "pickN": 1,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "category": "conditionallyElective"
   },
   {
@@ -2314,7 +2354,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -2362,7 +2404,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -2458,7 +2502,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -2482,7 +2528,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -2541,7 +2589,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -2587,7 +2637,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -2617,7 +2669,9 @@
     "allowedNumberOfOptions": 1,
     "kind": "pickN",
     "pickN": 1,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "category": "conditionallyElective"
   },
   {
@@ -2712,7 +2766,9 @@
     "allowedNumberOfOptions": 1,
     "kind": "pickN",
     "pickN": 1,
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "category": "conditionallyElective"
   },
   {
@@ -2787,7 +2843,9 @@
     "allowedNumberOfOptions": 1,
     "kind": "pickN",
     "pickN": 1,
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "category": "conditionallyElective"
   },
   {
@@ -2828,7 +2886,9 @@
       "P4": 0
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -2912,7 +2972,9 @@
     "allowedNumberOfOptions": 1,
     "kind": "pickN",
     "pickN": 1,
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "category": "conditionallyElective"
   },
   {
@@ -3003,7 +3065,9 @@
       "P4": 0
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -3053,7 +3117,9 @@
       "P4": 0
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -3135,7 +3201,9 @@
     },
     "year": 2,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [

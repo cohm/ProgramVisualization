@@ -260,7 +260,9 @@
       "P4": 3
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "prerequisitesCompleted": [
       "SG1132"
     ]
