@@ -1,0 +1,114 @@
+[
+  {
+    "from": "COPEN",
+    "to": "CTFYS",
+    "sourceYears": [
+      1
+    ],
+    "credited": [
+      {
+        "code": "SF1625",
+        "replaces": [
+          "SF1673"
+        ],
+        "note": "Envariabelanalys motsvarar CTFYS Analys i en variabel.",
+        "noteEn": "Single-variable calculus corresponds to CTFYS Analys i en variabel."
+      },
+      {
+        "code": "SF1626",
+        "replaces": [
+          "SF1674"
+        ],
+        "note": "Flervariabelanalys, samma ämne som CTFYS-kursen.",
+        "noteEn": "Multivariable calculus, the same subject as the CTFYS course."
+      },
+      {
+        "code": "SF1624",
+        "replaces": [
+          "SF1672"
+        ],
+        "note": "Algebra och geometri motsvarar CTFYS Linjär algebra.",
+        "noteEn": "Algebra and geometry corresponds to CTFYS Linjär algebra."
+      },
+      {
+        "code": "DD1310",
+        "replaces": [
+          "DD1331"
+        ],
+        "note": "Programmeringsteknik motsvarar CTFYS Grundläggande programmering.",
+        "noteEn": "Programming techniques corresponds to CTFYS Grundläggande programmering."
+      },
+      {
+        "code": "SG1133",
+        "replaces": [
+          "SG1112"
+        ],
+        "note": "Mekanik I, samma kurs som CTFYS läser i årskurs 1.",
+        "noteEn": "Mechanics I, the same course CTFYS takes in year 1."
+      },
+      {
+        "code": "SK1115",
+        "replaces": [
+          "SK1104"
+        ],
+        "note": "Elektromagnetism och vågrörelselära täcker CTFYS Klassisk fysik.",
+        "noteEn": "Electromagnetism and wave motion covers CTFYS Klassisk fysik."
+      },
+      {
+        "code": "SF1546",
+        "note": "Numeriska metoder; ersätter SF1544, som därför utgår helt (se 'exempt').",
+        "noteEn": "Numerical methods; replaces SF1544, which is therefore dropped entirely (see 'exempt')."
+      },
+      {
+        "code": "SA1007",
+        "note": "Ingenjörsrollen; tillgodoräknas utan att ersätta en specifik CTFYS-kurs.",
+        "noteEn": "The engineering role; credited without standing in for a specific CTFYS course."
+      },
+      {
+        "code": "KD1000",
+        "note": "Kemiska principer; tillgodoräknas utan att ersätta en specifik CTFYS-kurs.",
+        "noteEn": "Chemical principles; credited without standing in for a specific CTFYS course."
+      }
+    ],
+    "exempt": [
+      {
+        "code": "SF1544",
+        "creditedBy": "SF1546",
+        "note": "Numeriska metoder är redan avklarad genom SF1546 i COPEN.",
+        "noteEn": "Numerical methods is already completed through SF1546 in COPEN."
+      }
+    ],
+    "added": [
+      {
+        "code": "SF1920",
+        "name": "Sannolikhetsteori och statistik",
+        "nameEn": "Probability Theory and Statistics",
+        "totalCredits": 6,
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 6,
+          "P4": 0
+        },
+        "exams": [
+          "P3"
+        ],
+        "prerequisitesCompleted": [
+          "SF1625"
+        ],
+        "gradingScale": "A-F",
+        "courseLevel": "G",
+        "category": "mandatory",
+        "substitutesFor": "SF1922",
+        "fromProgram": "CELTE",
+        "note": "Läses i period 3 tillsammans med CELTE årskurs 2. Ersätter SF1922, som CTFYS läser i årskurs 1.",
+        "noteEn": "Taken in period 3 together with CELTE year 2. Replaces SF1922, which CTFYS students take in year 1.",
+        "cosmeticsGroup": "Matematik"
+      }
+    ],
+    "verified": false,
+    "source": "Programansvarigs val av upphämtningskurs; SF1920 hämtad från CELTE årskurs 2 (läsår 2025/26).",
+    "sourceEn": "Program director's choice of catch-up course; SF1920 taken from the CELTE year 2 plan (2025/26)."
+  }
+]

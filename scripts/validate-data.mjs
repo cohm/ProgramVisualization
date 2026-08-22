@@ -795,6 +795,179 @@ function validateCosmetics(cosmetics, file, courseCodes) {
 
 function round(x) { return Math.round(x * 100) / 100; }
 
+
+// ---------- transition plans ----------
+//
+// A COPEN student takes one year of COPEN and then two years of the programme
+// they transfer into. src/data/transitions.json records the *difference* from
+// the target's published plan rather than a combined course list, so these
+// checks exist to catch the plan drifting out of step with either programme's
+// data — which is exactly what a hand-written combined list would hide.
+function validateTransitions(plans, file, programs, coursesByProgram) {
+  if (!Array.isArray(plans)) { err(file, 'expected an array of transition plans'); return; }
+  const seen = new Set();
+
+  plans.forEach((plan, i) => {
+    const ctx = `[${i}]`;
+    if (!plan || typeof plan !== 'object') { err(file, `${ctx} not an object`); return; }
+    const label = `${plan.from} -> ${plan.to}`;
+
+    for (const field of ['from', 'to']) {
+      if (typeof plan[field] !== 'string' || !plan[field]) {
+        err(file, `${ctx} '${field}' must be a non-empty string`);
+        return;
+      }
+      if (!programs.some((p) => p?.code === plan[field])) {
+        err(file, `${ctx} ${label}: '${plan[field]}' is not a program in programs.json`);
+      }
+    }
+    if (plan.from === plan.to) err(file, `${ctx} ${label}: 'from' and 'to' are the same program`);
+
+    const key = `${plan.from}->${plan.to}`;
+    if (seen.has(key)) err(file, `${ctx} duplicate plan for ${label}`);
+    seen.add(key);
+
+    if (!Array.isArray(plan.sourceYears) || plan.sourceYears.length === 0
+        || plan.sourceYears.some((y) => !Number.isInteger(y) || y < 1)) {
+      err(file, `${ctx} ${label}: 'sourceYears' must be a non-empty array of positive integers`);
+      return;
+    }
+    if (!Array.isArray(plan.credited) || plan.credited.some((c) => !c || typeof c.code !== 'string')) {
+      err(file, `${ctx} ${label}: 'credited' must be an array of { code, replaces? } objects`);
+      return;
+    }
+
+    const src = coursesByProgram.get(plan.from);
+    const tgt = coursesByProgram.get(plan.to);
+    if (!src || !tgt) {
+      warn(file, `${ctx} ${label}: could not load course data for both programs — skipped the cross-checks`);
+      return;
+    }
+
+    // `credited` must match what the source programme actually teaches in those
+    // years, in both directions. A course added to COPEN that nobody added here
+    // would otherwise be silently dropped from the composed plan.
+    const inSourceYears = new Set(
+      [...src.values()].filter((c) => plan.sourceYears.includes(c.year)).map((c) => c.code));
+    const creditedCodes = plan.credited.map((c) => c.code);
+    for (const code of creditedCodes) {
+      if (!inSourceYears.has(code)) {
+        err(file, `${ctx} ${label}: credits '${code}', which is not in ${plan.from} year ${plan.sourceYears.join('/')}`);
+      }
+    }
+    for (const code of inSourceYears) {
+      if (!creditedCodes.includes(code)) {
+        warn(file, `${ctx} ${label}: ${plan.from} year ${plan.sourceYears.join('/')} teaches '${code}' but the plan does not credit it — plan may be out of date`);
+      }
+    }
+
+    // `replaces` drives the prerequisite rewrite, so a wrong code here shows up
+    // as a silently missing arrow rather than an error. Check both ends.
+    const replacedBy = new Map();
+    for (const credit of plan.credited) {
+      for (const target of credit.replaces ?? []) {
+        if (!tgt.has(target)) {
+          err(file, `${ctx} ${label}: '${credit.code}' replaces '${target}', which ${plan.to} does not list`);
+          continue;
+        }
+        if (!plan.sourceYears.includes(tgt.get(target).year)) {
+          warn(file, `${ctx} ${label}: '${credit.code}' replaces '${target}', which ${plan.to} teaches in year ${tgt.get(target).year} — outside the years the source replaces`);
+        }
+        if (replacedBy.has(target)) {
+          err(file, `${ctx} ${label}: '${target}' is replaced by both '${replacedBy.get(target)}' and '${credit.code}'`);
+        }
+        replacedBy.set(target, credit.code);
+      }
+    }
+
+    // Every target-programme prerequisite pointing into the years the source
+    // replaces must have an equivalence, or its arrow vanishes from the chart.
+    const targetProgram = programs.find((p) => p?.code === plan.to);
+    const targetData = targetProgram?.dataFile ? loadJson(join(dataDir, targetProgram.dataFile)) : null;
+    if (Array.isArray(targetData)) {
+      const exemptCodes = new Set((plan.exempt ?? []).map((e) => e.code));
+      for (const e of targetData) {
+        if (!e?.code || e.type === 'optionGroup' || e.type === 'cohortMeta') continue;
+        const year = tgt.get(e.code)?.year;
+        if (year == null || plan.sourceYears.includes(year)) continue;   // not in the student's plan
+        if (exemptCodes.has(e.code)) continue;
+        const pres = [...(e.prerequisitesCompleted ?? []), ...(e.prerequisitesParticipation ?? []), ...(e.prerequisites ?? [])];
+        for (const pre of new Set(pres)) {
+          const preYear = tgt.get(pre)?.year;
+          if (preYear == null || !plan.sourceYears.includes(preYear)) continue;
+          if (!replacedBy.has(pre)) {
+            warn(file, `${ctx} ${label}: '${e.code}' requires '${pre}' from ${plan.to} year ${preYear}, which no credited course replaces — its prerequisite arrow will be missing`);
+          }
+        }
+      }
+    }
+
+    for (const ex of plan.exempt ?? []) {
+      if (!ex || typeof ex.code !== 'string') { err(file, `${ctx} ${label}: 'exempt' entry needs a 'code'`); continue; }
+      if (!tgt.has(ex.code)) {
+        err(file, `${ctx} ${label}: exempts '${ex.code}', which ${plan.to} does not list`);
+      }
+      if (ex.creditedBy && !src.has(ex.creditedBy)) {
+        err(file, `${ctx} ${label}: '${ex.code}' is credited by '${ex.creditedBy}', which ${plan.from} does not list`);
+      }
+    }
+
+    for (const mv of plan.moved ?? []) {
+      if (!mv || typeof mv.code !== 'string') { err(file, `${ctx} ${label}: 'moved' entry needs a 'code'`); continue; }
+      const course = tgt.get(mv.code);
+      if (!course) {
+        err(file, `${ctx} ${label}: moves '${mv.code}', which ${plan.to} does not list`);
+        continue;
+      }
+      if (course.year !== mv.fromYear) {
+        err(file, `${ctx} ${label}: moves '${mv.code}' from year ${mv.fromYear}, but ${plan.to} has it in year ${course.year}`);
+      }
+      if (plan.sourceYears.includes(mv.toYear)) {
+        err(file, `${ctx} ${label}: moves '${mv.code}' into year ${mv.toYear}, which is taken in ${plan.from}`);
+      }
+      if (mv.toYear <= mv.fromYear) {
+        warn(file, `${ctx} ${label}: moves '${mv.code}' from year ${mv.fromYear} to ${mv.toYear} — not a later year, check this is intended`);
+      }
+    }
+
+    // `added` courses come from a programme this app does not model (SF1920 is
+    // taken from CELTE), so there is no third data file to cross-check against.
+    // What can be checked is that the embedded course is internally coherent and
+    // does not collide with the target's own plan.
+    for (const ad of plan.added ?? []) {
+      if (!ad || typeof ad.code !== 'string') { err(file, `${ctx} ${label}: 'added' entry needs a 'code'`); continue; }
+      if (tgt.has(ad.code)) {
+        err(file, `${ctx} ${label}: adds '${ad.code}', which ${plan.to} already lists — it would appear twice`);
+      }
+      if (src.has(ad.code)) {
+        err(file, `${ctx} ${label}: adds '${ad.code}', which the student already took in ${plan.from}`);
+      }
+      if (typeof ad.totalCredits !== 'number' || ad.totalCredits <= 0) {
+        err(file, `${ctx} ${label}: '${ad.code}' needs a positive 'totalCredits'`);
+      }
+      if (!Number.isInteger(ad.year) || plan.sourceYears.includes(ad.year)) {
+        err(file, `${ctx} ${label}: '${ad.code}' has year ${ad.year}, which is not one of the target's own years`);
+      }
+      const sum = PERIODS_ORDERED.reduce((a, p) => a + (Number(ad.periodCredits?.[p]) || 0), 0);
+      if (Math.abs(sum - ad.totalCredits) > CREDIT_TOLERANCE) {
+        err(file, `${ctx} ${label}: '${ad.code}' periodCredits sum to ${sum} hp but totalCredits is ${ad.totalCredits}`);
+      }
+      if (ad.substitutesFor && !tgt.has(ad.substitutesFor)) {
+        err(file, `${ctx} ${label}: '${ad.code}' substitutes for '${ad.substitutesFor}', which ${plan.to} does not list`);
+      }
+      for (const pre of [...(ad.prerequisitesCompleted ?? []), ...(ad.prerequisitesParticipation ?? [])]) {
+        if (!src.has(pre) && !tgt.has(pre) && !(plan.added ?? []).some((o) => o.code === pre)) {
+          warn(file, `${ctx} ${label}: '${ad.code}' requires '${pre}', which is in neither programme — the arrow will not be drawn`);
+        }
+      }
+    }
+
+    if (plan.verified !== true) {
+      warn(file, `${ctx} ${label}: not yet verified — confirm against the program director's transition plan`);
+    }
+  });
+}
+
 // ---------- main ----------
 
 // `--include <PROGRAM>=<path>` validates a data file that is NOT registered in
@@ -890,6 +1063,40 @@ if (programs != null) {
       console.log(`• ${inc.code} (--include ${rel(inc.path)})`);
       validateProgramData(program, inc.path);
     }
+  }
+}
+
+// Transition plans need both programmes' course data, so this runs after the
+// per-program validation above has already loaded and checked them.
+const transitionsFile = join(dataDir, 'transitions.json');
+if (existsSync(transitionsFile)) {
+  const plans = loadJson(transitionsFile);
+  if (plans != null) {
+    console.log('• transitions');
+    const byProgram = new Map();
+    for (const plan of Array.isArray(plans) ? plans : []) {
+      for (const code of [plan?.from, plan?.to]) {
+        if (!code || byProgram.has(code)) continue;
+        const program = programs.find((p) => p?.code === code);
+        if (!program?.dataFile) continue;
+        const data = loadJson(join(dataDir, program.dataFile));
+        if (!Array.isArray(data)) continue;
+        const map = new Map();
+        for (const e of data) {
+          if (e?.code && e.type !== 'optionGroup' && e.type !== 'cohortMeta') {
+            // A year-spanning course has no top-level `year`; use its first.
+            const spanned = Object.keys(e.periodCredits ?? {})
+              .map((k) => /^Year(\d+)$/.exec(k)?.[1])
+              .filter(Boolean)
+              .map(Number)
+              .sort((a, b) => a - b);
+            map.set(e.code, { code: e.code, year: e.year ?? spanned[0] ?? null });
+          }
+        }
+        byProgram.set(code, map);
+      }
+    }
+    validateTransitions(plans, transitionsFile, programs, byProgram);
   }
 }
 
