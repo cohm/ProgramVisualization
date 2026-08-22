@@ -53,7 +53,7 @@ Top-level (inside this folder):
 
 Scripts
 
-- `scripts/extract-from-kopps.mjs` — builds a cohort's study plan from KTH's published data. Pure Node, no extra dependencies. See `CLAUDE.md` for the full picture and `--help` for options.
+- `scripts/extract-from-kopps.mjs` — builds a cohort's study plan from KTH's published data. Pure Node, no extra dependencies. See `CLAUDE.md` for the full picture and `--help` for options. It also writes `prerequisite-review/<PROGRAM>.md`: a worklist for the program director covering every cohort, where each judgement links the course page and the exact kursplan PDF it was read from, so it can be signed off by clicking rather than by reading data files.
 - `scripts/validate-data.mjs` — schema and cross-reference checks for everything in `src/data`, including the per-period full-time load check. Runs in CI.
 
 Key source files
@@ -71,7 +71,7 @@ Data files (rendered at runtime)
 
 - `src/data/programs.json` — list of available programs with their display names, optional inriktningar (specializations), and a study-plan URL. Two flags control visibility: `verified: false` hides a plan behind the "show unverified" checkbox, while `disabled: true` withdraws it from the UI entirely (not in the dropdown, not reachable via `?program=`).
 - `src/data/<PROGRAM>.json` — program-specific course datasets (CTFYS, CTMAT, CFATE, COPEN, CINEK; CMAST and CMATD load a cohort file directly). Each course includes fields such as `code`, `name`, `totalCredits`, `periodCredits` (P1–P4, either flat per-year or by-year for multi-year courses), `year`, `prerequisitesCompleted` / `prerequisitesParticipation`, and the `exams`/`reexams` arrays. Programs may also include `optionGroup` entries for course-choice slots and `electivePlaceholder` entries for the space reserved for valfria kurser.
-- `src/data/cohorts/<PROGRAM>-HT<year>.json` — per-admission-cohort study plans, one file per cohort, each opening with a `cohortMeta` entry that records where every study year's data came from. Selected in the UI via `?cohort=HT2023`. `cohorts/index.json` lists what is available per program and is regenerated from disk by the extractor.
+- `src/data/cohorts/<PROGRAM>-HT<year>.json` — per-admission-cohort study plans, one file per cohort (**HT2022–HT2026**), each opening with a `cohortMeta` entry that records where every study year's data came from. Selected in the UI via `?cohort=HT2023`. `cohorts/index.json` lists what is available per program and is regenerated from disk by the extractor. The archive is committed on purpose: KTH deletes each läsår as it passes, so HT2022 is already gone from the source entirely and every one of its years is reconstructed from a later cohort.
 - `src/data/<PROGRAM>-cosmetics.json` — per-course color-family assignments (capped at 5 families).
 - `src/data/kth-colors.json` — KTH color palette used for fills/strokes in the visualization.
 - `src/data/academic-periods.json` — academic period definitions (P1–P4) with `start`, `end`, `examStart`, `examEnd`, `reExamStart`, `reExamEnd` as ISO date strings. These are converted to Date objects in `src/types/course.ts`.
@@ -106,7 +106,7 @@ Exam/re-exam markers
 
 **Shareable URL state**: The selected program, admission cohort, language, hidden layers, specialization filter, and option-group picks are mirrored into the query string so a particular view can be linked or bookmarked — e.g. `?program=CTFYS&cohort=HT2023&l=sv`.
 
-**Cohort view**: A student picks their admission year and sees the plan as they will study it, rather than one calendar läsår sliced across three cohorts. Because KTH publishes only the läsår currently being taught and the next one, years missing for a cohort are borrowed from the nearest cohort that has them; a line under the selectors says which years are approximated, with per-year detail and a link to KTH's published plan behind an info affordance.
+**Cohort view**: A student picks their admission year (HT2022–HT2026) and sees the plan as they will study it, rather than one calendar läsår sliced across three cohorts. Because KTH publishes only the läsår currently being taught and the next one, years missing for a cohort are borrowed from the nearest cohort that has them; a line under the selectors says which years are approximated, with per-year detail and a link to KTH's published plan behind an info affordance. The oldest cohorts lean on this most: HT2022 has been removed from KTH's pages altogether, so all of its years are borrowed and reported with `unknown` confidence.
 
 **Elective space**: Where a period falls short of full-time (15 hp), the plan shows a "Plats för valfri kurs" placeholder sized to the shortfall, in yellow.
 
