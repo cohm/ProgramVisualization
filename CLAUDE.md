@@ -536,6 +536,51 @@ unconditionally so it shrinks as well as grows.
 
 **Vercel PDF export**: `vercel.json` sets 1800 MB RAM and 60s timeout for the PDF endpoint (Hobby plan limit is 2048 MB). The `@sparticuz/chromium` binary must be bundled — configured via `serverExternalPackages` + `outputFileTracingIncludes` in `next.config.ts` and the matching `includeFiles` in `vercel.json` (the duplication is intentional but fragile).
 
+**`import 'd3-transition'` is load-bearing and must not be tidied away.** It is a
+side-effect import: it is what installs `.transition()` and `.interrupt()` on the
+selection prototype, and `TimelineVisualization` calls `.interrupt()` 17 times.
+Measured: `selection.prototype.interrupt` is `undefined` after importing only
+`d3-selection` and a function after importing `d3-transition`. **Neither `tsc` nor
+`eslint` catches its absence**, because `@types/d3-selection`/`@types/d3` declare
+the augmentation regardless of which module provides it — so removing it
+type-checks, lints, and then throws at runtime on all 17 call sites.
+
+Related, and deliberately left alone: nothing in the codebase calls
+`.transition()`, so those 17 `.interrupt()` calls are currently no-ops. Dropping
+them would take the d3 install tree from 13 packages to 9, but that is a
+behaviour decision rather than a packaging one.
+
+**Why submodule imports at all**, given `import * as d3` was already tree-shaken
+(verified by probing built chunks for minification-surviving string literals:
+`__data__` and `getUTCMonth` present, `MultiPolygon`, `Invalid delimiter` and
+`d8b365` absent; bundle 368.68 → 368.71 kB, i.e. unchanged). The win is the
+install tree: **38 packages reachable from `d3` with 7 non-d3 transitive
+dependencies, down to 13 with 1** (`internmap`). Four of the dropped ones —
+`commander`, `iconv-lite`, `rw`, `safer-buffer` — arrived via `d3-dsv`, a CSV
+parser that ships a command-line tool this app never calls.
+
+**The PDF endpoint renders caller-supplied HTML, so it is locked down.**
+`/api/export-pdf` takes an `html` string and renders it in headless Chrome, which
+without guards is a rendering oracle: submitted HTML can `fetch()` an address
+reachable from the function and write the response into the DOM, where it returns
+inside the PDF. Three guards, all inert for a real export because the document we
+generate is entirely static (inline `<style>`, base64 `@font-face` data URIs, a
+serialised SVG, no `<script>`, no external URL — the Google Fonts fetch happens in
+the browser *before* the POST):
+
+- same-origin only (`Origin`, falling back to `Referer`, compared against `Host`);
+- `page.setJavaScriptEnabled(false)`;
+- request interception allowing only `data:`, `about:` and `blob:`.
+
+`setContent` is implemented via page-context evaluation, so disabling scripts
+could plausibly have broken the feature. Verified against real Chrome that it does
+not: our export document renders to a **byte-identical** PDF with and without the
+guards. A document carrying a script and an `<img>` at `169.254.169.254` hung
+until the 30 s navigation timeout unguarded, and rendered promptly with the script
+not run and the request blocked when guarded. One deployment caveat: the check
+compares against the `Host` header, so a proxy that rewrites `Host` would reject
+exports.
+
 **Build-time metadata**: `next.config.ts` injects `NEXT_PUBLIC_GIT_HASH`, `NEXT_PUBLIC_GIT_TIMESTAMP`, and `NEXT_PUBLIC_GIT_REPO_URL` at build time, falling back to `git` shell-outs when the Vercel env vars aren't present.
 
 **Standing review**: Open issues, design discussion, and a ranked improvement list live in `REVIEW.md` at the repo root.
@@ -543,7 +588,7 @@ unconditionally so it shrinks as well as grows.
 ## Tech Stack
 
 - **Next.js 16** (App Router), **React 19** with React Compiler, **TypeScript 5** (strict)
-- **D3.js 7** for all SVG rendering
+- **D3 7** for all SVG rendering — imported as the three submodules actually used (`d3-selection`, `d3-scale`, `d3-color`) rather than the `d3` meta-package, plus a side-effect import of `d3-transition` (see below)
 - **Tailwind CSS 4**
 - **Puppeteer-core + @sparticuz/chromium** for server-side PDF
 

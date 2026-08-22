@@ -46,7 +46,37 @@ async function getBrowser(): Promise<Browser> {
   return cachedBrowser;
 }
 
+/**
+ * Only accept same-origin browser requests.
+ *
+ * This endpoint renders caller-supplied HTML in a headless browser, which makes
+ * it a useful oracle for anyone who can reach it: submit a document, get back a
+ * rendered PDF of whatever the function was able to load. The export UI always
+ * posts from the page itself, so `Origin` is present and matches the host; a
+ * request without that pairing is not the export button.
+ *
+ * `Origin` is set by the browser and cannot be forged by page JavaScript, so
+ * comparing it to the request's own host is a real check rather than a
+ * formality. Falls back to `Referer` for clients that omit Origin on
+ * same-origin POSTs.
+ */
+function isSameOrigin(req: NextRequest): boolean {
+  const host = req.headers.get('host');
+  if (!host) return false;
+  const stated = req.headers.get('origin') ?? req.headers.get('referer');
+  if (!stated) return false;
+  try {
+    return new URL(stated).host === host;
+  } catch {
+    return false;
+  }
+}
+
 export async function POST(req: NextRequest) {
+  if (!isSameOrigin(req)) {
+    return new Response('Cross-origin requests are not accepted', { status: 403 });
+  }
+
   // Enforce payload size limit before parsing JSON.
   const contentLength = Number(req.headers.get('content-length') ?? '0');
   if (contentLength > MAX_HTML_BYTES) {
@@ -74,9 +104,34 @@ export async function POST(req: NextRequest) {
     const browser = await getBrowser();
     page = await browser.newPage();
 
+    // The document we generate is entirely static: an inline <style> with
+    // base64 @font-face data URIs and a serialised SVG. It contains no <script>
+    // and no external URL, and the Google Fonts fetch happens in the browser
+    // before this POST. So both guards below are inert for a real export and
+    // only bite on a document we did not write.
+
+    // No page scripts. Without this, submitted HTML could fetch() an address
+    // reachable from the server and write the response into the DOM, where it
+    // would come back inside the PDF.
+    await page.setJavaScriptEnabled(false);
+
+    // No off-document loads. `data:`/`about:`/`blob:` cover the inlined fonts
+    // and the initial document; anything else — an <img> pointing at an
+    // internal host, an @import, an external stylesheet — is refused rather
+    // than fetched on the caller's behalf.
+    await page.setRequestInterception(true);
+    page.on('request', (request) => {
+      const url = request.url();
+      if (/^(data|about|blob):/i.test(url)) {
+        void request.continue();
+      } else {
+        void request.abort('blockedbyclient');
+      }
+    });
+
     // Fonts are inlined as base64 in the HTML, so the page has no external
     // resources to wait for — `load` returns essentially immediately.
-    await page.setContent(html, { waitUntil: 'load' });
+    await page.setContent(html, { waitUntil: 'load', timeout: 30_000 });
 
     const pdfBuffer = await page.pdf({
       printBackground: true,
