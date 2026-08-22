@@ -115,6 +115,7 @@ Exam/re-exam markers
 Troubleshooting
 
 - Port 3000 already in use: check what is listening with `lsof -iTCP:3000 -sTCP:LISTEN -n -P`, or just start on another port with `npm run dev -- --port 3100`. Note that on macOS a second server can bind `*:3000` while an existing one holds `[::1]:3000` — both appear to start, but `localhost:3000` reaches the first one.
+- Blank or unstyled page in dev, with no obvious error: browse to `http://localhost:<port>`, not `http://127.0.0.1:<port>`. Next blocks cross-origin requests to dev-only assets by default, and the dev server treats `127.0.0.1` as a different origin from the `localhost` it was started on — so the HTML loads but every `/_next/static/...` subresource returns **403** and the page never hydrates. Verified on this project: the same chunk returns 200 with `Origin: http://localhost:3100` and 403 with `Origin: http://127.0.0.1:3100`. To allow another host, list it in `allowedDevOrigins` in `next.config.ts`.
 - Suspended dev job (Ctrl+Z): resume with `fg` or start a background server with `nohup` as shown above.
 - Type errors: run `npx tsc --noEmit` to see TypeScript diagnostics.
 - PDF export not working on Vercel: Ensure `vercel.json` is deployed with the project and `@sparticuz/chromium` is in dependencies.
