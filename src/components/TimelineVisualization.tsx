@@ -1,7 +1,24 @@
 
 
 import React, { useEffect, useMemo, useRef, forwardRef, useImperativeHandle, useState, useCallback } from 'react';
-import * as d3 from 'd3';
+// Import the three d3 modules actually used rather than the `d3` meta-package.
+// Identical bundle (the wildcard import was already tree-shaken) but a much
+// smaller install tree: 38 packages -> 13, and 7 non-d3 transitive deps -> 1.
+// The dropped ones arrived via d3-dsv, a CSV parser with a CLI this app never
+// calls (commander, iconv-lite, rw, safer-buffer) and via d3-delaunay
+// (delaunator, robust-predicates).
+//
+// `d3-transition` is imported for its SIDE EFFECT: it is what puts
+// `.transition()` and `.interrupt()` on the selection prototype. Without it the
+// 17 `.interrupt()` calls below throw at runtime, and neither tsc nor eslint
+// catches that, because @types/d3 declares the augmentation regardless of which
+// module provides it. Verified empirically: selection.prototype.interrupt is
+// undefined before the import and a function after.
+import { select } from 'd3-selection';
+import { scaleTime } from 'd3-scale';
+// Aliased: a local `const color` at ~:479 would otherwise shadow it.
+import { color as d3color } from 'd3-color';
+import 'd3-transition';
 import { Course, CourseCredit, OptionGroup, Period, SelectedInfo, academicPeriods } from '@/types/course';
 import kthColors from '@/data/kth-colors.json';
 import type { ProgramCosmetics } from '@/types/cosmetics';
@@ -747,7 +764,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   useEffect(() => {
     if (!svgRef.current || !containerRef.current || !courses.length) return;
 
-  const svg = d3.select(svgRef.current);
+  const svg = select(svgRef.current);
   // Apply global font family to all SVG text
   svg.style('font-family', STYLE.fontFamily);
   const margin = { top: 100, right: 40, bottom: 40, left: 100 }; // Increased top margin for title and period labels
@@ -808,7 +825,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
   const g = svg.append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);    // Create scales
-    const timeScale = d3.scaleTime()
+    const timeScale = scaleTime()
       .domain([academicPeriods[0].start, academicPeriods[3].reExamEnd])
       .range([0, width]);
   // Empty-space clicks (clearing focus / info / year) are handled by the
@@ -921,7 +938,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // what stranded the legend after switching to a smaller programme.
   const requiredTotalHeight = yearBandHeights.reduce((a, b) => a + b, 0) + totalGaps;
   height = Math.max(requiredTotalHeight, initialChartHeightRef.current);
-  d3.select(svgRef.current)
+  select(svgRef.current)
     .attr('height', height + margin.top + margin.bottom);
 
   // Compute cumulative Y offsets per year using the (possibly) expanded band heights
@@ -973,7 +990,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('width', timeScale(period.lectureEnd) - timeScale(period.start))
         .attr('height', periodHeight)
         .attr('class', 'study-period')
-        .attr('fill', (kthColors.KthSand?.HEX ? d3.color(kthColors.KthSand.HEX)!.copy({ opacity: 0.25 }).formatRgb() : 'rgba(235,229,224,0.25)'))
+        .attr('fill', (kthColors.KthSand?.HEX ? d3color(kthColors.KthSand.HEX)!.copy({ opacity: 0.25 }).formatRgb() : 'rgba(235,229,224,0.25)'))
         .attr('stroke', 'none')
         .attr('data-kind', 'study-period')
         .attr('data-period', period.id);
@@ -1044,7 +1061,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('width', timeScale(period.examEnd) - timeScale(period.examStart))
         .attr('height', examHeight)
         .attr('class', 'exam-period-rect')
-        .attr('fill', (kthColors.KthLightBlue?.HEX ? d3.color(kthColors.KthLightBlue.HEX)!.copy({ opacity: 0.5 }).formatRgb() : 'rgba(222,240,255,0.5)'))
+        .attr('fill', (kthColors.KthLightBlue?.HEX ? d3color(kthColors.KthLightBlue.HEX)!.copy({ opacity: 0.5 }).formatRgb() : 'rgba(222,240,255,0.5)'))
         .attr('stroke', 'none')
         .attr('data-kind', 'exam-period')
         .attr('data-period', period.id);
@@ -1056,7 +1073,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         .attr('width', timeScale(period.reExamEnd) - timeScale(period.reExamStart))
         .attr('height', examHeight)
         .attr('class', 'reexam-period-rect')
-        .attr('fill', (kthColors.KthLightGray?.HEX ? d3.color(kthColors.KthLightGray.HEX)!.copy({ opacity: 0.5 }).formatRgb() : 'rgba(230,230,230,0.5)'))
+        .attr('fill', (kthColors.KthLightGray?.HEX ? d3color(kthColors.KthLightGray.HEX)!.copy({ opacity: 0.5 }).formatRgb() : 'rgba(230,230,230,0.5)'))
         .attr('stroke', 'none')
         .attr('data-kind', 'reexam-period')
         .attr('data-period', period.id);
@@ -2400,7 +2417,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     if (!containerEl || !svgEl) return;
 
     // Create the tooltip div once and reuse it.
-    const container = d3.select(containerEl);
+    const container = select(containerEl);
     container.selectAll('.pv-tooltip').remove();
     const tooltip = container.append('div')
       .attr('class', 'pv-tooltip')
@@ -2640,7 +2657,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // Update element opacities when layers change
   useEffect(() => {
     if (!containerRef.current) return;
-    const container = d3.select(containerRef.current);
+    const container = select(containerRef.current);
 
     // Exams: hide/show completely and adjust pointer-events.
     // Hiding course bars also hides exam markers — markers are anchored to
@@ -2723,7 +2740,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // and silently re-show elements when their group is visible.
   useEffect(() => {
     if (!containerRef.current || !cosmetics) return;
-    const container = d3.select(containerRef.current);
+    const container = select(containerRef.current);
 
     // Helpers for safe group-name filtering — defined once here and reused
     // for all groups so we don't reallocate closures inside the forEach loop.
@@ -2751,7 +2768,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     // groups visible). The arrow's CSS classes indicate which layer applies.
     container.selectAll<SVGPathElement, unknown>('.prereq-path')
       .each(function() {
-        const arrow = d3.select(this);
+        const arrow = select(this);
         const fromGroup = arrow.attr('data-from-group');
         const toGroup = arrow.attr('data-to-group');
         const fromHidden = fromGroup && layers.groups[fromGroup] === false;
@@ -2767,7 +2784,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // Focus mode: fade out unrelated courses/markers/arrows when a course is selected
   useEffect(() => {
     if (!containerRef.current) return;
-    const container = d3.select(containerRef.current);
+    const container = select(containerRef.current);
     if (!focusCourse) {
       // remove focus overrides, restore baseline from layer settings
       container.selectAll('.course-group').style('opacity', null);
@@ -2839,7 +2856,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // Year focus mode: clicking a year label fades other years and all prerequisite arrows
   useEffect(() => {
     if (!containerRef.current) return;
-    const container = d3.select(containerRef.current);
+    const container = select(containerRef.current);
     // If a single course is focused, year focus is ignored
     if (focusCourse) return;
 

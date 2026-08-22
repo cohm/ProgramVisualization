@@ -124,7 +124,8 @@ Troubleshooting
 Key production dependencies:
 - `next` (16.x) — React framework
 - `react` (19.x) — UI library
-- `d3` (7.9.x) — Visualization and data manipulation
+- `d3-selection`, `d3-scale`, `d3-color` (3.x/4.x) — the three D3 modules used for SVG rendering, imported directly rather than via the `d3` meta-package
+- `d3-transition` (3.x) — imported for its side effect only; it provides `.interrupt()` on selections
 - `puppeteer-core` (25.x) — Headless browser control for PDF generation
 - `@sparticuz/chromium` (141.x) — Serverless-compatible Chrome binary for Vercel
 
