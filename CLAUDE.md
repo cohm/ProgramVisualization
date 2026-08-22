@@ -95,6 +95,7 @@ availability (CTFYS/CINEK, Aug 2026):
 
 | cohort | year 1 | year 2 | year 3 |
 |---|---|---|---|
+| HT2022 | gone | gone | gone |
 | HT2023 | gone | gone | own |
 | HT2024 | gone | own | own |
 | HT2025 | own | own | future |
@@ -106,6 +107,33 @@ it, searching outwards and preferring the earlier cohort on a tie — so "year 3
 isn't scheduled yet" resolves to the previous cohort, while HT2023's year 1 comes
 from a later one. Availability is **probed, not computed**: the publishing window
 moves every year.
+
+`EARLIEST_COHORT = 2022` is the floor. **HT2022 has been deleted entirely** — its
+pages still render ("Utbildningsplan kull HT2022, Årskurs 1", HTTP 200) but
+`curriculumInfos` carries one common entry with no participations at all, for
+every programme and every year. So all three of its years are borrowed
+(y1←HT2025, y2←HT2024, y3←HT2023 for the SCI programmes) and `corroborate()`
+cannot run, because it needs a year *both* cohorts publish and HT2022 publishes
+none. Every HT2022 year is therefore `approximated` with confidence `unknown`,
+which the chart states above the plan. HT2022 students are nominally in year 5,
+but those behind schedule are still taking bachelor-level courses, so the plan is
+worth offering with that caveat attached rather than withholding.
+
+A consequence worth keeping straight: HT2022's *course layout* is identical to
+HT2023's, because they borrow the same source years. What genuinely differs is
+the kursplan versions, since `termForCourse` puts HT2022 a year earlier — see
+below.
+
+**"Zero courses" has two different causes, and they must not be conflated.** A
+year with `curriculumInfos: []` has no curriculum defined at all — COPEN's years
+2-3 and TIEMM's year 3 are the real cases, and they are correctly reported as
+"not part of this programme". A year with one `curriculumInfo` carrying *no
+participations* is a year whose course list is simply absent for that cohort:
+deleted (HT2022, HT2023's years 1-2) or not yet published (HT2026's year 3).
+`resolveYear` already separates the two by searching other cohorts — `anyListed`
+is false only in the structural case — so the distinction is handled, but the
+`curriculumInfos.length` signal is the cleaner discriminator if this ever needs
+rewriting.
 
 **Provenance is recorded and shown.** Each cohort file starts with a
 `cohortMeta` entry (`type` discriminated, like `optionGroup`) listing per year:
@@ -201,7 +229,7 @@ generated files: CTFYS 47→9, CTMAT 45→7, CFATE 131→19, COPEN 21→2, CINEK
 TIEMM 1069→12.
 
 **The archive is committed on purpose.** KTH deletes each läsår as it passes, so
-HT2023's years 1–2 are already unrecoverable. Committing the files is what stops
+HT2023's years 1–2 are already unrecoverable, and the whole of HT2022 now is. Committing the files is what stops
 that erasing our copy; re-running extraction only ever adds. They live inside
 `src/data/` (unlike the ad-hoc `--out` candidates) because the app must load
 whichever cohort the user picks, and each JSON becomes its own lazily-loaded
@@ -210,6 +238,27 @@ chunk — an unselected cohort costs a viewer nothing. They do all count toward 
 ~50 kB archive, ~2 kB per cohort file). `src/data/cohorts/index.json` is
 regenerated from disk on every run and drives the UI's selector; the validator
 cross-checks it both ways.
+
+Adding the HT2022 cohort costs **16.4 kB brotlied** across the eight programmes
+(measured as the difference between two builds, and independently by brotliing
+the eight files: 16.0 kB — TIEMM alone is 5.0 kB of it). That leaves the 330 kB
+budget intact on the bundler CI uses.
+
+**Measuring the budget locally needs `next build --webpack`, and the number is
+not comparable.** The default Turbopack build spawns a PostCSS subprocess that
+binds a port, which a sandboxed shell refuses (`Operation not permitted (os error
+1)` from `evaluate_webpack_loader`); `npx next build --webpack` completes. But
+webpack lays chunks out differently and measures **~82 kB higher** on the same
+tree — 352.28 kB against Turbopack's 270.63 kB with the same data. So a
+`--webpack` run "exceeding" the limit says nothing on its own; use it only to
+measure a *delta* between two builds, and treat CI as the authority on the
+absolute number.
+
+A related wrinkle: `disabled` keeps a programme out of the UI but not out of the
+bundle. TIEMM's five cohort files are 24.6 kB brotlied and still ship, because
+`useCourseModel.ts` imports by template literal and the bundler therefore emits a
+chunk for every JSON in the directory. Worth revisiting if the budget gets tight;
+the archive rationale above is the reason they are kept for now.
 
 **Ad-hoc `--out` candidates stay out of `src/data/`.** `useCourseModel.ts` loads
 data with ``await import(`@/data/${dataFile}`)`` — a template literal, so the
@@ -323,10 +372,29 @@ Selection is therefore: work out the term the cohort sits the course in
 autumn, P3/P4 the following spring), then take the newest version in force by
 then (`versionForTerm`). CTFYS HT2023 sits EI1320 in 20252 and gets the 20212
 kursplan (SI1200 alone); HT2024 sits it in 20262 and gets 20261 (SI1200 or
-SF1693). Whenever a cohort resolves to anything other than the newest version the
-extractor says so in the review file, so the difference is visible rather than
-surprising. Curated files resolve against the läsår in
-`academic-periods.json` instead of a cohort, matching their one-läsår semantics.
+SF1693). Curated files resolve against the läsår in `academic-periods.json`
+instead of a cohort, matching their one-läsår semantics.
+
+**How often this actually bites**, measured over the committed cohort files: the
+chosen kursplan differs between cohorts for 5 of 28 CTFYS courses (EI1320,
+DD1331, DD1327, SK1105, SH1014), 1 of 28 in CTMAT (DD1328), 4 of 28 in CMATD,
+1 of 9 in COPEN and 43 of 115 in TIEMM. So it is not an edge case, and a review
+file built from one cohort hides it.
+
+**The kursplan PDF has a stable public URL, which is what makes the review files
+signable.** `/student/kurser/kurs/kursplan/<CODE>-<TERM>.pdf?lang=sv` returns the
+version in force at `<TERM>`. The route came from the course page's own render
+state (`paths.SyllabusPdf.getPdfProxy.uri` =
+`/student/kurser/kurs/kursplan/:course_semester`); the **`.pdf` suffix is
+required**, and without it the endpoint answers 500 for every input including
+valid ones, which is an easy way to conclude wrongly that it does not work.
+`?lang=en` also works, even though the English course *page* is HTTP 500.
+
+Passing a term that is not itself a version boundary is fine — the endpoint
+resolves it to the version in force, so `EI1320-20231.pdf` returns the 20212
+kursplan byte-for-byte. The review files nevertheless link each version's own
+`valid_from` term, because that is the label the kursutveckling archive prints
+beside the same entry, so a reviewer sees one identifier in both places.
 
 **Prerequisites come from free text and need coordinator sign-off.** They live in
 the syllabus `eligibility` field (*Särskild behörighet*), while the
@@ -370,8 +438,35 @@ appear across the six programmes, and expanding CINEK's DD1418 recovers DD1317,
 DD1324 and SF1918 — real in-programme prerequisites that were being dropped.
 
 Everything uncertain is written to `prerequisite-review/<PROGRAM>.md` instead of
-being committed silently. Two of those sections are aimed at the program director
-rather than at data entry:
+being committed silently.
+
+**The review file is written to be signed off, not to be maintained.** It goes to
+a program director who should not have to open a data file or search kth.se, so:
+
+- Every course code is a link to its page, and every judgement links the **exact
+  kursplan PDF** it was read from, labelled the way the archive labels it
+  ("HT 2021 – HT 2025", "VT 2026 – tillsvidare"). A reviewer clicks the kursplan,
+  reads *Särskild behörighet*, and confirms or corrects.
+- **One file covers every cohort**, and the unit of review is a *kursplan text*
+  rather than a cohort: items identical across cohorts are merged onto one line
+  listing the cohorts affected, and a revision that reworded a requirement shows
+  up as a separate line with its own version link. It used to be written from
+  whichever cohort ran last, which for `--all-cohorts` meant the newest one only
+  — so the HT2023 reading of EI1320 (SI1200 alone) was invisible while the file
+  showed the HT2024+ reading (SI1200 *or* SF1693).
+- A **"cohorts read different kursplan versions"** section lists exactly where
+  cohorts are held to different texts, since that is where no single "correct"
+  answer exists.
+
+Only strings that really are course codes get linked: the module-level section
+carries values like "LAB1 i SH1017", and linking that verbatim produced a URL
+with a space in it that answers HTTP 400 — one dead link is enough to cost the
+reviewer confidence in the rest, so `codeLink()` links codes inside free text and
+leaves the rest alone. All 63 distinct URLs across the eight files were fetched
+and checked to resolve (kursplan links additionally checked to return
+`application/pdf`).
+
+Two of the sections are aimed at the program director rather than at data entry:
 
 - **"The course's own prerequisite list looks out of date — report it"** — the
   course asks for a knowledge area this programme teaches, but its list of

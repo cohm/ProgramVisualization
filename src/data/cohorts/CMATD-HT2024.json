@@ -114,6 +114,7 @@
     "description": "",
     "category": "mandatory",
     "nameEn": "Programming Techniques",
+    "gradingScale": "A-F",
     "courseLevel": "G"
   },
   {

@@ -343,6 +343,61 @@ const syllabusOrder = (a, b) => (syllabusTerm(b) ?? 0) - (syllabusTerm(a) ?? 0);
 const TERM_SPRING = 1;
 const TERM_AUTUMN = 2;
 
+// ---------------------------------------------------------------------------
+// Links into KTH's own pages
+// ---------------------------------------------------------------------------
+//
+// The review files are handed to program directors to sign off, so every claim
+// has to be checkable in one click rather than by searching kth.se. Three URL
+// shapes carry that, all verified to resolve (August 2026):
+//
+//   course page      /student/kurser/kurs/EI1320
+//   one kursplan     /student/kurser/kurs/kursplan/EI1320-20212.pdf?lang=sv
+//   version archive  /kursutveckling/EI1320/arkiv
+//
+// The kursplan route was found in the course page's own render state, as
+// `paths.SyllabusPdf.getPdfProxy.uri` = `/student/kurser/kurs/kursplan/
+// :course_semester`. The `.pdf` suffix is required — without it the endpoint
+// answers 500 for every input, including valid ones, which is what makes this
+// easy to get wrong.
+//
+// Passing a term that is not itself a version boundary still works: the
+// endpoint resolves it to the version in force then, so EI1320-20231.pdf
+// returns the 20212 kursplan byte-for-byte. We nevertheless link the version's
+// own `valid_from` term, because that is the identifier the kursutveckling
+// archive prints next to each entry, so the reviewer sees the same label in
+// both places.
+const courseUrl = (code) => `https://www.kth.se/student/kurser/kurs/${code}`;
+const kursplanUrl = (code, term) =>
+  `https://www.kth.se/student/kurser/kurs/kursplan/${code}-${term}.pdf?lang=sv`;
+const archiveUrl = (code) => `https://www.kth.se/kursutveckling/${code}/arkiv`;
+
+// Not every string in a review item is a course code. The module-level section
+// carries things like "LAB1 i SH1017", and linking that verbatim produced a
+// kth.se URL with a space in it that answers 400 — exactly the kind of dead link
+// that costs a reviewer's trust in the rest of the file. So: link a bare code as
+// itself, and inside free text link only the substrings that are codes. LAB1 is
+// not one, because a module tag has fewer than the three digits a code needs.
+const CODE_ONLY_RE = /^[A-Z]{2,3}\d{3,4}[A-Z]?$/;
+function codeLink(text) {
+  const t = String(text ?? '');
+  if (CODE_ONLY_RE.test(t)) return `[${t}](${courseUrl(t)})`;
+  return t.replace(/\b[A-Z]{2,3}\d{3,4}[A-Z]?\b/g, (m) => `[${m}](${courseUrl(m)})`);
+}
+
+/** 20212 -> "HT 2021", 20261 -> "VT 2026". Matches the archive page's labels. */
+function termLabel(term) {
+  if (!term) return '?';
+  const year = Math.floor(term / 10);
+  return `${term % 10 === TERM_AUTUMN ? 'HT' : 'VT'} ${year}`;
+}
+
+/** "HT 2021 - HT 2025" / "VT 2026 - tillsvidare", as the archive page writes it. */
+function validityLabel(version) {
+  if (!version?.term) return 'okänd version';
+  return `${termLabel(version.term)} – ${version.validTo ? termLabel(version.validTo) : 'tillsvidare'}`;
+}
+
 /**
  * The term a cohort actually sits a course in.
  *
@@ -438,6 +493,10 @@ async function fetchCoursePage(code) {
     }
     return {
       term: syllabusTerm(sy),
+      // `course_valid_to` is absent on the version currently in force, which is
+      // what makes "HT 2021 - HT 2025" vs "VT 2026 - tillsvidare" expressible.
+      validTo: sy.course_valid_to
+        ? sy.course_valid_to.year * 10 + sy.course_valid_to.semesterNumber : null,
       eligibility: (!eligibility || NO_INFO.test(eligibility)) ? null : eligibility,
       examModules: modules,
     };
@@ -921,7 +980,23 @@ function buildOptionGroups(vvRecords) {
 // window moves every year, and a probe is self-correcting where a formula would
 // silently go stale.
 
-const EARLIEST_COHORT = 2023; // oldest cohort the tool offers
+// Oldest cohort the tool offers. HT2022 students admitted to a five-year
+// civilingenjör programme are nominally in year 5 now, but those behind schedule
+// are still taking bachelor-level courses and need their plan.
+//
+// MEASURED (August 2026): KTH has deleted HT2022 entirely. Its pages still
+// render — "Utbildningsplan kull HT2022, Årskurs 1", HTTP 200 — but
+// `curriculumInfos` carries one common entry with no participations at all, for
+// every programme and every year. So none of HT2022's three years can come from
+// HT2022; all three are borrowed from the nearest cohort that still publishes
+// them, and `corroborate()` cannot run because there is no year the two cohorts
+// both publish. Every HT2022 year is therefore `approximated` with confidence
+// `unknown`, which the chart says out loud above the plan.
+//
+// That is the honest state of the source rather than a shortcoming of the
+// extractor, and it is the whole reason the archive under src/data/cohorts is
+// committed: HT2023's years 1-2 were readable a year ago and are not any more.
+const EARLIEST_COHORT = 2022;
 
 const SEARCH_RADIUS = 4; // cohorts to try either side before giving up
 
@@ -1880,6 +1955,11 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   const inProgramme = new Set(entries.map((e) => e.code).filter(Boolean));
   const nameByCode = new Map(entries.filter((e) => e.code).map((e) => [e.code, e.name || '']));
   const prereqReview = [];
+  // The kursplan each course was actually read from, so the review file can link
+  // it. A cohort reads the version in force when IT sits the course, so this map
+  // is per cohort, not per course.
+  const chosenByCode = new Map();
+  const prereqTexts = new Map();
   let withPrereqs = 0;
   let versioned = 0;
   for (const e of entries) {
@@ -1894,6 +1974,8 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     const studyYear = Math.min(...Object.keys(alignYearMaps(e)).map(Number));
     const term = termForCourse(cohort, studyYear, firstPeriod < 0 ? 0 : firstPeriod);
     const chosen = versionForTerm(versions, term);
+    chosenByCode.set(e.code, chosen ? { ...chosen, sitsTerm: term, newest: versions[0]?.term ?? null } : null);
+    if (chosen?.eligibility) prereqTexts.set(e.code, chosen.eligibility);
     if (chosen && versions.length > 1) {
       versioned++;
       if (chosen.term !== versions[0].term) {
@@ -1912,9 +1994,10 @@ async function extractCohort(prog, cohort, args, registryEntries) {
       delete e.prerequisites;
       withPrereqs++;
     }
-    for (const n of parsed.notes) prereqReview.push({ code: e.code, ...n });
+    for (const n of parsed.notes) prereqReview.push({ code: e.code, version: chosenByCode.get(e.code), ...n });
   }
-  prereqReview.push(...checkPrerequisiteOrder(entries));
+  prereqReview.push(...checkPrerequisiteOrder(entries)
+    .map((n) => ({ ...n, version: chosenByCode.get(n.code) })));
 
   // Option groups inherit the exam slot of their options, which all share a
   // period layout by construction. Only flat-shape options can be copied here;
@@ -2022,7 +2105,7 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   return {
     outPath, courses: courses.length, groups: groups.length, provenance,
     specs: needed(registryEntries, usedSpecs),
-    entries, prereqReview,
+    entries, prereqReview, chosenByCode, prereqTexts,
   };
 }
 
@@ -2108,6 +2191,8 @@ async function fillPrereqs(prog) {
   const lasar = lasarFromPeriods();
   process.stdout.write(`Reading kursplan text for ${courses.length} course(s) (läsår ${lasar ?? '?'}) … `);
   const texts = new Map();
+  // The kursplan each course was read from, for the review file's links.
+  const chosenByCode = new Map();
   for (const e of courses) {
     try {
       const meta = await fetchCourseMeta(e.code);
@@ -2122,6 +2207,7 @@ async function fillPrereqs(prog) {
       const term = termForCourse(lasar - studyYear + 1, studyYear, firstPeriod < 0 ? 0 : firstPeriod);
       const chosen = versionForTerm(meta.versions, term);
       texts.set(e.code, chosen ? chosen.eligibility : meta.eligibility);
+      chosenByCode.set(e.code, chosen ? { ...chosen, sitsTerm: term } : null);
     } catch { texts.set(e.code, null); }
   }
   console.log('done');
@@ -2133,7 +2219,7 @@ async function fillPrereqs(prog) {
     const has = (e.prerequisitesCompleted?.length || e.prerequisitesParticipation?.length
       || e.prerequisites?.length);
     const parsed = parsePrerequisites(texts.get(e.code), inProgramme, e.code, nameByCode);
-    for (const n of parsed.notes) review.push({ code: e.code, ...n });
+    for (const n of parsed.notes) review.push({ code: e.code, version: chosenByCode.get(e.code), ...n });
     if (has) { skipped++; continue; }
     if (parsed.completed.length === 0 && parsed.participation.length === 0) continue;
     if (parsed.completed.length > 0) e.prerequisitesCompleted = parsed.completed;
@@ -2142,12 +2228,17 @@ async function fillPrereqs(prog) {
     added++;
   }
 
-  review.push(...checkPrerequisiteOrder(courses));
+  review.push(...checkPrerequisiteOrder(courses)
+    .map((n) => ({ ...n, version: chosenByCode.get(n.code) })));
 
   const out = JSON.stringify(data, null, 2) + (raw.endsWith('\n') ? '\n' : '');
   if (out !== raw) writeFileSync(file, out, 'utf8');
   console.log(`  ${rel(file)}: added to ${added} course(s), left ${skipped} existing untouched`);
-  const rp = writePrereqReview(prog, courses, review, `läsår ${lasar}/${(lasar ?? 0) + 1} (curated file)`);
+  // One "cohort" here: the curated file describes a single läsår, not a kull.
+  const rp = writePrereqReview(prog, [{
+    label: `läsår ${lasar}/${(lasar ?? 0) + 1} (curated file)`,
+    entries: courses, prereqReview: review, chosenByCode,
+  }]);
   console.log(`  ${rel(rp)}: ${review.length} item(s) for coordinator review`);
 }
 
@@ -2271,22 +2362,28 @@ async function main() {
     ? Array.from({ length: newest - EARLIEST_COHORT + 1 }, (_, i) => EARLIEST_COHORT + i)
     : [args.cohort ?? newest];
 
-  // Prerequisites are per course, not per cohort, so one review file per
-  // programme is enough — built from the last cohort extracted.
-  let lastEntries = null;
-  let lastReview = [];
+  // Prerequisites are NOT per course alone: a cohort reads the kursplan version
+  // in force when it sits the course, so the same course can yield different
+  // prerequisites in different cohorts. Measured across the eight programmes,
+  // the chosen version differs between cohorts for 5 of 28 CTFYS courses
+  // (EI1320 among them), 1 of 28 in CTMAT (DD1328), 4 of 28 in CMATD and 43 of
+  // 115 in TIEMM. Reviewing only the last cohort extracted therefore hid real
+  // differences from the person signing them off, so every cohort is collected
+  // and the review file is grouped by kursplan version instead.
+  const perCohort = [];
   for (const c of cohorts) {
     if (c < EARLIEST_COHORT) {
       warn(`${cohortLabel(c)} is older than the supported floor ${cohortLabel(EARLIEST_COHORT)} — skipped`);
       continue;
     }
     const res = await extractCohort(prog, c, args, registryEntries);
-    if (res) { lastEntries = res.entries; lastReview = res.prereqReview; }
+    if (res) perCohort.push({ cohort: c, ...res });
   }
 
-  if (lastEntries) {
-    const rp = writePrereqReview(prog, lastEntries.filter((e) => e.code), lastReview, `cohort ${cohortLabel(cohorts[cohorts.length - 1])}`);
-    console.log(`\nWrote ${rel(rp)} — ${lastReview.length} item(s) for coordinator review`);
+  if (perCohort.length > 0) {
+    const rp = writePrereqReview(prog, perCohort);
+    const total = new Set(perCohort.flatMap((r) => r.prereqReview.map(reviewKey))).size;
+    console.log(`\nWrote ${rel(rp)} — ${total} distinct item(s) for coordinator review across ${perCohort.length} cohort(s)`);
   }
 
   writeCohortIndex();
@@ -2311,73 +2408,199 @@ async function main() {
  * the data rather than printed, because the person who needs it is not the
  * person running the script.
  */
-function writePrereqReview(prog, entries, review, basis) {
-  const withC = entries.filter((e) => e.prerequisitesCompleted?.length);
-  const withP = entries.filter((e) => e.prerequisitesParticipation?.length);
+/**
+ * Identity of a review item, ignoring which cohort raised it.
+ *
+ * Two cohorts reading the same kursplan sentence raise the same item, and a
+ * coordinator should sign that off once rather than once per cohort. The clause
+ * is part of the key because it is the thing being judged: when a kursplan
+ * revision rewords a requirement, that genuinely is a new item to check.
+ */
+function reviewKey(r) {
+  return JSON.stringify([r.kind, r.code, r.codes ?? null, r.chose ?? null,
+    r.req ?? null, r.label ?? null, (r.clause ?? '').slice(0, 300)]);
+}
+
+const REVIEW_HEADINGS = {
+  'upstream-stale': ["The course's own prerequisite list looks out of date — report it",
+    'These courses require a knowledge area that **this programme teaches**, but their list of qualifying courses does not include our course. CTMAT is the worked example: DD1385 and DD1380 ask for "programmering" while listing only `DD1310/DD1311/.../DD1331`, and CTMAT\'s own first-year programming course is DD1333. Neither syllabus has been revised since HT2021.\n\nThis is a defect in the **other course\'s** syllabus, not in this programme\'s data, so nothing was recorded automatically. Confirm the suggested course is really the intended prerequisite, add it here, and **report it to the coordinator or administrator of that course** so it is corrected at source — otherwise it stays wrong for every programme that uses the course. DD1328 needed exactly this and has since been fixed upstream: its VT2026 syllabus lists DD1333.'],
+  'not-earlier': ['Prerequisite does not precede the course',
+    'The prerequisite is recorded, but it does not come earlier in this programme. A *slutförd* requirement has to finish before the course starts; a *deltagande* one may overlap but cannot start after the course ends. Either the prerequisite is wrong or the course sits in the wrong place — both need a decision, and both are worth raising with the course owner.'],
+  'type-implicit': ['Type inferred, not stated',
+    'The text names a course but never says "slutförd" or "aktivt deltagande". The type below was inferred — from a signal elsewhere in the same text, or defaulted to *slutförd*. **This is the most likely place for an error.**'],
+  'alternatives': ['Several alternatives survived the in-programme filter',
+    'The text offers a choice ("eller", "/") and more than one option is a course in this programme. All were recorded, which is wrong if the student only needs one. Decide which applies.'],
+  'module-level': ['Requirement on a single examination module',
+    'The text requires one module of another course (for example "slutfört moment LAB1 i SH1017") rather than the whole course. The schema has no shape for that, so nothing was recorded from this clause — recording the whole course would overstate the requirement. Worth deciding whether the whole course is the right approximation here.'],
+  'credit-threshold': ['Credit thresholds, not expressible',
+    'The requirement is a credit total ("minst N hp"), which the schema cannot represent as a course dependency. Nothing was recorded for these.'],
+  'nothing-extracted': ['Text names courses, but none in this programme',
+    'Usually correct — the syllabus lists alternatives from other programmes and the in-programme filter drops them. But the lists also go stale: where the text describes a knowledge area and this programme has a course of that name, the candidate is called out below as **suggested**. Nothing is written to the data from a name match — confirm it first.'],
+};
+
+/**
+ * Write the coordinator worklist for one programme.
+ *
+ * `runs` is one entry per cohort (or a single entry for the curated file), each
+ * carrying that cohort's entries, review items and chosen kursplan versions.
+ *
+ * The document is organised for someone who signs it off rather than for someone
+ * who maintains the data: every course and every kursplan is a link into KTH's
+ * own pages, so a claim can be checked by clicking rather than by searching. The
+ * unit of review is a **kursplan text**, not a cohort — a sentence that four
+ * cohorts share is one decision, and the cohorts affected are listed on the item.
+ */
+function writePrereqReview(prog, runs) {
+  const cohortNames = runs.map((r) => r.label ?? cohortLabel(r.cohort));
+
+  // --- merge the flagged items across cohorts ------------------------------
+  const items = new Map(); // reviewKey -> { item, cohorts, versions }
+  for (const [i, run] of runs.entries()) {
+    for (const r of run.prereqReview) {
+      const k = reviewKey(r);
+      const g = items.get(k) ?? { item: r, cohorts: [], versions: new Map() };
+      if (!g.cohorts.includes(cohortNames[i])) g.cohorts.push(cohortNames[i]);
+      if (r.version?.term && !g.versions.has(r.version.term)) g.versions.set(r.version.term, r.version);
+      items.set(k, g);
+    }
+  }
   const byKind = {};
-  for (const r of review) (byKind[r.kind] ??= []).push(r);
+  for (const g of items.values()) (byKind[g.item.kind] ??= []).push(g);
+
+  // --- merge the extracted prerequisites across cohorts -------------------
+  // Keyed on the recorded lists, so a course whose prerequisites are the same in
+  // every cohort appears once, and one that differs appears once per variant.
+  const extracted = new Map();
+  for (const [i, run] of runs.entries()) {
+    for (const e of run.entries.filter((x) => x.code)) {
+      const c = e.prerequisitesCompleted ?? [];
+      const pt = e.prerequisitesParticipation ?? [];
+      if (c.length === 0 && pt.length === 0) continue;
+      const k = `${e.code}|${c.join(',')}|${pt.join(',')}`;
+      const g = extracted.get(k) ?? { code: e.code, completed: c, participation: pt, cohorts: [], versions: new Map() };
+      if (!g.cohorts.includes(cohortNames[i])) g.cohorts.push(cohortNames[i]);
+      const v = run.chosenByCode?.get(e.code);
+      if (v?.term && !g.versions.has(v.term)) g.versions.set(v.term, v);
+      extracted.set(k, g);
+    }
+  }
+
+  // --- where cohorts read different kursplan versions ---------------------
+  const perCourseVersions = new Map(); // code -> Map(cohortName -> version)
+  for (const [i, run] of runs.entries()) {
+    for (const [code, v] of run.chosenByCode ?? []) {
+      (perCourseVersions.get(code) ?? perCourseVersions.set(code, new Map()).get(code))
+        .set(cohortNames[i], v);
+    }
+  }
+  const divergent = [...perCourseVersions.entries()]
+    .filter(([, m]) => new Set([...m.values()].map((v) => v?.term ?? null)).size > 1)
+    .sort((a, b) => a[0].localeCompare(b[0]));
+
+  const cohortList = (names) => names.length === cohortNames.length && cohortNames.length > 1
+    ? 'alla kullar' : names.join(', ');
+  const versionLinks = (code, versions) => (versions.size === 0
+    ? `kursplan okänd — [arkiv](${archiveUrl(code)})`
+    : [...versions.values()].sort((a, b) => b.term - a.term)
+      .map((v) => `[${validityLabel(v)}](${kursplanUrl(code, v.term)})`).join(' / '));
 
   const L = [];
   L.push(`# ${prog} — prerequisites to verify`);
   L.push('');
-  // Kursplan versions differ per cohort, so the same course can yield different
-  // prerequisites depending on what this file was generated for. Say which.
-  L.push(`Resolved for: **${basis}**. Kursplan versions differ between cohorts, so a`);
-  L.push('run for a different cohort can legitimately produce a different worklist.');
+  L.push(`Covers **${cohortNames.join(', ')}**.`);
   L.push('');
-  L.push('Generated by `scripts/extract-from-kopps.mjs`. Prerequisites are the only field taken from');
-  L.push('free text (KOPPS *Särskild behörighet*), so every judgement below needs a program');
-  L.push('coordinator to confirm or correct. Edit `src/data/cohorts/` (or the curated');
-  L.push(`\`src/data/${prog}.json\`) directly — this file is a worklist, not a source.`);
+  L.push('**How to sign this off.** Every course below links to its page on kth.se, and every');
+  L.push('judgement links the *exact kursplan* it was read from — the PDF KTH publishes in the');
+  L.push("course's own version archive. Open the kursplan, read *Särskild behörighet*, and");
+  L.push('confirm or correct. Nothing here needs the data files to be read.');
   L.push('');
+  L.push('A kursplan text is the unit of review, not a cohort: where several cohorts share the');
+  L.push('same wording they are listed together on one item, and where a revision changed the');
+  L.push('wording each version appears separately. Kursplan versions are per cohort because a');
+  L.push('student is examined against the version in force when they sit the course.');
+  L.push('');
+  L.push('Generated by `scripts/extract-from-kopps.mjs`. Prerequisites are the only field taken');
+  L.push('from free text (*Särskild behörighet* on the course page), so every judgement below');
+  L.push('needs a program coordinator to confirm or correct. Edit `src/data/cohorts/` (or the');
+  L.push(`curated \`src/data/${prog}.json\`) directly — this file is a worklist, not a source.`);
+  L.push('');
+
   L.push('## What was extracted');
   L.push('');
-  L.push(`- \`prerequisitesCompleted\` (slutförd kurs): **${withC.length}** course(s)`);
-  L.push(`- \`prerequisitesParticipation\` (aktivt deltagande): **${withP.length}** course(s)`);
-  L.push(`- items flagged below: **${review.length}**`);
+  L.push('| kull | slutförd | aktivt deltagande | flaggat |');
+  L.push('|---|---|---|---|');
+  for (const [i, run] of runs.entries()) {
+    const withC = run.entries.filter((e) => e.code && e.prerequisitesCompleted?.length).length;
+    const withP = run.entries.filter((e) => e.code && e.prerequisitesParticipation?.length).length;
+    const flagged = new Set(run.prereqReview.map(reviewKey)).size;
+    L.push(`| ${cohortNames[i]} | ${withC} | ${withP} | ${flagged} |`);
+  }
   L.push('');
-  for (const e of [...withC, ...withP].sort((a, b) => a.code.localeCompare(b.code))) {
+  L.push(`**${items.size}** distinct item(s) need review across all cohorts (an item shared by`);
+  L.push('several cohorts is counted once).');
+  L.push('');
+
+  for (const g of [...extracted.values()].sort((a, b) => a.code.localeCompare(b.code) || a.cohorts[0].localeCompare(b.cohorts[0]))) {
     const parts = [];
-    if (e.prerequisitesCompleted?.length) parts.push(`slutförd: ${e.prerequisitesCompleted.join(', ')}`);
-    if (e.prerequisitesParticipation?.length) parts.push(`deltagande: ${e.prerequisitesParticipation.join(', ')}`);
-    L.push(`- \`${e.code}\` — ${parts.join('; ')}`);
+    if (g.completed.length) {
+      parts.push(`slutförd: ${g.completed.map(codeLink).join(', ')}`);
+    }
+    if (g.participation.length) {
+      parts.push(`deltagande: ${g.participation.map(codeLink).join(', ')}`);
+    }
+    const scope = g.cohorts.length === cohortNames.length ? '' : ` — *${cohortList(g.cohorts)}*`;
+    L.push(`- ${codeLink(g.code)} — ${parts.join('; ')} · kursplan ${versionLinks(g.code, g.versions)}${scope}`);
   }
 
-  const HEADINGS = {
-    'upstream-stale': ["The course's own prerequisite list looks out of date — report it",
-      'These courses require a knowledge area that **this programme teaches**, but their list of qualifying courses does not include our course. CTMAT is the worked example: DD1385 and DD1380 ask for "programmering" while listing only `DD1310/DD1311/.../DD1331`, and CTMAT\'s own first-year programming course is DD1333. Neither syllabus has been revised since HT2021.\n\nThis is a defect in the **other course\'s** syllabus, not in this programme\'s data, so nothing was recorded automatically. Confirm the suggested course is really the intended prerequisite, add it here, and **report it to the coordinator or administrator of that course** so it is corrected at source — otherwise it stays wrong for every programme that uses the course. DD1328 needed exactly this and has since been fixed upstream: its VT2026 syllabus lists DD1333.'],
-    'not-earlier': ['Prerequisite does not precede the course',
-      'The prerequisite is recorded, but it does not come earlier in this programme. A *slutförd* requirement has to finish before the course starts; a *deltagande* one may overlap but cannot start after the course ends. Either the prerequisite is wrong or the course sits in the wrong place — both need a decision, and both are worth raising with the course owner.'],
-    'type-implicit': ['Type inferred, not stated',
-      'The text names a course but never says "slutförd" or "aktivt deltagande". The type below was inferred — from a signal elsewhere in the same text, or defaulted to *slutförd*. **This is the most likely place for an error.**'],
-    'alternatives': ['Several alternatives survived the in-programme filter',
-      'The text offers a choice ("eller", "/") and more than one option is a course in this programme. All were recorded, which is wrong if the student only needs one. Decide which applies.'],
-    'module-level': ['Requirement on a single examination module',
-      'The text requires one module of another course (for example "slutfört moment LAB1 i SH1017") rather than the whole course. The schema has no shape for that, so nothing was recorded from this clause — recording the whole course would overstate the requirement. Worth deciding whether the whole course is the right approximation here.'],
-    'credit-threshold': ['Credit thresholds, not expressible',
-      'The requirement is a credit total ("minst N hp"), which the schema cannot represent as a course dependency. Nothing was recorded for these.'],
-    'nothing-extracted': ['Text names courses, but none in this programme',
-      'Usually correct — KOPPS lists alternatives from other programmes and the in-programme filter drops them. But the lists also go stale: where the text describes a knowledge area and this programme has a course of that name, the candidate is called out below as **suggested**. Nothing is written to the data from a name match — confirm it first.'],
-  };
-  for (const [kind, [title, blurb]] of Object.entries(HEADINGS)) {
-    const items = byKind[kind];
-    if (!items?.length) continue;
+  if (divergent.length > 0) {
     L.push('');
-    L.push(`## ${title} (${items.length})`);
+    L.push(`## Cohorts read different kursplan versions (${divergent.length})`);
+    L.push('');
+    L.push('These courses were revised while the cohorts below were studying, so each cohort is');
+    L.push('held to a different text. That is intended — a student is examined against the');
+    L.push('version in force when they sit the course — but it is also where a single "correct"');
+    L.push('answer does not exist, so it is worth a glance to confirm the split looks right.');
+    L.push('');
+    for (const [code, m] of divergent) {
+      const byTerm = new Map();
+      for (const [name, v] of m) {
+        const t = v?.term ?? null;
+        (byTerm.get(t) ?? byTerm.set(t, []).get(t)).push(name);
+      }
+      const bits = [...byTerm.entries()].sort((a, b) => (b[0] ?? 0) - (a[0] ?? 0)).map(([t, names]) => {
+        const v = [...m.values()].find((x) => (x?.term ?? null) === t);
+        return t ? `${names.join(', ')} → [${validityLabel(v)}](${kursplanUrl(code, t)})` : `${names.join(', ')} → ingen kursplan`;
+      });
+      L.push(`- ${codeLink(code)} ([alla versioner](${archiveUrl(code)}))`);
+      for (const b of bits) L.push(`  - ${b}`);
+    }
+  }
+
+  for (const [kind, [title, blurb]] of Object.entries(REVIEW_HEADINGS)) {
+    const groups = byKind[kind];
+    if (!groups?.length) continue;
+    L.push('');
+    L.push(`## ${title} (${groups.length})`);
     L.push('');
     L.push(blurb);
     L.push('');
-    for (const r of items) {
+    for (const g of groups.sort((a, b) => a.item.code.localeCompare(b.item.code))) {
+      const r = g.item;
+      const scope = g.cohorts.length === cohortNames.length && cohortNames.length > 1
+        ? '' : ` · *${cohortList(g.cohorts)}*`;
+      const kp = ` · kursplan ${versionLinks(r.code, g.versions)}`;
       if (r.kind === 'not-earlier') {
-        L.push(`- \`${r.code}\` requires \`${r.req}\` (${r.label}) — not earlier in the programme`);
+        L.push(`- ${codeLink(r.code)} requires ${codeLink(r.req)} (${r.label}) — not earlier in the programme${kp}${scope}`);
         continue;
       }
       const chose = r.chose ? ` → recorded as **${r.chose}**` : '';
-      const codes = r.codes ? ` \`${r.codes.join(', ')}\`` : '';
-      L.push(`- \`${r.code}\`${codes}${chose}`);
-      L.push(`  > ${r.clause.slice(0, 300)}`);
+      // "EI1320 LAB1 i SH1017" reads as two unrelated codes; the arrow says which
+      // course is the one with the requirement and which is what it depends on.
+      const codes = r.codes?.length ? ` ← ${r.codes.map(codeLink).join(', ')}` : '';
+      L.push(`- ${codeLink(r.code)}${codes}${chose}${kp}${scope}`);
+      L.push(`  > ${(r.clause ?? '').slice(0, 300)}`);
       for (const sug of r.suggestions || []) {
-        L.push(`  - **suggested:** \`${sug.code}\` ${sug.name} — the text asks for "${sug.area}" and this programme has that course, but KOPPS never lists it`);
+        L.push(`  - **suggested:** ${codeLink(sug.code)} ${sug.name} — the text asks for "${sug.area}" and this programme has that course, but the kursplan never lists it`);
       }
     }
   }

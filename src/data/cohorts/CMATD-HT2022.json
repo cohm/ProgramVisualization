@@ -2,27 +2,23 @@
   {
     "type": "cohortMeta",
     "program": "CMATD",
-    "cohort": "HT2026",
+    "cohort": "HT2022",
     "years": [
       {
         "year": 1,
-        "sourceCohort": "HT2026",
-        "approximated": false,
-        "confidence": "exact"
+        "sourceCohort": "HT2025",
+        "approximated": true,
+        "confidence": "unknown"
       },
       {
         "year": 2,
-        "sourceCohort": "HT2025",
+        "sourceCohort": "HT2024",
         "approximated": true,
-        "corroboratedBy": {
-          "year": 1,
-          "agrees": true
-        },
-        "confidence": "high"
+        "confidence": "unknown"
       },
       {
         "year": 3,
-        "sourceCohort": "HT2024",
+        "sourceCohort": "HT2023",
         "approximated": true,
         "confidence": "unknown"
       }
@@ -381,66 +377,6 @@
     ]
   },
   {
-    "code": "MH2057",
-    "name": "Termodynamisk modellering",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Computational Thermodynamics",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "MH2054",
-    "name": "Materials processer I",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Materials Processes I",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "MH1033",
-    "name": "Jämställdhet, jämlikhet, mångfald och inkludering",
-    "totalCredits": 1.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 1.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Gender Equality, Egalitarism, Diversity and Inclusiveness",
-    "gradingScale": "P/F",
-    "courseLevel": "G"
-  },
-  {
     "code": "MH101X",
     "name": "Examensarbete inom material och processdesign, grundnivå",
     "totalCredits": 15,
@@ -459,6 +395,30 @@
     "nameEn": "Degree Project in Materials and Process Design, First Cycle",
     "gradingScale": "P/F",
     "courseLevel": "G"
+  },
+  {
+    "code": "MH1031",
+    "name": "Keramiska material",
+    "totalCredits": 8,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 8
+    },
+    "year": 3,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Ceramic Materials",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "MH1030"
+    ]
   },
   {
     "code": "MG1024",
@@ -509,6 +469,54 @@
     "courseLevel": "G"
   },
   {
+    "code": "ME1003",
+    "name": "Industriell ekonomi, grundkurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "INE"
+    ],
+    "category": "mandatory",
+    "nameEn": "Industrial Management, Basic Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "MG1002",
+    "name": "Automatiseringsteknik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "PRM"
+    ],
+    "category": "mandatory",
+    "nameEn": "Automation Technology",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
     "code": "MH2056",
     "name": "Materials egenskaper I",
     "totalCredits": 7.5,
@@ -529,53 +537,64 @@
     "courseLevel": "A"
   },
   {
-    "code": "ME1003",
-    "name": "Industriell ekonomi, grundkurs",
-    "totalCredits": 6,
+    "code": "MH1033",
+    "name": "Jämställdhet, jämlikhet, mångfald och inkludering",
+    "totalCredits": 1.5,
     "periodCredits": {
       "P1": 0,
-      "P2": 0,
-      "P3": 6,
+      "P2": 1.5,
+      "P3": 0,
       "P4": 0
     },
     "year": 3,
     "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
+    "exams": [],
     "teacher": "",
     "description": "",
-    "specializations": [
-      "INE"
-    ],
     "category": "mandatory",
-    "nameEn": "Industrial Management, Basic Course",
-    "gradingScale": "A-F",
+    "nameEn": "Gender Equality, Egalitarism, Diversity and Inclusiveness",
+    "gradingScale": "P/F",
     "courseLevel": "G"
   },
   {
-    "code": "MH1031",
-    "name": "Keramiska material",
-    "totalCredits": 8,
+    "code": "MH2054",
+    "name": "Materials processer I",
+    "totalCredits": 7.5,
     "periodCredits": {
-      "P1": 0,
+      "P1": 7.5,
       "P2": 0,
       "P3": 0,
-      "P4": 8
+      "P4": 0
     },
     "year": 3,
-    "exams": [
-      "P4"
-    ],
+    "prerequisites": [],
+    "exams": [],
     "teacher": "",
     "description": "",
     "category": "mandatory",
-    "nameEn": "Ceramic Materials",
+    "nameEn": "Materials Processes I",
     "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "MH1030"
-    ]
+    "courseLevel": "A"
+  },
+  {
+    "code": "MH2057",
+    "name": "Termodynamisk modellering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Computational Thermodynamics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
   },
   {
     "code": "MH2055",
