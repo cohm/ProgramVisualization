@@ -7,15 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --max-warnings 0",
-    "validate-data": "node scripts/validate-data.mjs",
+    "validate-data": "node scripts/validate-data.mjs --cohorts",
     "extract-plan": "node scripts/extract-from-kopps.mjs",
     "size": "size-limit"
   },
   "size-limit": [
     {
-      "name": "Client JS (brotlied, all static chunks)",
+      "name": "Client JS + cohort data (brotlied, all static chunks)",
       "path": ".next/static/chunks/**/*.js",
-      "limit": "250 KB"
+      "limit": "330 KB"
     }
   ],
   "dependencies": {

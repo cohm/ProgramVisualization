@@ -247,8 +247,21 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // through a length-1 variant array, doing nothing.)
   const getCourseColors = useCallback((course: Course) => {
     const group = cosmetics?.courseToGroup.get(course.code);
-    if (!group) return defaultColor;
-    return getCosmeticsColor(group.colorFamily);
+    if (group) return getCosmeticsColor(group.colorFamily);
+    // Elective placeholders are yellow in every programme, matching the
+    // 'Övrigt' family CTFYS uses for XY123Z/XY456Z.
+    //
+    // Deliberately here rather than in the cosmetics files: yellow already means
+    // something else in half of them — Datateknik in CTMAT and CFATE,
+    // Ingenjörsämnen in COPEN — so adding the placeholder codes to those groups
+    // would colour them correctly but file them under the wrong heading in the
+    // legend, and a second yellow group would be indistinguishable from the
+    // first. CFATE, CINEK and TIEMM are also already at the five-family cap.
+    // Keying off the category instead needs no cosmetics edit, cannot collide,
+    // and covers placeholders generated for programmes added later. An explicit
+    // cosmetics entry still wins, so CTFYS is unaffected.
+    if (course.category === 'electivePlaceholder') return getCosmeticsColor('yellow');
+    return defaultColor;
   }, [cosmetics]);
 
   // expose methods to parent via ref
@@ -739,10 +752,18 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   svg.style('font-family', STYLE.fontFamily);
   const margin = { top: 100, right: 40, bottom: 40, left: 100 }; // Increased top margin for title and period labels
   const width = svgRef.current.clientWidth - margin.left - margin.right;
-  let height = svgRef.current.clientHeight - margin.top - margin.bottom;
+  // The chart height must be a pure function of the data plus a fixed baseline.
+  // It used to be seeded from `svgRef.current.clientHeight` — i.e. from the
+  // height the *previous* render had written onto this same node — which fed
+  // each render's output back into its input. Combined with the one-way
+  // `if (requiredTotalHeight > height)` expansion below, switching from a tall
+  // programme (TIEMM) to a short one (CTFYS) left the SVG at the tall size, so
+  // the legend ended up far below the chart. Measured before the fix:
+  // CTFYS 659 -> TIEMM 2994 -> CTFYS 3882, against 659 on a fresh load.
   if (initialChartHeightRef.current == null) {
-    initialChartHeightRef.current = height;
+    initialChartHeightRef.current = svgRef.current.clientHeight - margin.top - margin.bottom;
   }
+  let height = initialChartHeightRef.current;
 
   // Clear previous content
   svg.selectAll('*').remove();
@@ -895,14 +916,13 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     yearBandHeights[y - 1] = Math.max(baseYearBandHeight, maxPeriodHeightNeeded);
   }
 
-  // If required total height exceeds current height, expand the SVG to fit to avoid compressing bars below the minimum
+  // Size the SVG to what this data needs, never smaller than the baseline. Set
+  // unconditionally: the previous version only ever grew the node, which is
+  // what stranded the legend after switching to a smaller programme.
   const requiredTotalHeight = yearBandHeights.reduce((a, b) => a + b, 0) + totalGaps;
-  if (requiredTotalHeight > height) {
-    height = requiredTotalHeight;
-    // also set explicit height on the SVG node so layout picks it up
-    d3.select(svgRef.current)
-      .attr('height', height + margin.top + margin.bottom);
-  }
+  height = Math.max(requiredTotalHeight, initialChartHeightRef.current);
+  d3.select(svgRef.current)
+    .attr('height', height + margin.top + margin.bottom);
 
   // Compute cumulative Y offsets per year using the (possibly) expanded band heights
   const yearYOffset: number[] = [];

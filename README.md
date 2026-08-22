@@ -46,9 +46,15 @@ Other hosts: Netlify or static exports (with limitations). See Next.js docs for 
 
 Top-level (inside this folder):
 
-- `package.json` — project manifest and scripts (dev, build, start).
+- `package.json` — project manifest and scripts (dev, build, start, lint, validate-data, extract-plan, size).
 - `tsconfig.json` — TypeScript configuration.
 - `next.config.ts` — Next.js configuration.
+- `STUDY-PLAN-CONVENTIONS.md` — observations on how study plans differ between KTH schools, gathered while building the extractor.
+
+Scripts
+
+- `scripts/extract-from-kopps.mjs` — builds a cohort's study plan from KTH's published data. Pure Node, no extra dependencies. See `CLAUDE.md` for the full picture and `--help` for options.
+- `scripts/validate-data.mjs` — schema and cross-reference checks for everything in `src/data`, including the per-period full-time load check. Runs in CI.
 
 Key source files
 
@@ -63,8 +69,9 @@ Key source files
 
 Data files (rendered at runtime)
 
-- `src/data/programs.json` — list of available programs with their display names, optional inriktningar (specializations), and a study-plan URL.
-- `src/data/<PROGRAM>.json` — program-specific course datasets (currently CTFYS, CTMAT, CFATE, COPEN, CINEK, TIEMM). Each course includes fields such as `code`, `name`, `totalCredits`, `periodCredits` (P1–P4, either flat per-year or by-year for multi-year courses), `year`, `prerequisites`, and the `exams`/`reexams` arrays. Programs may also include `optionGroup` entries for course-choice slots.
+- `src/data/programs.json` — list of available programs with their display names, optional inriktningar (specializations), and a study-plan URL. Two flags control visibility: `verified: false` hides a plan behind the "show unverified" checkbox, while `disabled: true` withdraws it from the UI entirely (not in the dropdown, not reachable via `?program=`).
+- `src/data/<PROGRAM>.json` — program-specific course datasets (CTFYS, CTMAT, CFATE, COPEN, CINEK; CMAST and CMATD load a cohort file directly). Each course includes fields such as `code`, `name`, `totalCredits`, `periodCredits` (P1–P4, either flat per-year or by-year for multi-year courses), `year`, `prerequisitesCompleted` / `prerequisitesParticipation`, and the `exams`/`reexams` arrays. Programs may also include `optionGroup` entries for course-choice slots and `electivePlaceholder` entries for the space reserved for valfria kurser.
+- `src/data/cohorts/<PROGRAM>-HT<year>.json` — per-admission-cohort study plans, one file per cohort, each opening with a `cohortMeta` entry that records where every study year's data came from. Selected in the UI via `?cohort=HT2023`. `cohorts/index.json` lists what is available per program and is regenerated from disk by the extractor.
 - `src/data/<PROGRAM>-cosmetics.json` — per-course color-family assignments (capped at 5 families).
 - `src/data/kth-colors.json` — KTH color palette used for fills/strokes in the visualization.
 - `src/data/academic-periods.json` — academic period definitions (P1–P4) with `start`, `end`, `examStart`, `examEnd`, `reExamStart`, `reExamEnd` as ISO date strings. These are converted to Date objects in `src/types/course.ts`.
@@ -97,13 +104,17 @@ Exam/re-exam markers
 
 **Bilingual UI** (Swedish/English): Toggle from the export menu. The choice is reflected in the URL (`?l=sv` or `?l=en`).
 
-**Shareable URL state**: The selected program, language, hidden layers, and option-group picks are mirrored into the query string so a particular view can be linked or bookmarked.
+**Shareable URL state**: The selected program, admission cohort, language, hidden layers, specialization filter, and option-group picks are mirrored into the query string so a particular view can be linked or bookmarked — e.g. `?program=CTFYS&cohort=HT2023&l=sv`.
+
+**Cohort view**: A student picks their admission year and sees the plan as they will study it, rather than one calendar läsår sliced across three cohorts. Because KTH publishes only the läsår currently being taught and the next one, years missing for a cohort are borrowed from the nearest cohort that has them; a line under the selectors says which years are approximated, with per-year detail and a link to KTH's published plan behind an info affordance.
+
+**Elective space**: Where a period falls short of full-time (15 hp), the plan shows a "Plats för valfri kurs" placeholder sized to the shortfall, in yellow.
 
 **Specializations (inriktningar) and option groups**: Programs that split their bachelor years by inriktning (e.g. CINEK) get a SpecializationFilter UI that AND-filters courses across spec groups. Course-choice slots (e.g. thesis-track options) are modelled as `optionGroup` entries and rendered with a striped pattern; clicking opens a selection modal.
 
 Troubleshooting
 
-- Port 3000 already in use: find and kill the process `lsof -iTCP:3000 -sTCP:LISTEN -n -P` then `kill <PID>`.
+- Port 3000 already in use: check what is listening with `lsof -iTCP:3000 -sTCP:LISTEN -n -P`, or just start on another port with `npm run dev -- --port 3100`. Note that on macOS a second server can bind `*:3000` while an existing one holds `[::1]:3000` — both appear to start, but `localhost:3000` reaches the first one.
 - Suspended dev job (Ctrl+Z): resume with `fg` or start a background server with `nohup` as shown above.
 - Type errors: run `npx tsc --noEmit` to see TypeScript diagnostics.
 - PDF export not working on Vercel: Ensure `vercel.json` is deployed with the project and `@sparticuz/chromium` is in dependencies.
@@ -114,8 +125,11 @@ Key production dependencies:
 - `next` (16.x) — React framework
 - `react` (19.x) — UI library
 - `d3` (7.9.x) — Visualization and data manipulation
-- `puppeteer-core` (23.x) — Headless browser control for PDF generation
+- `puppeteer-core` (25.x) — Headless browser control for PDF generation
 - `@sparticuz/chromium` (141.x) — Serverless-compatible Chrome binary for Vercel
+
+The study-plan extractor deliberately adds no dependencies — it runs on plain Node
+with `fetch`, so it works in a checkout with no `node_modules` at all.
 
 Development dependencies include TypeScript, ESLint, and Tailwind CSS.
 
@@ -124,7 +138,7 @@ Development dependencies include TypeScript, ESLint, and Tailwind CSS.
 - `vercel.json` — Vercel deployment configuration with increased memory (1800MB for Hobby plan, can be increased to 3008MB on Pro) and timeout (60s) for the PDF export API route.
 - `tsconfig.json` — TypeScript configuration.
 - `next.config.ts` — Next.js configuration.
-- `package.json` — Project manifest and scripts (dev, build, start).
+- `package.json` — Project manifest and scripts (dev, build, start, lint, validate-data, extract-plan, size). The `size-limit` budget covers every static chunk, which includes the committed cohort archive — see the note in `.github/workflows/ci.yml` before assuming a failure means the app grew.
 
 ## License & data attribution
 

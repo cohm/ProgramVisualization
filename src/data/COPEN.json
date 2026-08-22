@@ -41,9 +41,12 @@
       "P4": 0
     },
     "year": 1,
-    "prerequisites": [],
     "exams": [
       "P2"
+    ],
+    "prerequisitesParticipation": [
+      "SF1624",
+      "SF1625"
     ]
   },
   {

@@ -8,6 +8,7 @@
 // caching/retry without callers needing to change.
 
 import type {
+  CohortMeta,
   Course,
   CourseCategory,
   GradingScale,
@@ -88,7 +89,11 @@ export const loadCourses = async (dataFile: string): Promise<(Course | OptionGro
   const rawCourses = await import(`@/data/${dataFile}`);
   const rawData = rawCourses.default as RawCourseEntry[];
   const optionGroups = rawData.filter(c => c.type === 'optionGroup');
-  const regularCourses = rawData.filter(c => c.type !== 'optionGroup');
+  // `cohortMeta` is the provenance header in a cohort file, not a course — it
+  // would otherwise fall through to the course branch and parse as a nameless
+  // entry with no credits. See loadCohortMeta.
+  const regularCourses = rawData.filter(
+    c => c.type !== 'optionGroup' && c.type !== 'cohortMeta');
 
   const byCode = new Map<string, RawEntry>();
   regularCourses.forEach((c) => {
@@ -250,6 +255,22 @@ export const loadCourses = async (dataFile: string): Promise<(Course | OptionGro
 // to the default colour for every course). When a file IS configured but
 // the import fails, the promise REJECTS so the caller can surface the
 // failure to the user rather than silently degrading.
+/** Relative path, inside src/data, of one cohort's plan. */
+export const cohortDataFile = (programCode: string, cohort: string): string =>
+  `cohorts/${programCode}-${cohort}.json`;
+
+/**
+ * Read the provenance header from a cohort file. Returns null for a file that
+ * has none — the curated per-program files don't, and shouldn't be treated as
+ * though every year were the cohort's own.
+ */
+export const loadCohortMeta = async (dataFile: string): Promise<CohortMeta | null> => {
+  const mod = await import(`@/data/${dataFile}`);
+  const raw = mod.default as { type?: string }[];
+  const meta = raw.find(e => e?.type === 'cohortMeta');
+  return (meta as CohortMeta | undefined) ?? null;
+};
+
 export const loadCosmetics = async (cosmeticsFile: string | undefined): Promise<ProgramCosmetics | null> => {
   if (!cosmeticsFile) return null;
   const rawGroups = await import(`@/data/${cosmeticsFile}`);

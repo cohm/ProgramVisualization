@@ -6,10 +6,12 @@ import TimelineVisualization, { TimelineVisualizationHandle } from '@/components
 import SpecializationFilter from '@/components/SpecializationFilter';
 import Toast, { type ToastMessage } from '@/components/Toast';
 import { Course, OptionGroup } from '@/types/course';
+import type { CohortMeta } from '@/types/course';
 import kthColors from '@/data/kth-colors.json';
 import programsConfig from '@/data/programs.json';
 import type { ProgramCosmetics } from '@/types/cosmetics';
-import { loadCourses, loadCosmetics } from '@/lib/useCourseModel';
+import { loadCourses, loadCosmetics, loadCohortMeta, cohortDataFile } from '@/lib/useCourseModel';
+import cohortIndex from '@/data/cohorts/index.json';
 import { tr, type Lang } from '@/lib/translations';
 
 // Program configuration type
@@ -42,6 +44,13 @@ interface ProgramConfig {
   // dropdown unless the user opts in via the "show unverified" checkbox.
   // Missing field is treated as `false`.
   verified?: boolean;
+  // Withdrawn from the UI entirely — not in the dropdown, and not selectable via
+  // `?program=`, even with "show unverified" on. `verified: false` only hides a
+  // plan behind that checkbox, which is the right level for "extracted but not
+  // signed off"; this is for a plan whose current rendering would mislead.
+  // Master's programmes are the live case: their years 4-5 structure needs work
+  // the bachelor-oriented renderer does not yet do.
+  disabled?: boolean;
   comment?: string;
   // Optional English-language comment shown when the page language is `en`.
   // Falls back to `comment` if missing — keeps existing entries valid.
@@ -74,6 +83,21 @@ const ui = {
     menu: 'Meny för export och språk',
     showUnverified: 'Visa icke-verifierade utbildningsplaner',
     unverifiedSuffix: '(inte verifierad)',
+    cohortLabel: 'Antagningsår',
+    cohortNone: 'Utan antagningsår',
+    // "År 3 är uppskattad" / "År 1 och 2 är uppskattade" / "År 1, 2 och 3 ..."
+    approxSummary: (years: number[]) => {
+      const list = years.length <= 1
+        ? String(years[0] ?? '')
+        : `${years.slice(0, -1).join(', ')} och ${years[years.length - 1]}`;
+      return `År ${list} ${years.length === 1 ? 'är uppskattad' : 'är uppskattade'}`;
+    },
+    approxInfoLabel: 'Mer information om uppskattade årskurser',
+    approxYear: (y: number, src: string) => `Årskurs ${y}: hämtad från ${src}`,
+    approxWhy: 'KTH publicerar bara det pågående och nästa läsår, så år som saknas för din kull hämtas från närmaste kull som har dem.',
+    approxSource: 'Utbildningsplanen på KTH:s webb gäller alltid före det som visas här →',
+    approxLowConfidence: 'osäker',
+    approxUnknown: 'ej kontrollerbar',
   },
   en: {
     title: 'Education program visualization',
@@ -89,12 +113,28 @@ const ui = {
     menu: 'Export and language menu',
     showUnverified: 'Show unverified study plans',
     unverifiedSuffix: '(unverified)',
+    cohortLabel: 'Admission year',
+    cohortNone: 'No admission year',
+    approxSummary: (years: number[]) => {
+      const list = years.length <= 1
+        ? String(years[0] ?? '')
+        : `${years.slice(0, -1).join(', ')} and ${years[years.length - 1]}`;
+      return `Year${years.length === 1 ? '' : 's'} ${list} ${years.length === 1 ? 'is' : 'are'} approximated`;
+    },
+    approxInfoLabel: 'More information about approximated years',
+    approxYear: (y: number, src: string) => `Year ${y}: taken from ${src}`,
+    approxWhy: 'KTH publishes only the current and next academic year, so years missing for your cohort are taken from the nearest cohort that has them.',
+    approxSource: "The study plan on KTH's website always takes precedence over what is shown here →",
+    approxLowConfidence: 'uncertain',
+    approxUnknown: 'unverifiable',
   }
 } as const;
 
 export default function HomeClient() {
   const [courses, setCourses] = useState<(Course | OptionGroup)[]>([]);
   const [cosmetics, setCosmetics] = useState<ProgramCosmetics | null>(null);
+  const [cohortMeta, setCohortMeta] = useState<CohortMeta | null>(null);
+  const [approxInfoOpen, setApproxInfoOpen] = useState(false);
   // Page-level toast for non-blocking failures (PDF export errors,
   // cosmetics-load failures). Children emit via the `onToast` callback.
   const [toast, setToast] = useState<ToastMessage | null>(null);
@@ -108,9 +148,36 @@ export default function HomeClient() {
   const router = useRouter();
 
   const selectedProgram = useMemo(() => {
+    // Disabled programmes are excluded here too, so a stale `?program=TIEMM`
+    // bookmark falls back to the default rather than rendering a withdrawn plan.
+    const offered = programs.filter(p => p.disabled !== true);
     const param = (searchParams.get('program') || '').trim();
-    return (param ? programs.find(p => p.code.toLowerCase() === param.toLowerCase()) : null) ?? programs[0];
+    const match = param
+      ? offered.find(p => p.code.toLowerCase() === param.toLowerCase())
+      : null;
+    return match ?? offered[0];
   }, [searchParams]);
+
+  // Cohorts with an archived plan for this program, newest first. Empty when the
+  // program has none, in which case the selector is hidden and the curated
+  // program-wide file is used exactly as before.
+  const availableCohorts = useMemo<string[]>(
+    () => (cohortIndex as Record<string, string[]>)[selectedProgram.code] ?? [],
+    [selectedProgram],
+  );
+
+  // `?cohort=HT2023`. Falls back to the curated file when absent or unknown, so
+  // an old bookmark keeps working after a cohort file is removed.
+  const selectedCohort = useMemo<string | null>(() => {
+    const param = (searchParams.get('cohort') || '').trim().toUpperCase();
+    return availableCohorts.includes(param) ? param : null;
+  }, [searchParams, availableCohorts]);
+
+  // Years in the current view that did not come from the selected cohort.
+  const approximatedYears = useMemo(
+    () => (cohortMeta?.years ?? []).filter(y => y.approximated),
+    [cohortMeta],
+  );
 
   const language = useMemo<Lang>(() => {
     const langParam = searchParams.get('l');
@@ -139,8 +206,9 @@ export default function HomeClient() {
   // and the toggle is off — otherwise a bookmarked `?program=CTMAT` would
   // hide its own entry from the dropdown and silently look broken.
   const visiblePrograms = useMemo<ProgramConfig[]>(() => {
-    if (showUnverified) return programs;
-    return programs.filter(p => p.verified === true || p.code === selectedProgram.code);
+    const offered = programs.filter(p => p.disabled !== true);
+    if (showUnverified) return offered;
+    return offered.filter(p => p.verified === true || p.code === selectedProgram.code);
   }, [showUnverified, selectedProgram]);
 
   // ----- View state derived from URL params -----
@@ -252,9 +320,17 @@ export default function HomeClient() {
     });
   }, [replaceParams]);
 
-  // Load courses and cosmetics when program changes
+  // Load courses and cosmetics when the program or cohort changes
   useEffect(() => {
-    loadCourses(selectedProgram.dataFile).then(setCourses);
+    const dataFile = selectedCohort
+      ? cohortDataFile(selectedProgram.code, selectedCohort)
+      : selectedProgram.dataFile;
+    loadCourses(dataFile).then(setCourses);
+    if (selectedCohort) {
+      loadCohortMeta(dataFile).then(setCohortMeta).catch(() => setCohortMeta(null));
+    } else {
+      setCohortMeta(null);
+    }
     loadCosmetics(selectedProgram.cosmeticsFile)
       .then(setCosmetics)
       .catch((e) => {
@@ -267,7 +343,7 @@ export default function HomeClient() {
     // toast text uses whatever `language` was at the moment the failure
     // fires, which is acceptable for a transient banner.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedProgram]);
+  }, [selectedProgram, selectedCohort]);
 
   // Initialize missing URL params
   useEffect(() => {
@@ -306,6 +382,10 @@ export default function HomeClient() {
       <main className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold" style={{ color: kthColors.KthHeaven?.HEX }}>{ui[language].title}</h1>
+          {/* Column so the provenance line can sit directly under the selectors
+              that produced it, rather than becoming a third flex item beside
+              them. */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <label style={{ color: kthColors.KthBlue?.HEX, fontWeight: 600 }}>{ui[language].programLabel}</label>
             <select
@@ -327,6 +407,26 @@ export default function HomeClient() {
               </option>
             ))}
           </select>
+            {availableCohorts.length > 0 && (
+              <select
+                value={selectedCohort ?? ''}
+                onChange={(e) => {
+                  const params = new URLSearchParams(searchParams.toString());
+                  if (e.target.value) params.set('cohort', e.target.value);
+                  else params.delete('cohort');
+                  router.replace(`/?${params.toString()}`);
+                }}
+                aria-label={ui[language].cohortLabel}
+                title={ui[language].cohortLabel}
+                style={{ color: kthColors.KthBlue?.HEX }}
+                className="px-4 py-2 border border-gray-300 rounded-md shadow-sm"
+              >
+                <option value="">{ui[language].cohortNone}</option>
+                {availableCohorts.map(c => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
+            )}
             <label style={{ display: 'flex', alignItems: 'center', gap: 6, color: kthColors.KthBlue?.HEX, fontSize: 13 }}>
               <input
                 type="checkbox"
@@ -378,6 +478,68 @@ export default function HomeClient() {
                 </div>
               )}
             </div>
+          </div>
+          {/*
+            Provenance line. Deliberately here, under the selectors that caused
+            it, rather than inside the chart card: it is a property of the
+            selection, and a full box inside the chart pushed the plan down and
+            read as part of the visualisation. The detail lives in a hover/focus
+            tooltip that names KTH's published plan as the authority, because
+            that is what a student should check against.
+          */}
+          {approximatedYears.length > 0 && (
+            <div style={{ marginTop: 10, fontSize: 13, color: kthColors.KthBlue?.HEX }}>
+              <span>{ui[language].approxSummary(approximatedYears.map(y => y.year))}</span>
+              <span
+                tabIndex={0}
+                role="button"
+                aria-label={ui[language].approxInfoLabel}
+                onMouseEnter={() => setApproxInfoOpen(true)}
+                onMouseLeave={() => setApproxInfoOpen(false)}
+                onFocus={() => setApproxInfoOpen(true)}
+                onBlur={() => setApproxInfoOpen(false)}
+                style={{
+                  position: 'relative', display: 'inline-flex', alignItems: 'center',
+                  justifyContent: 'center', width: 16, height: 16, marginLeft: 6,
+                  borderRadius: '50%', border: `1px solid ${kthColors.KthBlue?.HEX}`,
+                  fontSize: 11, fontWeight: 700, cursor: 'help', verticalAlign: 'text-bottom',
+                }}
+              >
+                i
+                {approxInfoOpen && (
+                  <span
+                    role="tooltip"
+                    style={{
+                      position: 'absolute', top: 22, right: -8, zIndex: 60, width: 340,
+                      background: 'white', border: '1px solid #e5e7eb', borderRadius: 6,
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.10)', padding: '10px 12px',
+                      fontSize: 12, fontWeight: 400, lineHeight: 1.45, cursor: 'auto',
+                      textAlign: 'left', color: kthColors.KthBlue?.HEX,
+                    }}
+                  >
+                    {approximatedYears.map(y => (
+                      <span key={y.year} style={{ display: 'block' }}>
+                        {ui[language].approxYear(y.year, y.sourceCohort ?? '—')}
+                        {y.confidence === 'low' && ` — ${ui[language].approxLowConfidence}`}
+                        {y.confidence === 'unknown' && ` — ${ui[language].approxUnknown}`}
+                      </span>
+                    ))}
+                    <span style={{ display: 'block', marginTop: 8 }}>{ui[language].approxWhy}</span>
+                    {selectedProgram.studyplan && (
+                      <a
+                        href={selectedProgram.studyplan}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ display: 'block', marginTop: 8, textDecoration: 'underline' }}
+                      >
+                        {ui[language].approxSource}
+                      </a>
+                    )}
+                  </span>
+                )}
+              </span>
+            </div>
+          )}
           </div>
         </div>
         <div className="bg-white rounded-lg shadow-lg p-6 min-h-[600px]">

@@ -1,8 +1,116 @@
 [
   {
-    "code": "DD2257",
-    "name": "Visualisering",
-    "nameEn": "Visualization",
+    "code": "DD2419",
+    "name": "Projektkurs i robotik och autonoma system",
+    "nameEn": "Project Course in Robotics and Autonomous Systems",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 4.5
+    },
+    "year": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "P/F",
+    "prerequisitesCompleted": [
+      "DD2410"
+    ]
+  },
+  {
+    "code": "DD2395",
+    "name": "Datasäkerhet",
+    "nameEn": "Computer Security",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DD2434",
+    "name": "Maskininlärning, avancerad kurs",
+    "nameEn": "Machine Learning, Advanced Course",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "DD2421",
+      "EQ2341",
+      "SF2955"
+    ],
+    "prerequisitesParticipation": [
+      "DD2421"
+    ]
+  },
+  {
+    "code": "SF2832",
+    "name": "Matematisk systemteori",
+    "nameEn": "Mathematical Systems Theory",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DH2642",
+    "name": "Interaktionsprogrammering och dynamiska webben",
+    "nameEn": "Interaction Programming and the Dynamic Web",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 3
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "SF2942",
+    "name": "Portföljteori och riskvärdering",
+    "nameEn": "Portfolio Theory and Risk Management",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "SF2935",
+    "name": "Moderna metoder för statistisk inlärning",
+    "nameEn": "Modern Methods of Statistical Learning",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 7.5,
@@ -33,341 +141,22 @@
     "gradingScale": "A-F"
   },
   {
-    "code": "DD2395",
-    "name": "Datasäkerhet",
-    "nameEn": "Computer Security",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DD2410",
-    "name": "Introduktion till robotik",
-    "nameEn": "Introduction to Robotics",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DD2413",
-    "name": "Sociala robotar",
-    "nameEn": "Social Robotics",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DD2419",
-    "name": "Projektkurs i robotik och autonoma system",
-    "nameEn": "Project Course in Robotics and Autonomous Systems",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 4.5,
-      "P4": 4.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "P/F"
-  },
-  {
-    "code": "DD2420",
-    "name": "Probabilistiska grafiska modeller",
-    "nameEn": "Probabilistic Graphical Models",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DD2421",
-    "name": "Maskininlärning",
-    "nameEn": "Machine Learning",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DD2423",
-    "name": "Bildbehandling och datorseende",
-    "nameEn": "Image Analysis and Computer Vision",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DD2424",
-    "name": "Djupinlärning i Data Science",
-    "nameEn": "Deep Learning in Data Science",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DD2434",
-    "name": "Maskininlärning, avancerad kurs",
-    "nameEn": "Machine Learning, Advanced Course",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DD2437",
-    "name": "Artificiella neuronnät och djupa arkitekturer",
-    "nameEn": "Artificial Neural Networks and Deep Architectures",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DD2438",
-    "name": "Artificiell intelligens och multiagentsystem",
-    "nameEn": "Artificial Intelligence and Multi Agent Systems",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7,
-      "P4": 8
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "P/F"
-  },
-  {
-    "code": "DD2447",
-    "name": "Statistiska metoder i datalogin",
-    "nameEn": "Statistical Methods in Applied Computer Science",
+    "code": "ME2324",
+    "name": "Strategisk ledning vid teknikskiften",
+    "nameEn": "Strategic Management in Technology Shifts",
     "totalCredits": 6,
     "periodCredits": {
       "P1": 0,
-      "P2": 6,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DD2459",
-    "name": "Programvarutillförlitlighet",
-    "nameEn": "Software Reliability",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DD2460",
-    "name": "Programvarusäkerhet",
-    "nameEn": "Software Safety and Security",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
       "P2": 0,
       "P3": 0,
-      "P4": 7.5
+      "P4": 6
     },
     "year": 1,
-    "prerequisites": [],
     "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DD2477",
-    "name": "Sökmotorer och informationssökningssystem",
-    "nameEn": "Search Engines and Information Retrieval Systems",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 4.5,
-      "P4": 3
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DD2481",
-    "name": "Principer för programspråk",
-    "nameEn": "Principles of Programming Languages",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DD2482",
-    "name": "Automatiserad programtestning och DevOps",
-    "nameEn": "Automated Software Testing and DevOps",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DD2489",
-    "name": "Skalbar programutveckling med funktionell programmering",
-    "nameEn": "Scalable software Development with Functional Programming",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "P/F"
-  },
-  {
-    "code": "DD2496",
-    "name": "Integritetsskyddande tekniker",
-    "nameEn": "Privacy Enhancing Technologies",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DD2520",
-    "name": "Tillämpad kryptografi",
-    "nameEn": "Applied Cryptography",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "ME2321"
+    ]
   },
   {
     "code": "DD2525",
@@ -381,94 +170,12 @@
       "P4": 7.5
     },
     "year": 1,
-    "prerequisites": [],
     "exams": [],
     "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DH2320",
-    "name": "Introduktion till visualisering och datorgrafik",
-    "nameEn": "Introduction to Visualization and Computer Graphics",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "P/F"
-  },
-  {
-    "code": "DH2321",
-    "name": "Informationsvisualisering",
-    "nameEn": "Information Visualization",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DH2323",
-    "name": "Datorgrafik med interaktion",
-    "nameEn": "Computer Graphics and Interaction",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DH2400",
-    "name": "Fysisk interaktionsdesign",
-    "nameEn": "Physical Interaction Design and Realization",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "P/F"
-  },
-  {
-    "code": "DH2408",
-    "name": "Utvärderingsmetoder inom människa-datorinteraktion",
-    "nameEn": "Evaluation Methods in Human-Computer Interaction",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 6,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "DD2395"
+    ]
   },
   {
     "code": "DH2413",
@@ -482,116 +189,13 @@
       "P4": 0
     },
     "year": 1,
-    "prerequisites": [],
     "exams": [],
     "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DH2465",
-    "name": "Datateknik, ekonomi och ledarskap",
-    "nameEn": "Computer Science, Business and Management",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
     "gradingScale": "A-F",
-    "specializations": [
-      "IAVN",
-      "MAIG",
-      "PUET"
+    "prerequisitesCompleted": [
+      "DH2320",
+      "DH2323"
     ]
-  },
-  {
-    "code": "DH2628",
-    "name": "Metoder för interaktionsdesign",
-    "nameEn": "Interaction Design Methods",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "P/F"
-  },
-  {
-    "code": "DH2642",
-    "name": "Interaktionsprogrammering och dynamiska webben",
-    "nameEn": "Interaction Programming and the Dynamic Web",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 4.5,
-      "P4": 3
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DH2650",
-    "name": "Datorspelsdesign",
-    "nameEn": "Computer Game Design",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DH2670",
-    "name": "Haptisk och taktil interaktionsteknik",
-    "nameEn": "Haptics, Tactile and Tangible Interaction",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "DM2630",
-    "name": "Design och utvärdering av användarupplevelse",
-    "nameEn": "User Experience Design and Evaluation",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 4.5,
-      "P2": 4.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "P/F"
   },
   {
     "code": "DT2112",
@@ -628,9 +232,149 @@
     "gradingScale": "A-F"
   },
   {
-    "code": "DT2140",
-    "name": "Multimodala interaktioner och gränssnitt",
-    "nameEn": "Multimodal Interaction and Interfaces",
+    "code": "MJ2411",
+    "name": "Förnybar energi",
+    "nameEn": "Renewable Energy Technology",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "MF2121",
+    "name": "Mekatronik högre kurs",
+    "nameEn": "Mechatronic Capstone course",
+    "totalCredits": 18,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 3
+    },
+    "year": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "MF2007",
+      "MF2030",
+      "MF2095"
+    ]
+  },
+  {
+    "code": "MG2043",
+    "name": "Cirkulära tillverkningssystem",
+    "nameEn": "Circular Manufacturing Systems",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 4,
+      "P2": 2,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DD2459",
+    "name": "Programvarutillförlitlighet",
+    "nameEn": "Software Reliability",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DD2437",
+    "name": "Artificiella neuronnät och djupa arkitekturer",
+    "nameEn": "Artificial Neural Networks and Deep Architectures",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "MF2019",
+    "name": "CAD 3D-modellering och visualisering",
+    "nameEn": "CAD 3D-modelling and Visualization",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "IK2218",
+    "name": "Internets protokoll och principer",
+    "nameEn": "Protocols and Principles of the Internet",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DD2420",
+    "name": "Probabilistiska grafiska modeller",
+    "nameEn": "Probabilistic Graphical Models",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "prerequisitesParticipation": [
+      "DD2421"
+    ]
+  },
+  {
+    "code": "EL2805",
+    "name": "Förstärkande inlärning",
+    "nameEn": "Reinforcement Learning",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -645,13 +389,821 @@
     "gradingScale": "A-F"
   },
   {
-    "code": "DT2151",
-    "name": "Projekt i konverserande system",
-    "nameEn": "Project in Conversational Systems",
+    "code": "MJ2405",
+    "name": "Hållbar kraftproduktion",
+    "nameEn": "Sustainable Power Generation",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 5,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DT2300",
+    "name": "Ljud i interaktion",
+    "nameEn": "Sound in Interaction",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "DH2628"
+    ]
+  },
+  {
+    "code": "DD2410",
+    "name": "Introduktion till robotik",
+    "nameEn": "Introduction to Robotics",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DD2413",
+    "name": "Sociala robotar",
+    "nameEn": "Social Robotics",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
       "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "ID2222",
+    "name": "Datautvinning",
+    "nameEn": "Data Mining",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DH2323",
+    "name": "Datorgrafik med interaktion",
+    "nameEn": "Computer Graphics and Interaction",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DD2481",
+    "name": "Principer för programspråk",
+    "nameEn": "Principles of Programming Languages",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "MF2103",
+    "name": "Inbyggda system för mekatronik",
+    "nameEn": "Embedded Systems for Mechatronics",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 9,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "MF2095"
+    ]
+  },
+  {
+    "code": "ID2223",
+    "name": "Skalbar maskininlärning och djupinlärning",
+    "nameEn": "Scalable Machine Learning and Deep Learning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "MF2030",
+    "name": "Mekatronik allmän kurs",
+    "nameEn": "Mechatronics basic Course",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "MJ2141",
+    "name": "Energisystem, modeller och scenarier",
+    "nameEn": "Energy Systems, Models and Scenarios",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 4.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "EL2320",
+    "name": "Tillämpad estimering",
+    "nameEn": "Applied Estimation",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DD2496",
+    "name": "Integritetsskyddande tekniker",
+    "nameEn": "Privacy Enhancing Technologies",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "DD2395"
+    ]
+  },
+  {
+    "code": "DD2438",
+    "name": "Artificiell intelligens och multiagentsystem",
+    "nameEn": "Artificial Intelligence and Multi Agent Systems",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7,
+      "P4": 8
+    },
+    "year": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "P/F",
+    "prerequisitesCompleted": [
+      "DD2380",
+      "DD2410"
+    ]
+  },
+  {
+    "code": "MG2036",
+    "name": "Datorstödd tillverkning - CAM",
+    "nameEn": "Computer Aided Manufacturing - CAM",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "MG2028"
+    ]
+  },
+  {
+    "code": "MG2044",
+    "name": "Additiv tillverkning",
+    "nameEn": "Additive Manufacturing",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "SF2852",
+    "name": "Optimal styrteori",
+    "nameEn": "Optimal Control Theory",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DD2477",
+    "name": "Sökmotorer och informationssökningssystem",
+    "nameEn": "Search Engines and Information Retrieval Systems",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 3
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "EL2520",
+    "name": "Reglerteknik, fortsättningskurs",
+    "nameEn": "Control Theory and Practice, Advanced Course",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "EG2210",
+    "name": "Elmarknadsanalys",
+    "nameEn": "Electricity Market Analysis",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "SF2812",
+    "name": "Tillämpad linjär optimering",
+    "nameEn": "Applied Linear Optimization",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "MJ2509",
+    "name": "Energi i den byggda miljön",
+    "nameEn": "Energy in the built environment",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 4,
+      "P2": 5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DD2482",
+    "name": "Automatiserad programtestning och DevOps",
+    "nameEn": "Automated Software Testing and DevOps",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "SF2971",
+    "name": "Martingaler och stokastiska integraler",
+    "nameEn": "Martingales and Stochastic Integrals",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DD2460",
+    "name": "Programvarusäkerhet",
+    "nameEn": "Software Safety and Security",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "DD2395"
+    ]
+  },
+  {
+    "code": "ME2087",
+    "name": "Energiföretagande",
+    "nameEn": "Energy Business",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "SF2980",
+    "name": "Riskvärdering och riskhantering",
+    "nameEn": "Risk Management",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DH2650",
+    "name": "Datorspelsdesign",
+    "nameEn": "Computer Game Design",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "DH2628"
+    ]
+  },
+  {
+    "code": "MF2007",
+    "name": "Dynamik och rörelsestyrning",
+    "nameEn": "Dynamics and Motion Control",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 9,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DD2421",
+    "name": "Maskininlärning",
+    "nameEn": "Machine Learning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "ME2321",
+    "name": "Ingenjörsarbete och globala utmaningar",
+    "nameEn": "Engineering and Global Challenges",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "MG2040",
+    "name": "Monteringsteknik",
+    "nameEn": "Assembly Technology",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "MF2095",
+    "name": "Programmering i C för inbyggda styrsystem",
+    "nameEn": "Programming in C for Embedded Systems",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "P/F"
+  },
+  {
+    "code": "DM2630",
+    "name": "Design och utvärdering av användarupplevelse",
+    "nameEn": "User Experience Design and Evaluation",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "P/F",
+    "prerequisitesCompleted": [
+      "DH2628"
+    ]
+  },
+  {
+    "code": "MG2028",
+    "name": "Inte bara CAD - IT-verktyg i industriell produktframtagning",
+    "nameEn": "CAD and Other IT Tools in Industrial Processes",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DH2321",
+    "name": "Informationsvisualisering",
+    "nameEn": "Information Visualization",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "MG2122",
+    "name": "Avancerad CAD",
+    "nameEn": "Advanced CAD",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 3,
+      "P3": 3,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "EQ2341",
+    "name": "Mönsterigenkänning och maskininlärning",
+    "nameEn": "Pattern Recognition and Machine Learning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "MG2045",
+    "name": "Beslutsstöd för avancerad tillverkning",
+    "nameEn": "Decision-making for Advanced Manufacturing",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DH2408",
+    "name": "Utvärderingsmetoder inom människa-datorinteraktion",
+    "nameEn": "Evaluation Methods in Human-Computer Interaction",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "MJ2438",
+    "name": "Modellering av energisystem - kraft och värme produktion",
+    "nameEn": "Modeling of Energy Systems - Heat and Power Generation",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 3
+    },
+    "year": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "MJ2405"
+    ]
+  },
+  {
+    "code": "MJ2518",
+    "name": "Energitekniska behov och distributionssystem i den byggda miljön",
+    "nameEn": "Energy Demand and Supply Distribution Systems in the Built Environment",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 3
+    },
+    "year": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "MJ2411",
+      "MJ2509"
+    ]
+  },
+  {
+    "code": "DD2423",
+    "name": "Bildbehandling och datorseende",
+    "nameEn": "Image Analysis and Computer Vision",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "SF2972",
+    "name": "Spelteori",
+    "nameEn": "Game Theory",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DH2320",
+    "name": "Introduktion till visualisering och datorgrafik",
+    "nameEn": "Introduction to Visualization and Computer Graphics",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "P/F"
+  },
+  {
+    "code": "ME2322",
+    "name": "Industriell omvandling och teknisk innovation",
+    "nameEn": "Industrial transformation and technological innovation",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "ME2321"
+    ]
+  },
+  {
+    "code": "SF2701",
+    "name": "Finansiell matematik, grundkurs",
+    "nameEn": "Financial Mathematics, Basic Course",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "MG2020",
+    "name": "Modulindelning av produkter",
+    "nameEn": "Modularisation of Products",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
       "P3": 0,
       "P4": 0
     },
@@ -679,60 +1231,9 @@
     "gradingScale": "A-F"
   },
   {
-    "code": "DT2300",
-    "name": "Ljud i interaktion",
-    "nameEn": "Sound in Interaction",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "EG2210",
-    "name": "Elmarknadsanalys",
-    "nameEn": "Electricity Market Analysis",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "EL2320",
-    "name": "Tillämpad estimering",
-    "nameEn": "Applied Estimation",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "EL2520",
-    "name": "Reglerteknik, fortsättningskurs",
-    "nameEn": "Control Theory and Practice, Advanced Course",
+    "code": "SF2943",
+    "name": "Tidsserieanalys",
+    "nameEn": "Time Series Analysis",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -747,9 +1248,117 @@
     "gradingScale": "A-F"
   },
   {
-    "code": "EL2805",
-    "name": "Förstärkande inlärning",
-    "nameEn": "Reinforcement Learning",
+    "code": "DH2628",
+    "name": "Metoder för interaktionsdesign",
+    "nameEn": "Interaction Design Methods",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "P/F"
+  },
+  {
+    "code": "DD2520",
+    "name": "Tillämpad kryptografi",
+    "nameEn": "Applied Cryptography",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "DD2395"
+    ]
+  },
+  {
+    "code": "MG2047",
+    "name": "Avancerad produktionsutrustning",
+    "nameEn": "Advanced Manufacturing Equipment",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DH2400",
+    "name": "Fysisk interaktionsdesign",
+    "nameEn": "Physical Interaction Design and Realization",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "P/F"
+  },
+  {
+    "code": "DT2151",
+    "name": "Projekt i konverserande system",
+    "nameEn": "Project in Conversational Systems",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "DD2421",
+      "DT2112",
+      "DT2140"
+    ]
+  },
+  {
+    "code": "MG2033",
+    "name": "Kvalitet",
+    "nameEn": "Quality Control",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DT2140",
+    "name": "Multimodala interaktioner och gränssnitt",
+    "nameEn": "Multimodal Interaction and Interfaces",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -764,9 +1373,117 @@
     "gradingScale": "A-F"
   },
   {
-    "code": "EQ2341",
-    "name": "Mönsterigenkänning och maskininlärning",
-    "nameEn": "Pattern Recognition and Machine Learning",
+    "code": "ME2323",
+    "name": "Forskningsfronter inom industriell ekonomi",
+    "nameEn": "Research Frontiers in Industrial Management",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "ME2321"
+    ]
+  },
+  {
+    "code": "DD2447",
+    "name": "Statistiska metoder i datalogin",
+    "nameEn": "Statistical Methods in Applied Computer Science",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "SF2842",
+    "name": "Geometrisk styrteori",
+    "nameEn": "Geometric Control Theory",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "SF2832"
+    ]
+  },
+  {
+    "code": "DD2489",
+    "name": "Skalbar programutveckling med funktionell programmering",
+    "nameEn": "Scalable software Development with Functional Programming",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "P/F"
+  },
+  {
+    "code": "DD2424",
+    "name": "Djupinlärning i Data Science",
+    "nameEn": "Deep Learning in Data Science",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "DD2380",
+      "DD2421"
+    ]
+  },
+  {
+    "code": "DD2257",
+    "name": "Visualisering",
+    "nameEn": "Visualization",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "SF2955",
+    "name": "Datorintensiva metoder inom matematisk statistik",
+    "nameEn": "Computer Intensive Methods in Mathematical Statistics",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -781,15 +1498,15 @@
     "gradingScale": "A-F"
   },
   {
-    "code": "ID2222",
-    "name": "Datautvinning",
-    "nameEn": "Data Mining",
+    "code": "DH2670",
+    "name": "Haptisk och taktil interaktionsteknik",
+    "nameEn": "Haptics, Tactile and Tangible Interaction",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
-      "P2": 7.5,
+      "P2": 0,
       "P3": 0,
-      "P4": 0
+      "P4": 7.5
     },
     "year": 1,
     "prerequisites": [],
@@ -798,15 +1515,15 @@
     "gradingScale": "A-F"
   },
   {
-    "code": "ID2223",
-    "name": "Skalbar maskininlärning och djupinlärning",
-    "nameEn": "Scalable Machine Learning and Deep Learning",
+    "code": "SF2822",
+    "name": "Tillämpad ickelinjär optimering",
+    "nameEn": "Applied Nonlinear Optimization",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
-      "P2": 7.5,
+      "P2": 0,
       "P3": 0,
-      "P4": 0
+      "P4": 7.5
     },
     "year": 1,
     "prerequisites": [],
@@ -815,9 +1532,185 @@
     "gradingScale": "A-F"
   },
   {
-    "code": "IK2218",
-    "name": "Internets protokoll och principer",
-    "nameEn": "Protocols and Principles of the Internet",
+    "code": "MF2050",
+    "name": "Mekatronik, ekonomi och ledarskap",
+    "nameEn": "Mechatronics, Business and Management",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "CYPS"
+    ],
+    "prerequisitesCompleted": [
+      "MF2007",
+      "MF2030",
+      "MF2095",
+      "MF2103"
+    ]
+  },
+  {
+    "code": "MG2117",
+    "name": "Produktion, ekonomi och ledarskap",
+    "nameEn": "Production, Business and Management",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "MOPR"
+    ],
+    "prerequisitesCompleted": [
+      "MG2020",
+      "MG2028",
+      "MG2040"
+    ]
+  },
+  {
+    "code": "MG2109",
+    "name": "Avancerad tillverkningsteknik, större kurs",
+    "nameEn": "Advanced Manufacturing Technology, Extended Course",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "specializations": [
+      "MOPR"
+    ],
+    "prerequisitesCompleted": [
+      "MG2009",
+      "MG2110"
+    ]
+  },
+  {
+    "code": "MG2110",
+    "name": "Avancerad mätteknik",
+    "nameEn": "Advanced Metrology",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "specializations": [
+      "MOPR"
+    ]
+  },
+  {
+    "code": "MJ2146",
+    "name": "Energisystem, ekonomi och ledarskap",
+    "nameEn": "Energy Systems, Business and Management",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "EEAA",
+      "HKPA"
+    ]
+  },
+  {
+    "code": "DH2465",
+    "name": "Datateknik, ekonomi och ledarskap",
+    "nameEn": "Computer Science, Business and Management",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "IAVN",
+      "MAIG",
+      "PUET"
+    ]
+  },
+  {
+    "code": "ME2313",
+    "name": "Finansiell matematik, ekonomi och ledarskap",
+    "nameEn": "Financial Mathematics, Business and Management",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "FMIB"
+    ],
+    "prerequisitesCompleted": [
+      "SF2701",
+      "SF2942",
+      "SF2975"
+    ]
+  },
+  {
+    "code": "MG2009",
+    "name": "Avancerad tillverkningsteknik",
+    "nameEn": "Advanced Manufacturing Technology",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 1.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "specializations": [
+      "MOPR"
+    ],
+    "prerequisitesCompleted": [
+      "MG2109"
+    ]
+  },
+  {
+    "code": "MG2038",
+    "name": "Digitala fabriker",
+    "nameEn": "Digital Factories",
     "totalCredits": 6,
     "periodCredits": {
       "P1": 6,
@@ -825,11 +1718,37 @@
       "P3": 0,
       "P4": 0
     },
-    "year": 1,
-    "prerequisites": [],
+    "year": 2,
     "exams": [],
     "category": "conditionallyElective",
-    "gradingScale": "A-F"
+    "gradingScale": "A-F",
+    "specializations": [
+      "MOPR"
+    ],
+    "prerequisitesCompleted": [
+      "MG2028"
+    ]
+  },
+  {
+    "code": "ME2314",
+    "name": "Systemteknik, ekonomi och ledarskap, del 2",
+    "nameEn": "Systems Engineering, Business and Management, Part 2",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "OSYT"
+    ],
+    "prerequisitesCompleted": [
+      "SF2868"
+    ]
   },
   {
     "code": "ME2004",
@@ -859,847 +1778,6 @@
     ]
   },
   {
-    "code": "ME2087",
-    "name": "Energiföretagande",
-    "nameEn": "Energy Business",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "ME2313",
-    "name": "Finansiell matematik, ekonomi och ledarskap",
-    "nameEn": "Financial Mathematics, Business and Management",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "FMIB"
-    ]
-  },
-  {
-    "code": "ME2314",
-    "name": "Systemteknik, ekonomi och ledarskap, del 2",
-    "nameEn": "Systems Engineering, Business and Management, Part 2",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "OSYT"
-    ]
-  },
-  {
-    "code": "ME2321",
-    "name": "Ingenjörsarbete och globala utmaningar",
-    "nameEn": "Engineering and Global Challenges",
-    "totalCredits": 3,
-    "periodCredits": {
-      "P1": 3,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "ME2322",
-    "name": "Industriell omvandling och teknisk innovation",
-    "nameEn": "Industrial transformation and technological innovation",
-    "totalCredits": 3,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 3,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "ME2323",
-    "name": "Forskningsfronter inom industriell ekonomi",
-    "nameEn": "Research Frontiers in Industrial Management",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "ME2324",
-    "name": "Strategisk ledning vid teknikskiften",
-    "nameEn": "Strategic Management in Technology Shifts",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MF2007",
-    "name": "Dynamik och rörelsestyrning",
-    "nameEn": "Dynamics and Motion Control",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 9,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MF2019",
-    "name": "CAD 3D-modellering och visualisering",
-    "nameEn": "CAD 3D-modelling and Visualization",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MF2030",
-    "name": "Mekatronik allmän kurs",
-    "nameEn": "Mechatronics basic Course",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MF2050",
-    "name": "Mekatronik, ekonomi och ledarskap",
-    "nameEn": "Mechatronics, Business and Management",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "CYPS"
-    ]
-  },
-  {
-    "code": "MF2095",
-    "name": "Programmering i C för inbyggda styrsystem",
-    "nameEn": "Programming in C for Embedded Systems",
-    "totalCredits": 3,
-    "periodCredits": {
-      "P1": 3,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "P/F"
-  },
-  {
-    "code": "MF2103",
-    "name": "Inbyggda system för mekatronik",
-    "nameEn": "Embedded Systems for Mechatronics",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 9,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MF2121",
-    "name": "Mekatronik högre kurs",
-    "nameEn": "Mechatronic Capstone course",
-    "totalCredits": 18,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 3
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MG2009",
-    "name": "Avancerad tillverkningsteknik",
-    "nameEn": "Advanced Manufacturing Technology",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 4.5,
-      "P2": 1.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F",
-    "specializations": [
-      "MOPR"
-    ]
-  },
-  {
-    "code": "MG2020",
-    "name": "Modulindelning av produkter",
-    "nameEn": "Modularisation of Products",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 6,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MG2028",
-    "name": "Inte bara CAD - IT-verktyg i industriell produktframtagning",
-    "nameEn": "CAD and Other IT Tools in Industrial Processes",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 1.5,
-      "P2": 4.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MG2033",
-    "name": "Kvalitet",
-    "nameEn": "Quality Control",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MG2036",
-    "name": "Datorstödd tillverkning - CAM",
-    "nameEn": "Computer Aided Manufacturing - CAM",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MG2038",
-    "name": "Digitala fabriker",
-    "nameEn": "Digital Factories",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F",
-    "specializations": [
-      "MOPR"
-    ]
-  },
-  {
-    "code": "MG2040",
-    "name": "Monteringsteknik",
-    "nameEn": "Assembly Technology",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MG2043",
-    "name": "Cirkulära tillverkningssystem",
-    "nameEn": "Circular Manufacturing Systems",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 4,
-      "P2": 2,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MG2044",
-    "name": "Additiv tillverkning",
-    "nameEn": "Additive Manufacturing",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MG2045",
-    "name": "Beslutsstöd för avancerad tillverkning",
-    "nameEn": "Decision-making for Advanced Manufacturing",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 6,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MG2047",
-    "name": "Avancerad produktionsutrustning",
-    "nameEn": "Advanced Manufacturing Equipment",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MG2109",
-    "name": "Avancerad tillverkningsteknik, större kurs",
-    "nameEn": "Advanced Manufacturing Technology, Extended Course",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 4.5,
-      "P2": 4.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F",
-    "specializations": [
-      "MOPR"
-    ]
-  },
-  {
-    "code": "MG2110",
-    "name": "Avancerad mätteknik",
-    "nameEn": "Advanced Metrology",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 4.5,
-      "P2": 4.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F",
-    "specializations": [
-      "MOPR"
-    ]
-  },
-  {
-    "code": "MG2117",
-    "name": "Produktion, ekonomi och ledarskap",
-    "nameEn": "Production, Business and Management",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "MOPR"
-    ]
-  },
-  {
-    "code": "MG2122",
-    "name": "Avancerad CAD",
-    "nameEn": "Advanced CAD",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 3,
-      "P3": 3,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MJ2141",
-    "name": "Energisystem, modeller och scenarier",
-    "nameEn": "Energy Systems, Models and Scenarios",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 4.5,
-      "P4": 4.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MJ2146",
-    "name": "Energisystem, ekonomi och ledarskap",
-    "nameEn": "Energy Systems, Business and Management",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "EEAA",
-      "HKPA"
-    ]
-  },
-  {
-    "code": "MJ2405",
-    "name": "Hållbar kraftproduktion",
-    "nameEn": "Sustainable Power Generation",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 5,
-      "P2": 4,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MJ2411",
-    "name": "Förnybar energi",
-    "nameEn": "Renewable Energy Technology",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 3,
-      "P2": 3,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MJ2438",
-    "name": "Modellering av energisystem - kraft och värme produktion",
-    "nameEn": "Modeling of Energy Systems - Heat and Power Generation",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 3,
-      "P4": 3
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MJ2509",
-    "name": "Energi i den byggda miljön",
-    "nameEn": "Energy in the built environment",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 4,
-      "P2": 5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MJ2518",
-    "name": "Energitekniska behov och distributionssystem i den byggda miljön",
-    "nameEn": "Energy Demand and Supply Distribution Systems in the Built Environment",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 3,
-      "P4": 3
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "SF2701",
-    "name": "Finansiell matematik, grundkurs",
-    "nameEn": "Financial Mathematics, Basic Course",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "SF2812",
-    "name": "Tillämpad linjär optimering",
-    "nameEn": "Applied Linear Optimization",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "SF2822",
-    "name": "Tillämpad ickelinjär optimering",
-    "nameEn": "Applied Nonlinear Optimization",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "SF2832",
-    "name": "Matematisk systemteori",
-    "nameEn": "Mathematical Systems Theory",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "SF2842",
-    "name": "Geometrisk styrteori",
-    "nameEn": "Geometric Control Theory",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "SF2852",
-    "name": "Optimal styrteori",
-    "nameEn": "Optimal Control Theory",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "SF2868",
-    "name": "Systemteknik, ekonomi och ledarskap, del 1",
-    "nameEn": "Systems Engineering, Business and Management, Part 1",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "OSYT"
-    ]
-  },
-  {
-    "code": "SF2935",
-    "name": "Moderna metoder för statistisk inlärning",
-    "nameEn": "Modern Methods of Statistical Learning",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "SF2942",
-    "name": "Portföljteori och riskvärdering",
-    "nameEn": "Portfolio Theory and Risk Management",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "SF2943",
-    "name": "Tidsserieanalys",
-    "nameEn": "Time Series Analysis",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "SF2955",
-    "name": "Datorintensiva metoder inom matematisk statistik",
-    "nameEn": "Computer Intensive Methods in Mathematical Statistics",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "SF2971",
-    "name": "Martingaler och stokastiska integraler",
-    "nameEn": "Martingales and Stochastic Integrals",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "SF2972",
-    "name": "Spelteori",
-    "nameEn": "Game Theory",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "A-F"
-  },
-  {
     "code": "SF2975",
     "name": "Finansiella derivat",
     "nameEn": "Financial Derivatives",
@@ -1720,19 +1798,22 @@
     ]
   },
   {
-    "code": "SF2980",
-    "name": "Riskvärdering och riskhantering",
-    "nameEn": "Risk Management",
+    "code": "SF2868",
+    "name": "Systemteknik, ekonomi och ledarskap, del 1",
+    "nameEn": "Systems Engineering, Business and Management, Part 1",
     "totalCredits": 7.5,
     "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
+      "P1": 7.5,
+      "P2": 0,
       "P3": 0,
       "P4": 0
     },
-    "year": 1,
+    "year": 2,
     "prerequisites": [],
     "exams": [],
-    "gradingScale": "A-F"
+    "gradingScale": "A-F",
+    "specializations": [
+      "OSYT"
+    ]
   }
 ]

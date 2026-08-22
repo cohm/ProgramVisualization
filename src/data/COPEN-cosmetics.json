@@ -20,7 +20,7 @@
   {
     "name": "Ingenjörsämnen",
     "nameEn": "Engineering",
-    "colorFamily": "yellow",
+    "colorFamily": "turquoise",
     "courses": ["SA1007", "KD1000"]
   }
 ]
