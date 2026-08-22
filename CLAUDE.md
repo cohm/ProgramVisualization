@@ -13,8 +13,9 @@ npx tsc --noEmit       # Type-check without emitting
 
 npm run extract-plan CTFYS                      # newest cohort -> src/data/cohorts/
 npm run extract-plan CTFYS -- --cohort HT2023   # one cohort
-npm run extract-plan CTFYS -- --all-cohorts     # HT2023..newest
+npm run extract-plan CTFYS -- --all-cohorts     # HT2022..newest
 npm run extract-plan CTFYS -- --prereqs         # fill missing prereqs in curated file
+npm run extract-plan CINEK -- --exams           # reconcile curated 'exams' with the kursplan
 npm run extract-plan CTMAT -- --fill-electives  # add 'Plats för valfri kurs' where short of 15 hp
 npm run extract-plan CTFYS -- --align src/data/CTFYS.json   # reorder for alignment
 npm run extract-plan CTFYS -- --help
@@ -324,18 +325,79 @@ The `periodCredits` misses are all in TIEMM, whose curated file is an unverified
 plan is no longer online. Two `nameEn` misses are KOPPS typos the curated files
 fixed by hand.
 
+**What counts as an exam is decided by the kursplan's examination modules**, and
+getting that test right mattered more than the placement rule below.
+
+It is `isExamModule`: the module code starts with `TEN`, **or** its title says
+tentamen. Both halves are load-bearing. The code half keeps the handful of `TEN`
+modules with an unusual title (`TEN1 "Examination"`, `TEN1 "Skriftlig test"`,
+`TEN1 "Kontrollskrivning"`); the title half picks up `EXA2 "Hemtentamen"`, the
+only genuine take-home exam in the data. `LAB` / `INL` / `PRO` / `DIA` / `SEM` /
+`KON` / `ÖVN` are coursework and get no marker, so a course examined only that way
+correctly ends up with `exams: []`.
+
+This replaced a prefix list, `['TEN', 'HEM']`, whose `HEM` half was wrong in an
+instructive way. Its comment recorded the reasoning: *"HEM = hemtentamen (DD1327
+is HEM1+PRO1 and the curated data does mark an exam for it)"* — so the rule was
+inferred from DD1327's curated value, which was itself the error, and then
+propagated that error to every other cohort. Our own output was justifying the
+rule that produced it. Measured over all 278 courses: **all 48 `HEM*` modules are
+titled "hemuppgift(er)"**, homework, and not one is a tentamen.
+
+**The module parser used to read only the first module of each kursplan.** The
+page concatenates every module into one string with no separator, and the old
+single regex ended in a greedy `([^|<]+)` for the grading scale, which swallowed
+the rest. It parsed **933 modules where a correct split finds 2275**, truncating
+**66% of all kursplan versions** — so `examBearing.length` could never exceed 1,
+silently defeating the "one exam per exam-bearing module" rule below. Two further
+details it got wrong: a module code can end in a **letter** (SF2930's
+`TENA - Skriftlig tentamen` was never matched), and Swedish initials matter
+(`ÖVN1` was matched from the `V`, giving 61 phantom `VN` prefixes). Hence
+`MODULE_CODE = [A-ZÅÄÖ]{2,4}[A-Z0-9]`, a split on a lookahead for it, and
+per-chunk parsing in `parseExamModules`.
+
 **Exams are two-tier.** Single-period courses are certain (the exam sits in the
-teaching period, per *Riktlinje om läsårets förläggning* §1.1) — 13/13 on CTFYS.
-Multi-period courses are **not derivable**: SE1055 puts its single exam in the
-last period while SI1121 puts its in the credit-majority period, which rules out
-every simple rule. Those get a convention — one exam per exam-bearing module, in
-the highest-credit periods — measured at 10/17 over every multi-period course
-with a curated value across all six programmes (placing them in the *last*
-periods instead scores 8/17). Every such placement is flagged for review. The
-7 residual misses are unreachable from module count in either direction, so
-closing them needs real timetable data: Ladok's aktivitetstillfällen, which the
-sibling `academic-performance-portal` already imports into its `exam_occasions`
-table.
+teaching period, per *Riktlinje om läsårets förläggning* §1.1). Multi-period
+courses are **not derivable**: SE1055 puts its single exam in the last period
+while SI1121 puts its in the credit-majority period, which rules out every simple
+rule. Those get a convention — one exam per exam-bearing module, in the
+highest-credit periods — and every such placement is flagged for review. Closing
+the residual misses needs real timetable data: Ladok's aktivitetstillfällen, which
+the sibling `academic-performance-portal` already imports into its
+`exam_occasions` table.
+
+Measured against the hand-authored CTFYS exams after both fixes: **16/26 → 23/26**
+overall, single-period **12/15 → 14/15**, multi-period **4/11 → 9/11**. The one
+remaining single-period miss is DD1327, where the curated value is the error, so
+that tier is effectively exact — which is what the riktlinje implies.
+
+**The curated files' `exams` were largely unpopulated, and `--exams` reconciles
+them.** Audited against the kursplan in force for the current läsår: CTFYS agreed
+on 25 of 26, but **CINEK on only 17 of 50** — 33 of its courses recorded no exam
+while their kursplan carries an explicit `TEN` module, and SG1109 carries two (a
+Problemtentamen and a Teoritentamen). CTMAT was missing 5, CFATE 1. Those are
+empty fields rather than considered judgements, so filling them is a correction.
+
+`--exams` therefore does three different things, and the third is the point:
+
+- no exam recorded but the kursplan has a tentamen → **filled**;
+- an exam recorded but the kursplan has none → **cleared**. Two cases, both wrong
+  curated values: DD1327, and SA1006, which carried a by-year map while its
+  kursplan examines `PRO1`–`PRO5`, five P/F projects and nothing else;
+- both present but the period differs → **reported, curated value kept**. Our
+  highest-credit convention is right about half the time on multi-period courses,
+  so a coordinator's placement outranks it. Eight are left standing (SG1112,
+  SE1055, SG1132, SF1668, SF1682, SD1120, SG1133). Same principle as `--prereqs`.
+
+Net effect on the cohort files: courses carrying an exam marker went **127 → 229**
+across the HT2026 files, most of it the parser fix making previously invisible
+`TEN` modules visible.
+
+**Oral exams are counted but flagged.** A *muntlig tentamen* is a tentamen, yet an
+oral exam is usually booked individually rather than sitting in the scheduled
+examination period, which is what the chart's marker means. Only three exist in
+the whole data set (ME2322, ME2323, MJ1141) — too few to invent a rule from — so
+they are counted and reported for a coordinator to overrule.
 
 **KOPPS is retired — the course page is the live source.** KOPPS still answers but
 stopped receiving updates, and the gap is measurable. DD1328's page carries two

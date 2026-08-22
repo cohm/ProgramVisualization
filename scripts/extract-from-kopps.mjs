@@ -138,12 +138,27 @@ const COND_RECOMMENDED = 'R';           // rekommenderad
 const KNOWN_CONDITIONS = new Set([
   COND_MANDATORY, COND_CONDITIONAL, COND_ELECTIVE, COND_RECOMMENDED]);
 
-// Examination-module prefixes that occupy a scheduled examination slot, and so
-// justify an exam marker. TEN = salstentamen, HEM = hemtentamen (DD1327 is
-// HEM1+PRO1 and the curated data does mark an exam for it). LAB / INL / PRO /
-// DIA / SEM are coursework and get no marker — a course with only those
-// correctly ends up with `exams: []` rather than a fabricated one.
-const EXAM_MODULE_PREFIXES = ['TEN', 'HEM'];
+// Does an examination module occupy a scheduled examination slot, and so justify
+// an exam marker?
+//
+// This used to be a prefix list, `['TEN', 'HEM']`, and the HEM half was wrong.
+// It was added because DD1327's curated `exams` said `["P4"]` while its modules
+// are HEM1+PRO1 — but that curated value was itself the error, so the rule was
+// derived from the bug it then propagated to every other cohort. Measured over
+// all 278 courses in the data: **all 48 `HEM*` modules are titled
+// "hemuppgift(er)"** — homework — and not one is a tentamen. Meanwhile the only
+// genuine take-home exam in the whole dataset is coded `EXA1` ("Hemtentamen"),
+// which a HEM prefix misses entirely.
+//
+// So: `TEN*` (569 modules, titled "tentamen" / "skriftlig tentamen" /
+// "problemtentamen") OR a title that says tentamen. The code test keeps the
+// handful of TEN modules with an unusual title — `TEN1 "Examination"`,
+// `TEN1 "Skriftlig test"`, `TEN1 "Kontrollskrivning"` — and the title test picks
+// up `EXA2 "Hemtentamen"`. LAB / INL / PRO / DIA / SEM / KON / VN are coursework
+// and get no marker, so a course with only those correctly ends up with
+// `exams: []` rather than a fabricated one.
+const isExamModule = (m) =>
+  m.code.toUpperCase().startsWith('TEN') || /tentamen|tentamina/i.test(m.title || '');
 
 const CREDIT_TOLERANCE = 0.05; // hp; matches validate-data.mjs
 
@@ -160,7 +175,11 @@ let warningCount = 0;
 const review = []; // items a human must check before merging
 
 const warn = (msg) => { warningCount++; console.warn(`  WARN   ${msg}`); };
-const flag = (msg) => { review.push(msg); };
+// Deduped: exam derivation runs twice per course (once during enrichment, once
+// after the cohort's kursplan version is chosen), so an identical message would
+// otherwise appear twice in the review list for no reason.
+const seenFlags = new Set();
+const flag = (msg) => { if (!seenFlags.has(msg)) { seenFlags.add(msg); review.push(msg); } };
 
 // ---------------------------------------------------------------------------
 // HTTP
@@ -321,8 +340,37 @@ function readCurriculum(state, prog, year) {
 const ELIGIBILITY_MARKER = '%22course_eligibility%22';
 // The page writes this placeholder where a field is simply unset.
 const NO_INFO = /^ingen information tillagd\.?$/i;
-// "LABB - Datorlaboration, 2,0 hp, betygsskala: A, B, C, D, E, FX, F"
-const PAGE_MODULE_RE = /([A-Z]{2,4}\d?)\s*-\s*[^,]+,\s*([\d,.]+)\s*hp,\s*betygsskala:\s*([^|<]+)/g;
+// One examination module: "LABB - Datorlaboration, 2,0 hp, betygsskala: A, B, C,
+// D, E, FX, F". The page concatenates every module of a kursplan into one string
+// with no separator, so they have to be split before being parsed.
+//
+// The previous single regex ended in a greedy `([^|<]+)` for the grading scale,
+// which swallowed the rest of the string — every module after the first. It
+// parsed **933 modules where a correct split finds 2275**, truncating 66% of all
+// kursplan versions, and silently defeated the "one exam per exam-bearing
+// module" rule that `examsForPeriods` documents: `examBearing.length` could
+// never exceed 1.
+//
+// Two details the old pattern also got wrong. A module code can end in a
+// **letter** (`TENA`, `TENB`), not just a digit — SF2930's `TENA - Skriftlig
+// tentamen` is a real exam. And Swedish initials matter: `ÖVN1` was matched from
+// the `V`, yielding a phantom `VN` prefix (61 of them).
+const MODULE_CODE = '[A-ZÅÄÖ]{2,4}[A-Z0-9]';
+const MODULE_SPLIT_RE = new RegExp(`(?=\\b${MODULE_CODE}\\s*-\\s*)`, 'u');
+const MODULE_ITEM_RE = new RegExp(
+  `^(${MODULE_CODE})\\s*-\\s*(.+?),\\s*([\\d,.]+)\\s*hp,\\s*betygsskala:\\s*(.+?)\\s*$`, 'u');
+
+/** Every examination module in one kursplan's examination text. */
+function parseExamModules(text) {
+  const out = [];
+  for (const chunk of String(text || '').split(MODULE_SPLIT_RE)) {
+    const m = MODULE_ITEM_RE.exec(chunk.trim());
+    // The title is kept because it, not the code, is what identifies a
+    // tentamen — see isExamModule.
+    if (m) out.push({ code: m[1], title: m[2], hp: m[3], scale: mapPageGradingScale(m[4]) });
+  }
+  return out;
+}
 
 // A kursplan version's `course_valid_from` IS the KTH term code: { year: 2026,
 // semesterNumber: 1 } is 20261. Verified against the kursplan archive
@@ -486,11 +534,8 @@ async function fetchCoursePage(code) {
   // Every version, newest first, each tagged with the KTH term it takes effect.
   const versions = [...(cd.syllabusList || [])].sort(syllabusOrder).map((sy) => {
     const eligibility = decodeHtmlText(sy.course_eligibility);
-    const modules = [];
     const examText = decodeHtmlText(sy.course_examination).replace(/\s+/g, ' ');
-    for (const m of examText.matchAll(PAGE_MODULE_RE)) {
-      modules.push({ code: m[1], scale: mapPageGradingScale(m[3]) });
-    }
+    const modules = parseExamModules(examText);
     return {
       term: syllabusTerm(sy),
       // `course_valid_to` is absent on the version currently in force, which is
@@ -676,8 +721,20 @@ function examsForPeriods(code, periodCredits, examBearing, label) {
 const isByYearShape = (pc) => Object.keys(pc).some((k) => k.startsWith('Year'));
 
 function deriveExams(entry, examModules) {
-  const examBearing = examModules.filter((m) =>
-    EXAM_MODULE_PREFIXES.some((p) => m.code.toUpperCase().startsWith(p)));
+  const examBearing = examModules.filter(isExamModule);
+
+  // A muntlig tentamen is a tentamen, so it counts — but an oral exam is usually
+  // booked individually rather than sitting in the scheduled examination period,
+  // which is what the marker on the chart means. Only 3 exist across the whole
+  // data set (ME2322, ME2323, MJ1141), too few to justify inventing a rule from,
+  // so they are counted and reported for a coordinator to overrule.
+  for (const m of examBearing) {
+    if (/muntlig/i.test(m.title || '')) {
+      flag(`${entry.code}: examination module ${m.code} is "${m.title}" — an ORAL exam. ` +
+        `Counted as occupying an examination slot, but an oral exam is often booked ` +
+        `individually instead; confirm whether it belongs on the chart.`);
+    }
+  }
 
   if (examBearing.length === 0) return isByYearShape(entry.periodCredits) ? {} : [];
 
@@ -1722,7 +1779,7 @@ function parseArgs(argv) {
   const args = {
     prog: null, years: null, cohort: null, allCohorts: false, out: null,
     specializations: false, dumpState: null, electives: false, align: false,
-    prereqs: false, fillElectives: false,
+    prereqs: false, fillElectives: false, exams: false,
   };
   const rest = [];
   for (let i = 0; i < argv.length; i++) {
@@ -1736,6 +1793,7 @@ function parseArgs(argv) {
     else if (a === '--dump-state') args.dumpState = Number(argv[++i]);
     else if (a === '--align') args.align = true;
     else if (a === '--prereqs') args.prereqs = true;
+    else if (a === '--exams') args.exams = true;
     else if (a === '--fill-electives') args.fillElectives = true;
     else if (a === '-h' || a === '--help') args.help = true;
     else if (a.startsWith('-')) throw new Error(`unknown flag: ${a}`);
@@ -1775,6 +1833,13 @@ Options:
                        src/data/<PROG>.json and write the coordinator review
                        file, then exit. Additive only: a course that already has
                        prerequisites is left exactly as it is.
+  --exams              reconcile the curated src/data/<PROG>.json 'exams' with
+                       the examination modules in each course's kursplan, then
+                       exit. Fills a course that has no exam but whose kursplan
+                       carries a tentamen, clears one that has an exam but whose
+                       kursplan carries none, and REPORTS rather than overwrites
+                       a disagreement about which period — a coordinator's
+                       placement outranks our highest-credit convention.
   --fill-electives     add 'Plats för valfri kurs' placeholders to the curated
                        src/data/<PROG>.json wherever a period falls short of
                        full-time (15 hp), sized to the shortfall and checked
@@ -2243,6 +2308,89 @@ async function fillPrereqs(prog) {
 }
 
 /**
+ * Reconcile a curated file's `exams` with what the kursplan actually examines.
+ *
+ * The audit that motivated this: comparing every curated `exams` array against
+ * the examination modules of the kursplan in force for the current läsår,
+ * CTFYS agreed on 25 of 26 courses, but CINEK agreed on only 17 of 50 — 33 of
+ * its courses record no exam while their kursplan carries an explicit `TEN`
+ * module (SG1109 carries two, a Problemtentamen and a Teoritentamen). CTMAT was
+ * missing 5 and CFATE 1. Those are unpopulated fields rather than considered
+ * judgements, so filling them is a correction, not an override.
+ *
+ * The one case in the other direction was DD1327, whose curated `["P4"]` is what
+ * originally justified treating `HEM` modules as exams — a wrong value that then
+ * propagated to every cohort. It is cleared here.
+ *
+ * What is deliberately NOT changed: a course where both we and the curated file
+ * name an exam but disagree about the period. SE1055 puts its single tentamen in
+ * the last of its two periods and SI1121 in the credit-majority one, so no simple
+ * rule gets both; our convention picks the highest-credit periods and is measured
+ * at roughly half. A coordinator's placement outranks that, exactly as with
+ * prerequisites, so those are reported for a human to settle.
+ */
+async function fixCuratedExams(prog) {
+  const file = join(dataDir, `${prog}.json`);
+  const raw = readTextOrNull(file);
+  if (raw === null) throw new Error(`${rel(file)} not found`);
+  const data = JSON.parse(raw);
+  const courses = data.filter((e) => e?.code && e.type !== 'optionGroup' && e.type !== 'cohortMeta');
+
+  const lasar = lasarFromPeriods();
+  if (!lasar) throw new Error('could not read the läsår from academic-periods.json');
+
+  process.stdout.write(`  reading ${courses.length} kursplan(er) … `);
+  let filled = 0; let cleared = 0; const disputed = []; const unknown = [];
+  for (const e of courses) {
+    let meta;
+    try { meta = await fetchCourseMeta(e.code); } catch { unknown.push(e.code); continue; }
+    const maps = alignYearMaps(e);
+    const firstPeriod = PERIOD_IDS.findIndex((pid) =>
+      Object.values(maps).some((m) => Number(m?.[pid] || 0) > 0));
+    const studyYear = Math.min(...Object.keys(maps).map(Number));
+    const term = termForCourse(lasar - studyYear + 1, studyYear, firstPeriod < 0 ? 0 : firstPeriod);
+    const chosen = versionForTerm(meta.versions, term);
+    const modules = chosen?.examModules ?? meta.examModules ?? [];
+    if (!chosen && (meta.examModules ?? []).length === 0) { unknown.push(e.code); continue; }
+
+    const derived = deriveExams(e, modules);
+    const hasNow = Array.isArray(e.exams) ? e.exams.length > 0
+      : Object.keys(e.exams || {}).length > 0;
+    const hasDerived = Array.isArray(derived) ? derived.length > 0
+      : Object.keys(derived).length > 0;
+
+    if (!hasNow && hasDerived) {
+      e.exams = derived;
+      filled++;
+      console.log(`\n    ${e.code}: no exam recorded, kursplan has ` +
+        `${modules.filter(isExamModule).map((m) => `${m.code} ${m.title}`).join(' + ')} — set to ${JSON.stringify(derived)}`);
+    } else if (hasNow && !hasDerived) {
+      const was = JSON.stringify(e.exams);
+      e.exams = Array.isArray(e.exams) ? [] : {};
+      cleared++;
+      console.log(`\n    ${e.code}: recorded ${was} but the kursplan examines only ` +
+        `${modules.map((m) => m.code).join(', ') || '(nothing listed)'} — cleared`);
+    } else if (hasNow && hasDerived && JSON.stringify(e.exams) !== JSON.stringify(derived)) {
+      disputed.push({ code: e.code, curated: e.exams, derived, modules: modules.filter(isExamModule) });
+    }
+  }
+  console.log('done');
+
+  const out = JSON.stringify(data, null, 2) + (raw.endsWith('\n') ? '\n' : '');
+  if (out !== raw) writeFileSync(file, out, 'utf8');
+  console.log(`  ${rel(file)}: filled ${filled}, cleared ${cleared}, left ${disputed.length} disagreement(s) untouched`);
+  if (unknown.length > 0) {
+    console.log(`  no kursplan modules readable for: ${unknown.join(', ')}`);
+  }
+  for (const d of disputed) {
+    console.log(`    ${d.code}: curated ${JSON.stringify(d.curated)} vs derived ` +
+      `${JSON.stringify(d.derived)} from ${d.modules.length} tentamen module(s) ` +
+      `[${d.modules.map((m) => m.code).join(', ')}] — kept the curated value; ` +
+      `${courseUrl(d.code)}`);
+  }
+}
+
+/**
  * Add elective-space placeholders to a curated data file.
  *
  * Same rule as the cohort path, applied to the läsår in academic-periods.json:
@@ -2316,6 +2464,7 @@ async function main() {
   const prog = args.prog.toUpperCase();
 
   if (args.prereqs) { await fillPrereqs(prog); return; }
+  if (args.exams) { await fixCuratedExams(prog); return; }
   if (args.fillElectives) { await fillElectivesInCuratedFile(prog); return; }
 
   if (args.dumpState != null) {

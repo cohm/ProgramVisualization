@@ -185,7 +185,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "teacher": "",
     "description": "",
     "category": "mandatory",
@@ -550,7 +552,9 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "teacher": "",
     "description": "",
     "category": "mandatory",
@@ -592,7 +596,9 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "teacher": "",
     "description": "",
     "category": "mandatory",

@@ -35,7 +35,9 @@
       "P4": 7.5
     },
     "year": 1,
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "teacher": "",
     "description": "",
     "category": "mandatory",
@@ -145,7 +147,10 @@
       "P4": 6
     },
     "year": 1,
-    "exams": [],
+    "exams": [
+      "P3",
+      "P4"
+    ],
     "teacher": "",
     "description": "",
     "category": "mandatory",
@@ -168,7 +173,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "teacher": "",
     "description": "",
     "category": "mandatory",
@@ -187,7 +194,9 @@
       "P4": 2
     },
     "year": 1,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "teacher": "",
     "description": "",
     "category": "mandatory",
@@ -209,7 +218,9 @@
       "P4": 4.5
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -236,7 +247,9 @@
       "P4": 4.5
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -265,7 +278,9 @@
       "P4": 3
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "teacher": "",
     "description": "",
     "category": "mandatory",
@@ -364,7 +379,9 @@
     },
     "year": 2,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -410,7 +427,9 @@
       "P4": 0
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "teacher": "",
     "description": "",
     "category": "mandatory",
@@ -481,7 +500,9 @@
     },
     "year": 2,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -515,7 +536,9 @@
     },
     "year": 2,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -565,7 +588,9 @@
       "P4": 0
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "teacher": "",
     "description": "",
     "category": "mandatory",
@@ -760,7 +785,9 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -892,7 +919,9 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -919,7 +948,9 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "teacher": "",
     "description": "",
     "category": "mandatory",
@@ -994,7 +1025,9 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [
@@ -1114,7 +1147,10 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P2",
+      "P3"
+    ],
     "teacher": "",
     "description": "",
     "category": "mandatory",
@@ -1190,7 +1226,9 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "teacher": "",
     "description": "",
     "specializations": [

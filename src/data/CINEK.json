@@ -11,7 +11,10 @@
       "P4": 6
     },
     "year": 1,
-    "exams": [],
+    "exams": [
+      "P3",
+      "P4"
+    ],
     "gradingScale": "A-F",
     "prerequisitesParticipation": [
       "SF1625"
@@ -46,7 +49,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "gradingScale": "A-F"
   },
   {
@@ -77,7 +82,9 @@
       "P4": 0
     },
     "year": 1,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "gradingScale": "A-F",
     "prerequisitesParticipation": [
       "SF1625"
@@ -96,7 +103,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "gradingScale": "A-F"
   },
   {
@@ -111,7 +120,9 @@
       "P4": 7.5
     },
     "year": 1,
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "gradingScale": "A-F",
     "prerequisitesParticipation": [
       "ME1314"
@@ -130,7 +141,9 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "gradingScale": "A-F"
   },
   {
@@ -145,7 +158,9 @@
       "P4": 2
     },
     "year": 1,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "gradingScale": "A-F",
     "prerequisitesParticipation": [
       "ME1314"
@@ -163,7 +178,9 @@
       "P4": 4.5
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "gradingScale": "A-F",
     "specializations": [
       "PPUI"
@@ -186,7 +203,9 @@
       "P4": 4.5
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "gradingScale": "A-F",
     "specializations": [
       "EHUI"
@@ -211,7 +230,9 @@
       "P4": 3
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "gradingScale": "A-F",
     "prerequisitesParticipation": [
       "SF1918"
@@ -229,7 +250,9 @@
       "P4": 1.5
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "gradingScale": "A-F",
     "specializations": [
       "TMAI"
@@ -290,7 +313,9 @@
     },
     "year": 2,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "gradingScale": "A-F",
     "specializations": [
       "DTOI"
@@ -308,7 +333,9 @@
       "P4": 0
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "gradingScale": "A-F",
     "prerequisitesCompleted": [
       "SF1626"
@@ -326,7 +353,9 @@
       "P4": 0
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "gradingScale": "A-F",
     "prerequisitesCompleted": [
       "ME1314"
@@ -344,7 +373,9 @@
       "P4": 0
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "gradingScale": "A-F",
     "prerequisitesCompleted": [
       "ME1314"
@@ -362,7 +393,9 @@
       "P4": 0
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "gradingScale": "A-F",
     "prerequisitesCompleted": [
       "SF1625"
@@ -381,7 +414,9 @@
     },
     "year": 2,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "gradingScale": "A-F",
     "specializations": [
       "DTOI",
@@ -411,7 +446,9 @@
     },
     "year": 2,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "gradingScale": "A-F",
     "specializations": [
       "PPUI"
@@ -429,7 +466,9 @@
       "P4": 6
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "gradingScale": "A-F",
     "specializations": [
       "TMAI"
@@ -451,7 +490,9 @@
       "P4": 0
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "gradingScale": "A-F",
     "prerequisitesCompleted": [
       "SF1625"
@@ -469,7 +510,9 @@
       "P4": 3
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "gradingScale": "A-F",
     "specializations": [
       "TMAI"
@@ -553,7 +596,9 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "gradingScale": "A-F",
     "specializations": [
       "TMAI"
@@ -617,7 +662,9 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "gradingScale": "A-F",
     "specializations": [
       "PPUI"
@@ -658,7 +705,9 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "gradingScale": "A-F",
     "specializations": [
       "EHUI"
@@ -681,7 +730,9 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "gradingScale": "A-F",
     "specializations": [
       "TMAI"
@@ -722,7 +773,9 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "gradingScale": "A-F",
     "specializations": [
       "DTOI",
@@ -770,7 +823,9 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "gradingScale": "A-F",
     "specializations": [
       "EHUI"
@@ -852,7 +907,10 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P2",
+      "P3"
+    ],
     "gradingScale": "A-F",
     "prerequisitesCompleted": [
       "ME1314"
@@ -889,7 +947,9 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "gradingScale": "A-F",
     "specializations": [
       "EHUI"
@@ -912,7 +972,9 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "gradingScale": "A-F",
     "prerequisitesCompleted": [
       "ME1314"
@@ -931,7 +993,9 @@
     },
     "year": 3,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "gradingScale": "A-F",
     "specializations": [
       "PPUI"
@@ -991,7 +1055,9 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "gradingScale": "A-F",
     "specializations": [
       "TMAI"
@@ -1012,7 +1078,9 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "gradingScale": "A-F",
     "specializations": [
       "PPUI"

@@ -26,17 +26,7 @@
       }
     },
     "prerequisites": [],
-    "exams": {
-      "Year1": [
-        "P2"
-      ],
-      "Year2": [
-        "P4"
-      ],
-      "Year3": [
-        "P2"
-      ]
-    }
+    "exams": {}
   },
   {
     "code": "DD1328",
@@ -154,7 +144,9 @@
       "P4": 2.5
     },
     "year": 1,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "prerequisitesParticipation": [
       "SF1673"
     ]
@@ -220,7 +212,9 @@
       "P4": 3.8
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "prerequisitesCompleted": [
       "SF1674"
     ]
@@ -238,7 +232,9 @@
       "P4": 2.2
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "prerequisitesCompleted": [
       "SF1550",
       "SF1674"
@@ -256,7 +252,9 @@
       "P4": 3.8
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "prerequisitesCompleted": [
       "SF1672"
     ]
@@ -289,7 +287,9 @@
       "P4": 3.8
     },
     "year": 2,
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "prerequisitesCompleted": [
       "SF1674"
     ]
