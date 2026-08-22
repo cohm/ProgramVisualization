@@ -2793,6 +2793,11 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       container.selectAll('.exam-dot').style('opacity', null);
       container.selectAll('.reexam-dot').style('opacity', null);
       container.selectAll('.prereq-path').style('opacity', null);
+      // Selected-course emphasis (see below). Clearing the inline style falls
+      // back to the `fill` / `stroke-width` presentation attributes the render
+      // set, so nothing has to remember the original values.
+      container.selectAll('.course-bar-border, .course-connector-border').style('stroke-width', null);
+      container.selectAll('.course-block, .course-connector-fill').style('fill', null);
       return;
     }
 
@@ -2850,6 +2855,51 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         const to = (this as Element).getAttribute('data-to');
         const keep = (to === focusCourse && !!from && prereqSet.has(from)) || (from === focusCourse && !!to && dependentSet.has(to));
         return keep ? '1' : '0.1';
+      });
+
+    // Mark the SELECTED course, not just the related ones.
+    //
+    // Dimming answers "what is connected to this?" but everything that survives
+    // the dim — the course, its prerequisites and its dependents — was drawn at
+    // the same opacity, so the one actually clicked was indistinguishable from
+    // its neighbours. Two cues, deliberately in this order:
+    //
+    // 1. A thicker border. This is the primary signal because it works on every
+    //    bar, including option groups, whose fill is `url(#option-group-pattern-…)`
+    //    rather than a colour.
+    // 2. A slightly darker fill, as a secondary cue.
+    //
+    // `darker(0.25)` is chosen against the label colour, which is always
+    // KthMarine #000061 (the `text` field in the palette is vestigial). Measured
+    // contrast of label against fill at that setting: 12.98 blue, 11.33 green,
+    // 10.38 turquoise, 10.42 brick, 12.98 yellow, and 5.02 for the
+    // no-cosmetics-group fill #6298D2 — all above the 4.5:1 WCAG AA floor, with
+    // the last being the binding case. `darker(0.6)` would take it to 4.05 and
+    // fail, which is why this is a nudge and not a heavy shade.
+    const FOCUS_STROKE_WIDTH = '3';
+    const FOCUS_FILL_DARKEN = 0.25;
+
+    container.selectAll<SVGElement, unknown>('.course-bar-border')
+      .style('stroke-width', function() {
+        // The border rect carries no data-course of its own; its parent group does.
+        const owner = (this as Element).closest('.course-group')?.getAttribute('data-course');
+        return owner === focusCourse ? FOCUS_STROKE_WIDTH : null;
+      });
+
+    container.selectAll<SVGPathElement, unknown>('.course-connector-border')
+      .style('stroke-width', function() {
+        return (this as Element).getAttribute('data-course') === focusCourse ? FOCUS_STROKE_WIDTH : null;
+      });
+
+    container.selectAll<SVGElement, unknown>('.course-block, .course-connector-fill')
+      .style('fill', function() {
+        const el = this as Element;
+        if (el.getAttribute('data-course') !== focusCourse) return null;
+        // Only darken an actual colour. Option-group bars are filled with a
+        // pattern reference, which d3-color cannot parse — those keep the
+        // thicker border as their only cue, which is why the border comes first.
+        const parsed = d3color(el.getAttribute('fill') ?? '');
+        return parsed ? parsed.darker(FOCUS_FILL_DARKEN).formatRgb() : null;
       });
   }, [focusCourse, courses]);
 
