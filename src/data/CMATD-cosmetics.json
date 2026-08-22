@@ -1,0 +1,65 @@
+[
+  {
+    "name": "Matematik",
+    "nameEn": "Mathematics",
+    "colorFamily": "blue",
+    "courses": [
+      "SF1551",
+      "SF1624",
+      "SF1625",
+      "SF1626",
+      "SF1633"
+    ]
+  },
+  {
+    "name": "Kemi",
+    "nameEn": "Chemistry",
+    "colorFamily": "green",
+    "courses": [
+      "CK1050",
+      "CK1260",
+      "KD1230"
+    ]
+  },
+  {
+    "name": "Materialteknik",
+    "nameEn": "Materials Engineering",
+    "colorFamily": "brick",
+    "courses": [
+      "MG1002",
+      "MG1024",
+      "MH1030",
+      "MH1031",
+      "MH1033",
+      "MH1034",
+      "MH1035",
+      "MH1036",
+      "MH1037",
+      "MH2054",
+      "MH2055",
+      "MH2056",
+      "MH2057"
+    ]
+  },
+  {
+    "name": "Fysik & Mekanik",
+    "nameEn": "Physics & Mechanics",
+    "colorFamily": "turquoise",
+    "courses": [
+      "SE1021",
+      "SE1025",
+      "SG1120",
+      "SK1117"
+    ]
+  },
+  {
+    "name": "Övrigt",
+    "nameEn": "Other",
+    "colorFamily": "yellow",
+    "courses": [
+      "DD1310",
+      "ME1003",
+      "MH101X"
+    ]
+  }
+]

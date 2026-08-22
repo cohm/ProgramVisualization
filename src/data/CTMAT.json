@@ -1,155 +1,5 @@
 [
   {
-    "code": "DD1333",
-    "name": "Grundläggande programmering",
-    "nameEn": "Fundamentals of Programming",
-    "totalCredits": 5,
-    "periodCredits": {
-      "P1": 5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": []
-  },
-  {
-    "code": "SF1672",
-    "name": "Linjär algebra",
-    "nameEn": "Linear Algebra",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P2"
-    ]
-  },
-  {
-    "code": "SF1673",
-    "name": "Analys i en variabel",
-    "nameEn": "Analysis in one variable",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P1"
-    ]
-  },
-  {
-    "code": "SF1918",
-    "name": "Sannolikhetsteori och statistik",
-    "nameEn": "Probability Theory and Statistics",
-    "briefName": "Sannolikhet & stat.",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 6,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P2"
-    ]
-  },
-  {
-    "code": "DD1328",
-    "name": "Grundläggande datalogi för tekniska beräkningar",
-    "nameEn": "Fundamentals of Computer Science for Scientific Computing",
-    "briefName": "Grundl. datalogi",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 4,
-      "P4": 5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": []
-  },
-  {
-    "code": "SF1550",
-    "name": "Numeriska metoder, grundkurs",
-    "nameEn": "Numerical Methods, basic course",
-    "briefName": "Numeriska metoder",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 3.5,
-      "P4": 2.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": []
-  },
-  {
-    "code": "SF1674",
-    "name": "Flervariabelanalys",
-    "nameEn": "Multivariable Calculus",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ]
-  },
-  {
-    "code": "SG1115",
-    "name": "Partikeldynamik med projekt",
-    "nameEn": "Particle Dynamics with project",
-    "briefName": "Partikeldynamik",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P4"
-    ]
-  },
-  {
-    "code": "SF1693",
-    "name": "Analytiska och numeriska metoder för partiella differentialekvationer och transformer",
-    "nameEn": "Analytical and Numerical Methods for Partial Differential Equations and Transforms",
-    "briefName": "PDE & transformer",
-    "totalCredits": 11,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 5,
-      "P3": 3.8,
-      "P4": 2.2
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": []
-  },
-  {
     "code": "SA1006",
     "name": "Ingenjörsfärdigheter i teknisk matematik",
     "nameEn": "Engineering Skills in Engineering Mathematics",
@@ -189,10 +39,28 @@
     }
   },
   {
-    "code": "SF1681",
-    "name": "Linjär algebra, fortsättningskurs",
-    "nameEn": "Linear Algebra. Advanced Course",
-    "briefName": "Linjär algebra fk",
+    "code": "DD1328",
+    "name": "Grundläggande datalogi för tekniska beräkningar",
+    "nameEn": "Fundamentals of Computer Science for Scientific Computing",
+    "briefName": "Grundl. datalogi",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4,
+      "P4": 5
+    },
+    "year": 1,
+    "exams": [],
+    "prerequisitesCompleted": [
+      "DD1333"
+    ]
+  },
+  {
+    "code": "SF1918",
+    "name": "Sannolikhetsteori och statistik",
+    "nameEn": "Probability Theory and Statistics",
+    "briefName": "Sannolikhet & stat.",
     "totalCredits": 6,
     "periodCredits": {
       "P1": 0,
@@ -200,54 +68,49 @@
       "P3": 0,
       "P4": 0
     },
-    "year": 2,
-    "prerequisites": [
-      "SF1672"
-    ],
+    "year": 1,
+    "prerequisites": [],
     "exams": [
       "P2"
     ]
   },
   {
-    "code": "SF1692",
-    "name": "Analytiska och numeriska metoder för ordinära differentialekvationer",
-    "nameEn": "Analytical and Numerical Methods for Ordinary Differential Equations",
-    "briefName": "ODE-metoder",
-    "totalCredits": 5.5,
+    "code": "DD1333",
+    "name": "Grundläggande programmering",
+    "nameEn": "Fundamentals of Programming",
+    "totalCredits": 5,
     "periodCredits": {
-      "P1": 5.5,
+      "P1": 5,
       "P2": 0,
       "P3": 0,
       "P4": 0
     },
-    "year": 2,
+    "year": 1,
     "prerequisites": [],
-    "exams": [
-      "P1"
-    ]
+    "exams": []
   },
   {
-    "code": "SF1930",
-    "name": "Statistisk inlärning och dataanalys",
-    "nameEn": "Statistical Learning and Data Analysis",
-    "briefName": "Stat. inlärning",
-    "totalCredits": 6,
+    "code": "SG1115",
+    "name": "Partikeldynamik med projekt",
+    "nameEn": "Particle Dynamics with project",
+    "briefName": "Partikeldynamik",
+    "totalCredits": 7.5,
     "periodCredits": {
-      "P1": 6,
+      "P1": 0,
       "P2": 0,
       "P3": 0,
-      "P4": 0
+      "P4": 7.5
     },
-    "year": 2,
+    "year": 1,
     "prerequisites": [],
     "exams": [
-      "P1"
+      "P4"
     ]
   },
   {
-    "code": "SF1679",
-    "name": "Diskret matematik",
-    "nameEn": "Discrete Mathematics",
+    "code": "SF1674",
+    "name": "Flervariabelanalys",
+    "nameEn": "Multivariable Calculus",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -255,10 +118,180 @@
       "P3": 7.5,
       "P4": 0
     },
-    "year": 2,
-    "prerequisites": [],
+    "year": 1,
     "exams": [
       "P3"
+    ],
+    "prerequisitesParticipation": [
+      "SF1673"
+    ]
+  },
+  {
+    "code": "DD1301",
+    "name": "Datorintroduktion",
+    "nameEn": "Computer Introduction",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": []
+  },
+  {
+    "code": "SF1550",
+    "name": "Numeriska metoder, grundkurs",
+    "nameEn": "Numerical Methods, basic course",
+    "briefName": "Numeriska metoder",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.5,
+      "P4": 2.5
+    },
+    "year": 1,
+    "exams": [],
+    "prerequisitesParticipation": [
+      "SF1673"
+    ]
+  },
+  {
+    "code": "SF1673",
+    "name": "Analys i en variabel",
+    "nameEn": "Analysis in one variable",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ]
+  },
+  {
+    "code": "SF1672",
+    "name": "Linjär algebra",
+    "nameEn": "Linear Algebra",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ]
+  },
+  {
+    "code": "DD1385",
+    "name": "Programutvecklingsteknik",
+    "nameEn": "Software Engineering",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 2,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": []
+  },
+  {
+    "code": "SF1677",
+    "name": "Analysens grunder",
+    "nameEn": "Foundations of Analysis",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "year": 2,
+    "exams": [],
+    "prerequisitesCompleted": [
+      "SF1674"
+    ]
+  },
+  {
+    "code": "SF1693",
+    "name": "Analytiska och numeriska metoder för partiella differentialekvationer och transformer",
+    "nameEn": "Analytical and Numerical Methods for Partial Differential Equations and Transforms",
+    "briefName": "PDE & transformer",
+    "totalCredits": 11,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 5,
+      "P3": 3.8,
+      "P4": 2.2
+    },
+    "year": 2,
+    "exams": [],
+    "prerequisitesCompleted": [
+      "SF1550",
+      "SF1674"
+    ]
+  },
+  {
+    "code": "SF1678",
+    "name": "Grupper och ringar",
+    "nameEn": "Groups and Rings",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "year": 2,
+    "exams": [],
+    "prerequisitesCompleted": [
+      "SF1672"
+    ]
+  },
+  {
+    "code": "DD1380",
+    "name": "Javaprogrammering för Pythonprogrammerare",
+    "nameEn": "Java Programming for Python Programmers",
+    "briefName": "Java för Python",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": []
+  },
+  {
+    "code": "SF1691",
+    "name": "Komplex analys",
+    "nameEn": "Complex Analysis",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "year": 2,
+    "exams": [],
+    "prerequisitesCompleted": [
+      "SF1674"
     ]
   },
   {
@@ -280,49 +313,67 @@
     ]
   },
   {
-    "code": "SF1677",
-    "name": "Analysens grunder",
-    "nameEn": "Foundations of Analysis",
+    "code": "SF1679",
+    "name": "Diskret matematik",
+    "nameEn": "Discrete Mathematics",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
-      "P3": 3.7,
-      "P4": 3.8
+      "P3": 7.5,
+      "P4": 0
     },
     "year": 2,
-    "prerequisites": [],
-    "exams": []
+    "exams": [
+      "P3"
+    ],
+    "prerequisitesCompleted": [
+      "SF1672"
+    ]
   },
   {
-    "code": "SF1678",
-    "name": "Grupper och ringar",
-    "nameEn": "Groups and Rings",
-    "totalCredits": 7.5,
+    "code": "SF1930",
+    "name": "Statistisk inlärning och dataanalys",
+    "nameEn": "Statistical Learning and Data Analysis",
+    "briefName": "Stat. inlärning",
+    "totalCredits": 6,
     "periodCredits": {
-      "P1": 0,
+      "P1": 6,
       "P2": 0,
-      "P3": 3.7,
-      "P4": 3.8
+      "P3": 0,
+      "P4": 0
     },
     "year": 2,
-    "prerequisites": [],
-    "exams": []
+    "exams": [
+      "P1"
+    ],
+    "prerequisitesCompleted": [
+      "SF1918"
+    ]
   },
   {
-    "code": "SF1691",
-    "name": "Komplex analys",
-    "nameEn": "Complex Analysis",
-    "totalCredits": 7.5,
+    "code": "SF1692",
+    "name": "Analytiska och numeriska metoder för ordinära differentialekvationer",
+    "nameEn": "Analytical and Numerical Methods for Ordinary Differential Equations",
+    "briefName": "ODE-metoder",
+    "totalCredits": 5.5,
     "periodCredits": {
-      "P1": 0,
+      "P1": 5.5,
       "P2": 0,
-      "P3": 3.7,
-      "P4": 3.8
+      "P3": 0,
+      "P4": 0
     },
     "year": 2,
-    "prerequisites": [],
-    "exams": []
+    "exams": [
+      "P1"
+    ],
+    "prerequisitesCompleted": [
+      "SF1672",
+      "SF1674"
+    ],
+    "prerequisitesParticipation": [
+      "SF1550"
+    ]
   },
   {
     "type": "optionGroup",
@@ -346,35 +397,24 @@
     "reexams": []
   },
   {
-    "code": "DD1385",
-    "name": "Programutvecklingsteknik",
-    "nameEn": "Software Engineering",
+    "code": "SF1681",
+    "name": "Linjär algebra, fortsättningskurs",
+    "nameEn": "Linear Algebra. Advanced Course",
+    "briefName": "Linjär algebra fk",
     "totalCredits": 6,
     "periodCredits": {
-      "P1": 2,
-      "P2": 4,
+      "P1": 0,
+      "P2": 6,
       "P3": 0,
       "P4": 0
     },
     "year": 2,
-    "prerequisites": [],
-    "exams": []
-  },
-  {
-    "code": "DD1380",
-    "name": "Javaprogrammering för Pythonprogrammerare",
-    "nameEn": "Java Programming for Python Programmers",
-    "briefName": "Java för Python",
-    "totalCredits": 1.5,
-    "periodCredits": {
-      "P1": 1.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": []
+    "prerequisites": [
+      "SF1672"
+    ],
+    "exams": [
+      "P2"
+    ]
   },
   {
     "code": "EL1000",
@@ -389,9 +429,11 @@
       "P4": 0
     },
     "year": 3,
-    "prerequisites": [],
     "exams": [
       "P1"
+    ],
+    "prerequisitesCompleted": [
+      "SF1692"
     ]
   },
   {
@@ -406,9 +448,12 @@
       "P4": 0
     },
     "year": 3,
-    "prerequisites": [],
     "exams": [
       "P2"
+    ],
+    "prerequisitesCompleted": [
+      "SF1672",
+      "SF1674"
     ]
   },
   {
@@ -427,18 +472,75 @@
     "exams": []
   },
   {
-    "code": "DD1301",
-    "name": "Datorintroduktion",
-    "nameEn": "Computer Introduction",
-    "totalCredits": 1.5,
+    "code": "XY310Z",
+    "name": "Plats för valfri kurs",
+    "nameEn": "Space for elective course",
+    "totalCredits": 7.5,
     "periodCredits": {
-      "P1": 1.5,
+      "P1": 7.5,
       "P2": 0,
       "P3": 0,
       "P4": 0
     },
-    "year": 1,
+    "year": 3,
     "prerequisites": [],
-    "exams": []
+    "exams": [
+      "P1"
+    ],
+    "category": "electivePlaceholder"
+  },
+  {
+    "code": "XY320Z",
+    "name": "Plats för valfri kurs",
+    "nameEn": "Space for elective course",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "category": "electivePlaceholder"
+  },
+  {
+    "code": "XY330Z",
+    "name": "Plats för valfri kurs",
+    "nameEn": "Space for elective course",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "category": "electivePlaceholder"
+  },
+  {
+    "code": "XY340Z",
+    "name": "Plats för valfri kurs",
+    "nameEn": "Space for elective course",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "category": "electivePlaceholder"
   }
 ]

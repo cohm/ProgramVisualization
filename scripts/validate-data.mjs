@@ -61,7 +61,7 @@
 //   Array<{ id: "P1"..|"P4", start, end, lectureEnd,
 //           examStart, examEnd, reExamStart, reExamEnd }>   (ISO date strings)
 
-import { readFileSync, existsSync } from 'fs';
+import { readFileSync, existsSync, readdirSync } from 'fs';
 import { join, dirname, relative } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -74,6 +74,10 @@ const COLOR_FAMILIES = new Set(['blue', 'green', 'turquoise', 'brick', 'yellow']
 const COURSE_CATEGORIES = new Set(['mandatory', 'conditionallyElective', 'electivePlaceholder', 'recommended']);
 const GRADING_SCALES = new Set(['A-F', 'P/F', 'VG/G/U']);
 const COURSE_LEVELS = new Set(['G', 'A']);
+// Confidence in a cohort year's provenance: 'exact' = the cohort's own published
+// data; the rest describe a borrowed year, graded by whether a year the two
+// cohorts share agrees ('high'), disagrees ('low'), or does not exist ('unknown').
+const COHORT_CONFIDENCE = new Set(['exact', 'high', 'low', 'unknown']);
 const CREDIT_TOLERANCE = 0.05; // hp; tolerates rounding (e.g. 3.7 + 3.8)
 
 let errorCount = 0;
@@ -111,6 +115,11 @@ function validateProgramsJson(programs, file) {
 
     if (p.verified !== undefined && typeof p.verified !== 'boolean') {
       err(file, `${ctx} ${p.code}: 'verified' must be a boolean if present`);
+    }
+    // `disabled: true` withdraws a programme from the UI entirely. Its data is
+    // still validated — the point is to stop showing it, not to stop checking it.
+    if (p.disabled !== undefined && typeof p.disabled !== 'boolean') {
+      err(file, `${ctx} ${p.code}: 'disabled' must be a boolean if present`);
     }
 
     // Specialization groups (optional). When present, every group must
@@ -204,9 +213,131 @@ function validateAcademicPeriods(periods, file) {
 
 // ---------- program data file ----------
 
+// Full-time study is 15 hp per period. A programme's courses should therefore
+// add up to 15 in every (inriktning, year, period) cell, and a shortfall is a
+// reliable signal that something is missing from the data rather than from the
+// programme — most often the space for valfria kurser, which the study-plan page
+// states in prose ("Utrymmet för valfria kurser är 7,5 hp per period hela
+// läsåret") but does not list as courses.
+//
+// Counting rules that matter:
+//   * An optionGroup counts once; its member courses do not, because the student
+//     takes one of them. Counting both double-counts the whole group.
+//   * A course tagged with `specializations` counts only for those inriktningar,
+//     and `periodCreditsBySpecialization` overrides its layout for one of them.
+//   * A by-year course contributes to each year it names.
+//
+// A shortfall is reported as a warning, not an error: a programme may legitimately
+// leave a period light, and the curated files are the authority. An excess is
+// reported too but reads differently — a small one is usually a genuinely optional
+// extra course (CTFYS year 1 P1 is 16.5 because DD1301 is 1.5 hp and optional),
+// while a large one means double counting or untagged inriktningar.
+const FULL_TIME_HP = 15;
+// PERIOD_IDS is a Set (used for membership tests elsewhere); the load check needs
+// a stable order, so keep an ordered copy rather than relying on Set iteration.
+const PERIODS_ORDERED = ['P1', 'P2', 'P3', 'P4'];
+const LOAD_TOLERANCE = 0.01;
+const LOAD_EXCESS_NOTEWORTHY = 3; // hp over full-time before it looks structural
+
+function periodCreditMaps(entry) {
+  const pc = entry.periodCredits || {};
+  if (Object.keys(pc).some((k) => /^Year\d+$/i.test(k))) {
+    const out = {};
+    for (const [k, v] of Object.entries(pc)) out[Number(k.slice(4))] = v;
+    return out;
+  }
+  return { [entry.year ?? 1]: pc };
+}
+
+function checkFullTimeLoad(program, data, file) {
+  // Collected per lane first, then reported. Programmes with many inriktningar
+  // often give every lane an identical load — CMAST has 17, and all 17 produced
+  // the same year-2 and year-3 numbers, i.e. 34 identical warnings saying one
+  // thing. Identical lanes are merged into a single line.
+  const collected = [];
+  const groups = data.filter((e) => e?.type === 'optionGroup');
+  const optionMembers = new Set(groups.flatMap((g) => g.options || []));
+  const specs = (program.specializations || []).map((x) => x?.code).filter(Boolean);
+  // No inriktningar declared: one pass over everything.
+  const lanes = specs.length > 0 ? specs : [null];
+
+  for (const spec of lanes) {
+    const totals = new Map(); // "year|period" -> hp
+    for (const entry of data) {
+      if (!entry || entry.type === 'cohortMeta') continue;
+      const entrySpecs = entry.specializations;
+      if (Array.isArray(entrySpecs) && entrySpecs.length > 0) {
+        if (spec == null || !entrySpecs.includes(spec)) continue;
+      }
+      if (entry.type !== 'optionGroup' && optionMembers.has(entry.code)) continue;
+
+      const override = spec != null
+        ? (entry.periodCreditsBySpecialization || {})[spec]
+        : null;
+      for (const [year, map] of Object.entries(periodCreditMaps(entry))) {
+        const use = override || map || {};
+        for (const pid of PERIODS_ORDERED) {
+          const v = Number(use[pid] || 0);
+          if (v > 0) {
+            const key = `${year}|${pid}`;
+            totals.set(key, (totals.get(key) || 0) + v);
+          }
+        }
+      }
+    }
+    if (totals.size === 0) continue;
+
+    // One warning per (year, inriktning) rather than per period: a year that is
+    // short is short as a unit, and four near-identical lines per year buried the
+    // signal — six programmes across five cohort files produced over 400 of them.
+    const years = [...new Set([...totals.keys()].map((k) => Number(k.split('|')[0])))].sort((a, b) => a - b);
+    for (const year of years) {
+      const load = PERIODS_ORDERED.map((pid) => round(totals.get(`${year}|${pid}`) || 0));
+      const scheduled = load.filter((hp) => hp > 0);
+      if (scheduled.length === 0) continue;
+      const short = [];
+      const over = [];
+      PERIODS_ORDERED.forEach((pid, i) => {
+        if (load[i] === 0) return; // a period with nothing scheduled is not a shortfall
+        const diff = round(load[i] - FULL_TIME_HP);
+        if (diff < -LOAD_TOLERANCE) short.push(`${pid} ${-diff}`);
+        else if (diff >= LOAD_EXCESS_NOTEWORTHY) over.push(`${pid} +${diff}`);
+      });
+      if (short.length === 0 && over.length === 0) continue;
+      let msg;
+      if (short.length > 0 && over.length > 0) {
+        msg = `load ${load.join('/')} hp — short in ${short.join(', ')} and over in ${over.join(', ')}; a mixed year usually means a "minst N hp ur grupp" pool the schema cannot express`;
+      } else if (short.length > 0) {
+        msg = `load ${load.join('/')} hp — short of full-time (${FULL_TIME_HP} hp) in ${short.join(', ')} hp; likely the missing space for valfria kurser`;
+      } else {
+        msg = `load ${load.join('/')} hp — over full-time in ${over.join(', ')} hp; check for double-counted option groups or courses not tagged with an inriktning`;
+      }
+      collected.push({ year, spec, msg });
+    }
+  }
+
+  // Merge lanes that say exactly the same thing about the same year.
+  const byMessage = new Map();
+  for (const c of collected) {
+    const k = `${c.year}|${c.msg}`;
+    if (!byMessage.has(k)) byMessage.set(k, { ...c, specs: [] });
+    if (c.spec) byMessage.get(k).specs.push(c.spec);
+  }
+  const laneCount = lanes.length;
+  for (const item of byMessage.values()) {
+    const all = item.specs.length > 0 && item.specs.length === laneCount;
+    const label = item.specs.length === 0 ? ''
+      : all ? ' [all inriktningar]'
+        : ` [${item.specs.join(', ')}]`;
+    warn(file, `year ${item.year}${label}: ${item.msg}`);
+  }
+}
+
 function validateProgramData(program, file) {
   const data = loadJson(file);
   if (!Array.isArray(data)) { if (data != null) err(file, 'expected an array'); return; }
+
+  checkFullTimeLoad(program, data, file);
 
   const courseCodes = new Set();
   const optionGroupNames = new Set();
@@ -221,7 +352,9 @@ function validateProgramData(program, file) {
 
   data.forEach((entry, i) => {
     const ctx = `[${i}]`;
-    if (entry?.type === 'optionGroup') {
+    if (entry?.type === 'cohortMeta') {
+      validateCohortMeta(entry, program, ctx, file, i);
+    } else if (entry?.type === 'optionGroup') {
       validateOptionGroup(entry, ctx, file);
       if (entry.name) {
         if (optionGroupNames.has(entry.name)) {
@@ -506,6 +639,55 @@ function validatePeriodList(value, fieldName, c, ctx, file) {
   err(file, `${ctx} ${c.code}: '${fieldName}' must be an array or year-keyed object`);
 }
 
+// Provenance header written by scripts/extract-from-kopps.mjs into each
+// src/data/cohorts/<PROG>-HT<year>.json. It records, per study year, which
+// cohort the data actually came from — KTH deletes past läsår and leaves future
+// ones unscheduled, so a cohort's own plan is usually stitched from neighbours.
+// The UI needs this to tell a student which years are really theirs.
+function validateCohortMeta(m, program, ctx, file, index) {
+  if (index !== 0) {
+    err(file, `${ctx}: 'cohortMeta' must be the first entry (loaders read it before the courses)`);
+  }
+  if (m.program !== program.code) {
+    err(file, `${ctx} cohortMeta: 'program' is '${m.program}' but this file is validated against '${program.code}'`);
+  }
+  if (!/^HT\d{4}$/.test(m.cohort || '')) {
+    err(file, `${ctx} cohortMeta: 'cohort' must look like 'HT2023', got '${m.cohort}'`);
+  }
+  if (!Array.isArray(m.years) || m.years.length === 0) {
+    err(file, `${ctx} cohortMeta: 'years' must be a non-empty array`);
+    return;
+  }
+  const seen = new Set();
+  m.years.forEach((y, j) => {
+    const yctx = `${ctx}.years[${j}]`;
+    if (!Number.isInteger(y?.year) || y.year < 1) {
+      err(file, `${yctx}: 'year' must be a positive integer`);
+    } else if (seen.has(y.year)) {
+      err(file, `${yctx}: duplicate entry for year ${y.year}`);
+    } else {
+      seen.add(y.year);
+    }
+    if (typeof y?.approximated !== 'boolean') {
+      err(file, `${yctx}: 'approximated' must be a boolean`);
+    }
+    // sourceCohort may be null, meaning no cohort published that year at all.
+    if (y?.sourceCohort != null && !/^HT\d{4}$/.test(y.sourceCohort)) {
+      err(file, `${yctx}: 'sourceCohort' must be 'HT<year>' or null, got '${y.sourceCohort}'`);
+    }
+    // The two must agree, or the UI would mark the wrong years.
+    if (y?.sourceCohort != null && (y.sourceCohort === m.cohort) !== (y.approximated === false)) {
+      err(file, `${yctx}: 'approximated' (${y.approximated}) contradicts sourceCohort '${y.sourceCohort}' vs cohort '${m.cohort}'`);
+    }
+    if (y?.confidence != null && !COHORT_CONFIDENCE.has(y.confidence)) {
+      err(file, `${yctx}: 'confidence' must be one of ${[...COHORT_CONFIDENCE].join(', ')}`);
+    }
+    if (y?.approximated && y.confidence === 'low') {
+      warn(file, `${yctx}: year ${y.year} borrowed from ${y.sourceCohort} and corroboration DISAGREED — verify against the study plan`);
+    }
+  });
+}
+
 function validateOptionGroup(og, ctx, file) {
   if (og.type !== 'optionGroup') err(file, `${ctx}: type must be 'optionGroup'`);
   if (!og.name || typeof og.name !== 'string') err(file, `${ctx}: missing or invalid 'name'`);
@@ -621,6 +803,10 @@ function round(x) { return Math.round(x * 100) / 100; }
 // merges it, without first having to point programs.json at unverified data.
 // Repeatable. Everything registered in programs.json is still validated too.
 const includes = [];
+// `--cohorts` validates every src/data/cohorts/<PROG>-HT<year>.json against its
+// program's registry entry. The archive is committed data, so CI should check it
+// like anything else in src/data.
+const validateCohorts = process.argv.includes('--cohorts');
 for (let i = 2; i < process.argv.length; i++) {
   if (process.argv[i] !== '--include') continue;
   const spec = process.argv[++i];
@@ -645,6 +831,53 @@ if (programs != null) {
       if (!existsSync(dataPath)) continue; // already reported
       console.log(`• ${p.code}`);
       validateProgramData(p, dataPath);
+    }
+
+    if (validateCohorts) {
+      const dir = join(dataDir, 'cohorts');
+      // index.json is the generated list of available cohorts, not a cohort.
+      const files = existsSync(dir)
+        ? readdirSync(dir).filter((f) => f.endsWith('.json') && f !== 'index.json').sort()
+        : [];
+      if (files.length === 0) {
+        console.log('• cohorts (none found)');
+      }
+      const indexPath = join(dir, 'index.json');
+      if (existsSync(indexPath)) {
+        const idx = loadJson(indexPath);
+        if (idx && typeof idx === 'object' && !Array.isArray(idx)) {
+          for (const [code, list] of Object.entries(idx)) {
+            if (!programs.some((p) => p?.code === code)) {
+              err(indexPath, `'${code}' is not a program in programs.json`);
+            }
+            if (!Array.isArray(list)) { err(indexPath, `'${code}' must map to an array`); continue; }
+            for (const c of list) {
+              if (!files.includes(`${code}-${c}.json`)) {
+                err(indexPath, `'${code}' lists ${c} but ${code}-${c}.json is missing — the UI would offer a cohort it cannot load`);
+              }
+            }
+          }
+          // And the reverse: a file present but unlisted is invisible to the UI.
+          for (const f of files) {
+            const m = /^([A-Z0-9]+)-(HT\d{4})\.json$/.exec(f);
+            if (m && !(idx[m[1]] || []).includes(m[2])) {
+              warn(indexPath, `${f} exists but is not listed — re-run the extractor to refresh the index`);
+            }
+          }
+        } else if (idx != null) {
+          err(indexPath, 'expected an object mapping program code to cohort list');
+        }
+      }
+
+      for (const f of files) {
+        // <PROG>-HT<year>.json
+        const m = /^([A-Z0-9]+)-HT(\d{4})\.json$/.exec(f);
+        if (!m) { err(join(dir, f), 'cohort file name must be <PROGRAM>-HT<year>.json'); continue; }
+        const program = programs.find((p) => p?.code === m[1]);
+        if (!program) { err(join(dir, f), `no program '${m[1]}' in programs.json`); continue; }
+        console.log(`• ${m[1]} HT${m[2]} (cohort archive)`);
+        validateProgramData(program, join(dir, f));
+      }
     }
 
     for (const inc of includes) {

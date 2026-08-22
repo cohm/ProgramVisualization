@@ -1,59 +1,5 @@
 [
   {
-    "code": "SF1668",
-    "name": "Matematisk och numerisk analys I",
-    "nameEn": "Mathematical and Numerical Analysis I",
-    "briefName": "Mat. & num. analys I",
-    "totalCredits": 10,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 4,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P1",
-      "P2"
-    ]
-  },
-  {
-    "code": "SF1626",
-    "name": "Flervariabelanalys",
-    "nameEn": "Calculus in Several Variables",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ]
-  },
-  {
-    "code": "SF1694",
-    "name": "Tillämpad linjär algebra",
-    "nameEn": "Applied Linear Algebra",
-    "briefName": "Tillämpad lin. alg.",
-    "totalCredits": 10.5,
-    "periodCredits": {
-      "P1": 3,
-      "P2": 6.5,
-      "P3": 1,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P2"
-    ]
-  },
-  {
     "code": "DD1333",
     "name": "Grundläggande programmering",
     "nameEn": "Fundamentals of Programming",
@@ -67,23 +13,6 @@
     "year": 1,
     "prerequisites": [],
     "exams": []
-  },
-  {
-    "code": "SK1112",
-    "name": "Fysik I",
-    "nameEn": "Physics I",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 1,
-      "P2": 0,
-      "P3": 0,
-      "P4": 8
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P4"
-    ]
   },
   {
     "code": "SD1002",
@@ -119,6 +48,77 @@
     ]
   },
   {
+    "code": "SF1694",
+    "name": "Tillämpad linjär algebra",
+    "nameEn": "Applied Linear Algebra",
+    "briefName": "Tillämpad lin. alg.",
+    "totalCredits": 10.5,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 6.5,
+      "P3": 1,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ]
+  },
+  {
+    "code": "SK1112",
+    "name": "Fysik I",
+    "nameEn": "Physics I",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 1,
+      "P2": 0,
+      "P3": 0,
+      "P4": 8
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ]
+  },
+  {
+    "code": "SF1626",
+    "name": "Flervariabelanalys",
+    "nameEn": "Calculus in Several Variables",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ]
+  },
+  {
+    "code": "SF1668",
+    "name": "Matematisk och numerisk analys I",
+    "nameEn": "Mathematical and Numerical Analysis I",
+    "briefName": "Mat. & num. analys I",
+    "totalCredits": 10,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1",
+      "P2"
+    ]
+  },
+  {
     "code": "DD1301",
     "name": "Datorintroduktion",
     "nameEn": "Computer Introduction",
@@ -146,10 +146,12 @@
       "P4": 0
     },
     "year": 2,
-    "prerequisites": [],
     "exams": [
       "P1",
       "P2"
+    ],
+    "prerequisitesCompleted": [
+      "SF1626"
     ]
   },
   {
@@ -165,9 +167,11 @@
       "P4": 0
     },
     "year": 2,
-    "prerequisites": [],
     "exams": [
       "P2"
+    ],
+    "prerequisitesCompleted": [
+      "SG1132"
     ]
   },
   {
@@ -182,9 +186,11 @@
       "P4": 0
     },
     "year": 2,
-    "prerequisites": [],
     "exams": [
       "P1"
+    ],
+    "prerequisitesCompleted": [
+      "SG1132"
     ]
   },
   {
@@ -234,9 +240,12 @@
       "P4": 6
     },
     "year": 2,
-    "prerequisites": [],
     "exams": [
       "P4"
+    ],
+    "prerequisitesCompleted": [
+      "SF1626",
+      "SG1132"
     ]
   },
   {
@@ -251,8 +260,10 @@
       "P4": 3
     },
     "year": 2,
-    "prerequisites": [],
-    "exams": []
+    "exams": [],
+    "prerequisitesCompleted": [
+      "SG1132"
+    ]
   },
   {
     "code": "EL1010",
@@ -267,9 +278,11 @@
       "P4": 0
     },
     "year": 3,
-    "prerequisites": [],
     "exams": [
       "P2"
+    ],
+    "prerequisitesCompleted": [
+      "SF1682"
     ]
   },
   {
@@ -284,9 +297,11 @@
       "P4": 0
     },
     "year": 3,
-    "prerequisites": [],
     "exams": [
       "P1"
+    ],
+    "prerequisitesCompleted": [
+      "SF1626"
     ]
   },
   {
@@ -320,9 +335,11 @@
       "P4": 0
     },
     "year": 3,
-    "prerequisites": [],
     "exams": [
       "P1"
+    ],
+    "prerequisitesCompleted": [
+      "SF1668"
     ]
   },
   {
@@ -353,9 +370,11 @@
       "P4": 0
     },
     "year": 3,
-    "prerequisites": [],
     "exams": [
       "P3"
+    ],
+    "prerequisitesCompleted": [
+      "SE1010"
     ]
   },
   {
@@ -370,9 +389,12 @@
       "P4": 6
     },
     "year": 3,
-    "prerequisites": [],
     "exams": [
       "P4"
+    ],
+    "prerequisitesCompleted": [
+      "SF1626",
+      "SF1668"
     ]
   },
   {

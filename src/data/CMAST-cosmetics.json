@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Matematik",
+    "nameEn": "Mathematics",
+    "colorFamily": "blue",
+    "courses": [
+      "SF1514",
+      "SF1624",
+      "SF1625",
+      "SF1626",
+      "SF1633",
+      "SF1915"
+    ]
+  },
+  {
+    "name": "Fysik & Mekanik",
+    "nameEn": "Physics & Mechanics",
+    "colorFamily": "green",
+    "courses": [
+      "SD1116",
+      "SE1010",
+      "SE1025",
+      "SG1130",
+      "SG1140",
+      "SG1217",
+      "SG1220",
+      "SK1110"
+    ]
+  },
+  {
+    "name": "Maskinteknik",
+    "nameEn": "Mechanical Engineering",
+    "colorFamily": "brick",
+    "courses": [
+      "EL1010",
+      "ME1003",
+      "ME2016",
+      "MF1001",
+      "MF1016",
+      "MF1044",
+      "MF1045",
+      "MG1002",
+      "MG1024",
+      "MG1026",
+      "MG1028",
+      "MH1004",
+      "MJ1104",
+      "MJ1112",
+      "MJ1401"
+    ]
+  },
+  {
+    "name": "Datateknik",
+    "nameEn": "Computer Science",
+    "colorFamily": "turquoise",
+    "courses": [
+      "DD1310",
+      "DD1320"
+    ]
+  },
+  {
+    "name": "Övrigt",
+    "nameEn": "Other",
+    "colorFamily": "yellow",
+    "courses": [
+      "LS1426",
+      "LS1427",
+      "LS1436",
+      "LS1437",
+      "LS1445",
+      "LS1446",
+      "MF130X",
+      "MF131X",
+      "MF133X",
+      "MF135X",
+      "MG110X",
+      "MJ146X",
+      "SA118X",
+      "SH1012"
+    ]
+  }
+]

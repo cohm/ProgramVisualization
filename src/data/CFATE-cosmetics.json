@@ -3,7 +3,7 @@
     "name": "Matematik",
     "nameEn": "Mathematics",
     "colorFamily": "blue",
-    "courses": ["SF1694", "SF1668", "SF1626", "SF1682", "SF1914", "SF1861"]
+    "courses": ["SF1694", "SF1668", "SF1626", "SF1682", "SF1914", "SF1861", "SI1146"]
   },
   {
     "name": "Fysik & Mekanik",
@@ -15,18 +15,18 @@
     "name": "Ingenjörsämnen",
     "nameEn": "Engineering",
     "colorFamily": "brick",
-    "courses": ["MF1024", "SE1010", "SE1025", "EL1010", "MF1017", "SD1120", "SD2125"]
+    "courses": ["MF1024", "SE1010", "SE1025", "EL1010", "MF1017", "SD1120", "SD2125", "SD1002", "MJ1401", "ME1003"]
   },
   {
     "name": "Datateknik",
     "nameEn": "Computer Science",
-    "colorFamily": "yellow",
+    "colorFamily": "turquoise",
     "courses": ["DD1333", "DD1301", "DD1320"]
   },
   {
     "name": "Övrigt",
     "nameEn": "Other",
-    "colorFamily": "turquoise",
+    "colorFamily": "yellow",
     "courses": ["SA115X"]
   }
 ]

@@ -1,38 +1,21 @@
 [
   {
-    "code": "DA151X",
-    "name": "Examensarbete i datateknik och industriell ekonomi, grundnivå",
-    "nameEn": "Degree Project in Computer Science and Industrial Management, first cycle",
-    "totalCredits": 15,
+    "code": "SG1109",
+    "name": "Mekanik",
+    "nameEn": "Mechanics",
+    "totalCredits": 8,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
-      "P3": 7.5,
-      "P4": 7.5
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "P/F",
-    "specializations": [
-      "DTOI"
-    ]
-  },
-  {
-    "code": "DD1301",
-    "name": "Datorintroduktion",
-    "nameEn": "Computer Introduction",
-    "totalCredits": 1.5,
-    "periodCredits": {
-      "P1": 1.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
+      "P3": 2,
+      "P4": 6
     },
     "year": 1,
-    "prerequisites": [],
     "exams": [],
-    "gradingScale": "P/F"
+    "gradingScale": "A-F",
+    "prerequisitesParticipation": [
+      "SF1625"
+    ]
   },
   {
     "code": "DD1317",
@@ -51,6 +34,211 @@
     "gradingScale": "A-F"
   },
   {
+    "code": "ME1314",
+    "name": "Introduktion till industriell ekonomi",
+    "nameEn": "Introduction to Industrial Engineering and Management",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 4,
+      "P2": 3.5,
+      "P3": 1.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "DD1301",
+    "name": "Datorintroduktion",
+    "nameEn": "Computer Introduction",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "P/F"
+  },
+  {
+    "code": "SF1626",
+    "name": "Flervariabelanalys",
+    "nameEn": "Calculus in Several Variables",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "gradingScale": "A-F",
+    "prerequisitesParticipation": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "SF1624",
+    "name": "Algebra och geometri",
+    "nameEn": "Algebra and Geometry",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "ME1306",
+    "name": "Industriell projektledning för I",
+    "nameEn": "Industrial Project Management",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "exams": [],
+    "gradingScale": "A-F",
+    "prerequisitesParticipation": [
+      "ME1314"
+    ]
+  },
+  {
+    "code": "SF1625",
+    "name": "Envariabelanalys",
+    "nameEn": "Calculus in One Variable",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F"
+  },
+  {
+    "code": "ME1315",
+    "name": "Industriell marknadsföring för I",
+    "nameEn": "Industrial Marketing for I",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4,
+      "P4": 2
+    },
+    "year": 1,
+    "exams": [],
+    "gradingScale": "A-F",
+    "prerequisitesParticipation": [
+      "ME1314"
+    ]
+  },
+  {
+    "code": "MF1016",
+    "name": "Elektroteknik",
+    "nameEn": "Basic Electrical Engineering",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 4.5
+    },
+    "year": 2,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "PPUI"
+    ],
+    "prerequisitesCompleted": [
+      "SF1624",
+      "SF1625",
+      "SF1626"
+    ]
+  },
+  {
+    "code": "MJ1112",
+    "name": "Tillämpad termodynamik",
+    "nameEn": "Applied Thermodynamics",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 4.5
+    },
+    "year": 2,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "EHUI"
+    ],
+    "prerequisitesCompleted": [
+      "SF1624",
+      "SF1625",
+      "SF1626",
+      "SG1109",
+      "SK1110"
+    ]
+  },
+  {
+    "code": "ME1316",
+    "name": "Kvantitativ affärs- och verksamhetsanalys",
+    "nameEn": "Quantitative Business and Operations Analytics",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 3
+    },
+    "year": 2,
+    "exams": [],
+    "gradingScale": "A-F",
+    "prerequisitesParticipation": [
+      "SF1918"
+    ]
+  },
+  {
+    "code": "SF1687",
+    "name": "Kompletteringskurs i differentialekvationer och transformer",
+    "nameEn": "Complementary Course in Differential Equations and Transforms",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 1.5,
+      "P4": 1.5
+    },
+    "year": 2,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "TMAI"
+    ],
+    "prerequisitesCompleted": [
+      "SF1633"
+    ]
+  },
+  {
     "code": "DD1320",
     "name": "Tillämpad datalogi",
     "nameEn": "Applied Computer Science",
@@ -62,121 +250,6 @@
       "P4": 2
     },
     "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "DTOI",
-      "TMAI"
-    ]
-  },
-  {
-    "code": "DD1324",
-    "name": "Tillämpad programmering och datalogi, del 2",
-    "nameEn": "Applied Programming and Computer Science, Part 2",
-    "totalCredits": 3,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 3,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "P/F",
-    "specializations": [
-      "PPUI"
-    ]
-  },
-  {
-    "code": "DD1334",
-    "name": "Databasteknik",
-    "nameEn": "Database Technology",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "DTOI"
-    ]
-  },
-  {
-    "code": "DD1380",
-    "name": "Javaprogrammering för Pythonprogrammerare",
-    "nameEn": "Java Programming for Python Programmers",
-    "totalCredits": 1.5,
-    "periodCredits": {
-      "P1": 1.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "P/F",
-    "specializations": [
-      "DTOI"
-    ]
-  },
-  {
-    "code": "DD1385",
-    "name": "Programutvecklingsteknik",
-    "nameEn": "Software Engineering",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 2,
-      "P2": 4,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "DTOI"
-    ]
-  },
-  {
-    "code": "DD1386",
-    "name": "Internetprogrammering",
-    "nameEn": "Internet Programming",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 1.5,
-      "P3": 4.5,
-      "P4": 1.5
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "DTOI"
-    ]
-  },
-  {
-    "code": "DD1418",
-    "name": "Språkteknologi med introduktion till maskininlärning",
-    "nameEn": "Language Engineering with Introduction to Machine Learning",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 6,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
     "prerequisites": [],
     "exams": [],
     "gradingScale": "A-F",
@@ -205,44 +278,6 @@
     ]
   },
   {
-    "code": "EG2240",
-    "name": "Systemplanering",
-    "nameEn": "Power System Planning",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 3,
-      "P4": 3
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "EHUI"
-    ]
-  },
-  {
-    "code": "EL1010",
-    "name": "Reglerteknik, allmän kurs",
-    "nameEn": "Automatic Control, General Course",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 6,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "PPUI"
-    ]
-  },
-  {
     "code": "EP1200",
     "name": "Introduktion till datorsystemteknik",
     "nameEn": "Introduction to Computing Systems Engineering",
@@ -262,36 +297,22 @@
     ]
   },
   {
-    "code": "ME1306",
-    "name": "Industriell projektledning för I",
-    "nameEn": "Industrial Project Management",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "ME1308",
-    "name": "Industriell verksamhetsledning för I",
-    "nameEn": "Operations Strategy for I",
+    "code": "SF1633",
+    "name": "Differentialekvationer I",
+    "nameEn": "Differential Equations I",
     "totalCredits": 6,
     "periodCredits": {
-      "P1": 0,
-      "P2": 6,
+      "P1": 6,
+      "P2": 0,
       "P3": 0,
       "P4": 0
     },
     "year": 2,
-    "prerequisites": [],
     "exams": [],
-    "gradingScale": "A-F"
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "SF1626"
+    ]
   },
   {
     "code": "ME1309",
@@ -305,321 +326,16 @@
       "P4": 0
     },
     "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "ME1310",
-    "name": "Nationalekonomi för I",
-    "nameEn": "Economics for I",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 3,
-      "P3": 3,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "ME1311",
-    "name": "Finansiering",
-    "nameEn": "Corporate Finance",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "ME1314",
-    "name": "Introduktion till industriell ekonomi",
-    "nameEn": "Introduction to Industrial Engineering and Management",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 4,
-      "P2": 3.5,
-      "P3": 1.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "ME1315",
-    "name": "Industriell marknadsföring för I",
-    "nameEn": "Industrial Marketing for I",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 4,
-      "P4": 2
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "ME1316",
-    "name": "Kvantitativ affärs- och verksamhetsanalys",
-    "nameEn": "Quantitative Business and Operations Analytics",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 3,
-      "P4": 3
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "ME1317",
-    "name": "Personal- och arbetsledning",
-    "nameEn": "Leading People and Work",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "MF1016",
-    "name": "Elektroteknik",
-    "nameEn": "Basic Electrical Engineering",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 4.5,
-      "P4": 4.5
-    },
-    "year": 2,
-    "prerequisites": [],
     "exams": [],
     "gradingScale": "A-F",
-    "specializations": [
-      "PPUI"
+    "prerequisitesCompleted": [
+      "ME1314"
     ]
   },
   {
-    "code": "MF1017",
-    "name": "Elektroteknik",
-    "nameEn": "Basic Electrical Engineering",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "EHUI"
-    ]
-  },
-  {
-    "code": "MF1039",
-    "name": "Design och produktframtagning, komponenter",
-    "nameEn": "Design and Product Realization, Components",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "PPUI"
-    ]
-  },
-  {
-    "code": "MF134X",
-    "name": "Examensarbete inom produktframtagning och industriell ekonomi, grundnivå",
-    "nameEn": "Degree Project in Product Realization and Industrial Management, First Cycle",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 7.5
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "P/F",
-    "specializations": [
-      "PPUI"
-    ]
-  },
-  {
-    "code": "MG1002",
-    "name": "Automatiseringsteknik",
-    "nameEn": "Automation Technology",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "PPUI"
-    ]
-  },
-  {
-    "code": "MG1026",
-    "name": "Tillverkningsteknik",
-    "nameEn": "Manufacturing Technology",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "PPUI"
-    ]
-  },
-  {
-    "code": "MG1028",
-    "name": "Grundläggande 3D-CAD",
-    "nameEn": "Introductory 3D CAD",
-    "totalCredits": 1.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 1.5,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "PPUI"
-    ]
-  },
-  {
-    "code": "MG115X",
-    "name": "Examensarbete inom produktframtagning och industriell ekonomi, grundnivå",
-    "nameEn": "Degree Project in Product Realization and Industrial Engineering, First Cycle",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 7.5
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "category": "conditionallyElective",
-    "gradingScale": "P/F",
-    "specializations": [
-      "PPUI"
-    ]
-  },
-  {
-    "code": "MJ1112",
-    "name": "Tillämpad termodynamik",
-    "nameEn": "Applied Thermodynamics",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 4.5,
-      "P4": 4.5
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "EHUI"
-    ]
-  },
-  {
-    "code": "MJ1141",
-    "name": "Energisystem och hållbar utveckling",
-    "nameEn": "Energy Systems and Sustainability",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 3,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "EHUI"
-    ]
-  },
-  {
-    "code": "MJ1145",
-    "name": "Energisystem",
-    "nameEn": "Energy Systems",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "EHUI"
-    ]
-  },
-  {
-    "code": "MJ1401",
-    "name": "Värmeöverföring",
-    "nameEn": "Heat Transfer",
+    "code": "ME1308",
+    "name": "Industriell verksamhetsledning för I",
+    "nameEn": "Operations Strategy for I",
     "totalCredits": 6,
     "periodCredits": {
       "P1": 0,
@@ -627,187 +343,11 @@
       "P3": 0,
       "P4": 0
     },
-    "year": 3,
-    "prerequisites": [],
+    "year": 2,
     "exams": [],
     "gradingScale": "A-F",
-    "specializations": [
-      "EHUI"
-    ]
-  },
-  {
-    "code": "MJ148X",
-    "name": "Examensarbete i Energisystem, hållbar utveckling och industriell ekonomi, grundnivå",
-    "nameEn": "Degree Project in Energy Systems, Sustainability and Industrial Engineering, first cycle",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 7.5
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "P/F",
-    "specializations": [
-      "EHUI"
-    ]
-  },
-  {
-    "code": "SF100X",
-    "name": "Examensarbete inom tillämpad matematik och industriell ekonomi, grundnivå",
-    "nameEn": "Degree Project in Applied Mathematics and Industrial Economics, First Cycle",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 7.5
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "P/F",
-    "specializations": [
-      "TMAI"
-    ]
-  },
-  {
-    "code": "SF1545",
-    "name": "Numeriska metoder, grundkurs",
-    "nameEn": "Numerical Methods, Basic Course",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 3,
-      "P2": 3,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "SF1624",
-    "name": "Algebra och geometri",
-    "nameEn": "Algebra and Geometry",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "SF1625",
-    "name": "Envariabelanalys",
-    "nameEn": "Calculus in One Variable",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "SF1626",
-    "name": "Flervariabelanalys",
-    "nameEn": "Calculus in Several Variables",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "SF1633",
-    "name": "Differentialekvationer I",
-    "nameEn": "Differential Equations I",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "SF1687",
-    "name": "Kompletteringskurs i differentialekvationer och transformer",
-    "nameEn": "Complementary Course in Differential Equations and Transforms",
-    "totalCredits": 3,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 1.5,
-      "P4": 1.5
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "TMAI"
-    ]
-  },
-  {
-    "code": "SF1861",
-    "name": "Optimeringslära",
-    "nameEn": "Optimization",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "TMAI"
-    ]
-  },
-  {
-    "code": "SF1904",
-    "name": "Markovprocesser, grundkurs",
-    "nameEn": "Markov Processes, Basic Course",
-    "totalCredits": 3,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 3
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "TMAI"
+    "prerequisitesCompleted": [
+      "ME1314"
     ]
   },
   {
@@ -822,82 +362,11 @@
       "P4": 0
     },
     "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
-  },
-  {
-    "code": "SF2863",
-    "name": "Systemteknik",
-    "nameEn": "Systems Engineering",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
     "exams": [],
     "gradingScale": "A-F",
-    "specializations": [
-      "TMAI"
+    "prerequisitesCompleted": [
+      "SF1625"
     ]
-  },
-  {
-    "code": "SF2930",
-    "name": "Regressionsanalys",
-    "nameEn": "Regression Analysis",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "TMAI"
-    ]
-  },
-  {
-    "code": "SF2940",
-    "name": "Sannolikhetsteori",
-    "nameEn": "Probability Theory",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F",
-    "specializations": [
-      "TMAI"
-    ]
-  },
-  {
-    "code": "SG1109",
-    "name": "Mekanik",
-    "nameEn": "Mechanics",
-    "totalCredits": 8,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 2,
-      "P4": 6
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "gradingScale": "A-F"
   },
   {
     "code": "SK1110",
@@ -928,5 +397,628 @@
         "P4": 7.5
       }
     }
+  },
+  {
+    "code": "MF1039",
+    "name": "Design och produktframtagning, komponenter",
+    "nameEn": "Design and Product Realization, Components",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "PPUI"
+    ]
+  },
+  {
+    "code": "SF1861",
+    "name": "Optimeringslära",
+    "nameEn": "Optimization",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 2,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "TMAI"
+    ],
+    "prerequisitesCompleted": [
+      "SF1624",
+      "SF1626"
+    ]
+  },
+  {
+    "code": "SF1545",
+    "name": "Numeriska metoder, grundkurs",
+    "nameEn": "Numerical Methods, Basic Course",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "SF1904",
+    "name": "Markovprocesser, grundkurs",
+    "nameEn": "Markov Processes, Basic Course",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 3
+    },
+    "year": 2,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "TMAI"
+    ],
+    "prerequisitesCompleted": [
+      "SF1624",
+      "SF1918"
+    ]
+  },
+  {
+    "code": "MG1028",
+    "name": "Grundläggande 3D-CAD",
+    "nameEn": "Introductory 3D CAD",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 1.5,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "PPUI"
+    ]
+  },
+  {
+    "code": "MJ1145",
+    "name": "Energisystem",
+    "nameEn": "Energy Systems",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 2,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "EHUI"
+    ],
+    "prerequisitesCompleted": [
+      "MJ1112",
+      "SK1110"
+    ]
+  },
+  {
+    "code": "DD1385",
+    "name": "Programutvecklingsteknik",
+    "nameEn": "Software Engineering",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 2,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "DTOI"
+    ],
+    "prerequisitesCompleted": [
+      "DD1320"
+    ]
+  },
+  {
+    "code": "SF2940",
+    "name": "Sannolikhetsteori",
+    "nameEn": "Probability Theory",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "TMAI"
+    ],
+    "prerequisitesCompleted": [
+      "SF1918"
+    ]
+  },
+  {
+    "code": "SF100X",
+    "name": "Examensarbete inom tillämpad matematik och industriell ekonomi, grundnivå",
+    "nameEn": "Degree Project in Applied Mathematics and Industrial Economics, First Cycle",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "P/F",
+    "specializations": [
+      "TMAI"
+    ]
+  },
+  {
+    "code": "MJ148X",
+    "name": "Examensarbete i Energisystem, hållbar utveckling och industriell ekonomi, grundnivå",
+    "nameEn": "Degree Project in Energy Systems, Sustainability and Industrial Engineering, first cycle",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "exams": [],
+    "gradingScale": "P/F",
+    "specializations": [
+      "EHUI"
+    ],
+    "prerequisitesCompleted": [
+      "MJ1112",
+      "MJ1141",
+      "MJ1145",
+      "MJ1401"
+    ]
+  },
+  {
+    "code": "EL1010",
+    "name": "Reglerteknik, allmän kurs",
+    "nameEn": "Automatic Control, General Course",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "PPUI"
+    ],
+    "prerequisitesCompleted": [
+      "SF1633"
+    ]
+  },
+  {
+    "code": "MF134X",
+    "name": "Examensarbete inom produktframtagning och industriell ekonomi, grundnivå",
+    "nameEn": "Degree Project in Product Realization and Industrial Management, First Cycle",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "P/F",
+    "specializations": [
+      "PPUI"
+    ]
+  },
+  {
+    "code": "MJ1141",
+    "name": "Energisystem och hållbar utveckling",
+    "nameEn": "Energy Systems and Sustainability",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "EHUI"
+    ],
+    "prerequisitesCompleted": [
+      "ME1314",
+      "MJ1112",
+      "MJ1145"
+    ]
+  },
+  {
+    "code": "SF2863",
+    "name": "Systemteknik",
+    "nameEn": "Systems Engineering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "TMAI"
+    ],
+    "prerequisitesCompleted": [
+      "SF2940"
+    ]
+  },
+  {
+    "code": "MG115X",
+    "name": "Examensarbete inom produktframtagning och industriell ekonomi, grundnivå",
+    "nameEn": "Degree Project in Product Realization and Industrial Engineering, First Cycle",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "category": "conditionallyElective",
+    "gradingScale": "P/F",
+    "specializations": [
+      "PPUI"
+    ]
+  },
+  {
+    "code": "DD1418",
+    "name": "Språkteknologi med introduktion till maskininlärning",
+    "nameEn": "Language Engineering with Introduction to Machine Learning",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "DTOI",
+      "TMAI"
+    ],
+    "prerequisitesCompleted": [
+      "DD1317",
+      "DD1320",
+      "DD1324",
+      "SF1918"
+    ]
+  },
+  {
+    "code": "DD1386",
+    "name": "Internetprogrammering",
+    "nameEn": "Internet Programming",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 1.5,
+      "P3": 4.5,
+      "P4": 1.5
+    },
+    "year": 3,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "DTOI"
+    ],
+    "prerequisitesCompleted": [
+      "DD1320",
+      "DD1380",
+      "DD1385"
+    ]
+  },
+  {
+    "code": "MJ1401",
+    "name": "Värmeöverföring",
+    "nameEn": "Heat Transfer",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "EHUI"
+    ],
+    "prerequisitesCompleted": [
+      "MJ1112"
+    ]
+  },
+  {
+    "code": "EG2240",
+    "name": "Systemplanering",
+    "nameEn": "Power System Planning",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 3
+    },
+    "year": 3,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "EHUI"
+    ],
+    "prerequisitesCompleted": [
+      "SF1545",
+      "SF1918"
+    ]
+  },
+  {
+    "code": "DD1334",
+    "name": "Databasteknik",
+    "nameEn": "Database Technology",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "DTOI"
+    ],
+    "prerequisitesCompleted": [
+      "DD1320"
+    ]
+  },
+  {
+    "code": "ME1317",
+    "name": "Personal- och arbetsledning",
+    "nameEn": "Leading People and Work",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 3,
+    "exams": [],
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "ME1314"
+    ]
+  },
+  {
+    "code": "ME1310",
+    "name": "Nationalekonomi för I",
+    "nameEn": "Economics for I",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 3,
+      "P3": 3,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "ME1314"
+    ]
+  },
+  {
+    "code": "DD1324",
+    "name": "Tillämpad programmering och datalogi, del 2",
+    "nameEn": "Applied Programming and Computer Science, Part 2",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "P/F",
+    "specializations": [
+      "PPUI"
+    ]
+  },
+  {
+    "code": "MF1017",
+    "name": "Elektroteknik",
+    "nameEn": "Basic Electrical Engineering",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "EHUI"
+    ],
+    "prerequisitesCompleted": [
+      "SF1624",
+      "SF1625",
+      "SF1626"
+    ]
+  },
+  {
+    "code": "ME1311",
+    "name": "Finansiering",
+    "nameEn": "Corporate Finance",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "gradingScale": "A-F",
+    "prerequisitesCompleted": [
+      "ME1314"
+    ]
+  },
+  {
+    "code": "MG1026",
+    "name": "Tillverkningsteknik",
+    "nameEn": "Manufacturing Technology",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "PPUI"
+    ]
+  },
+  {
+    "code": "DD1380",
+    "name": "Javaprogrammering för Pythonprogrammerare",
+    "nameEn": "Java Programming for Python Programmers",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "gradingScale": "P/F",
+    "specializations": [
+      "DTOI"
+    ]
+  },
+  {
+    "code": "DA151X",
+    "name": "Examensarbete i datateknik och industriell ekonomi, grundnivå",
+    "nameEn": "Degree Project in Computer Science and Industrial Management, first cycle",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "exams": [],
+    "gradingScale": "P/F",
+    "specializations": [
+      "DTOI"
+    ],
+    "prerequisitesCompleted": [
+      "DD1320",
+      "ME1306",
+      "ME1314"
+    ]
+  },
+  {
+    "code": "SF2930",
+    "name": "Regressionsanalys",
+    "nameEn": "Regression Analysis",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "TMAI"
+    ],
+    "prerequisitesCompleted": [
+      "SF1545"
+    ]
+  },
+  {
+    "code": "MG1002",
+    "name": "Automatiseringsteknik",
+    "nameEn": "Automation Technology",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "gradingScale": "A-F",
+    "specializations": [
+      "PPUI"
+    ],
+    "prerequisitesCompleted": [
+      "MF1016"
+    ]
   }
 ]

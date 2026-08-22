@@ -2,13 +2,13 @@
   {
     "name": "Matematik",
     "nameEn": "Mathematics",
-    "colorFamily": "green",
+    "colorFamily": "blue",
     "courses": ["SF1672", "SF1673", "SF1674", "SF1681", "SF1692", "SF1693", "SF1677", "SF1678", "SF1691", "SF1811", "SF1550", "SF1679", "SF1918", "SF1930"]
   },
   {
     "name": "Datateknik",
     "nameEn": "Computer Science",
-    "colorFamily": "yellow",
+    "colorFamily": "green",
     "courses": ["DD1333", "DD1301", "DD1380", "DD1385", "DD1328"]
   },
   {

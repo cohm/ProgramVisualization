@@ -72,6 +72,43 @@ export interface SelectedInfo {
   credit?: { period: string; credits: number; year: number };
 }
 
+// ---------------------------------------------------------------------------
+// Cohort provenance
+// ---------------------------------------------------------------------------
+//
+// A cohort's study plan usually cannot be read from one place. KTH publishes the
+// läsår currently being taught and the next one, deletes the years a cohort has
+// already passed, and leaves its future years unscheduled. So years are borrowed
+// from neighbouring cohorts, and each cohort file records where every year came
+// from. The UI uses this to tell a student which parts of the chart are actually
+// theirs. Written by `scripts/extract-from-kopps.mjs`.
+
+/** How much to trust a borrowed year. */
+export type CohortConfidence =
+  | 'exact'    // the cohort's own published data
+  | 'high'     // borrowed, and a year the two cohorts share is identical
+  | 'low'      // borrowed, and a shared year DIFFERS — treat with suspicion
+  | 'unknown'; // borrowed, and the two cohorts share no year to compare
+
+export interface CohortYearProvenance {
+  year: number;
+  /** Cohort the data came from, or null when no cohort publishes this year. */
+  sourceCohort: string | null;
+  approximated: boolean;
+  confidence?: CohortConfidence;
+  /** Which shared year the confidence judgement came from, if any. */
+  corroboratedBy?: { year: number; agrees: boolean };
+  note?: string;
+}
+
+export interface CohortMeta {
+  type: 'cohortMeta';
+  program: string;
+  /** e.g. "HT2023" */
+  cohort: string;
+  years: CohortYearProvenance[];
+}
+
 export interface Course {
   code: string;
   name: string;

@@ -64,5 +64,15 @@ jobs:
         # Fails when the brotlied client JS exceeds the budget in
         # `package.json` → `size-limit`. Bump the limit deliberately when an
         # increase is justified (new feature, dep upgrade); the diff documents
-        # why. The current budget has ~27% headroom over the baseline.
+        # why.
+        #
+        # The budget now covers two things that grow independently, because
+        # production chunk names are fully hashed and size-limit cannot tell
+        # them apart:
+        #   ~201 kB  application JS
+        #   ~50 kB   the committed cohort archive (src/data/cohorts/*.json),
+        #            ~2 kB brotlied per cohort file
+        # Each cohort file is its own lazily-loaded chunk, so an unselected
+        # cohort costs a viewer nothing — but every one counts here. When this
+        # fails, check `du -sh src/data/cohorts` before assuming the app grew.
         run: npm run size

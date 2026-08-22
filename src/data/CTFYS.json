@@ -16,20 +16,22 @@
     "exams": []
   },
   {
-    "code": "SF1672",
-    "name": "Linjär algebra",
-    "nameEn": "Linear Algebra",
-    "totalCredits": 7.5,
+    "code": "SG1112",
+    "name": "Mekanik I",
+    "nameEn": "Mechanics I",
+    "totalCredits": 9,
     "periodCredits": {
       "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
+      "P2": 0,
+      "P3": 4,
+      "P4": 5
     },
     "year": 1,
-    "prerequisites": [],
+    "prerequisitesParticipation": [
+      "SF1673"
+    ],
     "exams": [
-      "P2"
+      "P4"
     ]
   },
   {
@@ -50,20 +52,37 @@
     ]
   },
   {
-    "code": "SI1121",
-    "name": "Termodynamik",
-    "nameEn": "Thermodynamics",
-    "totalCredits": 6,
+    "code": "SK1105",
+    "name": "Experimentell fysik",
+    "nameEn": "Experimental Physics",
+    "totalCredits": 4,
     "periodCredits": {
-      "P1": 5,
-      "P2": 1,
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 4
+    },
+    "year": 1,
+    "prerequisitesParticipation": [
+      "SK1104"
+    ],
+    "exams": []
+  },
+  {
+    "code": "SF1672",
+    "name": "Linjär algebra",
+    "nameEn": "Linear Algebra",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
       "P3": 0,
       "P4": 0
     },
     "year": 1,
     "prerequisites": [],
     "exams": [
-      "P1"
+      "P2"
     ]
   },
   {
@@ -83,46 +102,6 @@
     ],
     "exams": [
       "P3"
-    ]
-  },
-  {
-    "code": "SF1922",
-    "name": "Sannolikhetsteori och statistik",
-    "nameEn": "Probability Theory and Statistics",
-    "briefName": "Sannolikhet & statistik",
-    "briefNameEn": "Probability Theory and Stats",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 1,
-    "prerequisitesParticipation": [
-      "SF1673"
-    ],
-    "exams": [
-      "P4"
-    ]
-  },
-  {
-    "code": "SG1112",
-    "name": "Mekanik I",
-    "nameEn": "Mechanics I",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 4,
-      "P4": 5
-    },
-    "year": 1,
-    "prerequisitesParticipation": [
-      "SF1673"
-    ],
-    "exams": [
-      "P4"
     ]
   },
   {
@@ -148,23 +127,6 @@
     ]
   },
   {
-    "code": "SK1105",
-    "name": "Experimentell fysik",
-    "nameEn": "Experimental Physics",
-    "totalCredits": 4,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 4
-    },
-    "year": 1,
-    "prerequisitesParticipation": [
-      "SK1104"
-    ],
-    "exams": []
-  },
-  {
     "code": "DD1301",
     "name": "Datorintroduktion (valfri)",
     "nameEn": "Computer Introduction",
@@ -178,6 +140,64 @@
     "year": 1,
     "prerequisites": [],
     "exams": []
+  },
+  {
+    "code": "SI1121",
+    "name": "Termodynamik",
+    "nameEn": "Thermodynamics",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 5,
+      "P2": 1,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ]
+  },
+  {
+    "code": "SF1922",
+    "name": "Sannolikhetsteori och statistik",
+    "nameEn": "Probability Theory and Statistics",
+    "briefName": "Sannolikhet & statistik",
+    "briefNameEn": "Probability Theory and Stats",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 1,
+    "prerequisitesParticipation": [
+      "SF1673"
+    ],
+    "exams": [
+      "P4"
+    ]
+  },
+  {
+    "code": "SE1055",
+    "name": "Hållfasthetslära, grundkurs med energimetoder",
+    "nameEn": "Strength of Materials and Solid Mechanics, Basic Course with Energy Methods",
+    "briefName": "Hållfasthetslära",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 3
+    },
+    "year": 2,
+    "prerequisitesCompleted": [
+      "SG1112"
+    ],
+    "exams": [
+      "P4"
+    ]
   },
   {
     "code": "SF1681",
@@ -221,25 +241,6 @@
     ]
   },
   {
-    "code": "SH1014",
-    "name": "Modern fysik",
-    "nameEn": "Modern Physics",
-    "totalCredits": 4,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 4,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisitesCompleted": [
-      "SK1104"
-    ],
-    "exams": [
-      "P2"
-    ]
-  },
-  {
     "code": "SI1146",
     "name": "Vektoranalys",
     "nameEn": "Vector Analysis",
@@ -256,66 +257,6 @@
     ],
     "exams": [
       "P1"
-    ]
-  },
-  {
-    "code": "SF1683",
-    "name": "Differentialekvationer och transformmetoder",
-    "nameEn": "Differential Equations and Transforms",
-    "briefName": "Diffekv & transformer",
-    "briefNameEn": "Diff. Eq & Transforms",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 5,
-      "P2": 4,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisitesCompleted": [
-      "SF1674"
-    ],
-    "exams": [
-      "P1",
-      "P2"
-    ]
-  },
-  {
-    "code": "SE1055",
-    "name": "Hållfasthetslära, grundkurs med energimetoder",
-    "nameEn": "Strength of Materials and Solid Mechanics, Basic Course with Energy Methods",
-    "briefName": "Hållfasthetslära",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 3
-    },
-    "year": 2,
-    "prerequisitesCompleted": [
-      "SG1112"
-    ],
-    "exams": [
-      "P4"
-    ]
-  },
-  {
-    "code": "SI1200",
-    "name": "Fysikens matematiska metoder",
-    "nameEn": "Mathematical Methods in Physics",
-    "briefName": "Fysikens mat. metoder",
-    "totalCredits": 4,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 4,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [
-      "P3"
     ]
   },
   {
@@ -374,6 +315,65 @@
     ],
     "exams": [
       "P4"
+    ]
+  },
+  {
+    "code": "SI1200",
+    "name": "Fysikens matematiska metoder",
+    "nameEn": "Mathematical Methods in Physics",
+    "briefName": "Fysikens mat. metoder",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ]
+  },
+  {
+    "code": "SF1683",
+    "name": "Differentialekvationer och transformmetoder",
+    "nameEn": "Differential Equations and Transforms",
+    "briefName": "Diffekv & transformer",
+    "briefNameEn": "Diff. Eq & Transforms",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 5,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisitesCompleted": [
+      "SF1674"
+    ],
+    "exams": [
+      "P1",
+      "P2"
+    ]
+  },
+  {
+    "code": "SH1014",
+    "name": "Modern fysik",
+    "nameEn": "Modern Physics",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisitesCompleted": [
+      "SK1104"
+    ],
+    "exams": [
+      "P2"
     ]
   },
   {
