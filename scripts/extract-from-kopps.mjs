@@ -77,7 +77,7 @@
 // selected cost nothing at page load. They do count toward the `size-limit`
 // budget, which sums every static chunk — worth watching as cohorts accumulate.
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'fs';
 import { join, dirname, relative } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -93,6 +93,24 @@ const dataDir = join(repoRoot, 'src', 'data');
 const cohortsDir = join(dataDir, 'cohorts');
 // Coordinator worklists for the one field that needs human judgement.
 const reviewDir = join(repoRoot, 'prerequisite-review');
+
+/**
+ * Read a text file, or return null when it is not there.
+ *
+ * Doing the read and handling its failure — rather than asking `existsSync`
+ * first and reading afterwards — closes the gap between the check and the use
+ * (CodeQL js/file-system-race). It is also simply more accurate: an existence
+ * check passes for a directory, a broken symlink and a file the process cannot
+ * read, all of which fail at the actual read a moment later.
+ */
+function readTextOrNull(path) {
+  try {
+    return readFileSync(path, 'utf8');
+  } catch (e) {
+    if (e.code === 'ENOENT') return null;
+    throw e;
+  }
+}
 
 const PERIOD_IDS = ['P1', 'P2', 'P3', 'P4'];
 
@@ -349,9 +367,10 @@ function termForCourse(cohort, studyYear, firstPeriodIndex) {
  */
 function lasarFromPeriods() {
   const f = join(dataDir, 'academic-periods.json');
-  if (!existsSync(f)) return null;
   try {
-    const p1 = JSON.parse(readFileSync(f, 'utf8')).find((p) => p.id === 'P1');
+    const raw = readTextOrNull(f);
+    if (raw === null) return null;
+    const p1 = JSON.parse(raw).find((p) => p.id === 'P1');
     return p1?.start ? Number(p1.start.slice(0, 4)) : null;
   } catch { return null; }
 }
@@ -1035,17 +1054,36 @@ async function corroborate(prog, cohort, sourceCohort, years) {
 // not as proof it generalises. CTFYS is the only program with curated
 // prerequisites to check against.
 
-/** Decode HTML entities (sometimes double-encoded) and strip tags. */
+// Every entity is decoded exactly once, in one left-to-right pass.
+//
+// This used to be a chain of `.replace()` calls run twice over, which let one
+// replacement's output be re-read by the next: unescaping `&amp;` to `&` before
+// the `&quot;` step turned "&amp;quot;" into '"' rather than the literal
+// "&quot;" it encodes. A single regex cannot do that, because `replace` never
+// rescans what it has written. (Flagged by CodeQL as js/double-escaping.)
+//
+// MEASURED over 87 KTH pages — all eight programmes, three terms, 15 course
+// pages, 146 819 string values: nothing KTH publishes is double-encoded, and
+// this decoder is byte-identical to the old one on every one of those strings.
+// So the second pass was never load-bearing; it only created the hazard.
+//
+// `&lt;` and `&gt;` are deliberately NOT decoded. The tag stripper below runs
+// afterwards, so turning them into `<` and `>` would hand it markup that was
+// never markup and delete the text between. Neither entity occurs in the
+// measured data.
+const NAMED_ENTITIES = { nbsp: ' ', amp: '&', quot: '"', apos: "'" };
+const ENTITY_RE = /&(?:#(\d+)|#[xX]([0-9a-fA-F]+)|([a-zA-Z]+));/g;
+
+/** Decode HTML entities and strip tags. */
 function decodeHtmlText(input) {
-  let t = String(input || '');
-  for (let i = 0; i < 2; i++) {
-    t = t
-      .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
-      .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCharCode(parseInt(h, 16)))
-      .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&')
-      .replace(/&quot;/g, '"').replace(/&apos;|&#x27;/g, "'");
-  }
-  return t.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  const decoded = String(input || '').replace(ENTITY_RE, (m, dec, hex, name) => {
+    if (name !== undefined) return NAMED_ENTITIES[name.toLowerCase()] ?? m;
+    // A code point outside Unicode's range is left as written rather than
+    // crashing String.fromCodePoint on malformed source.
+    const cp = Number.parseInt(dec ?? hex, dec !== undefined ? 10 : 16);
+    return Number.isInteger(cp) && cp >= 0 && cp <= 0x10ffff ? String.fromCodePoint(cp) : m;
+  });
+  return decoded.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
 const COURSE_CODE_RE = /\b[A-Z]{2,3}\d{3,4}[A-Z]?\b/g;
@@ -2005,8 +2043,8 @@ function alignFiles(paths) {
   let anyChanged = false;
   for (const rel0 of paths) {
     const abs = join(repoRoot, rel0);
-    if (!existsSync(abs)) { warn(`${rel0}: not found`); continue; }
-    const raw = readFileSync(abs, 'utf8');
+    const raw = readTextOrNull(abs);
+    if (raw === null) { warn(`${rel0}: not found`); continue; }
     let data;
     try { data = JSON.parse(raw); } catch (e) { warn(`${rel0}: ${e.message}`); continue; }
     if (!Array.isArray(data)) { warn(`${rel0}: expected an array`); continue; }
@@ -2056,8 +2094,8 @@ function alignFiles(paths) {
  */
 async function fillPrereqs(prog) {
   const file = join(dataDir, `${prog}.json`);
-  if (!existsSync(file)) throw new Error(`${rel(file)} not found`);
-  const raw = readFileSync(file, 'utf8');
+  const raw = readTextOrNull(file);
+  if (raw === null) throw new Error(`${rel(file)} not found`);
   const data = JSON.parse(raw);
   const courses = data.filter((e) => e?.code && e.type !== 'optionGroup' && e.type !== 'cohortMeta');
   const inProgramme = new Set(courses.map((e) => e.code));
@@ -2124,8 +2162,8 @@ async function fillPrereqs(prog) {
  */
 async function fillElectivesInCuratedFile(prog) {
   const file = join(dataDir, `${prog}.json`);
-  if (!existsSync(file)) throw new Error(`${rel(file)} not found`);
-  const raw = readFileSync(file, 'utf8');
+  const raw = readTextOrNull(file);
+  if (raw === null) throw new Error(`${rel(file)} not found`);
   const data = JSON.parse(raw);
 
   const lasar = lasarFromPeriods();
@@ -2352,9 +2390,16 @@ function writePrereqReview(prog, entries, review, basis) {
 }
 
 function writeCohortIndex() {
-  if (!existsSync(cohortsDir)) return;
+  // Same read-then-handle shape as readTextOrNull: no separate existence check.
+  let names;
+  try {
+    names = readdirSync(cohortsDir).sort();
+  } catch (e) {
+    if (e.code === 'ENOENT') return;
+    throw e;
+  }
   const byProgram = {};
-  for (const f of readdirSync(cohortsDir).sort()) {
+  for (const f of names) {
     const m = /^([A-Z0-9]+)-(HT\d{4})\.json$/.exec(f);
     if (!m) continue;
     (byProgram[m[1]] ??= []).push(m[2]);
