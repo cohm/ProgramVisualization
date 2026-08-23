@@ -4,6 +4,7 @@
 
 import { Course, OptionGroup } from '@/types/course';
 import { tr, type Lang } from '@/lib/translations';
+import { getOptionGroupKind, getOptionGroupMinCredits, getOptionGroupPickN } from '@/lib/optionGroupKind';
 
 export function escapeHtml(s: string): string {
   return s
@@ -73,18 +74,53 @@ interface OptionGroupTooltipDeps {
 
 export function buildOptionGroupTooltip(og: OptionGroup, language: Lang, deps: OptionGroupTooltipDeps): string {
   const ogName = language === 'en' ? (og.nameEn || og.name) : og.name;
+
+  // "behörighetsgivande för TTFYM" — which master programme each option
+  // qualifies the student for, per the study plan's own text. This is the reason
+  // most of these courses are on offer at all, so it belongs next to the option
+  // rather than in a separate note. Rendered only for options the plan mentions.
+  const eligibilityFor = (code: string): string => {
+    const masters = og.qualifiesFor?.[code];
+    if (!masters?.length) return '';
+    const parts = masters.map(m => {
+      const spår = m.tracks?.length ? m.tracks.join('/') : m.track;
+      // The programme code is what a student matches against when applying, so
+      // it leads; the name is the human-readable gloss.
+      return spår ? `${m.code} (${spår})` : m.code;
+    });
+    return ` — <em>${escapeHtml(tr[language].qualifiesFor)} ${escapeHtml(parts.join(', '))}</em>`;
+  };
+
   const optionsList = og.options
     .map(optionCode => {
       const optionCourse = deps.courseByCode.get(optionCode);
       if (!optionCourse) return null;
       const optName = language === 'en' ? (optionCourse.nameEn || optionCourse.name) : optionCourse.name;
-      return `${escapeHtml(optionCode)}: ${escapeHtml(optName)}`;
+      return `${escapeHtml(optionCode)}: ${escapeHtml(optName)}${eligibilityFor(optionCode)}`;
     })
     .filter((opt): opt is string => opt !== null)
     .join('<br/>');
 
-  // Hint line, e.g. "pick 1 of 3 options" — substitutes {N}.
-  const hint = tr[language].optionGroupHint.replace('{N}', String(og.options.length));
+  // Hint line. Which rule the group states matters: a "minst N hp" pool is not a
+  // choice between one course, and saying so was wrong on the chart even though
+  // the selection modal already described it correctly.
+  const n = String(og.options.length);
+  const kind = getOptionGroupKind(og);
+  const hint = kind === 'minCredits'
+    ? tr[language].optionGroupHintMinCredits
+      .replace('{C}', String(getOptionGroupMinCredits(og)))
+      .replace('{N}', n)
+    : getOptionGroupPickN(og) > 1
+      ? tr[language].optionGroupHintPickN
+        .replace('{K}', String(getOptionGroupPickN(og)))
+        .replace('{N}', n)
+      : tr[language].optionGroupHint.replace('{N}', n);
 
-  return `<strong>${escapeHtml(ogName)}</strong><br/><em>${escapeHtml(hint)}</em><br/>${escapeHtml(tr[language].totalCredits)}: ${og.totalCredits} ${escapeHtml(tr[language].credits)}<br/><strong>${escapeHtml(tr[language].options)}:</strong><br/>${optionsList}`;
+  // The group's own note, when it has one. Placed before the option list, since
+  // it usually qualifies what that list means — "även andra kan väljas" changes
+  // how the whole list should be read.
+  const ogComment = language === 'en' ? (og.commentEn || og.comment) : og.comment;
+  const commentLine = ogComment ? `<br/><em>${escapeHtml(ogComment)}</em>` : '';
+
+  return `<strong>${escapeHtml(ogName)}</strong><br/><em>${escapeHtml(hint)}</em><br/>${escapeHtml(tr[language].totalCredits)}: ${og.totalCredits} ${escapeHtml(tr[language].credits)}${commentLine}<br/><strong>${escapeHtml(tr[language].options)}:</strong><br/>${optionsList}`;
 }

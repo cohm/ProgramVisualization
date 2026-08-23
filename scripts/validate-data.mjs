@@ -732,6 +732,59 @@ function validateOptionGroup(og, ctx, file) {
     warn(file, `${ctx} optionGroup '${og.name}': 'pickN' / 'minCredits' set without an explicit 'kind' — set kind: 'pickN' or 'minCredits' to use them`);
   }
 
+  // A group's free-text note. Optional, but must be a non-empty string when set —
+  // an empty one renders as a blank italic line in the modal.
+  for (const field of ['comment', 'commentEn']) {
+    if (og[field] != null && (typeof og[field] !== 'string' || og[field].trim() === '')) {
+      err(file, `${ctx} optionGroup '${og.name}': '${field}' must be a non-empty string when set`);
+    }
+  }
+
+  // `qualifiesFor` maps an option to the master programmes requiring it, read
+  // from the study plan. A code that is not one of this group's options would
+  // render nowhere, so it is an error rather than a warning.
+  if (og.qualifiesFor != null) {
+    if (typeof og.qualifiesFor !== 'object' || Array.isArray(og.qualifiesFor)) {
+      err(file, `${ctx} optionGroup '${og.name}': 'qualifiesFor' must be an object keyed by course code`);
+    } else {
+      for (const [code, masters] of Object.entries(og.qualifiesFor)) {
+        if (Array.isArray(og.options) && !og.options.includes(code)) {
+          err(file, `${ctx} optionGroup '${og.name}': qualifiesFor names '${code}', which is not one of its options`);
+        }
+        if (!Array.isArray(masters) || masters.length === 0) {
+          err(file, `${ctx} optionGroup '${og.name}': qualifiesFor['${code}'] must be a non-empty array`);
+          continue;
+        }
+        for (const m of masters) {
+          if (!m || typeof m.code !== 'string' || !/^[A-Z]{4,6}$/.test(m.code)) {
+            err(file, `${ctx} optionGroup '${og.name}': qualifiesFor['${code}'] entry needs a programme 'code' of 4-6 capitals`);
+          }
+          if (!m || typeof m.name !== 'string' || !m.name) {
+            err(file, `${ctx} optionGroup '${og.name}': qualifiesFor['${code}'] entry needs a 'name'`);
+          }
+          if (m?.track != null && m?.tracks != null) {
+            warn(file, `${ctx} optionGroup '${og.name}': qualifiesFor['${code}'] sets both 'track' and 'tracks' — use one`);
+          }
+        }
+      }
+      // The count a student must take is implied by the per-master requirements
+      // when the plan states no rule of its own; flag a group whose pickN cannot
+      // satisfy the master needing the most, since such a plan is unfollowable.
+      const perMaster = new Map();
+      for (const [, masters] of Object.entries(og.qualifiesFor)) {
+        for (const m of Array.isArray(masters) ? masters : []) {
+          const key = `${m?.code}::${m?.track ?? ''}`;
+          perMaster.set(key, (perMaster.get(key) ?? 0) + 1);
+        }
+      }
+      const most = Math.max(0, ...perMaster.values());
+      const allowed = og.kind === 'minCredits' ? Infinity : (og.pickN ?? og.allowedNumberOfOptions ?? 1);
+      if (most > allowed) {
+        warn(file, `${ctx} optionGroup '${og.name}': a master programme requires ${most} of these options but the group allows ${allowed} — a student heading there cannot follow this plan`);
+      }
+    }
+  }
+
   if (og.periodCredits && typeof og.periodCredits === 'object') {
     let sum = 0;
     for (const [pid, val] of Object.entries(og.periodCredits)) {

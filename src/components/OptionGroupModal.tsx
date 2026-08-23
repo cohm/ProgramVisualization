@@ -40,15 +40,48 @@ export default function OptionGroupModal({
 
   // Modal layout — kept identical to the original inline implementation,
   // with one extra row above the header for the running-total / capacity hint.
-  const headerHeight = 95;
+  // The group's own note, wrapped to the modal width. It sits between the divider
+  // and the first option because it usually qualifies what the list means — a
+  // note like "även andra kan väljas" tells the reader the options are examples,
+  // which changes how every row below should be read.
+  const comment = language === 'en'
+    ? (optionGroup.commentEn || optionGroup.comment)
+    : optionGroup.comment;
+  // SVG <text> does not wrap, so the note is split into lines by character count.
+  // ~11 px italic at 620 px wide fits roughly 100 characters.
+  const commentLines = (() => {
+    if (!comment) return [];
+    const MAX = 100;
+    const out: string[] = [];
+    let line = '';
+    for (const word of comment.split(/\s+/)) {
+      if (line && (line + ' ' + word).length > MAX) { out.push(line); line = word; }
+      else line = line ? `${line} ${word}` : word;
+    }
+    if (line) out.push(line);
+    return out;
+  })();
+  const commentHeight = commentLines.length * 15;
+
+  const headerHeight = 95 + commentHeight;
   const optionHeight = 50;
   const optionSpacing = 12;
   const padding = 20;
 
   const numOptions = optionGroup.options.length;
   const contentHeight = headerHeight + (numOptions * optionHeight) + ((numOptions - 1) * optionSpacing);
-  const svgHeight = Math.min(contentHeight + padding + padding, 700);
-  const svgWidth = 500;
+  // The SVG is as tall as its content; a scrolling wrapper caps what is VISIBLE.
+  // It used to be `Math.min(..., 700)`, which simply cut the drawing off — the P4
+  // elective box has 13 options and its last row sat 224 px below the boundary
+  // with no way to reach it, because an SVG does not scroll its own overflow.
+  const svgHeight = contentHeight + padding + padding;
+  // Leave room for the page around the dialog rather than filling the viewport.
+  const MAX_VISIBLE_HEIGHT = 700;
+  // 620 rather than 500: an option row carries a code, a course title, a credit
+  // figure and often an eligibility note, and at 500 px the long titles were
+  // colliding with the note. Widening is the honest fix — truncating a course
+  // name to fit is a last resort, not a layout strategy.
+  const svgWidth = 620;
 
   // Per-option course lookup so the rule banner can compute a running total
   // without re-scanning `courses` for every code.
@@ -77,6 +110,47 @@ export default function OptionGroupModal({
     }
     return null;
   })();
+
+  // Rough character budget for the option label. SVG <text> does not wrap or clip,
+  // so a long title simply runs past the box — "Praktiskt jämställdhets- och
+  // mångfaldsarbete" (MH1023) overflowed. The label shares the row with the code,
+  // the credits and, when present, a right-aligned eligibility note, so the
+  // budget shrinks when that note is there.
+  //
+  // Measured against the 620 px modal at font-size 11, weight 600: ~5.9 px per
+  // character for this typeface, so ~98 characters fit the full row. Truncating
+  // by character count rather than measuring keeps this a pure function — the
+  // modal renders inside an SVG built before layout, so getComputedTextLength is
+  // not available here.
+  const truncateName = (name: string, code: string, note: string): string => {
+    const CHARS_PER_ROW = 98;
+    const budget = CHARS_PER_ROW - code.length - 12 - (note ? note.length + 3 : 0);
+    if (name.length <= budget) return name;
+    return `${name.slice(0, Math.max(8, budget - 1)).trimEnd()}…`;
+  };
+
+  // "behörighetsgivande för TTFYM (TFYA/TFYB/TFYG)" — empty for an option the
+  // study plan does not mention.
+  const eligibilityLabel = (code: string): string => {
+    const masters = optionGroup.qualifiesFor?.[code];
+    if (!masters?.length) return '';
+    const label = (m: typeof masters[number]) => {
+      const spar = m.tracks?.length ? m.tracks.join('/') : m.track;
+      return spar ? `${m.code} (${spar})` : m.code;
+    };
+    // A behörighetsgivande course is a hard eligibility condition; a
+    // rekommenderad one is advice. The study plans state both and saying
+    // "qualifies for" of a mere recommendation overstates it, so they are kept
+    // apart here exactly as in the chart tooltip.
+    const required = masters.filter(m => m.required !== false).map(label);
+    const recommended = masters.filter(m => m.required === false).map(label);
+    // Short forms here, full wording in the chart tooltip: this note shares a row
+    // with the course title, and "behörighetsgivande för" alone is 22 characters.
+    return [
+      required.length ? `${tr[language].qualifiesForShort} ${required.join(', ')}` : '',
+      recommended.length ? `${tr[language].recommendedForShort} ${recommended.join(', ')}` : '',
+    ].filter(Boolean).join('; ');
+  };
 
   const commit = () => {
     if (highlightedOptionCodes.length > 0) {
@@ -185,13 +259,29 @@ export default function OptionGroupModal({
       aria-modal="true"
       aria-label={language === 'en' ? (optionGroup.nameEn || optionGroup.name) : optionGroup.name}
     >
+      {/*
+        Scroll container. The card styling lives here rather than on the <svg> so
+        the rounded corners and shadow stay put while the drawing scrolls inside.
+        `maxHeight` is what makes a long option list reachable at all.
+      */}
+      <div
+        style={{
+          maxHeight: MAX_VISIBLE_HEIGHT,
+          overflowY: 'auto',
+          overflowX: 'hidden',
+          backgroundColor: 'white',
+          borderRadius: '8px',
+          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
+          pointerEvents: 'auto',
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
       <svg
         width={svgWidth}
         height={svgHeight}
         style={{
           backgroundColor: 'white',
-          borderRadius: '8px',
-          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
+          display: 'block',
           pointerEvents: 'auto',
         }}
         onClick={(e) => {
@@ -223,6 +313,20 @@ export default function OptionGroupModal({
 
         {/* Divider line */}
         <line x1={padding} y1={padding + 75} x2={svgWidth - padding} y2={padding + 75} stroke="#e5e7eb" strokeWidth={1} />
+
+        {/* The group's free-text note, above the options it qualifies */}
+        {commentLines.map((line, i) => (
+          <text
+            key={i}
+            x={padding}
+            y={padding + 92 + i * 15}
+            fontSize={11}
+            fontStyle="italic"
+            fill="#555"
+          >
+            {line}
+          </text>
+        ))}
 
         {/* Choose button */}
         <rect
@@ -350,12 +454,32 @@ export default function OptionGroupModal({
                 fill={kthColors.KthMarine?.HEX || '#000061'}
                 dominantBaseline="central"
               >
-                {optionCode} {optionName}, {totalCredits} {tr[language].credits}
+                {optionCode} {truncateName(optionName, optionCode, eligibilityLabel(optionCode))}, {totalCredits} {tr[language].credits}
               </text>
+              {/*
+                The master programmes this option qualifies for, per the study
+                plan. This is the reason most conditionally-elective courses are
+                offered at all, so it belongs where the choice is actually made —
+                right-aligned so it cannot collide with a long course name.
+              */}
+              {eligibilityLabel(optionCode) && (
+                <text
+                  x={barX + barWidth - 6}
+                  y={barY + optionHeight / 2}
+                  fontSize={10}
+                  fontStyle="italic"
+                  textAnchor="end"
+                  fill={kthColors.KthMarine?.HEX || '#000061'}
+                  dominantBaseline="central"
+                >
+                  {eligibilityLabel(optionCode)}
+                </text>
+              )}
             </g>
           );
         })}
       </svg>
+      </div>
     </div>
   );
 }

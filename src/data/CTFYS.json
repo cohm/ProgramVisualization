@@ -487,7 +487,9 @@
     "exams": [],
     "reexams": [],
     "category": "conditionallyElective",
-    "gradingScale": "P/F"
+    "gradingScale": "P/F",
+    "comment": "En kandidatexamenskurs måste väljas",
+    "commentEn": "A bachelor's degree project course must be chosen"
   },
   {
     "code": "SA114X",
@@ -522,8 +524,82 @@
     "gradingScale": "P/F"
   },
   {
-    "code": "XY123Z",
-    "name": "Plats för valfri kurs",
+    "type": "optionGroup",
+    "name": "Valfri kurs, årskurs 3 P3",
+    "nameEn": "Elective course, year 3 P3",
+    "year": 3,
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "options": [
+      "AK2014",
+      "DD2352",
+      "MH1023",
+      "SF1677",
+      "SF1678",
+      "SF1679",
+      "SF1691",
+      "SF2930",
+      "SI1162"
+    ],
+    "kind": "minCredits",
+    "minCredits": 7.5,
+    "allowedNumberOfOptions": 9,
+    "exams": [
+      "P3"
+    ],
+    "category": "electivePlaceholder",
+    "qualifiesFor": {
+      "DD2352": [
+        {
+          "code": "TCYSM",
+          "name": "Cybersäkerhet",
+          "required": true
+        },
+        {
+          "code": "TCSCM",
+          "name": "Datalogi",
+          "required": true
+        }
+      ],
+      "SF1677": [
+        {
+          "code": "TMAKM",
+          "name": "Matematik",
+          "required": true
+        }
+      ],
+      "SF1678": [
+        {
+          "code": "TMAKM",
+          "name": "Matematik",
+          "required": true
+        }
+      ],
+      "SF1679": [
+        {
+          "code": "TCYSM",
+          "name": "Cybersäkerhet",
+          "required": true
+        },
+        {
+          "code": "TCSCM",
+          "name": "Datalogi",
+          "required": true
+        }
+      ]
+    },
+    "comment": "Exempel på kurser som ger behörighet till masterprogram eller rekommenderas, även andra kan väljas",
+    "commentEn": "Examples of courses that give eligibility for a master's programme or are recommended; others may also be chosen"
+  },
+  {
+    "code": "AK2014",
+    "name": "Beslutsteori",
+    "nameEn": "Decision Theory",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -533,14 +609,285 @@
     },
     "year": 3,
     "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "category": "electivePlaceholder"
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
   },
   {
-    "code": "XY456Z",
-    "name": "Plats för valfri kurs",
+    "code": "DD2352",
+    "name": "Algoritmer och komplexitet",
+    "nameEn": "Algorithms and Complexity",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 4.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "MH1023",
+    "name": "Praktiskt jämställdhets- och mångfaldsarbete",
+    "nameEn": "Practical Gender Equality and Diversity Work",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 3
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF1677",
+    "name": "Analysens grunder",
+    "nameEn": "Foundations of Analysis",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF1678",
+    "name": "Grupper och ringar",
+    "nameEn": "Groups and Rings",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF1679",
+    "name": "Diskret matematik",
+    "nameEn": "Discrete Mathematics",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF1691",
+    "name": "Komplex analys",
+    "nameEn": "Complex Analysis",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2930",
+    "name": "Regressionsanalys",
+    "nameEn": "Regression Analysis",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SI1162",
+    "name": "Statistisk fysik",
+    "nameEn": "Statistical Physics",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Valfri kurs, årskurs 3 P4",
+    "nameEn": "Elective course, year 3 P4",
+    "year": 3,
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "options": [
+      "DD2352",
+      "EQ1120",
+      "MH1023",
+      "SF1677",
+      "SF1678",
+      "SF1691",
+      "SF1861",
+      "SF1904",
+      "SF2701",
+      "SH2404",
+      "SI1142",
+      "SI2360",
+      "SK2712"
+    ],
+    "kind": "minCredits",
+    "minCredits": 7.5,
+    "allowedNumberOfOptions": 13,
+    "exams": [
+      "P4"
+    ],
+    "category": "electivePlaceholder",
+    "qualifiesFor": {
+      "DD2352": [
+        {
+          "code": "TCYSM",
+          "name": "Cybersäkerhet",
+          "required": true
+        },
+        {
+          "code": "TCSCM",
+          "name": "Datalogi",
+          "required": true
+        }
+      ],
+      "EQ1120": [
+        {
+          "code": "TINNM",
+          "name": "Information och nätverksteknologi",
+          "required": true
+        }
+      ],
+      "SF1677": [
+        {
+          "code": "TMAKM",
+          "name": "Matematik",
+          "required": true
+        }
+      ],
+      "SF1678": [
+        {
+          "code": "TMAKM",
+          "name": "Matematik",
+          "required": true
+        }
+      ]
+    },
+    "comment": "Exempel på kurser som ger behörighet till masterprogram eller rekommenderas, även andra kan väljas",
+    "commentEn": "Examples of courses that give eligibility for a master's programme or are recommended; others may also be chosen"
+  },
+  {
+    "code": "EQ1120",
+    "name": "Tidsdiskreta signaler och system",
+    "nameEn": "Discrete Time Signals and Systems",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF1861",
+    "name": "Optimeringslära",
+    "nameEn": "Optimization",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF1904",
+    "name": "Markovprocesser, grundkurs",
+    "nameEn": "Markov Processes, Basic Course",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 3
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2701",
+    "name": "Finansiell matematik, grundkurs",
+    "nameEn": "Financial Mathematics, Basic Course",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -550,9 +897,81 @@
     },
     "year": 3,
     "prerequisites": [],
-    "exams": [
-      "P4"
-    ],
-    "category": "electivePlaceholder"
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SH2404",
+    "name": "Astrofysik",
+    "nameEn": "Astrophysics",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SI1142",
+    "name": "Fysikens matematiska metoder, tillämpningar",
+    "nameEn": "Mathematical Methods in Physics, Applications",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 3
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SI2360",
+    "name": "Analytisk mekanik och klassisk fältteori",
+    "nameEn": "Analytical Mechanics and Classical Field Theory",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SK2712",
+    "name": "Miljöfysik",
+    "nameEn": "Environmental Physics",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
   }
 ]

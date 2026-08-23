@@ -40,7 +40,7 @@ A Next.js + D3.js visualization app that renders KTH engineering degree programs
 ### Key Components
 
 - **`src/app/HomeClient.tsx`** — Main client component: program selector, language toggle, export menu, course merge logic, data loading orchestration.
-- **`src/components/TimelineVisualization.tsx`** — ~2950-line D3 component; renders SVG, handles focus mode, interactivity, exports, and (inlined at the bottom of the file) the option-group selection modal. This is where most feature work happens.
+- **`src/components/TimelineVisualization.tsx`** — ~2950-line D3 component; renders SVG, handles focus mode, interactivity, exports, and interactivity. This is where most feature work happens. (The option-group selection modal is its own component, `OptionGroupModal.tsx`.)
 - **`src/app/api/export-pdf/route.ts`** — Puppeteer-based PDF generation; uses `@sparticuz/chromium` on Vercel for serverless Chrome.
 
 ### Data Files (`src/data/`)
@@ -201,6 +201,65 @@ base. CFATE year 3 is the case: 36 hp obligatorisk + 21 hp in option groups
 leaves 3 hp, but five villkorligt valfria courses totalling 26 hp are listed. The
 report spells that arithmetic out and names `kind: 'minCredits'` as the shape
 that could express it, without guessing the membership.
+
+**The study plan states the villkorligt-valfri rule in prose, in a field we
+ignored for a long time.** `curriculumInfo.conditionallyElectiveCoursesInformation`
+carries what the schema could not otherwise know: how many of a VV group's courses
+a student takes, and which master programme each one qualifies them for. Reading
+it fixed a wrong model rather than adding a nicety — CFATE year 3 was pick-one
+when Teknisk fysik (TTFYM) requires SI1146 **and** SH1014.
+
+MEASURED over eight programmes, three läsår, years 1–3: 39 of 166
+`curriculumInfos` populate it, 180 lines of text, of which **42 % carry a
+machine-readable rule**. The phrasings that do:
+
+    "Minst en av de villkorligt valfria kurserna … ska läsas"   -> at least 1
+    "För civilingenjörsexamen ska minst två av följande"        -> at least 2  (CMAST)
+    "En villkorligt valfri kurs ska läsas"                      -> exactly 1   (CTMAT)
+    "ska antingen SA114X eller EF112X läsas"                    -> exactly 1   (CTFYS)
+    "Kurser som krävs: SI1146 och SH1014"                       -> per-master requirement
+
+**`pickN` is derived, not assumed.** When the plan states a count, it is used.
+When it states only per-master requirements, the count is *implied*: the most any
+single master programme requires from that group — counted per (programme, spår)
+so TTFYM's extra SI1155 for three of its tracks does not inflate the autumn
+group. CFATE year 3's autumn box comes out `pickN: 2` this way, from KTH's own
+text rather than from a guess.
+
+**`qualifiesFor` is the answer to what a student is actually asking.** It maps
+each option to the master programmes that require it (`DD1320 → TIPUM`,
+`SI1155 → TTFYM (TFYA/TFYB/TFYG)`), and the chart tooltip renders it as
+"behörighetsgivande för TTFYM" beside the option. Nothing else in the data we read
+contains this. It is per cohort on purpose: CFATE's HT2023 text requires SH1012
+for Kärnenergiteknik, an entry the HT2024 text drops entirely — SH1012 is the
+older, larger version of SH1014, so the requirement was simply stale.
+
+**Grouping follows the plan's naming, not the period layout.** The layout key is
+a proxy and CFATE year 3 breaks it both ways: its five autumn options have five
+*different* layouts (4 hp P1, 4 hp P2, 6 hp P1, 6 hp P2, 5+1), so the key made
+five singletons, each then dropped by the single-option rule below — losing the
+block entirely and leaving those courses modelled as compulsory. When the plan
+names courses under a master programme, that naming *is* the grouping. Autumn
+(P1/P2) and spring (P3/P4) still split, because a 15 hp thesis in P3+P4 is not an
+alternative to a 4 hp course in P1.
+
+A non-uniform group's bar takes the per-period **maximum** of its options — the
+envelope of the slot, as an `electivePlaceholder` bar means — since no single
+option's shape can represent the group.
+
+**`\b` is ASCII-only in JavaScript, which silently broke the count parser.**
+`/\bminst\s+(en|två|…)\b/` never matched "minst två": the trailing `\b` looks
+for a boundary between `v` and `å` and finds none, so the whole match fails
+without error. Only digits and the vowel-final words worked. It is now
+`(?!\p{L})` with the `u` flag. Worth remembering for any Swedish-language regex
+in this codebase.
+
+**Not turned into rules, deliberately.** TIEMM's *"Om du ska ansöka om
+Masterexamen inom Datalogi: Välj fyra kurser"* depends on a degree the student has
+not applied for, so it is not a property of the group. *"Endast en av kurserna
+SG1217 och SG1220 kan ingå i examen"* is a mutual exclusion — it caps what may
+count toward the degree rather than saying how many to take. Both are recognised
+so they are not reported as unread, and neither sets `pickN`.
 
 **A single-option group is not a group.** Kopps marks such courses villkorligt
 valfri, but emitting a selection modal with one item clutters the chart, and none
@@ -718,7 +777,9 @@ year the plan claims. `verified: false` warns, exactly like `programs.json`.
 
 **Course merge logic**: A single course code can appear across multiple JSON entries or carry the by-year `periodCredits` shape. `src/lib/useCourseModel.ts` normalises both to a uniform per-year credits map (`HomeClient.tsx` no longer does this). Two foot-guns the validator catches: duplicate `code` entries are silently summed, and a flat `prerequisites` array is silently dropped if `prerequisitesCompleted` is also non-empty.
 
-**Option groups**: `OptionGroup` is a special data-file entry (`type: "optionGroup"`) for course choices like thesis options. The current implementation only supports `allowedNumberOfOptions = 1` ("pick exactly one course from this list, all options share the same period layout"); it can't yet express "minst N hp ur grupp". The selection modal is rendered inline at the bottom of `TimelineVisualization.tsx` (~lines 2916–3140), not in a separate component.
+**Option groups**: `OptionGroup` is a special data-file entry (`type: "optionGroup"`) for course choices like thesis options. Two rules are supported, discriminated by `kind` (see `src/lib/optionGroupKind.ts`): `pickN` — pick exactly N, the historical default with N = 1 — and `minCredits`, "pick any number summing to at least N hp", which is the shape KTH's *villkorligt valfri* pools actually have. `minCredits` is implemented end to end (schema, validator, selection modal with a running "X / Y hp" banner and no selection cap) but **no data file uses it yet**; every committed group is `pickN: 1`.
+
+The selection modal lives in `src/components/OptionGroupModal.tsx`. Two earlier notes in this file and in `REVIEW.md` said it had been inlined into `TimelineVisualization.tsx` — it was, and then extracted again; grepping only `TimelineVisualization.tsx` for `kind` therefore suggests `minCredits` is unimplemented when it is not.
 
 **Chart height must stay a pure function of the data.** `TimelineVisualization`
 used to seed its height from `svgRef.current.clientHeight` — the height its own

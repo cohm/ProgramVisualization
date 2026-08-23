@@ -3,18 +3,46 @@
     "name": "Matematik",
     "nameEn": "Mathematics",
     "colorFamily": "blue",
-    "courses": ["SF1672", "SF1673", "SF1674", "SF1681", "SF1692", "SF1693", "SF1677", "SF1678", "SF1691", "SF1811", "SF1550", "SF1679", "SF1918", "SF1930"]
+    "courses": [
+      "SF1672",
+      "SF1673",
+      "SF1674",
+      "SF1681",
+      "SF1692",
+      "SF1693",
+      "SF1677",
+      "SF1678",
+      "SF1691",
+      "SF1811",
+      "SF1550",
+      "SF1679",
+      "SF1918",
+      "SF1930",
+      "SA120X"
+    ]
   },
   {
     "name": "Datateknik",
     "nameEn": "Computer Science",
     "colorFamily": "green",
-    "courses": ["DD1333", "DD1301", "DD1380", "DD1385", "DD1328"]
+    "courses": [
+      "DD1333",
+      "DD1301",
+      "DD1380",
+      "DD1385",
+      "DD1328",
+      "EF112X"
+    ]
   },
   {
     "name": "Fysik & Ingenjörsvetenskap",
     "nameEn": "Physics & Engineering",
     "colorFamily": "brick",
-    "courses": ["SG1115", "SH1017", "EL1000", "SA1006", "SA120X"]
+    "courses": [
+      "SG1115",
+      "SH1017",
+      "EL1000",
+      "SA1006"
+    ]
   }
 ]

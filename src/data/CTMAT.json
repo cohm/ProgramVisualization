@@ -469,7 +469,8 @@
     },
     "year": 3,
     "prerequisites": [],
-    "exams": []
+    "exams": [],
+    "category": "conditionallyElective"
   },
   {
     "code": "XY310Z",
@@ -542,5 +543,47 @@
       "P4"
     ],
     "category": "electivePlaceholder"
+  },
+  {
+    "code": "EF112X",
+    "name": "Examensarbete inom elektroteknik, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Electrical Engineering, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Kandidatexamensarbete",
+    "nameEn": "Bachelor's degree project",
+    "year": 3,
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "kind": "pickN",
+    "pickN": 1,
+    "allowedNumberOfOptions": 1,
+    "options": [
+      "SA120X",
+      "EF112X"
+    ],
+    "exams": [],
+    "category": "conditionallyElective"
   }
 ]

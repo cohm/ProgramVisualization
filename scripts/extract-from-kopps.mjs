@@ -231,6 +231,525 @@ async function fetchStudyPlanState(prog, term, year) {
   return decodeStateBlob(await getText(url), `${prog}/${term}/arskurs${year}`);
 }
 
+
+// ---------------------------------------------------------------------------
+// The villkorligt-valfri rule, as the study plan states it
+// ---------------------------------------------------------------------------
+//
+// `curriculumInfo.conditionallyElectiveCoursesInformation` is a field we ignored
+// for a long time, and it carries exactly what the schema could not otherwise
+// know: how many of a VV group's courses a student actually takes, and which
+// master programme each one qualifies them for. Without it a group can only be
+// guessed at, and the guess was wrong — CFATE year 3 was modelled as pick-one
+// when Teknisk fysik (TTFYM) requires SI1146 *and* SH1014.
+//
+// MEASURED over the eight programmes, three läsår, years 1-3: 39 of 166
+// curriculumInfos populate it. The phrasings that carry machine-readable rules:
+//
+//   "Minst en av de villkorligt valfria kurserna ... ska läsas"     -> minCredits/pickN ≥ 1
+//   "För civilingenjörsexamen ska minst två av följande kurser"     -> ≥ 2      (CMAST)
+//   "En villkorligt valfri kurs ska läsas"                          -> exactly 1 (CTMAT)
+//   "antingen SA114X eller EF112X"                                  -> exactly 1 (CTFYS)
+//   "Kurser som krävs: SI1146 och SH1014"                           -> per-master requirement
+//
+// Everything else is prose for a human — year-flexibility notes, and TIEMM's
+// per-master "Välj fyra kurser", which depends on a *degree* the student has not
+// applied for yet and so cannot be a property of the group.
+
+const SWEDISH_NUMBERS = { en: 1, ett: 1, två: 2, tre: 3, fyra: 4, fem: 5, sex: 6 };
+
+// "Minst en av de villkorligt valfria kurserna", "ska minst två av följande".
+//
+// The trailing boundary is `(?!\p{L})`, not `\b`. JavaScript's `\b` is
+// ASCII-only, so in "minst två av" it looks for a boundary between `v` and `å`
+// and finds none — the word simply fails to match, silently. That dropped every
+// Swedish-numeral count in the data (CMAST's "minst två av följande kurser") and
+// only the digit and `en`/`tre` forms worked.
+const MIN_COUNT_RE = /\bminst\s+(en|ett|två|tre|fyra|fem|sex|\d+)(?!\p{L})/iu;
+// "En villkorligt valfri kurs ska läsas" — exactly one, stated as prose.
+const EXACT_ONE_RE = /^\s*(en|ett)\s+villkorligt\s+valfri\s+kurs\s+ska\s+läsas/i;
+// "Endast en av kurserna SG1217 och SG1220 kan ingå i examen." — a mutual
+// exclusion, not a group rule: it caps what may count toward the degree rather
+// than saying how many to take. Recognised so it is not reported as unread, but
+// deliberately not turned into a pickN.
+const MUTUAL_EXCLUSION_RE = /^\s*endast\s+(en|ett)\s+av\s+kurserna\b/i;
+// "ska antingen SA114X eller EF112X läsas"
+const EITHER_OR_RE = /\bantingen\b[^.]*\beller\b/i;
+// "Kurs som krävs: MJ1401" / "Kurser som krävs: SI1146 och SH1014"
+const REQUIRED_FOR_RE = /^\s*kurs(?:en|erna|er)?\s+som\s+krävs\s*:\s*(.+)$/i;
+// "Teknisk fysik (TTFYM)" / "Industriell produktutveckling (TIPUM) spår IPUC"
+const MASTER_HEADING_RE = /^\s*(.+?)\s*\(([A-Z]{4,6})\)\s*(?:spår\s+([A-Z]{3,5}))?\s*:?\s*$/;
+// "Samt SI1155 för tre av spåren: TFYA, TFYB och TFYG"
+const ALSO_FOR_TRACKS_RE = /^\s*samt\s+(.+?)\s+för\s+.*?spåren?\s*:?\s*(.*)$/i;
+
+const swedishCount = (word) => (/^\d+$/.test(word)
+  ? Number(word)
+  : SWEDISH_NUMBERS[word.toLowerCase()] ?? null);
+
+/**
+ * Read the VV rule and the per-master requirements out of the free text.
+ *
+ * Returns `{ minCount, exactCount, requiredFor }`. `requiredFor` maps a course
+ * code to the master programmes that require it, which is the answer to the
+ * question a year-3 student is actually asking when they look at a VV box.
+ * Anything not recognised is left for a human — this text is prose, so the
+ * parser reports what it is sure of rather than guessing.
+ */
+function parseConditionallyElectiveInfo(text) {
+  const out = { minCount: null, exactCount: null, requiredFor: new Map(), exclusions: [], unparsed: [] };
+  if (!text) return out;
+
+  let currentMaster = null;
+  for (const rawLine of text.split('\n')) {
+    const line = rawLine.trim();
+    if (!line) continue;
+
+    const heading = MASTER_HEADING_RE.exec(line);
+    if (heading) {
+      currentMaster = {
+        name: heading[1].trim(),
+        code: heading[2],
+        track: heading[3] || null,
+      };
+      continue;
+    }
+
+    const required = REQUIRED_FOR_RE.exec(line);
+    if (required && currentMaster) {
+      for (const code of required[1].match(COURSE_CODE_RE) || []) {
+        const list = out.requiredFor.get(code) ?? [];
+        list.push({ ...currentMaster });
+        out.requiredFor.set(code, list);
+      }
+      continue;
+    }
+
+    const also = ALSO_FOR_TRACKS_RE.exec(line);
+    if (also && currentMaster) {
+      const tracks = (also[2].match(/\b[A-Z]{3,5}\b/g) || []);
+      for (const code of (also[1].match(COURSE_CODE_RE) || [])) {
+        const list = out.requiredFor.get(code) ?? [];
+        list.push({ ...currentMaster, tracks: tracks.length ? tracks : undefined });
+        out.requiredFor.set(code, list);
+      }
+      continue;
+    }
+
+    if (MUTUAL_EXCLUSION_RE.test(line)) {
+      out.exclusions.push(line);
+      continue;
+    }
+
+    if (EXACT_ONE_RE.test(line) || EITHER_OR_RE.test(line)) {
+      out.exactCount = 1;
+      continue;
+    }
+
+    const min = MIN_COUNT_RE.exec(line);
+    if (min) {
+      const n = swedishCount(min[1]);
+      if (n != null) out.minCount = Math.max(out.minCount ?? 0, n);
+      continue;
+    }
+
+    // Not a rule. Some of these are simply prose and are silently ignored:
+    // the section header, a master heading with no course under it, and
+    // year-flexibility notes. Anything else is surfaced, because an unread line
+    // could be a rule this parser does not yet know.
+    if (!/^behörighetsgivande/i.test(line)
+      && !/kan läsas år/i.test(line)
+      && !MASTER_HEADING_RE.test(line)) {
+      out.unparsed.push(line);
+    }
+  }
+  return out;
+}
+
+
+
+
+
+// ---------------------------------------------------------------------------
+// Preserving hand-added decoration across re-extraction
+// ---------------------------------------------------------------------------
+//
+// Some fields cannot be derived from KTH's data and can only be written by a
+// human: a group's free-text `comment`, a readable `name` in place of the
+// extractor's "Villkorligt valfri grupp 1", and the `teacher` / `description`
+// that CLAUDE.md has always listed as not extractable. Overwriting the file on
+// every run destroyed them, which put the archive in an awkward position: a
+// cohort plan could be either regenerable or annotated, but not both.
+//
+// So a re-run now UPDATES: it re-derives everything it knows and carries these
+// fields forward from the previous file. Everything the extractor owns is still
+// replaced outright, so a change at KTH always wins — this is not a merge, it is
+// a re-derivation that preserves the parts it has no opinion about.
+
+/** Fields the extractor never derives, per entry kind. */
+const EDITORIAL_COURSE_FIELDS = ['teacher', 'description', 'webpage', 'briefName', 'briefNameEn'];
+const EDITORIAL_GROUP_FIELDS = ['name', 'nameEn', 'comment', 'commentEn'];
+
+/**
+ * Identity of an option group, for matching across runs.
+ *
+ * NOT the name: the name is itself editorial, so keying on it would lose the
+ * annotation the moment someone renamed the group — which is exactly what the
+ * extractor asks them to do. Year, period layout and option set are all derived,
+ * so they are stable under renaming.
+ */
+const groupIdentity = (g) =>
+  `${g.year}::${PERIOD_IDS.map((p) => g.periodCredits?.[p] ?? 0).join(',')}::${(g.options ?? []).slice().sort().join('+')}`;
+
+/**
+ * Carry hand-written fields from the file being replaced into the new entries.
+ * Returns a short description of what was preserved, for the run's report.
+ */
+function carryForwardEditorial(outPath, entries) {
+  const raw = readTextOrNull(outPath);
+  if (raw === null) return null;
+  let previous;
+  try { previous = JSON.parse(raw); } catch { return null; }
+  if (!Array.isArray(previous)) return null;
+
+  const prevCourses = new Map();
+  const prevGroups = new Map();
+  for (const e of previous) {
+    if (e?.type === 'optionGroup') prevGroups.set(groupIdentity(e), e);
+    else if (e?.code) prevCourses.set(e.code, e);
+  }
+
+  const kept = [];
+  for (const entry of entries) {
+    const isGroup = entry.type === 'optionGroup';
+    const prev = isGroup ? prevGroups.get(groupIdentity(entry)) : prevCourses.get(entry.code);
+    if (!prev) continue;
+    for (const field of isGroup ? EDITORIAL_GROUP_FIELDS : EDITORIAL_COURSE_FIELDS) {
+      const value = prev[field];
+      if (value == null || value === '') continue;
+      // Only fill what this run left empty. A field the extractor now derives
+      // (an English title it previously lacked) must not be reverted to the old
+      // hand-written value.
+      if (entry[field] != null && entry[field] !== '') continue;
+      entry[field] = value;
+      kept.push(`${isGroup ? entry.name : entry.code}.${field}`);
+    }
+    // A renamed group keeps its name, which the loop above only applies when the
+    // new name is empty — and it never is, since the extractor always emits one.
+    // So handle it explicitly: a human-chosen name outranks the placeholder.
+    if (isGroup && prev.name && prev.name !== entry.name
+        && !/^Villkorligt valfri grupp \d+$/.test(prev.name)) {
+      kept.push(`${entry.name} → ${prev.name} (name)`);
+      entry.nameEn = prev.nameEn ?? entry.nameEn;
+      entry.name = prev.name;
+    }
+  }
+  return kept.length > 0 ? kept : null;
+}
+
+// ---------------------------------------------------------------------------
+// Inriktning or master programme?
+// ---------------------------------------------------------------------------
+//
+// Kopps returns BOTH under `curriculumInfos[].code`, and CMAST shows why the
+// difference matters. Its 17 "specialisations" are:
+//
+//   "Internationell inriktning, franska/spanska/tyska"   3 real inriktningar
+//   "Master, flyg- och rymdteknik" (and 7 more)          8 master programmes
+//   "Spår, mekatronik" (and 5 more)                      6 master-programme spår
+//
+// Only the first three are bachelor-level inriktningar of the kind CINEK has
+// (Datateknik, Tillämpad matematik, …) — a dimension a year-1-3 student is
+// actually filtered by. The other 14 are years 4-5 destinations, and a year-3
+// course tagged with them is not "a course for this inriktning" but "a course
+// required for eligibility to that master", which is exactly what `qualifiesFor`
+// expresses.
+//
+// Modelling them as inriktningar put 17 filter chips in the UI for a programme
+// that has three, and made a course required for 3 of 14 masters look like an
+// inriktning-specific course. The name prefix is the discriminator, and it is
+// KTH's own wording rather than a guess.
+const MASTER_SPEC_RE = /^\s*(master|spår)\b/i;
+
+// ...but the same wording means the opposite thing inside a master's programme.
+// TIEMM is "Masterprogram, industriell ekonomi" and its nine specialisations are
+// all "Spår, X" — those ARE its inriktningar, the only such dimension it has.
+// Stripping them by prefix alone deleted the whole registry of a programme that
+// legitimately needs it, so the rule is gated on the programme's own kind: a
+// master programme named inside a *civilingenjör* programme is a years 4-5
+// destination; a spår named inside a master's programme is its own structure.
+const MASTER_PROGRAMME_RE = /^\s*(masterprogram|master's programme)\b/i;
+
+const isMasterProgramme = (program) => MASTER_PROGRAMME_RE.test(program?.name || '');
+
+/**
+ * True for a registry entry that names a years 4-5 destination rather than a
+ * bachelor inriktning. Always false for a master's programme, whose spår are its
+ * own inriktningar.
+ */
+const isMasterSpec = (entry, program) =>
+  !isMasterProgramme(program) && MASTER_SPEC_RE.test(entry?.name || '');
+
+// ---------------------------------------------------------------------------
+// Which period an elective actually runs in
+// ---------------------------------------------------------------------------
+//
+// The study plan lists the courses that may fill a programme's elective space
+// but gives them NO `creditsPerPeriod` — measured on CTFYS and CTMAT year 3, 0 of
+// 20 and 0 of 31 listed courses carry any. Without a period an elective cannot be
+// placed on the timeline, so the boxes could only show an undifferentiated list.
+//
+// The course page has it. Each entry in `roundsBySemester` carries
+// `round_periods`, rendered HTML of the form
+//
+//     <p class="periode-list">VT 2027: P4 (3.8 hp), P3 (3.7 hp)</p>
+//
+// which is the authoritative per-period split for that round. Measured: 20 of 20
+// CTFYS candidates and 31 of 31 CTMAT candidates have it.
+//
+// Two details the parser has to respect. A course can run in SEVERAL semesters
+// with different splits (AK2011 is P1+P2 in the autumn and P4 in the spring;
+// DD1380 runs twice in one autumn), so the round has to be chosen by the term the
+// cohort would take it in rather than by taking the first. And the periods are
+// not listed in order — SF1677 reports "P4 … , P3 …" — so they must be sorted,
+// not read positionally.
+
+// "VT 2027: P4 (3.8 hp), P3 (3.7 hp)" — one period and its credits.
+const ROUND_PERIOD_RE = /\bP([1-4])\s*\(([\d.,]+)\s*hp\)/g;
+
+/**
+ * Parse one round's `round_periods` into a {P1..P4} map.
+ *
+ * Returns null when the string carries no period at all, so a caller can tell
+ * "no data" from "genuinely zero credits".
+ */
+function periodsFromRound(html) {
+  const text = decodeHtmlText(html);
+  if (!text) return null;
+  const out = Object.fromEntries(PERIOD_IDS.map((p) => [p, 0]));
+  let found = false;
+  for (const m of text.matchAll(ROUND_PERIOD_RE)) {
+    out[`P${m[1]}`] = round(Number(m[2].replace(',', '.')) || 0);
+    found = true;
+  }
+  return found ? out : null;
+}
+
+/**
+ * The period split for a course in the term a cohort would take it.
+ *
+ * Prefers a round in that exact term; falls back to the same season (autumn vs
+ * spring) in another year, since a course's period placement is far more stable
+ * across years than across seasons — an autumn round tells you nothing about
+ * where a spring round sits. Returns null rather than guessing when neither
+ * exists.
+ */
+function electivePeriods(roundsBySemester, wantedTerm) {
+  if (!roundsBySemester) return null;
+  const season = wantedTerm % 10;
+  const candidates = [];
+  for (const [term, rounds] of Object.entries(roundsBySemester)) {
+    const t = Number(term);
+    if (!Number.isFinite(t)) continue;
+    for (const rd of rounds || []) {
+      const pc = periodsFromRound(rd?.round_periods);
+      if (!pc) continue;
+      candidates.push({ term: t, periodCredits: pc });
+    }
+  }
+  if (candidates.length === 0) return null;
+
+  const exact = candidates.filter((c) => c.term === wantedTerm);
+  if (exact.length > 0) return mergeRoundPeriods(exact);
+
+  const sameSeason = candidates.filter((c) => c.term % 10 === season);
+  if (sameSeason.length > 0) {
+    // Nearest year in the same season.
+    const nearest = sameSeason.reduce((best, c) =>
+      Math.abs(c.term - wantedTerm) < Math.abs(best.term - wantedTerm) ? c : best);
+    return { ...nearest, approximate: true };
+  }
+  return null;
+}
+
+/**
+ * Combine several rounds in one term.
+ *
+ * A course can be offered twice in the same semester (DD1380 runs in both P1 and
+ * P2 of one autumn). Those are alternative offerings of the same course, not
+ * additional credits, so the periods are unioned by taking the per-period
+ * maximum rather than summed — summing would double the course's size.
+ */
+function mergeRoundPeriods(rounds) {
+  const out = Object.fromEntries(PERIOD_IDS.map((p) => [p, 0]));
+  for (const r of rounds) {
+    for (const p of PERIOD_IDS) out[p] = Math.max(out[p], r.periodCredits[p] || 0);
+  }
+  return { term: rounds[0].term, periodCredits: out };
+}
+
+
+/**
+ * Period split for one elective in the läsår a cohort takes `studyYear` in.
+ *
+ * The term cannot be derived from the period the way `termForCourse` does it,
+ * because the period is precisely what is unknown here. So both halves of the
+ * läsår are tried — autumn (P1/P2) and the following spring (P3/P4) — and
+ * whichever the course actually has a round in wins. A course offered in both
+ * (AK2011, DD2421) is reported for review rather than silently placed in one.
+ */
+async function electivePeriodsForYear(code, cohort, studyYear) {
+  let meta;
+  try { meta = await fetchCourseMeta(code); } catch { return null; }
+  if (!meta?.roundsBySemester) return null;
+
+  const lasar = cohort + studyYear - 1;
+  const autumn = lasar * 10 + TERM_AUTUMN;
+  const spring = (lasar + 1) * 10 + TERM_SPRING;
+
+  const inAutumn = electivePeriods(meta.roundsBySemester, autumn);
+  const inSpring = electivePeriods(meta.roundsBySemester, spring);
+
+  const exact = [inAutumn, inSpring].filter((x) => x && !x.approximate);
+  if (exact.length === 2) {
+    flag(`${code}: offered in both halves of läsår ${lasar}/${lasar + 1} ` +
+      `(${JSON.stringify(pcOnly(inAutumn))} and ${JSON.stringify(pcOnly(inSpring))}) — ` +
+      `listed in every matching period box; a student picks one offering.`);
+    return { periodCredits: unionPeriods(inAutumn.periodCredits, inSpring.periodCredits), bothHalves: true };
+  }
+  if (exact.length === 1) return exact[0];
+
+  // Neither term has a round: fall back to the nearest same-season one, which
+  // `electivePeriods` marks approximate.
+  const near = inAutumn ?? inSpring;
+  if (near) {
+    flag(`${code}: no round in läsår ${lasar}/${lasar + 1}; periods taken from the ` +
+      `nearest ${near.term % 10 === TERM_AUTUMN ? 'autumn' : 'spring'} round (${near.term}) — verify.`);
+    return near;
+  }
+  return null;
+}
+
+const pcOnly = (x) => Object.fromEntries(
+  PERIOD_IDS.filter((p) => (x?.periodCredits?.[p] || 0) > 0).map((p) => [p, x.periodCredits[p]]));
+
+const unionPeriods = (a, b) => Object.fromEntries(
+  PERIOD_IDS.map((p) => [p, Math.max(a?.[p] || 0, b?.[p] || 0)]));
+
+// ---------------------------------------------------------------------------
+// Master-programme eligibility from `supplementaryInformation`
+// ---------------------------------------------------------------------------
+//
+// CFATE states its master requirements in
+// `conditionallyElectiveCoursesInformation`; CTFYS and CTMAT state theirs in
+// `supplementaryInformation`, in two further formats. All three say the same kind
+// of thing — which courses a master programme needs — so all three are read.
+//
+//   CTFYS, inline:   "Matematik (TMAKM)"
+//                    "behörighetsgivande kurser: SF1677 Analysens grunder 7,5 hp
+//                     och SF1678 Grupper och ringar 7,5 hp"
+//
+//   CTMAT, block:    "Matematik TMAKM"                        <- no parentheses
+//                    "Behörighetsgivande kurser (måste vara avslutade):"
+//                    "SF1677 Analysens grunder"
+//                    "SF1678 Grupper och ringar"
+//                    "Rekommenderade kurser:"
+//                    "SF1691 Komplex analys"
+//
+// The distinction that matters is *required* versus *recommended*: the first is
+// a hard eligibility condition ("måste vara avslutade"), the second is advice.
+// Conflating them would tell a student a course is mandatory when it is not.
+
+// The master-programme code, ANYWHERE in the line: "Matematik (TMAKM)",
+// "Matematik TMAKM", or — as läsår 2024/25 writes it — the programme and its
+// requirement heading run together in one paragraph:
+//
+//   "Teknisk fysik TTFYM Behörighetsgivande kurser (måste vara avslutade):"
+//
+// An earlier version anchored the code to end-of-line, which silently failed on
+// that form: the heading was not recognised, so the courses under it were
+// attributed to the PREVIOUS programme. EI1320 came out as required for TSCRM
+// (Systemteknik och robotik) when the plan says TTFYM (Teknisk fysik) — a wrong
+// answer rather than a missing one, which is why the code is now found wherever
+// it sits and the heading tested independently.
+//
+// The T…M shape is required rather than any run of capitals, so ordinary prose
+// and course codes cannot match.
+const MASTER_CODE_RE = /\b(T[A-Z]{2,4}M)\b/;
+const REQUIRED_HEADING_RE = /behörighetsgivande\s+kurs(?:er)?/i;
+const RECOMMENDED_HEADING_RE = /rekommenderade?\s+kurs(?:er)?/i;
+// A line that is itself a course listing: starts with a code.
+const COURSE_LINE_RE = /^\s*([A-Z]{2,3}\d{3,4}[A-Z]?)\b/;
+
+/**
+ * Read master-programme eligibility out of a study plan's prose.
+ *
+ * Returns a Map from course code to the programmes that require or recommend it.
+ * `required` distinguishes the two, because the plan does: CTMAT writes
+ * "Behörighetsgivande kurser (måste vara avslutade)" for one and
+ * "Rekommenderade kurser" for the other, and a student needs to know which.
+ */
+function parseMasterEligibility(text) {
+  const out = new Map();
+  if (!text) return out;
+
+  let master = null;
+  let mode = null; // 'required' | 'recommended'
+
+  const attach = (codes, required) => {
+    if (!master) return;
+    for (const code of codes) {
+      const list = out.get(code) ?? [];
+      // One programme can appear twice for the same course (required in one
+      // läsår's wording, recommended in another); keep the stronger claim.
+      const existing = list.find((m) => m.code === master.code);
+      if (existing) { existing.required = existing.required || required; continue; }
+      list.push({ code: master.code, name: master.name, required });
+      out.set(code, list);
+    }
+  };
+
+  for (const rawLine of text.split('\n')) {
+    const line = rawLine.trim();
+    if (!line) continue;
+
+    // A line can carry a programme heading, a requirement heading and courses all
+    // at once, so each is handled in turn rather than as exclusive branches.
+    const codeMatch = MASTER_CODE_RE.exec(line);
+    if (codeMatch) {
+      master = { code: codeMatch[1], name: line.slice(0, codeMatch.index).trim() || codeMatch[1] };
+      mode = null;
+    }
+
+    const isRequired = REQUIRED_HEADING_RE.test(line);
+    const isRecommended = RECOMMENDED_HEADING_RE.test(line);
+    if (isRequired || isRecommended) {
+      mode = isRequired ? 'required' : 'recommended';
+      // CTFYS puts the courses on the same line as the heading; CTMAT puts them
+      // on the following lines. Handle both by reading any codes present here.
+      const inline = line.match(COURSE_CODE_RE) || [];
+      if (inline.length > 0) attach(inline, mode === 'required');
+      continue;
+    }
+    if (codeMatch) continue;
+
+    // A bare course line continues whichever heading was last seen.
+    if (mode && COURSE_LINE_RE.test(line)) {
+      attach(line.match(COURSE_CODE_RE) || [], mode === 'required');
+      continue;
+    }
+
+    // "eller" on its own line joins two alternatives, so it must not end the
+    // list: CTMAT writes "DD2350 …" / "eller" / "DD2352 …" for TCSCM, and
+    // dropping the second would tell a student only one course qualifies.
+    if (/^(eller|och|samt)$/i.test(line)) continue;
+
+    // Any other prose ends the current list, so a later course line cannot be
+    // silently attributed to a heading it does not belong to.
+    if (!COURSE_LINE_RE.test(line)) mode = null;
+  }
+  return out;
+}
+
 // ---------------------------------------------------------------------------
 // Reading one study year
 // ---------------------------------------------------------------------------
@@ -274,9 +793,27 @@ function readCurriculum(state, prog, year) {
   const records = [];
   const specNames = new Map();
   const notes = [];
+  const noteLines = [];
+  const vvInfo = [];
 
   for (const info of infos) {
-    if (info.supplementaryInformation) notes.push(decodeHtmlText(info.supplementaryInformation));
+    if (info.supplementaryInformation) {
+      notes.push(decodeHtmlText(info.supplementaryInformation));
+      // A line-preserving copy: `notes` is collapsed to one line for prose regex
+      // matching (elective-space wording), but the master-eligibility parser is
+      // line-based — a heading and the courses under it are separate <p> blocks.
+      noteLines.push(decodeHtmlLines(info.supplementaryInformation));
+    }
+    // The VV rule and per-master requirements, kept per inriktning so a group
+    // built from one curriculumInfo gets its own programme's wording.
+    if (info.conditionallyElectiveCoursesInformation) {
+      vvInfo.push({
+        spec: info.isCommon ? null : (info.code || null),
+        // Newlines matter: the CFATE text is a list of master programmes, each a
+        // heading line followed by its "Kurs som krävs" line.
+        text: decodeHtmlLines(info.conditionallyElectiveCoursesInformation),
+      });
+    }
     // `isCommon` marks the shared curriculum; its `code` is the empty string.
     const spec = info.isCommon ? null : (info.code || null);
     if (spec) specNames.set(spec, info.specializationName || spec);
@@ -308,7 +845,7 @@ function readCurriculum(state, prog, year) {
       }
     }
   }
-  return { records, specNames, notes };
+  return { records, specNames, notes, noteLines, vvInfo };
 }
 
 // ---------------------------------------------------------------------------
@@ -549,6 +1086,9 @@ async function fetchCoursePage(code) {
 
   return {
     versions,
+    // Kept for elective placement: `round_periods` on each round is the only
+    // source of a per-period split for a course the study plan lists without one.
+    roundsBySemester: cd.roundsBySemester ?? null,
     gradingScale: mapPageGradingScale(decodeHtmlText(info.course_grade_scale)),
     courseLevel: info.course_level_code === '1' ? 'G'
       : info.course_level_code === '2' ? 'A' : null,
@@ -562,7 +1102,7 @@ async function fetchCourseMeta(code) {
 
   const meta = {
     nameEn: null, gradingScale: null, courseLevel: null,
-    examModules: [], eligibility: null,
+    examModules: [], eligibility: null, roundsBySemester: null,
     // Every kursplan version, newest first, for per-cohort selection.
     versions: [],
   };
@@ -596,6 +1136,7 @@ async function fetchCourseMeta(code) {
   const page = await fetchCoursePage(code);
   if (page) {
     meta.versions = page.versions;
+    meta.roundsBySemester = page.roundsBySemester;
     if (page.gradingScale) meta.gradingScale = page.gradingScale;
     if (page.courseLevel) meta.courseLevel = page.courseLevel;
     // Newest version as the default; callers with a cohort override per term.
@@ -955,10 +1496,41 @@ function buildMultiYearEntry(code, byYear) {
  * support it for this shape either. The group name is not in the source, so a
  * placeholder is emitted for renaming during merge.
  */
-function buildOptionGroups(vvRecords) {
+function buildOptionGroups(vvRecords, vvInfo = []) {
+  // The study plan's own rule for each (year, inriktning), when it states one.
+  const ruleFor = new Map();
+  for (const info of vvInfo) {
+    const parsed = parseConditionallyElectiveInfo(info.text);
+    ruleFor.set(`${info.year}::${info.spec ?? ''}`, parsed);
+    for (const line of parsed.unparsed) {
+      flag(`year ${info.year}${info.spec ? ` [${info.spec}]` : ''}: ` +
+        `villkorligt valfri text not machine-read: "${line.slice(0, 140)}"`);
+    }
+  }
+
+  // Grouping key. Period layout is the fallback, but it is a proxy: it bundles
+  // courses that merely happen to share a slot and splits ones the plan treats
+  // as a single choice. CFATE year 3 is both failures at once — its five autumn
+  // options are 4 hp P1, 4 hp P2, 6 hp P1, 6 hp P2 and 5+1, so the layout key
+  // makes five singletons, each then dropped by the single-option rule below,
+  // losing the block entirely.
+  //
+  // When the study plan names the courses a master programme requires, those
+  // names ARE the grouping: they are the plan's own statement of what belongs
+  // together. So courses that appear in one `conditionallyElectiveCoursesInformation`
+  // block, in the same term, are grouped as one.
   const groups = new Map();
   for (const r of vvRecords) {
-    const key = `${r.year}::${pcKey(r.periodCredits)}::${r.credits}`;
+    const rule = ruleFor.get(`${r.year}::${r.spec ?? ''}`) ?? ruleFor.get(`${r.year}::`) ?? null;
+    const named = rule?.requiredFor.has(r.code) ?? false;
+    // Autumn (P1/P2) and spring (P3/P4) are separate choices even inside one
+    // block: a bachelor thesis in P3+P4 is not an alternative to a 4 hp course
+    // in P1. Splitting on term is what keeps CFATE's thesis box distinct.
+    const term = PERIOD_IDS.filter((pid) => r.periodCredits[pid] > 0)
+      .every((pid) => pid === 'P1' || pid === 'P2') ? 'HT' : 'VT';
+    const key = named
+      ? `${r.year}::${r.spec ?? ''}::named::${term}`
+      : `${r.year}::${pcKey(r.periodCredits)}::${r.credits}`;
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(r);
   }
@@ -978,12 +1550,21 @@ function buildOptionGroups(vvRecords) {
     n++;
     const first = recs[0];
     const options = optionCodes.slice().sort();
-    const periodCredits = Object.fromEntries(
-      PERIOD_IDS.map((p) => [p, round(first.periodCredits[p])]));
+    // Options in a named group have DIFFERENT layouts (that is why the layout key
+    // could not find them), so the group's bar cannot be any one option's shape.
+    // Use the per-period maximum: the envelope of the slot, which is what an
+    // `electivePlaceholder` bar means too. The first record's layout is right
+    // only when every option shares it, which is the layout-keyed case.
+    const uniform = recs.every((r) => pcKey(r.periodCredits) === pcKey(first.periodCredits));
+    const periodCredits = Object.fromEntries(PERIOD_IDS.map((p) => [
+      p,
+      uniform ? round(first.periodCredits[p])
+        : round(Math.max(...recs.map((r) => r.periodCredits[p] || 0))),
+    ]));
     // Same reconciliation as buildCourseEntry: the validator requires
     // Σ periodCredits == totalCredits for groups too, so the periods win.
     const placed = sumCredits(periodCredits);
-    let total = round(first.credits);
+    let total = uniform ? round(first.credits) : placed;
     if (placed > 0 && Math.abs(placed - total) > CREDIT_TOLERANCE) {
       flag(
         `optionGroup for [${options.join(' / ')}]: options are ${total} hp but only ${placed} hp ` +
@@ -991,6 +1572,55 @@ function buildOptionGroups(vvRecords) {
       );
       total = placed;
     }
+    // How many of these the student takes, per the study plan's own wording.
+    // Default 1, which was the only rule the schema could express before this
+    // field was read — and which CFATE year 3 shows to be wrong there.
+    const rule = ruleFor.get(`${first.year}::${first.spec ?? ''}`)
+      ?? ruleFor.get(`${first.year}::`)
+      ?? null;
+    let stated = rule?.exactCount ?? rule?.minCount ?? null;
+    let statedFrom = stated != null ? 'the stated rule' : null;
+
+    // When the plan states requirements per master programme instead of a group
+    // rule, the count is implied: the most any single master requires from this
+    // group. CFATE year 3 is the case — the text never says "välj N", but
+    // Teknisk fysik (TTFYM) requires SI1146 AND SH1014, so a student heading
+    // there takes two, and a pick-one box would make their plan impossible to
+    // express. Counted per (master, track) so TTFYM's extra SI1155 for three of
+    // its tracks does not inflate the autumn group.
+    if (stated == null && rule?.requiredFor.size) {
+      const perMaster = new Map();
+      for (const code of optionCodes) {
+        for (const m of rule.requiredFor.get(code) ?? []) {
+          const key = `${m.code}::${m.track ?? ''}`;
+          perMaster.set(key, (perMaster.get(key) ?? 0) + 1);
+        }
+      }
+      const most = Math.max(0, ...perMaster.values());
+      if (most > 1) {
+        stated = most;
+        const which = [...perMaster.entries()].filter(([, n]) => n === most).map(([k]) => k.split('::')[0]);
+        statedFrom = `the per-master requirements (${which.join(', ')} needs ${most})`;
+      }
+    }
+    const pickN = stated ?? 1;
+
+    // Which master programmes require each option, when the plan says. This is
+    // the answer to what a student is actually asking of a VV box, and it exists
+    // nowhere else in the data we read.
+    const qualifiesFor = {};
+    for (const code of options) {
+      const masters = rule?.requiredFor.get(code);
+      if (masters?.length) {
+        qualifiesFor[code] = masters.map((m) => ({
+          code: m.code,
+          name: m.name,
+          ...(m.track ? { track: m.track } : {}),
+          ...(m.tracks ? { tracks: m.tracks } : {}),
+        }));
+      }
+    }
+
     const entry = {
       type: 'optionGroup',
       name: `Villkorligt valfri grupp ${n}`,
@@ -999,12 +1629,22 @@ function buildOptionGroups(vvRecords) {
       totalCredits: total,
       periodCredits,
       options,
-      allowedNumberOfOptions: 1,
+      allowedNumberOfOptions: pickN,
       kind: 'pickN',
-      pickN: 1,
+      pickN,
       exams: [],
       category: 'conditionallyElective',
+      ...(Object.keys(qualifiesFor).length > 0 ? { qualifiesFor } : {}),
     };
+    if (stated != null) {
+      flag(`optionGroup "${entry.name}" (year ${entry.year}): pickN set to ${stated} from ` +
+        `${statedFrom}, not defaulted to 1 — verify against the study plan.`);
+    }
+    if (Object.keys(qualifiesFor).length > 0) {
+      const summary = Object.entries(qualifiesFor)
+        .map(([c, ms]) => `${c} → ${ms.map((m) => m.code).join('+')}`).join(', ');
+      flag(`optionGroup "${entry.name}" (year ${entry.year}): master eligibility read from the plan: ${summary}`);
+    }
     flag(`optionGroup "${entry.name}" (year ${entry.year}, ${entry.totalCredits} hp, options ${options.join(' / ')}): name is a placeholder — rename during merge.`);
     out.push(entry);
   }
@@ -1088,9 +1728,9 @@ async function readYear(prog, cohort, year) {
   let result = null;
   try {
     const state = await fetchStudyPlanState(prog, termFor(cohort), year);
-    const { records, specNames, notes } = readCurriculum(state, prog, year);
+    const { records, specNames, notes, noteLines, vvInfo } = readCurriculum(state, prog, year);
     const scheduled = records.filter((r) => hasAnyCredits(r.periodCredits));
-    result = { records: scheduled, listed: records.length, specNames, notes };
+    result = { records: scheduled, listed: records.length, specNames, notes, noteLines, vvInfo };
   } catch {
     result = null; // page missing entirely
   }
@@ -1115,6 +1755,8 @@ async function resolveYear(prog, cohort, year) {
         records: got.records,
         specNames: got.specNames,
         notes: got.notes || [],
+        noteLines: got.noteLines || [],
+        vvInfo: got.vvInfo || [],
         approximated: cand !== cohort,
       };
     }
@@ -1205,6 +1847,25 @@ async function corroborate(prog, cohort, sourceCohort, years) {
 // measured data.
 const NAMED_ENTITIES = { nbsp: ' ', amp: '&', quot: '"', apos: "'" };
 const ENTITY_RE = /&(?:#(\d+)|#[xX]([0-9a-fA-F]+)|([a-zA-Z]+));/g;
+
+/**
+ * Like decodeHtmlText, but keeps block boundaries as newlines.
+ *
+ * `conditionallyElectiveCoursesInformation` is a list of <p> elements where the
+ * structure carries meaning: a master-programme heading, then the courses it
+ * requires. Collapsing all whitespace runs the two together
+ * ("Teknisk fysik (TTFYM): Kurser som krävs: SI1146 och SH1014 Industriell
+ * ekonomi (TINEM) ..."), which makes the heading-then-requirement pairing
+ * unrecoverable.
+ */
+function decodeHtmlLines(input) {
+  const withBreaks = String(input || '').replace(/<\/p\s*>|<br\s*\/?>/gi, '\n');
+  return withBreaks
+    .split('\n')
+    .map((line) => decodeHtmlText(line))
+    .filter(Boolean)
+    .join('\n');
+}
 
 /** Decode HTML entities and strip tags. */
 function decodeHtmlText(input) {
@@ -1536,12 +2197,18 @@ function scheduledLoad(entries) {
  * group, which is the state CINEK's and TIEMM's inriktningar are in — and adding
  * placeholders on top of that would pile invention on a wrong base.
  */
-function fillElectiveSpace(entries, notes, hasSpecialisations) {
+function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords = [], eligibility = new Map(), electivePeriods = new Map(), electiveNames = new Map()) {
   const stated = statedElectiveSpace(notes);
   const totals = scheduledLoad(entries);
   const years = [...new Set([...totals.keys()].map((k) => Number(k.split('|')[0])))].sort();
   const added = [];
   const reports = [];
+  // Option courses for the elective groups, emitted once per code.
+  const electiveCourses = [];
+  const emittedElectiveCourses = new Set();
+  // Codes the programme already carries, so an elective option is never emitted
+  // twice under one code.
+  const existingCodes = new Set(entries.filter((e) => e?.code).map((e) => e.code));
 
   for (const year of years) {
     const load = PERIOD_IDS.map((pid) => round(totals.get(`${year}|${pid}`) || 0));
@@ -1605,6 +2272,101 @@ function fillElectiveSpace(entries, notes, hasSpecialisations) {
         exams: [pid],
         category: 'electivePlaceholder',
       };
+
+      // The study plan lists the courses that may fill this space (Kopps
+      // `electiveCondition: V`), and for some of them says which master
+      // programme they qualify the student for. Both are attached so the box can
+      // say what a student may choose and why it matters, instead of being an
+      // anonymous gap.
+      //
+      // They are NOT split per period, because the source does not say: measured
+      // on CTFYS and CTMAT year 3, 0 of 20 and 0 of 31 V courses carry any
+      // `creditsPerPeriod` at all. So every placeholder in a year carries the
+      // same candidate list, and the period shown is the slot's, not the course's.
+      // Only the electives that actually run in THIS period. Before the course
+      // pages were read, every box in a year had to list every candidate, since
+      // the study plan gives no period; now a P3 box offers P3 courses. A course
+      // whose period could not be resolved is still listed, with a flag, rather
+      // than dropped — omitting it would silently shorten the student's options.
+      const recordByCode = new Map();
+      for (const r of electiveRecords) {
+        if (r.year === year && !recordByCode.has(r.code)) recordByCode.set(r.code, r);
+      }
+      const candidates = [...recordByCode.keys()]
+        .filter((code) => {
+          const pc = electivePeriods.get(`${year}::${code}`);
+          if (!pc) return true;                 // unknown: keep, and flag below
+          return (pc[pid] || 0) > 0;
+        })
+        .sort();
+      const unplaced = [...new Set(electiveRecords
+        .filter((r) => r.year === year && !electivePeriods.has(`${r.year}::${r.code}`))
+        .map((r) => r.code))];
+      if (unplaced.length > 0) {
+        notes.push(`year ${year} ${pid}: no period data for ${unplaced.join(', ')} — ` +
+          `listed in every box for this year rather than dropped.`);
+      }
+      // An elective slot with listed options IS an option group — "minst 7,5 hp
+      // out of these" — so it is emitted as one rather than as a placeholder with
+      // a parallel mechanism bolted on. The renderer already substitutes a picked
+      // option for the group's bar and opens the selection modal; a group gets all
+      // of that for free, which a placeholder cannot.
+      //
+      // The options are emitted as real course entries too, exactly as the
+      // villkorligt-valfri groups do, because the renderer resolves `options[]`
+      // against the course list.
+      if (candidates.length > 0) {
+        entry.type = 'optionGroup';
+        entry.name = electiveGroupName(pid, year);
+        entry.nameEn = electiveGroupNameEn(pid, year);
+        entry.options = candidates;
+        entry.kind = 'minCredits';
+        entry.minCredits = short[i];
+        entry.allowedNumberOfOptions = candidates.length;
+        delete entry.code;
+        delete entry.prerequisites;
+        const quals = {};
+        for (const code of candidates) {
+          const masters = eligibility.get(`${year}::${code}`);
+          if (masters?.length) quals[code] = masters;
+        }
+        if (Object.keys(quals).length > 0) entry.qualifiesFor = quals;
+
+        for (const code of candidates) {
+          if (emittedElectiveCourses.has(code)) continue;
+          // The code may already be a course in the programme — CTMAT lists
+          // SF1677/SF1678/SF1691 as villkorligt valfria in year 2 AND as elective
+          // candidates in year 3. One entry per code is the schema's rule (the
+          // validator rejects duplicates, and the loader would silently sum their
+          // credits), so the existing entry serves as the option and the group
+          // simply references it.
+          if (existingCodes.has(code)) {
+            flag(`${code}: listed as an elective for year ${year} but already a ` +
+              `course in this programme — the elective box references the existing ` +
+              `entry, which sits in its own year. Verify that is the intended reading.`);
+            continue;
+          }
+          emittedElectiveCourses.add(code);
+          const rec = recordByCode.get(code);
+          const pc = electivePeriods.get(`${year}::${code}`)
+            ?? Object.fromEntries(PERIOD_IDS.map((q) => [q, q === pid ? short[i] : 0]));
+          electiveCourses.push({
+            code,
+            name: rec?.name || code,
+            ...(electiveNames.get(code) ? { nameEn: electiveNames.get(code) } : {}),
+            totalCredits: round(PERIOD_IDS.reduce((a, q) => a + (pc[q] || 0), 0)),
+            periodCredits: Object.fromEntries(PERIOD_IDS.map((q) => [q, round(pc[q] || 0)])),
+            year,
+            prerequisites: [],
+            exams: [],
+            teacher: '',
+            description: '',
+            // 'recommended' rather than 'conditionallyElective': the study plan
+            // suggests these for free elective space, it does not require a pick.
+            category: 'recommended',
+          });
+        }
+      }
       entries.push(entry);
       added.push(entry);
       reports.push({
@@ -1613,8 +2375,13 @@ function fillElectiveSpace(entries, notes, hasSpecialisations) {
       });
     }
   }
-  return { added, reports };
+  return { added, reports, electiveCourses };
 }
+
+// A period-specific name, so the four boxes of a year are distinguishable in the
+// legend and in `selectedOptionPerGroup` (which is keyed by name).
+const electiveGroupName = (pid, year) => `Valfri kurs, årskurs ${year} ${pid}`;
+const electiveGroupNameEn = (pid, year) => `Elective course, year ${year} ${pid}`;
 
 // ---------------------------------------------------------------------------
 // Vertical alignment: ordering within a study year
@@ -1867,6 +2634,16 @@ async function newestPublishedCohort(prog, from) {
 }
 
 async function extractCohort(prog, cohort, args, registryEntries) {
+  // The programme's own entry, needed to tell a civilingenjör programme (whose
+  // "Master, X" specialisations are years 4-5 destinations) from a master's
+  // programme (whose "Spår, X" specialisations are its own inriktningar).
+  const programMeta = (() => {
+    const raw = readTextOrNull(join(dataDir, 'programs.json'));
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw).find((p) => p?.code === prog) ?? null;
+    } catch { return null; }
+  })();
   review.length = 0; // report per cohort
 
   console.log(`\n═══ ${prog} ${cohortLabel(cohort)} — years 1-${args.years} ═══`);
@@ -1876,6 +2653,10 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   const provenance = [];
   const versionsByCode = new Map();
   const planNotes = [];
+  // Per-year VV rule text, keyed for the group builder below.
+  const planVvInfo = [];
+  // Master-programme eligibility parsed from each year's prose, per year.
+  const planEligibility = new Map();
 
   for (let year = 1; year <= args.years; year++) {
     process.stdout.write(`• year ${year} … `);
@@ -1894,6 +2675,21 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     for (const [k, v] of src.specNames) specNames.set(k, v);
     allRecords.push(...src.records);
     planNotes.push(...(src.notes || []));
+    for (const v of src.vvInfo || []) planVvInfo.push({ ...v, year });
+    // CTFYS and CTMAT state master eligibility in `supplementaryInformation`
+    // rather than the VV field, so both are read; see parseMasterEligibility.
+    for (const note of src.noteLines || []) {
+      for (const [code, masters] of parseMasterEligibility(note)) {
+        const key = `${year}::${code}`;
+        const existing = planEligibility.get(key) ?? [];
+        for (const m of masters) {
+          const dup = existing.find((x) => x.code === m.code);
+          if (dup) { dup.required = dup.required || m.required; continue; }
+          existing.push(m);
+        }
+        planEligibility.set(key, existing);
+      }
+    }
 
     const entry = {
       year,
@@ -1982,7 +2778,7 @@ async function extractCohort(prog, cohort, args, registryEntries) {
 
   // VV options must exist as real courses for the validator to resolve
   // `options[]`, so emit both the group and one entry per option.
-  const groups = buildOptionGroups(vv);
+  const groups = buildOptionGroups(vv, planVvInfo);
   const vvByCode = new Map();
   for (const r of vv) {
     if (byCode.has(r.code)) continue; // already emitted as a core course
@@ -2086,7 +2882,32 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   // Option groups count toward the load (the student takes one option), so the
   // combined list is what gets measured and extended.
   const allEntries = [...entries, ...groups];
-  const electiveSpace = fillElectiveSpace(allEntries, planNotes, usedSpecs.length > 0);
+  // Resolve each listed elective's actual periods, so a placeholder box can offer
+  // only the courses that really run in its period. The study plan gives no
+  // period for these; the course page's `round_periods` does.
+  const electiveCodes = [...new Set(elective.map((r) => r.code))];
+  const electivePeriodsByCode = new Map();
+  const electiveNamesByCode = new Map();
+  if (electiveCodes.length > 0) {
+    process.stdout.write(`  resolving periods for ${electiveCodes.length} listed elective(s) … `);
+    for (const r of elective) {
+      const key = `${r.year}::${r.code}`;
+      if (electivePeriodsByCode.has(key)) continue;
+      const got = await electivePeriodsForYear(r.code, cohort, r.year);
+      if (got) electivePeriodsByCode.set(key, got.periodCredits);
+      // The English title comes only from KOPPS, and fetchCourseMeta has already
+      // been called (and cached) by the period resolver above.
+      try {
+        const meta = await fetchCourseMeta(r.code);
+        if (meta?.nameEn) electiveNamesByCode.set(r.code, meta.nameEn);
+      } catch { /* title is optional */ }
+    }
+    console.log(`${electivePeriodsByCode.size}/${elective.length} placed`);
+  }
+
+  const electiveSpace = fillElectiveSpace(
+    allEntries, planNotes, usedSpecs.length > 0, elective, planEligibility,
+    electivePeriodsByCode, electiveNamesByCode);
   for (const r of electiveSpace.reports) {
     if (r.kind === 'elective-space-filled') {
       const vs = r.expected != null
@@ -2098,6 +2919,55 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     } else {
       flag(`year ${r.year}: periods do not add up to full-time and were NOT filled — ${r.detail}`);
     }
+  }
+
+  // Master programmes and their spår are not inriktningar (see isMasterSpec), so
+  // a tag naming one is eligibility information, not a filter dimension. Move it
+  // to `qualifiesFor` and leave only the real inriktningar in `specializations`.
+  const masterSpecs = new Map(
+    registryEntries.filter((r) => isMasterSpec(r, programMeta)).map((r) => [r.code, r.name]));
+  if (masterSpecs.size > 0) {
+    let moved = 0;
+    for (const e of allEntries) {
+      if (!e.specializations?.length) continue;
+      const masters = e.specializations.filter((c) => masterSpecs.has(c));
+      if (masters.length === 0) continue;
+      const rest = e.specializations.filter((c) => !masterSpecs.has(c));
+      if (rest.length > 0) {
+        e.specializations = rest;
+      } else {
+        delete e.specializations;
+        // `periodCreditsBySpecialization` keys the specs that just went away, and
+        // the validator requires a non-empty `specializations` alongside it.
+        if (e.periodCreditsBySpecialization) {
+          flag(`${e.code}: dropped 'periodCreditsBySpecialization' with its ` +
+            `master-programme tags — a period override keyed by a destination is ` +
+            `not an inriktning-specific layout.`);
+          delete e.periodCreditsBySpecialization;
+        }
+      }
+      // Required for those masters: the study plan lists the course under them.
+      // `required` is true because a tagged course is what the master demands —
+      // the recommended/required distinction only arises in the prose parser.
+      e.qualifiesFor = {
+        ...(e.qualifiesFor || {}),
+        [e.code ?? e.name]: masters.map((c) => ({
+          code: c, name: masterSpecs.get(c), required: true })),
+      };
+      moved++;
+    }
+    if (moved > 0) {
+      flag(`${moved} entr${moved === 1 ? 'y' : 'ies'}: master-programme tags moved from ` +
+        `'specializations' to 'qualifiesFor' — they are years 4-5 destinations, not ` +
+        `bachelor inriktningar, so they must not drive the inriktning filter.`);
+    }
+  }
+
+  // The elective groups' options must exist as course entries for the renderer to
+  // resolve `options[]` — same requirement the villkorligt-valfri groups have.
+  if (electiveSpace.electiveCourses.length > 0) {
+    allEntries.push(...electiveSpace.electiveCourses);
+    console.log(`  ${electiveSpace.electiveCourses.length} elective option course(s) emitted`);
   }
 
   // Start from a stable, readable order, then let the aligner improve the
@@ -2127,6 +2997,9 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     ? join(repoRoot, args.out)
     : join(cohortsDir, `${prog}-${cohortLabel(cohort)}.json`);
   mkdirSync(dirname(outPath), { recursive: true });
+  // Update rather than overwrite: keep the hand-written decoration from the file
+  // being replaced (see carryForwardEditorial).
+  const carried = carryForwardEditorial(outPath, ordered);
   writeFileSync(outPath, `${JSON.stringify([meta, ...ordered], null, 2)}\n`, 'utf8');
 
   // --- report -------------------------------------------------------------
@@ -2136,6 +3009,10 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   const approx = provenance.filter((p) => p.approximated);
 
   console.log(`\nWrote ${rel(outPath)}`);
+  if (carried) {
+    console.log(`  kept ${carried.length} hand-written field(s) from the previous file: ` +
+      `${carried.slice(0, 6).join(', ')}${carried.length > 6 ? `, … +${carried.length - 6}` : ''}`);
+  }
   console.log(`  ${courses.length} course(s), ${groups.length} option group(s)`);
   console.log(`  exams derived for ${withExams}/${courses.length} course(s)`);
   if (usedSpecs.length > 0) console.log(`  inriktningar: ${usedSpecs.join(', ')}`);
@@ -2157,7 +3034,9 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   }
 
   if (registryEntries.length > 0) {
-    const needed = registryEntries.filter((r) => usedSpecs.includes(r.code));
+    const needed = registryEntries
+      .filter((r) => usedSpecs.includes(r.code))
+      .filter((r) => !isMasterSpec(r, programMeta));
     if (needed.length > 0 && !args.quietSpecs) {
       console.log(`\n  programs.json → '${prog}' → specializations needs: ${needed.map((n) => n.code).join(', ')}`);
     }

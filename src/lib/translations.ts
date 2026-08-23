@@ -42,6 +42,22 @@ export const tr = {
     clickCourseForDetails: 'Klicka på en kurs för detaljer',
     yearFocusHint: 'Klicka för att fokusera årskursen',
     optionGroupHint: 'välj 1 av {N} alternativ',
+    // Groups whose rule is not the historical pick-one. The chart tooltip used
+    // the pick-one string for every group, so a 'minst N hp' pool described
+    // itself as a choice between one course — the modal already got this right.
+    optionGroupHintPickN: 'välj {K} av {N} alternativ',
+    optionGroupHintMinCredits: 'minst {C} hp av {N} alternativ',
+    // Prefix for the master-eligibility note on an option group's options.
+    qualifiesFor: 'behörighetsgivande för',
+    recommendedFor: 'rekommenderad för',
+    // Compact forms for the selection modal, where the note shares a row.
+    qualifiesForShort: 'krävs för',
+    recommendedForShort: 'rek. för',
+    electiveCandidates: 'Valbara kurser enligt utbildningsplanen',
+    // The source gives no period for these, so the box's period is the slot's.
+    electivePeriodUnknown: 'Läsperiod inte fastställd för:',
+    clickToChoose: 'Klicka för att välja kurs',
+    electiveGroupHint: 'minst {C} hp valfri kurs',
     legendToggleHint: 'Klicka för att dölja/visa lager',
     legendToggleGroupHint: 'Klicka för att dölja/visa kursgrupp',
     pdfExportFailed: 'PDF-export misslyckades',
@@ -97,6 +113,16 @@ export const tr = {
     clickCourseForDetails: 'Click a course for details',
     yearFocusHint: 'Click to focus this year',
     optionGroupHint: 'pick 1 of {N} options',
+    optionGroupHintPickN: 'pick {K} of {N} options',
+    optionGroupHintMinCredits: 'at least {C} credits from {N} options',
+    qualifiesFor: 'qualifies for',
+    recommendedFor: 'recommended for',
+    qualifiesForShort: 'required for',
+    recommendedForShort: 'rec. for',
+    electiveCandidates: 'Elective courses listed in the study plan',
+    electivePeriodUnknown: 'Period not established for:',
+    clickToChoose: 'Click to choose a course',
+    electiveGroupHint: 'at least {C} credits of elective courses',
     legendToggleHint: 'Click to hide/show layer',
     legendToggleGroupHint: 'Click to hide/show course group',
     pdfExportFailed: 'PDF export failed',
