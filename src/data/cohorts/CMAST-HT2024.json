@@ -624,18 +624,32 @@
     ],
     "teacher": "",
     "description": "",
-    "specializations": [
-      "AEE",
-      "FOR",
-      "IPUC"
-    ],
     "category": "mandatory",
     "nameEn": "Automatic Control, General Course",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
       "SF1633"
-    ]
+    ],
+    "qualifiesFor": {
+      "EL1010": [
+        {
+          "code": "AEE",
+          "name": "Master, flyg- och rymdteknik",
+          "required": true
+        },
+        {
+          "code": "FOR",
+          "name": "Master, fordonsteknik",
+          "required": true
+        },
+        {
+          "code": "IPUC",
+          "name": "Spår, mekatronik",
+          "required": true
+        }
+      ]
+    }
   },
   {
     "code": "MG110X",
@@ -674,46 +688,84 @@
     ],
     "teacher": "",
     "description": "",
-    "periodCreditsBySpecialization": {
-      "AEE": {
-        "P1": 0,
-        "P2": 0,
-        "P3": 6,
-        "P4": 0
-      },
-      "MRS": {
-        "P1": 0,
-        "P2": 0,
-        "P3": 6,
-        "P4": 0
-      },
-      "TEMA": {
-        "P1": 0,
-        "P2": 0,
-        "P3": 6,
-        "P4": 0
-      }
-    },
-    "specializations": [
-      "AEE",
-      "FOR",
-      "INE",
-      "IPDE",
-      "IPUB",
-      "IPUC",
-      "MRS",
-      "NEE",
-      "PRM",
-      "SUE",
-      "TEMA",
-      "TEMB",
-      "TEMC",
-      "TMV"
-    ],
     "category": "mandatory",
     "nameEn": "Industrial Management, Basic Course",
     "gradingScale": "A-F",
-    "courseLevel": "G"
+    "courseLevel": "G",
+    "qualifiesFor": {
+      "ME1003": [
+        {
+          "code": "AEE",
+          "name": "Master, flyg- och rymdteknik",
+          "required": true
+        },
+        {
+          "code": "FOR",
+          "name": "Master, fordonsteknik",
+          "required": true
+        },
+        {
+          "code": "INE",
+          "name": "Master, industriell ekonomi",
+          "required": true
+        },
+        {
+          "code": "IPDE",
+          "name": "Spår, innovationsledning och produktutveckling",
+          "required": true
+        },
+        {
+          "code": "IPUB",
+          "name": "Spår, maskinkonstruktion",
+          "required": true
+        },
+        {
+          "code": "IPUC",
+          "name": "Spår, mekatronik",
+          "required": true
+        },
+        {
+          "code": "MRS",
+          "name": "Master, marina system",
+          "required": true
+        },
+        {
+          "code": "NEE",
+          "name": "Master, kärnenergiteknik",
+          "required": true
+        },
+        {
+          "code": "PRM",
+          "name": "Master, industriell produktion",
+          "required": true
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": true
+        },
+        {
+          "code": "TEMA",
+          "name": "Spår, Fluidmekanik",
+          "required": true
+        },
+        {
+          "code": "TEMB",
+          "name": "Spår, Hållfasthetsteknik",
+          "required": true
+        },
+        {
+          "code": "TEMC",
+          "name": "Spår, Ljud och vibrationer",
+          "required": true
+        },
+        {
+          "code": "TMV",
+          "name": "Master, teknisk materialvetenskap",
+          "required": true
+        }
+      ]
+    }
   },
   {
     "code": "MJ146X",
@@ -872,19 +924,37 @@
     ],
     "teacher": "",
     "description": "",
-    "specializations": [
-      "AEE",
-      "MRS",
-      "SUE",
-      "TEMA"
-    ],
     "category": "mandatory",
     "nameEn": "Fluid Mechanics for Engineers",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
       "SG1130"
-    ]
+    ],
+    "qualifiesFor": {
+      "SG1220": [
+        {
+          "code": "AEE",
+          "name": "Master, flyg- och rymdteknik",
+          "required": true
+        },
+        {
+          "code": "MRS",
+          "name": "Master, marina system",
+          "required": true
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": true
+        },
+        {
+          "code": "TEMA",
+          "name": "Spår, Fluidmekanik",
+          "required": true
+        }
+      ]
+    }
   },
   {
     "code": "MF135X",
@@ -941,16 +1011,22 @@
     ],
     "teacher": "",
     "description": "",
-    "specializations": [
-      "SUE"
-    ],
     "category": "mandatory",
     "nameEn": "Heat Transfer",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
       "MJ1112"
-    ]
+    ],
+    "qualifiesFor": {
+      "MJ1401": [
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": true
+        }
+      ]
+    }
   },
   {
     "code": "SE1025",
@@ -968,25 +1044,67 @@
     ],
     "teacher": "",
     "description": "",
-    "specializations": [
-      "FOR",
-      "INE",
-      "IPDE",
-      "IPUB",
-      "MRS",
-      "NEE",
-      "TEMA",
-      "TEMB",
-      "TEMC",
-      "TMV"
-    ],
     "category": "conditionallyElective",
     "nameEn": "FEM for Engineering Applications",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
       "SE1010"
-    ]
+    ],
+    "qualifiesFor": {
+      "SE1025": [
+        {
+          "code": "FOR",
+          "name": "Master, fordonsteknik",
+          "required": true
+        },
+        {
+          "code": "INE",
+          "name": "Master, industriell ekonomi",
+          "required": true
+        },
+        {
+          "code": "IPDE",
+          "name": "Spår, innovationsledning och produktutveckling",
+          "required": true
+        },
+        {
+          "code": "IPUB",
+          "name": "Spår, maskinkonstruktion",
+          "required": true
+        },
+        {
+          "code": "MRS",
+          "name": "Master, marina system",
+          "required": true
+        },
+        {
+          "code": "NEE",
+          "name": "Master, kärnenergiteknik",
+          "required": true
+        },
+        {
+          "code": "TEMA",
+          "name": "Spår, Fluidmekanik",
+          "required": true
+        },
+        {
+          "code": "TEMB",
+          "name": "Spår, Hållfasthetsteknik",
+          "required": true
+        },
+        {
+          "code": "TEMC",
+          "name": "Spår, Ljud och vibrationer",
+          "required": true
+        },
+        {
+          "code": "TMV",
+          "name": "Master, teknisk materialvetenskap",
+          "required": true
+        }
+      ]
+    }
   },
   {
     "code": "MG1024",
@@ -1004,9 +1122,6 @@
     ],
     "teacher": "",
     "description": "",
-    "specializations": [
-      "PRM"
-    ],
     "category": "mandatory",
     "nameEn": "Production",
     "gradingScale": "A-F",
@@ -1014,7 +1129,16 @@
     "prerequisitesCompleted": [
       "MF1001",
       "MG1026"
-    ]
+    ],
+    "qualifiesFor": {
+      "MG1024": [
+        {
+          "code": "PRM",
+          "name": "Master, industriell produktion",
+          "required": true
+        }
+      ]
+    }
   },
   {
     "code": "SG1217",
@@ -1033,20 +1157,54 @@
     ],
     "teacher": "",
     "description": "",
-    "specializations": [
-      "FOR",
-      "INE",
-      "IPDE",
-      "IPUB",
-      "NEE",
-      "TEMB",
-      "TEMC",
-      "TMV"
-    ],
     "category": "conditionallyElective",
     "nameEn": "Fluid Mechanics, Basic Course",
     "gradingScale": "A-F",
-    "courseLevel": "G"
+    "courseLevel": "G",
+    "qualifiesFor": {
+      "SG1217": [
+        {
+          "code": "FOR",
+          "name": "Master, fordonsteknik",
+          "required": true
+        },
+        {
+          "code": "INE",
+          "name": "Master, industriell ekonomi",
+          "required": true
+        },
+        {
+          "code": "IPDE",
+          "name": "Spår, innovationsledning och produktutveckling",
+          "required": true
+        },
+        {
+          "code": "IPUB",
+          "name": "Spår, maskinkonstruktion",
+          "required": true
+        },
+        {
+          "code": "NEE",
+          "name": "Master, kärnenergiteknik",
+          "required": true
+        },
+        {
+          "code": "TEMB",
+          "name": "Spår, Hållfasthetsteknik",
+          "required": true
+        },
+        {
+          "code": "TEMC",
+          "name": "Spår, Ljud och vibrationer",
+          "required": true
+        },
+        {
+          "code": "TMV",
+          "name": "Master, teknisk materialvetenskap",
+          "required": true
+        }
+      ]
+    }
   },
   {
     "code": "MG1002",
@@ -1064,16 +1222,22 @@
     ],
     "teacher": "",
     "description": "",
-    "specializations": [
-      "PRM"
-    ],
     "category": "mandatory",
     "nameEn": "Automation Technology",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
       "MF1016"
-    ]
+    ],
+    "qualifiesFor": {
+      "MG1002": [
+        {
+          "code": "PRM",
+          "name": "Master, industriell produktion",
+          "required": true
+        }
+      ]
+    }
   },
   {
     "code": "ME2016",
@@ -1092,13 +1256,19 @@
     ],
     "teacher": "",
     "description": "",
-    "specializations": [
-      "TEMA"
-    ],
     "category": "conditionallyElective",
     "nameEn": "Project Management: Leadership and Control",
     "gradingScale": "A-F",
-    "courseLevel": "A"
+    "courseLevel": "A",
+    "qualifiesFor": {
+      "ME2016": [
+        {
+          "code": "TEMA",
+          "name": "Spår, Fluidmekanik",
+          "required": true
+        }
+      ]
+    }
   },
   {
     "type": "optionGroup",
@@ -1143,13 +1313,19 @@
     ],
     "teacher": "",
     "description": "",
-    "specializations": [
-      "TEMC"
-    ],
     "category": "mandatory",
     "nameEn": "Design of Silent and Vibration-free Products",
     "gradingScale": "A-F",
-    "courseLevel": "G"
+    "courseLevel": "G",
+    "qualifiesFor": {
+      "SD1116": [
+        {
+          "code": "TEMC",
+          "name": "Spår, Ljud och vibrationer",
+          "required": true
+        }
+      ]
+    }
   },
   {
     "code": "DD1320",
@@ -1165,16 +1341,22 @@
     "exams": [],
     "teacher": "",
     "description": "",
-    "specializations": [
-      "IPUC"
-    ],
     "category": "mandatory",
     "nameEn": "Applied Computer Science",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
       "DD1310"
-    ]
+    ],
+    "qualifiesFor": {
+      "DD1320": [
+        {
+          "code": "IPUC",
+          "name": "Spår, mekatronik",
+          "required": true
+        }
+      ]
+    }
   },
   {
     "type": "optionGroup",

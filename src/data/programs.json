@@ -95,23 +95,9 @@
     "commentEn": "Fully auto-extracted, never verified. The default view shows the HT2025 cohort; pick an admission year for others.",
     "studyplan": "https://www.kth.se/student/kurser/program/CMAST",
     "specializations": [
-      { "code": "AEE", "name": "Master, flyg- och rymdteknik", "nameEn": "Master, Aerospece Engineering" },
-      { "code": "FOR", "name": "Master, fordonsteknik", "nameEn": "Master, Vehicle Engineering" },
-      { "code": "INE", "name": "Master, industriell ekonomi", "nameEn": "Master, Industrial Management" },
       { "code": "INTF", "name": "Internationell inriktning, franska", "nameEn": "International Profile, french" },
       { "code": "INTS", "name": "Internationell inriktning, spanska", "nameEn": "International Profile, spanish" },
-      { "code": "INTT", "name": "Internationell inriktning, tyska", "nameEn": "International Profile, german" },
-      { "code": "IPDE", "name": "Spår, innovationsledning och produktutveckling", "nameEn": "Track,  Innovation Management and Product Development" },
-      { "code": "IPUB", "name": "Spår, maskinkonstruktion", "nameEn": "Track, Machine Design" },
-      { "code": "IPUC", "name": "Spår, mekatronik", "nameEn": "Track, Mechatronics" },
-      { "code": "MRS", "name": "Master, marina system", "nameEn": "Master, Naval Architecture" },
-      { "code": "NEE", "name": "Master, kärnenergiteknik", "nameEn": "Master, Nuclear Energy Engineering" },
-      { "code": "PRM", "name": "Master, industriell produktion", "nameEn": "Master, Production Engineering and Management" },
-      { "code": "SUE", "name": "Master, hållbar energiteknik", "nameEn": "Master, Sustainable Energy Engineering" },
-      { "code": "TEMA", "name": "Spår, Fluidmekanik", "nameEn": "Track, Fluid Mechanics" },
-      { "code": "TEMB", "name": "Spår, Hållfasthetsteknik", "nameEn": "Track, Solid Mechanics" },
-      { "code": "TEMC", "name": "Spår, Ljud och vibrationer", "nameEn": "Track, Sound and Vibrations" },
-      { "code": "TMV", "name": "Master, teknisk materialvetenskap", "nameEn": "Master, Engineering Materials Science" }
+      { "code": "INTT", "name": "Internationell inriktning, tyska", "nameEn": "International Profile, german" }
     ]
   },
   {
@@ -123,12 +109,6 @@
     "verified": false,
     "comment": "Helt automatiskt extraherad, aldrig verifierad. Standardvyn visar kullen HT2025; välj antagningsår för andra kullar.",
     "commentEn": "Fully auto-extracted, never verified. The default view shows the HT2025 cohort; pick an admission year for others.",
-    "studyplan": "https://www.kth.se/student/kurser/program/CMATD",
-    "specializations": [
-      { "code": "INE", "name": "Master, industriell ekonomi", "nameEn": "Master, Industrial Management" },
-      { "code": "MMM", "name": "Master, makromolekylära material", "nameEn": "Master, Macromolecular Materials" },
-      { "code": "PRM", "name": "Master, industriell produktion", "nameEn": "Master, Production Engineering and Management" },
-      { "code": "TEMB", "name": "Spår, Hållfasthetsteknik", "nameEn": "Track, Solid Mechanics" }
-    ]
+    "studyplan": "https://www.kth.se/student/kurser/program/CMATD"
   }
 ]

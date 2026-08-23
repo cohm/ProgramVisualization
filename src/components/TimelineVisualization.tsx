@@ -833,17 +833,20 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
   // Separate option groups and individual courses, and identify courses that should be hidden
   const optionGroups = courses.filter(isOptionGroup);
-  const coursesInOptionGroups = new Set<string>();
+  // A course can be an option in SEVERAL groups: an elective that runs in both
+  // P3 and P4 is offered by both period boxes. So membership and selection are
+  // collected separately, and a course is hidden only when it is an option
+  // somewhere and picked nowhere — otherwise picking it in the P3 box would be
+  // undone by the P4 box still listing it as unpicked.
+  const optionOf = new Set<string>();
+  const pickedAnywhere = new Set<string>();
   optionGroups.forEach(og => {
     const selectedCodes = selectedOptionPerGroup[og.name] ?? [];
-    og.options.forEach(optionCode => {
-      // Hide options that weren't picked. Picked options surface in
-      // `individualCourses` and render as their own bars.
-      if (!selectedCodes.includes(optionCode)) {
-        coursesInOptionGroups.add(optionCode);
-      }
-    });
+    og.options.forEach(optionCode => optionOf.add(optionCode));
+    selectedCodes.forEach(code => pickedAnywhere.add(code));
   });
+  const coursesInOptionGroups = new Set(
+    [...optionOf].filter(code => !pickedAnywhere.has(code)));
 
   // Filter courses to only include individual courses (not in option groups)
   const individualCourses = courses.filter(c => {

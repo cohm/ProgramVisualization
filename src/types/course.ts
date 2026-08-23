@@ -62,6 +62,45 @@ export interface OptionGroup {
   // programs.json. Currently scoped to the bachelor part of a civilingenjör
   // program; spår (master-program tracks) will be a separate field.
   specializations?: string[];
+  // Which master programmes each option qualifies the student for, keyed by
+  // course code. Read from the study plan's own
+  // `conditionallyElectiveCoursesInformation` — KTH states, per master
+  // programme, which of these courses it requires for eligibility, and that is
+  // the question a year-3 student is actually asking of the box. Absent when the
+  // plan says nothing.
+  qualifiesFor?: Record<string, MasterEligibility[]>;
+  /**
+   * Free-text note about the group's rule, shown in the chart tooltip and above
+   * the option list in the selection modal.
+   *
+   * The machine-readable fields say how many courses to pick; they cannot say
+   * what the list *is*. CTFYS's elective boxes need "Exempel på kurser … även
+   * andra kan väljas" — the options are illustrative, not exhaustive — which no
+   * combination of `kind`, `pickN` and `minCredits` conveys, and which a student
+   * reading a nine-item list would otherwise reasonably take as the whole choice.
+   */
+  comment?: string;
+  commentEn?: string;
+}
+
+/** A master programme an option qualifies for, and optionally which of its tracks. */
+export interface MasterEligibility {
+  /** Programme code, e.g. 'TTFYM'. */
+  code: string;
+  /** Programme name as the study plan writes it, e.g. 'Teknisk fysik'. */
+  name: string;
+  /**
+   * True for a behörighetsgivande course ("måste vara avslutade"), false for a
+   * merely rekommenderad one. The study plans state both and the difference
+   * matters to a student, so it is not flattened. Undefined for the
+   * `conditionallyElectiveCoursesInformation` source, where every listed course
+   * is a requirement.
+   */
+  required?: boolean;
+  /** A single spår, when the plan names one ("(TIPUM) spår IPUC"). */
+  track?: string;
+  /** Several spår, when the requirement applies only to some of them. */
+  tracks?: string[];
 }
 
 // What the bottom info panel shows when the user clicks a course or option.

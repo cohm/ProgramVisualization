@@ -101,12 +101,13 @@ const ui = {
     transitionAdded: 'Tillkommer',
     transitionInsteadOf: 'i stället för',
     transitionUnverified: 'Övergångsplanen är inte verifierad — kontrollera mot programansvarigs plan.',
-    // "År 3 är uppskattad" / "År 1 och 2 är uppskattade" / "År 1, 2 och 3 ..."
+    // "År 3 är uppskattat" / "År 1 och 2 är uppskattade" / "År 1, 2 och 3 ..."
+    // Neuter singular: it agrees with "år", which is an ett-word.
     approxSummary: (years: number[]) => {
       const list = years.length <= 1
         ? String(years[0] ?? '')
         : `${years.slice(0, -1).join(', ')} och ${years[years.length - 1]}`;
-      return `År ${list} ${years.length === 1 ? 'är uppskattad' : 'är uppskattade'}`;
+      return `År ${list} ${years.length === 1 ? 'är uppskattat' : 'är uppskattade'}`;
     },
     approxInfoLabel: 'Mer information om uppskattade årskurser',
     approxYear: (y: number, src: string) => `Årskurs ${y}: hämtad från ${src}`,
@@ -494,6 +495,14 @@ export default function HomeClient() {
               if (program) {
                 const params = new URLSearchParams(searchParams.toString());
                 params.set('program', program.code);
+                // Selections belong to the programme they were made in. `og` and
+                // `spec` are keyed by group name and inriktning code, and several
+                // programmes share both — "Kandidatexamensarbete" exists in CTFYS,
+                // CTMAT and CFATE. Carrying them across meant a thesis chosen in
+                // one programme silently replaced the thesis box in every other
+                // one, which reads as the box having disappeared.
+                params.delete('og');
+                params.delete('spec');
                 router.replace(`/?${params.toString()}`);
               }
             }}
@@ -513,6 +522,10 @@ export default function HomeClient() {
                   const params = new URLSearchParams(searchParams.toString());
                   if (e.target.value) params.set('cohort', e.target.value);
                   else params.delete('cohort');
+                  // A cohort's option groups need not be the same ones, so a
+                  // selection made against another cohort's groups is not
+                  // meaningful here either.
+                  params.delete('og');
                   router.replace(`/?${params.toString()}`);
                 }}
                 aria-label={ui[language].cohortLabel}

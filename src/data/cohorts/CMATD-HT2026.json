@@ -490,13 +490,19 @@
     ],
     "teacher": "",
     "description": "",
-    "specializations": [
-      "PRM"
-    ],
     "category": "mandatory",
     "nameEn": "Production",
     "gradingScale": "A-F",
-    "courseLevel": "G"
+    "courseLevel": "G",
+    "qualifiesFor": {
+      "MG1024": [
+        {
+          "code": "PRM",
+          "name": "Master, industriell produktion",
+          "required": true
+        }
+      ]
+    }
   },
   {
     "code": "KD1230",
@@ -515,13 +521,19 @@
     ],
     "teacher": "",
     "description": "",
-    "specializations": [
-      "MMM"
-    ],
     "category": "mandatory",
     "nameEn": "Organic Chemistry, Basic Concepts and Practice",
     "gradingScale": "A-F",
-    "courseLevel": "G"
+    "courseLevel": "G",
+    "qualifiesFor": {
+      "KD1230": [
+        {
+          "code": "MMM",
+          "name": "Master, makromolekylära material",
+          "required": true
+        }
+      ]
+    }
   },
   {
     "code": "MH2056",
@@ -562,13 +574,19 @@
     ],
     "teacher": "",
     "description": "",
-    "specializations": [
-      "INE"
-    ],
     "category": "mandatory",
     "nameEn": "Industrial Management, Basic Course",
     "gradingScale": "A-F",
-    "courseLevel": "G"
+    "courseLevel": "G",
+    "qualifiesFor": {
+      "ME1003": [
+        {
+          "code": "INE",
+          "name": "Master, industriell ekonomi",
+          "required": true
+        }
+      ]
+    }
   },
   {
     "code": "MH1031",
@@ -633,12 +651,18 @@
     ],
     "teacher": "",
     "description": "",
-    "specializations": [
-      "TEMB"
-    ],
     "category": "mandatory",
     "nameEn": "FEM for Engineering Applications",
     "gradingScale": "A-F",
-    "courseLevel": "G"
+    "courseLevel": "G",
+    "qualifiesFor": {
+      "SE1025": [
+        {
+          "code": "TEMB",
+          "name": "Spår, Hållfasthetsteknik",
+          "required": true
+        }
+      ]
+    }
   }
 ]

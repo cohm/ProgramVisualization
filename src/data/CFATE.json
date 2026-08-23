@@ -412,7 +412,8 @@
     },
     "year": 3,
     "prerequisites": [],
-    "exams": []
+    "exams": [],
+    "category": "conditionallyElective"
   },
   {
     "code": "SH1014",
@@ -429,6 +430,342 @@
     "prerequisites": [],
     "exams": [
       "P2"
+    ],
+    "category": "conditionallyElective"
+  },
+  {
+    "code": "MJ1401",
+    "name": "Värmeöverföring",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Heat Transfer",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SI1146",
+    "name": "Vektoranalys",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 4,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Vector Analysis",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "ME1003",
+    "name": "Industriell ekonomi, grundkurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Industrial Management, Basic Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "EF112X",
+    "name": "Examensarbete inom elektroteknik, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Electrical Engineering, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "MF130X",
+    "name": "Examensarbete inom maskinkonstruktion, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Machine Design, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "MF133X",
+    "name": "Examensarbete inom mekatronik, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Mechatronics, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "MJ146X",
+    "name": "Examensarbete inom hållbar energiteknik, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Sustainable Energy Engineering, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SG1216"
     ]
+  },
+  {
+    "code": "ME2163",
+    "name": "Ledarskap och organisering i olika miljöer",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 3,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Leading People and Organizations in Different Contexts",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "ME1003"
+    ]
+  },
+  {
+    "code": "SI1155",
+    "name": "Teoretisk fysik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 3,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Theoretical Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SH1014"
+    ]
+  },
+  {
+    "code": "MF131X",
+    "name": "Examensarbete inom integrerad produktutveckling, grundnivå",
+    "nameEn": "Degree Project in Integrated Product Development, First Cycle",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Kandidatexamensarbete",
+    "nameEn": "Bachelor's degree project",
+    "year": 3,
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "kind": "pickN",
+    "pickN": 1,
+    "allowedNumberOfOptions": 1,
+    "options": [
+      "EF112X",
+      "MF130X",
+      "MF131X",
+      "MF133X",
+      "MJ146X",
+      "SA115X"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri, vårterminen",
+    "nameEn": "Conditionally elective, spring term",
+    "year": 3,
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "kind": "pickN",
+    "pickN": 1,
+    "allowedNumberOfOptions": 1,
+    "options": [
+      "ME2163",
+      "SI1155"
+    ],
+    "qualifiesFor": {
+      "ME2163": [
+        {
+          "code": "TINEM",
+          "name": "Industriell ekonomi"
+        }
+      ],
+      "SI1155": [
+        {
+          "code": "TTFYM",
+          "name": "Teknisk fysik",
+          "tracks": [
+            "TFYA",
+            "TFYB",
+            "TFYG"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri, höstterminen",
+    "nameEn": "Conditionally elective, autumn term",
+    "year": 3,
+    "totalCredits": 8,
+    "periodCredits": {
+      "P1": 4,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "kind": "pickN",
+    "pickN": 2,
+    "allowedNumberOfOptions": 2,
+    "options": [
+      "DD1320",
+      "ME1003",
+      "MJ1401",
+      "SH1014",
+      "SI1146"
+    ],
+    "qualifiesFor": {
+      "DD1320": [
+        {
+          "code": "TIPUM",
+          "name": "Industriell produktutveckling",
+          "track": "IPUC"
+        }
+      ],
+      "ME1003": [
+        {
+          "code": "TINEM",
+          "name": "Industriell ekonomi"
+        }
+      ],
+      "MJ1401": [
+        {
+          "code": "TSUEM",
+          "name": "Hållbar energiteknik"
+        }
+      ],
+      "SH1014": [
+        {
+          "code": "TTFYM",
+          "name": "Teknisk fysik"
+        }
+      ],
+      "SI1146": [
+        {
+          "code": "TTFYM",
+          "name": "Teknisk fysik"
+        }
+      ]
+    }
   }
 ]
