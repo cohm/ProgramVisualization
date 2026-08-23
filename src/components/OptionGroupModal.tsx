@@ -153,16 +153,23 @@ export default function OptionGroupModal({
   };
 
   const commit = () => {
+    // A course is taken once, but it can be offered by several boxes — CTMAT
+    // lists SF1677/SF1678/SF1691 both in the year-2 villkorligt valfria group
+    // and in the year-3 elective boxes. Selections are therefore mutually
+    // exclusive across groups: picking a course here releases it from whatever
+    // other box held it, so it has exactly one place in the chart, which is the
+    // box the user last clicked. Emptied groups are dropped rather than left as
+    // an empty array, matching how this group is cleared below.
+    const next: Record<string, string[]> = {};
+    Object.entries(selectedOptionPerGroup).forEach(([name, codes]) => {
+      if (name === optionGroup.name) return;
+      const kept = codes.filter(code => !highlightedOptionCodes.includes(code));
+      if (kept.length > 0) next[name] = kept;
+    });
     if (highlightedOptionCodes.length > 0) {
-      onSelectedOptionPerGroupChange({
-        ...selectedOptionPerGroup,
-        [optionGroup.name]: highlightedOptionCodes,
-      });
-    } else {
-      const next = { ...selectedOptionPerGroup };
-      delete next[optionGroup.name];
-      onSelectedOptionPerGroupChange(next);
+      next[optionGroup.name] = highlightedOptionCodes;
     }
+    onSelectedOptionPerGroupChange(next);
     onClose();
     onHighlightedOptionCodesChange([]);
   };
