@@ -833,26 +833,74 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
   // Separate option groups and individual courses, and identify courses that should be hidden
   const optionGroups = courses.filter(isOptionGroup);
-  // A course can be an option in SEVERAL groups: an elective that runs in both
-  // P3 and P4 is offered by both period boxes. So membership and selection are
-  // collected separately, and a course is hidden only when it is an option
-  // somewhere and picked nowhere — otherwise picking it in the P3 box would be
-  // undone by the P4 box still listing it as unpicked.
+  // A course can be an option in SEVERAL groups, and those groups can sit in
+  // DIFFERENT study years. CTMAT offers SF1677/SF1678/SF1691 twice: once as the
+  // year-2 villkorligt valfria group, and again among the year-3 elective boxes,
+  // because a student picks one of them in year 2 and may take another as a free
+  // elective in year 3. The data file carries a single entry per course code,
+  // stamped `year: 2`, so rendering a picked option from its own entry drew it
+  // in year 2 whichever box had been clicked — picking Komplex analys in the
+  // year-3 P3 box made it appear in year 2.
+  //
+  // So a picked option is re-stamped to the year of the group it was picked
+  // from: the box the user actually clicked. Its own period layout is kept,
+  // which is what every other option in these boxes already does — the group
+  // bar is only an envelope (its shape is the per-period maximum of its
+  // options), so DD1351 picked in the "P2" box has always drawn across P1+P2.
+  // Only the year was ever wrong.
   const optionOf = new Set<string>();
-  const pickedAnywhere = new Set<string>();
+  const pickedIn = new Map<string, OptionGroup>();
   optionGroups.forEach(og => {
-    const selectedCodes = selectedOptionPerGroup[og.name] ?? [];
     og.options.forEach(optionCode => optionOf.add(optionCode));
-    selectedCodes.forEach(code => pickedAnywhere.add(code));
+    (selectedOptionPerGroup[og.name] ?? []).forEach(code => {
+      // First group wins. The modal keeps selections mutually exclusive across
+      // groups, so this normally decides nothing; it only makes a hand-edited
+      // or stale URL that picks one code in two boxes render one bar
+      // deterministically rather than two bars sharing a code.
+      if (!pickedIn.has(code)) pickedIn.set(code, og);
+    });
   });
-  const coursesInOptionGroups = new Set(
-    [...optionOf].filter(code => !pickedAnywhere.has(code)));
 
-  // Filter courses to only include individual courses (not in option groups)
-  const individualCourses = courses.filter(c => {
-    if (isOptionGroup(c)) return false;
-    return !coursesInOptionGroups.has((c as Course).code);
-  }) as Course[];
+  // Shift a course into `targetYear`, preserving its period layout and the
+  // relative offsets of a course that spans study years.
+  const placeCourseInYear = (course: Course, targetYear: number): Course => {
+    const baseYear = course.credits.length
+      ? Math.min(...course.credits.map(c => c.year))
+      : course.year;
+    const delta = targetYear - baseYear;
+    if (delta === 0) return course;
+    const shiftYearKeys = <T,>(m?: Record<number, T>): Record<number, T> | undefined => {
+      if (!m) return undefined;
+      const out: Record<number, T> = {};
+      Object.entries(m).forEach(([y, v]) => { out[Number(y) + delta] = v; });
+      return out;
+    };
+    return {
+      ...course,
+      year: course.year + delta,
+      credits: course.credits.map(c => ({ ...c, year: c.year + delta })),
+      examsByYear: shiftYearKeys(course.examsByYear),
+      reexamsByYear: shiftYearKeys(course.reexamsByYear),
+    };
+  };
+
+  // Courses hidden because they are an option somewhere and picked nowhere. A
+  // course picked in one box must NOT land in this set: the bar-drawing loop
+  // uses it as a defensive "skip option courses" guard, so adding picked ones
+  // here silently drops their bars while still drawing their connector and exam
+  // markers.
+  const coursesInOptionGroups = new Set(
+    [...optionOf].filter(code => !pickedIn.has(code)));
+
+  // Picked options are re-emitted in file order, so the stacking lanes within a
+  // period are unaffected.
+  const individualCourses = courses.flatMap<Course>(c => {
+    if (isOptionGroup(c)) return [];
+    const course = c as Course;
+    const group = pickedIn.get(course.code);
+    if (group) return [placeCourseInYear(course, group.year)];
+    return coursesInOptionGroups.has(course.code) ? [] : [course];
+  });
   // Lookup map built once and reused everywhere a Course needs to be
   // resolved by code (prereq routing, focus mode, dispatch context). This
   // turns several per-arrow / per-bar O(n) `find(...)` scans into O(1).
@@ -2935,8 +2983,13 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         const og = courses.filter(isOptionGroup).find(c => (c as OptionGroup).name === ogName) as OptionGroup | undefined;
         return og ? og.year === focusYear : false;
       }
-      // Otherwise it's a course code
-      const c = courses.find(cc => isCourse(cc) && (cc as Course).code === id) as Course | undefined;
+      // Otherwise it's a course code. Resolve through the rendered-course map
+      // first: an option picked from a group is drawn in that group's year,
+      // which the raw entry in `courses` does not know about, so scanning
+      // `courses` would dim a year-3 pick of a course the data files under
+      // year 2. Fall back to the raw scan before the map is populated.
+      const c = dispatchCtxRef.current.individualCoursesByCode.get(id)
+        ?? (courses.find(cc => isCourse(cc) && (cc as Course).code === id) as Course | undefined);
       if (!c) return false;
       return c.credits.some((cr: CourseCredit) => Number(cr.year) === focusYear);
     };

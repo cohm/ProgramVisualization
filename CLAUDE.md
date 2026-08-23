@@ -781,6 +781,36 @@ year the plan claims. `verified: false` warns, exactly like `programs.json`.
 
 The selection modal lives in `src/components/OptionGroupModal.tsx`. Two earlier notes in this file and in `REVIEW.md` said it had been inlined into `TimelineVisualization.tsx` — it was, and then extracted again; grepping only `TimelineVisualization.tsx` for `kind` therefore suggests `minCredits` is unimplemented when it is not.
 
+**A picked option is drawn where the box was, not where the data files it.** One
+course code can be offered by several boxes, and the boxes need not sit in the
+same study year. CTMAT offers SF1677/SF1678/SF1691 as the year-2 *villkorligt
+valfria* group **and** among the year-3 elective boxes, because a student picks
+one of them in year 2 and may take another as a free elective in year 3. The data
+file carries one entry per code, stamped `year: 2`, so resolving a pick straight
+from that entry drew Komplex analys in year 2 however you got there — the box the
+user clicked was not an input to the placement at all.
+
+A picked option is therefore re-stamped to the year of the group it was picked
+from, keeping its own period layout. Keeping the layout is not a compromise: the
+group bar is only an *envelope* (its shape is the per-period maximum of its
+options), so an option whose shape differs from the box has always drawn its own
+— CTMAT's DD1351 picked in the "P2" box spans P1+P2. Only the year was ever
+wrong. Measured over all eight programmes, the year mismatch is CTMAT-only:
+exactly those three courses, all five cohorts, both spring boxes.
+
+Selections are **mutually exclusive across groups** — a course is taken once, so
+picking it in one box releases it from any other. Without that, "the box that was
+clicked" has no single answer. This also bites the same-year case, which is far
+more common (21 codes across CTFYS and CTMAT sit in two or three boxes of the
+same year): picking MH1023 in the P3 box and then the P4 box now leaves the P3
+box an unfilled placeholder instead of quietly holding both.
+
+The trap when changing any of this: the bar-drawing loop has a defensive
+`coursesInOptionGroups.has(code)` guard, and that set must keep meaning "an option
+somewhere, picked nowhere". Widening it to all option codes makes picked courses
+render their connector and exam markers with **no bars** — and neither `tsc` nor
+`eslint` sees it, because nothing about the types changes.
+
 **Chart height must stay a pure function of the data.** `TimelineVisualization`
 used to seed its height from `svgRef.current.clientHeight` — the height its own
 previous render had written onto that node — and then only ever grew it
