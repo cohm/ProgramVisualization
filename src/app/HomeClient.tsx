@@ -11,6 +11,9 @@ import kthColors from '@/data/kth-colors.json';
 import programsConfig from '@/data/programs.json';
 import type { ProgramCosmetics } from '@/types/cosmetics';
 import { loadCourses, loadCosmetics, loadCohortMeta, cohortDataFile } from '@/lib/useCourseModel';
+import { composeTransition, mergeCosmetics, composedTitle } from '@/lib/transitions';
+import type { TransitionPlan } from '@/types/transition';
+import transitionsConfig from '@/data/transitions.json';
 import cohortIndex from '@/data/cohorts/index.json';
 import { tr, type Lang } from '@/lib/translations';
 
@@ -85,6 +88,19 @@ const ui = {
     unverifiedSuffix: '(inte verifierad)',
     cohortLabel: 'Antagningsår',
     cohortNone: 'Utan antagningsår',
+    continuationLabel: 'Fortsättningsprogram',
+    continuationNone: 'Utan fortsättningsprogram',
+    transitionLoadFailed: 'Kunde inte sätta samman övergångsplanen',
+    // The composed view is not a published plan, so say so plainly.
+    transitionNotice: (from: string, to: string) =>
+      `Visar ${from} årskurs 1 följt av årskurs 2–3 i ${to}, enligt övergångsplanen.`,
+    transitionCredited: (n: number) => `${n} kurser tillgodoräknas`,
+    transitionExempt: 'Utgår',
+    transitionMoved: 'Flyttad',
+    transitionToYear: (y: number) => `årskurs ${y}`,
+    transitionAdded: 'Tillkommer',
+    transitionInsteadOf: 'i stället för',
+    transitionUnverified: 'Övergångsplanen är inte verifierad — kontrollera mot programansvarigs plan.',
     // "År 3 är uppskattad" / "År 1 och 2 är uppskattade" / "År 1, 2 och 3 ..."
     approxSummary: (years: number[]) => {
       const list = years.length <= 1
@@ -115,6 +131,18 @@ const ui = {
     unverifiedSuffix: '(unverified)',
     cohortLabel: 'Admission year',
     cohortNone: 'No admission year',
+    continuationLabel: 'Continuation program',
+    continuationNone: 'No continuation program',
+    transitionLoadFailed: 'Could not compose the transition plan',
+    transitionNotice: (from: string, to: string) =>
+      `Showing ${from} year 1 followed by years 2–3 of ${to}, per the transition plan.`,
+    transitionCredited: (n: number) => `${n} courses credited`,
+    transitionExempt: 'Dropped',
+    transitionMoved: 'Moved',
+    transitionToYear: (y: number) => `year ${y}`,
+    transitionAdded: 'Added',
+    transitionInsteadOf: 'instead of',
+    transitionUnverified: 'The transition plan is unverified — check it against the program director\u2019s plan.',
     approxSummary: (years: number[]) => {
       const list = years.length <= 1
         ? String(years[0] ?? '')
@@ -134,6 +162,8 @@ export default function HomeClient() {
   const [courses, setCourses] = useState<(Course | OptionGroup)[]>([]);
   const [cosmetics, setCosmetics] = useState<ProgramCosmetics | null>(null);
   const [cohortMeta, setCohortMeta] = useState<CohortMeta | null>(null);
+  // Populated when a composed transition view disagrees with the programme data.
+  const [transitionWarnings, setTransitionWarnings] = useState<string[]>([]);
   const [approxInfoOpen, setApproxInfoOpen] = useState(false);
   // Page-level toast for non-blocking failures (PDF export errors,
   // cosmetics-load failures). Children emit via the `onToast` callback.
@@ -173,6 +203,23 @@ export default function HomeClient() {
     return availableCohorts.includes(param) ? param : null;
   }, [searchParams, availableCohorts]);
 
+  // Programmes this one can continue into. COPEN (Öppen ingång) is the case:
+  // its plan stops after year 1, so a student's real plan is COPEN year 1 plus
+  // two years of wherever they transferred. Empty for every other programme, in
+  // which case the selector is hidden.
+  const transitionPlans = transitionsConfig as TransitionPlan[];
+  const availableContinuations = useMemo<TransitionPlan[]>(
+    () => transitionPlans.filter(t => t.from === selectedProgram.code),
+    [transitionPlans, selectedProgram],
+  );
+
+  // `?continuation=CTFYS`. Ignored when the programme has no plan for it, so a
+  // stale bookmark falls back to the plain programme view.
+  const selectedContinuation = useMemo<TransitionPlan | null>(() => {
+    const param = (searchParams.get('continuation') || '').trim().toUpperCase();
+    return availableContinuations.find(t => t.to === param) ?? null;
+  }, [searchParams, availableContinuations]);
+
   // Years in the current view that did not come from the selected cohort.
   const approximatedYears = useMemo(
     () => (cohortMeta?.years ?? []).filter(y => y.approximated),
@@ -183,6 +230,21 @@ export default function HomeClient() {
     const langParam = searchParams.get('l');
     return (langParam === 'en' || langParam === 'sv') ? langParam : 'sv';
   }, [searchParams]);
+
+  // A composed view is two programmes, so the chart is titled for both:
+  // "Civilingenjörsutbildning Öppen ingång → Teknisk fysik (COPEN → CTFYS)".
+  // The target's name is shortened because the qualification is identical on both
+  // sides and pure noise the second time — see shortProgramName.
+  const chartTitle = useMemo(() => {
+    const name = language === 'en'
+      ? (selectedProgram.nameEn || selectedProgram.name)
+      : selectedProgram.name;
+    if (!selectedContinuation) return { name, code: selectedProgram.code };
+    const target = (programsConfig as ProgramConfig[]).find(p => p.code === selectedContinuation.to);
+    if (!target) return { name, code: selectedProgram.code };
+    const targetName = language === 'en' ? (target.nameEn || target.name) : target.name;
+    return composedTitle(name, targetName, selectedProgram.code, target.code);
+  }, [language, selectedProgram, selectedContinuation]);
 
   // Whether unverified study plans are shown in the program dropdown.
   // Off by default; flipped via the checkbox next to the selector.
@@ -320,11 +382,48 @@ export default function HomeClient() {
     });
   }, [replaceParams]);
 
-  // Load courses and cosmetics when the program or cohort changes
+  // Load courses and cosmetics when the program, cohort or continuation changes
   useEffect(() => {
     const dataFile = selectedCohort
       ? cohortDataFile(selectedProgram.code, selectedCohort)
       : selectedProgram.dataFile;
+
+    // With a continuation selected, the view is composed from two programmes:
+    // this one's own early years plus the target's remaining ones, with the
+    // transition plan applied. See src/lib/transitions.ts.
+    if (selectedContinuation) {
+      const target = (programsConfig as ProgramConfig[]).find(p => p.code === selectedContinuation.to);
+      if (target) {
+        const targetFile = selectedCohort && (cohortIndex as Record<string, string[]>)[target.code]?.includes(selectedCohort)
+          ? cohortDataFile(target.code, selectedCohort)
+          : target.dataFile;
+        Promise.all([loadCourses(dataFile), loadCourses(targetFile)])
+          .then(([sourceEntries, targetEntries]) => {
+            const composed = composeTransition(sourceEntries, targetEntries, selectedContinuation);
+            setCourses(composed.entries);
+            setTransitionWarnings(composed.warnings);
+          })
+          .catch((e) => {
+            console.warn('Failed to compose the transition plan:', e);
+            setToast({ title: ui[language].transitionLoadFailed, detail: String(e).slice(0, 200) });
+          });
+        // Neither programme's cosmetics covers the other's courses, so merge them.
+        Promise.all([loadCosmetics(target.cosmeticsFile), loadCosmetics(selectedProgram.cosmeticsFile)])
+          .then(([targetCos, sourceCos]) => {
+            const { cosmetics: merged, warnings } = mergeCosmetics(targetCos, sourceCos, selectedContinuation);
+            setCosmetics(merged);
+            if (warnings.length > 0) console.warn(warnings.join('\n'));
+          })
+          .catch((e) => {
+            console.warn('Failed to load cosmetics:', e);
+            setCosmetics(null);
+          });
+        setCohortMeta(null);
+        return;
+      }
+    }
+
+    setTransitionWarnings([]);
     loadCourses(dataFile).then(setCourses);
     if (selectedCohort) {
       loadCohortMeta(dataFile).then(setCohortMeta).catch(() => setCohortMeta(null));
@@ -343,7 +442,7 @@ export default function HomeClient() {
     // toast text uses whatever `language` was at the moment the failure
     // fires, which is acceptable for a transient banner.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedProgram, selectedCohort]);
+  }, [selectedProgram, selectedCohort, selectedContinuation]);
 
   // Initialize missing URL params
   useEffect(() => {
@@ -427,6 +526,28 @@ export default function HomeClient() {
                 ))}
               </select>
             )}
+            {availableContinuations.length > 0 && (
+              <select
+                value={selectedContinuation?.to ?? ''}
+                onChange={(e) => {
+                  const params = new URLSearchParams(searchParams.toString());
+                  if (e.target.value) params.set('continuation', e.target.value);
+                  else params.delete('continuation');
+                  router.replace(`/?${params.toString()}`);
+                }}
+                aria-label={ui[language].continuationLabel}
+                title={ui[language].continuationLabel}
+                style={{ color: kthColors.KthBlue?.HEX }}
+                className="px-4 py-2 border border-gray-300 rounded-md shadow-sm"
+              >
+                <option value="">{ui[language].continuationNone}</option>
+                {availableContinuations.map(t => (
+                  <option key={t.to} value={t.to}>
+                    {t.verified === true ? t.to : `${t.to} ${ui[language].unverifiedSuffix}`}
+                  </option>
+                ))}
+              </select>
+            )}
             <label style={{ display: 'flex', alignItems: 'center', gap: 6, color: kthColors.KthBlue?.HEX, fontSize: 13 }}>
               <input
                 type="checkbox"
@@ -487,6 +608,41 @@ export default function HomeClient() {
             tooltip that names KTH's published plan as the authority, because
             that is what a student should check against.
           */}
+          {/*
+            A composed transition view is not a plan KTH publishes anywhere — it
+            is this programme's early years stitched to another's later ones. Say
+            so, and summarise what the plan changed, so a student can see why
+            their chart differs from the target programme's own page.
+          */}
+          {selectedContinuation && (
+            <div style={{ marginTop: 10, fontSize: 13, color: kthColors.KthBlue?.HEX }}>
+              <div>{ui[language].transitionNotice(selectedContinuation.from, selectedContinuation.to)}</div>
+              <div style={{ marginTop: 2, opacity: 0.85 }}>
+                {ui[language].transitionCredited(selectedContinuation.credited.length)}
+                {(selectedContinuation.exempt ?? []).map(e => (
+                  <span key={e.code}>{` · ${ui[language].transitionExempt}: ${e.code}`}</span>
+                ))}
+                {(selectedContinuation.moved ?? []).map(m => (
+                  <span key={m.code}>{` · ${ui[language].transitionMoved}: ${m.code} → ${ui[language].transitionToYear(m.toYear)}`}</span>
+                ))}
+                {(selectedContinuation.added ?? []).map(a => (
+                  <span key={a.code}>
+                    {` · ${ui[language].transitionAdded}: ${a.code}`}
+                    {a.fromProgram ? ` (${a.fromProgram})` : ''}
+                    {a.substitutesFor ? ` ${ui[language].transitionInsteadOf} ${a.substitutesFor}` : ''}
+                  </span>
+                ))}
+              </div>
+              {selectedContinuation.verified !== true && (
+                <div style={{ marginTop: 2, fontStyle: 'italic' }}>{ui[language].transitionUnverified}</div>
+              )}
+              {transitionWarnings.length > 0 && (
+                <ul style={{ marginTop: 4, paddingLeft: 18, color: '#78001A' }}>
+                  {transitionWarnings.map(w => <li key={w}>{w}</li>)}
+                </ul>
+              )}
+            </div>
+          )}
           {approximatedYears.length > 0 && (
             <div style={{ marginTop: 10, fontSize: 13, color: kthColors.KthBlue?.HEX }}>
               <span>{ui[language].approxSummary(approximatedYears.map(y => y.year))}</span>
@@ -556,8 +712,8 @@ export default function HomeClient() {
             ref={vizRef}
             courses={courses}
             language={language}
-            programName={language === 'en' ? (selectedProgram.nameEn || selectedProgram.name) : selectedProgram.name}
-            programCode={selectedProgram.code}
+            programName={chartTitle.name}
+            programCode={chartTitle.code}
             studyplanUrl={selectedProgram.studyplan}
             programComment={language === 'en' ? (selectedProgram.commentEn || selectedProgram.comment) : selectedProgram.comment}
             cosmetics={cosmetics}

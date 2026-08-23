@@ -574,6 +574,141 @@ flags the rest.
 6. `npm run validate-data` and read the full-time warnings — they are the fastest
    check that the extraction is sane.
 
+### Transition plans (`src/data/transitions.json`)
+
+COPEN (Öppen ingång) students take one common year and then transfer into a
+five-year programme, so what they actually study is published nowhere: COPEN's
+plan stops after year 1, and the target's plan assumes its own year 1. A
+transition plan records the **difference** from the target's published plan, and
+`src/lib/transitions.ts` composes the view at runtime.
+
+```json
+{ "from": "COPEN", "to": "CTFYS", "sourceYears": [1],
+  "credited": [{ "code": "SF1626", "replaces": ["SF1674"] }, "…"],
+  "exempt": [{ "code": "SF1544", "creditedBy": "SF1546", "note": "…" }],
+  "added":  [{ "code": "SF1920", "year": 2, "periodCredits": { "P3": 6 },
+               "substitutesFor": "SF1922", "fromProgram": "CELTE",
+               "cosmeticsGroup": "Matematik", "…": "…" }],
+  "moved":  [{ "code": "…", "fromYear": 1, "toYear": 2 }],
+  "verified": false }
+```
+
+Three shapes of difference, and the third is the one that took a correction:
+
+- **`exempt`** — a target course the student does not take, because a source
+  course credits it. CTFYS drops SF1544, credited by COPEN's SF1546.
+- **`moved`** — a target course shifted to a later year, keeping its periods.
+  Nothing uses it today; kept because it is the natural shape for "take the
+  target's own course, just later".
+- **`added`** — a course from *neither* published plan. COPEN teaches no
+  probability course and CTFYS teaches SF1922 in its year 1, which the transfer
+  student was never present for. The plan therefore adds **SF1920 in P3 of year
+  2, taken with CELTE's second year** — same subject, and it lands in the period
+  the exemption emptied.
+
+The first draft of this plan used `moved` for SF1922 into year 2 P4, which is
+what issue #66 described. That is worse on the arithmetic *and* worse for the
+student: it means waiting until P4 for a course the CELTE offering provides in
+P3. Per-period load, composed year 2:
+
+| variant | P1 | P2 | P3 | P4 |
+|---|---|---|---|---|
+| SF1922 moved to y2 P4 | 15 | 14 | **10** | **21** |
+| SF1920 from CELTE in P3 | 15 | 14 | 16 | 15 |
+
+Both total 60 hp, which is exactly why the check has to be per period. The
+residual ±1 is structural: SF1544 carried 1 hp in P2 and 5 in P3, while SF1920 is
+6 hp all in P3.
+
+**`credited[].replaces` is what makes the prerequisite arrows right**, and it is
+the reason `credited` is a list of objects rather than codes. A target course in
+years 2-3 states its prerequisites in the target's own terms — CTFYS's SF1683 and
+SI1146 both require SF1674 — but a transfer student never took SF1674; they took
+SF1626, the same subject. Drawn to the letter, the arrow would start from a course
+that is not in their plan and simply vanish, leaving those courses looking as
+though they had no prerequisites at all.
+
+`redirectPrerequisites` therefore rewrites every reference through the plan's own
+equivalences. It is a general rule over the data, not a list of special cases:
+exactly five CTFYS year-1 courses are referenced from years 2-3, and all five
+resolve through it.
+
+| target course referenced | credited course it becomes | arrows affected |
+|---|---|---|
+| SF1674 Flervariabelanalys | SF1626 | → SF1683, → SI1146 |
+| SF1672 Linjär algebra | SF1624 | → SF1681 |
+| DD1331 Grundläggande programmering | DD1310 | → DD1327 |
+| SG1112 Mekanik I | SG1133 | → SE1055, → SG1113 |
+| SK1104 Klassisk fysik | SK1115 | → SH1014 |
+
+Three fields feed the same rewrite map, so an equivalence is stated once:
+`credited[].replaces`, `exempt[].creditedBy` (SF1546 → SF1544, which is why
+SF1546 carries no `replaces`), and `added[].substitutesFor`. A reference that
+survives the rewrite but names a course outside the composed plan is **reported**
+— that means an equivalence is missing, and the symptom would otherwise be a
+silently absent arrow. `validate-data` checks the same invariant statically, so it
+fails in CI rather than only in the browser.
+
+**An `added` course needs its own data**, since it comes from a programme this
+app does not model — CELTE is not in `programs.json`. It is embedded in the plan
+in the same raw shape a data file uses and parsed with `parseCourseEntries`, the
+loader's own parser, so there is no second implementation of the period/credit
+normalisation. `cosmeticsGroup` is required in practice: without it the course
+falls to the default colour, which beside the light-tone palette reads as a bug
+rather than as "this came from elsewhere". SF1920's values were read from the
+live sources the extractor uses — 6 hp and P3 from CELTE's year-2 study plan,
+`TEN1` and the `SF1625` prerequisite from its course page — and that prerequisite
+resolves inside the composed plan, because SF1625 is one of the nine COPEN
+courses.
+
+**Declarative on purpose.** A hand-written combined course list would go stale
+the moment either programme is re-extracted, and silently: nothing would say the
+composed plan no longer matches. Recording only the difference means the
+composition is a pure function of both programmes' current data.
+
+**Year numbering needs no adjustment.** The source contributes year 1 and the
+target years 2-3, so the composed years already read 1/2/3. A `moved` course is
+re-stamped to its new year but **keeps its periods** — CTFYS's SF1922 runs in P4
+either way, because a transfer student sits the same P4 offering as CTFYS's own
+year-1 students, just a year later.
+
+**The two cosmetics files share no course codes**, so a composed chart rendered
+from the target's file alone would draw all nine COPEN courses in the default
+colour. `mergeCosmetics` merges by group *name* (so "Matematik" from both becomes
+one legend row), the target's colour winning on conflict — CTFYS has
+Ingenjörsämnen = brick where COPEN has it turquoise. A group only the source has
+takes the first unused family rather than its own, since COPEN's `Programmering`
+is brick, which CTFYS already spends on Ingenjörsämnen. COPEN+CTFYS lands on
+exactly five families, which is the hard cap; an overflow is reported and those
+courses fall back to the default colour.
+
+**The composition is checked against full-time load per period**, the same signal
+`validate-data` applies to the programme files, because a swap can balance across
+a year while leaving individual periods lopsided — and the year total hides it
+completely. COPEN→CTFYS now comes out 15/14/16/15 in year 2. Reported in the UI
+rather than corrected: where the plan puts a course is the program director's
+call.
+
+**The chart is titled for both programmes** —
+"Civilingenjörsutbildning Öppen ingång → Teknisk fysik (COPEN → CTFYS)". The
+target's name is shortened by `shortProgramName`, because the qualification is
+identical on both sides and pure noise the second time. That strips a **fixed**
+set of openers rather than the longest common word prefix, which looks more
+general but is wrong on the English names: "Degree Program in Engineering - Open
+Entrance" and "Degree Program in Engineering Physics" share "Degree Program in
+Engineering", which would reduce CTFYS to "Physics". An unrecognised name falls
+through unchanged.
+
+The composed code also reaches the export audit stamp ("COPEN → CTFYS · build … ·
+date"), which is the wanted behaviour; export *filenames* are fixed strings and
+unaffected.
+
+`validate-data` cross-checks each plan both ways against both programmes:
+`credited` must match what the source actually teaches in those years (a course
+added to COPEN that nobody added to the plan would otherwise be dropped
+silently), and every `exempt` / `moved` code must exist in the target with the
+year the plan claims. `verified: false` warns, exactly like `programs.json`.
+
 ### Types (`src/types/`)
 
 - **`course.ts`** — `Course`, `Period`, `CourseCredit`, `OptionGroup` interfaces

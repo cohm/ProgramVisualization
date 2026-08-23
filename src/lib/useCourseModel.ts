@@ -87,7 +87,19 @@ const parsePeriodList = (raw: unknown): { flat: string[]; byYear: Record<number,
 // both are normalised to a uniform `Course[]`.
 export const loadCourses = async (dataFile: string): Promise<(Course | OptionGroup)[]> => {
   const rawCourses = await import(`@/data/${dataFile}`);
-  const rawData = rawCourses.default as RawCourseEntry[];
+  return parseCourseEntries(rawCourses.default as RawCourseEntry[]);
+};
+
+/**
+ * Turn the raw JSON shape into `Course` / `OptionGroup`.
+ *
+ * Split out of `loadCourses` so a caller holding raw entries from somewhere
+ * other than a data file can use the same parsing — the transition plans embed
+ * a course from a programme this app does not otherwise model (see
+ * `src/lib/transitions.ts`), and re-implementing the period/credit
+ * normalisation for it would be a second parser to keep in step with this one.
+ */
+export const parseCourseEntries = (rawData: RawCourseEntry[]): (Course | OptionGroup)[] => {
   const optionGroups = rawData.filter(c => c.type === 'optionGroup');
   // `cohortMeta` is the provenance header in a cohort file, not a course — it
   // would otherwise fall through to the course branch and parse as a nameless
