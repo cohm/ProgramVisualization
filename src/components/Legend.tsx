@@ -41,11 +41,25 @@ interface LegendProps {
   cosmetics: ProgramCosmetics | null | undefined;
   toggleLayer: (key: ToggleableLayerKey) => void;
   toggleGroup: (groupName: string) => void;
+  /**
+   * x offset within the positioned chart wrapper, in CSS px. Supplied by
+   * `legendLeftIn()` so the box sits centred in the summer gap between the June
+   * and August re-exam periods at any chart width. Optional so the component
+   * still renders standalone; without it the box falls back to the old
+   * right-edge anchor. (The SVG export builds its own legend rather than
+   * reusing this component, but places it with the same helper.)
+   */
+  left?: number;
 }
 
-export default function Legend({ language, layers, cosmetics, toggleLayer, toggleGroup }: LegendProps) {
+export default function Legend({ language, layers, cosmetics, toggleLayer, toggleGroup, left }: LegendProps) {
+  // `left` and `right` must not both be set: with a fixed width that
+  // over-constrains the box and the browser drops one of them.
+  const position = left === undefined
+    ? { right: STYLE.legend.offsetX }
+    : { left };
   return (
-    <div style={{ position: 'absolute', right: STYLE.legend.offsetX, bottom: STYLE.legend.offsetY, width: STYLE.legend.width, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start', padding: '8px 12px', background: STYLE.legend.background, border: `1px solid ${STYLE.legend.borderColor}`, borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.12)', zIndex: 1000 }}>
+    <div style={{ position: 'absolute', ...position, bottom: STYLE.legend.offsetY, width: STYLE.legend.width, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start', padding: '8px 12px', background: STYLE.legend.background, border: `1px solid ${STYLE.legend.borderColor}`, borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.12)', zIndex: 1000 }}>
       {/* Exams */}
       <div role="button" tabIndex={0} aria-pressed={layers.exams} onClick={() => toggleLayer('exams')} onKeyDown={(e) => activate(e, () => toggleLayer('exams'))} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', opacity: layers.exams ? 1 : 0.4 }} title={tr[language].legendToggleHint}>
         <svg width={16} height={16} viewBox="0 0 16 16">
