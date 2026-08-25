@@ -479,14 +479,21 @@ export default function HomeClient() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <main className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold" style={{ color: kthColors.KthHeaven?.HEX }}>{ui[language].title}</h1>
+      <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
+        {/* `flex-wrap` is load-bearing on phones, not cosmetic. Without it this
+            row is a nowrap flex line whose items cannot shrink below their
+            content (flex items default to `min-width: auto`), so it set the
+            page's scroll width — measured 864 px on a 390 px viewport, which
+            scrolled the WHOLE page sideways and put the menu button off-screen.
+            The chart's own horizontal scroll (issue #2) was working correctly;
+            this row was the thing overflowing past it. */}
+        <div className="flex flex-wrap justify-between items-center gap-x-6 gap-y-3 mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold" style={{ color: kthColors.KthHeaven?.HEX }}>{ui[language].title}</h1>
           {/* Column so the provenance line can sit directly under the selectors
               that produced it, rather than becoming a third flex item beside
               them. */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div className="items-start sm:items-end" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
             <label style={{ color: kthColors.KthBlue?.HEX, fontWeight: 600 }}>{ui[language].programLabel}</label>
             <select
             value={selectedProgram.code}
@@ -711,7 +718,9 @@ export default function HomeClient() {
           )}
           </div>
         </div>
-        <div className="bg-white rounded-lg shadow-lg p-6 min-h-[600px]">
+        {/* Tighter padding on phones: `p-6` spent 48 of a 390 px viewport on
+            whitespace either side of a chart that is already scrolled. */}
+        <div className="bg-white rounded-lg shadow-lg p-3 sm:p-6 min-h-[600px]">
           {selectedProgram.specializations && selectedProgram.specializations.length > 0 && (
             <SpecializationFilter
               language={language}

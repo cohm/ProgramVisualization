@@ -41,6 +41,53 @@ import { getEmbeddedFontFaces } from '@/lib/fonts';
 
 type CourseOrOptionGroup = Course | OptionGroup;
 
+// Plot margins. Shared by the D3 render and by `legendLeftIn()` below, which
+// has to reproduce the same time→x mapping outside the render to place the
+// legend. Two copies of these numbers would drift silently: nothing in the
+// types connects a legend offset to a plot margin.
+const CHART_MARGIN = { top: 100, right: 40, bottom: 40, left: 100 } as const;
+
+/**
+ * x, in container pixels, where the legend should sit for a given container
+ * width: horizontally centred in the summer gap between the P3 re-exams
+ * (early June) and the P4 re-exams (mid August).
+ *
+ * The legend used to be pinned at `right: STYLE.legend.offsetX`, i.e. 85 px in
+ * from the container's right edge. That looks width-independent but is not
+ * *gap*-independent: the plot's right edge is `CHART_MARGIN.right` (40 px) in
+ * from the same edge and the August re-exam band ends exactly there, so the
+ * legend's right edge always landed 45 px from the domain end — which is 5 px
+ * clear of the band's left edge at EVERY width, the band being ~3 % of the
+ * plot. Measured at 1200/1440/1680/1920/2200/2560/3000/3440 px: the clearance
+ * was 5 px at each one (13 px below 1500, where the page's max-width has not
+ * yet kicked in). So the box never technically overlapped, but it was welded
+ * to the August markers with the whole gap empty to its left.
+ *
+ * Centring in the gap is what "in the gap" actually means, and it holds at any
+ * width because the gap is a fixed fraction of the plot: Jun 5 → Aug 10 is
+ * 66/361 of the domain, i.e. 18.3 %, which is 194 px at the narrowest layout
+ * and 241 px once the page's max-width caps the chart — both wider than the
+ * 170 px legend.
+ */
+function legendLeftIn(containerWidth: number): number {
+  const inner = containerWidth - CHART_MARGIN.left - CHART_MARGIN.right;
+  const domainStart = +academicPeriods[0].start;
+  const span = +academicPeriods[3].reExamEnd - domainStart;
+  // Same linear mapping d3's scaleTime applies over [domainStart, domainEnd].
+  const xOf = (d: Date) => CHART_MARGIN.left + ((+d - domainStart) / span) * inner;
+
+  const gapStart = xOf(academicPeriods[2].reExamEnd);   // June re-exams end
+  const gapEnd = xOf(academicPeriods[3].reExamStart);   // August re-exams begin
+  const centred = gapStart + (gapEnd - gapStart - STYLE.legend.width) / 2;
+
+  // Clamp to the plot area so a legend wider than the gap (a future translation
+  // or an extra cosmetics family) degrades to "inside the chart" rather than
+  // hanging off the edge.
+  const min = CHART_MARGIN.left;
+  const max = containerWidth - CHART_MARGIN.right - STYLE.legend.width;
+  return Math.max(min, Math.min(max, centred));
+}
+
 // Top-level layer keys that can be hidden via the legend / URL `hide=` param.
 type TopLayerKey = ToggleableLayerKey;
 
@@ -188,17 +235,36 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // Below this, the outer wrapper scrolls horizontally rather than letting
   // D3's clientWidth-based layout cramp the bars and labels.
   //
-  // 1200 px keeps the legend inside the summer gap between the P4 ordinary
-  // exam period (ending ~Jun 1) and the August re-exams (starting ~Aug 10):
-  // the legend's bottom-right slot is fixed at [W−255, W−85] (offsetX 85,
-  // width 170), which at 1200 px lands at x≈945–1115, while the Jun 1 and
-  // Aug 10 marks fall at x≈922 and x≈1127 respectively. Stay roughly within
-  // [1100, 1600] to keep the legend in that gap; outside it the legend
-  // starts overlapping P4 course bars or the August re-exam markers.
+  // This used to carry a second job: 1200 px was also the width at which the
+  // legend's fixed bottom-right slot happened to fall inside the summer gap,
+  // with a note to stay within [1100, 1600]. `legendLeftIn()` now derives the
+  // legend's x from the time scale, so that coupling is gone and this number
+  // answers only "how narrow can the bars get before they stop being readable".
   const chartMinWidth = 1200;
 
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
+  // The positioned wrapper the legend is absolutely placed inside. Its width is
+  // the SVG's width, and the legend's x is derived from it.
+  const canvasRef = useRef<HTMLDivElement>(null);
+  // Container width in CSS px, tracked so the legend can be re-centred in the
+  // summer gap on resize. Starts at chartMinWidth so the first paint is already
+  // in roughly the right place rather than jumping after the observer fires.
+  const [canvasWidth, setCanvasWidth] = useState<number>(chartMinWidth);
+
+  // Keep `canvasWidth` in step with the wrapper. A window resize listener would
+  // miss the cases that matter here — the page's max-width container changing
+  // the chart's width without the window changing, and the info panel opening
+  // below it — so observe the element itself.
+  useEffect(() => {
+    const el = canvasRef.current;
+    if (!el) return;
+    const apply = () => setCanvasWidth(w => (w === el.clientWidth ? w : el.clientWidth));
+    apply();
+    const ro = new ResizeObserver(apply);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
   // Preserve the initial chart height to keep a stable px-per-ECTS baseline across re-renders/toggles
   const initialChartHeightRef = useRef<number | null>(null);
   // Single delegated tooltip element, persisted across renders.
@@ -363,7 +429,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           const legendHeight = legendPadding*2 + items.length * (itemHeight + itemGap) - itemGap;
           const svgW = exportWidth;
           const svgH = exportHeight;
-          const legendX = svgW - legendWidth - STYLE.legend.offsetX;
+          // Same gap-centred placement as the on-screen legend, so an exported
+          // chart matches what the user was looking at when they exported it.
+          const legendX = legendLeftIn(svgW);
           const legendY = svgH - legendHeight - STYLE.legend.offsetY;
           legendG.setAttribute('transform', `translate(${legendX},${legendY})`);
 
@@ -767,7 +835,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const svg = select(svgRef.current);
   // Apply global font family to all SVG text
   svg.style('font-family', STYLE.fontFamily);
-  const margin = { top: 100, right: 40, bottom: 40, left: 100 }; // Increased top margin for title and period labels
+  const margin = CHART_MARGIN;
   const width = svgRef.current.clientWidth - margin.left - margin.right;
   // The chart height must be a pure function of the data plus a fixed baseline.
   // It used to be seeded from `svgRef.current.clientHeight` — i.e. from the
@@ -3042,10 +3110,15 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     <div ref={containerRef}>
       {/* Horizontal-scroll container: when the viewport is narrower than
           `chartMinWidth`, the inner wrapper (and the SVG it pins) overflow
-          here and produce a scrollbar instead of cramping the layout. */}
-      <div style={{ overflowX: 'auto' }}>
+          here and produce a scrollbar instead of cramping the layout.
+
+          `overscrollBehaviorX: contain` matters on touch devices: swiping the
+          chart past its left edge otherwise chains the scroll to the page and
+          triggers the browser's back-navigation gesture, so a student panning
+          back to year 1 can leave the page instead. */}
+      <div style={{ overflowX: 'auto', overscrollBehaviorX: 'contain' }}>
         {/* Visualization canvas wrapper so legend anchors to the SVG area only */}
-        <div style={{ position: 'relative', minWidth: chartMinWidth }}>
+        <div ref={canvasRef} style={{ position: 'relative', minWidth: chartMinWidth }}>
           <svg
             ref={svgRef}
             className="w-full h-full"
@@ -3060,6 +3133,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             cosmetics={cosmetics}
             toggleLayer={toggleLayer}
             toggleGroup={toggleGroup}
+            left={legendLeftIn(canvasWidth)}
           />
         </div>
       </div>
