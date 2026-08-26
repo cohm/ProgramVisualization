@@ -106,3 +106,27 @@ export const formatPeriods = (credits: CourseCredit[], creditsLabel: string): st
     });
   return parts.length ? `(${parts.join(', ')})` : '';
 };
+
+/**
+ * Short label for a round's chip in the selection modal.
+ *
+ * Usually the round's periods ("P3", or "P1+P2" for one that spans). When two
+ * rounds of the same course cover the SAME periods the label has to say more, or
+ * the chips are indistinguishable: CTMAT's SE1010 is given twice across P1+P2,
+ * split 3+9 and 6+6, so those render as "P1+P2 (3+9)".
+ */
+export const roundLabel = (round: CourseRound, all: CourseRound[]): string => {
+  const periodsOf = (r: CourseRound) =>
+    PERIOD_IDS.filter(p => r.credits.some(c => c.period === p && c.credits > 0));
+  const mine = periodsOf(round);
+  const key = mine.join('+');
+  const ambiguous = all.filter(r => periodsOf(r).join('+') === key).length > 1;
+  if (!ambiguous) return key || round.id;
+  const split = mine
+    .map(p => {
+      const n = round.credits.filter(c => c.period === p).reduce((a, c) => a + c.credits, 0);
+      return Number.isInteger(n) ? String(n) : n.toFixed(1);
+    })
+    .join('+');
+  return `${key} (${split})`;
+};

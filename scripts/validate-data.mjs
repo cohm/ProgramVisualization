@@ -560,8 +560,12 @@ function validateCourse(c, ctx, file) {
       c.rounds.forEach((r, i) => {
         const rctx = `${ctx} ${c.code}.rounds[${i}]`;
         if (!r || typeof r !== 'object') { err(file, `${rctx}: must be an object`); return; }
-        if (typeof r.id !== 'string' || !PERIOD_IDS.has(r.id)) {
-          err(file, `${rctx}: 'id' must be one of P1..P4 (got ${JSON.stringify(r.id)})`);
+        // `P3`, or `P1-3` when two offerings start in the same period and are
+        // told apart by the credits there (CTMAT's SE1010: P1+P2 as 3+9 and
+        // 6+6). The base before the dash is the round's first teaching period.
+        const idBase = typeof r.id === 'string' ? r.id.split('-')[0] : null;
+        if (!idBase || !PERIOD_IDS.has(idBase)) {
+          err(file, `${rctx}: 'id' must be P1..P4, optionally suffixed '-<hp>' (got ${JSON.stringify(r.id)})`);
         } else if (seenIds.has(r.id)) {
           err(file, `${rctx}: duplicate round id '${r.id}' — ids address a round in the URL, so they must be unique`);
         } else {
@@ -585,8 +589,8 @@ function validateCourse(c, ctx, file) {
           err(file, `${rctx}: Σ periodCredits = ${round(sum)} ≠ totalCredits = ${c.totalCredits} — ` +
             `a round is one whole offering of the course, not a share of it`);
         }
-        if (r.id && r.periodCredits && (r.periodCredits[r.id] || 0) <= 0) {
-          err(file, `${rctx}: id '${r.id}' but no credits in ${r.id} — the id must be the round's first teaching period`);
+        if (idBase && r.periodCredits && (r.periodCredits[idBase] || 0) <= 0) {
+          err(file, `${rctx}: id '${r.id}' but no credits in ${idBase} — the id must start with the round's first teaching period`);
         }
         validatePeriodList(r.exams, `rounds[${i}].exams`, c, ctx, file);
         validatePeriodList(r.reexams, `rounds[${i}].reexams`, c, ctx, file);

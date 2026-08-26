@@ -525,32 +525,41 @@
   },
   {
     "type": "optionGroup",
-    "name": "Valfri kurs, årskurs 3 P3",
-    "nameEn": "Elective course, year 3 P3",
+    "name": "Valfri kurs, årskurs 3 våren",
+    "nameEn": "Elective course, year 3 spring",
     "year": 3,
-    "totalCredits": 7.5,
+    "totalCredits": 15,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
       "P3": 7.5,
-      "P4": 0
+      "P4": 7.5
     },
     "options": [
       "AK2014",
       "DD2352",
+      "EQ1120",
       "MH1023",
       "SF1677",
       "SF1678",
       "SF1679",
       "SF1691",
+      "SF1861",
+      "SF1904",
+      "SF2701",
       "SF2930",
-      "SI1162"
+      "SH2404",
+      "SI1142",
+      "SI1162",
+      "SI2360",
+      "SK2712"
     ],
     "kind": "minCredits",
-    "minCredits": 7.5,
-    "allowedNumberOfOptions": 9,
+    "minCredits": 15,
+    "allowedNumberOfOptions": 17,
     "exams": [
-      "P3"
+      "P3",
+      "P4"
     ],
     "category": "electivePlaceholder",
     "qualifiesFor": {
@@ -589,6 +598,13 @@
         {
           "code": "TCSCM",
           "name": "Datalogi",
+          "required": true
+        }
+      ],
+      "EQ1120": [
+        {
+          "code": "TINNM",
+          "name": "Information och nätverksteknologi",
           "required": true
         }
       ]
@@ -757,78 +773,6 @@
     "teacher": "",
     "description": "",
     "category": "recommended"
-  },
-  {
-    "type": "optionGroup",
-    "name": "Valfri kurs, årskurs 3 P4",
-    "nameEn": "Elective course, year 3 P4",
-    "year": 3,
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "options": [
-      "DD2352",
-      "EQ1120",
-      "MH1023",
-      "SF1677",
-      "SF1678",
-      "SF1691",
-      "SF1861",
-      "SF1904",
-      "SF2701",
-      "SH2404",
-      "SI1142",
-      "SI2360",
-      "SK2712"
-    ],
-    "kind": "minCredits",
-    "minCredits": 7.5,
-    "allowedNumberOfOptions": 13,
-    "exams": [
-      "P4"
-    ],
-    "category": "electivePlaceholder",
-    "qualifiesFor": {
-      "DD2352": [
-        {
-          "code": "TCYSM",
-          "name": "Cybersäkerhet",
-          "required": true
-        },
-        {
-          "code": "TCSCM",
-          "name": "Datalogi",
-          "required": true
-        }
-      ],
-      "EQ1120": [
-        {
-          "code": "TINNM",
-          "name": "Information och nätverksteknologi",
-          "required": true
-        }
-      ],
-      "SF1677": [
-        {
-          "code": "TMAKM",
-          "name": "Matematik",
-          "required": true
-        }
-      ],
-      "SF1678": [
-        {
-          "code": "TMAKM",
-          "name": "Matematik",
-          "required": true
-        }
-      ]
-    },
-    "comment": "Exempel på kurser som ger behörighet till masterprogram eller rekommenderas, även andra kan väljas",
-    "commentEn": "Examples of courses that give eligibility for a master's programme or are recommended; others may also be chosen"
   },
   {
     "code": "EQ1120",

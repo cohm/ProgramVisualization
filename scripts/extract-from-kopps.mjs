@@ -575,8 +575,34 @@ function electivePeriods(roundsBySemester, wantedTerm) {
   return null;
 }
 
-/** First teaching period of a round — its stable id in the data files. */
+/** First teaching period of a round. */
 const firstPeriodOf = (pc) => PERIOD_IDS.find((p) => (pc?.[p] || 0) > 0) ?? 'P1';
+
+/**
+ * Stable, unique id for a round: its first teaching period, plus the credits in
+ * that period when two offerings start in the same one.
+ *
+ * The first period alone is not always unique. CTMAT's SE1010 (Hållfasthetslära
+ * med projekt, 12 hp) is given twice, both spanning P1+P2, differing only in how
+ * the credits are split — 3+9 and 6+6. The validator caught it; both rounds came
+ * out as "P1".
+ *
+ * The suffix is derived from the offering's SHAPE rather than from its position
+ * in the list or its application code, so it survives re-extraction: ids address
+ * a round in the `og` URL, and `round_application_code` is reissued every läsår.
+ * Uniqueness is guaranteed because `orderRounds` has already dropped rounds with
+ * identical shapes, so any two survivors differ somewhere — and if they share a
+ * first period they must differ in its credits.
+ */
+function roundIds(rounds) {
+  const bases = rounds.map((r) => firstPeriodOf(r.periodCredits));
+  return rounds.map((r, i) => {
+    const base = bases[i];
+    if (bases.filter((b) => b === base).length === 1) return base;
+    const hp = r.periodCredits[base];
+    return `${base}-${String(hp).replace('.', '_')}`;
+  });
+}
 
 /**
  * Order rounds by first period and drop duplicates.
@@ -2294,28 +2320,33 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
 
     // Corroborate against the prose where it says something for this year.
     const claim = stated.find((c) => c.kind === 'per-period' || c.year === year);
-    for (let i = 0; i < PERIOD_IDS.length; i++) {
-      const pid = PERIOD_IDS[i];
-      if (load[i] <= 0 || short[i] <= LOAD_TOLERANCE) continue;
-      const expected = claim
-        ? (claim.kind === 'per-period'
-          ? claim.hp
-          : (claim.periods.includes(pid) ? round(claim.hp / claim.periods.length) : null))
-        : null;
+    for (const slot of electiveSlots(claim, load, short)) {
+      const periods = slot.periods;
+      const pid = periods[0];
+      const expected = slot.expected;
+      // Per-period credits for the slot: its own shortfall in each period it
+      // spans. A spanning box is an ENVELOPE of the space, exactly as it is for
+      // an option group whose options have different shapes.
+      const slotCredits = Object.fromEntries(PERIOD_IDS.map((q) => {
+        const at = periods.indexOf(q);
+        if (at < 0) return [q, 0];
+        return [q, slot.perPeriodHp ? slot.perPeriodHp[at] : slot.hp];
+      }));
 
       const entry = {
-        // Stable synthetic code: same year+period always yields the same one, so
-        // re-running does not churn the file.
-        code: `XY${year}${i + 1}0Z`,
+        // Stable synthetic code: same year+first period always yields the same
+        // one, so re-running does not churn the file.
+        code: `XY${year}${PERIOD_IDS.indexOf(pid) + 1}0Z`,
         name: 'Plats för valfri kurs',
         nameEn: 'Space for elective course',
-        totalCredits: short[i],
-        periodCredits: Object.fromEntries(PERIOD_IDS.map((q) => [q, q === pid ? short[i] : 0])),
+        totalCredits: slot.hp,
+        periodCredits: slotCredits,
         year,
         prerequisites: [],
         // Mirrors the curated CTFYS placeholders, which mark an exam in their own
-        // period rather than leaving it blank.
-        exams: [pid],
+        // period rather than leaving it blank. A spanning slot marks one per
+        // period it covers, since the courses filling it are examined in theirs.
+        exams: [...periods],
         category: 'electivePlaceholder',
       };
 
@@ -2342,12 +2373,12 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
         .filter((code) => {
           const got = electivePeriods.get(`${year}::${code}`);
           if (!got) return true;                // unknown: keep, and flag below
-          // ANY offering teaching in this period qualifies the course for this
-          // box — that is the whole point of a course given several times a
-          // year. DD1380 is therefore offered by the P3 box and the P4 box, and
-          // the chart resolves which round to draw from the box it was picked
-          // from.
-          return offeredInPeriod(got, pid);
+          // ANY offering teaching in ANY period this slot spans qualifies the
+          // course — that is the whole point of a course given several times a
+          // year. With per-period slots DD1380 is offered by the P3 box and the
+          // P4 box and the chart resolves which round to draw from the box it
+          // was picked from; with one spanning slot it is simply offered once.
+          return periods.some((q) => offeredInPeriod(got, q));
         })
         .sort();
       const unplaced = [...new Set(electiveRecords
@@ -2368,11 +2399,11 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
       // against the course list.
       if (candidates.length > 0) {
         entry.type = 'optionGroup';
-        entry.name = electiveGroupName(pid, year);
-        entry.nameEn = electiveGroupNameEn(pid, year);
+        entry.name = electiveGroupName(periods, year);
+        entry.nameEn = electiveGroupNameEn(periods, year);
         entry.options = candidates;
         entry.kind = 'minCredits';
-        entry.minCredits = short[i];
+        entry.minCredits = slot.hp;
         entry.allowedNumberOfOptions = candidates.length;
         delete entry.code;
         delete entry.prerequisites;
@@ -2401,13 +2432,14 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
           const rec = recordByCode.get(code);
           const got = electivePeriods.get(`${year}::${code}`);
           const pc = got?.periodCredits
-            ?? Object.fromEntries(PERIOD_IDS.map((q) => [q, q === pid ? short[i] : 0]));
+            ?? Object.fromEntries(PERIOD_IDS.map((q) => [q, q === pid ? slot.hp : 0]));
           // `totalCredits` is the size of ONE offering, because that is what the
           // student takes. Summing across offerings is exactly the bug this
           // whole shape exists to prevent (DD1380: 1.5 hp, not 4 × 1.5).
+          const ids = roundIds(got?.rounds ?? []);
           const roundEntries = (got?.rounds ?? []).length > 1
-            ? got.rounds.map((r) => ({
-              id: firstPeriodOf(r.periodCredits),
+            ? got.rounds.map((r, ri) => ({
+              id: ids[ri],
               periodCredits: Object.fromEntries(
                 PERIOD_IDS.map((q) => [q, round(r.periodCredits[q] || 0)])),
               ...(r.applicationCode ? { applicationCode: String(r.applicationCode) } : {}),
@@ -2434,8 +2466,9 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
       entries.push(entry);
       added.push(entry);
       reports.push({
-        kind: 'elective-space-filled', year, period: pid, hp: short[i],
-        expected, quote: claim?.quote ?? null,
+        kind: 'elective-space-filled', year,
+        period: periods.length === 1 ? pid : periods.join('+'),
+        hp: slot.hp, expected, quote: claim?.quote ?? null,
       });
     }
   }
@@ -2444,8 +2477,75 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
 
 // A period-specific name, so the four boxes of a year are distinguishable in the
 // legend and in `selectedOptionPerGroup` (which is keyed by name).
-const electiveGroupName = (pid, year) => `Valfri kurs, årskurs ${year} ${pid}`;
-const electiveGroupNameEn = (pid, year) => `Elective course, year ${year} ${pid}`;
+// A slot spanning one period keeps its historical "… årskurs 3 P3" name; a slot
+// spanning several is named for the span, because "P3+P4" is how the plan talks
+// about it ("på våren i årskurs 3") and a box called "P3" that also covers P4
+// would misdescribe itself.
+const SPAN_LABEL = { 'P1,P2': ['hösten', 'autumn'], 'P3,P4': ['våren', 'spring'] };
+const spanLabel = (periods) => SPAN_LABEL[periods.join(',')] ?? null;
+const electiveGroupName = (periods, year) => {
+  const pids = [].concat(periods);
+  if (pids.length === 1) return `Valfri kurs, årskurs ${year} ${pids[0]}`;
+  const label = spanLabel(pids);
+  return label
+    ? `Valfri kurs, årskurs ${year} ${label[0]}`
+    : `Valfri kurs, årskurs ${year} ${pids.join('+')}`;
+};
+const electiveGroupNameEn = (periods, year) => {
+  const pids = [].concat(periods);
+  if (pids.length === 1) return `Elective course, year ${year} ${pids[0]}`;
+  const label = spanLabel(pids);
+  return label
+    ? `Elective course, year ${year} ${label[1]}`
+    : `Elective course, year ${year} ${pids.join('+')}`;
+};
+
+/**
+ * The elective slots to emit for one study year.
+ *
+ * The study plan's own wording decides the shape, because the structured data
+ * says nothing about it: `participations` is keyed by electiveCondition only, so
+ * all of a year's electives arrive as ONE flat list with no period grouping. The
+ * per-period division was ours, inherited from the hand-authored CTFYS
+ * placeholders (`XY123Z`/`XY456Z`) that this function was written to mirror.
+ *
+ * The two phrasings mean genuinely different things, and both occur:
+ *
+ *   CTMAT y3  "Utrymmet för valfria kurser är 7,5 hp per period hela läsåret."
+ *   CTFYS y3  "På våren i årskurs 3 finns ett utrymme på 15,0 hp valfria kurser."
+ *
+ * CTMAT states a per-period entitlement, so four 7.5 hp boxes are faithful.
+ * CTFYS states a total for the spring, so ONE 15 hp box spanning P3+P4 is — and
+ * splitting it in two invents a 7.5/7.5 division the plan never states, which
+ * also forces a P3+P4 course like SF1677 to be offered by both halves.
+ *
+ * Absent a claim, per-period is kept: it is the conservative shape, since a box
+ * that spans periods asserts the student may move credits between them.
+ */
+function electiveSlots(claim, load, short) {
+  const isShort = (i) => load[i] > 0 && short[i] > LOAD_TOLERANCE;
+  const perPeriod = () => PERIOD_IDS
+    .map((pid, i) => ({ periods: [pid], hp: short[i], expected: claim?.kind === 'per-period' ? claim.hp : null }))
+    .filter((_, i) => isShort(i));
+
+  if (claim?.kind !== 'season') return perPeriod();
+
+  // Only the claimed periods that are actually short join the span; a claim that
+  // matches nothing short falls back rather than inventing a box.
+  const idx = PERIOD_IDS.map((pid, i) => [pid, i]).filter(([pid, i]) => claim.periods.includes(pid) && isShort(i));
+  if (idx.length === 0) return perPeriod();
+
+  const spanned = idx.map(([pid]) => pid);
+  const hp = round(idx.reduce((a, [, i]) => a + short[i], 0));
+  // Periods short but outside the claim still get their own box — the claim
+  // speaks only for its own span.
+  const outside = PERIOD_IDS
+    .map((pid, i) => ({ periods: [pid], hp: short[i], expected: null, i }))
+    .filter(({ i, periods }) => isShort(i) && !claim.periods.includes(periods[0]))
+    .map(({ periods, hp, expected }) => ({ periods, hp, expected }));
+
+  return [{ periods: spanned, hp, expected: claim.hp, perPeriodHp: idx.map(([, i]) => short[i]) }, ...outside];
+}
 
 // ---------------------------------------------------------------------------
 // Vertical alignment: ordering within a study year

@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import kthColors from '@/data/kth-colors.json';
 import { tr, type Lang } from '@/lib/translations';
 import { getOptionGroupKind, getOptionGroupPickN, getOptionGroupMinCredits } from '@/lib/optionGroupKind';
-import { creditsForRound, formatPeriods, hasRounds, pickRound } from '@/lib/courseRounds';
+import { creditsForRound, formatPeriods, hasRounds, pickRound, roundLabel } from '@/lib/courseRounds';
 import type { Course, OptionGroup, SelectedInfo } from '@/types/course';
 
 const isCourse = (item: Course | OptionGroup): item is Course =>
@@ -547,7 +547,11 @@ export default function OptionGroupModal({
                     {tr[language].offering}:
                   </text>
                   {rounds.map((r, ri) => {
-                    const chipW = 26;
+                    const chipText = roundLabel(r, rounds);
+                    // Chips are laid out by character count rather than measured:
+                    // the modal's SVG is built before layout, so there is no
+                    // getComputedTextLength here (same constraint as the row labels).
+                    const chipW = Math.max(26, 10 + chipText.length * 5.4);
                     const chipX = barX + 6 + 74 + ri * (chipW + 4);
                     const on = activeRound?.id === r.id;
                     const choose = () =>
@@ -566,7 +570,7 @@ export default function OptionGroupModal({
                         tabIndex={0}
                         role="radio"
                         aria-checked={on}
-                        aria-label={`${optionCode} ${tr[language].offering} ${r.id}`}
+                        aria-label={`${optionCode} ${tr[language].offering} ${chipText}`}
                         onKeyDown={onActivateKey(choose)}
                       >
                         <rect
@@ -590,7 +594,7 @@ export default function OptionGroupModal({
                           dominantBaseline="central"
                           style={{ pointerEvents: 'none' }}
                         >
-                          {r.id}
+                          {chipText}
                         </text>
                       </g>
                     );

@@ -234,48 +234,28 @@
     "courseLevel": "G"
   },
   {
-    "code": "SF1677",
-    "name": "Analysens grunder",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 3.7,
-      "P4": 3.8
-    },
-    "year": 2,
-    "exams": [
-      "P4"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Foundations of Analysis",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SF1674"
-    ]
-  },
-  {
-    "code": "DD1385",
-    "name": "Programutvecklingsteknik",
+    "code": "SF1930",
+    "name": "Statistisk inlärning och dataanalys",
     "totalCredits": 6,
     "periodCredits": {
-      "P1": 2,
-      "P2": 4,
+      "P1": 6,
+      "P2": 0,
       "P3": 0,
       "P4": 0
     },
     "year": 2,
-    "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "teacher": "",
     "description": "",
     "category": "mandatory",
-    "nameEn": "Software Engineering",
+    "nameEn": "Statistical Learning and Data Analysis",
     "gradingScale": "A-F",
-    "courseLevel": "G"
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1918"
+    ]
   },
   {
     "code": "SF1693",
@@ -303,8 +283,125 @@
     ]
   },
   {
-    "code": "SF1678",
-    "name": "Grupper och ringar",
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 1",
+    "nameEn": "Conditionally elective group 1",
+    "year": 2,
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "options": [
+      "SF1677",
+      "SF1678",
+      "SF1691"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [
+      "P4"
+    ],
+    "category": "conditionallyElective"
+  },
+  {
+    "code": "SF1692",
+    "name": "Analytiska och numeriska metoder för ordinära differentialekvationer",
+    "totalCredits": 5.5,
+    "periodCredits": {
+      "P1": 5.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Analytical and Numerical Methods for Ordinary Differential Equations",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1672",
+      "SF1674"
+    ],
+    "prerequisitesParticipation": [
+      "SF1550"
+    ]
+  },
+  {
+    "code": "SF1681",
+    "name": "Linjär algebra, fortsättningskurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Linear Algebra. Advanced Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1672"
+    ]
+  },
+  {
+    "code": "DD1385",
+    "name": "Programutvecklingsteknik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 2,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Software Engineering",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "DD1380",
+    "name": "Javaprogrammering för Pythonprogrammerare",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Java Programming for Python Programmers",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1677",
+    "name": "Analysens grunder",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -319,11 +416,11 @@
     "teacher": "",
     "description": "",
     "category": "conditionallyElective",
-    "nameEn": "Groups and Rings",
+    "nameEn": "Foundations of Analysis",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
-      "SF1672"
+      "SF1674"
     ]
   },
   {
@@ -348,30 +445,6 @@
     "courseLevel": "G",
     "prerequisitesCompleted": [
       "SF1674"
-    ]
-  },
-  {
-    "code": "SF1930",
-    "name": "Statistisk inlärning och dataanalys",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Statistical Learning and Data Analysis",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SF1918"
     ]
   },
   {
@@ -421,82 +494,8 @@
     ]
   },
   {
-    "code": "SF1681",
-    "name": "Linjär algebra, fortsättningskurs",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 6,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "exams": [
-      "P2"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Linear Algebra. Advanced Course",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SF1672"
-    ]
-  },
-  {
-    "code": "DD1380",
-    "name": "Javaprogrammering för Pythonprogrammerare",
-    "totalCredits": 1.5,
-    "periodCredits": {
-      "P1": 1.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Java Programming for Python Programmers",
-    "gradingScale": "P/F",
-    "courseLevel": "G"
-  },
-  {
-    "code": "SF1692",
-    "name": "Analytiska och numeriska metoder för ordinära differentialekvationer",
-    "totalCredits": 5.5,
-    "periodCredits": {
-      "P1": 5.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Analytical and Numerical Methods for Ordinary Differential Equations",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SF1672",
-      "SF1674"
-    ],
-    "prerequisitesParticipation": [
-      "SF1550"
-    ]
-  },
-  {
-    "type": "optionGroup",
-    "name": "Villkorligt valfri grupp 1",
-    "nameEn": "Conditionally elective group 1",
-    "year": 2,
+    "code": "SF1678",
+    "name": "Grupper och ringar",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -504,18 +503,19 @@
       "P3": 3.7,
       "P4": 3.8
     },
-    "options": [
-      "SF1677",
-      "SF1678",
-      "SF1691"
-    ],
-    "allowedNumberOfOptions": 1,
-    "kind": "pickN",
-    "pickN": 1,
+    "year": 2,
     "exams": [
       "P4"
     ],
-    "category": "conditionallyElective"
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Groups and Rings",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1672"
+    ]
   },
   {
     "code": "DD2350",
@@ -1125,6 +1125,28 @@
       "P3": 0,
       "P4": 0
     },
+    "rounds": [
+      {
+        "id": "P1-3",
+        "periodCredits": {
+          "P1": 3,
+          "P2": 9,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "11389"
+      },
+      {
+        "id": "P1-6",
+        "periodCredits": {
+          "P1": 6,
+          "P2": 6,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "11383"
+      }
+    ],
     "year": 3,
     "prerequisites": [],
     "exams": [],

@@ -211,6 +211,66 @@ student takes one); a course tagged with `specializations` counts only for those
 legitimate — CTFYS year 1 P1 is 16.5 hp because DD1301 is a genuinely optional
 1.5 hp course — so only excesses of 3 hp or more are reported.
 
+**The elective space's SHAPE follows the plan's wording, not the period grid.**
+The structured data says nothing about it: `participations` is keyed by
+`electiveCondition` only (`O` / `VV` / `V`), so a year's electives arrive as ONE
+flat list with no period grouping — CTFYS year 3 is a single `V` array of 20
+courses, exactly the list the visible page shows. The per-period division was
+ours, inherited from the hand-authored `XY123Z`/`XY456Z` placeholders that
+`fillElectiveSpace()` was written to mirror.
+
+Two phrasings occur and they mean different things:
+
+    CTMAT y3  "Utrymmet för valfria kurser är 7,5 hp per period hela läsåret."
+    CTFYS y3  "På våren i årskurs 3 finns ett utrymme på 15,0 hp valfria kurser."
+
+CTMAT states a per-period entitlement, so four 7.5 hp boxes are faithful. CTFYS
+states a total for the spring, so ONE 15 hp box spanning P3+P4 is — and splitting
+it invents a 7.5/7.5 division the plan never states. The split also forced every
+P3+P4 course to be offered by both halves: 20 source courses became 26 option
+slots. Merged, the box carries exactly the 20. `electiveSlots()` picks the shape;
+absent a claim, per-period is kept, since a spanning box asserts the student may
+move credits between periods.
+
+**A partially-filled `minCredits` box shrinks instead of vanishing.** The
+renderer used to drop a group as soon as ANY option was picked. For `pickN: 1`
+that is right; for a `minCredits` pool it silently deleted the unfilled
+remainder — picking a 3 hp course into CTFYS's 7.5 hp box removed the box and
+with it 4.5 hp of the year (measured: the P4 stack fell 114 px to 80 px). With a
+15 hp spring box the same bug would lose 7.5 hp. `remainingGroup()` now redraws
+the box at its remaining size, per period, so the period still sums to
+full-time. A pick that fills one period clears the box only there: SF1679 (P3
+7.5) empties the P3 half and leaves 7.5 hp showing in P4.
+
+**Satisfaction is judged on the TOTAL, not per period** — which is what
+`minCredits` means: "pick any number of courses summing to at least N hp".
+Judging it per period leaves slivers no course can fill. SF1677 and SF1678 are
+3.7 + 3.8 hp each, so together they are 7.4 in P3 and 7.6 in P4: a complete 15 of
+15, but flooring each period at zero hid P4's +0.1 overshoot while keeping P3's
+0.1 shortfall, drawing a 0.1 hp box — at the 2-ECTS minimum bar height, a visible
+15 px one that pushed P3 *over* full-time. The remainder's per-period shape is
+still the floored leftover, but capped so it cannot claim more than is actually
+left.
+
+A consequence worth knowing: meeting the total can still leave the spring
+lopsided, and the chart now says so instead of hiding it. SF1679 (P3 7.5) plus
+SF1691 (3.7/3.8) is a full 15 hp, but both are P3-heavy, so P3 draws over
+full-time and P4 under. That is a true property of that choice — the plan grants
+15 hp across the spring, not 7.5 in each period.
+
+One wrinkle: a remainder below the 2-ECTS minimum bar height is drawn at that
+minimum, so a period can measure a few px over full-time (1.5 hp left of a P4 box
+renders 118 px against 115). That is the pre-existing `MIN_ECTS_FOR_HEIGHT` floor,
+not new.
+
+**A round id is the first teaching period, disambiguated by credits when two
+offerings share one.** CTMAT's SE1010 (12 hp) is given twice, both spanning
+P1+P2, split 3+9 and 6+6 — so both came out as `P1` and the validator rejected
+the duplicate. The suffix (`P1-3`, `P1-6`) is derived from the offering's shape
+rather than its position or application code, so it survives re-extraction.
+Uniqueness is guaranteed because `orderRounds` has already dropped identical
+shapes.
+
 **Elective space is filled from the shortfall, corroborated by the prose.**
 `fillElectiveSpace()` adds `electivePlaceholder` entries ("Plats för valfri
 kurs") sized to the shortfall — automatically during cohort extraction, and via

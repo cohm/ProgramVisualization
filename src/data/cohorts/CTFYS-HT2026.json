@@ -474,78 +474,6 @@
     ]
   },
   {
-    "code": "DD2352",
-    "name": "Algoritmer och komplexitet",
-    "nameEn": "Algorithms and Complexity",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 3,
-      "P4": 4.5
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "EQ1120",
-    "name": "Tidsdiskreta signaler och system",
-    "nameEn": "Discrete Time Signals and Systems",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "AK2014",
-    "name": "Beslutsteori",
-    "nameEn": "Decision Theory",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "MH1023",
-    "name": "Praktiskt jämställdhets- och mångfaldsarbete i vetenskapliga, tekniska och industriella miljöer",
-    "nameEn": "Practical Gender Equality and Diversity Work in Scientific, Technical and Industrial Environments",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 3,
-      "P4": 3
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
     "type": "optionGroup",
     "name": "Kandidatexamensarbete",
     "nameEn": "Bachelor's degree project",
@@ -570,33 +498,57 @@
     "commentEn": "A bachelor's degree project course must be chosen"
   },
   {
-    "code": "SF1679",
-    "name": "Diskret matematik",
-    "nameEn": "Discrete Mathematics",
-    "totalCredits": 7.5,
+    "code": "EF112X",
+    "name": "Examensarbete inom elektroteknik, grundnivå",
+    "totalCredits": 15,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
       "P3": 7.5,
-      "P4": 0
+      "P4": 7.5
     },
     "year": 3,
     "prerequisites": [],
     "exams": [],
     "teacher": "",
     "description": "",
-    "category": "recommended"
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Electrical Engineering, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
   },
   {
-    "code": "SI2360",
-    "name": "Analytisk mekanik och klassisk fältteori",
-    "nameEn": "Analytical Mechanics and Classical Field Theory",
-    "totalCredits": 7.5,
+    "code": "SH1015",
+    "name": "Tillämpad modern fysik",
+    "totalCredits": 5,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 2,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Applied Modern Physics",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SH1014"
+    ]
+  },
+  {
+    "code": "MH1023",
+    "name": "Praktiskt jämställdhets- och mångfaldsarbete i vetenskapliga, tekniska och industriella miljöer",
+    "nameEn": "Practical Gender Equality and Diversity Work in Scientific, Technical and Industrial Environments",
+    "totalCredits": 6,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
-      "P3": 0,
-      "P4": 7.5
+      "P3": 3,
+      "P4": 3
     },
     "year": 3,
     "prerequisites": [],
@@ -626,8 +578,8 @@
     "courseLevel": "G"
   },
   {
-    "code": "EF112X",
-    "name": "Examensarbete inom elektroteknik, grundnivå",
+    "name": "Valfri kurs, årskurs 3 våren",
+    "nameEn": "Elective course, year 3 spring",
     "totalCredits": 15,
     "periodCredits": {
       "P1": 0,
@@ -636,25 +588,92 @@
       "P4": 7.5
     },
     "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Degree Project in Electrical Engineering, First Cycle",
-    "gradingScale": "P/F",
-    "courseLevel": "G"
+    "exams": [
+      "P3",
+      "P4"
+    ],
+    "category": "electivePlaceholder",
+    "type": "optionGroup",
+    "options": [
+      "AK2014",
+      "DD2352",
+      "EQ1120",
+      "MH1023",
+      "SF1677",
+      "SF1678",
+      "SF1679",
+      "SF1691",
+      "SF1861",
+      "SF1904",
+      "SF2701",
+      "SF2930",
+      "SH2404",
+      "SI1142",
+      "SI1162",
+      "SI2360",
+      "SK2712"
+    ],
+    "kind": "minCredits",
+    "minCredits": 15,
+    "allowedNumberOfOptions": 17,
+    "qualifiesFor": {
+      "DD2352": [
+        {
+          "code": "TCYSM",
+          "name": "Cybersäkerhet (",
+          "required": true
+        },
+        {
+          "code": "TCSCM",
+          "name": "Datalogi ((",
+          "required": true
+        }
+      ],
+      "EQ1120": [
+        {
+          "code": "TINNM",
+          "name": "Information och nätverksteknologi (",
+          "required": true
+        }
+      ],
+      "SF1677": [
+        {
+          "code": "TMAKM",
+          "name": "Matematik (",
+          "required": true
+        }
+      ],
+      "SF1678": [
+        {
+          "code": "TMAKM",
+          "name": "Matematik (",
+          "required": true
+        }
+      ],
+      "SF1679": [
+        {
+          "code": "TCYSM",
+          "name": "Cybersäkerhet (",
+          "required": true
+        },
+        {
+          "code": "TCSCM",
+          "name": "Datalogi ((",
+          "required": true
+        }
+      ]
+    }
   },
   {
-    "code": "SF1691",
-    "name": "Komplex analys",
-    "nameEn": "Complex Analysis",
+    "code": "SF2701",
+    "name": "Finansiell matematik, grundkurs",
+    "nameEn": "Financial Mathematics, Basic Course",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
-      "P3": 3.7,
-      "P4": 3.8
+      "P3": 0,
+      "P4": 7.5
     },
     "year": 3,
     "prerequisites": [],
@@ -664,37 +683,33 @@
     "category": "recommended"
   },
   {
-    "code": "SH1015",
-    "name": "Tillämpad modern fysik",
-    "totalCredits": 5,
-    "periodCredits": {
-      "P1": 3,
-      "P2": 2,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Applied Modern Physics",
-    "gradingScale": "P/F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SH1014"
-    ]
-  },
-  {
-    "code": "SF1677",
-    "name": "Analysens grunder",
-    "nameEn": "Foundations of Analysis",
+    "code": "SI1162",
+    "name": "Statistisk fysik",
+    "nameEn": "Statistical Physics",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
-      "P3": 3.7,
-      "P4": 3.8
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "DD2352",
+    "name": "Algoritmer och komplexitet",
+    "nameEn": "Algorithms and Complexity",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 4.5
     },
     "year": 3,
     "prerequisites": [],
@@ -730,141 +745,15 @@
     ]
   },
   {
-    "code": "SF1678",
-    "name": "Grupper och ringar",
-    "nameEn": "Groups and Rings",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 3.7,
-      "P4": 3.8
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "name": "Valfri kurs, årskurs 3 P4",
-    "nameEn": "Elective course, year 3 P4",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 3,
-    "exams": [
-      "P4"
-    ],
-    "category": "electivePlaceholder",
-    "type": "optionGroup",
-    "options": [
-      "DD2352",
-      "EQ1120",
-      "MH1023",
-      "SF1677",
-      "SF1678",
-      "SF1691",
-      "SF1861",
-      "SF1904",
-      "SF2701",
-      "SH2404",
-      "SI1142",
-      "SI2360",
-      "SK2712"
-    ],
-    "kind": "minCredits",
-    "minCredits": 7.5,
-    "allowedNumberOfOptions": 13,
-    "qualifiesFor": {
-      "DD2352": [
-        {
-          "code": "TCYSM",
-          "name": "Cybersäkerhet (",
-          "required": true
-        },
-        {
-          "code": "TCSCM",
-          "name": "Datalogi ((",
-          "required": true
-        }
-      ],
-      "EQ1120": [
-        {
-          "code": "TINNM",
-          "name": "Information och nätverksteknologi (",
-          "required": true
-        }
-      ],
-      "SF1677": [
-        {
-          "code": "TMAKM",
-          "name": "Matematik (",
-          "required": true
-        }
-      ],
-      "SF1678": [
-        {
-          "code": "TMAKM",
-          "name": "Matematik (",
-          "required": true
-        }
-      ]
-    },
-    "comment": "Exempel på kurser som ger behörighet till masterprogram eller rekommenderas, även andra kan väljas",
-    "commentEn": "Examples of courses that give eligibility for a master's programme or are recommended; others may also be chosen"
-  },
-  {
-    "code": "SI1162",
-    "name": "Statistisk fysik",
-    "nameEn": "Statistical Physics",
+    "code": "SF1679",
+    "name": "Diskret matematik",
+    "nameEn": "Discrete Mathematics",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
       "P3": 7.5,
       "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "SK2712",
-    "name": "Miljöfysik",
-    "nameEn": "Environmental physics",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "SF2701",
-    "name": "Finansiell matematik, grundkurs",
-    "nameEn": "Financial Mathematics, Basic Course",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
     },
     "year": 3,
     "prerequisites": [],
@@ -892,6 +781,48 @@
     "category": "recommended"
   },
   {
+    "code": "SF1678",
+    "name": "Grupper och ringar",
+    "nameEn": "Groups and Rings",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "EL1000",
+    "name": "Reglerteknik, allmän kurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Automatic Control, General Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1683"
+    ]
+  },
+  {
     "code": "SF2930",
     "name": "Regressionsanalys",
     "nameEn": "Regression Analysis",
@@ -901,42 +832,6 @@
       "P2": 0,
       "P3": 7.5,
       "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "SI1142",
-    "name": "Fysikens matematiska metoder, tilläggskurs",
-    "nameEn": "Mathematical Methods in Physics, Additional Course",
-    "totalCredits": 3,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 3
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "SF1904",
-    "name": "Markovprocesser, grundkurs",
-    "nameEn": "Markov Processes, Basic Course",
-    "totalCredits": 3,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 3
     },
     "year": 3,
     "prerequisites": [],
@@ -968,103 +863,6 @@
     "prerequisitesCompleted": [
       "SG1113"
     ]
-  },
-  {
-    "code": "EL1000",
-    "name": "Reglerteknik, allmän kurs",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Automatic Control, General Course",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SF1683"
-    ]
-  },
-  {
-    "name": "Valfri kurs, årskurs 3 P3",
-    "nameEn": "Elective course, year 3 P3",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 3,
-    "exams": [
-      "P3"
-    ],
-    "category": "electivePlaceholder",
-    "type": "optionGroup",
-    "options": [
-      "AK2014",
-      "DD2352",
-      "MH1023",
-      "SF1677",
-      "SF1678",
-      "SF1679",
-      "SF1691",
-      "SF2930",
-      "SI1162"
-    ],
-    "kind": "minCredits",
-    "minCredits": 7.5,
-    "allowedNumberOfOptions": 9,
-    "qualifiesFor": {
-      "DD2352": [
-        {
-          "code": "TCYSM",
-          "name": "Cybersäkerhet (",
-          "required": true
-        },
-        {
-          "code": "TCSCM",
-          "name": "Datalogi ((",
-          "required": true
-        }
-      ],
-      "SF1677": [
-        {
-          "code": "TMAKM",
-          "name": "Matematik (",
-          "required": true
-        }
-      ],
-      "SF1678": [
-        {
-          "code": "TMAKM",
-          "name": "Matematik (",
-          "required": true
-        }
-      ],
-      "SF1679": [
-        {
-          "code": "TCYSM",
-          "name": "Cybersäkerhet (",
-          "required": true
-        },
-        {
-          "code": "TCSCM",
-          "name": "Datalogi ((",
-          "required": true
-        }
-      ]
-    },
-    "comment": "Exempel på kurser som ger behörighet till masterprogram eller rekommenderas, även andra kan väljas",
-    "commentEn": "Examples of courses that give eligibility for a master's programme or are recommended; others may also be chosen"
   },
   {
     "code": "SH2404",
@@ -1105,5 +903,149 @@
     "prerequisitesCompleted": [
       "SF1544"
     ]
+  },
+  {
+    "code": "AK2014",
+    "name": "Beslutsteori",
+    "nameEn": "Decision Theory",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SK2712",
+    "name": "Miljöfysik",
+    "nameEn": "Environmental physics",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF1691",
+    "name": "Komplex analys",
+    "nameEn": "Complex Analysis",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF1677",
+    "name": "Analysens grunder",
+    "nameEn": "Foundations of Analysis",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SI2360",
+    "name": "Analytisk mekanik och klassisk fältteori",
+    "nameEn": "Analytical Mechanics and Classical Field Theory",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF1904",
+    "name": "Markovprocesser, grundkurs",
+    "nameEn": "Markov Processes, Basic Course",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 3
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SI1142",
+    "name": "Fysikens matematiska metoder, tilläggskurs",
+    "nameEn": "Mathematical Methods in Physics, Additional Course",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 3
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "EQ1120",
+    "name": "Tidsdiskreta signaler och system",
+    "nameEn": "Discrete Time Signals and Systems",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
   }
 ]

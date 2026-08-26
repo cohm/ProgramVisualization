@@ -39,6 +39,7 @@ import {
 } from '@/lib/tooltipText';
 import { getEmbeddedFontFaces } from '@/lib/fonts';
 import { pickRound } from '@/lib/courseRounds';
+import { getOptionGroupKind, getOptionGroupMinCredits } from '@/lib/optionGroupKind';
 
 type CourseOrOptionGroup = Course | OptionGroup;
 
@@ -47,6 +48,11 @@ type CourseOrOptionGroup = Course | OptionGroup;
 // legend. Two copies of these numbers would drift silently: nothing in the
 // types connects a legend offset to a plot margin.
 const CHART_MARGIN = { top: 100, right: 40, bottom: 40, left: 100 } as const;
+
+// Credit arithmetic runs in floating point (3.7 + 3.8), so a subtraction can
+// leave 7.499999999999999. Round to one decimal, which is the precision KTH
+// itself uses for hp.
+const round1 = (n: number) => Math.round(n * 10) / 10;
 
 /**
  * x, in container pixels, where the legend should sit for a given container
@@ -1030,12 +1036,77 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // different heights and the connector between them became a diagonal — 50 px
   // of step for a pick in the P4 box, 61 px for one in the P3 box. Nothing was
   // wrong with the data; the two orderings simply disagreed.
-  const groupIsUnpicked = (og: OptionGroup) =>
-    (selectedOptionPerGroup[og.name]?.length ?? 0) === 0;
+  /**
+   * What remains of an option group after the user's picks — or null when it is
+   * satisfied and should disappear.
+   *
+   * A group used to vanish the moment ANY option was picked. For `pickN: 1` that
+   * is right: one pick is the whole choice. For a `minCredits` pool it is not,
+   * and the error is proportional to how much space the box represents: picking
+   * a 3 hp course into CTFYS's 7.5 hp box removed the box and with it the
+   * remaining 4.5 hp of the year (measured: the P4 stack dropped 114 px to
+   * 80 px). A 15 hp spring box would lose 7.5 hp the same way — which is exactly
+   * the space the study plan says the student still has to fill.
+   *
+   * So a partially-filled minCredits group is redrawn at its REMAINING size:
+   * per period, the box's own credits minus what the picks already occupy there,
+   * floored at zero. The picked courses render beside it, so the period still
+   * adds up to full-time.
+   */
+  const remainingGroup = (og: OptionGroup): OptionGroup | null => {
+    const picked = selectedOptionPerGroup[og.name] ?? [];
+    if (picked.length === 0) return og;
+    if (getOptionGroupKind(og) !== 'minCredits') return null;
+
+    const pickedCourses = picked
+      .map(code => individualCoursesByCodeMap.get(code))
+      .filter((c): c is Course => !!c);
+
+    // A `minCredits` group is satisfied by the TOTAL, which is what the rule
+    // says: "pick any number of courses summing to at least N hp". Judging it
+    // per period instead left an unfillable sliver whenever the picks did not
+    // divide evenly across the box's periods — SF1677 + SF1678 are 3.7+3.8 hp
+    // each, so together they are 7.4 in P3 and 7.6 in P4. That is a complete
+    // 15 hp of 15, but flooring each period at zero hid P4's +0.1 overshoot
+    // while keeping P3's 0.1 shortfall, drawing a 0.1 hp box that no course
+    // could ever fill (and, at the 2-ECTS minimum bar height, a visible 15 px
+    // one that pushed P3 over full-time).
+    const pickedTotal = pickedCourses.reduce(
+      (sum, c) => sum + c.credits.reduce((a, cr) => a + cr.credits, 0), 0);
+    const minCredits = getOptionGroupMinCredits(og);
+    // 0.05 hp: the same tolerance the validator uses for 3.7 + 3.8 rounding.
+    if (pickedTotal >= minCredits - 0.05) return null;
+    const remainingTotal = round1(minCredits - pickedTotal);
+
+    // Per-period leftovers, floored — then capped so they cannot claim more
+    // space than is actually left. A pick that overshoots one period frees no
+    // room in another, so without the cap the box would over-report.
+    const used: Record<string, number> = { P1: 0, P2: 0, P3: 0, P4: 0 };
+    pickedCourses.forEach(c => {
+      c.credits.forEach(cr => { used[cr.period] = (used[cr.period] || 0) + cr.credits; });
+    });
+    const periodCredits = { P1: 0, P2: 0, P3: 0, P4: 0 } as Record<'P1'|'P2'|'P3'|'P4', number>;
+    (['P1','P2','P3','P4'] as const).forEach(p => {
+      periodCredits[p] = Math.max(0, round1((og.periodCredits?.[p] ?? 0) - (used[p] || 0)));
+    });
+    const flooredSum = (['P1','P2','P3','P4'] as const).reduce((a, p) => a + periodCredits[p], 0);
+    if (flooredSum > remainingTotal + 0.05 && flooredSum > 0) {
+      const scale = remainingTotal / flooredSum;
+      (['P1','P2','P3','P4'] as const).forEach(p => {
+        periodCredits[p] = round1(periodCredits[p] * scale);
+      });
+    }
+
+    const total = (['P1','P2','P3','P4'] as const).reduce((a, p) => a + periodCredits[p], 0);
+    if (total <= 0.05) return null;
+    return { ...og, periodCredits, totalCredits: round1(total) };
+  };
+
   const displayItems: Array<Course | OptionGroup> = [];
   courses.forEach(c => {
     if (isOptionGroup(c)) {
-      if (groupIsUnpicked(c)) displayItems.push(c);
+      const remaining = remainingGroup(c);
+      if (remaining) displayItems.push(remaining);
       return;
     }
     // Use the placed course (round applied, year re-stamped), not the raw entry.
