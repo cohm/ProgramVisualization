@@ -53,6 +53,39 @@ A Next.js + D3.js visualization app that renders KTH engineering degree programs
   The same dual shape applies to `exams` / `reexams`: either an array `["P2"]` or a `Year<n>`-keyed object `{ "Year1": ["P2"], "Year2": ["P4"] }`. The `Course` type exposes the parsed by-year form as `examsByYear` / `reexamsByYear`.
 
   Optional `periodCreditsBySpecialization: { <specCode>: { P1, P2, P3, P4 } }` overrides the period layout when the user has selected the matching inriktning. Used when a single KTH course slots into a different period for one inriktning (e.g. `SK1110` in `CINEK.json` runs in P3 for DTOI/EHUI/TMAI but P4 for PPUI). Flat-shape only; the renderer applies the override in the spec filter (`TimelineVisualization.tsx:77–107`) and the validator enforces that each override's sum equals `totalCredits`. When both the base course and the override sit in a single period, `exams` and `reexams` auto-shift to the override's period (the exam slot tracks the lecture period per Riktlinje om läsårets förläggning §1.1); multi-period bars are left untouched and would need an explicit mapping if/when that case arises.
+
+  Optional `rounds: [{ id, periodCredits, applicationCode? }]` lists a course's
+  **alternative offerings in one academic year**, for the courses KTH gives more
+  than once. A student takes ONE of them, so every round's periods sum to
+  `totalCredits`, and the flat `periodCredits` must be a copy of one of them (the
+  default). The validator enforces both, plus unique ids.
+
+  This shape exists because the extractor previously had nowhere to put the
+  alternatives and **unioned** them. `mergeRoundPeriods` took the per-period
+  maximum across offerings — which avoids double-counting but still yields a bar
+  covering every period the course is ever taught in — and then `totalCredits`,
+  recomputed from the periods to keep Σ consistent, absorbed the union. DD1380
+  (Javaprogrammering för Pythonprogrammerare, **1.5 hp**, given in all four
+  periods) came out as `{P1:1.5, P2:1.5, P3:1.5, P4:1.5}` with `totalCredits: 6`
+  — four times the real course. CTFYS HT2024 had three such courses: DD1380,
+  DD2421 (7.5 → 15) and AK2011 (7.5 → 15).
+
+  The round id is the offering's **first teaching period** (`P1`…`P4`), not the
+  KTH application code: ids address a round in the `og` URL parameter and must
+  survive re-extraction, while `round_application_code` is reissued every läsår.
+  The application code is still recorded, because it is what lets a reader check
+  an offering against kth.se — and because the study plan's own participation
+  carries one, which is how the extractor knows which offering KTH places the
+  course in and makes that the default rather than guessing.
+
+  A round is a period **map**, not a single period: AK2011's autumn offering is
+  `{P1:4, P2:3.5}` while its spring one is `{P4:7.5}`.
+
+  Which round is drawn is decided by `pickRound` (`src/lib/courseRounds.ts`):
+  the user's explicit choice, else the round overlapping the option-group box's
+  own periods, else the first. That middle rule is what makes the same course
+  offered by both the P3 and the P4 elective box land in the box it was actually
+  picked from — DD1380 appears in both.
 - **`<PROGRAM>-cosmetics.json`** — Maps course codes to color family groups (blue/green/turquoise/brick/yellow). Hard-capped at 5 families.
 
   **Palette convention:** `Matematik` is always **blue** and elective space is
@@ -266,6 +299,33 @@ valfri, but emitting a selection modal with one item clutters the chart, and non
 of the six curated files does it. 15 of 34 extracted groups were this shape —
 5 of CFATE's 7 and 10 of TIEMM's 23 — and they are now emitted as plain courses
 with `category: conditionallyElective`.
+
+**The loader returns entries in FILE ORDER, and that is load-bearing.**
+`parseCourseEntries` used to end `return [...courses, ...optionGroups]` — every
+course before every option group, regardless of where they sat in the file. The
+renderer stacks each period's bars in the order of that list, so the
+concatenation silently overruled the ordering `alignEntries()` exists to choose.
+
+It only became visible once something was **picked**: an unpicked group and its
+hidden options cannot disagree. Picking any elective turns the picked course into
+a regular course, which then sorted above the Kandidatexamensarbete group in that
+one period while the other period still had the group on top. CTFYS year 3 has a
+15 hp thesis spanning P3+P4, so its two bars ended up at different heights and
+the connector between them drew as a diagonal — measured 50 px of step for a pick
+in the P4 box, 61 px for one in the P3 box, and identically in HT2024 and HT2025
+(it was never a cohort difference).
+
+**There is a real trade-off here, and file order is the better side of it.**
+Measured over 12 picked states across CTFYS/CTMAT/CFATE, total connector drift is
+**1004 px → 993 px**. The thesis diagonal disappears in every case (0 px), but two
+cases get worse: DD2352 and SF1677 picked from the *P4* box go 61/50 px → 111 px.
+Those courses span P3+P4 and sit *after* the "Valfri kurs P3" group in the file,
+so picking them from the P4 box removes the P4 box while the P3 box remains — one
+period has an extra 7.5 hp bar above them and the other does not. That is the
+geometrically-impossible case above, not an ordering mistake: no permutation
+aligns a course that sits below a box which exists in only one of its periods.
+The old concatenation "fixed" it only by accident, by hoisting every course above
+every box — which is what broke the thesis.
 
 **Course order controls vertical alignment.** The renderer stacks each period's
 bars in file order, so a course spanning periods sits at whatever cumulative

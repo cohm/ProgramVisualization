@@ -25,6 +25,10 @@ export const tr = {
     reexam: 'Omtenta',
     year: 'År',
     credits: 'hp',
+    // Kurstillfälle = one offering of a course. Shown only for courses KTH
+    // gives more than once in a läsår, where the student picks which to take.
+    offering: 'Kurstillfälle',
+    offeringHint: 'Kursen ges flera gånger per läsår — välj vilket tillfälle du planerar att läsa',
     teacher: 'Lärare',
     viewCourse: 'kurshemsida',
     viewSchedule: 'schema',
@@ -96,6 +100,8 @@ export const tr = {
     reexam: 'Re-exam',
     year: 'Year',
     credits: 'ECTS',
+    offering: 'Course offering',
+    offeringHint: 'This course runs several times per academic year — pick the offering you plan to take',
     teacher: 'Teacher',
     viewCourse: 'course webpage',
     viewSchedule: 'schedule',

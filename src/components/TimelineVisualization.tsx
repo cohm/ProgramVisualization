@@ -38,6 +38,7 @@ import {
   buildOptionGroupTooltip,
 } from '@/lib/tooltipText';
 import { getEmbeddedFontFaces } from '@/lib/fonts';
+import { pickRound } from '@/lib/courseRounds';
 
 type CourseOrOptionGroup = Course | OptionGroup;
 
@@ -104,7 +105,18 @@ interface TimelineVisualizationProps {
   // Per-group user selection: for kind: 'pickN' (the default), the array is
   // capped at pickN entries; for kind: 'minCredits' it has no cap.
   selectedOptionPerGroup: Record<string, string[]>;
-  onSelectedOptionPerGroupChange: (next: Record<string, string[]>) => void;
+  // One callback for the whole selection — which courses are picked and which
+  // offering each multi-round course uses. Both live in the same `og` URL
+  // parameter, so they must be written together (see OptionGroupModal).
+  onSelectionChange: (
+    groups: Record<string, string[]>,
+    rounds: Record<string, string>,
+  ) => void;
+  // Chosen offering per course code, for the few courses KTH gives several
+  // times a läsår (see CourseRound). Keyed by code rather than by (group, code)
+  // because option selections are mutually exclusive across groups, so a course
+  // is picked in at most one box.
+  selectedRoundPerCourse: Record<string, string>;
   hiddenLayers: Set<string>;
   onHiddenLayersChange: (next: Set<string>) => void;
   hiddenGroups: Set<string>;
@@ -137,7 +149,7 @@ export interface TimelineVisualizationHandle {
   exportChart: (format: 'png' | 'svg' | 'pdf', options?: { includeLegend?: boolean }) => Promise<void>;
 }
 
-const TimelineVisualization = forwardRef(function TimelineVisualization({ courses: rawCourses, language = 'sv', programName, programCode, studyplanUrl, programComment, cosmetics, selectedOptionPerGroup, onSelectedOptionPerGroupChange, hiddenLayers, onHiddenLayersChange, hiddenGroups, onHiddenGroupsChange, selectedSpecializations, specGroupMap, onToast }: TimelineVisualizationProps, ref: React.ForwardedRef<TimelineVisualizationHandle>) {
+const TimelineVisualization = forwardRef(function TimelineVisualization({ courses: rawCourses, language = 'sv', programName, programCode, studyplanUrl, programComment, cosmetics, selectedOptionPerGroup, onSelectionChange, selectedRoundPerCourse, hiddenLayers, onHiddenLayersChange, hiddenGroups, onHiddenGroupsChange, selectedSpecializations, specGroupMap, onToast }: TimelineVisualizationProps, ref: React.ForwardedRef<TimelineVisualizationHandle>) {
   // Filter courses by the active inriktning selection. AND across spec
   // groups: for every group represented in a course's `specializations`,
   // the user's pick from that group must be one of the course's specs.
@@ -929,6 +941,31 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     });
   });
 
+  // Swap a multi-round course onto the offering that actually applies: the one
+  // the user picked, else the one matching the box it was chosen from.
+  //
+  // This is what stops a course KTH gives four times a year from drawing as one
+  // bar across the whole year. DD1380 is 1.5 hp whichever offering you take, so
+  // the bar must show ONE round — and the same course offered by both the P3 and
+  // the P4 elective box has to land in the box that was actually clicked.
+  //
+  // `examsByYear` / `reexamsByYear` are dropped deliberately: a round is a
+  // single-year alternative, so a by-year exam map from the merged entry cannot
+  // describe it, and keeping it would place markers in a year the round has no
+  // credits in.
+  const applyRound = (course: Course, group: OptionGroup): Course => {
+    const round = pickRound(course, group, selectedRoundPerCourse[course.code]);
+    if (!round) return course;
+    return {
+      ...course,
+      credits: round.credits,
+      exams: round.exams,
+      reexams: round.reexams,
+      examsByYear: undefined,
+      reexamsByYear: undefined,
+    };
+  };
+
   // Shift a course into `targetYear`, preserving its period layout and the
   // relative offsets of a course that spans study years.
   const placeCourseInYear = (course: Course, targetYear: number): Course => {
@@ -966,7 +1003,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     if (isOptionGroup(c)) return [];
     const course = c as Course;
     const group = pickedIn.get(course.code);
-    if (group) return [placeCourseInYear(course, group.year)];
+    if (group) return [placeCourseInYear(applyRound(course, group), group.year)];
     return coursesInOptionGroups.has(course.code) ? [] : [course];
   });
   // Lookup map built once and reused everywhere a Course needs to be
@@ -975,14 +1012,36 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const individualCoursesByCodeMap = new Map<string, Course>();
   individualCourses.forEach(c => individualCoursesByCodeMap.set(c.code, c));
 
-  // Combine individual courses with option groups for rendering. The
-  // placeholder bar is hidden as soon as any option in the group has been
+  // Combine individual courses with option groups for rendering, in FILE ORDER.
+  // The placeholder bar is hidden as soon as any option in the group has been
   // picked (first cut: simple all-or-nothing — partial-fill rendering for
   // multi-select groups is a follow-up).
-  const displayItems: Array<Course | OptionGroup> = [
-    ...individualCourses,
-    ...optionGroups.filter(og => (selectedOptionPerGroup[og.name]?.length ?? 0) === 0)
-  ];
+  //
+  // This used to be `[...individualCourses, ...optionGroups]`, i.e. every course
+  // before every group. The renderer stacks each period's bars in the order of
+  // this list, so that concatenation silently overrode the file order the
+  // alignment pass works so hard to choose — and it only showed up once
+  // something was picked.
+  //
+  // The symptom: picking any elective turned the picked course into an
+  // individual course, which then jumped above the thesis group in that period
+  // while the *other* period still had the group on top. CTFYS year 3 has a
+  // 15 hp Kandidatexamensarbete spanning P3+P4, so its two bars ended up at
+  // different heights and the connector between them became a diagonal — 50 px
+  // of step for a pick in the P4 box, 61 px for one in the P3 box. Nothing was
+  // wrong with the data; the two orderings simply disagreed.
+  const groupIsUnpicked = (og: OptionGroup) =>
+    (selectedOptionPerGroup[og.name]?.length ?? 0) === 0;
+  const displayItems: Array<Course | OptionGroup> = [];
+  courses.forEach(c => {
+    if (isOptionGroup(c)) {
+      if (groupIsUnpicked(c)) displayItems.push(c);
+      return;
+    }
+    // Use the placed course (round applied, year re-stamped), not the raw entry.
+    const placed = individualCoursesByCodeMap.get((c as Course).code);
+    if (placed) displayItems.push(placed);
+  });
   
   // Increased vertical gap between year rows (px)
   // Increase inter-year gap by 20% (from 48 to ~57.6). Use integer for pixel grid.
@@ -2519,7 +2578,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // visual effects (visibility toggles, year-label highlight) are applied by
   // the dedicated post-render effects below, which keeps a layer toggle or
   // year-focus click from triggering a full ~3 000-call SVG rebuild.
-  }, [courses, numYears, language, selectedOptionPerGroup, cosmetics, programCode, programName, studyplanUrl, getCourseColors]);
+  }, [courses, numYears, language, selectedOptionPerGroup, selectedRoundPerCourse, cosmetics, programCode, programName, studyplanUrl, getCourseColors]);
 
   // One-time setup: tooltip element + delegated mouseover/move/out/click on
   // the SVG. Replaces the per-element listeners that used to be attached on
@@ -3161,7 +3220,8 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           highlightedOptionCodes={highlightedOptionCodes}
           onHighlightedOptionCodesChange={setHighlightedOptionCodes}
           selectedOptionPerGroup={selectedOptionPerGroup}
-          onSelectedOptionPerGroupChange={onSelectedOptionPerGroupChange}
+          selectedRounds={selectedRoundPerCourse}
+          onCommitSelection={onSelectionChange}
           onSelectedInfoChange={setSelectedInfo}
           onClose={() => setSelectedOptionGroup(null)}
         />

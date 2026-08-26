@@ -11,6 +11,8 @@ import type {
   CohortMeta,
   Course,
   CourseCategory,
+  CourseCredit,
+  CourseRound,
   GradingScale,
   OptionGroup,
   Period,
@@ -62,7 +64,53 @@ interface RawEntry {
   gradingScale?: GradingScale;
   specializations?: string[];
   periodCreditsBySpecialization?: Record<string, Record<'P1' | 'P2' | 'P3' | 'P4', number>>;
+  rounds?: CourseRound[];
 }
+
+/** Raw JSON shape of one alternative offering. See CourseRound. */
+interface RawRound {
+  id?: string;
+  periodCredits?: Record<string, unknown>;
+  exams?: unknown;
+  reexams?: unknown;
+  applicationCode?: string;
+}
+
+/**
+ * Normalise `rounds` into CourseRound[], stamping each round's credits with the
+ * course's own year.
+ *
+ * A round is a whole-year alternative, so it uses the flat {P1..P4} shape only —
+ * a course that both spans study years and runs several times a year would need
+ * the by-year shape here too, and no such course exists in the data. Returning
+ * undefined for that case keeps the course on its flat `credits` rather than
+ * inventing a layout.
+ */
+const parseRounds = (raw: unknown, year: number): CourseRound[] | undefined => {
+  if (!Array.isArray(raw) || raw.length === 0) return undefined;
+  const out: CourseRound[] = [];
+  for (const r of raw as RawRound[]) {
+    const pc = r?.periodCredits;
+    if (!pc || typeof pc !== 'object') continue;
+    const credits: CourseCredit[] = [];
+    Object.entries(pc as Record<string, unknown>).forEach(([p, val]) => {
+      const num = Number(val) || 0;
+      if (num > 0) credits.push({ period: p as Period['id'], credits: num, year });
+    });
+    if (credits.length === 0) continue;
+    // Default the id to the round's first teaching period, which is what the
+    // extractor writes and what the URL round-selector expects.
+    const id = (r.id as Period['id'])
+      ?? (['P1', 'P2', 'P3', 'P4'] as const).find(p => credits.some(c => c.period === p))
+      ?? 'P1';
+    const exams = parsePeriodList(r.exams).flat as Period['id'][];
+    const reexams = r.reexams !== undefined && r.reexams !== null
+      ? parsePeriodList(r.reexams).flat as Period['id'][]
+      : exams;
+    out.push({ id, credits, exams, reexams, applicationCode: r.applicationCode });
+  }
+  return out.length > 0 ? out : undefined;
+};
 
 // Parse an exams/reexams JSON value into the canonical { flat, byYear } shape.
 // Accepts an array (flat) or a Year<n>-keyed object. Returns empty flat +
@@ -164,6 +212,7 @@ export const parseCourseEntries = (rawData: RawCourseEntry[]): (Course | OptionG
         gradingScale: c.gradingScale,
         specializations: Array.isArray(c.specializations) ? [...c.specializations as string[]] : undefined,
         periodCreditsBySpecialization: (c as RawCourseEntry & { periodCreditsBySpecialization?: Record<string, Record<'P1' | 'P2' | 'P3' | 'P4', number>> }).periodCreditsBySpecialization,
+        rounds: parseRounds(c.rounds, c.year || 1),
       });
     } else {
       // Merge nested perYear (sums credits if duplicates exist).
@@ -256,10 +305,48 @@ export const parseCourseEntries = (rawData: RawCourseEntry[]): (Course | OptionG
       gradingScale: entry.gradingScale,
       specializations: entry.specializations,
       periodCreditsBySpecialization: entry.periodCreditsBySpecialization,
+      rounds: entry.rounds,
     } as Course;
   });
 
-  return [...courses, ...optionGroups as unknown as OptionGroup[]];
+  // Return entries in FILE ORDER, interleaving courses and option groups.
+  //
+  // This used to be `[...courses, ...optionGroups]`, which put every course
+  // before every group regardless of where they sat in the file. The renderer
+  // stacks each period's bars in the order of this list, so that concatenation
+  // quietly overruled the ordering that `alignEntries()` exists to choose — and
+  // it only became visible once something was picked, because an unpicked group
+  // and its (hidden) options cannot disagree.
+  //
+  // The symptom was CTFYS year 3: picking any elective made the picked course a
+  // regular course, which then sorted above the Kandidatexamensarbete group in
+  // that one period while the other period still had the group on top. The
+  // thesis spans P3+P4, so its two bars sat at different heights and the
+  // connector between them was drawn as a diagonal.
+  //
+  // A merged course appears at the position of its FIRST raw entry, which is
+  // what the by-year shape (one code, several entries) should mean for layout.
+  const byCodeCourse = new Map<string, Course>();
+  courses.forEach(c => byCodeCourse.set(c.code, c));
+  const groupsByIndex = new Map<number, OptionGroup>();
+  optionGroups.forEach((g, i) => groupsByIndex.set(i, g as unknown as OptionGroup));
+
+  const ordered: (Course | OptionGroup)[] = [];
+  const emitted = new Set<string>();
+  let groupIdx = 0;
+  for (const raw of rawData) {
+    if (raw.type === 'cohortMeta') continue;
+    if (raw.type === 'optionGroup') {
+      const g = groupsByIndex.get(groupIdx++);
+      if (g) ordered.push(g);
+      continue;
+    }
+    const code: string = raw.code;
+    if (!code || emitted.has(code)) continue;
+    const c = byCodeCourse.get(code);
+    if (c) { ordered.push(c); emitted.add(code); }
+  }
+  return ordered;
 };
 
 // Load a program's cosmetics (course-group → colour-family map). Returns

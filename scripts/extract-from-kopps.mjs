@@ -553,38 +553,58 @@ function electivePeriods(roundsBySemester, wantedTerm) {
     for (const rd of rounds || []) {
       const pc = periodsFromRound(rd?.round_periods);
       if (!pc) continue;
-      candidates.push({ term: t, periodCredits: pc });
+      candidates.push({ term: t, periodCredits: pc, applicationCode: rd?.round_application_code });
     }
   }
   if (candidates.length === 0) return null;
 
   const exact = candidates.filter((c) => c.term === wantedTerm);
-  if (exact.length > 0) return mergeRoundPeriods(exact);
+  if (exact.length > 0) return { term: wantedTerm, rounds: exact };
 
   const sameSeason = candidates.filter((c) => c.term % 10 === season);
   if (sameSeason.length > 0) {
     // Nearest year in the same season.
-    const nearest = sameSeason.reduce((best, c) =>
-      Math.abs(c.term - wantedTerm) < Math.abs(best.term - wantedTerm) ? c : best);
-    return { ...nearest, approximate: true };
+    const nearestTerm = sameSeason.reduce((best, c) =>
+      Math.abs(c.term - wantedTerm) < Math.abs(best.term - wantedTerm) ? c : best).term;
+    return {
+      term: nearestTerm,
+      rounds: sameSeason.filter((c) => c.term === nearestTerm),
+      approximate: true,
+    };
   }
   return null;
 }
 
+/** First teaching period of a round — its stable id in the data files. */
+const firstPeriodOf = (pc) => PERIOD_IDS.find((p) => (pc?.[p] || 0) > 0) ?? 'P1';
+
 /**
- * Combine several rounds in one term.
+ * Order rounds by first period and drop duplicates.
  *
- * A course can be offered twice in the same semester (DD1380 runs in both P1 and
- * P2 of one autumn). Those are alternative offerings of the same course, not
- * additional credits, so the periods are unioned by taking the per-period
- * maximum rather than summed — summing would double the course's size.
+ * Rounds used to be collapsed here by taking the per-period MAXIMUM across
+ * offerings, on the reasoning that alternatives must not be summed. That avoided
+ * double-counting but still produced a single bar covering every period the
+ * course is ever given in: DD1380 (1.5 hp, given in all four periods) came out
+ * as {P1:1.5, P2:1.5, P3:1.5, P4:1.5}, and `totalCredits` — recomputed from the
+ * periods to keep Σ consistent — became 6, four times the real course.
+ *
+ * Alternatives need to stay alternatives, so they are kept as a list and the
+ * schema carries them (see CourseRound). One round can legitimately span several
+ * periods — AK2011's autumn offering is {P1:4, P2:3.5} — which is why a round is
+ * a period MAP and not a single period.
  */
-function mergeRoundPeriods(rounds) {
-  const out = Object.fromEntries(PERIOD_IDS.map((p) => [p, 0]));
+function orderRounds(rounds) {
+  const seen = new Set();
+  const out = [];
   for (const r of rounds) {
-    for (const p of PERIOD_IDS) out[p] = Math.max(out[p], r.periodCredits[p] || 0);
+    const key = PERIOD_IDS.map((p) => r.periodCredits[p] || 0).join('/');
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(r);
   }
-  return { term: rounds[0].term, periodCredits: out };
+  return out.sort((a, b) =>
+    PERIOD_IDS.indexOf(firstPeriodOf(a.periodCredits)) -
+    PERIOD_IDS.indexOf(firstPeriodOf(b.periodCredits)));
 }
 
 
@@ -597,7 +617,7 @@ function mergeRoundPeriods(rounds) {
  * whichever the course actually has a round in wins. A course offered in both
  * (AK2011, DD2421) is reported for review rather than silently placed in one.
  */
-async function electivePeriodsForYear(code, cohort, studyYear) {
+async function electivePeriodsForYear(code, cohort, studyYear, preferredApplicationCode) {
   let meta;
   try { meta = await fetchCourseMeta(code); } catch { return null; }
   if (!meta?.roundsBySemester) return null;
@@ -610,30 +630,53 @@ async function electivePeriodsForYear(code, cohort, studyYear) {
   const inSpring = electivePeriods(meta.roundsBySemester, spring);
 
   const exact = [inAutumn, inSpring].filter((x) => x && !x.approximate);
-  if (exact.length === 2) {
-    flag(`${code}: offered in both halves of läsår ${lasar}/${lasar + 1} ` +
-      `(${JSON.stringify(pcOnly(inAutumn))} and ${JSON.stringify(pcOnly(inSpring))}) — ` +
-      `listed in every matching period box; a student picks one offering.`);
-    return { periodCredits: unionPeriods(inAutumn.periodCredits, inSpring.periodCredits), bothHalves: true };
-  }
-  if (exact.length === 1) return exact[0];
-
-  // Neither term has a round: fall back to the nearest same-season one, which
-  // `electivePeriods` marks approximate.
-  const near = inAutumn ?? inSpring;
-  if (near) {
+  let collected;
+  let approximate = false;
+  if (exact.length > 0) {
+    collected = exact.flatMap((x) => x.rounds);
+  } else {
+    // Neither term has a round: fall back to the nearest same-season one, which
+    // `electivePeriods` marks approximate.
+    const near = inAutumn ?? inSpring;
+    if (!near) return null;
+    collected = near.rounds;
+    approximate = true;
     flag(`${code}: no round in läsår ${lasar}/${lasar + 1}; periods taken from the ` +
       `nearest ${near.term % 10 === TERM_AUTUMN ? 'autumn' : 'spring'} round (${near.term}) — verify.`);
-    return near;
   }
-  return null;
+
+  const rounds = orderRounds(collected);
+  if (rounds.length === 0) return null;
+
+  // Which offering is the DEFAULT — what a consumer that ignores `rounds` will
+  // draw. The study plan's participation names a specific kurstillfälle in its
+  // `applicationCode`, so when we have it, KTH has already answered the question
+  // and we do not have to guess. Otherwise the earliest offering wins.
+  const preferred = preferredApplicationCode
+    ? rounds.find((r) => r.applicationCode === String(preferredApplicationCode))
+    : undefined;
+  const chosen = preferred ?? rounds[0];
+
+  if (rounds.length > 1) {
+    flag(`${code}: given ${rounds.length} times in läsår ${lasar}/${lasar + 1} ` +
+      `(${rounds.map((r) => JSON.stringify(pcOnly(r))).join(', ')}) — emitted as ` +
+      `alternative rounds, default ${firstPeriodOf(chosen.periodCredits)}` +
+      `${preferred ? ' (the offering the study plan points at)' : ''}. A student takes one.`);
+  }
+
+  return {
+    periodCredits: chosen.periodCredits,
+    rounds,
+    ...(approximate ? { approximate: true } : {}),
+  };
 }
 
 const pcOnly = (x) => Object.fromEntries(
   PERIOD_IDS.filter((p) => (x?.periodCredits?.[p] || 0) > 0).map((p) => [p, x.periodCredits[p]]));
 
-const unionPeriods = (a, b) => Object.fromEntries(
-  PERIOD_IDS.map((p) => [p, Math.max(a?.[p] || 0, b?.[p] || 0)]));
+/** True when any offering of this course teaches in `pid`. */
+const offeredInPeriod = (got, pid) =>
+  (got?.rounds ?? []).some((r) => (r.periodCredits?.[pid] || 0) > 0);
 
 // ---------------------------------------------------------------------------
 // Master-programme eligibility from `supplementaryInformation`
@@ -841,6 +884,9 @@ function readCurriculum(state, prog, year) {
           spec,
           year,
           periodCredits: periodCreditsFrom(part.creditsPerPeriod, code),
+          // The kurstillfälle this programme places the course in. Only used for
+          // courses given several times a läsår, where it names the default round.
+          applicationCode: part.applicationCode,
         });
       }
     }
@@ -2294,9 +2340,14 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
       }
       const candidates = [...recordByCode.keys()]
         .filter((code) => {
-          const pc = electivePeriods.get(`${year}::${code}`);
-          if (!pc) return true;                 // unknown: keep, and flag below
-          return (pc[pid] || 0) > 0;
+          const got = electivePeriods.get(`${year}::${code}`);
+          if (!got) return true;                // unknown: keep, and flag below
+          // ANY offering teaching in this period qualifies the course for this
+          // box — that is the whole point of a course given several times a
+          // year. DD1380 is therefore offered by the P3 box and the P4 box, and
+          // the chart resolves which round to draw from the box it was picked
+          // from.
+          return offeredInPeriod(got, pid);
         })
         .sort();
       const unplaced = [...new Set(electiveRecords
@@ -2348,14 +2399,27 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
           }
           emittedElectiveCourses.add(code);
           const rec = recordByCode.get(code);
-          const pc = electivePeriods.get(`${year}::${code}`)
+          const got = electivePeriods.get(`${year}::${code}`);
+          const pc = got?.periodCredits
             ?? Object.fromEntries(PERIOD_IDS.map((q) => [q, q === pid ? short[i] : 0]));
+          // `totalCredits` is the size of ONE offering, because that is what the
+          // student takes. Summing across offerings is exactly the bug this
+          // whole shape exists to prevent (DD1380: 1.5 hp, not 4 × 1.5).
+          const roundEntries = (got?.rounds ?? []).length > 1
+            ? got.rounds.map((r) => ({
+              id: firstPeriodOf(r.periodCredits),
+              periodCredits: Object.fromEntries(
+                PERIOD_IDS.map((q) => [q, round(r.periodCredits[q] || 0)])),
+              ...(r.applicationCode ? { applicationCode: String(r.applicationCode) } : {}),
+            }))
+            : null;
           electiveCourses.push({
             code,
             name: rec?.name || code,
             ...(electiveNames.get(code) ? { nameEn: electiveNames.get(code) } : {}),
             totalCredits: round(PERIOD_IDS.reduce((a, q) => a + (pc[q] || 0), 0)),
             periodCredits: Object.fromEntries(PERIOD_IDS.map((q) => [q, round(pc[q] || 0)])),
+            ...(roundEntries ? { rounds: roundEntries } : {}),
             year,
             prerequisites: [],
             exams: [],
@@ -2893,8 +2957,10 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     for (const r of elective) {
       const key = `${r.year}::${r.code}`;
       if (electivePeriodsByCode.has(key)) continue;
-      const got = await electivePeriodsForYear(r.code, cohort, r.year);
-      if (got) electivePeriodsByCode.set(key, got.periodCredits);
+      // `r.applicationCode` is the kurstillfälle the study plan itself points
+      // at, which decides the default round when the course has several.
+      const got = await electivePeriodsForYear(r.code, cohort, r.year, r.applicationCode);
+      if (got) electivePeriodsByCode.set(key, got);
       // The English title comes only from KOPPS, and fetchCourseMeta has already
       // been called (and cached) by the period resolver above.
       try {

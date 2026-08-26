@@ -546,6 +546,67 @@ function validateCourse(c, ctx, file) {
     }
   }
 
+  // ----- rounds (alternative offerings in one academic year) -----
+  //
+  // The invariant that matters: every round is the WHOLE course, so each one's
+  // periods must sum to totalCredits. That is precisely what the old union
+  // violated — DD1380's four 1.5 hp offerings were merged into a 6 hp bar — so
+  // this check is what stops the same mistake reaching a data file again.
+  if (c.rounds !== undefined) {
+    if (!Array.isArray(c.rounds) || c.rounds.length === 0) {
+      err(file, `${ctx} ${c.code}: 'rounds' must be a non-empty array when present`);
+    } else {
+      const seenIds = new Set();
+      c.rounds.forEach((r, i) => {
+        const rctx = `${ctx} ${c.code}.rounds[${i}]`;
+        if (!r || typeof r !== 'object') { err(file, `${rctx}: must be an object`); return; }
+        if (typeof r.id !== 'string' || !PERIOD_IDS.has(r.id)) {
+          err(file, `${rctx}: 'id' must be one of P1..P4 (got ${JSON.stringify(r.id)})`);
+        } else if (seenIds.has(r.id)) {
+          err(file, `${rctx}: duplicate round id '${r.id}' — ids address a round in the URL, so they must be unique`);
+        } else {
+          seenIds.add(r.id);
+        }
+        if (!r.periodCredits || typeof r.periodCredits !== 'object') {
+          err(file, `${rctx}: missing 'periodCredits'`);
+          return;
+        }
+        let sum = 0;
+        for (const [pid, val] of Object.entries(r.periodCredits)) {
+          if (!PERIOD_IDS.has(pid)) {
+            err(file, `${rctx}: unknown period '${pid}' (expected P1..P4)`);
+          } else if (typeof val !== 'number' || Number.isNaN(val) || val < 0) {
+            err(file, `${rctx}.${pid}: credits must be a non-negative number`);
+          } else {
+            sum += val;
+          }
+        }
+        if (typeof c.totalCredits === 'number' && Math.abs(sum - c.totalCredits) > CREDIT_TOLERANCE) {
+          err(file, `${rctx}: Σ periodCredits = ${round(sum)} ≠ totalCredits = ${c.totalCredits} — ` +
+            `a round is one whole offering of the course, not a share of it`);
+        }
+        if (r.id && r.periodCredits && (r.periodCredits[r.id] || 0) <= 0) {
+          err(file, `${rctx}: id '${r.id}' but no credits in ${r.id} — the id must be the round's first teaching period`);
+        }
+        validatePeriodList(r.exams, `rounds[${i}].exams`, c, ctx, file);
+        validatePeriodList(r.reexams, `rounds[${i}].reexams`, c, ctx, file);
+      });
+      // The flat `periodCredits` must mirror one of the rounds, so a consumer
+      // that ignores `rounds` still draws a real offering rather than a shape
+      // that exists nowhere in KTH's catalogue.
+      const flatShape = c.periodCredits
+        && !Object.keys(c.periodCredits).some((k) => /^Year\d+$/i.test(k));
+      if (flatShape) {
+        const key = (pc) => [...PERIOD_IDS].sort().map((p) => round(pc?.[p] || 0)).join('/');
+        const flat = key(c.periodCredits);
+        if (!c.rounds.some((r) => key(r.periodCredits) === flat)) {
+          err(file, `${ctx} ${c.code}: 'periodCredits' matches no entry in 'rounds' — ` +
+            `it must be a copy of the default offering`);
+        }
+      }
+    }
+  }
+
   validatePeriodList(c.exams, 'exams', c, ctx, file);
   validatePeriodList(c.reexams, 'reexams', c, ctx, file);
   validateOptionalEnum(c.category, 'category', COURSE_CATEGORIES, c.code, ctx, file);
