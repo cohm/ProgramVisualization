@@ -4,21 +4,28 @@
     "nameEn": "Mathematics",
     "colorFamily": "blue",
     "courses": [
+      "SA120X",
+      "SF1550",
       "SF1672",
       "SF1673",
       "SF1674",
-      "SF1681",
-      "SF1692",
-      "SF1693",
       "SF1677",
       "SF1678",
-      "SF1691",
-      "SF1811",
-      "SF1550",
       "SF1679",
+      "SF1681",
+      "SF1691",
+      "SF1692",
+      "SF1693",
+      "SF1811",
       "SF1918",
       "SF1930",
-      "SA120X"
+      "SF2701",
+      "SF2812",
+      "SF2832",
+      "SF2863",
+      "SF2930",
+      "SF2940",
+      "SF2955"
     ]
   },
   {
@@ -26,12 +33,26 @@
     "nameEn": "Computer Science",
     "colorFamily": "green",
     "courses": [
-      "DD1333",
       "DD1301",
+      "DD1328",
+      "DD1333",
+      "DD1351",
+      "DD1367",
+      "DD1368",
       "DD1380",
       "DD1385",
-      "DD1328",
-      "EF112X"
+      "DD1420",
+      "DD2350",
+      "DD2352",
+      "DD2395",
+      "DD2421",
+      "DH1623",
+      "DH1624",
+      "EF112X",
+      "EL2810",
+      "EP1100",
+      "ID1200",
+      "IS1500"
     ]
   },
   {
@@ -39,10 +60,19 @@
     "nameEn": "Physics & Engineering",
     "colorFamily": "brick",
     "courses": [
-      "SG1115",
-      "SH1017",
+      "EI1320",
       "EL1000",
-      "SA1006"
+      "SA1006",
+      "SE1010",
+      "SE1020",
+      "SE1055",
+      "SG1115",
+      "SG1217",
+      "SG1218",
+      "SG1220",
+      "SH1017",
+      "SI1155",
+      "SI1162"
     ]
   }
 ]

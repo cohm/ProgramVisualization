@@ -524,13 +524,13 @@
     "category": "conditionallyElective"
   },
   {
-    "code": "DD2350",
-    "name": "Algoritmer, datastrukturer och komplexitet",
-    "nameEn": "Algorithms, Data Structures and Complexity",
-    "totalCredits": 9.5,
+    "code": "DD1351",
+    "name": "Logik för dataloger",
+    "nameEn": "Logic for Computer Scientists",
+    "totalCredits": 7.5,
     "periodCredits": {
-      "P1": 6,
-      "P2": 3.5,
+      "P1": 4.5,
+      "P2": 3,
       "P3": 0,
       "P4": 0
     },
@@ -560,300 +560,15 @@
     "category": "recommended"
   },
   {
-    "type": "optionGroup",
-    "name": "Villkorligt valfri grupp 2",
-    "nameEn": "Conditionally elective group 2",
-    "year": 3,
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 7.5
-    },
-    "options": [
-      "EF112X",
-      "SA120X"
-    ],
-    "allowedNumberOfOptions": 1,
-    "kind": "pickN",
-    "pickN": 1,
-    "exams": [],
-    "category": "conditionallyElective"
-  },
-  {
-    "code": "SF2955",
-    "name": "Datorintensiva metoder inom matematisk statistik",
-    "nameEn": "Computer Intensive Methods in Mathematical Statistics",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "SG1220",
-    "name": "Teknisk strömningsmekanik",
-    "nameEn": "Fluid Mechanics for Engineers",
+    "code": "DD2395",
+    "name": "Datasäkerhet",
+    "nameEn": "Computer Security",
     "totalCredits": 6,
     "periodCredits": {
       "P1": 6,
       "P2": 0,
       "P3": 0,
       "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "EL2810",
-    "name": "Maskininlärningsteori",
-    "nameEn": "Machine Learning Theory",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "DD1351",
-    "name": "Logik för dataloger",
-    "nameEn": "Logic for Computer Scientists",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 4.5,
-      "P2": 3,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "SF2940",
-    "name": "Sannolikhetsteori",
-    "nameEn": "Probability Theory",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "DD1420",
-    "name": "Maskininlärningens grunder",
-    "nameEn": "Foundations of Machine Learning",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "SA120X",
-    "name": "Examensarbete inom Teknisk matematik, grundnivå",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 7.5
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Degree project in Engineering Mathematics, first cycle",
-    "gradingScale": "P/F",
-    "courseLevel": "G"
-  },
-  {
-    "code": "EF112X",
-    "name": "Examensarbete inom elektroteknik, grundnivå",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 7.5
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Degree Project in Electrical Engineering, First Cycle",
-    "gradingScale": "P/F",
-    "courseLevel": "G"
-  },
-  {
-    "code": "SG1218",
-    "name": "Strömningsmekanik",
-    "nameEn": "Fluid Mechanics",
-    "totalCredits": 4,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 4,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "name": "Valfri kurs, årskurs 3 P2",
-    "nameEn": "Elective course, year 3 P2",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "exams": [
-      "P2"
-    ],
-    "category": "electivePlaceholder",
-    "type": "optionGroup",
-    "options": [
-      "DD1351",
-      "DD1367",
-      "DD1368",
-      "DD2350",
-      "EI1320",
-      "ID1200",
-      "IS1500",
-      "SE1010",
-      "SE1020",
-      "SF2832",
-      "SF2863",
-      "SG1218"
-    ],
-    "kind": "minCredits",
-    "minCredits": 7.5,
-    "allowedNumberOfOptions": 12,
-    "qualifiesFor": {
-      "DD1351": [
-        {
-          "code": "TCSCM",
-          "name": "Datalogi",
-          "required": false
-        }
-      ],
-      "DD1368": [
-        {
-          "code": "TCSCM",
-          "name": "Datalogi",
-          "required": false
-        }
-      ],
-      "DD2350": [
-        {
-          "code": "TCSCM",
-          "name": "Datalogi",
-          "required": true
-        },
-        {
-          "code": "TSCRM",
-          "name": "Systemteknik och robotik",
-          "required": false
-        }
-      ],
-      "EI1320": [
-        {
-          "code": "TTFYM",
-          "name": "Teknisk fysik",
-          "required": true
-        }
-      ],
-      "ID1200": [
-        {
-          "code": "TCSCM",
-          "name": "Datalogi",
-          "required": false
-        }
-      ],
-      "IS1500": [
-        {
-          "code": "TCSCM",
-          "name": "Datalogi",
-          "required": false
-        }
-      ],
-      "SE1020": [
-        {
-          "code": "TTEMM",
-          "name": "Teknisk mekanik",
-          "required": true
-        }
-      ],
-      "SF2832": [
-        {
-          "code": "TSCRM",
-          "name": "Systemteknik och robotik",
-          "required": false
-        }
-      ]
-    }
-  },
-  {
-    "code": "DD1367",
-    "name": "Programvarukonstruktion i projektform",
-    "nameEn": "Software Engineering in Project Form",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 1.5,
-      "P3": 4,
-      "P4": 3.5
     },
     "year": 3,
     "prerequisites": [],
@@ -881,267 +596,8 @@
     "category": "recommended"
   },
   {
-    "code": "DD2352",
-    "name": "Algoritmer och komplexitet",
-    "nameEn": "Algorithms and Complexity",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 3,
-      "P4": 4.5
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "SG1217",
-    "name": "Strömningsmekanik, grundkurs",
-    "nameEn": "Fluid Mechanics, Basic Course",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "DH1623",
-    "name": "Människa-datorinteraktion, grundläggande teori",
-    "nameEn": "Human-Computer Interaction, Basic theory",
-    "totalCredits": 4.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 4.5,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "DH1624",
-    "name": "Människa-datorinteraktion, grundläggande projekt",
-    "nameEn": "Human-Computer Interaction, Basic project",
-    "totalCredits": 3,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 3
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "IS1500",
-    "name": "Datorteknik och komponenter",
-    "nameEn": "Computer Organization and Components",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 4.5,
-      "P2": 4.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "SI1155",
-    "name": "Teoretisk fysik",
-    "nameEn": "Theoretical Physics",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "DD2395",
-    "name": "Datasäkerhet",
-    "nameEn": "Computer Security",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "DD1368",
-    "name": "Databasteknik för D",
-    "nameEn": "Database Technology",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 6,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "SE1020",
-    "name": "Hållfasthetslära, grundkurs",
-    "nameEn": "Solid Mechanics, Basic Course",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 4.5,
-      "P2": 4.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "SI1162",
-    "name": "Statistisk fysik",
-    "nameEn": "Statistical Physics",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "EI1320",
-    "name": "Teoretisk elektroteknik",
-    "nameEn": "Electromagnetic Theory",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 3,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "EL1000",
-    "name": "Reglerteknik, allmän kurs",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Automatic Control, General Course",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SF1692"
-    ]
-  },
-  {
-    "code": "SF2863",
-    "name": "Systemteknik",
-    "nameEn": "Systems Engineering",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "SE1010",
-    "name": "Hållfasthetslära, grundkurs med projekt",
-    "nameEn": "Solid Mechanics, Basic Course with Project",
-    "totalCredits": 12,
-    "periodCredits": {
-      "P1": 3,
-      "P2": 9,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "SF2701",
-    "name": "Finansiell matematik, grundkurs",
-    "nameEn": "Financial Mathematics, Basic Course",
+    "name": "Valfri kurs, årskurs 3 P4",
+    "nameEn": "Elective course, year 3 P4",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -1150,57 +606,93 @@
       "P4": 7.5
     },
     "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
+    "exams": [
+      "P4"
+    ],
+    "category": "electivePlaceholder",
+    "type": "optionGroup",
+    "options": [
+      "DD1367",
+      "DD2352",
+      "DH1624",
+      "SE1055",
+      "SF1677",
+      "SF1678",
+      "SF1691",
+      "SF2701",
+      "SF2955",
+      "SI1155"
+    ],
+    "kind": "minCredits",
+    "minCredits": 7.5,
+    "allowedNumberOfOptions": 10,
+    "qualifiesFor": {
+      "DD2352": [
+        {
+          "code": "TCSCM",
+          "name": "Datalogi",
+          "required": true
+        },
+        {
+          "code": "TSCRM",
+          "name": "Systemteknik och robotik",
+          "required": false
+        }
+      ],
+      "SF1677": [
+        {
+          "code": "TMAKM",
+          "name": "Matematik",
+          "required": true
+        },
+        {
+          "code": "TTMAM",
+          "name": "Tillämpad matematik och beräkningsmatematik",
+          "required": false
+        }
+      ],
+      "SF1678": [
+        {
+          "code": "TMAKM",
+          "name": "Matematik",
+          "required": true
+        },
+        {
+          "code": "TTMAM",
+          "name": "Tillämpad matematik och beräkningsmatematik",
+          "required": false
+        }
+      ],
+      "SF1691": [
+        {
+          "code": "TMAKM",
+          "name": "Matematik",
+          "required": false
+        },
+        {
+          "code": "TTMAM",
+          "name": "Tillämpad matematik och beräkningsmatematik",
+          "required": false
+        }
+      ],
+      "SI1155": [
+        {
+          "code": "TTFYM",
+          "name": "Teknisk fysik",
+          "required": true
+        }
+      ]
+    }
   },
   {
-    "code": "DD2421",
-    "name": "Maskininlärning",
-    "nameEn": "Machine Learning",
-    "totalCredits": 7.5,
+    "code": "DD2350",
+    "name": "Algoritmer, datastrukturer och komplexitet",
+    "nameEn": "Algorithms, Data Structures and Complexity",
+    "totalCredits": 9.5,
     "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
+      "P1": 6,
+      "P2": 3.5,
       "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "SE1055",
-    "name": "Hållfasthetslära, grundkurs med energimetoder",
-    "nameEn": "Strength of Materials and Solid Mechanics, Basic Course with Energy Methods",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 3
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "SF2930",
-    "name": "Regressionsanalys",
-    "nameEn": "Regression Analysis",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
       "P4": 0
     },
     "year": 3,
@@ -1236,14 +728,297 @@
     ]
   },
   {
-    "code": "SF2812",
-    "name": "Tillämpad linjär optimering",
-    "nameEn": "Applied Linear Optimization",
+    "code": "SF2955",
+    "name": "Datorintensiva metoder inom matematisk statistik",
+    "nameEn": "Computer Intensive Methods in Mathematical Statistics",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "name": "Valfri kurs, årskurs 3 P3",
+    "nameEn": "Elective course, year 3 P3",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
       "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P3"
+    ],
+    "category": "electivePlaceholder",
+    "type": "optionGroup",
+    "options": [
+      "DD1367",
+      "DD2352",
+      "DH1623",
+      "EL2810",
+      "EP1100",
+      "SE1055",
+      "SF1677",
+      "SF1678",
+      "SF1691",
+      "SF2812",
+      "SF2930",
+      "SG1217",
+      "SI1162"
+    ],
+    "kind": "minCredits",
+    "minCredits": 7.5,
+    "allowedNumberOfOptions": 13,
+    "qualifiesFor": {
+      "DD2352": [
+        {
+          "code": "TCSCM",
+          "name": "Datalogi",
+          "required": true
+        },
+        {
+          "code": "TSCRM",
+          "name": "Systemteknik och robotik",
+          "required": false
+        }
+      ],
+      "SF1677": [
+        {
+          "code": "TMAKM",
+          "name": "Matematik",
+          "required": true
+        },
+        {
+          "code": "TTMAM",
+          "name": "Tillämpad matematik och beräkningsmatematik",
+          "required": false
+        }
+      ],
+      "SF1678": [
+        {
+          "code": "TMAKM",
+          "name": "Matematik",
+          "required": true
+        },
+        {
+          "code": "TTMAM",
+          "name": "Tillämpad matematik och beräkningsmatematik",
+          "required": false
+        }
+      ],
+      "SF1691": [
+        {
+          "code": "TMAKM",
+          "name": "Matematik",
+          "required": false
+        },
+        {
+          "code": "TTMAM",
+          "name": "Tillämpad matematik och beräkningsmatematik",
+          "required": false
+        }
+      ],
+      "SG1217": [
+        {
+          "code": "TTEMM",
+          "name": "Teknisk mekanik",
+          "required": true
+        }
+      ],
+      "SI1162": [
+        {
+          "code": "TTFYM",
+          "name": "Teknisk fysik",
+          "required": true
+        }
+      ]
+    }
+  },
+  {
+    "code": "EP1100",
+    "name": "Datakommunikation och datornät",
+    "nameEn": "Data Communications and Computer Networks",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "DD1420",
+    "name": "Maskininlärningens grunder",
+    "nameEn": "Foundations of Machine Learning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 2",
+    "nameEn": "Conditionally elective group 2",
+    "year": 3,
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "options": [
+      "EF112X",
+      "SA120X"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [],
+    "category": "conditionallyElective"
+  },
+  {
+    "code": "DD2352",
+    "name": "Algoritmer och komplexitet",
+    "nameEn": "Algorithms and Complexity",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 4.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SG1218",
+    "name": "Strömningsmekanik",
+    "nameEn": "Fluid Mechanics",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2863",
+    "name": "Systemteknik",
+    "nameEn": "Systems Engineering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "DH1624",
+    "name": "Människa-datorinteraktion, grundläggande projekt",
+    "nameEn": "Human-Computer Interaction, Basic project",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 3
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SG1220",
+    "name": "Teknisk strömningsmekanik",
+    "nameEn": "Fluid Mechanics for Engineers",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "DD1368",
+    "name": "Databasteknik för D",
+    "nameEn": "Database Technology",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "DH1623",
+    "name": "Människa-datorinteraktion, grundläggande teori",
+    "nameEn": "Human-Computer Interaction, Basic theory",
+    "totalCredits": 4.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
       "P4": 0
     },
     "year": 3,
@@ -1368,41 +1143,172 @@
     }
   },
   {
-    "name": "Valfri kurs, årskurs 3 P3",
-    "nameEn": "Elective course, year 3 P3",
-    "totalCredits": 7.5,
+    "code": "EF112X",
+    "name": "Examensarbete inom elektroteknik, grundnivå",
+    "totalCredits": 15,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
       "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Electrical Engineering, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SA120X",
+    "name": "Examensarbete inom Teknisk matematik, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree project in Engineering Mathematics, first cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "EL1000",
+    "name": "Reglerteknik, allmän kurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
       "P4": 0
     },
     "year": 3,
     "exams": [
-      "P3"
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Automatic Control, General Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1692"
+    ]
+  },
+  {
+    "code": "SF2940",
+    "name": "Sannolikhetsteori",
+    "nameEn": "Probability Theory",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "DD1367",
+    "name": "Programvarukonstruktion i projektform",
+    "nameEn": "Software Engineering in Project Form",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 1.5,
+      "P3": 4,
+      "P4": 3.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SE1055",
+    "name": "Hållfasthetslära, grundkurs med energimetoder",
+    "nameEn": "Strength of Materials and Solid Mechanics, Basic Course with Energy Methods",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 3
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "name": "Valfri kurs, årskurs 3 P2",
+    "nameEn": "Elective course, year 3 P2",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
     ],
     "category": "electivePlaceholder",
     "type": "optionGroup",
     "options": [
+      "DD1351",
       "DD1367",
-      "DD2352",
-      "DH1623",
-      "EL2810",
-      "EP1100",
-      "SE1055",
-      "SF1677",
-      "SF1678",
-      "SF1691",
-      "SF2812",
-      "SF2930",
-      "SG1217",
-      "SI1162"
+      "DD1368",
+      "DD2350",
+      "EI1320",
+      "ID1200",
+      "IS1500",
+      "SE1010",
+      "SE1020",
+      "SF2832",
+      "SF2863",
+      "SG1218"
     ],
     "kind": "minCredits",
     "minCredits": 7.5,
-    "allowedNumberOfOptions": 13,
+    "allowedNumberOfOptions": 12,
     "qualifiesFor": {
-      "DD2352": [
+      "DD1351": [
+        {
+          "code": "TCSCM",
+          "name": "Datalogi",
+          "required": false
+        }
+      ],
+      "DD1368": [
+        {
+          "code": "TCSCM",
+          "name": "Datalogi",
+          "required": false
+        }
+      ],
+      "DD2350": [
         {
           "code": "TCSCM",
           "name": "Datalogi",
@@ -1414,62 +1320,65 @@
           "required": false
         }
       ],
-      "SF1677": [
+      "EI1320": [
         {
-          "code": "TMAKM",
-          "name": "Matematik",
+          "code": "TTFYM",
+          "name": "Teknisk fysik",
           "required": true
-        },
+        }
+      ],
+      "ID1200": [
         {
-          "code": "TTMAM",
-          "name": "Tillämpad matematik och beräkningsmatematik",
+          "code": "TCSCM",
+          "name": "Datalogi",
           "required": false
         }
       ],
-      "SF1678": [
+      "IS1500": [
         {
-          "code": "TMAKM",
-          "name": "Matematik",
-          "required": true
-        },
-        {
-          "code": "TTMAM",
-          "name": "Tillämpad matematik och beräkningsmatematik",
+          "code": "TCSCM",
+          "name": "Datalogi",
           "required": false
         }
       ],
-      "SF1691": [
-        {
-          "code": "TMAKM",
-          "name": "Matematik",
-          "required": false
-        },
-        {
-          "code": "TTMAM",
-          "name": "Tillämpad matematik och beräkningsmatematik",
-          "required": false
-        }
-      ],
-      "SG1217": [
+      "SE1020": [
         {
           "code": "TTEMM",
           "name": "Teknisk mekanik",
           "required": true
         }
       ],
-      "SI1162": [
+      "SF2832": [
         {
-          "code": "TTFYM",
-          "name": "Teknisk fysik",
-          "required": true
+          "code": "TSCRM",
+          "name": "Systemteknik och robotik",
+          "required": false
         }
       ]
     }
   },
   {
-    "code": "EP1100",
-    "name": "Datakommunikation och datornät",
-    "nameEn": "Data Communications and Computer Networks",
+    "code": "SG1217",
+    "name": "Strömningsmekanik, grundkurs",
+    "nameEn": "Fluid Mechanics, Basic Course",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2812",
+    "name": "Tillämpad linjär optimering",
+    "nameEn": "Applied Linear Optimization",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -1485,8 +1394,63 @@
     "category": "recommended"
   },
   {
-    "name": "Valfri kurs, årskurs 3 P4",
-    "nameEn": "Elective course, year 3 P4",
+    "code": "SI1162",
+    "name": "Statistisk fysik",
+    "nameEn": "Statistical Physics",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "IS1500",
+    "name": "Datorteknik och komponenter",
+    "nameEn": "Computer Organization and Components",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2930",
+    "name": "Regressionsanalys",
+    "nameEn": "Regression Analysis",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2701",
+    "name": "Finansiell matematik, grundkurs",
+    "nameEn": "Financial Mathematics, Basic Course",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -1495,82 +1459,140 @@
       "P4": 7.5
     },
     "year": 3,
-    "exams": [
-      "P4"
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SI1155",
+    "name": "Teoretisk fysik",
+    "nameEn": "Theoretical Physics",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SE1020",
+    "name": "Hållfasthetslära, grundkurs",
+    "nameEn": "Solid Mechanics, Basic Course",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SE1010",
+    "name": "Hållfasthetslära, grundkurs med projekt",
+    "nameEn": "Solid Mechanics, Basic Course with Project",
+    "totalCredits": 12,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "rounds": [
+      {
+        "id": "P1-3",
+        "periodCredits": {
+          "P1": 3,
+          "P2": 9,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "11389"
+      },
+      {
+        "id": "P1-6",
+        "periodCredits": {
+          "P1": 6,
+          "P2": 6,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "11383"
+      }
     ],
-    "category": "electivePlaceholder",
-    "type": "optionGroup",
-    "options": [
-      "DD1367",
-      "DD2352",
-      "DH1624",
-      "SE1055",
-      "SF1677",
-      "SF1678",
-      "SF1691",
-      "SF2701",
-      "SF2955",
-      "SI1155"
-    ],
-    "kind": "minCredits",
-    "minCredits": 7.5,
-    "allowedNumberOfOptions": 10,
-    "qualifiesFor": {
-      "DD2352": [
-        {
-          "code": "TCSCM",
-          "name": "Datalogi",
-          "required": true
-        },
-        {
-          "code": "TSCRM",
-          "name": "Systemteknik och robotik",
-          "required": false
-        }
-      ],
-      "SF1677": [
-        {
-          "code": "TMAKM",
-          "name": "Matematik",
-          "required": true
-        },
-        {
-          "code": "TTMAM",
-          "name": "Tillämpad matematik och beräkningsmatematik",
-          "required": false
-        }
-      ],
-      "SF1678": [
-        {
-          "code": "TMAKM",
-          "name": "Matematik",
-          "required": true
-        },
-        {
-          "code": "TTMAM",
-          "name": "Tillämpad matematik och beräkningsmatematik",
-          "required": false
-        }
-      ],
-      "SF1691": [
-        {
-          "code": "TMAKM",
-          "name": "Matematik",
-          "required": false
-        },
-        {
-          "code": "TTMAM",
-          "name": "Tillämpad matematik och beräkningsmatematik",
-          "required": false
-        }
-      ],
-      "SI1155": [
-        {
-          "code": "TTFYM",
-          "name": "Teknisk fysik",
-          "required": true
-        }
-      ]
-    }
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "EI1320",
+    "name": "Teoretisk elektroteknik",
+    "nameEn": "Electromagnetic Theory",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "DD2421",
+    "name": "Maskininlärning",
+    "nameEn": "Machine Learning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "EL2810",
+    "name": "Maskininlärningsteori",
+    "nameEn": "Machine Learning Theory",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
   }
 ]

@@ -32,17 +32,24 @@
     "nameEn": "Engineering",
     "colorFamily": "brick",
     "courses": [
-      "MF1024",
-      "SE1010",
-      "SE1025",
+      "EF112X",
       "EL1010",
+      "ME1003",
+      "ME2163",
       "MF1017",
+      "MF1024",
+      "MF130X",
+      "MF131X",
+      "MF133X",
+      "MF135X",
+      "MJ1401",
+      "MJ146X",
+      "SA115X",
+      "SD1002",
       "SD1120",
       "SD2125",
-      "SD1002",
-      "MJ1401",
-      "ME1003",
-      "ME2163"
+      "SE1010",
+      "SE1025"
     ]
   },
   {
@@ -53,14 +60,6 @@
       "DD1333",
       "DD1301",
       "DD1320"
-    ]
-  },
-  {
-    "name": "Övrigt",
-    "nameEn": "Other",
-    "colorFamily": "yellow",
-    "courses": [
-      "SA115X"
     ]
   }
 ]

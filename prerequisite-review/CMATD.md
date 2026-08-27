@@ -30,6 +30,23 @@ curated `src/data/CMATD.json`) directly — this file is a worklist, not a sourc
 **16** distinct item(s) need review across all cohorts (an item shared by
 several cohorts is counted once).
 
+## Periods scheduled over full-time (1)
+
+Full-time is **15 hp per period**, and these schedule more — after every
+alternative we could identify has been grouped into a box and counted once,
+so this is what is left over. Two readings, and only the programme can say
+which applies: either some of these courses form a *minst N hp ur grupp*
+pool the student picks from — if so, which ones, and how many hp? — or the
+plan genuinely schedules an overload in that period.
+
+Courses listed below are counted individually; a *valblock* is counted once,
+however many options it holds.
+
+- **Årskurs 3, P2 — 22.5 hp, 7.5 hp over full-time.**
+  Cohorts: HT2022, HT2023, HT2024, HT2025, HT2026.
+  Courses: [MH1033](https://www.kth.se/student/kurser/kurs/MH1033) 1.5 hp, [MH2055](https://www.kth.se/student/kurser/kurs/MH2055) 7.5 hp, [MH2056](https://www.kth.se/student/kurser/kurs/MH2056) 7.5 hp.
+  Valblock: Kurs för valt masterprogram, årskurs 3 6 hp.
+
 - [MH1031](https://www.kth.se/student/kurser/kurs/MH1031) — slutförd: [MH1030](https://www.kth.se/student/kurser/kurs/MH1030) · kursplan [VT 2022 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MH1031-20221.pdf?lang=sv)
 - [SE1021](https://www.kth.se/student/kurser/kurs/SE1021) — slutförd: [SG1120](https://www.kth.se/student/kurser/kurs/SG1120) · kursplan [HT 2024 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SE1021-20242.pdf?lang=sv)
 - [SF1551](https://www.kth.se/student/kurser/kurs/SF1551) — slutförd: [DD1310](https://www.kth.se/student/kurser/kurs/DD1310), [SF1625](https://www.kth.se/student/kurser/kurs/SF1625) · kursplan [HT 2024 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SF1551-20242.pdf?lang=sv)

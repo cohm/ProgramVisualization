@@ -1129,6 +1129,28 @@
       "P3": 0,
       "P4": 0
     },
+    "rounds": [
+      {
+        "id": "P1-3",
+        "periodCredits": {
+          "P1": 3,
+          "P2": 9,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "11389"
+      },
+      {
+        "id": "P1-6",
+        "periodCredits": {
+          "P1": 6,
+          "P2": 6,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "11383"
+      }
+    ],
     "year": 3,
     "prerequisites": [],
     "exams": [],

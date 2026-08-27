@@ -30,6 +30,52 @@ curated `src/data/CINEK.json`) directly — this file is a worklist, not a sourc
 **36** distinct item(s) need review across all cohorts (an item shared by
 several cohorts is counted once).
 
+## Periods scheduled over full-time (8)
+
+Full-time is **15 hp per period**, and these schedule more — after every
+alternative we could identify has been grouped into a box and counted once,
+so this is what is left over. Two readings, and only the programme can say
+which applies: either some of these courses form a *minst N hp ur grupp*
+pool the student picks from — if so, which ones, and how many hp? — or the
+plan genuinely schedules an overload in that period.
+
+Courses listed below are counted individually; a *valblock* is counted once,
+however many options it holds.
+
+- **Årskurs 2, P3 — 37 hp, 22 hp over full-time.**
+  Cohorts: HT2022, HT2023, HT2024.
+  Courses: [DD1320](https://www.kth.se/student/kurser/kurs/DD1320) 4 hp, [DH1623](https://www.kth.se/student/kurser/kurs/DH1623) 4.5 hp, [ME1316](https://www.kth.se/student/kurser/kurs/ME1316) 3 hp, [MF1016](https://www.kth.se/student/kurser/kurs/MF1016) 4.5 hp, [MF1039](https://www.kth.se/student/kurser/kurs/MF1039) 6 hp, [MG1028](https://www.kth.se/student/kurser/kurs/MG1028) 1.5 hp, [MJ1112](https://www.kth.se/student/kurser/kurs/MJ1112) 4.5 hp, [SF1687](https://www.kth.se/student/kurser/kurs/SF1687) 1.5 hp, [SK1110](https://www.kth.se/student/kurser/kurs/SK1110) 7.5 hp.
+
+- **Årskurs 2, P3 — 35.5 hp, 20.5 hp over full-time.**
+  Cohorts: HT2025, HT2026.
+  Courses: [DD1320](https://www.kth.se/student/kurser/kurs/DD1320) 4 hp, [DH1623](https://www.kth.se/student/kurser/kurs/DH1623) 4.5 hp, [ME1316](https://www.kth.se/student/kurser/kurs/ME1316) 3 hp, [MF1016](https://www.kth.se/student/kurser/kurs/MF1016) 4.5 hp, [MF1039](https://www.kth.se/student/kurser/kurs/MF1039) 6 hp, [MG1028](https://www.kth.se/student/kurser/kurs/MG1028) 1.5 hp, [MJ1112](https://www.kth.se/student/kurser/kurs/MJ1112) 4.5 hp, [SK1110](https://www.kth.se/student/kurser/kurs/SK1110) 7.5 hp.
+
+- **Årskurs 2, P4 — 38 hp, 23 hp over full-time.**
+  Cohorts: HT2022, HT2023, HT2024.
+  Courses: [DD1320](https://www.kth.se/student/kurser/kurs/DD1320) 2 hp, [EP1200](https://www.kth.se/student/kurser/kurs/EP1200) 6 hp, [ME1316](https://www.kth.se/student/kurser/kurs/ME1316) 3 hp, [MF1016](https://www.kth.se/student/kurser/kurs/MF1016) 4.5 hp, [MJ1112](https://www.kth.se/student/kurser/kurs/MJ1112) 4.5 hp, [MJ1145](https://www.kth.se/student/kurser/kurs/MJ1145) 7.5 hp, [SF1687](https://www.kth.se/student/kurser/kurs/SF1687) 1.5 hp, [SF1861](https://www.kth.se/student/kurser/kurs/SF1861) 6 hp, [SF1904](https://www.kth.se/student/kurser/kurs/SF1904) 3 hp.
+
+- **Årskurs 2, P4 — 38 hp, 23 hp over full-time.**
+  Cohorts: HT2025, HT2026.
+  Courses: [DD1320](https://www.kth.se/student/kurser/kurs/DD1320) 2 hp, [EP1200](https://www.kth.se/student/kurser/kurs/EP1200) 6 hp, [ME1316](https://www.kth.se/student/kurser/kurs/ME1316) 3 hp, [MF1016](https://www.kth.se/student/kurser/kurs/MF1016) 4.5 hp, [MJ1112](https://www.kth.se/student/kurser/kurs/MJ1112) 4.5 hp, [MJ1145](https://www.kth.se/student/kurser/kurs/MJ1145) 7.5 hp, [SF1861](https://www.kth.se/student/kurser/kurs/SF1861) 6 hp, [SF1926](https://www.kth.se/student/kurser/kurs/SF1926) 4.5 hp.
+
+- **Årskurs 3, P1 — 41 hp, 26 hp over full-time.**
+  Cohorts: HT2022, HT2023, HT2024, HT2025, HT2026.
+  Courses: [DD1334](https://www.kth.se/student/kurser/kurs/DD1334) 6 hp, [DD1380](https://www.kth.se/student/kurser/kurs/DD1380) 1.5 hp, [DD1385](https://www.kth.se/student/kurser/kurs/DD1385) 2 hp, [ME1311](https://www.kth.se/student/kurser/kurs/ME1311) 6 hp, [MF1017](https://www.kth.se/student/kurser/kurs/MF1017) 6 hp, [MG1026](https://www.kth.se/student/kurser/kurs/MG1026) 6 hp, [MJ1141](https://www.kth.se/student/kurser/kurs/MJ1141) 6 hp, [SF2940](https://www.kth.se/student/kurser/kurs/SF2940) 7.5 hp.
+
+- **Årskurs 3, P2 — 40 hp, 25 hp over full-time.**
+  Cohorts: HT2022, HT2023, HT2024, HT2025, HT2026.
+  Courses: [DD1324](https://www.kth.se/student/kurser/kurs/DD1324) 3 hp, [DD1385](https://www.kth.se/student/kurser/kurs/DD1385) 4 hp, [DD1386](https://www.kth.se/student/kurser/kurs/DD1386) 1.5 hp, [DD1418](https://www.kth.se/student/kurser/kurs/DD1418) 6 hp, [EL1010](https://www.kth.se/student/kurser/kurs/EL1010) 6 hp, [ME1310](https://www.kth.se/student/kurser/kurs/ME1310) 3 hp, [MJ1141](https://www.kth.se/student/kurser/kurs/MJ1141) 3 hp, [MJ1401](https://www.kth.se/student/kurser/kurs/MJ1401) 6 hp, [SF2863](https://www.kth.se/student/kurser/kurs/SF2863) 7.5 hp.
+
+- **Årskurs 3, P3 — 54 hp, 39 hp over full-time.**
+  Cohorts: HT2022, HT2023, HT2024, HT2025, HT2026.
+  Courses: [DA151X](https://www.kth.se/student/kurser/kurs/DA151X) 7.5 hp, [DD1386](https://www.kth.se/student/kurser/kurs/DD1386) 4.5 hp, [EG2240](https://www.kth.se/student/kurser/kurs/EG2240) 3 hp, [ME1310](https://www.kth.se/student/kurser/kurs/ME1310) 3 hp, [MG1002](https://www.kth.se/student/kurser/kurs/MG1002) 6 hp, [MJ148X](https://www.kth.se/student/kurser/kurs/MJ148X) 7.5 hp, [SF100X](https://www.kth.se/student/kurser/kurs/SF100X) 7.5 hp, [SF2930](https://www.kth.se/student/kurser/kurs/SF2930) 7.5 hp.
+  Valblock: Villkorligt valfri grupp 1 7.5 hp.
+
+- **Årskurs 3, P4 — 40.5 hp, 25.5 hp over full-time.**
+  Cohorts: HT2022, HT2023, HT2024, HT2025, HT2026.
+  Courses: [DA151X](https://www.kth.se/student/kurser/kurs/DA151X) 7.5 hp, [DD1386](https://www.kth.se/student/kurser/kurs/DD1386) 1.5 hp, [EG2240](https://www.kth.se/student/kurser/kurs/EG2240) 3 hp, [ME1317](https://www.kth.se/student/kurser/kurs/ME1317) 6 hp, [MJ148X](https://www.kth.se/student/kurser/kurs/MJ148X) 7.5 hp, [SF100X](https://www.kth.se/student/kurser/kurs/SF100X) 7.5 hp.
+  Valblock: Villkorligt valfri grupp 1 7.5 hp.
+
 - [DA151X](https://www.kth.se/student/kurser/kurs/DA151X) — slutförd: [DD1320](https://www.kth.se/student/kurser/kurs/DD1320), [ME1306](https://www.kth.se/student/kurser/kurs/ME1306), [ME1314](https://www.kth.se/student/kurser/kurs/ME1314) · kursplan [VT 2022 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/DA151X-20221.pdf?lang=sv)
 - [DD1320](https://www.kth.se/student/kurser/kurs/DD1320) — slutförd: [DD1317](https://www.kth.se/student/kurser/kurs/DD1317) · kursplan [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/DD1320-20262.pdf?lang=sv) — *HT2025, HT2026*
 - [DD1334](https://www.kth.se/student/kurser/kurs/DD1334) — slutförd: [DD1320](https://www.kth.se/student/kurser/kurs/DD1320) · kursplan [HT 2023 – VT 2026](https://www.kth.se/student/kurser/kurs/kursplan/DD1334-20232.pdf?lang=sv) — *HT2022, HT2023*

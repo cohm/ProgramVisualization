@@ -53,6 +53,39 @@ A Next.js + D3.js visualization app that renders KTH engineering degree programs
   The same dual shape applies to `exams` / `reexams`: either an array `["P2"]` or a `Year<n>`-keyed object `{ "Year1": ["P2"], "Year2": ["P4"] }`. The `Course` type exposes the parsed by-year form as `examsByYear` / `reexamsByYear`.
 
   Optional `periodCreditsBySpecialization: { <specCode>: { P1, P2, P3, P4 } }` overrides the period layout when the user has selected the matching inriktning. Used when a single KTH course slots into a different period for one inriktning (e.g. `SK1110` in `CINEK.json` runs in P3 for DTOI/EHUI/TMAI but P4 for PPUI). Flat-shape only; the renderer applies the override in the spec filter (`TimelineVisualization.tsx:77–107`) and the validator enforces that each override's sum equals `totalCredits`. When both the base course and the override sit in a single period, `exams` and `reexams` auto-shift to the override's period (the exam slot tracks the lecture period per Riktlinje om läsårets förläggning §1.1); multi-period bars are left untouched and would need an explicit mapping if/when that case arises.
+
+  Optional `rounds: [{ id, periodCredits, applicationCode? }]` lists a course's
+  **alternative offerings in one academic year**, for the courses KTH gives more
+  than once. A student takes ONE of them, so every round's periods sum to
+  `totalCredits`, and the flat `periodCredits` must be a copy of one of them (the
+  default). The validator enforces both, plus unique ids.
+
+  This shape exists because the extractor previously had nowhere to put the
+  alternatives and **unioned** them. `mergeRoundPeriods` took the per-period
+  maximum across offerings — which avoids double-counting but still yields a bar
+  covering every period the course is ever taught in — and then `totalCredits`,
+  recomputed from the periods to keep Σ consistent, absorbed the union. DD1380
+  (Javaprogrammering för Pythonprogrammerare, **1.5 hp**, given in all four
+  periods) came out as `{P1:1.5, P2:1.5, P3:1.5, P4:1.5}` with `totalCredits: 6`
+  — four times the real course. CTFYS HT2024 had three such courses: DD1380,
+  DD2421 (7.5 → 15) and AK2011 (7.5 → 15).
+
+  The round id is the offering's **first teaching period** (`P1`…`P4`), not the
+  KTH application code: ids address a round in the `og` URL parameter and must
+  survive re-extraction, while `round_application_code` is reissued every läsår.
+  The application code is still recorded, because it is what lets a reader check
+  an offering against kth.se — and because the study plan's own participation
+  carries one, which is how the extractor knows which offering KTH places the
+  course in and makes that the default rather than guessing.
+
+  A round is a period **map**, not a single period: AK2011's autumn offering is
+  `{P1:4, P2:3.5}` while its spring one is `{P4:7.5}`.
+
+  Which round is drawn is decided by `pickRound` (`src/lib/courseRounds.ts`):
+  the user's explicit choice, else the round overlapping the option-group box's
+  own periods, else the first. That middle rule is what makes the same course
+  offered by both the P3 and the P4 elective box land in the box it was actually
+  picked from — DD1380 appears in both.
 - **`<PROGRAM>-cosmetics.json`** — Maps course codes to color family groups (blue/green/turquoise/brick/yellow). Hard-capped at 5 families.
 
   **Palette convention:** `Matematik` is always **blue** and elective space is
@@ -178,6 +211,66 @@ student takes one); a course tagged with `specializations` counts only for those
 legitimate — CTFYS year 1 P1 is 16.5 hp because DD1301 is a genuinely optional
 1.5 hp course — so only excesses of 3 hp or more are reported.
 
+**The elective space's SHAPE follows the plan's wording, not the period grid.**
+The structured data says nothing about it: `participations` is keyed by
+`electiveCondition` only (`O` / `VV` / `V`), so a year's electives arrive as ONE
+flat list with no period grouping — CTFYS year 3 is a single `V` array of 20
+courses, exactly the list the visible page shows. The per-period division was
+ours, inherited from the hand-authored `XY123Z`/`XY456Z` placeholders that
+`fillElectiveSpace()` was written to mirror.
+
+Two phrasings occur and they mean different things:
+
+    CTMAT y3  "Utrymmet för valfria kurser är 7,5 hp per period hela läsåret."
+    CTFYS y3  "På våren i årskurs 3 finns ett utrymme på 15,0 hp valfria kurser."
+
+CTMAT states a per-period entitlement, so four 7.5 hp boxes are faithful. CTFYS
+states a total for the spring, so ONE 15 hp box spanning P3+P4 is — and splitting
+it invents a 7.5/7.5 division the plan never states. The split also forced every
+P3+P4 course to be offered by both halves: 20 source courses became 26 option
+slots. Merged, the box carries exactly the 20. `electiveSlots()` picks the shape;
+absent a claim, per-period is kept, since a spanning box asserts the student may
+move credits between periods.
+
+**A partially-filled `minCredits` box shrinks instead of vanishing.** The
+renderer used to drop a group as soon as ANY option was picked. For `pickN: 1`
+that is right; for a `minCredits` pool it silently deleted the unfilled
+remainder — picking a 3 hp course into CTFYS's 7.5 hp box removed the box and
+with it 4.5 hp of the year (measured: the P4 stack fell 114 px to 80 px). With a
+15 hp spring box the same bug would lose 7.5 hp. `remainingGroup()` now redraws
+the box at its remaining size, per period, so the period still sums to
+full-time. A pick that fills one period clears the box only there: SF1679 (P3
+7.5) empties the P3 half and leaves 7.5 hp showing in P4.
+
+**Satisfaction is judged on the TOTAL, not per period** — which is what
+`minCredits` means: "pick any number of courses summing to at least N hp".
+Judging it per period leaves slivers no course can fill. SF1677 and SF1678 are
+3.7 + 3.8 hp each, so together they are 7.4 in P3 and 7.6 in P4: a complete 15 of
+15, but flooring each period at zero hid P4's +0.1 overshoot while keeping P3's
+0.1 shortfall, drawing a 0.1 hp box — at the 2-ECTS minimum bar height, a visible
+15 px one that pushed P3 *over* full-time. The remainder's per-period shape is
+still the floored leftover, but capped so it cannot claim more than is actually
+left.
+
+A consequence worth knowing: meeting the total can still leave the spring
+lopsided, and the chart now says so instead of hiding it. SF1679 (P3 7.5) plus
+SF1691 (3.7/3.8) is a full 15 hp, but both are P3-heavy, so P3 draws over
+full-time and P4 under. That is a true property of that choice — the plan grants
+15 hp across the spring, not 7.5 in each period.
+
+One wrinkle: a remainder below the 2-ECTS minimum bar height is drawn at that
+minimum, so a period can measure a few px over full-time (1.5 hp left of a P4 box
+renders 118 px against 115). That is the pre-existing `MIN_ECTS_FOR_HEIGHT` floor,
+not new.
+
+**A round id is the first teaching period, disambiguated by credits when two
+offerings share one.** CTMAT's SE1010 (12 hp) is given twice, both spanning
+P1+P2, split 3+9 and 6+6 — so both came out as `P1` and the validator rejected
+the duplicate. The suffix (`P1-3`, `P1-6`) is derived from the offering's shape
+rather than its position or application code, so it survives re-extraction.
+Uniqueness is guaranteed because `orderRounds` has already dropped identical
+shapes.
+
 **Elective space is filled from the shortfall, corroborated by the prose.**
 `fillElectiveSpace()` adds `electivePlaceholder` entries ("Plats för valfri
 kurs") sized to the shortfall — automatically during cohort extraction, and via
@@ -261,11 +354,94 @@ SG1217 och SG1220 kan ingå i examen"* is a mutual exclusion — it caps what ma
 count toward the degree rather than saying how many to take. Both are recognised
 so they are not reported as unread, and neither sets `pickN`.
 
+**An option group's `totalCredits` is the size of the SLOT, not what a student
+earns.** It is the sum of the bar's periods — an envelope over options that may
+have different shapes — and the validator enforces `Σ periodCredits ==
+totalCredits` so the bar's geometry stays consistent. For every group whose
+options share a period footprint the two readings coincide, which is why the
+difference stayed invisible for a long time.
+
+CMATD's "Kurs för valt masterprogram" is the first where they diverge: four 6 hp
+options, but MG1024 runs in P2 and the other three in P3, so the envelope spans
+P2+P3 and sums to 12 while a student picks one and earns 6. The modal header read
+"Totalt: 12", a quantity nobody takes. It now computes the figure from the
+options — `pickN` × one option's size, a range when they differ — so CMATD reads
+6, CFATE's pick-two group reads 8–12 (options of 4 and 6 hp), and a `minCredits`
+box reads "15+". The stored `totalCredits` is unchanged; only the display was
+wrong.
+
+**Courses listed under a master destination are alternatives, not a stack.**
+CMATD's year-3 `curriculumInfos` are named after master programmes ("Master,
+nanoteknik", "Spår, Hållfasthetsteknik"), so `isMasterSpec` correctly strips
+`specializations` and moves the fact to `qualifiesFor` — they are years 4-5
+destinations, not bachelor inriktningar. But with the tags gone nothing recorded
+that a student takes only ONE of the extra courses each destination adds, so all
+of them were emitted `mandatory` and summed: year 3 P3 came out at **25.5 hp**
+against a full-time 15.
+
+They are now grouped as a pick-one "Kurs för valt masterprogram", which takes P3
+to **13.5**. The group keeps each option's `qualifiesFor`, so the box answers what
+a year-3 student is actually asking of it — which course leads to the master they
+want. Scoped to `mandatory` courses whose ONLY tags were master destinations; a
+course in the COMMON set is untouched, since everyone takes it, **and so is one
+already offered by another group**. CMAST is why that last guard exists: six of
+its eight destination-tagged courses are already options in "Villkorligt valfri
+grupp 3" and "4", and grouping them again made the year's load count BOTH
+envelopes — year 3 went from 6 hp of excess to 10.5. With the guard it lands at
+15/15/13.5/7.5, better than the 21/15/13.5/7.5 it had before any grouping,
+because the two genuinely ungrouped P1 courses do get grouped.
+
+**The review file reports periods still over full-time**, under "Periods
+scheduled over full-time". It is the other question only the programme can
+settle, and that file is what a director actually opens. It runs on the FINAL
+entries, not the intermediate `entries` array: `allEntries = [...entries,
+...groups]` is a new array, so a review computed from `entries` predates every
+option group and reported CMATD year 3 P3 at 31.5 hp where the written file says
+13.5.
+
+P2 stays at 22.5, and that part is KTH's own data: the common set alone is
+MH1033 1.5 + MH2055 7.5 + MH2056 7.5 = **16.5 hp**, already over full-time before
+any destination-specific course. Worth raising with the programme rather than
+modelling around.
+
+A knock-on: `qualifiesFor.code` was validated as 4-6 capitals (a programme code
+like TTFYM), but KOPPS identifies these destinations by their 3-letter
+*specialisation* code (INE, MMM, PRM). The check is now 3-6. The shape was
+already being written for plain courses; grouping them is what first ran it past
+the optionGroup validator.
+
 **A single-option group is not a group.** Kopps marks such courses villkorligt
 valfri, but emitting a selection modal with one item clutters the chart, and none
 of the six curated files does it. 15 of 34 extracted groups were this shape —
 5 of CFATE's 7 and 10 of TIEMM's 23 — and they are now emitted as plain courses
 with `category: conditionallyElective`.
+
+**The loader returns entries in FILE ORDER, and that is load-bearing.**
+`parseCourseEntries` used to end `return [...courses, ...optionGroups]` — every
+course before every option group, regardless of where they sat in the file. The
+renderer stacks each period's bars in the order of that list, so the
+concatenation silently overruled the ordering `alignEntries()` exists to choose.
+
+It only became visible once something was **picked**: an unpicked group and its
+hidden options cannot disagree. Picking any elective turns the picked course into
+a regular course, which then sorted above the Kandidatexamensarbete group in that
+one period while the other period still had the group on top. CTFYS year 3 has a
+15 hp thesis spanning P3+P4, so its two bars ended up at different heights and
+the connector between them drew as a diagonal — measured 50 px of step for a pick
+in the P4 box, 61 px for one in the P3 box, and identically in HT2024 and HT2025
+(it was never a cohort difference).
+
+**There is a real trade-off here, and file order is the better side of it.**
+Measured over 12 picked states across CTFYS/CTMAT/CFATE, total connector drift is
+**1004 px → 993 px**. The thesis diagonal disappears in every case (0 px), but two
+cases get worse: DD2352 and SF1677 picked from the *P4* box go 61/50 px → 111 px.
+Those courses span P3+P4 and sit *after* the "Valfri kurs P3" group in the file,
+so picking them from the P4 box removes the P4 box while the P3 box remains — one
+period has an extra 7.5 hp bar above them and the other does not. That is the
+geometrically-impossible case above, not an ordering mistake: no permutation
+aligns a course that sits below a box which exists in only one of its periods.
+The old concatenation "fixed" it only by accident, by hoisting every course above
+every box — which is what broke the thesis.
 
 **Course order controls vertical alignment.** The renderer stacks each period's
 bars in file order, so a course spanning periods sits at whatever cumulative

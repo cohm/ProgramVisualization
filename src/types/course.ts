@@ -15,6 +15,46 @@ export interface CourseCredit {
   year: number; // Academic year this credit belongs to (1, 2, 3, ...)
 }
 
+/**
+ * One offering (kurstillfälle) of a course within an academic year.
+ *
+ * Some courses run several times a läsår and a student takes ONE of them.
+ * DD1380 (1.5 hp) is given in all four periods; DD2421 (7.5 hp) in P1 and again
+ * in P3. These are alternatives, not parts: the course is 1.5 hp however you
+ * take it.
+ *
+ * Without this shape the extractor had nowhere to put the alternatives and
+ * unioned them into a single `periodCredits`, so DD1380 drew as a 6 hp bar
+ * spanning the whole year — four times its real size — and DD2421 as 15 hp.
+ * `totalCredits` was then recomputed from that union, which is why the wrong
+ * figure reached the chart and the modal.
+ *
+ * A course with `rounds` still carries a flat `credits` for the default
+ * offering, so every consumer that does not care about rounds keeps working.
+ */
+export interface CourseRound {
+  /**
+   * Stable identifier, the round's first teaching period ('P1'…'P4'). Used in
+   * the `og` URL parameter, so it must stay stable across re-extraction — the
+   * KTH application code changes every year and cannot serve this purpose.
+   */
+  id: Period['id'];
+  /** This round's own period layout. Sums to the course's totalCredits. */
+  credits: CourseCredit[];
+  /** Ordinary exam periods for this round. */
+  exams: Period['id'][];
+  /** Re-exam periods; defaults to `exams`, as elsewhere in the schema. */
+  reexams: Period['id'][];
+  /**
+   * KTH's kurstillfälleskod for this offering (`round_application_code`).
+   * Recorded for traceability only — nothing keys off it, because it is
+   * reissued each läsår. It is what lets a reader check a round against
+   * kth.se, and it is how the extractor identifies which round the study
+   * plan's participation actually points at.
+   */
+  applicationCode?: string;
+}
+
 // KTH course categories per *Riktlinje om utbildningsplan* (V-2018-0608).
 // When undefined, the course/group is treated as mandatory by the renderer
 // (existing behaviour). Mark electives explicitly to opt in to category-aware
@@ -189,6 +229,17 @@ export interface Course {
   // Restriction: flat (single-year) periodCredits only; multi-year courses
   // would need a richer override shape and aren't supported yet.
   periodCreditsBySpecialization?: Record<string, Record<'P1' | 'P2' | 'P3' | 'P4', number>>;
+  /**
+   * Alternative offerings of this course in one academic year, when KTH gives
+   * it more than once (see CourseRound). Absent for the overwhelming majority
+   * of courses, which run once a year.
+   *
+   * `credits` above always mirrors ONE of these — the default offering — so a
+   * consumer that ignores `rounds` still draws a correctly-sized bar in a real
+   * period. The chart picks the round matching the option-group box the course
+   * was chosen from, and the user can override it in the selection modal.
+   */
+  rounds?: CourseRound[];
 }
 
 import rawPeriods from '@/data/academic-periods.json';

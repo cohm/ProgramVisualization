@@ -46,20 +46,29 @@
     ]
   },
   {
+    "name": "Datateknik",
+    "nameEn": "Computer Science",
+    "colorFamily": "turquoise",
+    "courses": [
+      "DD1301",
+      "DD1327",
+      "DD1331",
+      "DD1380",
+      "DD2352",
+      "DD2421"
+    ]
+  },
+  {
     "name": "Ingenjörsämnen",
     "nameEn": "Engineering",
     "colorFamily": "brick",
     "courses": [
-      "DD1301",
-      "DD1331",
-      "DD1327",
-      "SG1218",
-      "SE1055",
-      "EL1000",
-      "SI1336",
       "EF112X",
-      "DD2352",
-      "EQ1120"
+      "EL1000",
+      "EQ1120",
+      "SE1055",
+      "SG1218",
+      "SI1336"
     ]
   },
   {
@@ -67,6 +76,7 @@
     "nameEn": "Other",
     "colorFamily": "yellow",
     "courses": [
+      "AK2011",
       "AK2014",
       "MH1023"
     ]

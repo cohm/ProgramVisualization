@@ -419,10 +419,41 @@ function validateProgramData(program, file) {
   });
 
   // Cosmetics
+  //
+  // Checked against the curated file AND the programme's cohort archive: a
+  // cosmetics entry legitimately colours a course that appears only in a cohort
+  // view. CTFYS's elective boxes are the case — DD1380, DD2421 and AK2011 are
+  // options in the extracted plans but not in the curated file, and warning on
+  // them produced 45 false positives that buried the real signal. A code in
+  // neither place is still reported, which is what the check is for (CMATD's
+  // MG1002).
   if (program.cosmeticsFile) {
     const cosmeticsPath = join(dataDir, program.cosmeticsFile);
     const cosmetics = loadJson(cosmeticsPath);
-    if (cosmetics != null) validateCosmetics(cosmetics, cosmeticsPath, courseCodes);
+    if (cosmetics != null) {
+      const known = new Set(courseCodes);
+      // Also the programme's OWN curated file. When this runs for a cohort
+      // archive, `courseCodes` holds only that cohort's courses, so a course
+      // the curated plan has and the extraction does not — CTFYS's DD1301, a
+      // genuinely optional course the extractor leaves out — was reported once
+      // per cohort. One cosmetics file serves every view of a programme, so the
+      // set it is checked against has to be the union of them.
+      const curated = programs.find((x) => x.code === program.code)?.dataFile;
+      if (curated && !curated.startsWith('cohorts/')) {
+        const entries = loadJson(join(dataDir, curated));
+        if (Array.isArray(entries)) for (const e of entries) if (e?.code) known.add(e.code);
+      }
+      const cohortsDir = join(dataDir, 'cohorts');
+      if (existsSync(cohortsDir)) {
+        for (const f of readdirSync(cohortsDir)) {
+          if (!f.startsWith(`${program.code}-`) || !f.endsWith('.json')) continue;
+          const entries = loadJson(join(cohortsDir, f));
+          if (!Array.isArray(entries)) continue;
+          for (const e of entries) if (e?.code) known.add(e.code);
+        }
+      }
+      validateCosmetics(cosmetics, cosmeticsPath, known);
+    }
   }
 }
 
@@ -541,6 +572,71 @@ function validateCourse(c, ctx, file) {
         }
         if (typeof c.totalCredits === 'number' && Math.abs(sum - c.totalCredits) > CREDIT_TOLERANCE) {
           err(file, `${sctx}: Σ = ${round(sum)} ≠ totalCredits = ${c.totalCredits}`);
+        }
+      }
+    }
+  }
+
+  // ----- rounds (alternative offerings in one academic year) -----
+  //
+  // The invariant that matters: every round is the WHOLE course, so each one's
+  // periods must sum to totalCredits. That is precisely what the old union
+  // violated — DD1380's four 1.5 hp offerings were merged into a 6 hp bar — so
+  // this check is what stops the same mistake reaching a data file again.
+  if (c.rounds !== undefined) {
+    if (!Array.isArray(c.rounds) || c.rounds.length === 0) {
+      err(file, `${ctx} ${c.code}: 'rounds' must be a non-empty array when present`);
+    } else {
+      const seenIds = new Set();
+      c.rounds.forEach((r, i) => {
+        const rctx = `${ctx} ${c.code}.rounds[${i}]`;
+        if (!r || typeof r !== 'object') { err(file, `${rctx}: must be an object`); return; }
+        // `P3`, or `P1-3` when two offerings start in the same period and are
+        // told apart by the credits there (CTMAT's SE1010: P1+P2 as 3+9 and
+        // 6+6). The base before the dash is the round's first teaching period.
+        const idBase = typeof r.id === 'string' ? r.id.split('-')[0] : null;
+        if (!idBase || !PERIOD_IDS.has(idBase)) {
+          err(file, `${rctx}: 'id' must be P1..P4, optionally suffixed '-<hp>' (got ${JSON.stringify(r.id)})`);
+        } else if (seenIds.has(r.id)) {
+          err(file, `${rctx}: duplicate round id '${r.id}' — ids address a round in the URL, so they must be unique`);
+        } else {
+          seenIds.add(r.id);
+        }
+        if (!r.periodCredits || typeof r.periodCredits !== 'object') {
+          err(file, `${rctx}: missing 'periodCredits'`);
+          return;
+        }
+        let sum = 0;
+        for (const [pid, val] of Object.entries(r.periodCredits)) {
+          if (!PERIOD_IDS.has(pid)) {
+            err(file, `${rctx}: unknown period '${pid}' (expected P1..P4)`);
+          } else if (typeof val !== 'number' || Number.isNaN(val) || val < 0) {
+            err(file, `${rctx}.${pid}: credits must be a non-negative number`);
+          } else {
+            sum += val;
+          }
+        }
+        if (typeof c.totalCredits === 'number' && Math.abs(sum - c.totalCredits) > CREDIT_TOLERANCE) {
+          err(file, `${rctx}: Σ periodCredits = ${round(sum)} ≠ totalCredits = ${c.totalCredits} — ` +
+            `a round is one whole offering of the course, not a share of it`);
+        }
+        if (idBase && r.periodCredits && (r.periodCredits[idBase] || 0) <= 0) {
+          err(file, `${rctx}: id '${r.id}' but no credits in ${idBase} — the id must start with the round's first teaching period`);
+        }
+        validatePeriodList(r.exams, `rounds[${i}].exams`, c, ctx, file);
+        validatePeriodList(r.reexams, `rounds[${i}].reexams`, c, ctx, file);
+      });
+      // The flat `periodCredits` must mirror one of the rounds, so a consumer
+      // that ignores `rounds` still draws a real offering rather than a shape
+      // that exists nowhere in KTH's catalogue.
+      const flatShape = c.periodCredits
+        && !Object.keys(c.periodCredits).some((k) => /^Year\d+$/i.test(k));
+      if (flatShape) {
+        const key = (pc) => [...PERIOD_IDS].sort().map((p) => round(pc?.[p] || 0)).join('/');
+        const flat = key(c.periodCredits);
+        if (!c.rounds.some((r) => key(r.periodCredits) === flat)) {
+          err(file, `${ctx} ${c.code}: 'periodCredits' matches no entry in 'rounds' — ` +
+            `it must be a copy of the default offering`);
         }
       }
     }
@@ -756,8 +852,13 @@ function validateOptionGroup(og, ctx, file) {
           continue;
         }
         for (const m of masters) {
-          if (!m || typeof m.code !== 'string' || !/^[A-Z]{4,6}$/.test(m.code)) {
-            err(file, `${ctx} optionGroup '${og.name}': qualifiesFor['${code}'] entry needs a programme 'code' of 4-6 capitals`);
+          // 3-6 capitals. Usually a programme code (TTFYM, TCSCM), but KOPPS
+          // also identifies a master DESTINATION by its 3-letter specialisation
+          // code — CMATD's year-3 options qualify for INE, MMM, PRM and the
+          // TEMB spår. Those are the same fact in a different namespace, and
+          // the human-readable `name` beside them carries KTH's own wording.
+          if (!m || typeof m.code !== 'string' || !/^[A-Z]{3,6}$/.test(m.code)) {
+            err(file, `${ctx} optionGroup '${og.name}': qualifiesFor['${code}'] entry needs a programme or specialisation 'code' of 3-6 capitals`);
           }
           if (!m || typeof m.name !== 'string' || !m.name) {
             err(file, `${ctx} optionGroup '${og.name}': qualifiesFor['${code}'] entry needs a 'name'`);

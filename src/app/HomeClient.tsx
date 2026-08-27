@@ -85,6 +85,8 @@ const ui = {
     english: 'Engelska',
     menu: 'Meny för export och språk',
     showUnverified: 'Visa icke-verifierade utbildningsplaner',
+    resetSelections: 'Återställ val',
+    resetSelectionsHint: 'Ta bort alla egna val i valfria block och visa den publicerade planen',
     unverifiedSuffix: '(inte verifierad)',
     cohortLabel: 'Antagningsår',
     cohortNone: 'Utan antagningsår',
@@ -129,6 +131,8 @@ const ui = {
     english: 'English',
     menu: 'Export and language menu',
     showUnverified: 'Show unverified study plans',
+    resetSelections: 'Reset choices',
+    resetSelectionsHint: 'Clear every choice made in the elective boxes and show the published plan',
     unverifiedSuffix: '(unverified)',
     cohortLabel: 'Admission year',
     cohortNone: 'No admission year',
@@ -158,6 +162,28 @@ const ui = {
     approxUnknown: 'unverifiable',
   }
 } as const;
+
+// ---- `og` encoding -------------------------------------------------------
+//
+// Structural characters are escaped with `~` rather than left to percent-
+// encoding, because `URLSearchParams.get()` decodes percent-escapes BEFORE we
+// get to split the value. The old scheme wrote `encodeURIComponent(name)`, so
+// "Valfri kurs, årskurs 3 P4" went out as `Valfri%20kurs%2C%20...`; the router
+// then normalises the address bar down one level of encoding, and reading that
+// back gave a literal comma, which `split(',')` cut the group name in half on.
+// The result was a group named " årskurs 3 P4" that matches nothing, so every
+// shared or bookmarked link silently lost its selection — measured on
+// origin/main, not just here. Every extracted elective box has a comma in its
+// name, so this hit exactly the boxes this feature is about.
+//
+// `!`, `*` and `.` survive one round of form-decoding unchanged. `+` and `,`
+// deliberately do not appear: `+` decodes to a space in
+// application/x-www-form-urlencoded, and `,` is what the old format tripped on.
+const OG_ESCAPES: Record<string, string> = { '~': '~~', '!': '~e', '*': '~s', '.': '~d', '@': '~a' };
+const escOg = (v: string) => v.replace(/[~!*.@]/g, (c) => OG_ESCAPES[c]);
+const unescOg = (v: string) => v.replace(/~(.)/g, (m, c) =>
+  c === '~' ? '~' : c === 'e' ? '!' : c === 's' ? '*'
+    : c === 'd' ? '.' : c === 'a' ? '@' : m);
 
 export default function HomeClient() {
   const [courses, setCourses] = useState<(Course | OptionGroup)[]>([]);
@@ -286,21 +312,59 @@ export default function HomeClient() {
   // with kind: 'pickN' (pickN > 1) or kind: 'minCredits'. Single-string
   // form is still accepted for back-compat with bookmarks from the
   // pre-multiselect days.
-  const selectedOptionPerGroup = useMemo<Record<string, string[]>>(() => {
+  // A code may carry a chosen offering as `CODE@ROUND` (e.g. `DD1380@P4`) for
+  // the few courses KTH gives several times a läsår. The suffix is stripped
+  // here so every existing consumer keeps seeing plain course codes; the round
+  // is exposed separately as `selectedRoundPerCourse`. A link without a suffix
+  // means "whichever offering matches the box".
+  const ogEntries = useMemo<{ name: string; codes: string[]; rounds: Record<string, string> }[]>(() => {
     const og = searchParams.get('og');
-    if (!og) return {};
-    const out: Record<string, string[]> = {};
-    for (const pair of og.split(',')) {
-      const colon = pair.indexOf(':');
-      if (colon <= 0) continue;
-      const name = decodeURIComponent(pair.slice(0, colon));
-      const codesRaw = pair.slice(colon + 1);
+    if (!og) return [];
+    const out: { name: string; codes: string[]; rounds: Record<string, string> }[] = [];
+
+    // Escaped delimiters never appear bare, so a plain split is unambiguous.
+    // A value with no '*' is a pre-existing bookmark in the old
+    // name:CODE+CODE,name:CODE format; keep reading those.
+    const legacy = !og.includes('*');
+    const entries = legacy ? og.split(',') : og.split('!');
+    for (const pair of entries) {
+      const sepIndex = legacy ? pair.indexOf(':') : pair.indexOf('*');
+      if (sepIndex <= 0) continue;
+      const rawName = pair.slice(0, sepIndex);
+      const name = legacy ? decodeURIComponent(rawName) : unescOg(rawName);
+      const codesRaw = pair.slice(sepIndex + 1);
       if (!name || !codesRaw) continue;
-      const codes = codesRaw.split('+').map(c => decodeURIComponent(c)).filter(Boolean);
-      if (codes.length > 0) out[name] = codes;
+      const codes: string[] = [];
+      const rounds: Record<string, string> = {};
+      for (const raw of codesRaw.split(legacy ? '+' : '.')) {
+        const token = legacy ? decodeURIComponent(raw) : unescOg(raw);
+        if (!token) continue;
+        const at = token.indexOf('@');
+        if (at > 0) {
+          const code = token.slice(0, at);
+          const round = token.slice(at + 1);
+          codes.push(code);
+          if (round) rounds[code] = round;
+        } else {
+          codes.push(token);
+        }
+      }
+      if (codes.length > 0) out.push({ name, codes, rounds });
     }
     return out;
   }, [searchParams]);
+
+  const selectedOptionPerGroup = useMemo<Record<string, string[]>>(() => {
+    const out: Record<string, string[]> = {};
+    for (const e of ogEntries) out[e.name] = e.codes;
+    return out;
+  }, [ogEntries]);
+
+  const selectedRoundPerCourse = useMemo<Record<string, string>>(() => {
+    const out: Record<string, string> = {};
+    for (const e of ogEntries) Object.assign(out, e.rounds);
+    return out;
+  }, [ogEntries]);
 
   const hiddenLayers = useMemo<Set<string>>(() => {
     const v = searchParams.get('hide');
@@ -350,17 +414,35 @@ export default function HomeClient() {
     router.replace(`/?${params.toString()}`);
   }, [searchParams, router]);
 
-  const setSelectedOptionPerGroup = useCallback((next: Record<string, string[]>) => {
+  // Serialising needs both halves, since a round rides along with its code.
+  // `rounds` is only written for a code that actually has a chosen offering,
+  // so a plan with no multi-round course produces exactly the old URL.
+  // Serialising needs both halves, since a round rides along with its code.
+  // `rounds` is only written for a code that actually has a chosen offering,
+  // so a plan with no multi-round course produces a URL as short as before.
+  const writeOg = useCallback((
+    groups: Record<string, string[]>,
+    rounds: Record<string, string>,
+  ) => {
     replaceParams((p) => {
-      const entries = Object.entries(next)
+      const entries = Object.entries(groups)
         .filter(([, codes]) => Array.isArray(codes) && codes.length > 0)
         .sort(([a], [b]) => a.localeCompare(b));
       if (entries.length === 0) p.delete('og');
       else p.set('og', entries
-        .map(([k, codes]) => `${encodeURIComponent(k)}:${codes.map(c => encodeURIComponent(c)).join('+')}`)
-        .join(','));
+        .map(([k, codes]) => `${escOg(k)}*${codes
+          // Escape each PART, then join with '@' — escaping the assembled
+          // token would escape the separator we just added.
+          .map(c => (rounds[c] ? `${escOg(c)}@${escOg(rounds[c])}` : escOg(c)))
+          .join('.')}`)
+        .join('!'));
     });
   }, [replaceParams]);
+
+  const setSelection = useCallback((
+    groups: Record<string, string[]>,
+    rounds: Record<string, string>,
+  ) => writeOg(groups, rounds), [writeOg]);
 
   const setHiddenLayers = useCallback((next: Set<string>) => {
     replaceParams((p) => {
@@ -487,7 +569,7 @@ export default function HomeClient() {
             scrolled the WHOLE page sideways and put the menu button off-screen.
             The chart's own horizontal scroll (issue #2) was working correctly;
             this row was the thing overflowing past it. */}
-        <div className="flex flex-wrap justify-between items-center gap-x-6 gap-y-3 mb-6 sm:mb-8">
+        <div className="relative pr-14 flex flex-wrap justify-between items-center gap-x-6 gap-y-3 mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold" style={{ color: kthColors.KthHeaven?.HEX }}>{ui[language].title}</h1>
           {/* Column so the provenance line can sit directly under the selectors
               that produced it, rather than becoming a third flex item beside
@@ -577,8 +659,40 @@ export default function HomeClient() {
               {ui[language].showUnverified}
             </label>
 
-            <div style={{ position: 'relative' }}>
-              <button ref={exportBtnRef} onClick={() => setMenuOpen(v => !v)} className="px-2 py-2 border border-gray-300 rounded-md shadow-sm" aria-label={ui[language].menu} aria-expanded={menuOpen} aria-haspopup="menu">
+            {/*
+              Reset. Only shown once a choice exists, so it never advertises a
+              state the user is already in.
+
+              Once options are picked, a chosen course is drawn exactly like an
+              obligatorisk one, so there is no way to tell which bars are the
+              published plan and which are your own choices — and no way back
+              to the plan short of editing the URL. This clears `og` (both the
+              picks and any offering choices, which live in the same parameter)
+              and leaves everything else — programme, cohort, language, layer
+              visibility — untouched.
+            */}
+            {Object.keys(selectedOptionPerGroup).length > 0 && (
+              <button
+                onClick={() => replaceParams((p) => p.delete('og'))}
+                className="px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                style={{ color: kthColors.KthBlue?.HEX, fontSize: 13 }}
+                title={ui[language].resetSelectionsHint}
+              >
+                {ui[language].resetSelections}
+              </button>
+            )}
+
+            {/*
+              Pinned to the header's top-right rather than sitting in the
+              selector row. As a flex item it wrapped with the selectors, so on
+              a narrow window it slid down and sideways with them — the menu is
+              a fixed piece of chrome and should stay where the user last saw
+              it. Absolute against the header (which carries `relative pr-14`
+              to reserve the space), so it also cannot collide with a long
+              programme name.
+            */}
+            <div className="absolute top-0 right-0">
+              <button ref={exportBtnRef} onClick={() => setMenuOpen(v => !v)} className="px-2 py-2 border border-gray-300 rounded-md shadow-sm bg-white" aria-label={ui[language].menu} aria-expanded={menuOpen} aria-haspopup="menu">
                 <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect x="2" y="3" width="16" height="2" rx="1" fill={kthColors.KthBlue?.HEX || '#004791'} />
                   <rect x="2" y="7" width="16" height="2" rx="1" fill={kthColors.KthBlue?.HEX || '#004791'} />
@@ -740,7 +854,8 @@ export default function HomeClient() {
             programComment={language === 'en' ? (selectedProgram.commentEn || selectedProgram.comment) : selectedProgram.comment}
             cosmetics={cosmetics}
             selectedOptionPerGroup={selectedOptionPerGroup}
-            onSelectedOptionPerGroupChange={setSelectedOptionPerGroup}
+            onSelectionChange={setSelection}
+            selectedRoundPerCourse={selectedRoundPerCourse}
             hiddenLayers={hiddenLayers}
             onHiddenLayersChange={setHiddenLayers}
             hiddenGroups={hiddenGroups}

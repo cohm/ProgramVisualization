@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import kthColors from '@/data/kth-colors.json';
 import { tr, type Lang } from '@/lib/translations';
 import { getOptionGroupKind, getOptionGroupPickN, getOptionGroupMinCredits } from '@/lib/optionGroupKind';
+import { creditsForRound, formatPeriods, hasRounds, pickRound, roundLabel } from '@/lib/courseRounds';
 import type { Course, OptionGroup, SelectedInfo } from '@/types/course';
 
 const isCourse = (item: Course | OptionGroup): item is Course =>
@@ -17,7 +18,25 @@ interface OptionGroupModalProps {
   highlightedOptionCodes: string[];
   onHighlightedOptionCodesChange: (codes: string[]) => void;
   selectedOptionPerGroup: Record<string, string[]>;
-  onSelectedOptionPerGroupChange: (next: Record<string, string[]>) => void;
+  /**
+   * Chosen offering per course code, for courses KTH gives several times a
+   * year. Absent entries mean "whichever round matches this box".
+   */
+  selectedRounds: Record<string, string>;
+  /**
+   * Commit the whole selection at once: which courses are chosen, and which
+   * offering each multi-round course uses.
+   *
+   * Deliberately ONE callback rather than two. Both halves live in the same
+   * `og` URL parameter, so writing them separately meant the second write
+   * reading a stale snapshot of the first — and worse, choosing an offering
+   * before ticking the course wrote a round for a course in no group at all,
+   * which serialised to an empty `og` and silently discarded the choice.
+   */
+  onCommitSelection: (
+    groups: Record<string, string[]>,
+    rounds: Record<string, string>,
+  ) => void;
   onSelectedInfoChange: (info: SelectedInfo | null) => void;
   onClose: () => void;
 }
@@ -30,13 +49,20 @@ export default function OptionGroupModal({
   highlightedOptionCodes,
   onHighlightedOptionCodesChange,
   selectedOptionPerGroup,
-  onSelectedOptionPerGroupChange,
+  selectedRounds,
+  onCommitSelection,
   onSelectedInfoChange,
   onClose,
 }: OptionGroupModalProps) {
   const kind = getOptionGroupKind(optionGroup);
   const pickN = getOptionGroupPickN(optionGroup);
   const minCredits = getOptionGroupMinCredits(optionGroup);
+
+  // Offering choices are a DRAFT until the user confirms, exactly like the
+  // course ticks themselves. The modal is mounted per opening, so seeding from
+  // the committed value here also resets the draft each time it opens — and
+  // Avbryt discards it by simply unmounting.
+  const [draftRounds, setDraftRounds] = useState<Record<string, string>>(selectedRounds);
 
   // Modal layout — kept identical to the original inline implementation,
   // with one extra row above the header for the running-total / capacity hint.
@@ -97,6 +123,38 @@ export default function OptionGroupModal({
   };
   const selectedSum = highlightedOptionCodes.reduce((sum, code) => sum + creditsForCode(code), 0);
 
+  /**
+   * Credits the student actually earns from this box.
+   *
+   * NOT `optionGroup.totalCredits`, which is the size of the SLOT — the sum of
+   * the bar's periods, an envelope over options that may have different shapes,
+   * and an invariant the validator enforces so the bar's geometry stays
+   * consistent. For every group whose options share a period footprint the two
+   * numbers coincide, which is why this never mattered before.
+   *
+   * CMATD's "Kurs för valt masterprogram" is the first where they diverge: its
+   * four options are 6 hp each but sit in different periods (MG1024 in P2, the
+   * rest in P3), so the envelope spans P2+P3 and sums to 12 — while a student
+   * picks exactly one and earns 6. The header read "Totalt: 12", which is not a
+   * quantity anyone takes.
+   *
+   * So it is computed from the options: pickN × one option's size, shown as a
+   * range when the options differ in size.
+   */
+  const takeCreditsLabel = (() => {
+    const sizes = optionGroup.options
+      .map(code => optionCourseByCode.get(code))
+      .filter((c): c is Course => !!c)
+      .map(c => c.credits.reduce((a, cr) => a + cr.credits, 0))
+      .filter(n => n > 0);
+    const fmt = (n: number) => Number.isInteger(n) ? String(n) : n.toFixed(1);
+    if (sizes.length === 0) return fmt(optionGroup.totalCredits);
+    if (kind === 'minCredits') return `${fmt(minCredits)}+`;
+    const lo = Math.min(...sizes) * pickN;
+    const hi = Math.max(...sizes) * pickN;
+    return lo === hi ? fmt(lo) : `${fmt(lo)}–${fmt(hi)}`;
+  })();
+
   // Banner text: "X / Y hp" for minCredits; "N / pickN selected" for pickN > 1.
   // Pure pickN: 1 groups (the historical default) get no banner — they
   // visually behave exactly as before.
@@ -122,12 +180,31 @@ export default function OptionGroupModal({
   // by character count rather than measuring keeps this a pure function — the
   // modal renders inside an SVG built before layout, so getComputedTextLength is
   // not available here.
-  const truncateName = (name: string, code: string, note: string): string => {
+  const truncateName = (name: string, code: string, note: string, periods = ''): string => {
     const CHARS_PER_ROW = 98;
-    const budget = CHARS_PER_ROW - code.length - 12 - (note ? note.length + 3 : 0);
+    const budget = CHARS_PER_ROW - code.length - 12
+      - (note ? note.length + 3 : 0)
+      - (periods ? periods.length + 1 : 0);
     if (name.length <= budget) return name;
     return `${name.slice(0, Math.max(8, budget - 1)).trimEnd()}…`;
   };
+
+  /**
+   * "(P3: 3 hp, P4: 4 hp)" — where the option lands if chosen.
+   *
+   * Without this the modal said what a course is and how big it is but not
+   * *when*, so choosing between two otherwise similar options was a guess: the
+   * chart only revealed the answer after the box had been closed.
+   *
+   * For a multi-round course this shows the round that would actually be used —
+   * the one matching this box, or the user's override — not the union of every
+   * offering, which is the whole point of the round model.
+   */
+  const periodSummary = (course: Course): string =>
+    formatPeriods(
+      creditsForRound(course, pickRound(course, optionGroup, draftRounds[course.code])),
+      tr[language].credits,
+    );
 
   // "behörighetsgivande för TTFYM (TFYA/TFYB/TFYG)" — empty for an option the
   // study plan does not mention.
@@ -169,7 +246,14 @@ export default function OptionGroupModal({
     if (highlightedOptionCodes.length > 0) {
       next[optionGroup.name] = highlightedOptionCodes;
     }
-    onSelectedOptionPerGroupChange(next);
+    // Keep an offering choice only for a course that is actually selected
+    // somewhere, so an abandoned pick cannot resurface later with a stale round.
+    const stillSelected = new Set(Object.values(next).flat());
+    const rounds: Record<string, string> = {};
+    for (const [code, roundId] of Object.entries(draftRounds)) {
+      if (stillSelected.has(code)) rounds[code] = roundId;
+    }
+    onCommitSelection(next, rounds);
     onClose();
     onHighlightedOptionCodesChange([]);
   };
@@ -305,10 +389,10 @@ export default function OptionGroupModal({
           {language === 'en' ? (optionGroup.nameEn || optionGroup.name) : optionGroup.name}
         </text>
 
-        {/* Info line */}
+        {/* Info line — what the STUDENT takes, not the size of the slot */}
         <text x={padding} y={padding + 40} fontSize={12} fill="#666">
           {tr[language].totalCredits}:{' '}
-          <tspan fontWeight={600}>{optionGroup.totalCredits}</tspan>
+          <tspan fontWeight={600}>{takeCreditsLabel}</tspan>
         </text>
 
         {/* Rule banner — only for minCredits and multi-pickN groups */}
@@ -404,8 +488,19 @@ export default function OptionGroupModal({
           const barX = padding;
           const colors = getCourseColors(optionCourse);
           const optionName = language === 'en' ? (optionCourse.nameEn || optionCourse.name) : optionCourse.name;
-          const totalCredits = optionCourse.credits.reduce((sum, c) => sum + c.credits, 0);
           const isSelected = highlightedOptionCodes.includes(optionCode);
+
+          // A multi-round course is 1.5 hp however you take it, so its size
+          // comes from the round in force — never from summing the offerings,
+          // which is what produced the 6 hp DD1380 bar.
+          const rounds = optionCourse.rounds ?? [];
+          const multiRound = hasRounds(optionCourse);
+          const activeRound = pickRound(optionCourse, optionGroup, draftRounds[optionCode]);
+          const totalCredits = creditsForRound(optionCourse, activeRound)
+            .reduce((sum, c) => sum + c.credits, 0);
+          // Two lines inside the existing 50 px row rather than a taller row:
+          // the label rides higher and the offering chips sit under it.
+          const labelY = multiRound ? barY + 17 : barY + optionHeight / 2;
 
           const toggle = () => {
             if (isSelected) {
@@ -439,7 +534,7 @@ export default function OptionGroupModal({
               tabIndex={0}
               role="button"
               aria-pressed={isSelected}
-              aria-label={`${optionCode} ${optionName}, ${totalCredits} ${tr[language].credits}`}
+              aria-label={`${optionCode} ${optionName}, ${totalCredits} ${tr[language].credits} ${periodSummary(optionCourse)}`.trim()}
               onKeyDown={onActivateKey(toggle)}
             >
               <rect
@@ -455,14 +550,89 @@ export default function OptionGroupModal({
               />
               <text
                 x={barX + 6}
-                y={barY + optionHeight / 2}
+                y={labelY}
                 fontSize={11}
                 fontWeight={600}
                 fill={kthColors.KthMarine?.HEX || '#000061'}
                 dominantBaseline="central"
               >
-                {optionCode} {truncateName(optionName, optionCode, eligibilityLabel(optionCode))}, {totalCredits} {tr[language].credits}
+                {optionCode} {truncateName(optionName, optionCode, eligibilityLabel(optionCode), periodSummary(optionCourse))}, {totalCredits} {tr[language].credits}
+                {periodSummary(optionCourse) && (
+                  <tspan fill="#6b7280" fontWeight={400}>{' '}{periodSummary(optionCourse)}</tspan>
+                )}
               </text>
+              {/*
+                Offering picker, for the handful of courses KTH gives more than
+                once a läsår. The chip matching this box is preselected, so the
+                common case needs no interaction; changing it moves the course to
+                another offering in the chart.
+              */}
+              {multiRound && (
+                <g>
+                  <text
+                    x={barX + 6}
+                    y={barY + 36}
+                    fontSize={9}
+                    fill="#6b7280"
+                    dominantBaseline="central"
+                  >
+                    {tr[language].offering}:
+                  </text>
+                  {rounds.map((r, ri) => {
+                    const chipText = roundLabel(r, rounds);
+                    // Chips are laid out by character count rather than measured:
+                    // the modal's SVG is built before layout, so there is no
+                    // getComputedTextLength here (same constraint as the row labels).
+                    const chipW = Math.max(26, 10 + chipText.length * 5.4);
+                    const chipX = barX + 6 + 74 + ri * (chipW + 4);
+                    const on = activeRound?.id === r.id;
+                    const choose = () =>
+                      setDraftRounds(prev => ({ ...prev, [optionCode]: r.id }));
+                    return (
+                      <g
+                        key={r.id}
+                        style={{ cursor: 'pointer' }}
+                        onClick={(e) => {
+                          // Must not bubble: the row's own click toggles course
+                          // selection, and picking an offering is not picking
+                          // the course.
+                          e.stopPropagation();
+                          choose();
+                        }}
+                        tabIndex={0}
+                        role="radio"
+                        aria-checked={on}
+                        aria-label={`${optionCode} ${tr[language].offering} ${chipText}`}
+                        onKeyDown={onActivateKey(choose)}
+                      >
+                        <rect
+                          x={chipX}
+                          y={barY + 27}
+                          width={chipW}
+                          height={17}
+                          rx={8}
+                          ry={8}
+                          fill={on ? (kthColors.KthBlue?.HEX || '#004791') : 'rgba(255,255,255,0.75)'}
+                          stroke={on ? (kthColors.KthBlue?.HEX || '#004791') : '#9ca3af'}
+                          strokeWidth={1}
+                        />
+                        <text
+                          x={chipX + chipW / 2}
+                          y={barY + 36}
+                          fontSize={9}
+                          fontWeight={on ? 700 : 400}
+                          textAnchor="middle"
+                          fill={on ? '#ffffff' : '#4b5563'}
+                          dominantBaseline="central"
+                          style={{ pointerEvents: 'none' }}
+                        >
+                          {chipText}
+                        </text>
+                      </g>
+                    );
+                  })}
+                </g>
+              )}
               {/*
                 The master programmes this option qualifies for, per the study
                 plan. This is the reason most conditionally-elective courses are
@@ -472,7 +642,7 @@ export default function OptionGroupModal({
               {eligibilityLabel(optionCode) && (
                 <text
                   x={barX + barWidth - 6}
-                  y={barY + optionHeight / 2}
+                  y={labelY}
                   fontSize={10}
                   fontStyle="italic"
                   textAnchor="end"

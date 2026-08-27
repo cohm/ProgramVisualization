@@ -553,38 +553,84 @@ function electivePeriods(roundsBySemester, wantedTerm) {
     for (const rd of rounds || []) {
       const pc = periodsFromRound(rd?.round_periods);
       if (!pc) continue;
-      candidates.push({ term: t, periodCredits: pc });
+      candidates.push({ term: t, periodCredits: pc, applicationCode: rd?.round_application_code });
     }
   }
   if (candidates.length === 0) return null;
 
   const exact = candidates.filter((c) => c.term === wantedTerm);
-  if (exact.length > 0) return mergeRoundPeriods(exact);
+  if (exact.length > 0) return { term: wantedTerm, rounds: exact };
 
   const sameSeason = candidates.filter((c) => c.term % 10 === season);
   if (sameSeason.length > 0) {
     // Nearest year in the same season.
-    const nearest = sameSeason.reduce((best, c) =>
-      Math.abs(c.term - wantedTerm) < Math.abs(best.term - wantedTerm) ? c : best);
-    return { ...nearest, approximate: true };
+    const nearestTerm = sameSeason.reduce((best, c) =>
+      Math.abs(c.term - wantedTerm) < Math.abs(best.term - wantedTerm) ? c : best).term;
+    return {
+      term: nearestTerm,
+      rounds: sameSeason.filter((c) => c.term === nearestTerm),
+      approximate: true,
+    };
   }
   return null;
 }
 
+/** First teaching period of a round. */
+const firstPeriodOf = (pc) => PERIOD_IDS.find((p) => (pc?.[p] || 0) > 0) ?? 'P1';
+
 /**
- * Combine several rounds in one term.
+ * Stable, unique id for a round: its first teaching period, plus the credits in
+ * that period when two offerings start in the same one.
  *
- * A course can be offered twice in the same semester (DD1380 runs in both P1 and
- * P2 of one autumn). Those are alternative offerings of the same course, not
- * additional credits, so the periods are unioned by taking the per-period
- * maximum rather than summed — summing would double the course's size.
+ * The first period alone is not always unique. CTMAT's SE1010 (Hållfasthetslära
+ * med projekt, 12 hp) is given twice, both spanning P1+P2, differing only in how
+ * the credits are split — 3+9 and 6+6. The validator caught it; both rounds came
+ * out as "P1".
+ *
+ * The suffix is derived from the offering's SHAPE rather than from its position
+ * in the list or its application code, so it survives re-extraction: ids address
+ * a round in the `og` URL, and `round_application_code` is reissued every läsår.
+ * Uniqueness is guaranteed because `orderRounds` has already dropped rounds with
+ * identical shapes, so any two survivors differ somewhere — and if they share a
+ * first period they must differ in its credits.
  */
-function mergeRoundPeriods(rounds) {
-  const out = Object.fromEntries(PERIOD_IDS.map((p) => [p, 0]));
+function roundIds(rounds) {
+  const bases = rounds.map((r) => firstPeriodOf(r.periodCredits));
+  return rounds.map((r, i) => {
+    const base = bases[i];
+    if (bases.filter((b) => b === base).length === 1) return base;
+    const hp = r.periodCredits[base];
+    return `${base}-${String(hp).replace('.', '_')}`;
+  });
+}
+
+/**
+ * Order rounds by first period and drop duplicates.
+ *
+ * Rounds used to be collapsed here by taking the per-period MAXIMUM across
+ * offerings, on the reasoning that alternatives must not be summed. That avoided
+ * double-counting but still produced a single bar covering every period the
+ * course is ever given in: DD1380 (1.5 hp, given in all four periods) came out
+ * as {P1:1.5, P2:1.5, P3:1.5, P4:1.5}, and `totalCredits` — recomputed from the
+ * periods to keep Σ consistent — became 6, four times the real course.
+ *
+ * Alternatives need to stay alternatives, so they are kept as a list and the
+ * schema carries them (see CourseRound). One round can legitimately span several
+ * periods — AK2011's autumn offering is {P1:4, P2:3.5} — which is why a round is
+ * a period MAP and not a single period.
+ */
+function orderRounds(rounds) {
+  const seen = new Set();
+  const out = [];
   for (const r of rounds) {
-    for (const p of PERIOD_IDS) out[p] = Math.max(out[p], r.periodCredits[p] || 0);
+    const key = PERIOD_IDS.map((p) => r.periodCredits[p] || 0).join('/');
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(r);
   }
-  return { term: rounds[0].term, periodCredits: out };
+  return out.sort((a, b) =>
+    PERIOD_IDS.indexOf(firstPeriodOf(a.periodCredits)) -
+    PERIOD_IDS.indexOf(firstPeriodOf(b.periodCredits)));
 }
 
 
@@ -597,7 +643,7 @@ function mergeRoundPeriods(rounds) {
  * whichever the course actually has a round in wins. A course offered in both
  * (AK2011, DD2421) is reported for review rather than silently placed in one.
  */
-async function electivePeriodsForYear(code, cohort, studyYear) {
+async function electivePeriodsForYear(code, cohort, studyYear, preferredApplicationCode) {
   let meta;
   try { meta = await fetchCourseMeta(code); } catch { return null; }
   if (!meta?.roundsBySemester) return null;
@@ -610,30 +656,53 @@ async function electivePeriodsForYear(code, cohort, studyYear) {
   const inSpring = electivePeriods(meta.roundsBySemester, spring);
 
   const exact = [inAutumn, inSpring].filter((x) => x && !x.approximate);
-  if (exact.length === 2) {
-    flag(`${code}: offered in both halves of läsår ${lasar}/${lasar + 1} ` +
-      `(${JSON.stringify(pcOnly(inAutumn))} and ${JSON.stringify(pcOnly(inSpring))}) — ` +
-      `listed in every matching period box; a student picks one offering.`);
-    return { periodCredits: unionPeriods(inAutumn.periodCredits, inSpring.periodCredits), bothHalves: true };
-  }
-  if (exact.length === 1) return exact[0];
-
-  // Neither term has a round: fall back to the nearest same-season one, which
-  // `electivePeriods` marks approximate.
-  const near = inAutumn ?? inSpring;
-  if (near) {
+  let collected;
+  let approximate = false;
+  if (exact.length > 0) {
+    collected = exact.flatMap((x) => x.rounds);
+  } else {
+    // Neither term has a round: fall back to the nearest same-season one, which
+    // `electivePeriods` marks approximate.
+    const near = inAutumn ?? inSpring;
+    if (!near) return null;
+    collected = near.rounds;
+    approximate = true;
     flag(`${code}: no round in läsår ${lasar}/${lasar + 1}; periods taken from the ` +
       `nearest ${near.term % 10 === TERM_AUTUMN ? 'autumn' : 'spring'} round (${near.term}) — verify.`);
-    return near;
   }
-  return null;
+
+  const rounds = orderRounds(collected);
+  if (rounds.length === 0) return null;
+
+  // Which offering is the DEFAULT — what a consumer that ignores `rounds` will
+  // draw. The study plan's participation names a specific kurstillfälle in its
+  // `applicationCode`, so when we have it, KTH has already answered the question
+  // and we do not have to guess. Otherwise the earliest offering wins.
+  const preferred = preferredApplicationCode
+    ? rounds.find((r) => r.applicationCode === String(preferredApplicationCode))
+    : undefined;
+  const chosen = preferred ?? rounds[0];
+
+  if (rounds.length > 1) {
+    flag(`${code}: given ${rounds.length} times in läsår ${lasar}/${lasar + 1} ` +
+      `(${rounds.map((r) => JSON.stringify(pcOnly(r))).join(', ')}) — emitted as ` +
+      `alternative rounds, default ${firstPeriodOf(chosen.periodCredits)}` +
+      `${preferred ? ' (the offering the study plan points at)' : ''}. A student takes one.`);
+  }
+
+  return {
+    periodCredits: chosen.periodCredits,
+    rounds,
+    ...(approximate ? { approximate: true } : {}),
+  };
 }
 
 const pcOnly = (x) => Object.fromEntries(
   PERIOD_IDS.filter((p) => (x?.periodCredits?.[p] || 0) > 0).map((p) => [p, x.periodCredits[p]]));
 
-const unionPeriods = (a, b) => Object.fromEntries(
-  PERIOD_IDS.map((p) => [p, Math.max(a?.[p] || 0, b?.[p] || 0)]));
+/** True when any offering of this course teaches in `pid`. */
+const offeredInPeriod = (got, pid) =>
+  (got?.rounds ?? []).some((r) => (r.periodCredits?.[pid] || 0) > 0);
 
 // ---------------------------------------------------------------------------
 // Master-programme eligibility from `supplementaryInformation`
@@ -841,6 +910,9 @@ function readCurriculum(state, prog, year) {
           spec,
           year,
           periodCredits: periodCreditsFrom(part.creditsPerPeriod, code),
+          // The kurstillfälle this programme places the course in. Only used for
+          // courses given several times a läsår, where it names the default round.
+          applicationCode: part.applicationCode,
         });
       }
     }
@@ -2248,28 +2320,33 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
 
     // Corroborate against the prose where it says something for this year.
     const claim = stated.find((c) => c.kind === 'per-period' || c.year === year);
-    for (let i = 0; i < PERIOD_IDS.length; i++) {
-      const pid = PERIOD_IDS[i];
-      if (load[i] <= 0 || short[i] <= LOAD_TOLERANCE) continue;
-      const expected = claim
-        ? (claim.kind === 'per-period'
-          ? claim.hp
-          : (claim.periods.includes(pid) ? round(claim.hp / claim.periods.length) : null))
-        : null;
+    for (const slot of electiveSlots(claim, load, short)) {
+      const periods = slot.periods;
+      const pid = periods[0];
+      const expected = slot.expected;
+      // Per-period credits for the slot: its own shortfall in each period it
+      // spans. A spanning box is an ENVELOPE of the space, exactly as it is for
+      // an option group whose options have different shapes.
+      const slotCredits = Object.fromEntries(PERIOD_IDS.map((q) => {
+        const at = periods.indexOf(q);
+        if (at < 0) return [q, 0];
+        return [q, slot.perPeriodHp ? slot.perPeriodHp[at] : slot.hp];
+      }));
 
       const entry = {
-        // Stable synthetic code: same year+period always yields the same one, so
-        // re-running does not churn the file.
-        code: `XY${year}${i + 1}0Z`,
+        // Stable synthetic code: same year+first period always yields the same
+        // one, so re-running does not churn the file.
+        code: `XY${year}${PERIOD_IDS.indexOf(pid) + 1}0Z`,
         name: 'Plats för valfri kurs',
         nameEn: 'Space for elective course',
-        totalCredits: short[i],
-        periodCredits: Object.fromEntries(PERIOD_IDS.map((q) => [q, q === pid ? short[i] : 0])),
+        totalCredits: slot.hp,
+        periodCredits: slotCredits,
         year,
         prerequisites: [],
         // Mirrors the curated CTFYS placeholders, which mark an exam in their own
-        // period rather than leaving it blank.
-        exams: [pid],
+        // period rather than leaving it blank. A spanning slot marks one per
+        // period it covers, since the courses filling it are examined in theirs.
+        exams: [...periods],
         category: 'electivePlaceholder',
       };
 
@@ -2294,9 +2371,14 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
       }
       const candidates = [...recordByCode.keys()]
         .filter((code) => {
-          const pc = electivePeriods.get(`${year}::${code}`);
-          if (!pc) return true;                 // unknown: keep, and flag below
-          return (pc[pid] || 0) > 0;
+          const got = electivePeriods.get(`${year}::${code}`);
+          if (!got) return true;                // unknown: keep, and flag below
+          // ANY offering teaching in ANY period this slot spans qualifies the
+          // course — that is the whole point of a course given several times a
+          // year. With per-period slots DD1380 is offered by the P3 box and the
+          // P4 box and the chart resolves which round to draw from the box it
+          // was picked from; with one spanning slot it is simply offered once.
+          return periods.some((q) => offeredInPeriod(got, q));
         })
         .sort();
       const unplaced = [...new Set(electiveRecords
@@ -2317,11 +2399,11 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
       // against the course list.
       if (candidates.length > 0) {
         entry.type = 'optionGroup';
-        entry.name = electiveGroupName(pid, year);
-        entry.nameEn = electiveGroupNameEn(pid, year);
+        entry.name = electiveGroupName(periods, year);
+        entry.nameEn = electiveGroupNameEn(periods, year);
         entry.options = candidates;
         entry.kind = 'minCredits';
-        entry.minCredits = short[i];
+        entry.minCredits = slot.hp;
         entry.allowedNumberOfOptions = candidates.length;
         delete entry.code;
         delete entry.prerequisites;
@@ -2348,14 +2430,28 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
           }
           emittedElectiveCourses.add(code);
           const rec = recordByCode.get(code);
-          const pc = electivePeriods.get(`${year}::${code}`)
-            ?? Object.fromEntries(PERIOD_IDS.map((q) => [q, q === pid ? short[i] : 0]));
+          const got = electivePeriods.get(`${year}::${code}`);
+          const pc = got?.periodCredits
+            ?? Object.fromEntries(PERIOD_IDS.map((q) => [q, q === pid ? slot.hp : 0]));
+          // `totalCredits` is the size of ONE offering, because that is what the
+          // student takes. Summing across offerings is exactly the bug this
+          // whole shape exists to prevent (DD1380: 1.5 hp, not 4 × 1.5).
+          const ids = roundIds(got?.rounds ?? []);
+          const roundEntries = (got?.rounds ?? []).length > 1
+            ? got.rounds.map((r, ri) => ({
+              id: ids[ri],
+              periodCredits: Object.fromEntries(
+                PERIOD_IDS.map((q) => [q, round(r.periodCredits[q] || 0)])),
+              ...(r.applicationCode ? { applicationCode: String(r.applicationCode) } : {}),
+            }))
+            : null;
           electiveCourses.push({
             code,
             name: rec?.name || code,
             ...(electiveNames.get(code) ? { nameEn: electiveNames.get(code) } : {}),
             totalCredits: round(PERIOD_IDS.reduce((a, q) => a + (pc[q] || 0), 0)),
             periodCredits: Object.fromEntries(PERIOD_IDS.map((q) => [q, round(pc[q] || 0)])),
+            ...(roundEntries ? { rounds: roundEntries } : {}),
             year,
             prerequisites: [],
             exams: [],
@@ -2370,8 +2466,9 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
       entries.push(entry);
       added.push(entry);
       reports.push({
-        kind: 'elective-space-filled', year, period: pid, hp: short[i],
-        expected, quote: claim?.quote ?? null,
+        kind: 'elective-space-filled', year,
+        period: periods.length === 1 ? pid : periods.join('+'),
+        hp: slot.hp, expected, quote: claim?.quote ?? null,
       });
     }
   }
@@ -2380,8 +2477,75 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
 
 // A period-specific name, so the four boxes of a year are distinguishable in the
 // legend and in `selectedOptionPerGroup` (which is keyed by name).
-const electiveGroupName = (pid, year) => `Valfri kurs, årskurs ${year} ${pid}`;
-const electiveGroupNameEn = (pid, year) => `Elective course, year ${year} ${pid}`;
+// A slot spanning one period keeps its historical "… årskurs 3 P3" name; a slot
+// spanning several is named for the span, because "P3+P4" is how the plan talks
+// about it ("på våren i årskurs 3") and a box called "P3" that also covers P4
+// would misdescribe itself.
+const SPAN_LABEL = { 'P1,P2': ['hösten', 'autumn'], 'P3,P4': ['våren', 'spring'] };
+const spanLabel = (periods) => SPAN_LABEL[periods.join(',')] ?? null;
+const electiveGroupName = (periods, year) => {
+  const pids = [].concat(periods);
+  if (pids.length === 1) return `Valfri kurs, årskurs ${year} ${pids[0]}`;
+  const label = spanLabel(pids);
+  return label
+    ? `Valfri kurs, årskurs ${year} ${label[0]}`
+    : `Valfri kurs, årskurs ${year} ${pids.join('+')}`;
+};
+const electiveGroupNameEn = (periods, year) => {
+  const pids = [].concat(periods);
+  if (pids.length === 1) return `Elective course, year ${year} ${pids[0]}`;
+  const label = spanLabel(pids);
+  return label
+    ? `Elective course, year ${year} ${label[1]}`
+    : `Elective course, year ${year} ${pids.join('+')}`;
+};
+
+/**
+ * The elective slots to emit for one study year.
+ *
+ * The study plan's own wording decides the shape, because the structured data
+ * says nothing about it: `participations` is keyed by electiveCondition only, so
+ * all of a year's electives arrive as ONE flat list with no period grouping. The
+ * per-period division was ours, inherited from the hand-authored CTFYS
+ * placeholders (`XY123Z`/`XY456Z`) that this function was written to mirror.
+ *
+ * The two phrasings mean genuinely different things, and both occur:
+ *
+ *   CTMAT y3  "Utrymmet för valfria kurser är 7,5 hp per period hela läsåret."
+ *   CTFYS y3  "På våren i årskurs 3 finns ett utrymme på 15,0 hp valfria kurser."
+ *
+ * CTMAT states a per-period entitlement, so four 7.5 hp boxes are faithful.
+ * CTFYS states a total for the spring, so ONE 15 hp box spanning P3+P4 is — and
+ * splitting it in two invents a 7.5/7.5 division the plan never states, which
+ * also forces a P3+P4 course like SF1677 to be offered by both halves.
+ *
+ * Absent a claim, per-period is kept: it is the conservative shape, since a box
+ * that spans periods asserts the student may move credits between them.
+ */
+function electiveSlots(claim, load, short) {
+  const isShort = (i) => load[i] > 0 && short[i] > LOAD_TOLERANCE;
+  const perPeriod = () => PERIOD_IDS
+    .map((pid, i) => ({ periods: [pid], hp: short[i], expected: claim?.kind === 'per-period' ? claim.hp : null }))
+    .filter((_, i) => isShort(i));
+
+  if (claim?.kind !== 'season') return perPeriod();
+
+  // Only the claimed periods that are actually short join the span; a claim that
+  // matches nothing short falls back rather than inventing a box.
+  const idx = PERIOD_IDS.map((pid, i) => [pid, i]).filter(([pid, i]) => claim.periods.includes(pid) && isShort(i));
+  if (idx.length === 0) return perPeriod();
+
+  const spanned = idx.map(([pid]) => pid);
+  const hp = round(idx.reduce((a, [, i]) => a + short[i], 0));
+  // Periods short but outside the claim still get their own box — the claim
+  // speaks only for its own span.
+  const outside = PERIOD_IDS
+    .map((pid, i) => ({ periods: [pid], hp: short[i], expected: null, i }))
+    .filter(({ i, periods }) => isShort(i) && !claim.periods.includes(periods[0]))
+    .map(({ periods, hp, expected }) => ({ periods, hp, expected }));
+
+  return [{ periods: spanned, hp, expected: claim.hp, perPeriodHp: idx.map(([, i]) => short[i]) }, ...outside];
+}
 
 // ---------------------------------------------------------------------------
 // Vertical alignment: ordering within a study year
@@ -2893,8 +3057,10 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     for (const r of elective) {
       const key = `${r.year}::${r.code}`;
       if (electivePeriodsByCode.has(key)) continue;
-      const got = await electivePeriodsForYear(r.code, cohort, r.year);
-      if (got) electivePeriodsByCode.set(key, got.periodCredits);
+      // `r.applicationCode` is the kurstillfälle the study plan itself points
+      // at, which decides the default round when the course has several.
+      const got = await electivePeriodsForYear(r.code, cohort, r.year, r.applicationCode);
+      if (got) electivePeriodsByCode.set(key, got);
       // The English title comes only from KOPPS, and fetchCourseMeta has already
       // been called (and cached) by the period resolver above.
       try {
@@ -2928,6 +3094,9 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     registryEntries.filter((r) => isMasterSpec(r, programMeta)).map((r) => [r.code, r.name]));
   if (masterSpecs.size > 0) {
     let moved = 0;
+    // Codes whose ONLY specialization tags were master destinations — i.e. the
+    // course is specific to a destination rather than common to the programme.
+    const masterOnly = new Set();
     for (const e of allEntries) {
       if (!e.specializations?.length) continue;
       const masters = e.specializations.filter((c) => masterSpecs.has(c));
@@ -2937,6 +3106,7 @@ async function extractCohort(prog, cohort, args, registryEntries) {
         e.specializations = rest;
       } else {
         delete e.specializations;
+        if (e.code) masterOnly.add(e.code);
         // `periodCreditsBySpecialization` keys the specs that just went away, and
         // the validator requires a non-empty `specializations` alongside it.
         if (e.periodCreditsBySpecialization) {
@@ -2960,6 +3130,80 @@ async function extractCohort(prog, cohort, args, registryEntries) {
       flag(`${moved} entr${moved === 1 ? 'y' : 'ies'}: master-programme tags moved from ` +
         `'specializations' to 'qualifiesFor' — they are years 4-5 destinations, not ` +
         `bachelor inriktningar, so they must not drive the inriktning filter.`);
+    }
+
+    // Those entries are ALTERNATIVES, and saying so is what keeps the year's
+    // load honest.
+    //
+    // CMATD year 3 is the case. Its curriculumInfos are named after master
+    // programmes ("Master, nanoteknik", "Spår, Hållfasthetsteknik"), so the move
+    // above is right — they are destinations, not inriktningar. But each carries
+    // one extra 6 hp course, and with the tags gone nothing recorded that a
+    // student takes only ONE of them. All four were emitted as `mandatory` and
+    // summed: P3 came out at 25.5 hp against a full-time 15.
+    //
+    // Grouped as pick-one they contribute 6 hp, taking P3 to 13.5. The group
+    // keeps each option's `qualifiesFor`, so the box answers the question a
+    // year-3 student is actually asking of it — "which one leads to the master I
+    // want?" — rather than showing four courses nobody takes together.
+    //
+    // Scoped deliberately: only `mandatory` courses whose sole tags were master
+    // destinations, grouped by study year. A course listed in the COMMON set is
+    // untouched, because every student takes it whatever their destination.
+    //
+    // A course already offered by another group is left alone. CMAST is the
+    // case: six of its eight destination-tagged courses are already options in
+    // "Villkorligt valfri grupp 3" and "4", and grouping them a second time made
+    // the year's load count BOTH envelopes — year 3 went from 6 hp of excess to
+    // 10.5. One course belongs to one box.
+    const alreadyGrouped = new Set(
+      allEntries.filter((e) => e.type === 'optionGroup').flatMap((g) => g.options || []));
+    const alternativesByYear = new Map();
+    for (const e of allEntries) {
+      if (e.type === 'optionGroup' || e.category !== 'mandatory') continue;
+      if (!masterOnly.has(e.code) || alreadyGrouped.has(e.code)) continue;
+      if (!alternativesByYear.has(e.year)) alternativesByYear.set(e.year, []);
+      alternativesByYear.get(e.year).push(e);
+    }
+    for (const [year, members] of alternativesByYear) {
+      // One alternative is not a choice — the same rule the villkorligt-valfri
+      // groups use. It stays a plain course, still carrying its `qualifiesFor`.
+      if (members.length < 2) continue;
+      const options = members.map((e) => e.code).sort();
+      // The bar is the envelope of the options, as everywhere else a group's
+      // members have different shapes.
+      const periodCredits = Object.fromEntries(PERIOD_IDS.map((q) => [q,
+        round(Math.max(...members.map((e) => Number(e.periodCredits?.[q] || 0))))]));
+      const qualifiesFor = {};
+      for (const e of members) {
+        const q = e.qualifiesFor?.[e.code];
+        if (q?.length) qualifiesFor[e.code] = q;
+      }
+      const groupEntry = {
+        type: 'optionGroup',
+        name: `Kurs för valt masterprogram, årskurs ${year}`,
+        nameEn: `Course for chosen master programme, year ${year}`,
+        year,
+        totalCredits: round(PERIOD_IDS.reduce((a, q) => a + periodCredits[q], 0)),
+        periodCredits,
+        options,
+        allowedNumberOfOptions: 1,
+        kind: 'pickN',
+        pickN: 1,
+        exams: [],
+        category: 'conditionallyElective',
+        ...(Object.keys(qualifiesFor).length > 0 ? { qualifiesFor } : {}),
+      };
+      // Members stay in the file as the group's options, but they are no longer
+      // mandatory: a student takes one.
+      for (const e of members) {
+        e.category = 'conditionallyElective';
+        delete e.qualifiesFor;
+      }
+      allEntries.push(groupEntry);
+      flag(`year ${year}: ${options.length} obligatoriska courses were each listed under a ` +
+        `different master programme (${options.join(' / ')}) — grouped as pick-one ` +
+        `"${groupEntry.name}", since a student takes one. Verify the grouping.`);
     }
   }
 
@@ -3049,7 +3293,11 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   return {
     outPath, courses: courses.length, groups: groups.length, provenance,
     specs: needed(registryEntries, usedSpecs),
-    entries, prereqReview, chosenByCode, prereqTexts,
+    // `ordered` is what the file actually gets — `entries` is the intermediate
+    // built before option groups are attached, so a review computed from it
+    // would report a load the chart never shows. CMATD is the case: year 3 P3
+    // reads 31.5 hp there and 13.5 in the written file.
+    entries: ordered, prereqReview, chosenByCode, prereqTexts,
   };
 }
 
@@ -3567,6 +3815,62 @@ function writePrereqReview(prog, runs) {
   L.push(`**${items.size}** distinct item(s) need review across all cohorts (an item shared by`);
   L.push('several cohorts is counted once).');
   L.push('');
+
+  // ---- Questions the data cannot answer -----------------------------------
+  //
+  // A period scheduled well over full-time is not a prerequisite question, but
+  // it is the other thing only the programme can settle, and this file is what a
+  // director actually opens. Reported when the excess survives our own
+  // modelling — the alternatives are already grouped by then, so what is left is
+  // either a pool the schema cannot express or a genuine overload in the plan.
+  //
+  // CMATD year 3 P2 is the live case: 16.5 hp from KTH's own COMMON list
+  // (MH1033 1.5 + MH2055 7.5 + MH2056 7.5) before any inriktning-specific
+  // course, so no grouping on our side can bring it to 15.
+  const OVER_REPORT_HP = 3;
+  const loadQuestions = new Map();
+  for (const [i, run] of runs.entries()) {
+    const totals = scheduledLoad(run.entries);
+    for (const [key, hp] of totals) {
+      const over = round(hp - FULL_TIME_HP);
+      if (over < OVER_REPORT_HP) continue;
+      const [year, pid] = key.split('|');
+      const groups = run.entries.filter((e) => e.type === 'optionGroup');
+      const members = new Set(groups.flatMap((g) => g.options || []));
+      const here = run.entries
+        .filter((e) => e.type !== 'optionGroup' && !members.has(e.code)
+          && Number((alignYearMaps(e)[Number(year)] || {})[pid] || 0) > 0)
+        .map((e) => `${e.code} ${round(Number((alignYearMaps(e)[Number(year)] || {})[pid] || 0))} hp`)
+        .sort();
+      const boxes = groups
+        .filter((g) => g.year === Number(year) && Number(g.periodCredits?.[pid] || 0) > 0)
+        .map((g) => `${g.name} ${round(Number(g.periodCredits[pid]))} hp`);
+      const k = `${year}|${pid}|${hp}|${here.join(',')}|${boxes.join(',')}`;
+      if (!loadQuestions.has(k)) loadQuestions.set(k, { year, pid, hp, over, here, boxes, cohorts: [] });
+      loadQuestions.get(k).cohorts.push(cohortNames[i]);
+    }
+  }
+  if (loadQuestions.size > 0) {
+    L.push(`## Periods scheduled over full-time (${loadQuestions.size})`);
+    L.push('');
+    L.push('Full-time is **15 hp per period**, and these schedule more — after every');
+    L.push('alternative we could identify has been grouped into a box and counted once,');
+    L.push('so this is what is left over. Two readings, and only the programme can say');
+    L.push('which applies: either some of these courses form a *minst N hp ur grupp*');
+    L.push('pool the student picks from — if so, which ones, and how many hp? — or the');
+    L.push('plan genuinely schedules an overload in that period.');
+    L.push('');
+    L.push('Courses listed below are counted individually; a *valblock* is counted once,');
+    L.push('however many options it holds.');
+    L.push('');
+    for (const q of [...loadQuestions.values()].sort((a, b) => a.year - b.year || a.pid.localeCompare(b.pid))) {
+      L.push(`- **Årskurs ${q.year}, ${q.pid} — ${q.hp} hp, ${q.over} hp over full-time.**`);
+      L.push(`  Cohorts: ${q.cohorts.join(', ')}.`);
+      if (q.here.length) L.push(`  Courses: ${q.here.map((x) => codeLink(x)).join(', ')}.`);
+      if (q.boxes.length) L.push(`  Valblock: ${q.boxes.join('; ')}.`);
+      L.push('');
+    }
+  }
 
   for (const g of [...extracted.values()].sort((a, b) => a.code.localeCompare(b.code) || a.cohorts[0].localeCompare(b.cohorts[0]))) {
     const parts = [];
