@@ -589,68 +589,6 @@
     "courseLevel": "G"
   },
   {
-    "code": "MJ146X",
-    "name": "Examensarbete inom hållbar energiteknik, grundnivå",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 7.5
-    },
-    "year": 3,
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Degree Project in Sustainable Energy Engineering, First Cycle",
-    "gradingScale": "P/F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "MJ1112"
-    ]
-  },
-  {
-    "code": "MF133X",
-    "name": "Examensarbete inom mekatronik, grundnivå",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 7.5
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Degree Project in Mechatronics, First Cycle",
-    "gradingScale": "P/F",
-    "courseLevel": "G"
-  },
-  {
-    "code": "MG110X",
-    "name": "Examensarbete inom industriell produktion, grundnivå",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 7.5
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Degree Project in Production Engineering, First Cycle",
-    "gradingScale": "P/F",
-    "courseLevel": "G"
-  },
-  {
     "code": "ME1003",
     "name": "Industriell ekonomi, grundkurs",
     "totalCredits": 6,
@@ -665,10 +603,173 @@
     "exams": [],
     "teacher": "",
     "description": "",
-    "category": "mandatory",
+    "category": "conditionallyElective",
     "nameEn": "Industrial Management, Basic Course",
     "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SD1116",
+    "name": "Konstruktion av tysta och vibrationsfria maskiner",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Design of Silent and Vibration-free Products",
+    "gradingScale": "A-F",
     "courseLevel": "G",
+    "qualifiesFor": {
+      "SD1116": [
+        {
+          "code": "TEMC",
+          "name": "Spår, Ljud och vibrationer",
+          "required": true
+        }
+      ]
+    }
+  },
+  {
+    "code": "MF130X",
+    "name": "Examensarbete inom maskinkonstruktion, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Machine Design, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "EL1010",
+    "name": "Reglerteknik, allmän kurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Automatic Control, General Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1633"
+    ],
+    "qualifiesFor": {
+      "EL1010": [
+        {
+          "code": "AEE",
+          "name": "Master, flyg- och rymdteknik",
+          "required": true
+        },
+        {
+          "code": "FOR",
+          "name": "Master, fordonsteknik",
+          "required": true
+        },
+        {
+          "code": "IPUC",
+          "name": "Spår, mekatronik",
+          "required": true
+        }
+      ]
+    }
+  },
+  {
+    "code": "SH1012",
+    "name": "Modern fysik",
+    "totalCredits": 8,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 2,
+      "P4": 6
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Modern Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SG1220",
+    "name": "Teknisk strömningsmekanik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Fluid Mechanics for Engineers",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SG1130"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Kurs för valt masterprogram, årskurs 3",
+    "nameEn": "Course for chosen master programme, year 3",
+    "year": 3,
+    "totalCredits": 14,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 2,
+      "P4": 6
+    },
+    "options": [
+      "ME1003",
+      "SG1220",
+      "SH1012"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [],
+    "category": "conditionallyElective",
     "qualifiesFor": {
       "ME1003": [
         {
@@ -736,150 +837,7 @@
           "name": "Master, teknisk materialvetenskap",
           "required": true
         }
-      ]
-    }
-  },
-  {
-    "code": "MF130X",
-    "name": "Examensarbete inom maskinkonstruktion, grundnivå",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 7.5
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Degree Project in Machine Design, First Cycle",
-    "gradingScale": "P/F",
-    "courseLevel": "G"
-  },
-  {
-    "code": "MG1024",
-    "name": "Produktion",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 6,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "exams": [
-      "P2"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Production",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "MF1001",
-      "MG1026"
-    ],
-    "qualifiesFor": {
-      "MG1024": [
-        {
-          "code": "PRM",
-          "name": "Master, industriell produktion",
-          "required": true
-        }
-      ]
-    }
-  },
-  {
-    "code": "EL1010",
-    "name": "Reglerteknik, allmän kurs",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 6,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "exams": [
-      "P2"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Automatic Control, General Course",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SF1633"
-    ],
-    "qualifiesFor": {
-      "EL1010": [
-        {
-          "code": "AEE",
-          "name": "Master, flyg- och rymdteknik",
-          "required": true
-        },
-        {
-          "code": "FOR",
-          "name": "Master, fordonsteknik",
-          "required": true
-        },
-        {
-          "code": "IPUC",
-          "name": "Spår, mekatronik",
-          "required": true
-        }
-      ]
-    }
-  },
-  {
-    "code": "MF131X",
-    "name": "Examensarbete inom integrerad produktutveckling, grundnivå",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 7.5
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Degree Project in Integrated Product Development, First Cycle",
-    "gradingScale": "P/F",
-    "courseLevel": "G"
-  },
-  {
-    "code": "SG1220",
-    "name": "Teknisk strömningsmekanik",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Fluid Mechanics for Engineers",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SG1130"
-    ],
-    "qualifiesFor": {
+      ],
       "SG1220": [
         {
           "code": "AEE",
@@ -906,107 +864,15 @@
           "name": "Spår, Fluidmekanik",
           "required": true
         }
+      ],
+      "SH1012": [
+        {
+          "code": "NEE",
+          "name": "Master, kärnenergiteknik",
+          "required": true
+        }
       ]
     }
-  },
-  {
-    "type": "optionGroup",
-    "name": "Villkorligt valfri grupp 2",
-    "nameEn": "Conditionally elective group 2",
-    "year": 3,
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 7.5
-    },
-    "options": [
-      "MF130X",
-      "MF131X",
-      "MF133X",
-      "MG110X",
-      "MJ146X",
-      "SA118X"
-    ],
-    "allowedNumberOfOptions": 1,
-    "kind": "pickN",
-    "pickN": 1,
-    "exams": [],
-    "category": "conditionallyElective"
-  },
-  {
-    "code": "MF1045",
-    "name": "Produktframtagning - Konstruktion",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 3,
-      "P2": 3,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Product realization - Engineering Design",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "MF1001",
-      "MF1044",
-      "MG1026",
-      "SE1010",
-      "SG1130",
-      "SG1140"
-    ]
-  },
-  {
-    "code": "MH1004",
-    "name": "Materiallära",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 6,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [
-      "P2"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Engineering Materials",
-    "gradingScale": "A-F",
-    "courseLevel": "G"
-  },
-  {
-    "code": "SF1915",
-    "name": "Sannolikhetsteori och statistik",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Probability Theory and Statistics",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SF1625"
-    ]
   },
   {
     "code": "MJ1401",
@@ -1042,6 +908,145 @@
     }
   },
   {
+    "code": "DD1320",
+    "name": "Tillämpad datalogi",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Applied Computer Science",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1310"
+    ],
+    "qualifiesFor": {
+      "DD1320": [
+        {
+          "code": "IPUC",
+          "name": "Spår, mekatronik",
+          "required": true
+        }
+      ]
+    }
+  },
+  {
+    "code": "MG110X",
+    "name": "Examensarbete inom industriell produktion, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Production Engineering, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "MF131X",
+    "name": "Examensarbete inom integrerad produktutveckling, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Integrated Product Development, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 2",
+    "nameEn": "Conditionally elective group 2",
+    "year": 3,
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "options": [
+      "MF130X",
+      "MF131X",
+      "MF133X",
+      "MG110X",
+      "MJ146X",
+      "SA118X"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [],
+    "category": "conditionallyElective"
+  },
+  {
+    "code": "MJ146X",
+    "name": "Examensarbete inom hållbar energiteknik, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Sustainable Energy Engineering, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "MJ1112"
+    ]
+  },
+  {
+    "code": "MF133X",
+    "name": "Examensarbete inom mekatronik, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Mechatronics, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
     "code": "SA118X",
     "name": "Examensarbete inom maskinteknik, grundnivå",
     "totalCredits": 15,
@@ -1060,216 +1065,6 @@
     "nameEn": "Degree Project in Mechanical Engineering, First Level",
     "gradingScale": "P/F",
     "courseLevel": "G"
-  },
-  {
-    "code": "SH1012",
-    "name": "Modern fysik",
-    "totalCredits": 8,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 2,
-      "P4": 6
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [
-      "P4"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Modern Physics",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "qualifiesFor": {
-      "SH1012": [
-        {
-          "code": "NEE",
-          "name": "Master, kärnenergiteknik",
-          "required": true
-        }
-      ]
-    }
-  },
-  {
-    "code": "SG1217",
-    "name": "Strömningsmekanik, grundkurs",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Fluid Mechanics, Basic Course",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "qualifiesFor": {
-      "SG1217": [
-        {
-          "code": "TEMC",
-          "name": "Spår, Ljud och vibrationer",
-          "required": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "optionGroup",
-    "name": "Villkorligt valfri grupp 4",
-    "nameEn": "Conditionally elective group 4",
-    "year": 3,
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "options": [
-      "DD1320",
-      "ME2016",
-      "MG1002",
-      "SE1025",
-      "SG1217"
-    ],
-    "allowedNumberOfOptions": 1,
-    "kind": "pickN",
-    "pickN": 1,
-    "exams": [
-      "P3"
-    ],
-    "category": "conditionallyElective"
-  },
-  {
-    "code": "SD1116",
-    "name": "Konstruktion av tysta och vibrationsfria maskiner",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 6,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [
-      "P2"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Design of Silent and Vibration-free Products",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "qualifiesFor": {
-      "SD1116": [
-        {
-          "code": "TEMC",
-          "name": "Spår, Ljud och vibrationer",
-          "required": true
-        }
-      ]
-    }
-  },
-  {
-    "code": "ME2016",
-    "name": "Project Management: Leadership and Control",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Project Management: Leadership and Control",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "qualifiesFor": {
-      "ME2016": [
-        {
-          "code": "TEMA",
-          "name": "Spår, Fluidmekanik",
-          "required": true
-        }
-      ]
-    }
-  },
-  {
-    "code": "MG1002",
-    "name": "Automatiseringsteknik",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "year": 3,
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Automation Technology",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "MF1016"
-    ],
-    "qualifiesFor": {
-      "MG1002": [
-        {
-          "code": "PRM",
-          "name": "Master, industriell produktion",
-          "required": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "optionGroup",
-    "name": "Villkorligt valfri grupp 3",
-    "nameEn": "Conditionally elective group 3",
-    "year": 3,
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 6,
-      "P3": 0,
-      "P4": 0
-    },
-    "options": [
-      "EL1010",
-      "MG1024",
-      "MJ1401",
-      "SD1116"
-    ],
-    "allowedNumberOfOptions": 1,
-    "kind": "pickN",
-    "pickN": 1,
-    "exams": [
-      "P2"
-    ],
-    "category": "conditionallyElective"
   },
   {
     "code": "SE1025",
@@ -1350,8 +1145,57 @@
     }
   },
   {
-    "code": "DD1320",
-    "name": "Tillämpad datalogi",
+    "code": "MF1045",
+    "name": "Produktframtagning - Konstruktion",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Product realization - Engineering Design",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "MF1001",
+      "MF1044",
+      "MG1026",
+      "SE1010",
+      "SG1130",
+      "SG1140"
+    ]
+  },
+  {
+    "code": "MH1004",
+    "name": "Materiallära",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Engineering Materials",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "MG1002",
+    "name": "Automatiseringsteknik",
     "totalCredits": 6,
     "periodCredits": {
       "P1": 0,
@@ -1360,24 +1204,199 @@
       "P4": 0
     },
     "year": 3,
-    "exams": [],
+    "exams": [
+      "P3"
+    ],
     "teacher": "",
     "description": "",
     "category": "mandatory",
-    "nameEn": "Applied Computer Science",
+    "nameEn": "Automation Technology",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
-      "DD1310"
+      "MF1016"
     ],
     "qualifiesFor": {
-      "DD1320": [
+      "MG1002": [
         {
-          "code": "IPUC",
-          "name": "Spår, mekatronik",
+          "code": "PRM",
+          "name": "Master, industriell produktion",
           "required": true
         }
       ]
     }
+  },
+  {
+    "code": "SG1217",
+    "name": "Strömningsmekanik, grundkurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Fluid Mechanics, Basic Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "qualifiesFor": {
+      "SG1217": [
+        {
+          "code": "TEMC",
+          "name": "Spår, Ljud och vibrationer",
+          "required": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 4",
+    "nameEn": "Conditionally elective group 4",
+    "year": 3,
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "options": [
+      "DD1320",
+      "ME2016",
+      "MG1002",
+      "SE1025",
+      "SG1217"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [
+      "P3"
+    ],
+    "category": "conditionallyElective"
+  },
+  {
+    "code": "MG1024",
+    "name": "Produktion",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Production",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "MF1001",
+      "MG1026"
+    ],
+    "qualifiesFor": {
+      "MG1024": [
+        {
+          "code": "PRM",
+          "name": "Master, industriell produktion",
+          "required": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 3",
+    "nameEn": "Conditionally elective group 3",
+    "year": 3,
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "options": [
+      "EL1010",
+      "MG1024",
+      "MJ1401",
+      "SD1116"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [
+      "P2"
+    ],
+    "category": "conditionallyElective"
+  },
+  {
+    "code": "ME2016",
+    "name": "Project Management: Leadership and Control",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Project Management: Leadership and Control",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "qualifiesFor": {
+      "ME2016": [
+        {
+          "code": "TEMA",
+          "name": "Spår, Fluidmekanik",
+          "required": true
+        }
+      ]
+    }
+  },
+  {
+    "code": "SF1915",
+    "name": "Sannolikhetsteori och statistik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Probability Theory and Statistics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1625"
+    ]
   }
 ]

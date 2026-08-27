@@ -85,6 +85,8 @@ const ui = {
     english: 'Engelska',
     menu: 'Meny för export och språk',
     showUnverified: 'Visa icke-verifierade utbildningsplaner',
+    resetSelections: 'Återställ val',
+    resetSelectionsHint: 'Ta bort alla egna val i valfria block och visa den publicerade planen',
     unverifiedSuffix: '(inte verifierad)',
     cohortLabel: 'Antagningsår',
     cohortNone: 'Utan antagningsår',
@@ -129,6 +131,8 @@ const ui = {
     english: 'English',
     menu: 'Export and language menu',
     showUnverified: 'Show unverified study plans',
+    resetSelections: 'Reset choices',
+    resetSelectionsHint: 'Clear every choice made in the elective boxes and show the published plan',
     unverifiedSuffix: '(unverified)',
     cohortLabel: 'Admission year',
     cohortNone: 'No admission year',
@@ -565,7 +569,7 @@ export default function HomeClient() {
             scrolled the WHOLE page sideways and put the menu button off-screen.
             The chart's own horizontal scroll (issue #2) was working correctly;
             this row was the thing overflowing past it. */}
-        <div className="flex flex-wrap justify-between items-center gap-x-6 gap-y-3 mb-6 sm:mb-8">
+        <div className="relative pr-14 flex flex-wrap justify-between items-center gap-x-6 gap-y-3 mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold" style={{ color: kthColors.KthHeaven?.HEX }}>{ui[language].title}</h1>
           {/* Column so the provenance line can sit directly under the selectors
               that produced it, rather than becoming a third flex item beside
@@ -655,8 +659,40 @@ export default function HomeClient() {
               {ui[language].showUnverified}
             </label>
 
-            <div style={{ position: 'relative' }}>
-              <button ref={exportBtnRef} onClick={() => setMenuOpen(v => !v)} className="px-2 py-2 border border-gray-300 rounded-md shadow-sm" aria-label={ui[language].menu} aria-expanded={menuOpen} aria-haspopup="menu">
+            {/*
+              Reset. Only shown once a choice exists, so it never advertises a
+              state the user is already in.
+
+              Once options are picked, a chosen course is drawn exactly like an
+              obligatorisk one, so there is no way to tell which bars are the
+              published plan and which are your own choices — and no way back
+              to the plan short of editing the URL. This clears `og` (both the
+              picks and any offering choices, which live in the same parameter)
+              and leaves everything else — programme, cohort, language, layer
+              visibility — untouched.
+            */}
+            {Object.keys(selectedOptionPerGroup).length > 0 && (
+              <button
+                onClick={() => replaceParams((p) => p.delete('og'))}
+                className="px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                style={{ color: kthColors.KthBlue?.HEX, fontSize: 13 }}
+                title={ui[language].resetSelectionsHint}
+              >
+                {ui[language].resetSelections}
+              </button>
+            )}
+
+            {/*
+              Pinned to the header's top-right rather than sitting in the
+              selector row. As a flex item it wrapped with the selectors, so on
+              a narrow window it slid down and sideways with them — the menu is
+              a fixed piece of chrome and should stay where the user last saw
+              it. Absolute against the header (which carries `relative pr-14`
+              to reserve the space), so it also cannot collide with a long
+              programme name.
+            */}
+            <div className="absolute top-0 right-0">
+              <button ref={exportBtnRef} onClick={() => setMenuOpen(v => !v)} className="px-2 py-2 border border-gray-300 rounded-md shadow-sm bg-white" aria-label={ui[language].menu} aria-expanded={menuOpen} aria-haspopup="menu">
                 <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect x="2" y="3" width="16" height="2" rx="1" fill={kthColors.KthBlue?.HEX || '#004791'} />
                   <rect x="2" y="7" width="16" height="2" rx="1" fill={kthColors.KthBlue?.HEX || '#004791'} />

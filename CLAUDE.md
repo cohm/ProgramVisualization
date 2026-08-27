@@ -354,6 +354,62 @@ SG1217 och SG1220 kan ingå i examen"* is a mutual exclusion — it caps what ma
 count toward the degree rather than saying how many to take. Both are recognised
 so they are not reported as unread, and neither sets `pickN`.
 
+**An option group's `totalCredits` is the size of the SLOT, not what a student
+earns.** It is the sum of the bar's periods — an envelope over options that may
+have different shapes — and the validator enforces `Σ periodCredits ==
+totalCredits` so the bar's geometry stays consistent. For every group whose
+options share a period footprint the two readings coincide, which is why the
+difference stayed invisible for a long time.
+
+CMATD's "Kurs för valt masterprogram" is the first where they diverge: four 6 hp
+options, but MG1024 runs in P2 and the other three in P3, so the envelope spans
+P2+P3 and sums to 12 while a student picks one and earns 6. The modal header read
+"Totalt: 12", a quantity nobody takes. It now computes the figure from the
+options — `pickN` × one option's size, a range when they differ — so CMATD reads
+6, CFATE's pick-two group reads 8–12 (options of 4 and 6 hp), and a `minCredits`
+box reads "15+". The stored `totalCredits` is unchanged; only the display was
+wrong.
+
+**Courses listed under a master destination are alternatives, not a stack.**
+CMATD's year-3 `curriculumInfos` are named after master programmes ("Master,
+nanoteknik", "Spår, Hållfasthetsteknik"), so `isMasterSpec` correctly strips
+`specializations` and moves the fact to `qualifiesFor` — they are years 4-5
+destinations, not bachelor inriktningar. But with the tags gone nothing recorded
+that a student takes only ONE of the extra courses each destination adds, so all
+of them were emitted `mandatory` and summed: year 3 P3 came out at **25.5 hp**
+against a full-time 15.
+
+They are now grouped as a pick-one "Kurs för valt masterprogram", which takes P3
+to **13.5**. The group keeps each option's `qualifiesFor`, so the box answers what
+a year-3 student is actually asking of it — which course leads to the master they
+want. Scoped to `mandatory` courses whose ONLY tags were master destinations; a
+course in the COMMON set is untouched, since everyone takes it, **and so is one
+already offered by another group**. CMAST is why that last guard exists: six of
+its eight destination-tagged courses are already options in "Villkorligt valfri
+grupp 3" and "4", and grouping them again made the year's load count BOTH
+envelopes — year 3 went from 6 hp of excess to 10.5. With the guard it lands at
+15/15/13.5/7.5, better than the 21/15/13.5/7.5 it had before any grouping,
+because the two genuinely ungrouped P1 courses do get grouped.
+
+**The review file reports periods still over full-time**, under "Periods
+scheduled over full-time". It is the other question only the programme can
+settle, and that file is what a director actually opens. It runs on the FINAL
+entries, not the intermediate `entries` array: `allEntries = [...entries,
+...groups]` is a new array, so a review computed from `entries` predates every
+option group and reported CMATD year 3 P3 at 31.5 hp where the written file says
+13.5.
+
+P2 stays at 22.5, and that part is KTH's own data: the common set alone is
+MH1033 1.5 + MH2055 7.5 + MH2056 7.5 = **16.5 hp**, already over full-time before
+any destination-specific course. Worth raising with the programme rather than
+modelling around.
+
+A knock-on: `qualifiesFor.code` was validated as 4-6 capitals (a programme code
+like TTFYM), but KOPPS identifies these destinations by their 3-letter
+*specialisation* code (INE, MMM, PRM). The check is now 3-6. The shape was
+already being written for plain courses; grouping them is what first ran it past
+the optionGroup validator.
+
 **A single-option group is not a group.** Kopps marks such courses villkorligt
 valfri, but emitting a selection modal with one item clutters the chart, and none
 of the six curated files does it. 15 of 34 extracted groups were this shape —

@@ -123,6 +123,38 @@ export default function OptionGroupModal({
   };
   const selectedSum = highlightedOptionCodes.reduce((sum, code) => sum + creditsForCode(code), 0);
 
+  /**
+   * Credits the student actually earns from this box.
+   *
+   * NOT `optionGroup.totalCredits`, which is the size of the SLOT — the sum of
+   * the bar's periods, an envelope over options that may have different shapes,
+   * and an invariant the validator enforces so the bar's geometry stays
+   * consistent. For every group whose options share a period footprint the two
+   * numbers coincide, which is why this never mattered before.
+   *
+   * CMATD's "Kurs för valt masterprogram" is the first where they diverge: its
+   * four options are 6 hp each but sit in different periods (MG1024 in P2, the
+   * rest in P3), so the envelope spans P2+P3 and sums to 12 — while a student
+   * picks exactly one and earns 6. The header read "Totalt: 12", which is not a
+   * quantity anyone takes.
+   *
+   * So it is computed from the options: pickN × one option's size, shown as a
+   * range when the options differ in size.
+   */
+  const takeCreditsLabel = (() => {
+    const sizes = optionGroup.options
+      .map(code => optionCourseByCode.get(code))
+      .filter((c): c is Course => !!c)
+      .map(c => c.credits.reduce((a, cr) => a + cr.credits, 0))
+      .filter(n => n > 0);
+    const fmt = (n: number) => Number.isInteger(n) ? String(n) : n.toFixed(1);
+    if (sizes.length === 0) return fmt(optionGroup.totalCredits);
+    if (kind === 'minCredits') return `${fmt(minCredits)}+`;
+    const lo = Math.min(...sizes) * pickN;
+    const hi = Math.max(...sizes) * pickN;
+    return lo === hi ? fmt(lo) : `${fmt(lo)}–${fmt(hi)}`;
+  })();
+
   // Banner text: "X / Y hp" for minCredits; "N / pickN selected" for pickN > 1.
   // Pure pickN: 1 groups (the historical default) get no banner — they
   // visually behave exactly as before.
@@ -357,10 +389,10 @@ export default function OptionGroupModal({
           {language === 'en' ? (optionGroup.nameEn || optionGroup.name) : optionGroup.name}
         </text>
 
-        {/* Info line */}
+        {/* Info line — what the STUDENT takes, not the size of the slot */}
         <text x={padding} y={padding + 40} fontSize={12} fill="#666">
           {tr[language].totalCredits}:{' '}
-          <tspan fontWeight={600}>{optionGroup.totalCredits}</tspan>
+          <tspan fontWeight={600}>{takeCreditsLabel}</tspan>
         </text>
 
         {/* Rule banner — only for minCredits and multi-pickN groups */}

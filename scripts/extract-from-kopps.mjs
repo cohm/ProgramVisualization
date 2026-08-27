@@ -3094,6 +3094,9 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     registryEntries.filter((r) => isMasterSpec(r, programMeta)).map((r) => [r.code, r.name]));
   if (masterSpecs.size > 0) {
     let moved = 0;
+    // Codes whose ONLY specialization tags were master destinations — i.e. the
+    // course is specific to a destination rather than common to the programme.
+    const masterOnly = new Set();
     for (const e of allEntries) {
       if (!e.specializations?.length) continue;
       const masters = e.specializations.filter((c) => masterSpecs.has(c));
@@ -3103,6 +3106,7 @@ async function extractCohort(prog, cohort, args, registryEntries) {
         e.specializations = rest;
       } else {
         delete e.specializations;
+        if (e.code) masterOnly.add(e.code);
         // `periodCreditsBySpecialization` keys the specs that just went away, and
         // the validator requires a non-empty `specializations` alongside it.
         if (e.periodCreditsBySpecialization) {
@@ -3126,6 +3130,80 @@ async function extractCohort(prog, cohort, args, registryEntries) {
       flag(`${moved} entr${moved === 1 ? 'y' : 'ies'}: master-programme tags moved from ` +
         `'specializations' to 'qualifiesFor' — they are years 4-5 destinations, not ` +
         `bachelor inriktningar, so they must not drive the inriktning filter.`);
+    }
+
+    // Those entries are ALTERNATIVES, and saying so is what keeps the year's
+    // load honest.
+    //
+    // CMATD year 3 is the case. Its curriculumInfos are named after master
+    // programmes ("Master, nanoteknik", "Spår, Hållfasthetsteknik"), so the move
+    // above is right — they are destinations, not inriktningar. But each carries
+    // one extra 6 hp course, and with the tags gone nothing recorded that a
+    // student takes only ONE of them. All four were emitted as `mandatory` and
+    // summed: P3 came out at 25.5 hp against a full-time 15.
+    //
+    // Grouped as pick-one they contribute 6 hp, taking P3 to 13.5. The group
+    // keeps each option's `qualifiesFor`, so the box answers the question a
+    // year-3 student is actually asking of it — "which one leads to the master I
+    // want?" — rather than showing four courses nobody takes together.
+    //
+    // Scoped deliberately: only `mandatory` courses whose sole tags were master
+    // destinations, grouped by study year. A course listed in the COMMON set is
+    // untouched, because every student takes it whatever their destination.
+    //
+    // A course already offered by another group is left alone. CMAST is the
+    // case: six of its eight destination-tagged courses are already options in
+    // "Villkorligt valfri grupp 3" and "4", and grouping them a second time made
+    // the year's load count BOTH envelopes — year 3 went from 6 hp of excess to
+    // 10.5. One course belongs to one box.
+    const alreadyGrouped = new Set(
+      allEntries.filter((e) => e.type === 'optionGroup').flatMap((g) => g.options || []));
+    const alternativesByYear = new Map();
+    for (const e of allEntries) {
+      if (e.type === 'optionGroup' || e.category !== 'mandatory') continue;
+      if (!masterOnly.has(e.code) || alreadyGrouped.has(e.code)) continue;
+      if (!alternativesByYear.has(e.year)) alternativesByYear.set(e.year, []);
+      alternativesByYear.get(e.year).push(e);
+    }
+    for (const [year, members] of alternativesByYear) {
+      // One alternative is not a choice — the same rule the villkorligt-valfri
+      // groups use. It stays a plain course, still carrying its `qualifiesFor`.
+      if (members.length < 2) continue;
+      const options = members.map((e) => e.code).sort();
+      // The bar is the envelope of the options, as everywhere else a group's
+      // members have different shapes.
+      const periodCredits = Object.fromEntries(PERIOD_IDS.map((q) => [q,
+        round(Math.max(...members.map((e) => Number(e.periodCredits?.[q] || 0))))]));
+      const qualifiesFor = {};
+      for (const e of members) {
+        const q = e.qualifiesFor?.[e.code];
+        if (q?.length) qualifiesFor[e.code] = q;
+      }
+      const groupEntry = {
+        type: 'optionGroup',
+        name: `Kurs för valt masterprogram, årskurs ${year}`,
+        nameEn: `Course for chosen master programme, year ${year}`,
+        year,
+        totalCredits: round(PERIOD_IDS.reduce((a, q) => a + periodCredits[q], 0)),
+        periodCredits,
+        options,
+        allowedNumberOfOptions: 1,
+        kind: 'pickN',
+        pickN: 1,
+        exams: [],
+        category: 'conditionallyElective',
+        ...(Object.keys(qualifiesFor).length > 0 ? { qualifiesFor } : {}),
+      };
+      // Members stay in the file as the group's options, but they are no longer
+      // mandatory: a student takes one.
+      for (const e of members) {
+        e.category = 'conditionallyElective';
+        delete e.qualifiesFor;
+      }
+      allEntries.push(groupEntry);
+      flag(`year ${year}: ${options.length} obligatoriska courses were each listed under a ` +
+        `different master programme (${options.join(' / ')}) — grouped as pick-one ` +
+        `"${groupEntry.name}", since a student takes one. Verify the grouping.`);
     }
   }
 
@@ -3215,7 +3293,11 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   return {
     outPath, courses: courses.length, groups: groups.length, provenance,
     specs: needed(registryEntries, usedSpecs),
-    entries, prereqReview, chosenByCode, prereqTexts,
+    // `ordered` is what the file actually gets — `entries` is the intermediate
+    // built before option groups are attached, so a review computed from it
+    // would report a load the chart never shows. CMATD is the case: year 3 P3
+    // reads 31.5 hp there and 13.5 in the written file.
+    entries: ordered, prereqReview, chosenByCode, prereqTexts,
   };
 }
 
@@ -3733,6 +3815,62 @@ function writePrereqReview(prog, runs) {
   L.push(`**${items.size}** distinct item(s) need review across all cohorts (an item shared by`);
   L.push('several cohorts is counted once).');
   L.push('');
+
+  // ---- Questions the data cannot answer -----------------------------------
+  //
+  // A period scheduled well over full-time is not a prerequisite question, but
+  // it is the other thing only the programme can settle, and this file is what a
+  // director actually opens. Reported when the excess survives our own
+  // modelling — the alternatives are already grouped by then, so what is left is
+  // either a pool the schema cannot express or a genuine overload in the plan.
+  //
+  // CMATD year 3 P2 is the live case: 16.5 hp from KTH's own COMMON list
+  // (MH1033 1.5 + MH2055 7.5 + MH2056 7.5) before any inriktning-specific
+  // course, so no grouping on our side can bring it to 15.
+  const OVER_REPORT_HP = 3;
+  const loadQuestions = new Map();
+  for (const [i, run] of runs.entries()) {
+    const totals = scheduledLoad(run.entries);
+    for (const [key, hp] of totals) {
+      const over = round(hp - FULL_TIME_HP);
+      if (over < OVER_REPORT_HP) continue;
+      const [year, pid] = key.split('|');
+      const groups = run.entries.filter((e) => e.type === 'optionGroup');
+      const members = new Set(groups.flatMap((g) => g.options || []));
+      const here = run.entries
+        .filter((e) => e.type !== 'optionGroup' && !members.has(e.code)
+          && Number((alignYearMaps(e)[Number(year)] || {})[pid] || 0) > 0)
+        .map((e) => `${e.code} ${round(Number((alignYearMaps(e)[Number(year)] || {})[pid] || 0))} hp`)
+        .sort();
+      const boxes = groups
+        .filter((g) => g.year === Number(year) && Number(g.periodCredits?.[pid] || 0) > 0)
+        .map((g) => `${g.name} ${round(Number(g.periodCredits[pid]))} hp`);
+      const k = `${year}|${pid}|${hp}|${here.join(',')}|${boxes.join(',')}`;
+      if (!loadQuestions.has(k)) loadQuestions.set(k, { year, pid, hp, over, here, boxes, cohorts: [] });
+      loadQuestions.get(k).cohorts.push(cohortNames[i]);
+    }
+  }
+  if (loadQuestions.size > 0) {
+    L.push(`## Periods scheduled over full-time (${loadQuestions.size})`);
+    L.push('');
+    L.push('Full-time is **15 hp per period**, and these schedule more — after every');
+    L.push('alternative we could identify has been grouped into a box and counted once,');
+    L.push('so this is what is left over. Two readings, and only the programme can say');
+    L.push('which applies: either some of these courses form a *minst N hp ur grupp*');
+    L.push('pool the student picks from — if so, which ones, and how many hp? — or the');
+    L.push('plan genuinely schedules an overload in that period.');
+    L.push('');
+    L.push('Courses listed below are counted individually; a *valblock* is counted once,');
+    L.push('however many options it holds.');
+    L.push('');
+    for (const q of [...loadQuestions.values()].sort((a, b) => a.year - b.year || a.pid.localeCompare(b.pid))) {
+      L.push(`- **Årskurs ${q.year}, ${q.pid} — ${q.hp} hp, ${q.over} hp over full-time.**`);
+      L.push(`  Cohorts: ${q.cohorts.join(', ')}.`);
+      if (q.here.length) L.push(`  Courses: ${q.here.map((x) => codeLink(x)).join(', ')}.`);
+      if (q.boxes.length) L.push(`  Valblock: ${q.boxes.join('; ')}.`);
+      L.push('');
+    }
+  }
 
   for (const g of [...extracted.values()].sort((a, b) => a.code.localeCompare(b.code) || a.cohorts[0].localeCompare(b.cohorts[0]))) {
     const parts = [];

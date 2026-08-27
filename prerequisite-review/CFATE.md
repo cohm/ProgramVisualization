@@ -30,6 +30,33 @@ curated `src/data/CFATE.json`) directly — this file is a worklist, not a sourc
 **20** distinct item(s) need review across all cohorts (an item shared by
 several cohorts is counted once).
 
+## Periods scheduled over full-time (3)
+
+Full-time is **15 hp per period**, and these schedule more — after every
+alternative we could identify has been grouped into a box and counted once,
+so this is what is left over. Two readings, and only the programme can say
+which applies: either some of these courses form a *minst N hp ur grupp*
+pool the student picks from — if so, which ones, and how many hp? — or the
+plan genuinely schedules an overload in that period.
+
+Courses listed below are counted individually; a *valblock* is counted once,
+however many options it holds.
+
+- **Årskurs 3, P1 — 18 hp, 3 hp over full-time.**
+  Cohorts: HT2022, HT2023, HT2024, HT2025, HT2026.
+  Courses: [MF1017](https://www.kth.se/student/kurser/kurs/MF1017) 6 hp, [SF1914](https://www.kth.se/student/kurser/kurs/SF1914) 6 hp.
+  Valblock: Villkorligt valfri grupp 1 6 hp.
+
+- **Årskurs 3, P2 — 18 hp, 3 hp over full-time.**
+  Cohorts: HT2022, HT2023, HT2024, HT2025, HT2026.
+  Courses: [EL1010](https://www.kth.se/student/kurser/kurs/EL1010) 6 hp, [SD2125](https://www.kth.se/student/kurser/kurs/SD2125) 6 hp.
+  Valblock: Villkorligt valfri grupp 1 6 hp.
+
+- **Årskurs 3, P4 — 19.5 hp, 4.5 hp over full-time.**
+  Cohorts: HT2022, HT2023, HT2024, HT2025, HT2026.
+  Courses: [SF1861](https://www.kth.se/student/kurser/kurs/SF1861) 6 hp.
+  Valblock: Villkorligt valfri grupp 2 7.5 hp; Villkorligt valfri grupp 3 6 hp.
+
 - [DD1320](https://www.kth.se/student/kurser/kurs/DD1320) — slutförd: [DD1333](https://www.kth.se/student/kurser/kurs/DD1333) · kursplan [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/DD1320-20262.pdf?lang=sv) — *HT2024, HT2025, HT2026*
 - [EL1010](https://www.kth.se/student/kurser/kurs/EL1010) — slutförd: [SF1682](https://www.kth.se/student/kurser/kurs/SF1682) · kursplan [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/EL1010-20262.pdf?lang=sv) / [HT 2021 – VT 2026](https://www.kth.se/student/kurser/kurs/kursplan/EL1010-20212.pdf?lang=sv)
 - [ME2163](https://www.kth.se/student/kurser/kurs/ME2163) — slutförd: [ME1003](https://www.kth.se/student/kurser/kurs/ME1003) · kursplan [VT 2021 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/ME2163-20211.pdf?lang=sv)

@@ -30,6 +30,88 @@ curated `src/data/TIEMM.json`) directly — this file is a worklist, not a sourc
 **153** distinct item(s) need review across all cohorts (an item shared by
 several cohorts is counted once).
 
+## Periods scheduled over full-time (14)
+
+Full-time is **15 hp per period**, and these schedule more — after every
+alternative we could identify has been grouped into a box and counted once,
+so this is what is left over. Two readings, and only the programme can say
+which applies: either some of these courses form a *minst N hp ur grupp*
+pool the student picks from — if so, which ones, and how many hp? — or the
+plan genuinely schedules an overload in that period.
+
+Courses listed below are counted individually; a *valblock* is counted once,
+however many options it holds.
+
+- **Årskurs 1, P1 — 59.5 hp, 44.5 hp over full-time.**
+  Cohorts: HT2022, HT2023, HT2024, HT2025.
+  Courses: [DD2395](https://www.kth.se/student/kurser/kurs/DD2395) 6 hp, [DD2421](https://www.kth.se/student/kurser/kurs/DD2421) 7.5 hp, [DD2610](https://www.kth.se/student/kurser/kurs/DD2610) 4.5 hp, [ME2321](https://www.kth.se/student/kurser/kurs/ME2321) 3 hp, [MF2095](https://www.kth.se/student/kurser/kurs/MF2095) 3 hp, [MG2028](https://www.kth.se/student/kurser/kurs/MG2028) 1.5 hp, [MG2043](https://www.kth.se/student/kurser/kurs/MG2043) 4 hp, [MJ2405](https://www.kth.se/student/kurser/kurs/MJ2405) 5 hp, [MJ2509](https://www.kth.se/student/kurser/kurs/MJ2509) 4 hp.
+  Valblock: Villkorligt valfri grupp 10 4.5 hp; Villkorligt valfri grupp 5 3 hp; Villkorligt valfri grupp 3 6 hp; Villkorligt valfri grupp 9 7.5 hp.
+
+- **Årskurs 1, P1 — 59.5 hp, 44.5 hp over full-time.**
+  Cohorts: HT2026.
+  Courses: [DD2395](https://www.kth.se/student/kurser/kurs/DD2395) 6 hp, [DD2421](https://www.kth.se/student/kurser/kurs/DD2421) 7.5 hp, [DD2610](https://www.kth.se/student/kurser/kurs/DD2610) 4.5 hp, [ME2321](https://www.kth.se/student/kurser/kurs/ME2321) 3 hp, [MF2095](https://www.kth.se/student/kurser/kurs/MF2095) 3 hp, [MG2028](https://www.kth.se/student/kurser/kurs/MG2028) 1.5 hp, [MG2043](https://www.kth.se/student/kurser/kurs/MG2043) 4 hp, [MJ2405](https://www.kth.se/student/kurser/kurs/MJ2405) 5 hp, [MJ2509](https://www.kth.se/student/kurser/kurs/MJ2509) 4 hp.
+  Valblock: Villkorligt valfri grupp 10 4.5 hp; Villkorligt valfri grupp 8 7.5 hp; Villkorligt valfri grupp 1 6 hp; Villkorligt valfri grupp 5 3 hp.
+
+- **Årskurs 1, P2 — 87.5 hp, 72.5 hp over full-time.**
+  Cohorts: HT2022, HT2023, HT2024, HT2025.
+  Courses: [DD2380](https://www.kth.se/student/kurser/kurs/DD2380) 6 hp, [DD2610](https://www.kth.se/student/kurser/kurs/DD2610) 3 hp, [ME2322](https://www.kth.se/student/kurser/kurs/ME2322) 3 hp, [MF2007](https://www.kth.se/student/kurser/kurs/MF2007) 9 hp, [MF2141](https://www.kth.se/student/kurser/kurs/MF2141) 6 hp, [MG2028](https://www.kth.se/student/kurser/kurs/MG2028) 4.5 hp, [MG2043](https://www.kth.se/student/kurser/kurs/MG2043) 2 hp, [MG2045](https://www.kth.se/student/kurser/kurs/MG2045) 6 hp, [MG2122](https://www.kth.se/student/kurser/kurs/MG2122) 3 hp, [MJ2405](https://www.kth.se/student/kurser/kurs/MJ2405) 4 hp, [MJ2509](https://www.kth.se/student/kurser/kurs/MJ2509) 5 hp, [SF2832](https://www.kth.se/student/kurser/kurs/SF2832) 7.5 hp, [SF2980](https://www.kth.se/student/kurser/kurs/SF2980) 7.5 hp.
+  Valblock: Villkorligt valfri grupp 10 4.5 hp; Villkorligt valfri grupp 5 3 hp; Villkorligt valfri grupp 2 6 hp; Villkorligt valfri grupp 1 7.5 hp.
+
+- **Årskurs 1, P2 — 87.5 hp, 72.5 hp over full-time.**
+  Cohorts: HT2026.
+  Courses: [DD2380](https://www.kth.se/student/kurser/kurs/DD2380) 6 hp, [DD2610](https://www.kth.se/student/kurser/kurs/DD2610) 3 hp, [ME2322](https://www.kth.se/student/kurser/kurs/ME2322) 3 hp, [MF2007](https://www.kth.se/student/kurser/kurs/MF2007) 9 hp, [MF2141](https://www.kth.se/student/kurser/kurs/MF2141) 6 hp, [MG2028](https://www.kth.se/student/kurser/kurs/MG2028) 4.5 hp, [MG2043](https://www.kth.se/student/kurser/kurs/MG2043) 2 hp, [MG2045](https://www.kth.se/student/kurser/kurs/MG2045) 6 hp, [MG2122](https://www.kth.se/student/kurser/kurs/MG2122) 3 hp, [MJ2405](https://www.kth.se/student/kurser/kurs/MJ2405) 4 hp, [MJ2509](https://www.kth.se/student/kurser/kurs/MJ2509) 5 hp, [SF2832](https://www.kth.se/student/kurser/kurs/SF2832) 7.5 hp, [SF2980](https://www.kth.se/student/kurser/kurs/SF2980) 7.5 hp.
+  Valblock: Villkorligt valfri grupp 10 4.5 hp; Villkorligt valfri grupp 9 6 hp; Villkorligt valfri grupp 2 7.5 hp; Villkorligt valfri grupp 5 3 hp.
+
+- **Årskurs 1, P3 — 82 hp, 67 hp over full-time.**
+  Cohorts: HT2022, HT2023, HT2024, HT2025.
+  Courses: [DD2419](https://www.kth.se/student/kurser/kurs/DD2419) 4.5 hp, [DD2438](https://www.kth.se/student/kurser/kurs/DD2438) 7 hp, [DD2459](https://www.kth.se/student/kurser/kurs/DD2459) 7.5 hp, [DH2320](https://www.kth.se/student/kurser/kurs/DH2320) 6 hp, [ME2323](https://www.kth.se/student/kurser/kurs/ME2323) 6 hp, [MF2103](https://www.kth.se/student/kurser/kurs/MF2103) 9 hp, [MG2044](https://www.kth.se/student/kurser/kurs/MG2044) 6 hp, [MG2122](https://www.kth.se/student/kurser/kurs/MG2122) 3 hp, [MJ2141](https://www.kth.se/student/kurser/kurs/MJ2141) 4.5 hp, [SF2812](https://www.kth.se/student/kurser/kurs/SF2812) 7.5 hp.
+  Valblock: Villkorligt valfri grupp 6 7.5 hp; Villkorligt valfri grupp 8 3 hp; Villkorligt valfri grupp 11 6 hp; Villkorligt valfri grupp 12 4.5 hp.
+
+- **Årskurs 1, P3 — 89.5 hp, 74.5 hp over full-time.**
+  Cohorts: HT2026.
+  Courses: [DD2258](https://www.kth.se/student/kurser/kurs/DD2258) 7.5 hp, [DD2419](https://www.kth.se/student/kurser/kurs/DD2419) 4.5 hp, [DD2438](https://www.kth.se/student/kurser/kurs/DD2438) 7 hp, [DD2459](https://www.kth.se/student/kurser/kurs/DD2459) 7.5 hp, [DH2320](https://www.kth.se/student/kurser/kurs/DH2320) 6 hp, [ME2323](https://www.kth.se/student/kurser/kurs/ME2323) 6 hp, [MF2103](https://www.kth.se/student/kurser/kurs/MF2103) 9 hp, [MG2044](https://www.kth.se/student/kurser/kurs/MG2044) 6 hp, [MG2047](https://www.kth.se/student/kurser/kurs/MG2047) 6 hp, [MG2122](https://www.kth.se/student/kurser/kurs/MG2122) 3 hp, [MJ2141](https://www.kth.se/student/kurser/kurs/MJ2141) 4.5 hp, [SF2812](https://www.kth.se/student/kurser/kurs/SF2812) 7.5 hp.
+  Valblock: Villkorligt valfri grupp 6 7.5 hp; Villkorligt valfri grupp 7 3 hp; Villkorligt valfri grupp 11 4.5 hp.
+
+- **Årskurs 1, P4 — 53 hp, 38 hp over full-time.**
+  Cohorts: HT2022, HT2023, HT2024, HT2025.
+  Courses: [DD2419](https://www.kth.se/student/kurser/kurs/DD2419) 4.5 hp, [DD2438](https://www.kth.se/student/kurser/kurs/DD2438) 8 hp, [ME2324](https://www.kth.se/student/kurser/kurs/ME2324) 6 hp, [MF2079](https://www.kth.se/student/kurser/kurs/MF2079) 3 hp, [MJ2141](https://www.kth.se/student/kurser/kurs/MJ2141) 4.5 hp, [SF2701](https://www.kth.se/student/kurser/kurs/SF2701) 7.5 hp.
+  Valblock: Villkorligt valfri grupp 8 3 hp; Villkorligt valfri grupp 7 6 hp; Villkorligt valfri grupp 4 7.5 hp; Villkorligt valfri grupp 12 3 hp.
+
+- **Årskurs 1, P4 — 53 hp, 38 hp over full-time.**
+  Cohorts: HT2026.
+  Courses: [DD2419](https://www.kth.se/student/kurser/kurs/DD2419) 4.5 hp, [DD2438](https://www.kth.se/student/kurser/kurs/DD2438) 8 hp, [ME2324](https://www.kth.se/student/kurser/kurs/ME2324) 6 hp, [MF2079](https://www.kth.se/student/kurser/kurs/MF2079) 3 hp, [MJ2141](https://www.kth.se/student/kurser/kurs/MJ2141) 4.5 hp, [SF2701](https://www.kth.se/student/kurser/kurs/SF2701) 7.5 hp.
+  Valblock: Villkorligt valfri grupp 3 7.5 hp; Villkorligt valfri grupp 7 3 hp; Villkorligt valfri grupp 11 3 hp; Villkorligt valfri grupp 4 6 hp.
+
+- **Årskurs 2, P1 — 73.5 hp, 58.5 hp over full-time.**
+  Cohorts: HT2022, HT2023, HT2024.
+  Courses: [DH2465](https://www.kth.se/student/kurser/kurs/DH2465) 7.5 hp, [ME2004](https://www.kth.se/student/kurser/kurs/ME2004) 6 hp, [ME2313](https://www.kth.se/student/kurser/kurs/ME2313) 7.5 hp, [MF2050](https://www.kth.se/student/kurser/kurs/MF2050) 7.5 hp, [MG2009](https://www.kth.se/student/kurser/kurs/MG2009) 4.5 hp, [MG2038](https://www.kth.se/student/kurser/kurs/MG2038) 6 hp, [MG2117](https://www.kth.se/student/kurser/kurs/MG2117) 7.5 hp, [MJ2146](https://www.kth.se/student/kurser/kurs/MJ2146) 7.5 hp, [SF2868](https://www.kth.se/student/kurser/kurs/SF2868) 7.5 hp, [SF2975](https://www.kth.se/student/kurser/kurs/SF2975) 7.5 hp.
+  Valblock: Villkorligt valfri grupp 13 4.5 hp.
+
+- **Årskurs 2, P1 — 81 hp, 66 hp over full-time.**
+  Cohorts: HT2025.
+  Courses: [DH2465](https://www.kth.se/student/kurser/kurs/DH2465) 7.5 hp, [ME2004](https://www.kth.se/student/kurser/kurs/ME2004) 6 hp, [ME2313](https://www.kth.se/student/kurser/kurs/ME2313) 7.5 hp, [MF2050](https://www.kth.se/student/kurser/kurs/MF2050) 7.5 hp, [MF2079](https://www.kth.se/student/kurser/kurs/MF2079) 7.5 hp, [MG2009](https://www.kth.se/student/kurser/kurs/MG2009) 4.5 hp, [MG2038](https://www.kth.se/student/kurser/kurs/MG2038) 6 hp, [MG2117](https://www.kth.se/student/kurser/kurs/MG2117) 7.5 hp, [MJ2146](https://www.kth.se/student/kurser/kurs/MJ2146) 7.5 hp, [SF2868](https://www.kth.se/student/kurser/kurs/SF2868) 7.5 hp, [SF2975](https://www.kth.se/student/kurser/kurs/SF2975) 7.5 hp.
+  Valblock: Villkorligt valfri grupp 13 4.5 hp.
+
+- **Årskurs 2, P1 — 81 hp, 66 hp over full-time.**
+  Cohorts: HT2026.
+  Courses: [DH2465](https://www.kth.se/student/kurser/kurs/DH2465) 7.5 hp, [ME2004](https://www.kth.se/student/kurser/kurs/ME2004) 6 hp, [ME2313](https://www.kth.se/student/kurser/kurs/ME2313) 7.5 hp, [MF2050](https://www.kth.se/student/kurser/kurs/MF2050) 7.5 hp, [MF2079](https://www.kth.se/student/kurser/kurs/MF2079) 7.5 hp, [MG2009](https://www.kth.se/student/kurser/kurs/MG2009) 4.5 hp, [MG2038](https://www.kth.se/student/kurser/kurs/MG2038) 6 hp, [MG2117](https://www.kth.se/student/kurser/kurs/MG2117) 7.5 hp, [MJ2146](https://www.kth.se/student/kurser/kurs/MJ2146) 7.5 hp, [SF2868](https://www.kth.se/student/kurser/kurs/SF2868) 7.5 hp, [SF2975](https://www.kth.se/student/kurser/kurs/SF2975) 7.5 hp.
+  Valblock: Villkorligt valfri grupp 12 4.5 hp.
+
+- **Årskurs 2, P2 — 52.5 hp, 37.5 hp over full-time.**
+  Cohorts: HT2022, HT2023, HT2024.
+  Courses: [DH2465](https://www.kth.se/student/kurser/kurs/DH2465) 7.5 hp, [ME2004](https://www.kth.se/student/kurser/kurs/ME2004) 1.5 hp, [ME2313](https://www.kth.se/student/kurser/kurs/ME2313) 7.5 hp, [ME2314](https://www.kth.se/student/kurser/kurs/ME2314) 7.5 hp, [MF2050](https://www.kth.se/student/kurser/kurs/MF2050) 7.5 hp, [MG2009](https://www.kth.se/student/kurser/kurs/MG2009) 1.5 hp, [MG2117](https://www.kth.se/student/kurser/kurs/MG2117) 7.5 hp, [MJ2146](https://www.kth.se/student/kurser/kurs/MJ2146) 7.5 hp.
+  Valblock: Villkorligt valfri grupp 13 4.5 hp.
+
+- **Årskurs 2, P2 — 60 hp, 45 hp over full-time.**
+  Cohorts: HT2025.
+  Courses: [DH2465](https://www.kth.se/student/kurser/kurs/DH2465) 7.5 hp, [ME2004](https://www.kth.se/student/kurser/kurs/ME2004) 1.5 hp, [ME2313](https://www.kth.se/student/kurser/kurs/ME2313) 7.5 hp, [ME2314](https://www.kth.se/student/kurser/kurs/ME2314) 7.5 hp, [MF2050](https://www.kth.se/student/kurser/kurs/MF2050) 7.5 hp, [MF2079](https://www.kth.se/student/kurser/kurs/MF2079) 7.5 hp, [MG2009](https://www.kth.se/student/kurser/kurs/MG2009) 1.5 hp, [MG2117](https://www.kth.se/student/kurser/kurs/MG2117) 7.5 hp, [MJ2146](https://www.kth.se/student/kurser/kurs/MJ2146) 7.5 hp.
+  Valblock: Villkorligt valfri grupp 13 4.5 hp.
+
+- **Årskurs 2, P2 — 60 hp, 45 hp over full-time.**
+  Cohorts: HT2026.
+  Courses: [DH2465](https://www.kth.se/student/kurser/kurs/DH2465) 7.5 hp, [ME2004](https://www.kth.se/student/kurser/kurs/ME2004) 1.5 hp, [ME2313](https://www.kth.se/student/kurser/kurs/ME2313) 7.5 hp, [ME2314](https://www.kth.se/student/kurser/kurs/ME2314) 7.5 hp, [MF2050](https://www.kth.se/student/kurser/kurs/MF2050) 7.5 hp, [MF2079](https://www.kth.se/student/kurser/kurs/MF2079) 7.5 hp, [MG2009](https://www.kth.se/student/kurser/kurs/MG2009) 1.5 hp, [MG2117](https://www.kth.se/student/kurser/kurs/MG2117) 7.5 hp, [MJ2146](https://www.kth.se/student/kurser/kurs/MJ2146) 7.5 hp.
+  Valblock: Villkorligt valfri grupp 12 4.5 hp.
+
 - [DD2257](https://www.kth.se/student/kurser/kurs/DD2257) — slutförd: [DH2320](https://www.kth.se/student/kurser/kurs/DH2320) · kursplan [HT 2021 – VT 2024](https://www.kth.se/student/kurser/kurs/kursplan/DD2257-20212.pdf?lang=sv) — *HT2022, HT2023*
 - [DD2410](https://www.kth.se/student/kurser/kurs/DD2410) — slutförd: [MF2103](https://www.kth.se/student/kurser/kurs/MF2103) · kursplan [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/DD2410-20262.pdf?lang=sv) — *HT2026*
 - [DD2413](https://www.kth.se/student/kurser/kurs/DD2413) — slutförd: [DH2628](https://www.kth.se/student/kurser/kurs/DH2628) · kursplan [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/DD2413-20262.pdf?lang=sv) — *HT2026*

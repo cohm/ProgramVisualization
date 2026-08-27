@@ -30,6 +30,35 @@ curated `src/data/CMAST.json`) directly — this file is a worklist, not a sourc
 **25** distinct item(s) need review across all cohorts (an item shared by
 several cohorts is counted once).
 
+## Periods scheduled over full-time (4)
+
+Full-time is **15 hp per period**, and these schedule more — after every
+alternative we could identify has been grouped into a box and counted once,
+so this is what is left over. Two readings, and only the programme can say
+which applies: either some of these courses form a *minst N hp ur grupp*
+pool the student picks from — if so, which ones, and how many hp? — or the
+plan genuinely schedules an overload in that period.
+
+Courses listed below are counted individually; a *valblock* is counted once,
+however many options it holds.
+
+- **Årskurs 2, P1 — 28.5 hp, 13.5 hp over full-time.**
+  Cohorts: HT2022, HT2023, HT2024.
+  Courses: [LS1426](https://www.kth.se/student/kurser/kurs/LS1426) 4 hp, [LS1436](https://www.kth.se/student/kurser/kurs/LS1436) 4 hp, [LS1445](https://www.kth.se/student/kurser/kurs/LS1445) 4 hp, [MG1026](https://www.kth.se/student/kurser/kurs/MG1026) 6 hp, [MG1028](https://www.kth.se/student/kurser/kurs/MG1028) 1.5 hp, [SE1010](https://www.kth.se/student/kurser/kurs/SE1010) 6 hp, [SF1514](https://www.kth.se/student/kurser/kurs/SF1514) 3 hp.
+
+- **Årskurs 2, P1 — 27 hp, 12 hp over full-time.**
+  Cohorts: HT2025, HT2026.
+  Courses: [LS1426](https://www.kth.se/student/kurser/kurs/LS1426) 4 hp, [LS1436](https://www.kth.se/student/kurser/kurs/LS1436) 4 hp, [LS1445](https://www.kth.se/student/kurser/kurs/LS1445) 4 hp, [MG1026](https://www.kth.se/student/kurser/kurs/MG1026) 6 hp, [SE1010](https://www.kth.se/student/kurser/kurs/SE1010) 6 hp, [SF1514](https://www.kth.se/student/kurser/kurs/SF1514) 3 hp.
+
+- **Årskurs 2, P2 — 25.5 hp, 10.5 hp over full-time.**
+  Cohorts: HT2022, HT2023, HT2024, HT2025, HT2026.
+  Courses: [LS1426](https://www.kth.se/student/kurser/kurs/LS1426) 3.5 hp, [LS1436](https://www.kth.se/student/kurser/kurs/LS1436) 3.5 hp, [LS1445](https://www.kth.se/student/kurser/kurs/LS1445) 3.5 hp, [SE1010](https://www.kth.se/student/kurser/kurs/SE1010) 6 hp, [SF1514](https://www.kth.se/student/kurser/kurs/SF1514) 3 hp, [SG1140](https://www.kth.se/student/kurser/kurs/SG1140) 6 hp.
+
+- **Årskurs 2, P3 — 19.5 hp, 4.5 hp over full-time.**
+  Cohorts: HT2022, HT2023, HT2024, HT2025, HT2026.
+  Courses: [LS1427](https://www.kth.se/student/kurser/kurs/LS1427) 3 hp, [LS1437](https://www.kth.se/student/kurser/kurs/LS1437) 3 hp, [LS1446](https://www.kth.se/student/kurser/kurs/LS1446) 3 hp, [MF1044](https://www.kth.se/student/kurser/kurs/MF1044) 6 hp.
+  Valblock: Villkorligt valfri grupp 1 4.5 hp.
+
 - [DD1320](https://www.kth.se/student/kurser/kurs/DD1320) — slutförd: [DD1310](https://www.kth.se/student/kurser/kurs/DD1310) · kursplan [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/DD1320-20262.pdf?lang=sv) / [HT 2024 – VT 2026](https://www.kth.se/student/kurser/kurs/kursplan/DD1320-20242.pdf?lang=sv)
 - [EL1010](https://www.kth.se/student/kurser/kurs/EL1010) — slutförd: [SF1633](https://www.kth.se/student/kurser/kurs/SF1633) · kursplan [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/EL1010-20262.pdf?lang=sv) / [HT 2021 – VT 2026](https://www.kth.se/student/kurser/kurs/kursplan/EL1010-20212.pdf?lang=sv)
 - [MF1016](https://www.kth.se/student/kurser/kurs/MF1016) — slutförd: [SF1624](https://www.kth.se/student/kurser/kurs/SF1624), [SF1625](https://www.kth.se/student/kurser/kurs/SF1625), [SF1626](https://www.kth.se/student/kurser/kurs/SF1626) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MF1016-20192.pdf?lang=sv)

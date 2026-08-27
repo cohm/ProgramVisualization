@@ -419,10 +419,41 @@ function validateProgramData(program, file) {
   });
 
   // Cosmetics
+  //
+  // Checked against the curated file AND the programme's cohort archive: a
+  // cosmetics entry legitimately colours a course that appears only in a cohort
+  // view. CTFYS's elective boxes are the case — DD1380, DD2421 and AK2011 are
+  // options in the extracted plans but not in the curated file, and warning on
+  // them produced 45 false positives that buried the real signal. A code in
+  // neither place is still reported, which is what the check is for (CMATD's
+  // MG1002).
   if (program.cosmeticsFile) {
     const cosmeticsPath = join(dataDir, program.cosmeticsFile);
     const cosmetics = loadJson(cosmeticsPath);
-    if (cosmetics != null) validateCosmetics(cosmetics, cosmeticsPath, courseCodes);
+    if (cosmetics != null) {
+      const known = new Set(courseCodes);
+      // Also the programme's OWN curated file. When this runs for a cohort
+      // archive, `courseCodes` holds only that cohort's courses, so a course
+      // the curated plan has and the extraction does not — CTFYS's DD1301, a
+      // genuinely optional course the extractor leaves out — was reported once
+      // per cohort. One cosmetics file serves every view of a programme, so the
+      // set it is checked against has to be the union of them.
+      const curated = programs.find((x) => x.code === program.code)?.dataFile;
+      if (curated && !curated.startsWith('cohorts/')) {
+        const entries = loadJson(join(dataDir, curated));
+        if (Array.isArray(entries)) for (const e of entries) if (e?.code) known.add(e.code);
+      }
+      const cohortsDir = join(dataDir, 'cohorts');
+      if (existsSync(cohortsDir)) {
+        for (const f of readdirSync(cohortsDir)) {
+          if (!f.startsWith(`${program.code}-`) || !f.endsWith('.json')) continue;
+          const entries = loadJson(join(cohortsDir, f));
+          if (!Array.isArray(entries)) continue;
+          for (const e of entries) if (e?.code) known.add(e.code);
+        }
+      }
+      validateCosmetics(cosmetics, cosmeticsPath, known);
+    }
   }
 }
 
@@ -821,8 +852,13 @@ function validateOptionGroup(og, ctx, file) {
           continue;
         }
         for (const m of masters) {
-          if (!m || typeof m.code !== 'string' || !/^[A-Z]{4,6}$/.test(m.code)) {
-            err(file, `${ctx} optionGroup '${og.name}': qualifiesFor['${code}'] entry needs a programme 'code' of 4-6 capitals`);
+          // 3-6 capitals. Usually a programme code (TTFYM, TCSCM), but KOPPS
+          // also identifies a master DESTINATION by its 3-letter specialisation
+          // code — CMATD's year-3 options qualify for INE, MMM, PRM and the
+          // TEMB spår. Those are the same fact in a different namespace, and
+          // the human-readable `name` beside them carries KTH's own wording.
+          if (!m || typeof m.code !== 'string' || !/^[A-Z]{3,6}$/.test(m.code)) {
+            err(file, `${ctx} optionGroup '${og.name}': qualifiesFor['${code}'] entry needs a programme or specialisation 'code' of 3-6 capitals`);
           }
           if (!m || typeof m.name !== 'string' || !m.name) {
             err(file, `${ctx} optionGroup '${og.name}': qualifiesFor['${code}'] entry needs a 'name'`);
