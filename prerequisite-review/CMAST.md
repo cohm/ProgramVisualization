@@ -67,7 +67,7 @@ however many options it holds.
 - [MG1002](https://www.kth.se/student/kurser/kurs/MG1002) — slutförd: [MF1016](https://www.kth.se/student/kurser/kurs/MF1016) · kursplan [VT 2020 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MG1002-20201.pdf?lang=sv)
 - [MG1024](https://www.kth.se/student/kurser/kurs/MG1024) — slutförd: [MF1001](https://www.kth.se/student/kurser/kurs/MF1001), [MG1026](https://www.kth.se/student/kurser/kurs/MG1026) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MG1024-20192.pdf?lang=sv)
 - [MG1026](https://www.kth.se/student/kurser/kurs/MG1026) — slutförd: [MF1001](https://www.kth.se/student/kurser/kurs/MF1001) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MG1026-20192.pdf?lang=sv)
-- [MJ1112](https://www.kth.se/student/kurser/kurs/MJ1112) — slutförd: [SF1624](https://www.kth.se/student/kurser/kurs/SF1624), [SF1625](https://www.kth.se/student/kurser/kurs/SF1625), [SF1626](https://www.kth.se/student/kurser/kurs/SF1626), [SG1130](https://www.kth.se/student/kurser/kurs/SG1130), [SK1110](https://www.kth.se/student/kurser/kurs/SK1110) · kursplan [HT 2022 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MJ1112-20222.pdf?lang=sv)
+- [MJ1112](https://www.kth.se/student/kurser/kurs/MJ1112) — slutförd: [SF1624](https://www.kth.se/student/kurser/kurs/SF1624), [SF1625](https://www.kth.se/student/kurser/kurs/SF1625), [SG1130](https://www.kth.se/student/kurser/kurs/SG1130) · kursplan [HT 2022 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MJ1112-20222.pdf?lang=sv)
 - [MJ1401](https://www.kth.se/student/kurser/kurs/MJ1401) — slutförd: [MJ1112](https://www.kth.se/student/kurser/kurs/MJ1112) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MJ1401-20192.pdf?lang=sv)
 - [MJ146X](https://www.kth.se/student/kurser/kurs/MJ146X) — slutförd: [MJ1112](https://www.kth.se/student/kurser/kurs/MJ1112) · kursplan [VT 2022 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MJ146X-20221.pdf?lang=sv)
 - [SE1010](https://www.kth.se/student/kurser/kurs/SE1010) — slutförd: [SG1130](https://www.kth.se/student/kurser/kurs/SG1130) · kursplan [HT 2023 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SE1010-20232.pdf?lang=sv)
@@ -112,7 +112,7 @@ answer does not exist, so it is worth a glance to confirm the split looks right.
   - HT2023, HT2024, HT2025, HT2026 → [VT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MF130X-20261.pdf?lang=sv)
   - HT2022 → [VT 2021 – HT 2025](https://www.kth.se/student/kurser/kurs/kursplan/MF130X-20211.pdf?lang=sv)
 
-## Type inferred, not stated (11)
+## Type inferred, not stated (10)
 
 The text names a course but never says "slutförd" or "aktivt deltagande". The type below was inferred — from a signal elsewhere in the same text, or defaulted to *slutförd*. **This is the most likely place for an error.**
 
@@ -130,8 +130,6 @@ The text names a course but never says "slutförd" or "aktivt deltagande". The t
   > MF1001 Maskinteknik introduktion, MJ1103 Maskinteknik eller MF1046/MF1061 DoP Introduktion eller motsvarande förkunskaper
 - [MJ1112](https://www.kth.se/student/kurser/kurs/MJ1112) ← [SF1624](https://www.kth.se/student/kurser/kurs/SF1624), [SF1625](https://www.kth.se/student/kurser/kurs/SF1625), [SG1130](https://www.kth.se/student/kurser/kurs/SG1130) → recorded as **completed** · kursplan [HT 2022 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MJ1112-20222.pdf?lang=sv)
   > SF1624 "Algebra och geometri" 7,5hp, SF1625 "Envariabelanalys" 7,5hp, och SG1102 "Mekanik, mindre kurs" 6hp eller SG1130 "Mekanik I" 9hp eller SG1109 "Mekanik" 8hp, eller SG1117 "Teknisk mekanik" 7,5hp eller motsvarande kurser.
-- [MJ1112](https://www.kth.se/student/kurser/kurs/MJ1112) ← [SF1626](https://www.kth.se/student/kurser/kurs/SF1626), [SK1110](https://www.kth.se/student/kurser/kurs/SK1110) → recorded as **completed** · kursplan [HT 2022 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MJ1112-20222.pdf?lang=sv)
-  > Rekommenderade förkunskaper SF1626 "Flervariable analys" 7,5hp, SK1110 "Fysik I" 9hp
 - [MJ1401](https://www.kth.se/student/kurser/kurs/MJ1401) ← [MJ1112](https://www.kth.se/student/kurser/kurs/MJ1112) → recorded as **completed** · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MJ1401-20192.pdf?lang=sv)
   > Kursen MJ1112 Tillämpad termodynamik eller motsvarande
 - [SE1010](https://www.kth.se/student/kurser/kurs/SE1010) ← [SG1130](https://www.kth.se/student/kurser/kurs/SG1130) → recorded as **completed** · kursplan [HT 2023 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SE1010-20232.pdf?lang=sv)
@@ -156,6 +154,15 @@ The text requires one module of another course (for example "slutfört moment LA
 
 - [EL1010](https://www.kth.se/student/kurser/kurs/EL1010) ← TEN1 i [SF1682](https://www.kth.se/student/kurser/kurs/SF1682) · kursplan [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/EL1010-20262.pdf?lang=sv) · *HT2024, HT2025, HT2026*
   > Kunskaper i differentialekvationer och transformmetoder, 6 hp, motsvarande slutförd kurs SF1523/SF1633/SF1682 eller slutfört provmoment TEN1 i SF1682.
+
+## Courses named, but only as a recommendation (1)
+
+The syllabus names these courses and then says they are **not** required — either by disclaiming formal prerequisites outright ("därav inga formella förkunskapskrav") or by heading them "Rekommenderade förkunskaper". Nothing was recorded, so no prerequisite arrow is drawn.
+
+This is listed because the reading is a judgement, not because it is in doubt: the same sentence pattern reads as a real requirement when the disclaimer is absent. SK1104 is the contrast — "Dessa läses parallellt med denna kurs" with no disclaimer, which *is* a participation requirement. Confirm that a recommendation is all the text intends.
+
+- [MJ1112](https://www.kth.se/student/kurser/kurs/MJ1112) ← [SF1626](https://www.kth.se/student/kurser/kurs/SF1626), [SK1110](https://www.kth.se/student/kurser/kurs/SK1110) · kursplan [HT 2022 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MJ1112-20222.pdf?lang=sv)
+  > Rekommenderade förkunskaper SF1626 "Flervariable analys" 7,5hp, SK1110 "Fysik I" 9hp
 
 ## Credit thresholds, not expressible (9)
 

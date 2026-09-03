@@ -2033,6 +2033,33 @@ const PREREQ_COMPLETED =
 const PREREQ_THRESHOLD =
   /minst\s+[\d,.]+\s*(hp|högskolepoäng)|[\d,.]+\s*(hp|högskolepoäng)\s+(från|inom|av)/i;
 
+// A kursplan may state courses and then say they are NOT required. Two shapes
+// occur, and both are the course's own words rather than an inference:
+//
+//   SK1115  "Envariabelanalys (SF1625) samt Algebra och geometri (SF1624)
+//            rekommenderas, men läses parallellt med denna kurs, därav inga
+//            formella förkunskapskrav."
+//   MJ1112  "SF1624 …, SF1625 …, och SG1102 … eller SG1130 … eller motsvarande
+//            kurser. Rekommenderade förkunskaper SF1626 …, SK1110 …"
+//
+// SK1115 disclaims the whole text; MJ1112 disclaims only its second sentence,
+// the first being a real requirement. So the disclaimer is checked against the
+// whole text and the recommendation per clause.
+//
+// This is what separates SK1115 from SK1104, whose text is otherwise its close
+// twin ("Dessa läses parallellt med denna kurs") but carries no disclaimer and
+// is a genuine participation requirement — one of the 19 hand-curated CTFYS
+// prerequisites the parser is measured against. "läses parallellt" therefore
+// stays a participation marker; only an explicit disclaimer overrides it.
+const PREREQ_NO_FORMAL = /inga\s+formella\s+förkunskaps?krav|inga\s+(särskilda\s+)?förkunskaps?krav/i;
+// A heading ("Rekommenderade förkunskaper: …") or a clause whose courses are
+// governed by "rekommenderas" with no completion/participation marker of its
+// own. The marker test is what keeps SK1104's superseded 20162 wording — which
+// recommends AND says the courses are read in parallel — out of this rule's
+// reach on the strength of "rekommenderas" alone.
+const PREREQ_RECOMMENDED_HEAD = /^\s*rekommenderade?\s+förkunskaper/i;
+const PREREQ_RECOMMENDED = /rekommenderas|rekommenderade?\s+förkunskaper/i;
+
 // Requirements are not reliably separated by punctuation.
 //
 // EI1320's 20261 kursplan runs two separate requirements together with no period
@@ -2071,6 +2098,14 @@ function parsePrerequisites(text, inProgramme, selfCode, nameByCode = new Map())
   const empty = { completed: [], participation: [], notes: [] };
   if (!t) return empty;
 
+  // An explicit disclaimer voids the whole text: the course names courses only
+  // to say a student need not have taken them. Reported, never silently
+  // dropped — a coordinator should see that the text was read and discounted.
+  if (PREREQ_NO_FORMAL.test(t)) {
+    return { completed: [], participation: [],
+      notes: [{ kind: 'recommended-not-required', clause: t, scope: 'text' }] };
+  }
+
   const clauses = splitRequirements(t);
   const completed = new Set();
   const participation = new Set();
@@ -2089,6 +2124,13 @@ function parsePrerequisites(text, inProgramme, selfCode, nameByCode = new Map())
     sawCodes = true;
     const inProg = codes.filter((x) => inProgramme.has(x));
     if (inProg.length === 0) continue; // cross-programme alternative; see below
+
+    // "Rekommenderade förkunskaper …" — named, but not required.
+    if (PREREQ_RECOMMENDED_HEAD.test(c)
+      || (PREREQ_RECOMMENDED.test(c) && !PREREQ_COMPLETED.test(c) && !PREREQ_PARTICIPATION.test(c))) {
+      notes.push({ kind: 'recommended-not-required', clause: c, codes: inProg, scope: 'clause' });
+      continue;
+    }
 
     const selfPart = PREREQ_PARTICIPATION.test(c);
     const selfDone = PREREQ_COMPLETED.test(c);
@@ -2116,7 +2158,10 @@ function parsePrerequisites(text, inProgramme, selfCode, nameByCode = new Map())
   // naming courses — otherwise it is the ordinary cross-programme-alternative
   // case, which the in-programme filter is *meant* to drop (124 occurrences
   // across the six programmes; reporting them all would bury the real items).
-  if (sawCodes && completed.size === 0 && participation.size === 0) {
+  // A text whose every course mention was a recommendation has been read
+  // correctly and yields nothing by design, so it is not also a miss.
+  const allRecommended = notes.some((n) => n.kind === 'recommended-not-required');
+  if (sawCodes && !allRecommended && completed.size === 0 && participation.size === 0) {
     const suggestions = [];
     for (const c of clauses) suggestions.push(...suggestByName(c, nameByCode, selfCode));
     // A name match means this programme teaches the thing the text asks for while
@@ -3708,6 +3753,8 @@ const REVIEW_HEADINGS = {
     'The text offers a choice ("eller", "/") and more than one option is a course in this programme. All were recorded, which is wrong if the student only needs one. Decide which applies.'],
   'module-level': ['Requirement on a single examination module',
     'The text requires one module of another course (for example "slutfört moment LAB1 i SH1017") rather than the whole course. The schema has no shape for that, so nothing was recorded from this clause — recording the whole course would overstate the requirement. Worth deciding whether the whole course is the right approximation here.'],
+  'recommended-not-required': ['Courses named, but only as a recommendation',
+    'The syllabus names these courses and then says they are **not** required — either by disclaiming formal prerequisites outright ("därav inga formella förkunskapskrav") or by heading them "Rekommenderade förkunskaper". Nothing was recorded, so no prerequisite arrow is drawn.\n\nThis is listed because the reading is a judgement, not because it is in doubt: the same sentence pattern reads as a real requirement when the disclaimer is absent. SK1104 is the contrast — "Dessa läses parallellt med denna kurs" with no disclaimer, which *is* a participation requirement. Confirm that a recommendation is all the text intends.'],
   'credit-threshold': ['Credit thresholds, not expressible',
     'The requirement is a credit total ("minst N hp"), which the schema cannot represent as a course dependency. Nothing was recorded for these.'],
   'nothing-extracted': ['Text names courses, but none in this programme',

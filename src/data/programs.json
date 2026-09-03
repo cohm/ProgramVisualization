@@ -39,9 +39,9 @@
     "nameEn": "Degree Program in Engineering - Open Entrance",
     "dataFile": "COPEN.json",
     "cosmeticsFile": "COPEN-cosmetics.json",
-    "verified": false,
-    "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
-    "commentEn": "Study plan not yet verified — use with caution!",
+    "verified": true,
+    "comment": "Utbildningsplanen verifierad av programansvarig Jonas Sellberg den 2 september 2026",
+    "commentEn": "Study plan verified by program director Jonas Sellberg on 2 September 2026",
     "studyplan": "https://www.kth.se/student/kurser/program/COPEN"
   },
   {
