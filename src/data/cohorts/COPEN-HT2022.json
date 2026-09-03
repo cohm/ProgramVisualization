@@ -203,6 +203,7 @@
       "P4": 0
     },
     "year": 1,
+    "prerequisites": [],
     "exams": [
       "P2"
     ],
@@ -211,10 +212,6 @@
     "category": "mandatory",
     "nameEn": "Electromagnetism and Waves",
     "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesParticipation": [
-      "SF1624",
-      "SF1625"
-    ]
+    "courseLevel": "G"
   }
 ]

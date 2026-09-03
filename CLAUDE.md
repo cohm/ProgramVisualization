@@ -714,6 +714,37 @@ exact, no misses, no spurious entries** — but CTFYS is the *only* program with
 curated prerequisites, and those two rules were tuned against it, so treat that
 as a fit to the available labels rather than proof of generalisation.
 
+**A kursplan can name courses in order to say they are NOT required, and reading
+that as a requirement inverts its meaning.** Two shapes occur, both the course's
+own words:
+
+    SK1115  "…(SF1625) samt …(SF1624) rekommenderas, men läses parallellt med
+             denna kurs, därav inga formella förkunskapskrav."
+    MJ1112  "SF1624 …, SF1625 …, och SG1102 … eller SG1130 … eller motsvarande
+             kurser. Rekommenderade förkunskaper SF1626 …, SK1110 …"
+
+SK1115 disclaims the whole text; MJ1112 disclaims only its second sentence, the
+first being a real requirement — so the disclaimer is tested against the whole
+text and the recommendation per clause.
+
+The pair that fixes the rule's scope is **SK1115 against SK1104**, whose texts
+are otherwise twins. SK1104 says "Dessa läses parallellt med denna kurs" and
+stops; SK1115 adds "därav inga formella förkunskapskrav". SK1104 is one of the
+19 curated CTFYS prerequisites the parser is measured against, so "läses
+parallellt" must stay a participation marker and only an explicit disclaimer may
+override it — which is why the rule keys on the disclaimer rather than on
+"rekommenderas" or on parallel reading.
+
+MEASURED over all 238 courses with eligibility text in the eight programmes:
+`inga formella förkunskapskrav` appears **once** (SK1115) and
+`Rekommenderade förkunskaper` heads a clause carrying in-programme codes **once**
+(MJ1112). Every other participation arrow in the data rests on an explicit
+"Aktivt deltagande i …". So the correction removed exactly four arrows —
+SK1115←SF1624/SF1625 in COPEN, and MJ1112←SF1626/SK1110 in CINEK and CMAST —
+and nothing else moved. Both are reported under "Courses named, but only as a
+recommendation" rather than dropped silently, because the reading is a judgement
+even when it is not in doubt.
+
 Requirements are split on capitalised openers, not just punctuation. EI1320's
 20261 kursplan runs two requirements together with no period between them —
 "…motsvarande slutförd kurs SI1200 eller SF1693 Kunskaper i grundläggande

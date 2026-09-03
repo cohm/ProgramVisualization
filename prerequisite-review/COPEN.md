@@ -21,19 +21,18 @@ curated `src/data/COPEN.json`) directly — this file is a worklist, not a sourc
 
 | kull | slutförd | aktivt deltagande | flaggat |
 |---|---|---|---|
-| HT2022 | 0 | 4 | 0 |
-| HT2023 | 0 | 4 | 0 |
-| HT2024 | 0 | 4 | 0 |
-| HT2025 | 0 | 4 | 0 |
-| HT2026 | 0 | 4 | 0 |
+| HT2022 | 0 | 3 | 1 |
+| HT2023 | 0 | 3 | 1 |
+| HT2024 | 0 | 3 | 1 |
+| HT2025 | 0 | 3 | 1 |
+| HT2026 | 0 | 3 | 1 |
 
-**0** distinct item(s) need review across all cohorts (an item shared by
+**1** distinct item(s) need review across all cohorts (an item shared by
 several cohorts is counted once).
 
 - [SF1546](https://www.kth.se/student/kurser/kurs/SF1546) — deltagande: [DD1310](https://www.kth.se/student/kurser/kurs/DD1310), [SF1625](https://www.kth.se/student/kurser/kurs/SF1625) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SF1546-20192.pdf?lang=sv)
 - [SF1626](https://www.kth.se/student/kurser/kurs/SF1626) — deltagande: [SF1625](https://www.kth.se/student/kurser/kurs/SF1625) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SF1626-20192.pdf?lang=sv)
 - [SG1133](https://www.kth.se/student/kurser/kurs/SG1133) — deltagande: [SF1625](https://www.kth.se/student/kurser/kurs/SF1625) · kursplan [VT 2020 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SG1133-20201.pdf?lang=sv)
-- [SK1115](https://www.kth.se/student/kurser/kurs/SK1115) — deltagande: [SF1624](https://www.kth.se/student/kurser/kurs/SF1624), [SF1625](https://www.kth.se/student/kurser/kurs/SF1625) · kursplan [HT 2020 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SK1115-20202.pdf?lang=sv)
 
 ## Cohorts read different kursplan versions (2)
 
@@ -51,4 +50,13 @@ answer does not exist, so it is worth a glance to confirm the split looks right.
 - [KD1000](https://www.kth.se/student/kurser/kurs/KD1000) ([alla versioner](https://www.kth.se/kursutveckling/KD1000/arkiv))
   - HT2023, HT2024, HT2025, HT2026 → [VT 2024 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/KD1000-20241.pdf?lang=sv)
   - HT2022 → [VT 2020 – HT 2023](https://www.kth.se/student/kurser/kurs/kursplan/KD1000-20201.pdf?lang=sv)
+
+## Courses named, but only as a recommendation (1)
+
+The syllabus names these courses and then says they are **not** required — either by disclaiming formal prerequisites outright ("därav inga formella förkunskapskrav") or by heading them "Rekommenderade förkunskaper". Nothing was recorded, so no prerequisite arrow is drawn.
+
+This is listed because the reading is a judgement, not because it is in doubt: the same sentence pattern reads as a real requirement when the disclaimer is absent. SK1104 is the contrast — "Dessa läses parallellt med denna kurs" with no disclaimer, which *is* a participation requirement. Confirm that a recommendation is all the text intends.
+
+- [SK1115](https://www.kth.se/student/kurser/kurs/SK1115) · kursplan [HT 2020 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SK1115-20202.pdf?lang=sv)
+  > Envariabelanalys (SF1625) samt Algebra och geometri (SF1624) rekommenderas, men läses parallellt med denna kurs, därav inga formella förkunskapskrav.
 
