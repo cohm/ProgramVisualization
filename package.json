@@ -24,8 +24,8 @@
     "d3-scale": "^4.0.2",
     "d3-selection": "^3.0.0",
     "d3-transition": "^3.0.1",
-    "next": "^16.3.2",
-    "puppeteer-core": "^25.8.0",
+    "next": "^16.3.3",
+    "puppeteer-core": "^25.9.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
@@ -41,7 +41,7 @@
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
-    "eslint-config-next": "^16.3.2",
+    "eslint-config-next": "^16.3.3",
     "size-limit": "^13.0.3",
     "tailwindcss": "^4",
     "typescript": "^6"
