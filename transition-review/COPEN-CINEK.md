@@ -154,7 +154,26 @@ Båda ger samma 69 hp; skillnaden är bara fördelningen, och höstvalet halvera
 
 **Detta är ett aktivt val, inte vad planen nominellt anger, och behöver bekräftas.** Observera också att studenten enligt planen själv måste meddela svl om hon vill läsa kursen på hösten — diagrammet visar alltså det val som kräver en anmälan.
 
-En separat fråga i samma not: *"DD1320 är obligatorisk för alla teknikinriktningar förutom Energisystem och hållbar utveckling (EHUI)"*. KTH:s kursdata märker DD1320 med DTOI och TMAI, men **inte PPUI**. Ska den vara obligatorisk även för PPUI? Om ja är kursdatans märkning ofullständig och bör rapporteras.
+### PPUI läser DD1320 i årskurs 3 — och den saknas i vår data
+
+Samma not säger: *"DD1320 är obligatorisk för alla teknikinriktningar förutom teknikinriktningen Energisystem och hållbar utveckling (EHUI)"*. Det stämmer — men vår kursdata visar bara DD1320 för DTOI och TMAI, och det är **vår data som har luckan, inte planen**.
+
+Kontrollerat mot KTH:s egen studieplan för CINEK (läsåren 2024/25, 2025/26 och 2026/27, samma svar alla tre):
+
+| inriktning | läser DD1320 |
+|---|---|
+| DTOI Datateknik | **årskurs 2**, obligatorisk |
+| TMAI Tillämpad matematik | **årskurs 2**, obligatorisk |
+| PPUI Produkt- och produktionsutveckling | **årskurs 3**, obligatorisk |
+| EHUI Energisystem och hållbar utveckling | läser den inte — precis som noten säger |
+
+Alltså: kursen ligger i *olika årskurser* för olika inriktningar. Vårt dataschema kan bara ange **en** årskurs per kurs, så extraheringen väljer den årskurs som flest inriktningar läser kursen i (årskurs 2, två inriktningar mot en) och flaggar resten. DD1320 är den kända exempelkursen för den begränsningen.
+
+**Konsekvens för den sammansatta planen:** en student som väljer PPUI saknar DD1320:s 6 hp i årskurs 3 i diagrammet. Övriga nio kurser i PPUI:s årskurs 3 är korrekt med (ME1311, MG1026, DD1324, EL1010, ME1310, MG1002, ME1317 och de två examensarbetena), så felet är avgränsat till just denna kurs.
+
+Höstflytten ovan berör bara DTOI och TMAI, alltså de inriktningar som faktiskt läser kursen i årskurs 2 — den är därför oberoende av den här luckan.
+
+**Ingen åtgärd behövs från programansvarig**; detta är en begränsning i vårt schema som är noterad för åtgärd. Det redovisas här för att frånvaron av DD1320 i PPUI:s årskurs 3 inte ska tolkas som att kursen inte ska läsas.
 
 ---
 

@@ -819,6 +819,21 @@ inriktningar take one course in *different study years* (CINEK's DD1320) — the
 schema has no shape for it, so the extractor emits the widest-audience year and
 flags the rest.
 
+Measured for DD1320 against the live study plan, identical across läsår 2024/25,
+2025/26 and 2026/27: **DTOI and TMAI take it in year 2, PPUI in year 3, EHUI not
+at all.** The extractor therefore emits `year: 2` with
+`specializations: ['DTOI','TMAI']` — the year two of the three take it in — and
+**PPUI's copy is simply absent from the data**. Everything else in PPUI's year 3
+is present and correctly tagged, so the loss is exactly one course.
+
+This is worth knowing because the programme's own prose reads as a
+contradiction when checked against the data: CINEK's transition plan says
+"DD1320 är obligatorisk för alla teknikinriktningar förutom … (EHUI)", which is
+**true**, while the data shows only DTOI and TMAI. Both are right; the gap is
+the schema's. Expressing it needs either a per-specialization year override on
+`Course`, or a second entry for the same code — which the validator currently
+rejects, since duplicate codes are silently summed.
+
 **Adding a programme from scratch** (CMAST and CMATD were added this way):
 
 1. Confirm it exists: `api.kth.se/api/kopps/v2/programme/<CODE>`.
