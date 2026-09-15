@@ -210,6 +210,31 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 // to reach anywhere else fails loudly instead of being silently fetched.
 const ALLOWED_HOSTS = new Set(['www.kth.se', 'api.kth.se']);
 
+// Course and programme codes are interpolated into those URLs, and they come
+// from files in this repo: `--prereqs`, `--exams` and `--align` all read a
+// curated data file and then fetch each code they find. That is the flow CodeQL
+// reports (js/file-access-to-http), and it is a fair description — a value read
+// off disk decides what gets requested.
+//
+// Validating the shape is the honest answer to it. A KTH course code is two to
+// four letters, three or four digits and an optional trailing character; a
+// programme code is four to six letters. Anything else is a malformed data file,
+// and failing here names the bad value instead of quietly fetching a nonsense
+// URL and reporting "no page" three retries later.
+// Distinct from COURSE_CODE_RE further down, which is a GLOBAL scanning regex
+// for finding codes inside free text. These are anchored whole-string checks.
+const URL_COURSE_CODE_RE = /^[A-ZÅÄÖ]{2,4}\d{3,4}[A-Z0-9]?$/;
+const URL_PROGRAMME_CODE_RE = /^[A-ZÅÄÖ]{4,6}$/;
+
+function checkedCode(value, pattern, what) {
+  if (typeof value !== 'string' || !pattern.test(value)) {
+    throw new Error(`refusing to build a URL from an invalid ${what}: ${JSON.stringify(value)}`);
+  }
+  return value;
+}
+const courseCode = (c) => checkedCode(c, URL_COURSE_CODE_RE, 'course code');
+const programmeCode = (p) => checkedCode(p, URL_PROGRAMME_CODE_RE, 'programme code');
+
 function assertKthHost(url) {
   let host;
   try {
@@ -311,7 +336,7 @@ function decodeStateBlob(html, what) {
 }
 
 async function fetchStudyPlanState(prog, term, year) {
-  const url = `https://www.kth.se/student/kurser/program/${prog}/${term}/arskurs${year}`;
+  const url = `https://www.kth.se/student/kurser/program/${programmeCode(prog)}/${term}/arskurs${year}`;
   return decodeStateBlob(await getText(url), `${prog}/${term}/arskurs${year}`);
 }
 
@@ -1108,7 +1133,7 @@ const TERM_AUTUMN = 2;
 // own `valid_from` term, because that is the identifier the kursutveckling
 // archive prints next to each entry, so the reviewer sees the same label in
 // both places.
-const courseUrl = (code) => `https://www.kth.se/student/kurser/kurs/${code}`;
+const courseUrl = (code) => `https://www.kth.se/student/kurser/kurs/${courseCode(code)}`;
 const kursplanUrl = (code, term) =>
   `https://www.kth.se/student/kurser/kurs/kursplan/${code}-${term}.pdf?lang=sv`;
 const archiveUrl = (code) => `https://www.kth.se/kursutveckling/${code}/arkiv`;
@@ -1204,7 +1229,7 @@ function mapPageGradingScale(text) {
 async function fetchCoursePage(code) {
   let html;
   try {
-    html = await getText(`https://www.kth.se/student/kurser/kurs/${code}`);
+    html = await getText(`https://www.kth.se/student/kurser/kurs/${courseCode(code)}`);
   } catch { return null; }
 
   const marker = html.indexOf(ELIGIBILITY_MARKER);
@@ -1308,14 +1333,14 @@ async function fetchCourseMeta(code) {
     versions: [],
   };
 
-  const basic = await getKopps(`https://api.kth.se/api/kopps/v2/course/${code}`);
+  const basic = await getKopps(`https://api.kth.se/api/kopps/v2/course/${courseCode(code)}`);
   if (basic?.title?.en) meta.nameEn = tidy(basic.title.en);
   if (!meta.nameEn) {
     const carried = englishTitleFromCommittedData(code);
     if (carried) { meta.nameEn = carried; meta.nameEnCarriedOver = true; }
   }
 
-  const detail = await getKopps(`https://api.kth.se/api/kopps/v2/course/${code}/detailedinformation`);
+  const detail = await getKopps(`https://api.kth.se/api/kopps/v2/course/${courseCode(code)}/detailedinformation`);
   if (detail) {
     // `examinationSets` is keyed by the term the set took effect; the highest
     // key is the current one.
@@ -3856,7 +3881,7 @@ async function main() {
   // and both curated 300 hp files stop at 3. A master programme, by contrast,
   // is fully described by its own two years.
   const CIVING_BACHELOR_YEARS = 3;
-  const programme = await getKopps(`https://api.kth.se/api/kopps/v2/programme/${prog}`);
+  const programme = await getKopps(`https://api.kth.se/api/kopps/v2/programme/${programmeCode(prog)}`);
   if (args.years == null) {
     const len = Number(programme?.lengthInStudyYears) || CIVING_BACHELOR_YEARS;
     args.years = len >= 5 ? CIVING_BACHELOR_YEARS : len;
@@ -3868,7 +3893,7 @@ async function main() {
   if (!newest) throw new Error(`no published study plan found for ${prog}`);
 
   const specRegistry = await getKopps(
-    `https://api.kth.se/api/kopps/v2/programme/${prog}/${termFor(newest)}`);
+    `https://api.kth.se/api/kopps/v2/programme/${programmeCode(prog)}/${termFor(newest)}`);
   const registryEntries = [];
   for (const [code, names] of Object.entries(specRegistry || {})) {
     if (code === 'description' || code === 'COMMON') continue;
