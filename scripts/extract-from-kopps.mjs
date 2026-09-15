@@ -200,7 +200,32 @@ const isTransient = (status) => status === 408 || status === 429 || status >= 50
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+// Every URL this script fetches is built by interpolating a course or programme
+// code into a fixed template, and those codes come from files in this repo and
+// from KTH's own pages. CodeQL flags that as file data reaching an outbound
+// request (js/file-access-to-http), and while a code sits in the PATH — so it
+// cannot move the request to another host — nothing in the code SAID so.
+//
+// Now it does. The extractor talks to exactly two hosts, and a value that tried
+// to reach anywhere else fails loudly instead of being silently fetched.
+const ALLOWED_HOSTS = new Set(['www.kth.se', 'api.kth.se']);
+
+function assertKthHost(url) {
+  let host;
+  try {
+    ({ host } = new URL(url));
+  } catch {
+    throw new Error(`refusing to fetch a malformed URL: ${String(url).slice(0, 120)}`);
+  }
+  if (!ALLOWED_HOSTS.has(host)) {
+    throw new Error(
+      `refusing to fetch ${host}: this extractor only talks to ${[...ALLOWED_HOSTS].join(' and ')}. ` +
+      `A course or programme code in the data files may be malformed.`);
+  }
+}
+
 async function fetchWithRetry(url, init, { allow404 = false } = {}) {
+  assertKthHost(url);
   let last = null;
   for (let attempt = 1; attempt <= RETRY_ATTEMPTS; attempt++) {
     let res;
