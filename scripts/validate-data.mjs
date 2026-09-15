@@ -1040,15 +1040,22 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
     const targetData = targetProgram?.dataFile ? loadJson(join(dataDir, targetProgram.dataFile)) : null;
     if (Array.isArray(targetData)) {
       const exemptCodes = new Set((plan.exempt ?? []).map((e) => e.code));
+      // A moved course is still in the composed plan — it just sits in a later
+      // year — so a reference to it resolves without any equivalence. Only a
+      // course the source REPLACES needs one. CMATD is the case that showed
+      // this: MH1030 moves from the target's year 1 into year 2 and MH1031
+      // requires it, which read as a missing arrow until `moved` was consulted.
+      const movedCodes = new Set((plan.moved ?? []).map((m) => m?.code).filter(Boolean));
       for (const e of targetData) {
         if (!e?.code || e.type === 'optionGroup' || e.type === 'cohortMeta') continue;
         const year = tgt.get(e.code)?.year;
-        if (year == null || plan.sourceYears.includes(year)) continue;   // not in the student's plan
+        if (year == null || (plan.sourceYears.includes(year) && !movedCodes.has(e.code))) continue;
         if (exemptCodes.has(e.code)) continue;
         const pres = [...(e.prerequisitesCompleted ?? []), ...(e.prerequisitesParticipation ?? []), ...(e.prerequisites ?? [])];
         for (const pre of new Set(pres)) {
           const preYear = tgt.get(pre)?.year;
           if (preYear == null || !plan.sourceYears.includes(preYear)) continue;
+          if (movedCodes.has(pre)) continue;
           if (!replacedBy.has(pre)) {
             warn(file, `${ctx} ${label}: '${e.code}' requires '${pre}' from ${plan.to} year ${preYear}, which no credited course replaces — its prerequisite arrow will be missing`);
           }

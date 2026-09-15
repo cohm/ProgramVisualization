@@ -110,5 +110,462 @@
     "verified": false,
     "source": "Programansvarigs val av upphämtningskurs; SF1920 hämtad från CELTE årskurs 2 (läsår 2025/26).",
     "sourceEn": "Program director's choice of catch-up course; SF1920 taken from the CELTE year 2 plan (2025/26)."
+  },
+  {
+    "from": "COPEN",
+    "to": "CTMAT",
+    "sourceYears": [
+      1
+    ],
+    "credited": [
+      {
+        "code": "SF1625",
+        "replaces": [
+          "SF1673"
+        ],
+        "note": "Envariabelanalys motsvarar CTMAT Analys i en variabel.",
+        "noteEn": "Single-variable calculus corresponds to CTMAT Analys i en variabel."
+      },
+      {
+        "code": "SF1624",
+        "replaces": [
+          "SF1672"
+        ],
+        "note": "Algebra och geometri motsvarar CTMAT Linjär algebra.",
+        "noteEn": "Algebra and geometry corresponds to CTMAT Linjär algebra."
+      },
+      {
+        "code": "SF1626",
+        "replaces": [
+          "SF1674"
+        ],
+        "note": "Flervariabelanalys, samma ämne som CTMAT-kursen.",
+        "noteEn": "Multivariable calculus, the same subject as the CTMAT course."
+      },
+      {
+        "code": "SF1546",
+        "replaces": [
+          "SF1550"
+        ],
+        "note": "Numeriska metoder, grundkurs motsvarar CTMAT Numeriska metoder.",
+        "noteEn": "Numerical methods corresponds to CTMAT Numeriska metoder."
+      },
+      {
+        "code": "DD1310",
+        "replaces": [
+          "DD1333"
+        ],
+        "note": "Programmeringsteknik motsvarar CTMAT Grundläggande programmering.",
+        "noteEn": "Programming techniques corresponds to CTMAT Grundläggande programmering."
+      },
+      {
+        "code": "SG1133",
+        "replaces": [
+          "SG1115"
+        ],
+        "note": "Mekanik I (9 hp) motsvarar CTMAT Partikeldynamik med projekt (7,5 hp). Kurserna har olika namn och omfång — se signeringsunderlaget.",
+        "noteEn": "Mechanics I (9 credits) corresponds to CTMAT Partikeldynamik med projekt (7.5 credits). The courses differ in name and size — see the sign-off file."
+      },
+      {
+        "code": "SA1007",
+        "replaces": [
+          "SA1006"
+        ],
+        "note": "Ingenjörsrollen och ingenjörskunskap (6 hp) motsvarar CTMAT Ingenjörsfärdigheter i teknisk matematik (8,5 hp), som CTMAT läser utspritt över årskurs 1-3. Hela kursen utgår för studenter från Öppen ingång, vilket är så övergångsplanen redovisar den.",
+        "noteEn": "The engineering role (6 credits) corresponds to CTMAT Ingenjörsfärdigheter i teknisk matematik (8.5 credits), which CTMAT spreads over years 1-3. The whole course is dropped for students from Öppen ingång, which is how the transition plan presents it."
+      },
+      {
+        "code": "SK1115",
+        "note": "Elektromagnetism och vågrörelselära ersätter enligt övergångsplanen ingen kurs i CTMAT:s basblock och räknas som valfri kurs.",
+        "noteEn": "Electromagnetism and wave motion replaces no course in CTMAT's base block per the transition plan, and counts as an elective."
+      },
+      {
+        "code": "KD1000",
+        "note": "Kemiska principer ersätter enligt övergångsplanen ingen kurs i CTMAT:s basblock och räknas som valfri kurs.",
+        "noteEn": "Chemical principles replaces no course in CTMAT's base block per the transition plan, and counts as an elective."
+      }
+    ],
+    "exempt": [
+      {
+        "code": "DD1328",
+        "note": "Grundläggande datalogi för tekniska beräkningar (9 hp) läses av CTMAT i årskurs 1. Studenter från Öppen ingång läser i stället DD1320 och DD1396 under årskurs 2 (se 'added'), tillsammans lika många högskolepoäng.",
+        "noteEn": "Basic computer science for technical computing (9 credits) is taken by CTMAT in year 1. Students from Öppen ingång instead take DD1320 and DD1396 during year 2 (see 'added'), together the same number of credits."
+      }
+    ],
+    "moved": [
+      {
+        "code": "SF1918",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Sannolikhetsteori och statistik läses tillsammans med CTMAT:s egen årskurs 1, alltså under den transfererande studentens årskurs 2.",
+        "noteEn": "Probability theory and statistics is taken with CTMAT's own year 1, i.e. during the transferring student's year 2."
+      },
+      {
+        "code": "DD1385",
+        "fromYear": 2,
+        "toYear": 3,
+        "note": "Programutvecklingsteknik skjuts till årskurs 3 för att ge plats åt upphämtningskurserna i årskurs 2.",
+        "noteEn": "Software engineering is deferred to year 3 to make room for the catch-up courses in year 2."
+      },
+      {
+        "code": "SF1930",
+        "fromYear": 2,
+        "toYear": 3,
+        "note": "Statistisk inlärning och dataanalys skjuts till årskurs 3 av samma skäl.",
+        "noteEn": "Statistical learning and data analysis is deferred to year 3 for the same reason."
+      }
+    ],
+    "added": [
+      {
+        "code": "DD1320",
+        "name": "Tillämpad datalogi",
+        "nameEn": "Applied Computer Science",
+        "totalCredits": 6,
+        "year": 2,
+        "periodCredits": {
+          "P1": 5,
+          "P2": 1,
+          "P3": 0,
+          "P4": 0
+        },
+        "exams": [],
+        "prerequisitesCompleted": [
+          "DD1310"
+        ],
+        "gradingScale": "A-F",
+        "courseLevel": "G",
+        "category": "mandatory",
+        "substitutesFor": "DD1328",
+        "fromProgram": "CTMAT",
+        "note": "Ersätter tillsammans med DD1396 den DD1328 som CTMAT läser i årskurs 1. Examineras med programmeringsuppgifter och kontrollskrivningar, alltså utan tentamen.",
+        "noteEn": "Together with DD1396 it replaces DD1328, which CTMAT takes in year 1. Examined by programming assignments and check tests, i.e. with no written exam.",
+        "cosmeticsGroup": "Datateknik"
+      },
+      {
+        "code": "DD1396",
+        "name": "Parallellprogrammering i introduktion till datalogi",
+        "nameEn": "Parallel Programming in Introduction to Computer Science",
+        "totalCredits": 3,
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 3
+        },
+        "exams": [],
+        "prerequisitesCompleted": [
+          "DD1310",
+          "DD1320"
+        ],
+        "gradingScale": "P/F",
+        "courseLevel": "G",
+        "category": "mandatory",
+        "substitutesFor": "DD1328",
+        "fromProgram": "CTMAT",
+        "note": "Andra halvan av ersättningen för DD1328. Examineras med hemuppgift, alltså utan tentamen.",
+        "noteEn": "The second half of the replacement for DD1328. Examined by a take-home assignment, i.e. with no written exam.",
+        "cosmeticsGroup": "Datateknik"
+      }
+    ],
+    "verified": false,
+    "source": "Övergångsplan för Öppen ingång (version 2024-12-03), gäller övergång till Teknisk matematik (CTMAT).",
+    "sourceEn": "Transition plan for Öppen ingång (version 2024-12-03) for transfer to Teknisk matematik (CTMAT)."
+  },
+  {
+    "from": "COPEN",
+    "to": "CFATE",
+    "sourceYears": [
+      1
+    ],
+    "credited": [
+      {
+        "code": "SF1625",
+        "replaces": [
+          "SF1668"
+        ],
+        "note": "Envariabelanalys är huvudmotsvarigheten till Matematisk och numerisk analys I. Övergångsplanen anger att SF1668 ersätts av SF1625, SF1546 och DD1310 tillsammans; SF1625 är vald som den kurs förkunskapspilarna utgår från.",
+        "noteEn": "Single-variable calculus is the main equivalent of Matematisk och numerisk analys I. The transition plan states that SF1668 is replaced by SF1625, SF1546 and DD1310 together; SF1625 is chosen as the course prerequisite arrows start from."
+      },
+      {
+        "code": "SF1624",
+        "replaces": [
+          "SF1694"
+        ],
+        "note": "Algebra och geometri är huvudmotsvarigheten till Tillämpad linjär algebra. Övergångsplanen anger SF1624, SF1546 och DD1310 tillsammans.",
+        "noteEn": "Algebra and geometry is the main equivalent of Tillämpad linjär algebra. The transition plan states SF1624, SF1546 and DD1310 together."
+      },
+      {
+        "code": "SF1626",
+        "replaces": [
+          "SF1626"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SG1133",
+        "replaces": [
+          "SG1132"
+        ],
+        "note": "Mekanik I motsvarar CFATE Mekanik I med projekt.",
+        "noteEn": "Mechanics I corresponds to CFATE Mekanik I med projekt."
+      },
+      {
+        "code": "SK1115",
+        "replaces": [
+          "SK1112"
+        ],
+        "note": "Elektromagnetism och vågrörelselära motsvarar CFATE Fysik I.",
+        "noteEn": "Electromagnetism and wave motion corresponds to CFATE Fysik I."
+      },
+      {
+        "code": "DD1310",
+        "replaces": [
+          "DD1333"
+        ],
+        "note": "Programmeringsteknik motsvarar CFATE Grundläggande programmering. Övergångsplanen skriver DD1331, men CFATE:s kursdata anger DD1333 i samtliga kullar — se signeringsunderlaget.",
+        "noteEn": "Programming techniques corresponds to CFATE Grundläggande programmering. The transition plan writes DD1331, but CFATE's course data says DD1333 in every cohort — see the sign-off file."
+      },
+      {
+        "code": "SA1007",
+        "replaces": [
+          "SD1002"
+        ],
+        "note": "Ingenjörsrollen och ingenjörskunskap motsvarar CFATE Farkostteknik.",
+        "noteEn": "The engineering role corresponds to CFATE Farkostteknik."
+      },
+      {
+        "code": "SF1546",
+        "note": "Numeriska metoder ingår enligt övergångsplanen i ersättningen av både SF1668 och SF1694, men schemat kan bara ange en ersättande kurs per målkurs, så SF1546 står utan egen 'replaces'.",
+        "noteEn": "Numerical methods contributes, per the transition plan, to replacing both SF1668 and SF1694, but the schema allows only one replacing course per target course, so SF1546 carries no 'replaces' of its own."
+      },
+      {
+        "code": "KD1000",
+        "note": "Kemiska principer; tillgodoräknas utan att ersätta en specifik CFATE-kurs.",
+        "noteEn": "Chemical principles; credited without standing in for a specific CFATE course."
+      }
+    ],
+    "verified": false,
+    "source": "Övergångsplan för Öppen ingång (version 2024-12-03), gäller övergång till Farkostteknik (CFATE). Årskurs 2 och 3 är oförändrade mot CFATE:s egen studieplan.",
+    "sourceEn": "Transition plan for Öppen ingång (version 2024-12-03) for transfer to Farkostteknik (CFATE). Years 2 and 3 are unchanged from CFATE's own study plan."
+  },
+  {
+    "from": "COPEN",
+    "to": "CMAST",
+    "sourceYears": [
+      1
+    ],
+    "credited": [
+      {
+        "code": "SF1625",
+        "replaces": [
+          "SF1625"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1624",
+        "replaces": [
+          "SF1624"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1626",
+        "replaces": [
+          "SF1626"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "DD1310",
+        "replaces": [
+          "DD1310"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen. Övergångsplanen skriver DD1320 med namnet Programmeringsteknik; CMAST:s kursdata anger DD1310 — se signeringsunderlaget.",
+        "noteEn": "The same course with the same code in both programmes. The transition plan writes DD1320 with the name Programmeringsteknik; CMAST's course data says DD1310 — see the sign-off file."
+      },
+      {
+        "code": "SG1133",
+        "replaces": [
+          "SG1130"
+        ],
+        "note": "Mekanik I motsvarar CMAST Mekanik I.",
+        "noteEn": "Mechanics I corresponds to CMAST Mekanik I."
+      },
+      {
+        "code": "SK1115",
+        "replaces": [
+          "SK1110"
+        ],
+        "note": "Elektromagnetism och vågrörelselära motsvarar CMAST SK1110.",
+        "noteEn": "Electromagnetism and wave motion corresponds to CMAST SK1110."
+      },
+      {
+        "code": "SA1007",
+        "replaces": [
+          "MF1001"
+        ],
+        "note": "Ingenjörsrollen motsvarar del av Maskinteknik, introduktionskurs. Övergångsplanen anger att MF1001 ersätts av SA1007, KD1000 och MG1028 tillsammans; SA1007 är vald som den kurs förkunskapspilarna utgår från.",
+        "noteEn": "The engineering role covers part of Maskinteknik, introduktionskurs. The transition plan states MF1001 is replaced by SA1007, KD1000 and MG1028 together; SA1007 is chosen as the course prerequisite arrows start from."
+      },
+      {
+        "code": "KD1000",
+        "note": "Kemiska principer ingår enligt övergångsplanen i ersättningen av MF1001, men schemat kan bara ange en ersättande kurs per målkurs.",
+        "noteEn": "Chemical principles contributes to replacing MF1001 per the transition plan, but the schema allows only one replacing course per target course."
+      },
+      {
+        "code": "SF1546",
+        "note": "Numeriska metoder; ersätter SF1514 i CMAST årskurs 2, som därför utgår helt (se 'exempt').",
+        "noteEn": "Numerical methods; replaces SF1514 in CMAST year 2, which is therefore dropped entirely (see 'exempt')."
+      }
+    ],
+    "exempt": [
+      {
+        "code": "SF1514",
+        "creditedBy": "SF1546",
+        "note": "Numeriska metoder, grundkurs är redan avklarad genom SF1546 i COPEN.",
+        "noteEn": "Numerical methods is already completed through SF1546 in COPEN."
+      }
+    ],
+    "moved": [
+      {
+        "code": "MJ1104",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Praktisk introduktion till energiteknik läses först efter antagningen till CMAST, alltså under årskurs 2, i samma perioder som CMAST:s egen årskurs 1 läser den.",
+        "noteEn": "Practical introduction to energy technology is taken after admission to CMAST, i.e. during year 2, in the same periods CMAST's own year 1 takes it."
+      }
+    ],
+    "added": [
+      {
+        "code": "MG1028",
+        "name": "Grundläggande 3D-CAD",
+        "nameEn": "Basic 3D CAD",
+        "totalCredits": 1.5,
+        "year": 2,
+        "periodCredits": {
+          "P1": 1.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        },
+        "exams": [],
+        "gradingScale": "A-F",
+        "courseLevel": "G",
+        "category": "mandatory",
+        "substitutesFor": "MF1001",
+        "fromProgram": "CMAST",
+        "note": "Kompletteringskurs för studenter från Öppen ingång. Täcker den del av MF1001 som SA1007 och KD1000 inte ersätter.",
+        "noteEn": "Catch-up course for students from Öppen ingång. Covers the part of MF1001 that SA1007 and KD1000 do not replace.",
+        "cosmeticsGroup": "Maskinteknik"
+      }
+    ],
+    "verified": false,
+    "source": "Övergångsplan för Öppen ingång påbörjad H25 (version 2025-11-24), gäller övergången till Maskinteknik (CMAST) HT2026.",
+    "sourceEn": "Transition plan for Öppen ingång starting H25 (version 2025-11-24), for transfer to Maskinteknik (CMAST) in HT2026."
+  },
+  {
+    "from": "COPEN",
+    "to": "CMATD",
+    "sourceYears": [
+      1
+    ],
+    "credited": [
+      {
+        "code": "SF1625",
+        "replaces": [
+          "SF1625"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1624",
+        "replaces": [
+          "SF1624"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1626",
+        "replaces": [
+          "SF1626"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "DD1310",
+        "replaces": [
+          "DD1310"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SG1133",
+        "replaces": [
+          "SG1120"
+        ],
+        "note": "Mekanik I motsvarar CMATD SG1120 Mekanik I.",
+        "noteEn": "Mechanics I corresponds to CMATD's SG1120 Mekanik I."
+      },
+      {
+        "code": "SK1115",
+        "replaces": [
+          "SK1117"
+        ],
+        "note": "Elektromagnetism och vågrörelselära motsvarar CMATD SK1117.",
+        "noteEn": "Electromagnetism and wave motion corresponds to CMATD's SK1117."
+      },
+      {
+        "code": "SF1546",
+        "note": "Numeriska metoder; tillsammans med momentet PRO1 ur SF1551 motsvarar den hela SF1551, som därför utgår (se 'exempt'). De återstående 1,5 hp går inte att uttrycka i schemat — se signeringsunderlaget.",
+        "noteEn": "Numerical methods; together with the PRO1 module of SF1551 it covers all of SF1551, which is therefore dropped (see 'exempt'). The remaining 1.5 credits cannot be expressed in the schema — see the sign-off file."
+      },
+      {
+        "code": "SA1007",
+        "note": "Ingenjörsrollen; tillgodoräknas utan att ersätta en specifik CMATD-kurs.",
+        "noteEn": "The engineering role; credited without standing in for a specific CMATD course."
+      },
+      {
+        "code": "KD1000",
+        "note": "Kemiska principer; tillgodoräknas utan att ersätta en specifik CMATD-kurs.",
+        "noteEn": "Chemical principles; credited without standing in for a specific CMATD course."
+      }
+    ],
+    "exempt": [
+      {
+        "code": "SF1551",
+        "creditedBy": "SF1546",
+        "note": "Numeriska metoder, grundkurs. Övergångsplanen anger 'SF1546 + PRO1 från SF1551 = SF1551', alltså att 1,5 hp projektmoment återstår att läsa under årskurs 2. Kursen utgår här i sin helhet eftersom schemat inte kan uttrycka ett enskilt examinationsmoment.",
+        "noteEn": "Numerical methods. The transition plan states 'SF1546 + PRO1 from SF1551 = SF1551', i.e. a 1.5-credit project module remains to be taken in year 2. The course is dropped in full here because the schema cannot express a single examination module."
+      }
+    ],
+    "moved": [
+      {
+        "code": "CK1260",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Materialens kemi läses tillsammans med CMATD:s egen årskurs 1, alltså under den transfererande studentens årskurs 2.",
+        "noteEn": "Chemistry of materials is taken together with CMATD's own year 1, i.e. during the transferring student's year 2."
+      },
+      {
+        "code": "MH1030",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Materialdesign I läses tillsammans med CMATD:s egen årskurs 1, alltså under den transfererande studentens årskurs 2.",
+        "noteEn": "Materials design I is taken together with CMATD's own year 1, i.e. during the transferring student's year 2."
+      }
+    ],
+    "verified": false,
+    "source": "Övergångsplan för Öppen ingång påbörjad HT26 till Materialdesign (version 2026-02-02, Mikael Ersson).",
+    "sourceEn": "Transition plan for Öppen ingång starting HT26 to Materialdesign (version 2026-02-02, Mikael Ersson)."
   }
 ]
