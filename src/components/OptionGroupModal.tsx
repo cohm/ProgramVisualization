@@ -180,13 +180,54 @@ export default function OptionGroupModal({
   // by character count rather than measuring keeps this a pure function — the
   // modal renders inside an SVG built before layout, so getComputedTextLength is
   // not available here.
+  // Roughly how many characters of this font fit across a row. The modal's SVG
+  // is built before layout, so nothing here can measure text (same constraint as
+  // the offering chips below) and the fit is estimated from character counts.
+  const CHARS_PER_ROW = 98;
+  // Below this a truncated name says nothing at all, so the row gives up the
+  // space to the note instead of shrinking the name further.
+  const MIN_NAME_CHARS = 8;
+
+  /**
+   * The eligibility note, shortened to what the row can actually hold.
+   *
+   * The note is right-aligned and the course label left-aligned in the same row,
+   * so nothing stops them meeting in the middle — and `truncateName` cannot
+   * prevent it, because it floors the name at MIN_NAME_CHARS and then has no
+   * room left to give. CMAST's ME1003 is the case: it qualifies for FOURTEEN
+   * master programmes, an 84-character note, and the row rendered
+   * "(P1: 6 hp)krävs för AEE, FOR, …" with the two runs touching.
+   *
+   * So the note is capped first, assuming the name takes its minimum, and the
+   * name then gets whatever is left. Codes are dropped from the end and the
+   * count of dropped ones is appended — "+9" rather than a bare ellipsis, so the
+   * row still says how much it is not showing. The full list is in the chart
+   * tooltip, which is where this note's short forms already point.
+   */
+  const fitNote = (note: string, code: string, periods: string): string => {
+    if (!note) return '';
+    const budget = CHARS_PER_ROW - code.length - 12 - MIN_NAME_CHARS
+      - (periods ? periods.length + 1 : 0) - 3;
+    if (note.length <= budget) return note;
+
+    // "krävs för A, B, C" -> keep the prefix, drop codes from the end.
+    const sep = note.indexOf(' ');
+    const prefix = note.slice(0, sep);
+    const items = note.slice(sep + 1).split(', ');
+    for (let keep = items.length - 1; keep >= 1; keep--) {
+      const dropped = items.length - keep;
+      const candidate = `${prefix} ${items.slice(0, keep).join(', ')} +${dropped}`;
+      if (candidate.length <= budget) return candidate;
+    }
+    return `${prefix} +${items.length}`;
+  };
+
   const truncateName = (name: string, code: string, note: string, periods = ''): string => {
-    const CHARS_PER_ROW = 98;
     const budget = CHARS_PER_ROW - code.length - 12
       - (note ? note.length + 3 : 0)
       - (periods ? periods.length + 1 : 0);
     if (name.length <= budget) return name;
-    return `${name.slice(0, Math.max(8, budget - 1)).trimEnd()}…`;
+    return `${name.slice(0, Math.max(MIN_NAME_CHARS, budget - 1)).trimEnd()}…`;
   };
 
   /**
@@ -556,9 +597,18 @@ export default function OptionGroupModal({
                 fill={kthColors.KthMarine?.HEX || '#000061'}
                 dominantBaseline="central"
               >
-                {optionCode} {truncateName(optionName, optionCode, eligibilityLabel(optionCode), periodSummary(optionCourse))}, {totalCredits} {tr[language].credits}
+                {optionCode} {truncateName(optionName, optionCode, fitNote(eligibilityLabel(optionCode), optionCode, periodSummary(optionCourse)), periodSummary(optionCourse))}, {totalCredits} {tr[language].credits}
                 {periodSummary(optionCourse) && (
-                  <tspan fill="#6b7280" fontWeight={400}>{' '}{periodSummary(optionCourse)}</tspan>
+                  /*
+                    `dominantBaseline` is repeated here rather than inherited from
+                    the parent <text>. Safari does not carry it across the
+                    text/tspan boundary: the main run rendered centred on the row
+                    while this one fell back to the alphabetic baseline, leaving
+                    "(P1: 6 hp)" sitting visibly high — about half a line — next to
+                    the course name. Chrome inherits it and shows nothing wrong,
+                    which is why it survived review.
+                  */
+                  <tspan fill="#6b7280" fontWeight={400} dominantBaseline="central">{' '}{periodSummary(optionCourse)}</tspan>
                 )}
               </text>
               {/*
@@ -649,7 +699,7 @@ export default function OptionGroupModal({
                   fill={kthColors.KthMarine?.HEX || '#000061'}
                   dominantBaseline="central"
                 >
-                  {eligibilityLabel(optionCode)}
+                  {fitNote(eligibilityLabel(optionCode), optionCode, periodSummary(optionCourse))}
                 </text>
               )}
             </g>
