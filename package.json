@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --max-warnings 0",
+    "transition-review": "node scripts/transition-review.mjs",
     "validate-data": "node scripts/validate-data.mjs --cohorts",
     "extract-plan": "node scripts/extract-from-kopps.mjs",
     "size": "size-limit"
