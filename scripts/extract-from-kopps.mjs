@@ -78,7 +78,7 @@
 // budget, which sums every static chunk — worth watching as cohorts accumulate.
 
 import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'fs';
-import { join, dirname, relative } from 'path';
+import { join, dirname, relative, isAbsolute } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -188,18 +188,77 @@ const flag = (msg) => { if (!seenFlags.has(msg)) { seenFlags.add(msg); review.pu
 // KTH's www host rejects requests without a browser-ish UA.
 const UA = 'Mozilla/5.0 (compatible; ProgramVisualization data extractor)';
 
+// A transient failure is worth retrying; a 4xx is an answer. Without this a
+// single blip anywhere in a run of hundreds of requests took the whole run down
+// — or, worse, was caught by a caller and became a silently wrong value. Both
+// happened: a rate-limited course page once returned a fallback shape that
+// collapsed five CTMAT courses to an identical {P1: 7.5}, which only showed up
+// because the committed data disagreed.
+const RETRY_ATTEMPTS = 3;
+const RETRY_BASE_MS = 400;
+const isTransient = (status) => status === 408 || status === 429 || status >= 500;
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function fetchWithRetry(url, init, { allow404 = false } = {}) {
+  let last = null;
+  for (let attempt = 1; attempt <= RETRY_ATTEMPTS; attempt++) {
+    let res;
+    try {
+      res = await fetch(url, init);
+    } catch (e) {
+      last = new Error(`network error for ${url}: ${e.message}`);
+      if (attempt < RETRY_ATTEMPTS) { await sleep(RETRY_BASE_MS * 2 ** (attempt - 1)); continue; }
+      throw last;
+    }
+    if (res.status === 404 && allow404) return null;
+    if (res.ok) return res;
+    last = new Error(`HTTP ${res.status} for ${url}`);
+    if (!isTransient(res.status) || attempt === RETRY_ATTEMPTS) throw last;
+    await sleep(RETRY_BASE_MS * 2 ** (attempt - 1));
+  }
+  throw last;
+}
+
 async function getText(url) {
-  const res = await fetch(url, { headers: { 'User-Agent': UA } });
-  if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
+  const res = await fetchWithRetry(url, { headers: { 'User-Agent': UA } });
   return res.text();
 }
 
 async function getJson(url, { allow404 = false } = {}) {
-  const res = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'application/json' } });
-  if (res.status === 404 && allow404) return null;
-  if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
-  return res.json();
+  const res = await fetchWithRetry(url,
+    { headers: { 'User-Agent': UA, Accept: 'application/json' } }, { allow404 });
+  return res ? res.json() : null;
 }
+
+// ---------------------------------------------------------------------------
+// KOPPS is retired, so treat it as optional
+// ---------------------------------------------------------------------------
+//
+// KOPPS still answers most days but receives no updates, and the live course
+// and study-plan pages are the real source (see the note above about DD1328).
+// The one field only KOPPS has is the ENGLISH course title, because the English
+// course page returns HTTP 500.
+//
+// So a KOPPS outage must not stop a run. On 2026-09-15 every KOPPS endpoint
+// returned HTTP 502 for hours, and because `getJson` threw, `npm run
+// extract-plan` aborted on its first call — blocking work that needed nothing
+// from KOPPS at all.
+//
+// `getKopps` therefore never throws: it records the outage and returns null,
+// and the run continues on page data with English titles carried over from the
+// committed files. The degradation is reported loudly at the end, because
+// output that silently lost every English title would be worse than no output.
+const koppsFailures = [];
+async function getKopps(url) {
+  try {
+    return await getJson(url, { allow404: true });
+  } catch (e) {
+    koppsFailures.push(e.message);
+    return null;
+  }
+}
+const koppsIsDown = () => koppsFailures.length > 0;
 
 // ---------------------------------------------------------------------------
 // Study-plan SSR state
@@ -1167,6 +1226,51 @@ async function fetchCoursePage(code) {
   };
 }
 
+// English titles already committed, keyed by course code.
+//
+// Only KOPPS has `nameEn`, so when KOPPS is unreachable a fresh extraction
+// would emit every course with no English title — silently halving the
+// bilingual UI. The titles we already hold are the best available answer, and
+// they came from the same source, so they are carried over rather than lost.
+// Built once, from every data file, because a course shared between programmes
+// has the same English title in each.
+let priorNamesEn = null;
+function englishTitleFromCommittedData(code) {
+  if (priorNamesEn === null) {
+    priorNamesEn = new Map();
+    // Cohort archive FIRST, curated files second, and the order is load-bearing.
+    //
+    // A degraded run should produce the same bytes a normal run would, so that a
+    // diff always means something real. The archive holds exactly what KOPPS
+    // last returned, while the curated files carry titles fixed by hand — KD1000
+    // is "Chemical Principles for Sustainabillty" in KOPPS and in the archive,
+    // and "…Sustainability" in the curated COPEN.json. Preferring the curated
+    // value made a KOPPS-down re-extraction of COPEN HT2025 differ from the
+    // committed file by exactly that one letter, which reads as a real change
+    // and is not one. Fixing the typo is a curation decision; an outage is not
+    // the place to make it.
+    const files = [];
+    try {
+      const cohortDir = join(dataDir, 'cohorts');
+      for (const f of readdirSync(cohortDir)) if (f.endsWith('.json')) files.push(join(cohortDir, f));
+    } catch { /* no archive yet */ }
+    try {
+      for (const f of readdirSync(dataDir)) if (f.endsWith('.json')) files.push(join(dataDir, f));
+    } catch { /* a missing directory just means nothing to carry over */ }
+    for (const f of files) {
+      const raw = readTextOrNull(f);
+      if (!raw) continue;
+      let parsed;
+      try { parsed = JSON.parse(raw); } catch { continue; }
+      if (!Array.isArray(parsed)) continue;
+      for (const e of parsed) {
+        if (e?.code && e.nameEn && !priorNamesEn.has(e.code)) priorNamesEn.set(e.code, e.nameEn);
+      }
+    }
+  }
+  return priorNamesEn.get(code) ?? null;
+}
+
 const courseCache = new Map();
 
 async function fetchCourseMeta(code) {
@@ -1179,10 +1283,14 @@ async function fetchCourseMeta(code) {
     versions: [],
   };
 
-  const basic = await getJson(`https://api.kth.se/api/kopps/v2/course/${code}`, { allow404: true });
+  const basic = await getKopps(`https://api.kth.se/api/kopps/v2/course/${code}`);
   if (basic?.title?.en) meta.nameEn = tidy(basic.title.en);
+  if (!meta.nameEn) {
+    const carried = englishTitleFromCommittedData(code);
+    if (carried) { meta.nameEn = carried; meta.nameEnCarriedOver = true; }
+  }
 
-  const detail = await getJson(`https://api.kth.se/api/kopps/v2/course/${code}/detailedinformation`, { allow404: true });
+  const detail = await getKopps(`https://api.kth.se/api/kopps/v2/course/${code}/detailedinformation`);
   if (detail) {
     // `examinationSets` is keyed by the term the set took effect; the highest
     // key is the current one.
@@ -3349,8 +3457,11 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     years: provenance,
   };
 
+  // `join(repoRoot, '/abs/path')` silently nests the absolute path INSIDE the
+  // repo — `--out /tmp/x.json` wrote to `<repo>/private/tmp/x.json` and left an
+  // untracked `private/` directory behind. Honour an absolute path as given.
   const outPath = args.out
-    ? join(repoRoot, args.out)
+    ? (isAbsolute(args.out) ? args.out : join(repoRoot, args.out))
     : join(cohortsDir, `${prog}-${cohortLabel(cohort)}.json`);
   mkdirSync(dirname(outPath), { recursive: true });
   // Update rather than overwrite: keep the hand-written decoration from the file
@@ -3720,8 +3831,7 @@ async function main() {
   // and both curated 300 hp files stop at 3. A master programme, by contrast,
   // is fully described by its own two years.
   const CIVING_BACHELOR_YEARS = 3;
-  const programme = await getJson(
-    `https://api.kth.se/api/kopps/v2/programme/${prog}`, { allow404: true });
+  const programme = await getKopps(`https://api.kth.se/api/kopps/v2/programme/${prog}`);
   if (args.years == null) {
     const len = Number(programme?.lengthInStudyYears) || CIVING_BACHELOR_YEARS;
     args.years = len >= 5 ? CIVING_BACHELOR_YEARS : len;
@@ -3732,13 +3842,31 @@ async function main() {
   const newest = await newestPublishedCohort(prog, thisYear);
   if (!newest) throw new Error(`no published study plan found for ${prog}`);
 
-  const specRegistry = await getJson(
-    `https://api.kth.se/api/kopps/v2/programme/${prog}/${termFor(newest)}`, { allow404: true });
+  const specRegistry = await getKopps(
+    `https://api.kth.se/api/kopps/v2/programme/${prog}/${termFor(newest)}`);
   const registryEntries = [];
   for (const [code, names] of Object.entries(specRegistry || {})) {
     if (code === 'description' || code === 'COMMON') continue;
     if (!names || typeof names !== 'object' || !names.sv) continue;
     registryEntries.push({ code, name: names.sv, nameEn: names.en || names.sv });
+  }
+  // The registry names inriktningar; only KOPPS serves it. With KOPPS down, the
+  // one already in programs.json is the same data from the same source, so it
+  // is reused rather than emitting courses tagged with codes nothing registers
+  // — which the validator would (correctly) reject.
+  if (registryEntries.length === 0 && koppsIsDown()) {
+    const raw = readTextOrNull(join(dataDir, 'programs.json'));
+    let known = null;
+    try { known = raw ? JSON.parse(raw).find((p) => p?.code === prog)?.specializations : null; }
+    catch { known = null; }
+    if (known?.length) {
+      registryEntries.push(...known);
+      console.log(`  inriktning registry: KOPPS unreachable — reused the ${known.length} ` +
+        `entries already in programs.json`);
+    } else {
+      console.log('  inriktning registry: KOPPS unreachable and none in programs.json — ' +
+        'any inriktning-tagged course will fail validation until KOPPS answers');
+    }
   }
 
   if (args.specializations) {
@@ -3777,7 +3905,32 @@ async function main() {
   writeCohortIndex();
 
   if (warningCount > 0) console.log(`\n${warningCount} warning(s).`);
+  reportKoppsDegradation();
   console.log(`\nValidate with:\n  node scripts/validate-data.mjs --cohorts`);
+}
+
+/**
+ * Say plainly when a run completed without KOPPS.
+ *
+ * Silence here would be the dangerous outcome: the files look like a normal
+ * extraction, and the only visible symptom of a KOPPS outage is English titles
+ * quietly reverting to whatever was already committed. Anyone reading the diff
+ * deserves to know which parts of it are degraded.
+ */
+function reportKoppsDegradation() {
+  if (!koppsIsDown()) return;
+  const carried = priorNamesEn ? priorNamesEn.size : 0;
+  console.log(
+    `\nKOPPS was unreachable during this run (${koppsFailures.length} failed request(s), ` +
+    `first: ${koppsFailures[0]}).\n` +
+    `  KOPPS is retired and every other field comes from the live pages, so the run continued.\n` +
+    `  Affected: English course titles (nameEn) — the only field KOPPS alone provides. Titles\n` +
+    `  already present in the committed data were carried over` +
+    (carried ? ` (${carried} available)` : '') + `; a course new to this repo\n` +
+    `  will have no English title until KOPPS answers again.\n` +
+    `  Also degraded: the programme's lengthInStudyYears (defaulted) and the inriktning\n` +
+    `  registry used by --specializations (empty).\n` +
+    `  Re-run when https://api.kth.se/api/kopps/v2/programme/CTFYS returns 200.`);
 }
 
 /**

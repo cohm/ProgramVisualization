@@ -651,6 +651,50 @@ field only KOPPS has is the **English title**: the English course page
 English study-plan route, so English titles inherit KOPPS's staleness *and* its
 typos (KD1000 is "Chemical Principles for Sustainabillty" there).
 
+**A KOPPS outage must not stop a run, and now does not.** On 2026-09-15 every
+KOPPS endpoint returned HTTP 502 for hours. Because `getJson` threw, the very
+first call aborted `npm run extract-plan` — blocking work that needed nothing
+from KOPPS at all.
+
+`getKopps()` never throws: it records the failure and returns null. Measured
+during the outage, a full COPEN re-extraction with **20 failed KOPPS requests**
+produced a **byte-identical** file, and CELTE — a programme not in this repo —
+extracted end to end.
+
+What actually degrades, and the fallback for each:
+
+| lost | fallback |
+|---|---|
+| `nameEn` (only KOPPS has it) | carried over from committed data |
+| `lengthInStudyYears` | defaults to 3 (civilingenjör) |
+| inriktning registry | reused from `programs.json` |
+
+**The carry-over reads the cohort archive BEFORE the curated files, and the
+order is load-bearing.** The archive holds what KOPPS last returned; the curated
+files carry titles fixed by hand. KD1000 is "Chemical Principles for
+Sustainabillty" in KOPPS and in the archive, "…Sustainability" in the curated
+`COPEN.json`. Preferring the curated value made a degraded re-extraction differ
+from the committed file by one letter — which reads as a real change and is not
+one. A degraded run should produce the bytes a normal run would; fixing the typo
+is a curation decision, not something an outage should make.
+
+A course new to the repo still gets no English title: CELTE came out with 17 of
+36 carried over and 19 blank, all CELTE-specific. So adding a *new* programme is
+worth deferring until KOPPS answers; re-extracting an existing one is not.
+
+**Transient HTTP failures are retried** — three attempts with exponential
+backoff on 408/429/5xx and network errors, never on a 4xx, which is an answer.
+This closes a nastier failure than the outage: a rate-limited course page once
+returned a fallback shape that collapsed five CTMAT courses to an identical
+`{P1: 7.5}`, turning DD1367 from 9 hp across three periods into 7.5 hp in one.
+It surfaced only because the committed data disagreed. `fetchCoursePage` catches
+everything and returns null, so a 429 was indistinguishable from "this course
+has no page".
+
+**`--out` honours an absolute path.** It was `join(repoRoot, args.out)`, which
+silently nests an absolute path inside the repo: `--out /tmp/x.json` wrote to
+`<repo>/private/tmp/x.json` and left an untracked `private/` directory behind.
+
 **Kursplan versions are per-cohort, and the page carries the whole history.**
 Prerequisites change. EI1320's went from "Slutförd kurs motsvarande SI1200" to
 "…motsvarande slutförd kurs SI1200 **eller SF1693**" with the version valid from
