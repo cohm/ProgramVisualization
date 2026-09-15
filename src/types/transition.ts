@@ -86,7 +86,16 @@ export interface TransitionAddition {
   nameEn?: string;
   totalCredits: number;
   year: number;
-  periodCredits: Record<string, number>;
+  /**
+   * Flat `{P1..P4}`, or the data files' by-year shape `{Year2: {P1..P4}, …}`
+   * for a course spanning study years. Parsed by `parseCourseEntries`, which
+   * already normalises both, so nothing downstream needs to know which was used.
+   *
+   * CELTE's EN1001 is why the second shape is allowed here: it runs 3 hp in
+   * year 2 and 3 hp in year 3, and exists specifically for students arriving
+   * from Öppen ingång — its own eligibility text says so.
+   */
+  periodCredits: Record<string, number> | Record<string, Record<string, number>>;
   exams?: string[];
   reexams?: string[];
   prerequisites?: string[];
