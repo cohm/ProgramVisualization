@@ -24,8 +24,8 @@ De 9 kurserna i COPEN årskurs 1 och vad de ersätter i CMAST.
 | [SG1133](https://www.kth.se/student/kurser/kurs/SG1133) Mekanik I | 9 | [SG1130](https://www.kth.se/student/kurser/kurs/SG1130) Mekanik I | 9 | Mekanik I motsvarar CMAST Mekanik I. |
 | [SK1115](https://www.kth.se/student/kurser/kurs/SK1115) Elektromagnetism och vågrörelselära | 7,5 | [SK1110](https://www.kth.se/student/kurser/kurs/SK1110) Elektromagnetism och vågrörelselära | 7,5 | Elektromagnetism och vågrörelselära motsvarar CMAST SK1110. |
 | [SA1007](https://www.kth.se/student/kurser/kurs/SA1007) Ingenjörsrollen och ingenjörskunskap | 6 | [MF1001](https://www.kth.se/student/kurser/kurs/MF1001) Maskinteknik, introduktionskurs | 9 | Ingenjörsrollen motsvarar del av Maskinteknik, introduktionskurs. Övergångsplanen anger att MF1001 ersätts av SA1007, KD1000 och MG1028 tillsammans; SA1007 är vald som den kurs förkunskapspilarna utgår från. |
-| [KD1000](https://www.kth.se/student/kurser/kurs/KD1000) Kemiska principer för hållbar utveckling | 3 | _(ersätter ingen enskild kurs)_ | — | Kemiska principer ingår enligt övergångsplanen i ersättningen av MF1001, men schemat kan bara ange en ersättande kurs per målkurs. |
-| [SF1546](https://www.kth.se/student/kurser/kurs/SF1546) Numeriska metoder, grundkurs | 6 | _(ersätter ingen enskild kurs)_ | — | Numeriska metoder; ersätter SF1514 i CMAST årskurs 2, som därför utgår helt (se 'exempt'). |
+| [KD1000](https://www.kth.se/student/kurser/kurs/KD1000) Kemiska principer för hållbar utveckling | 3 | _(ingen enskild motsvarighet — se kommentar)_ | — | Kemiska principer ingår enligt övergångsplanen i ersättningen av MF1001, men schemat kan bara ange en ersättande kurs per målkurs. |
+| [SF1546](https://www.kth.se/student/kurser/kurs/SF1546) Numeriska metoder, grundkurs | 6 | _(ingen enskild motsvarighet — se kommentar)_ | — | Numeriska metoder; ersätter SF1514 i CMAST årskurs 2, som därför utgår helt (se 'exempt'). |
 
 ## Kurser som utgår
 

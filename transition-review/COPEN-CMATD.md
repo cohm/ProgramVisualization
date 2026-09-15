@@ -23,9 +23,9 @@ De 9 kurserna i COPEN årskurs 1 och vad de ersätter i CMATD.
 | [DD1310](https://www.kth.se/student/kurser/kurs/DD1310) Programmeringsteknik | 6 | [DD1310](https://www.kth.se/student/kurser/kurs/DD1310) Programmeringsteknik | 6 | Samma kurs med samma kurskod i båda programmen. |
 | [SG1133](https://www.kth.se/student/kurser/kurs/SG1133) Mekanik I | 9 | [SG1120](https://www.kth.se/student/kurser/kurs/SG1120) Mekanik I | 9 | Mekanik I motsvarar CMATD SG1120 Mekanik I. |
 | [SK1115](https://www.kth.se/student/kurser/kurs/SK1115) Elektromagnetism och vågrörelselära | 7,5 | [SK1117](https://www.kth.se/student/kurser/kurs/SK1117) Elektromagnetism och vågrörelselära | 7,5 | Elektromagnetism och vågrörelselära motsvarar CMATD SK1117. |
-| [SF1546](https://www.kth.se/student/kurser/kurs/SF1546) Numeriska metoder, grundkurs | 6 | _(ersätter ingen enskild kurs)_ | — | Numeriska metoder; tillsammans med momentet PRO1 ur SF1551 motsvarar den hela SF1551, som därför utgår (se 'exempt'). De återstående 1,5 hp går inte att uttrycka i schemat — se signeringsunderlaget. |
-| [SA1007](https://www.kth.se/student/kurser/kurs/SA1007) Ingenjörsrollen och ingenjörskunskap | 6 | _(ersätter ingen enskild kurs)_ | — | Ingenjörsrollen; tillgodoräknas utan att ersätta en specifik CMATD-kurs. |
-| [KD1000](https://www.kth.se/student/kurser/kurs/KD1000) Kemiska principer för hållbar utveckling | 3 | _(ersätter ingen enskild kurs)_ | — | Kemiska principer; tillgodoräknas utan att ersätta en specifik CMATD-kurs. |
+| [SF1546](https://www.kth.se/student/kurser/kurs/SF1546) Numeriska metoder, grundkurs | 6 | _(ingen enskild motsvarighet — se kommentar)_ | — | Numeriska metoder; tillsammans med momentet PRO1 ur SF1551 motsvarar den hela SF1551, som därför utgår (se 'exempt'). De återstående 1,5 hp går inte att uttrycka i schemat — se signeringsunderlaget. |
+| [SA1007](https://www.kth.se/student/kurser/kurs/SA1007) Ingenjörsrollen och ingenjörskunskap | 6 | _(ingen enskild motsvarighet — se kommentar)_ | — | Ingenjörsrollen; tillgodoräknas utan att ersätta en specifik CMATD-kurs. |
+| [KD1000](https://www.kth.se/student/kurser/kurs/KD1000) Kemiska principer för hållbar utveckling | 3 | _(ingen enskild motsvarighet — se kommentar)_ | — | Kemiska principer; tillgodoräknas utan att ersätta en specifik CMATD-kurs. |
 
 ## Kurser som utgår
 

@@ -24,8 +24,8 @@ De 9 kurserna i COPEN årskurs 1 och vad de ersätter i CTMAT.
 | [DD1310](https://www.kth.se/student/kurser/kurs/DD1310) Programmeringsteknik | 6 | [DD1333](https://www.kth.se/student/kurser/kurs/DD1333) Grundläggande programmering | 5 | Programmeringsteknik motsvarar CTMAT Grundläggande programmering. |
 | [SG1133](https://www.kth.se/student/kurser/kurs/SG1133) Mekanik I | 9 | [SG1115](https://www.kth.se/student/kurser/kurs/SG1115) Partikeldynamik med projekt | 7,5 | Mekanik I (9 hp) motsvarar CTMAT Partikeldynamik med projekt (7,5 hp). Kurserna har olika namn och omfång — se signeringsunderlaget. |
 | [SA1007](https://www.kth.se/student/kurser/kurs/SA1007) Ingenjörsrollen och ingenjörskunskap | 6 | [SA1006](https://www.kth.se/student/kurser/kurs/SA1006) Ingenjörsfärdigheter i teknisk matematik | 8,5 | Ingenjörsrollen och ingenjörskunskap (6 hp) motsvarar CTMAT Ingenjörsfärdigheter i teknisk matematik (8,5 hp), som CTMAT läser utspritt över årskurs 1-3. Hela kursen utgår för studenter från Öppen ingång, vilket är så övergångsplanen redovisar den. |
-| [SK1115](https://www.kth.se/student/kurser/kurs/SK1115) Elektromagnetism och vågrörelselära | 7,5 | _(ersätter ingen enskild kurs)_ | — | Elektromagnetism och vågrörelselära ersätter enligt övergångsplanen ingen kurs i CTMAT:s basblock och räknas som valfri kurs. |
-| [KD1000](https://www.kth.se/student/kurser/kurs/KD1000) Kemiska principer för hållbar utveckling | 3 | _(ersätter ingen enskild kurs)_ | — | Kemiska principer ersätter enligt övergångsplanen ingen kurs i CTMAT:s basblock och räknas som valfri kurs. |
+| [SK1115](https://www.kth.se/student/kurser/kurs/SK1115) Elektromagnetism och vågrörelselära | 7,5 | _(ingen enskild motsvarighet — se kommentar)_ | — | Elektromagnetism och vågrörelselära ersätter enligt övergångsplanen ingen kurs i CTMAT:s basblock och räknas som valfri kurs. |
+| [KD1000](https://www.kth.se/student/kurser/kurs/KD1000) Kemiska principer för hållbar utveckling | 3 | _(ingen enskild motsvarighet — se kommentar)_ | — | Kemiska principer ersätter enligt övergångsplanen ingen kurs i CTMAT:s basblock och räknas som valfri kurs. |
 
 ## Kurser som utgår
 
