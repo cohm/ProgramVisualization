@@ -25,10 +25,10 @@
     "d3-scale": "^4.0.2",
     "d3-selection": "^3.0.0",
     "d3-transition": "^3.0.1",
-    "next": "^16.3.4",
+    "next": "^16.3.5",
     "puppeteer-core": "^25.10.0",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "devDependencies": {
     "@size-limit/file": "^13.0.3",
@@ -42,7 +42,7 @@
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
-    "eslint-config-next": "^16.3.4",
+    "eslint-config-next": "^16.3.5",
     "size-limit": "^13.0.3",
     "tailwindcss": "^4",
     "typescript": "^6"
