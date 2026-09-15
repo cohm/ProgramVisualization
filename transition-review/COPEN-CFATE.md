@@ -8,8 +8,8 @@ Planen är inläst från *Övergångsplan för Öppen ingång (gäller överg ti
 
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
-Varje kurskod nedan länkar till KTH:s kurssida. Kontrollera raderna i tur och
-ordning; de som är markerade **Fråga** kräver ett aktivt beslut.
+Varje kurskod nedan länkar till KTH:s kurssida.
+Kontrollera raderna i tur och ordning; de som är markerade **Fråga** kräver ett aktivt beslut.
 
 ## Tillgodoräknade kurser
 

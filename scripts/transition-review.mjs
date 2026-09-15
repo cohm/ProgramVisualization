@@ -75,19 +75,21 @@ const firstYear = (e) => {
   return rows.length ? Math.min(...rows.map((r) => r.year)) : e.year;
 };
 
-function composedLoad(plan) {
+function composedLoad(plan, spec) {
   const src = entriesFor(plan.from);
   const tgt = entriesFor(plan.to);
   const exempt = new Set((plan.exempt ?? []).map((e) => e.code));
   const moves = new Map((plan.moved ?? []).map((m) => [m.code, m]));
   const out = [];
   for (const e of src) if (plan.sourceYears.includes(firstYear(e))) out.push({ ...e });
+  const resched = new Map((plan.rescheduled ?? []).map((r) => [r.code, r]));
   for (const e of tgt) {
     if (e.code && exempt.has(e.code)) continue;
     const mv = e.code ? moves.get(e.code) : null;
     if (mv) { out.push({ ...e, year: mv.toYear, periodCredits: yearRows(e)[0]?.periodCredits ?? e.periodCredits }); continue; }
     if (plan.sourceYears.includes(firstYear(e))) continue;
-    out.push({ ...e });
+    const rs = e.code ? resched.get(e.code) : null;
+    out.push(rs ? { ...e, periodCredits: rs.periodCredits } : { ...e });
   }
   for (const a of plan.added ?? []) out.push({ ...a });
 
@@ -98,7 +100,13 @@ function composedLoad(plan) {
   const byYear = new Map();
   for (const e of out) {
     if (!e.periodCredits) continue;
-    if (e.type !== 'optionGroup' && (inGroup.has(e.code) || e.specializations)) continue;
+    if (e.type !== 'optionGroup' && inGroup.has(e.code)) continue;
+    // A course tagged with inriktningar is taken only by students on one of
+    // them. With `spec` given, count it only when it matches; without, leave
+    // every tagged course out and report the common part alone — counting all
+    // of them at once would sum several mutually exclusive tracks.
+    const tags = e.specializations;
+    if (tags?.length && (!spec || !tags.includes(spec))) continue;
     for (const { year: y, periodCredits: pc } of yearRows(e)) {
       if (y == null) continue;
       if (!byYear.has(y)) byYear.set(y, { P1: 0, P2: 0, P3: 0, P4: 0 });
@@ -129,8 +137,10 @@ function write(plan) {
   if (plan.source) { L.push(`**Källa:** ${plan.source}`); L.push(''); }
   L.push(`**Status:** ${plan.verified ? 'verifierad' : '**inte verifierad** — detta dokument är det som ska signeras.'}`);
   L.push('');
-  L.push('Varje kurskod nedan länkar till KTH:s kurssida. Kontrollera raderna i tur och');
-  L.push('ordning; de som är markerade **Fråga** kräver ett aktivt beslut.');
+  L.push('Varje kurskod nedan länkar till KTH:s kurssida.');
+  L.push(plan.verified
+    ? 'Planen är godkänd; avsnitten nedan är kvar som dokumentation av vad som granskades.'
+    : 'Kontrollera raderna i tur och ordning; de som är markerade **Fråga** kräver ett aktivt beslut.');
   L.push('');
 
   L.push('## Tillgodoräknade kurser');
@@ -141,9 +151,12 @@ function write(plan) {
   L.push('|---|---|---|---|---|');
   for (const c of plan.credited) {
     const reps = (c.replaces ?? []);
+    // Without `replaces` the course still carries a note explaining what it
+    // credits — SA1007 and KD1000 jointly cover SI1121 and SK1105 — so "replaces
+    // nothing" would understate it. The note is in the next column.
     const repTxt = reps.length
       ? reps.map((r) => `${link(r)} ${nameOf(tgt, r)}`).join('<br>')
-      : '_(ersätter ingen enskild kurs)_';
+      : '_(ingen enskild motsvarighet — se kommentar)_';
     const repHp = reps.length ? reps.map((r) => hp(creditsOf(tgt, r) ?? 0)).join('<br>') : '—';
     L.push(`| ${link(c.code)} ${nameOf(src, c.code)} | ${hp(creditsOf(src, c.code) ?? 0)} | ${repTxt} | ${repHp} | ${c.note ?? ''} |`);
   }
@@ -174,6 +187,22 @@ function write(plan) {
     L.push('');
   }
 
+  if (plan.rescheduled?.length) {
+    L.push('## Kurser som läses i en annan kursomgång');
+    L.push('');
+    L.push('Samma kurs och samma årskurs, men den andra av KTH:s omgångar under året.');
+    L.push('');
+    for (const rs of plan.rescheduled) {
+      const from = ['P1', 'P2', 'P3', 'P4'].filter((q) => tgt.find((e) => e.code === rs.code)?.periodCredits?.[q])
+        .map((q) => `${q}: ${hp(tgt.find((e) => e.code === rs.code).periodCredits[q])} hp`).join(', ');
+      const to = ['P1', 'P2', 'P3', 'P4'].filter((q) => rs.periodCredits?.[q])
+        .map((q) => `${q}: ${hp(rs.periodCredits[q])} hp`).join(', ');
+      L.push(`- **${link(rs.code)} ${nameOf(tgt, rs.code)}** (${hp(creditsOf(tgt, rs.code) ?? 0)} hp): ${from} → **${to}**`);
+      if (rs.note) L.push(`  ${rs.note}`);
+    }
+    L.push('');
+  }
+
   if (plan.added?.length) {
     L.push('## Kurser som tillkommer');
     L.push('');
@@ -195,11 +224,33 @@ function write(plan) {
   L.push('en övergångsplan innehåller ofta upphämtningskurser — men de bör stämma med');
   L.push('övergångsplanens egna summor.');
   L.push('');
-  L.push('| Årskurs | P1 | P2 | P3 | P4 | Totalt |');
-  L.push('|---|---|---|---|---|---|');
-  for (const [year, row] of composedLoad(plan)) {
+  const targetProg = programs.find((p) => p.code === plan.to);
+  const specs = targetProg?.specializations ?? [];
+  const rowFor = (year, row, label) => {
     const tot = row.P1 + row.P2 + row.P3 + row.P4;
-    L.push(`| ${year} | ${hp(row.P1)} | ${hp(row.P2)} | ${hp(row.P3)} | ${hp(row.P4)} | ${hp(tot)} |`);
+    const lead = label == null ? `| ${year} |` : `| ${year} | ${label} |`;
+    return `${lead} ${hp(row.P1)} | ${hp(row.P2)} | ${hp(row.P3)} | ${hp(row.P4)} | ${hp(tot)} |`;
+  };
+  if (specs.length === 0) {
+    L.push('| Årskurs | P1 | P2 | P3 | P4 | Totalt |');
+    L.push('|---|---|---|---|---|---|');
+    for (const [year, row] of composedLoad(plan)) L.push(rowFor(year, row, null));
+  } else {
+    // One row per inriktning, because a student takes exactly one of them and
+    // the years differ between them. The "gemensamma" row is the part every
+    // student reads, which is what the inriktning rows are added to.
+    L.push('| Årskurs | Inriktning | P1 | P2 | P3 | P4 | Totalt |');
+    L.push('|---|---|---|---|---|---|---|');
+    const common = new Map(composedLoad(plan));
+    for (const [year, row] of common) {
+      L.push(rowFor(year, row, '_gemensamma_'));
+      for (const sp of specs) {
+        const r = new Map(composedLoad(plan, sp.code)).get(year);
+        if (!r) continue;
+        const differs = ['P1', 'P2', 'P3', 'P4'].some((q) => r[q] !== row[q]);
+        if (differs) L.push(rowFor(year, r, `${sp.code} ${sp.name}`));
+      }
+    }
   }
   L.push('');
   if (q.loadNote) { L.push(q.loadNote); L.push(''); }

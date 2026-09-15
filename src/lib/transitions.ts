@@ -54,11 +54,13 @@ export function composeTransition(
   sourceEntries: Entry[],
   targetEntries: Entry[],
   plan: TransitionPlan,
+  selectedSpecializations?: Set<string>,
 ): ComposedPlan {
   const warnings: string[] = [];
   const sourceYears = new Set(plan.sourceYears);
   const exemptCodes = new Set((plan.exempt ?? []).map(e => e.code));
   const movesByCode = new Map((plan.moved ?? []).map(m => [m.code, m]));
+  const reschedByCode = new Map((plan.rescheduled ?? []).map(r => [r.code, r]));
 
   // --- the source programme's own years -----------------------------------
   const fromSource = sourceEntries.filter(e => sourceYears.has(entryYear(e)));
@@ -116,6 +118,36 @@ export function composeTransition(
     }
 
     if (sourceYears.has(year)) continue;              // replaced by the source year
+
+    // Same year, different periods: the student takes the course's other
+    // offering. Only the period map is replaced; everything else about the
+    // course still comes from the target programme's own data.
+    const resched = code ? reschedByCode.get(code) : undefined;
+    if (resched) {
+      const course = entry as Course;
+      const credits = PERIODS
+        .map(period => ({ year, period, credits: Number(resched.periodCredits[period] ?? 0) }))
+        .filter(c => c.credits > 0);
+      const sum = credits.reduce((a, c) => a + c.credits, 0);
+      const was = course.credits.reduce((a, c) => a + c.credits, 0);
+      if (Math.abs(sum - was) > LOAD_TOLERANCE) {
+        warnings.push(
+          `The plan reschedules ${code} to periods totalling ${sum} hp, but ${plan.to} lists it ` +
+          `as ${was} hp — the offering should be the same course.`,
+        );
+      }
+      // The exam sits in the teaching period, so an exam recorded against the
+      // old periods no longer has a bar to anchor to.
+      if (course.exams?.length) {
+        warnings.push(
+          `${code} is rescheduled, but it carries exam marker(s) in ${course.exams.join(', ')} ` +
+          `from ${plan.to}'s own offering — check where the exam falls in the offering actually taken.`,
+        );
+      }
+      fromTarget.push({ ...course, credits, examsByYear: undefined, reexamsByYear: undefined });
+      continue;
+    }
+
     fromTarget.push(entry);
   }
 
@@ -127,6 +159,11 @@ export function composeTransition(
   for (const [code, move] of movesByCode) {
     if (!targetEntries.some(e => !isGroup(e) && e.code === code)) {
       warnings.push(`The plan moves ${code} to year ${move.toYear}, but ${plan.to} does not list it.`);
+    }
+  }
+  for (const code of reschedByCode.keys()) {
+    if (!targetEntries.some(e => !isGroup(e) && e.code === code)) {
+      warnings.push(`The plan reschedules ${code}, but ${plan.to} does not list it.`);
     }
   }
 
@@ -153,7 +190,7 @@ export function composeTransition(
     redirectPrerequisites([...fromSource, ...fromTarget, ...added], plan);
   const entries = rewritten;
   warnings.push(...rewriteWarnings);
-  warnings.push(...fullTimeWarnings(entries, plan));
+  warnings.push(...fullTimeWarnings(entries, plan, selectedSpecializations));
 
   return {
     entries,
@@ -276,9 +313,26 @@ const LOAD_TOLERANCE = 0.05;
  * Reported rather than corrected. Where the plan puts a course is the program
  * director's call, and the arithmetic is what they need in order to make it.
  */
-function fullTimeWarnings(entries: Entry[], plan: TransitionPlan): string[] {
+function fullTimeWarnings(
+  entries: Entry[],
+  plan: TransitionPlan,
+  selectedSpecializations?: Set<string>,
+): string[] {
   const groups = entries.filter(isGroup);
   const inGroup = new Set(groups.flatMap(g => g.options));
+  // A course tagged with inriktningar is taken only by students on one of them,
+  // so counting every tag at once overstates the year. CMAST is the case: its
+  // three language tracks are 37.5 hp together and a student takes at most one,
+  // which made the composed year 2 read 90 hp against a true 61.5. When the view
+  // has a selection, count a tagged course only if it matches; with no selection
+  // (no registry, or nothing picked yet) keep the old behaviour of counting it,
+  // since dropping every tagged course would understate the year instead.
+  const matchesSpec = (e: Entry): boolean => {
+    const specs = (e as Course).specializations;
+    if (!specs?.length) return true;
+    if (!selectedSpecializations?.size) return true;
+    return specs.some(c => selectedSpecializations.has(c));
+  };
   const byYear = new Map<number, Record<string, number>>();
 
   const add = (year: number, period: string, hp: number) => {
@@ -295,6 +349,7 @@ function fullTimeWarnings(entries: Entry[], plan: TransitionPlan): string[] {
       continue;
     }
     if (inGroup.has(entry.code)) continue;
+    if (!matchesSpec(entry)) continue;
     for (const c of entry.credits) add(c.year, c.period, c.credits);
   }
 
