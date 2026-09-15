@@ -78,7 +78,7 @@ en övergångsplan innehåller ofta upphämtningskurser — men de bör stämma 
 | 3 | DTOI Datateknik | 21,5 | 11,5 | 12 | 15 | 60 |
 | 3 | TMAI Tillämpad matematik | 19,5 | 13,5 | 15 | 13,5 | 61,5 |
 | 3 | EHUI Energisystem och hållbar utveckling | 24 | 9 | 10,5 | 16,5 | 60 |
-| 3 | PPUI Produkt- och produktionsutveckling | 18 | 9 | 21 | 21 | 69 |
+| 3 | PPUI Produkt- och produktionsutveckling | 23 | 10 | 21 | 21 | 75 |
 
 Raden **_gemensamma_** är de kurser alla läser, oavsett teknikinriktning. Raderna under visar samma år med respektive inriktning tillagd — en student läser **en** av dem, så de ska inte summeras ihop.
 

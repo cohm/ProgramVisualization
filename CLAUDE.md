@@ -814,25 +814,46 @@ and texts naming only out-of-programme courses. `--prereqs` fills a curated file
 prerequisites and never touches a course that already has them — a coordinator's
 reading of the same text outranks anything derived here.
 
-**Not extractable:** `teacher`, `description`, cosmetics files, and the case where
-inriktningar take one course in *different study years* (CINEK's DD1320) — the
-schema has no shape for it, so the extractor emits the widest-audience year and
-flags the rest.
+**Not extractable:** `teacher`, `description`, and cosmetics files.
 
-Measured for DD1320 against the live study plan, identical across läsår 2024/25,
-2025/26 and 2026/27: **DTOI and TMAI take it in year 2, PPUI in year 3, EHUI not
-at all.** The extractor therefore emits `year: 2` with
-`specializations: ['DTOI','TMAI']` — the year two of the three take it in — and
-**PPUI's copy is simply absent from the data**. Everything else in PPUI's year 3
-is present and correctly tagged, so the loss is exactly one course.
+**One course, different study years for different inriktningar** — expressible
+now, via `yearBySpecialization` alongside the existing
+`periodCreditsBySpecialization`. The base entry is the year the most
+inriktningar take the course in; the others are recorded as overrides, so the
+course code stays unique and the duplicate-code check keeps its meaning.
 
-This is worth knowing because the programme's own prose reads as a
-contradiction when checked against the data: CINEK's transition plan says
-"DD1320 är obligatorisk för alla teknikinriktningar förutom … (EHUI)", which is
-**true**, while the data shows only DTOI and TMAI. Both are right; the gap is
-the schema's. Expressing it needs either a per-specialization year override on
-`Course`, or a second entry for the same code — which the validator currently
-rejects, since duplicate codes are silently summed.
+CINEK's DD1320 is the case it was built for, measured against the live study
+plan:
+
+| inriktning | year | offering |
+|---|---|---|
+| DTOI, TMAI | 2 | spring, P3 4 + P4 2 |
+| PPUI | **3** | **autumn, P1 5 + P2 1** |
+| EHUI | — | not taken |
+
+So both overrides are needed together, which is why they compose. Before this,
+the extractor emitted only the majority year and flagged the rest, and PPUI's
+copy was simply absent: a PPUI student saw a year 3 six credits short.
+
+Two traps, both found by getting them wrong first:
+
+- **The override's spec codes must be added to the course's own
+  `specializations`**, or the inriktning filter hides the course from exactly
+  the students the override is for.
+- **Every consumer that buckets by year has to honour it**, not just the
+  renderer. `validate-data`'s full-time pass and the transition-review load
+  table both counted PPUI's DD1320 against year 2 while the chart drew it in
+  year 3 — reporting two years wrong at once.
+
+The evidence needs care: CINEK's year-3 list is **empty for läsår 2025/26**
+(deleted, per the publishing window above) and **all-zero for 2026/27** (not yet
+published). Only 2024/25 carries real period data for PPUI's DD1320. A check
+that reads one läsår and concludes "PPUI does not take it" is reading a deleted
+list.
+
+A year that belongs to the COMMON set rather than a named inriktning still
+cannot be expressed — there is no spec code to key the override on — so that
+case is reported and left to a human.
 
 **Adding a programme from scratch** (CMAST and CMATD were added this way):
 

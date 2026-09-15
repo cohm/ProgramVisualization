@@ -24,8 +24,8 @@ De 9 kurserna i COPEN årskurs 1 och vad de ersätter i CFATE.
 | [SK1115](https://www.kth.se/student/kurser/kurs/SK1115) Elektromagnetism och vågrörelselära | 7,5 | [SK1112](https://www.kth.se/student/kurser/kurs/SK1112) Fysik I | 9 | Elektromagnetism och vågrörelselära motsvarar CFATE Fysik I. |
 | [DD1310](https://www.kth.se/student/kurser/kurs/DD1310) Programmeringsteknik | 6 | [DD1333](https://www.kth.se/student/kurser/kurs/DD1333) Grundläggande programmering | 5 | Programmeringsteknik motsvarar CFATE Grundläggande programmering. Övergångsplanen skriver DD1331, men CFATE:s kursdata anger DD1333 i samtliga kullar — se signeringsunderlaget. |
 | [SA1007](https://www.kth.se/student/kurser/kurs/SA1007) Ingenjörsrollen och ingenjörskunskap | 6 | [SD1002](https://www.kth.se/student/kurser/kurs/SD1002) Farkostteknik | 7 | Ingenjörsrollen och ingenjörskunskap motsvarar CFATE Farkostteknik. |
-| [SF1546](https://www.kth.se/student/kurser/kurs/SF1546) Numeriska metoder, grundkurs | 6 | _(ersätter ingen enskild kurs)_ | — | Numeriska metoder ingår enligt övergångsplanen i ersättningen av både SF1668 och SF1694, men schemat kan bara ange en ersättande kurs per målkurs, så SF1546 står utan egen 'replaces'. |
-| [KD1000](https://www.kth.se/student/kurser/kurs/KD1000) Kemiska principer för hållbar utveckling | 3 | _(ersätter ingen enskild kurs)_ | — | Kemiska principer; tillgodoräknas utan att ersätta en specifik CFATE-kurs. |
+| [SF1546](https://www.kth.se/student/kurser/kurs/SF1546) Numeriska metoder, grundkurs | 6 | _(ingen enskild motsvarighet — se kommentar)_ | — | Numeriska metoder ingår enligt övergångsplanen i ersättningen av både SF1668 och SF1694, men schemat kan bara ange en ersättande kurs per målkurs, så SF1546 står utan egen 'replaces'. |
+| [KD1000](https://www.kth.se/student/kurser/kurs/KD1000) Kemiska principer för hållbar utveckling | 3 | _(ingen enskild motsvarighet — se kommentar)_ | — | Kemiska principer; tillgodoräknas utan att ersätta en specifik CFATE-kurs. |
 
 ## Läsårsbelastning i den sammansatta planen
 

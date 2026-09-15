@@ -2957,23 +2957,62 @@ async function extractCohort(prog, cohort, args, registryEntries) {
       return [buildMultiYearEntry(code, byYear).entry];
     }
 
-    // Case (b): different inriktningar, different years. Not expressible —
-    // emit the year with the widest audience and say so plainly.
+    // Case (b): different inriktningar, different years.
+    //
+    // Expressed with `yearBySpecialization` plus, where the offerings differ,
+    // `periodCreditsBySpecialization`. The base entry is the year the most
+    // inriktningar take the course in; the others are recorded as overrides, so
+    // every inriktning's students see the course where they actually take it.
+    //
+    // CINEK's DD1320 is the case this exists for: DTOI and TMAI take it in
+    // year 2 in the spring offering, PPUI in year 3 in the autumn one. It used
+    // to be emitted as year 2 only, which left PPUI's year 3 six credits short.
     const years = [...byYear.keys()].sort((a, b) => byYear.get(b).length - byYear.get(a).length);
     const kept = years[0];
-    const dropped = years.slice(1);
-    const describe = (y) => {
-      const ss = [...new Set(byYear.get(y).map((r) => r.spec ?? 'COMMON'))].sort();
-      return `year ${y} (${ss.join('/')})`;
-    };
-    flag(
-      `${code}: taken in different study years by different inriktningar — ` +
-      `${years.map(describe).join(' vs ')}. The schema cannot express this ` +
-      `(periodCreditsBySpecialization overrides periods, not the year), so only ` +
-      `${describe(kept)} was emitted and ${dropped.map(describe).join(', ')} dropped. ` +
-      `Resolve by hand.`,
-    );
-    return [buildCourseEntry(code, byYear.get(kept), usedSpecs)];
+    const others = years.slice(1);
+    const specsOf = (y) => [...new Set(byYear.get(y).map((r) => r.spec).filter(Boolean))].sort();
+    const describe = (y) => `year ${y} (${(specsOf(y).length ? specsOf(y) : ['COMMON']).join('/')})`;
+
+    const entry = buildCourseEntry(code, byYear.get(kept), usedSpecs);
+    const yearBySpecialization = {};
+    const periodOverrides = { ...(entry.periodCreditsBySpecialization || {}) };
+    let unattributable = false;
+
+    for (const y of others) {
+      const specs = specsOf(y);
+      if (specs.length === 0) { unattributable = true; continue; }
+      const built = buildCourseEntry(code, byYear.get(y), usedSpecs);
+      for (const sp of specs) {
+        yearBySpecialization[sp] = y;
+        // Only record a period override when the offering really differs;
+        // an identical layout would be noise the validator has to carry.
+        const differs = PERIOD_IDS.some((q) =>
+          Number(built.periodCredits?.[q] || 0) !== Number(entry.periodCredits?.[q] || 0));
+        if (differs) periodOverrides[sp] = { ...built.periodCredits };
+      }
+      // The override's specs must be on the course, or the filter hides it.
+      entry.specializations = [...new Set([...(entry.specializations || []), ...specs])].sort();
+    }
+
+    if (Object.keys(yearBySpecialization).length > 0) {
+      entry.yearBySpecialization = yearBySpecialization;
+      if (Object.keys(periodOverrides).length > 0) entry.periodCreditsBySpecialization = periodOverrides;
+      flag(
+        `${code}: taken in different study years by different inriktningar — ` +
+        `${years.map(describe).join(' vs ')}. Emitted as ${describe(kept)} with ` +
+        `yearBySpecialization for the rest` +
+        `${Object.keys(periodOverrides).length ? ' (and a period override where the offering differs)' : ''}. ` +
+        `Verify against the study plan.`,
+      );
+    }
+    if (unattributable) {
+      flag(
+        `${code}: one of its study years is listed for the COMMON set rather than a named ` +
+        `inriktning, so it cannot be expressed as a per-inriktning override — ` +
+        `${years.map(describe).join(' vs ')}. Only ${describe(kept)} was emitted. Resolve by hand.`,
+      );
+    }
+    return [entry];
   };
 
   const byCode = new Map();
@@ -3224,6 +3263,34 @@ async function extractCohort(prog, cohort, args, registryEntries) {
         const q = e.qualifiesFor?.[e.code];
         if (q?.length) qualifiesFor[e.code] = q;
       }
+      // How many of these a student takes is DERIVED, not assumed to be one.
+      //
+      // `qualifiesFor` already records which destination each option leads to,
+      // so the count is the most any single destination requires from this
+      // group — the same rule the villkorligt-valfri groups use, counted per
+      // (programme, spår) so one track's extra course does not inflate the box.
+      //
+      // Hardcoding 1 contradicted the group's own data: CMATD's PRO (Master,
+      // industriell produktion) requires BOTH MG1024 and MG1002, and CMAST has
+      // destinations needing two and three. A pick-one box makes those students'
+      // plans impossible to express, which `validate-data` reports.
+      const perDest = new Map();
+      for (const [code, masters] of Object.entries(qualifiesFor)) {
+        if (!options.includes(code)) continue;
+        for (const m of masters) {
+          const key = `${m.code}::${m.track ?? ''}`;
+          perDest.set(key, (perDest.get(key) ?? 0) + 1);
+        }
+      }
+      const most = Math.max(1, ...perDest.values());
+      const pickN = Math.min(most, options.length);
+      if (pickN > 1) {
+        const which = [...perDest.entries()].filter(([, n]) => n === most)
+          .map(([k]) => k.split('::')[0]);
+        flag(`year ${year}: "Kurs för valt masterprogram" allows ${pickN} options, not 1 — ` +
+          `${which.join(', ')} require${which.length === 1 ? 's' : ''} ${most} of ` +
+          `[${options.join(' / ')}]. Derived from the study plan's own per-master lists.`);
+      }
       const groupEntry = {
         type: 'optionGroup',
         name: `Kurs för valt masterprogram, årskurs ${year}`,
@@ -3232,9 +3299,9 @@ async function extractCohort(prog, cohort, args, registryEntries) {
         totalCredits: round(PERIOD_IDS.reduce((a, q) => a + periodCredits[q], 0)),
         periodCredits,
         options,
-        allowedNumberOfOptions: 1,
+        allowedNumberOfOptions: pickN,
         kind: 'pickN',
-        pickN: 1,
+        pickN,
         exams: [],
         category: 'conditionallyElective',
         ...(Object.keys(qualifiesFor).length > 0 ? { qualifiesFor } : {}),

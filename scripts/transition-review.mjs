@@ -107,7 +107,14 @@ function composedLoad(plan, spec) {
     // of them at once would sum several mutually exclusive tracks.
     const tags = e.specializations;
     if (tags?.length && (!spec || !tags.includes(spec))) continue;
-    for (const { year: y, periodCredits: pc } of yearRows(e)) {
+    // Per-inriktning overrides: the same course can sit in a different study
+    // year and a different offering depending on the inriktning selected
+    // (CINEK's DD1320 for PPUI). Both must be applied or the row is wrong.
+    const yOv = spec ? e.yearBySpecialization?.[spec] : undefined;
+    const pOv = spec ? e.periodCreditsBySpecialization?.[spec] : undefined;
+    for (const src of yearRows(e)) {
+      const y = yOv ?? src.year;
+      const pc = pOv ?? src.periodCredits;
       if (y == null) continue;
       if (!byYear.has(y)) byYear.set(y, { P1: 0, P2: 0, P3: 0, P4: 0 });
       const row = byYear.get(y);

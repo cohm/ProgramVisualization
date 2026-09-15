@@ -274,7 +274,15 @@ function checkFullTimeLoad(program, data, file) {
       const override = spec != null
         ? (entry.periodCreditsBySpecialization || {})[spec]
         : null;
-      for (const [year, map] of Object.entries(periodCreditMaps(entry))) {
+      // `yearBySpecialization` moves the course to a different study year for
+      // this inriktning, so the credits must land in that year's row. Without
+      // it a course overridden into year 3 was still counted against year 2,
+      // which reported both years wrong at once (CINEK's DD1320 for PPUI).
+      const yearOverride = spec != null
+        ? (entry.yearBySpecialization || {})[spec]
+        : undefined;
+      for (const [rawYear, map] of Object.entries(periodCreditMaps(entry))) {
+        const year = yearOverride ?? rawYear;
         const use = override || map || {};
         for (const pid of PERIODS_ORDERED) {
           const v = Number(use[pid] || 0);
@@ -572,6 +580,38 @@ function validateCourse(c, ctx, file) {
         }
         if (typeof c.totalCredits === 'number' && Math.abs(sum - c.totalCredits) > CREDIT_TOLERANCE) {
           err(file, `${sctx}: Σ = ${round(sum)} ≠ totalCredits = ${c.totalCredits}`);
+        }
+      }
+    }
+  }
+
+  // ----- per-specialization study year -----
+  //
+  // The year-level counterpart of `periodCreditsBySpecialization`, for a course
+  // that sits in different study years for different inriktningar (CINEK's
+  // DD1320). Same guard: the keys must be inriktningar this course is actually
+  // tagged with, so a student who has not selected one never sees the override.
+  if (c.yearBySpecialization !== undefined) {
+    if (!c.yearBySpecialization || typeof c.yearBySpecialization !== 'object') {
+      err(file, `${ctx} ${c.code}: 'yearBySpecialization' must be an object`);
+    } else if (yearKeys.length > 0) {
+      err(file, `${ctx} ${c.code}: 'yearBySpecialization' is not supported on courses that use the by-year periodCredits shape`);
+    } else if (!Array.isArray(c.specializations) || c.specializations.length === 0) {
+      err(file, `${ctx} ${c.code}: 'yearBySpecialization' requires a non-empty 'specializations' array on the course`);
+    } else {
+      const ownSpecs = new Set(c.specializations);
+      for (const [specCode, year] of Object.entries(c.yearBySpecialization)) {
+        const sctx = `${ctx} ${c.code}.yearBySpecialization.${specCode}`;
+        if (!ownSpecs.has(specCode)) {
+          err(file, `${sctx}: '${specCode}' is not in this course's specializations (${[...ownSpecs].join(', ')})`);
+          continue;
+        }
+        if (!Number.isInteger(year) || year < 1) {
+          err(file, `${sctx}: must be a positive integer study year`);
+          continue;
+        }
+        if (year === c.year) {
+          warn(file, `${sctx}: overrides to year ${year}, which is already the course's year — the entry has no effect`);
         }
       }
     }
