@@ -1,8 +1,10 @@
 # Övergångsplan COPEN → CTFYS — underlag för signering
 
-Planen är inläst från *Övergångsplan för Öppen ingång, påbörjad HT25 (gäller överg till CTFYS HT26)*, version 260114 Christian Ohm. Den maskinella tolkningen stämmer exakt med dokumentet: samtliga sex "Ersätter"-rader, undantaget av SF1544 och upphämtningskursen SF1920 återfinns i planen nedan.
+Planen är inläst från *Övergångsplan för Öppen ingång, påbörjad HT25 (gäller överg till CTFYS HT26)*, version 260114 Christian Ohm.
 
-**Planen är granskad och godkänd av programansvarig.** Frågan om det valfria utrymmet på våren i årskurs 3 är besvarad nedan, och SI1121 är tillagd bland de kurser som utgår.
+**Planen är granskad och godkänd av programansvarig.** Avsnitten nedan är kvar som dokumentation av vad som granskades, och samtliga frågor är besvarade.
+
+Efter granskningen går motsvarigheterna ihop **fullständigt**: varje kurs i COPEN:s årskurs 1 har en redovisad roll, och varje kurs i CTFYS årskurs 1 har en redovisad motsvarighet.
 
 **Källa:** Programansvarigs val av upphämtningskurs; SF1920 hämtad från CELTE årskurs 2 (läsår 2025/26). Verifierad av programansvarig Christian Ohm.
 
@@ -23,9 +25,9 @@ De 9 kurserna i COPEN årskurs 1 och vad de ersätter i CTFYS.
 | [DD1310](https://www.kth.se/student/kurser/kurs/DD1310) Programmeringsteknik | 6 | [DD1331](https://www.kth.se/student/kurser/kurs/DD1331) Grundläggande programmering | 5 | Programmeringsteknik motsvarar CTFYS Grundläggande programmering. |
 | [SG1133](https://www.kth.se/student/kurser/kurs/SG1133) Mekanik I | 9 | [SG1112](https://www.kth.se/student/kurser/kurs/SG1112) Mekanik I | 9 | Mekanik I, samma kurs som CTFYS läser i årskurs 1. |
 | [SK1115](https://www.kth.se/student/kurser/kurs/SK1115) Elektromagnetism och vågrörelselära | 7,5 | [SK1104](https://www.kth.se/student/kurser/kurs/SK1104) Klassisk fysik | 7,5 | Elektromagnetism och vågrörelselära täcker CTFYS Klassisk fysik. |
-| [SF1546](https://www.kth.se/student/kurser/kurs/SF1546) Numeriska metoder, grundkurs | 6 | _(ersätter ingen enskild kurs)_ | — | Numeriska metoder; ersätter SF1544, som därför utgår helt (se 'exempt'). |
-| [SA1007](https://www.kth.se/student/kurser/kurs/SA1007) Ingenjörsrollen och ingenjörskunskap | 6 | _(ersätter ingen enskild kurs)_ | — | Ingenjörsrollen; tillgodoräknas utan att ersätta en specifik CTFYS-kurs. |
-| [KD1000](https://www.kth.se/student/kurser/kurs/KD1000) Kemiska principer för hållbar utveckling | 3 | _(ersätter ingen enskild kurs)_ | — | Kemiska principer; tillgodoräknas utan att ersätta en specifik CTFYS-kurs. |
+| [SF1546](https://www.kth.se/student/kurser/kurs/SF1546) Numeriska metoder, grundkurs | 6 | _(ingen enskild motsvarighet — se kommentar)_ | — | Numeriska metoder; ersätter SF1544, som därför utgår helt (se 'exempt'). |
+| [SA1007](https://www.kth.se/student/kurser/kurs/SA1007) Ingenjörsrollen och ingenjörskunskap | 6 | _(ingen enskild motsvarighet — se kommentar)_ | — | Ingenjörsrollen och ingenjörskunskap. SA1007 Ingenjörsrollen (6 hp) och KD1000 Kemiska principer (3 hp) motsvarar tillsammans, löst, SI1121 Termodynamik (6 hp) och SK1105 Experimentell fysik (4 hp) — en allmän ingenjörsintroduktion mot en termodynamik- och en laborationskurs. Motsvarigheten gäller paret som helhet, inte kurs mot kurs, varför varken 'replaces' eller 'creditedBy' är satt. |
+| [KD1000](https://www.kth.se/student/kurser/kurs/KD1000) Kemiska principer för hållbar utveckling | 3 | _(ingen enskild motsvarighet — se kommentar)_ | — | Kemiska principer för hållbar utveckling. SA1007 Ingenjörsrollen (6 hp) och KD1000 Kemiska principer (3 hp) motsvarar tillsammans, löst, SI1121 Termodynamik (6 hp) och SK1105 Experimentell fysik (4 hp) — en allmän ingenjörsintroduktion mot en termodynamik- och en laborationskurs. Motsvarigheten gäller paret som helhet, inte kurs mot kurs, varför varken 'replaces' eller 'creditedBy' är satt. |
 
 ## Kurser som utgår
 
@@ -34,7 +36,9 @@ Kurser i CTFYS som den transfererande studenten inte läser.
 - **[SF1544](https://www.kth.se/student/kurser/kurs/SF1544) Numeriska metoder, grundkurs IV** (6 hp) — tillgodoräknad genom [SF1546](https://www.kth.se/student/kurser/kurs/SF1546)
   Numeriska metoder är redan avklarad genom SF1546 i COPEN.
 - **[SI1121](https://www.kth.se/student/kurser/kurs/SI1121) Termodynamik** (6 hp)
-  Termodynamik läses inte av studenter från Öppen ingång. Den täcks löst av KD1000 och SA1007 tillsammans — en allmän ingenjörsintroduktion med delvis annat innehåll — och ingen enskild COPEN-kurs motsvarar den, varför 'creditedBy' är utelämnad.
+  Termodynamik läses inte av studenter från Öppen ingång. SA1007 Ingenjörsrollen (6 hp) och KD1000 Kemiska principer (3 hp) motsvarar tillsammans, löst, SI1121 Termodynamik (6 hp) och SK1105 Experimentell fysik (4 hp) — en allmän ingenjörsintroduktion mot en termodynamik- och en laborationskurs. Motsvarigheten gäller paret som helhet, inte kurs mot kurs, varför varken 'replaces' eller 'creditedBy' är satt.
+- **[SK1105](https://www.kth.se/student/kurser/kurs/SK1105) Experimentell fysik** (4 hp)
+  Experimentell fysik läses inte av studenter från Öppen ingång. SA1007 Ingenjörsrollen (6 hp) och KD1000 Kemiska principer (3 hp) motsvarar tillsammans, löst, SI1121 Termodynamik (6 hp) och SK1105 Experimentell fysik (4 hp) — en allmän ingenjörsintroduktion mot en termodynamik- och en laborationskurs. Motsvarigheten gäller paret som helhet, inte kurs mot kurs, varför varken 'replaces' eller 'creditedBy' är satt.
 
 ## Kurser som tillkommer
 
@@ -61,17 +65,32 @@ Dessa siffror stämmer med övergångsplanens egna summor (årskurs 2: 15,0/14,0
 
 ### 1. Besvarad: fri fördelning av det valfria utrymmet på våren i årskurs 3
 
-Övergångsplanen anger *Valfria kurser* som 7,5 hp i P3 och 7,5 hp i P4, medan CTFYS egen studieplan formulerar samma sak som **ett** utrymme på 15,0 hp över hela våren ("På våren i årskurs 3 finns ett utrymme på 15,0 hp valfria kurser").
+Övergångsplanen anger *Valfria kurser* som 7,5 hp i P3 och 7,5 hp i P4, medan CTFYS egen studieplan formulerar samma sak som **ett** utrymme på 15,0 hp över hela våren.
 
 **Svar från programansvarig:** den fria fördelningen över våren gäller även för studenter från Öppen ingång, precis som för alla CTFYS-studenter. Diagrammet ritar därför en sammanhängande ruta som spänner P3+P4, vilket är korrekt.
 
-### 2. Att bekräfta: SK1105 Experimentell fysik
+### 2. Besvarad: SI1121 och SK1105 täcks av SA1007 och KD1000
 
-SI1121 Termodynamik är nu införd bland de kurser som utgår, efter besked från programansvarig att den inte läses av studenter från Öppen ingång.
+**Svar från programansvarig:** SK1105 *Experimentell fysik* och SI1121 *Termodynamik* läses inte av studenter från Öppen ingång. De täcks tillsammans, löst, av SA1007 *Ingenjörsrollen* och KD1000 *Kemiska principer* — en allmän ingenjörsintroduktion med delvis annat innehåll.
 
-**SK1105** *Experimentell fysik* (4 hp, P4) står i exakt samma läge: den ligger i CTFYS årskurs 1, ingen COPEN-kurs ersätter den, och den förekommer inte någonstans i övergångsplanens tabeller för årskurs 2 eller 3. Detsamma gäller **DD1301** *Datorintroduktion* (1,5 hp), som dock är en frivillig kurs och därför ett mindre problem.
+Motsvarigheten gäller paret som helhet: 6 + 3 = 9 hp mot 6 + 4 = 10 hp, och ingen enskild COPEN-kurs motsvarar någon enskild CTFYS-kurs här. Datamodellen uttrycker bara kurs-mot-kurs, så relationen är dokumenterad i kommentarerna i stället för som typade motsvarigheter. Det påverkar inget i diagrammet: ingen kurs i årskurs 2 eller 3 anger SI1121 eller SK1105 som förkunskap, och hela CTFYS årskurs 1 ersätts ändå av COPEN:s.
 
-Ingen av dem påverkar diagrammet — hela CTFYS årskurs 1 ersätts av COPEN:s, så de ritas inte oavsett. Frågan gäller enbart om listan "Kurser som utgår" ska vara fullständig. **Ska SK1105 föras in på samma sätt som SI1121?**
+**Med detta går årskurs 1 ihop fullständigt:**
+
+| CTFYS årskurs 1 | hp | täcks av |
+|---|---|---|
+| SF1673 Analys i en variabel | 7,5 | SF1625 |
+| SF1672 Linjär algebra | 7,5 | SF1624 |
+| SF1674 Flervariabelanalys | 7,5 | SF1626 |
+| DD1331 Grundläggande programmering | 5 | DD1310 |
+| SG1112 Mekanik I | 9 | SG1133 |
+| SK1104 Klassisk fysik | 7,5 | SK1115 |
+| SF1922 Sannolikhetsteori och statistik I | 6 | SF1920, läst i årskurs 2 |
+| SI1121 Termodynamik | 6 | SA1007 + KD1000 (löst) |
+| SK1105 Experimentell fysik | 4 | SA1007 + KD1000 (löst) |
+| DD1301 Datorintroduktion | 1,5 | frivillig kurs, läses inte |
+
+Och COPEN:s nionde kurs, SF1546, ersätter SF1544 i CTFYS årskurs 2.
 
 ---
 

@@ -149,9 +149,12 @@ function write(plan) {
   L.push('|---|---|---|---|---|');
   for (const c of plan.credited) {
     const reps = (c.replaces ?? []);
+    // Without `replaces` the course still carries a note explaining what it
+    // credits — SA1007 and KD1000 jointly cover SI1121 and SK1105 — so "replaces
+    // nothing" would understate it. The note is in the next column.
     const repTxt = reps.length
       ? reps.map((r) => `${link(r)} ${nameOf(tgt, r)}`).join('<br>')
-      : '_(ersätter ingen enskild kurs)_';
+      : '_(ingen enskild motsvarighet — se kommentar)_';
     const repHp = reps.length ? reps.map((r) => hp(creditsOf(tgt, r) ?? 0)).join('<br>') : '—';
     L.push(`| ${link(c.code)} ${nameOf(src, c.code)} | ${hp(creditsOf(src, c.code) ?? 0)} | ${repTxt} | ${repHp} | ${c.note ?? ''} |`);
   }
