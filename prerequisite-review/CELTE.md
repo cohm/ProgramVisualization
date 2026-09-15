@@ -30,28 +30,6 @@ curated `src/data/CELTE.json`) directly — this file is a worklist, not a sourc
 **8** distinct item(s) need review across all cohorts (an item shared by
 several cohorts is counted once).
 
-## Periods scheduled over full-time (2)
-
-Full-time is **15 hp per period**, and these schedule more — after every
-alternative we could identify has been grouped into a box and counted once,
-so this is what is left over. Two readings, and only the programme can say
-which applies: either some of these courses form a *minst N hp ur grupp*
-pool the student picks from — if so, which ones, and how many hp? — or the
-plan genuinely schedules an overload in that period.
-
-Courses listed below are counted individually; a *valblock* is counted once,
-however many options it holds.
-
-- **Årskurs 2, P3 — 47.7 hp, 32.7 hp over full-time.**
-  Cohorts: HT2022, HT2023, HT2024, HT2025, HT2026.
-  Courses: [DD1320](https://www.kth.se/student/kurser/kurs/DD1320) 6 hp, [DD1388](https://www.kth.se/student/kurser/kurs/DD1388) 4 hp, [EH1110](https://www.kth.se/student/kurser/kurs/EH1110) 0.5 hp, [EN1020](https://www.kth.se/student/kurser/kurs/EN1020) 2.5 hp, [MH1023](https://www.kth.se/student/kurser/kurs/MH1023) 3 hp, [SF1546](https://www.kth.se/student/kurser/kurs/SF1546) 4 hp, [SF1691](https://www.kth.se/student/kurser/kurs/SF1691) 3.7 hp, [SF1920](https://www.kth.se/student/kurser/kurs/SF1920) 6 hp, [SG1130](https://www.kth.se/student/kurser/kurs/SG1130) 4.5 hp, [SH1012](https://www.kth.se/student/kurser/kurs/SH1012) 2 hp, [SI1200](https://www.kth.se/student/kurser/kurs/SI1200) 4 hp.
-  Valblock: Villkorligt valfri grupp 2 7.5 hp.
-
-- **Årskurs 2, P4 — 45.3 hp, 30.3 hp over full-time.**
-  Cohorts: HT2022, HT2023, HT2024, HT2025, HT2026.
-  Courses: [DD1388](https://www.kth.se/student/kurser/kurs/DD1388) 3.5 hp, [EH1110](https://www.kth.se/student/kurser/kurs/EH1110) 0.5 hp, [EN1020](https://www.kth.se/student/kurser/kurs/EN1020) 2.5 hp, [EQ1120](https://www.kth.se/student/kurser/kurs/EQ1120) 6 hp, [MH1023](https://www.kth.se/student/kurser/kurs/MH1023) 3 hp, [SF1546](https://www.kth.se/student/kurser/kurs/SF1546) 2 hp, [SF1691](https://www.kth.se/student/kurser/kurs/SF1691) 3.8 hp, [SG1130](https://www.kth.se/student/kurser/kurs/SG1130) 4.5 hp, [SH1012](https://www.kth.se/student/kurser/kurs/SH1012) 6 hp, [SK1119](https://www.kth.se/student/kurser/kurs/SK1119) 7.5 hp.
-  Valblock: Villkorligt valfri grupp 1 6 hp.
-
 - [DD1320](https://www.kth.se/student/kurser/kurs/DD1320) — slutförd: [DD1310](https://www.kth.se/student/kurser/kurs/DD1310) · kursplan [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/DD1320-20262.pdf?lang=sv) / [HT 2024 – VT 2026](https://www.kth.se/student/kurser/kurs/kursplan/DD1320-20242.pdf?lang=sv) / [HT 2023 – VT 2024](https://www.kth.se/student/kurser/kurs/kursplan/DD1320-20232.pdf?lang=sv)
 - [DD1388](https://www.kth.se/student/kurser/kurs/DD1388) — slutförd: [DD1310](https://www.kth.se/student/kurser/kurs/DD1310), [DD1320](https://www.kth.se/student/kurser/kurs/DD1320) · kursplan [VT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/DD1388-20261.pdf?lang=sv) — *HT2024, HT2025, HT2026*
 - [ED1110](https://www.kth.se/student/kurser/kurs/ED1110) — slutförd: [SF1625](https://www.kth.se/student/kurser/kurs/SF1625) · kursplan [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/ED1110-20262.pdf?lang=sv) / [HT 2021 – VT 2026](https://www.kth.se/student/kurser/kurs/kursplan/ED1110-20212.pdf?lang=sv)
