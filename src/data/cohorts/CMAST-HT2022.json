@@ -759,9 +759,9 @@
       "SG1220",
       "SH1012"
     ],
-    "allowedNumberOfOptions": 1,
+    "allowedNumberOfOptions": 3,
     "kind": "pickN",
-    "pickN": 1,
+    "pickN": 3,
     "exams": [],
     "category": "conditionallyElective",
     "qualifiesFor": {

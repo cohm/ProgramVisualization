@@ -1172,9 +1172,9 @@
       "ME1003",
       "SG1220"
     ],
-    "allowedNumberOfOptions": 1,
+    "allowedNumberOfOptions": 2,
     "kind": "pickN",
-    "pickN": 1,
+    "pickN": 2,
     "exams": [],
     "category": "conditionallyElective",
     "qualifiesFor": {
