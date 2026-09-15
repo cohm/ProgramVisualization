@@ -3201,7 +3201,37 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     if (byYear.size === 1) return [buildCourseEntry(code, recs, usedSpecs)];
 
     if (yearsShareAudience(byYear)) {
-      return [buildMultiYearEntry(code, byYear).entry];
+      // Sharing an audience is not enough: the years must together make up ONE
+      // course. A genuine multi-year course contributes PART of its credits in
+      // each year — CTMAT's SA1006 is 8.5 hp as 4 + 1.5 + 3. A course simply
+      // OFFERED in two years contributes its full size in each, and a student
+      // takes it once.
+      //
+      // CELTE has 19 of these: villkorligt valfria courses listed under both
+      // year 2 and year 3. The year-3 listing carries no periods, which the
+      // elective-period lookup then fills from the course page, so both years
+      // ended up claiming the full credits and the entry summed to double.
+      // SF1679 came out 15 hp against a real 7.5, and the year totalled 47.7.
+      const perYearFull = [...byYear.values()].every((rs) => {
+        const total = round(rs[0]?.credits ?? 0);
+        if (!total) return false;
+        const sum = round(PERIOD_IDS.reduce((a, q) =>
+          a + Math.max(...rs.map((r) => Number(r.periodCredits?.[q] || 0))), 0));
+        return Math.abs(sum - total) < 0.05;
+      });
+      if (!perYearFull) return [buildMultiYearEntry(code, byYear).entry];
+
+      // Offered in several years: emit the earliest, which is when a student
+      // would normally take it, and say so. The schema has one year per course,
+      // and `yearBySpecialization` cannot help — the alternatives here are open
+      // to everyone rather than split by inriktning.
+      const years = [...byYear.keys()].sort((a, b) => a - b);
+      flag(
+        `${code}: offered in study years ${years.join(' and ')}, each listing the full ` +
+        `${round(byYear.get(years[0])[0].credits)} hp — a student takes it once. Emitted as ` +
+        `year ${years[0]}; the schema holds one year per course. Verify.`,
+      );
+      return [buildCourseEntry(code, byYear.get(years[0]), usedSpecs)];
     }
 
     // Case (b): different inriktningar, different years.

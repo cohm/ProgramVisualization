@@ -111,4 +111,27 @@
     "commentEn": "Fully auto-extracted, never verified. The default view shows the HT2025 cohort; pick an admission year for others.",
     "studyplan": "https://www.kth.se/student/kurser/program/CMATD"
   }
+  ,
+  {
+    "code": "CELTE",
+    "name": "Civilingenjörsutbildning i elektroteknik",
+    "nameEn": "Degree Program in Electrical Engineering",
+    "dataFile": "cohorts/CELTE-HT2025.json",
+    "cosmeticsFile": "CELTE-cosmetics.json",
+    "verified": false,
+    "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet! Extraherad medan KOPPS låg nere, så engelska kursnamn saknas för kurser som inte finns i andra program.",
+    "commentEn": "Study plan not yet verified — use with caution! Extracted while KOPPS was down, so English course titles are missing for courses not shared with other programmes.",
+    "studyplan": "https://www.kth.se/student/kurser/program/CELTE"
+  },
+  {
+    "code": "CDATE",
+    "name": "Civilingenjörsutbildning i datateknik",
+    "nameEn": "Degree Program in Computer Science and Engineering",
+    "dataFile": "cohorts/CDATE-HT2025.json",
+    "cosmeticsFile": "CDATE-cosmetics.json",
+    "verified": false,
+    "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet! Extraherad medan KOPPS låg nere, så engelska kursnamn saknas för kurser som inte finns i andra program.",
+    "commentEn": "Study plan not yet verified — use with caution! Extracted while KOPPS was down, so English course titles are missing for courses not shared with other programmes.",
+    "studyplan": "https://www.kth.se/student/kurser/program/CDATE"
+  }
 ]

@@ -1,0 +1,585 @@
+[
+  {
+    "type": "cohortMeta",
+    "program": "CDATE",
+    "cohort": "HT2023",
+    "years": [
+      {
+        "year": 1,
+        "sourceCohort": "HT2025",
+        "approximated": true,
+        "confidence": "unknown"
+      },
+      {
+        "year": 2,
+        "sourceCohort": "HT2024",
+        "approximated": true,
+        "corroboratedBy": {
+          "year": 3,
+          "agrees": true
+        },
+        "confidence": "high"
+      },
+      {
+        "year": 3,
+        "sourceCohort": "HT2023",
+        "approximated": false,
+        "confidence": "exact"
+      }
+    ]
+  },
+  {
+    "code": "DD1390",
+    "name": "Programsammanhållande kurs i datateknik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0.1,
+        "P2": 1.5,
+        "P3": 0.2,
+        "P4": 0.2
+      },
+      "Year2": {
+        "P1": 0.1,
+        "P2": 0.3,
+        "P3": 0.6,
+        "P4": 2
+      },
+      "Year3": {
+        "P1": 0.6,
+        "P2": 0.1,
+        "P3": 0.1,
+        "P4": 0.2
+      }
+    },
+    "prerequisites": [],
+    "exams": {},
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "DD1349",
+    "name": "Projektuppgift i introduktion till datalogi",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 3
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1337",
+      "DD1338"
+    ]
+  },
+  {
+    "code": "DA1600",
+    "name": "Ingenjörsmässigt skrivande",
+    "totalCredits": 4.5,
+    "periodCredits": {
+      "P1": 2.5,
+      "P2": 2,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "DD1337",
+    "name": "Programmering",
+    "totalCredits": 7,
+    "periodCredits": {
+      "P1": 5,
+      "P2": 2,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1671",
+    "name": "Matematik, baskurs, med diskret matematik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1625",
+    "name": "Envariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Calculus in One Variable",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "DD1338",
+    "name": "Algoritmer och datastrukturer",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 2,
+      "P3": 4,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1337"
+    ]
+  },
+  {
+    "code": "SF1626",
+    "name": "Flervariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Calculus in Several Variables",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "SF1624",
+    "name": "Algebra och geometri",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Algebra and Geometry",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "DH1623",
+    "name": "Människa-datorinteraktion, grundläggande teori",
+    "totalCredits": 4.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Human-Computer Interaction, Basic theory",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "DD1396",
+    "name": "Parallellprogrammering i introduktion till datalogi",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 3
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1337",
+      "DD1338"
+    ]
+  },
+  {
+    "code": "DD1366",
+    "name": "Programmeringsparadigm",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4,
+      "P4": 2
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1337",
+      "DD1338"
+    ]
+  },
+  {
+    "code": "IS1500",
+    "name": "Datorteknik och komponenter",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Computer Organization and Components",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1337"
+    ]
+  },
+  {
+    "code": "SF1547",
+    "name": "Numeriska metoder, grundkurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1337",
+      "SF1625"
+    ]
+  },
+  {
+    "code": "SF1935",
+    "name": "Sannolikhetsteori och statistik med tillämpning inom maskininlärning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 2,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "DD1351",
+    "name": "Logik för dataloger",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Logic for Computer Scientists",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1337",
+      "SF1671"
+    ]
+  },
+  {
+    "code": "DD1367",
+    "name": "Programvarukonstruktion i projektform",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 1.5,
+      "P3": 4,
+      "P4": 3.5
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Software Engineering in Project Form",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1337",
+      "DD1338"
+    ]
+  },
+  {
+    "code": "ME1010",
+    "name": "Organisation och kunskapsintensivt arbete",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "DD1368",
+    "name": "Databasteknik för D",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Database Technology",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1337",
+      "DD1338"
+    ]
+  },
+  {
+    "code": "ID1200",
+    "name": "Operativsystem",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Operating Systems",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1337",
+      "DD1338",
+      "IS1500"
+    ]
+  },
+  {
+    "code": "DD2350",
+    "name": "Algoritmer, datastrukturer och komplexitet",
+    "totalCredits": 9.5,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 3.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Algorithms, Data Structures and Complexity",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1337",
+      "DD1338",
+      "SF1624",
+      "SF1625"
+    ],
+    "prerequisitesParticipation": [
+      "SF1671",
+      "SF1688"
+    ]
+  },
+  {
+    "code": "AL1504",
+    "name": "Hållbar utveckling för datateknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1688",
+    "name": "Diskret matematik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1624",
+      "SF1671"
+    ]
+  },
+  {
+    "code": "DA150X",
+    "name": "Examensarbete inom datateknik, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DA1600",
+      "DD1337",
+      "DD1338"
+    ],
+    "prerequisitesParticipation": [
+      "AL1504",
+      "DD1367"
+    ]
+  }
+]
