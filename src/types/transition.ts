@@ -41,6 +41,32 @@ export interface TransitionMove {
 }
 
 /**
+ * A target course the student takes in its other offering of the same year.
+ *
+ * `moved` changes the study year and keeps the periods; this is the mirror
+ * image — same year, different periods — for a course KTH gives more than once
+ * a year where the transition makes the non-default offering the better choice.
+ *
+ * CINEK's DD1320 is the case. Its study plan says the course "kan läsas under
+ * höstterminen istället för under våren", and for a student arriving from COPEN
+ * the autumn offering is markedly better: their year 2 is back-loaded, because
+ * three of CINEK's year-1 business courses are read during it. Measured over the
+ * composed year, P1/P2/P3/P4 goes from 10/18.5/20/20.5 to 15/19.5/16/18.5 — the
+ * same 69 hp, distributed far closer to full time.
+ *
+ * Only the periods are recorded, not a copy of the course, so the composition
+ * stays a pure function of the target programme's current data: everything else
+ * — name, credits, prerequisites, grading — still comes from there.
+ */
+export interface TransitionReschedule {
+  code: string;
+  /** The offering's periods, replacing the ones the target programme lists. */
+  periodCredits: Record<string, number>;
+  note?: string;
+  noteEn?: string;
+}
+
+/**
  * A course the transferring student takes that neither published plan lists.
  *
  * COPEN -> CTFYS needs one: a COPEN student has no probability course, while
@@ -122,6 +148,7 @@ export interface TransitionPlan {
   credited: TransitionCredit[];
   exempt?: TransitionExemption[];
   moved?: TransitionMove[];
+  rescheduled?: TransitionReschedule[];
   added?: TransitionAddition[];
   /** False until a program director has confirmed it, like `programs.json`. */
   verified?: boolean;

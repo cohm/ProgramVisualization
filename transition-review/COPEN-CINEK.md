@@ -26,8 +26,8 @@ De 9 kurserna i COPEN årskurs 1 och vad de ersätter i CINEK.
 | [SG1133](https://www.kth.se/student/kurser/kurs/SG1133) Mekanik I | 9 | [SG1109](https://www.kth.se/student/kurser/kurs/SG1109) Mekanik | 8 | Mekanik I (9 hp) motsvarar CINEK:s SG1109 Mekanik (8 hp). |
 | [SK1115](https://www.kth.se/student/kurser/kurs/SK1115) Elektromagnetism och vågrörelselära | 7,5 | [SK1110](https://www.kth.se/student/kurser/kurs/SK1110) Elektromagnetism och vågrörelselära | 7,5 | Elektromagnetism och vågrörelselära motsvarar SK1110, som CINEK läser i årskurs 2. Kursen utgår därför helt (se 'exempt'). |
 | [SF1546](https://www.kth.se/student/kurser/kurs/SF1546) Numeriska metoder, grundkurs | 6 | [SF1545](https://www.kth.se/student/kurser/kurs/SF1545) Numeriska metoder, grundkurs | 6 | Numeriska metoder, grundkurs ersätter SF1545, som CINEK läser i årskurs 2. Övergångsplanen säger uttryckligen: "obl CINEK åk 2, har OPEN-studenter redan läst". Kursen utgår därför helt (se 'exempt'). |
-| [SA1007](https://www.kth.se/student/kurser/kurs/SA1007) Ingenjörsrollen och ingenjörskunskap | 6 | _(ersätter ingen enskild kurs)_ | — | Ingenjörsrollen och ingenjörskunskap; tillgodoräknas utan att ersätta en specifik CINEK-kurs. |
-| [KD1000](https://www.kth.se/student/kurser/kurs/KD1000) Kemiska principer för hållbar utveckling | 3 | _(ersätter ingen enskild kurs)_ | — | Kemiska principer för hållbar utveckling; tillgodoräknas utan att ersätta en specifik CINEK-kurs. |
+| [SA1007](https://www.kth.se/student/kurser/kurs/SA1007) Ingenjörsrollen och ingenjörskunskap | 6 | _(ingen enskild motsvarighet — se kommentar)_ | — | Ingenjörsrollen och ingenjörskunskap; tillgodoräknas utan att ersätta en specifik CINEK-kurs. |
+| [KD1000](https://www.kth.se/student/kurser/kurs/KD1000) Kemiska principer för hållbar utveckling | 3 | _(ingen enskild motsvarighet — se kommentar)_ | — | Kemiska principer för hållbar utveckling; tillgodoräknas utan att ersätta en specifik CINEK-kurs. |
 
 ## Kurser som utgår
 
@@ -53,6 +53,13 @@ Kursen läses i samma läsperioder som vanligt, men ett år senare.
 - **[ME1309](https://www.kth.se/student/kurser/kurs/ME1309) Industriell ekonomistyrning för I** (6 hp): årskurs 2 → 3
   Industriell ekonomistyrning för I skjuts till årskurs 3, enligt rubriken "Följande obligatoriska kurser i årskurs 2 läses av öppen-ingång-studenter under årskurs 3".
 
+## Kurser som läses i en annan kursomgång
+
+Samma kurs och samma årskurs, men den andra av KTH:s omgångar under året.
+
+- **[DD1320](https://www.kth.se/student/kurser/kurs/DD1320) Tillämpad datalogi** (6 hp): P3: 4 hp, P4: 2 hp → **P1: 5 hp, P2: 1 hp**
+  Tillämpad datalogi läses i höstomgången i stället för våromgången. Övergångsplanen tillåter det uttryckligen: "Kurs DD1320 Tillämpad datalogi kan läsas under höstterminen istället för under våren. De som vill läsa kursen under ht måste meddela detta till svl." För en student från Öppen ingång är hösten klart bättre, eftersom årskurs 2 annars är bakåttung — se signeringsunderlaget. Perioderna är hämtade från kurssidans höstomgång (HT 2026: P1 5 hp, P2 1 hp).
+
 ## Läsårsbelastning i den sammansatta planen
 
 Heltid är **15 hp per läsperiod**. Avvikelser är inte nödvändigtvis fel —
@@ -63,8 +70,8 @@ en övergångsplan innehåller ofta upphämtningskurser — men de bör stämma 
 |---|---|---|---|---|---|---|
 | 1 | _gemensamma_ | 15 | 15 | 15 | 15 | 60 |
 | 2 | _gemensamma_ | 10 | 18,5 | 11,5 | 12,5 | 52,5 |
-| 2 | DTOI Datateknik | 10 | 18,5 | 20 | 20,5 | 69 |
-| 2 | TMAI Tillämpad matematik | 10 | 18,5 | 17 | 25 | 70,5 |
+| 2 | DTOI Datateknik | 15 | 19,5 | 16 | 18,5 | 69 |
+| 2 | TMAI Tillämpad matematik | 15 | 19,5 | 13 | 23 | 70,5 |
 | 2 | EHUI Energisystem och hållbar utveckling | 10 | 18,5 | 16 | 24,5 | 69 |
 | 2 | PPUI Produkt- och produktionsutveckling | 10 | 18,5 | 23,5 | 17 | 69 |
 | 3 | _gemensamma_ | 12 | 0 | 0 | 6 | 18 |
@@ -73,13 +80,13 @@ en övergångsplan innehåller ofta upphämtningskurser — men de bör stämma 
 | 3 | EHUI Energisystem och hållbar utveckling | 24 | 9 | 10,5 | 16,5 | 60 |
 | 3 | PPUI Produkt- och produktionsutveckling | 18 | 9 | 21 | 21 | 69 |
 
-**Höstterminen i årskurs 2 stämmer exakt med övergångsplanen: P1 10,0 och P2 18,5 hp.** Det är en stark bekräftelse på att kursurvalet och flyttarna är rätt lästa.
+Raden **_gemensamma_** är de kurser alla läser, oavsett teknikinriktning. Raderna under visar samma år med respektive inriktning tillagd — en student läser **en** av dem, så de ska inte summeras ihop.
 
-Årskurs 2 summerar till 69 hp, vilket är avsiktligt: det är infasningsåret, där studenten läser ikapp 28,5 hp av CINEK:s årskurs 1 (ME1314, ME1306, ME1315) plus ME1310. Planens egen årskurs 2 är också över 60 hp — den listar 52,5 hp namngivna kurser *plus* teknikinriktningskurser *plus* en valfri kurs.
+**Den gemensamma höstterminen i årskurs 2 stämmer exakt med övergångsplanen: P1 10,0 och P2 18,5 hp.** Det är en stark bekräftelse på att kursurvalet och flyttarna är rätt lästa. Inriktningsraderna för DTOI och TMAI ligger högre eftersom DD1320 flyttats till höstomgången — se fråga 6.
 
-Årskurs 3 summerar till exakt 60 hp och innehåller planens alla fyra namngivna kurser (ME1309, ME1311, ME1317 och kandidatexamensarbetet) samt teknikinriktningens kurser.
+Årskurs 2 summerar till omkring 69 hp, vilket är avsiktligt: det är infasningsåret, där studenten läser ikapp 28,5 hp av CINEK:s årskurs 1 (ME1314, ME1306, ME1315) plus ME1310. Planens egen årskurs 2 är också över 60 hp — den listar 52,5 hp namngivna kurser *plus* teknikinriktningskurser *plus* en valfri kurs.
 
-Siffrorna ovan gäller teknikinriktningen **Datateknik (DTOI)**; välj inriktning i diagrammet för att se de övriga.
+Årskurs 3 summerar till 60 hp för DTOI och innehåller planens alla fyra namngivna kurser (ME1309, ME1311, ME1317 och kandidatexamensarbetet).
 
 ## Frågor som behöver besvaras
 
@@ -130,14 +137,24 @@ Planens not är uttrycklig: *"Enbart Öppen-ingång-studenter antagna till CINEK
 
 Kursen är därför flyttad från årskurs 3 till årskurs 2 — den enda bakåtflytten i samtliga övergångsplaner. Datamodellen har ingen egen markering för "gäller bara direktantagna", så villkoret finns bara i noten. **Bekräfta att den sammansatta vyn ska visa direktantagningsfallet.**
 
-### 6. DD1320 kan läsas på hösten, och gäller inte alla inriktningar
+### 6. Fråga: DD1320 är flyttad till höstomgången — bekräfta
 
-Planen noterar två saker om DD1320 Tillämpad datalogi som datamodellen inte kan uttrycka:
+Övergångsplanen tillåter uttryckligen ett val av läsperiod:
 
-- *"kan läsas under höstterminen istället för under våren. De som vill läsa kursen under ht måste meddela detta till svl"* — alltså ett val av läsperiod som studenten gör själv.
-- *"DD1320 är obligatorisk för alla teknikinriktningar förutom Energisystem och hållbar utveckling (EHUI)"*. Kursdatan märker DD1320 med DTOI och TMAI, men inte PPUI.
+> *"Kurs DD1320 Tillämpad datalogi kan läsas under höstterminen istället för under våren. De som vill läsa kursen under ht måste meddela detta till svl."*
 
-**Fråga:** ska DD1320 vara obligatorisk även för PPUI? Om ja är kursdatans märkning ofullständig och bör rapporteras.
+**Den sammansatta planen använder höstomgången**, alltså inte den nominella våromgången. Skälet är att årskurs 2 för en student från Öppen ingång är bakåttung: tre av CINEK:s årskurs 1-kurser läses under våren, vilket gör hösten lätt och våren tung. Att lägga DD1320 på hösten jämnar ut året märkbart:
+
+| DD1320 i | P1 | P2 | P3 | P4 | avvikelse från 15 hp/period |
+|---|---|---|---|---|---|
+| våromgången (nominellt) | 10 | 18,5 | 20 | 20,5 | 19,0 |
+| **höstomgången (vald här)** | **15** | **19,5** | **16** | **18,5** | **9,0** |
+
+Båda ger samma 69 hp; skillnaden är bara fördelningen, och höstvalet halverar avvikelsen och lägger P1 på exakt heltid. Perioderna är hämtade från kurssidans höstomgång (HT 2026: P1 5 hp, P2 1 hp).
+
+**Detta är ett aktivt val, inte vad planen nominellt anger, och behöver bekräftas.** Observera också att studenten enligt planen själv måste meddela svl om hon vill läsa kursen på hösten — diagrammet visar alltså det val som kräver en anmälan.
+
+En separat fråga i samma not: *"DD1320 är obligatorisk för alla teknikinriktningar förutom Energisystem och hållbar utveckling (EHUI)"*. KTH:s kursdata märker DD1320 med DTOI och TMAI, men **inte PPUI**. Ska den vara obligatorisk även för PPUI? Om ja är kursdatans märkning ofullständig och bör rapporteras.
 
 ---
 

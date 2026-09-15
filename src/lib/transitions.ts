@@ -60,6 +60,7 @@ export function composeTransition(
   const sourceYears = new Set(plan.sourceYears);
   const exemptCodes = new Set((plan.exempt ?? []).map(e => e.code));
   const movesByCode = new Map((plan.moved ?? []).map(m => [m.code, m]));
+  const reschedByCode = new Map((plan.rescheduled ?? []).map(r => [r.code, r]));
 
   // --- the source programme's own years -----------------------------------
   const fromSource = sourceEntries.filter(e => sourceYears.has(entryYear(e)));
@@ -117,6 +118,36 @@ export function composeTransition(
     }
 
     if (sourceYears.has(year)) continue;              // replaced by the source year
+
+    // Same year, different periods: the student takes the course's other
+    // offering. Only the period map is replaced; everything else about the
+    // course still comes from the target programme's own data.
+    const resched = code ? reschedByCode.get(code) : undefined;
+    if (resched) {
+      const course = entry as Course;
+      const credits = PERIODS
+        .map(period => ({ year, period, credits: Number(resched.periodCredits[period] ?? 0) }))
+        .filter(c => c.credits > 0);
+      const sum = credits.reduce((a, c) => a + c.credits, 0);
+      const was = course.credits.reduce((a, c) => a + c.credits, 0);
+      if (Math.abs(sum - was) > LOAD_TOLERANCE) {
+        warnings.push(
+          `The plan reschedules ${code} to periods totalling ${sum} hp, but ${plan.to} lists it ` +
+          `as ${was} hp — the offering should be the same course.`,
+        );
+      }
+      // The exam sits in the teaching period, so an exam recorded against the
+      // old periods no longer has a bar to anchor to.
+      if (course.exams?.length) {
+        warnings.push(
+          `${code} is rescheduled, but it carries exam marker(s) in ${course.exams.join(', ')} ` +
+          `from ${plan.to}'s own offering — check where the exam falls in the offering actually taken.`,
+        );
+      }
+      fromTarget.push({ ...course, credits, examsByYear: undefined, reexamsByYear: undefined });
+      continue;
+    }
+
     fromTarget.push(entry);
   }
 
@@ -128,6 +159,11 @@ export function composeTransition(
   for (const [code, move] of movesByCode) {
     if (!targetEntries.some(e => !isGroup(e) && e.code === code)) {
       warnings.push(`The plan moves ${code} to year ${move.toYear}, but ${plan.to} does not list it.`);
+    }
+  }
+  for (const code of reschedByCode.keys()) {
+    if (!targetEntries.some(e => !isGroup(e) && e.code === code)) {
+      warnings.push(`The plan reschedules ${code}, but ${plan.to} does not list it.`);
     }
   }
 

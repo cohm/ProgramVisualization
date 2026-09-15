@@ -82,12 +82,14 @@ function composedLoad(plan, spec) {
   const moves = new Map((plan.moved ?? []).map((m) => [m.code, m]));
   const out = [];
   for (const e of src) if (plan.sourceYears.includes(firstYear(e))) out.push({ ...e });
+  const resched = new Map((plan.rescheduled ?? []).map((r) => [r.code, r]));
   for (const e of tgt) {
     if (e.code && exempt.has(e.code)) continue;
     const mv = e.code ? moves.get(e.code) : null;
     if (mv) { out.push({ ...e, year: mv.toYear, periodCredits: yearRows(e)[0]?.periodCredits ?? e.periodCredits }); continue; }
     if (plan.sourceYears.includes(firstYear(e))) continue;
-    out.push({ ...e });
+    const rs = e.code ? resched.get(e.code) : null;
+    out.push(rs ? { ...e, periodCredits: rs.periodCredits } : { ...e });
   }
   for (const a of plan.added ?? []) out.push({ ...a });
 
@@ -181,6 +183,22 @@ function write(plan) {
     for (const m of plan.moved) {
       L.push(`- **${link(m.code)} ${nameOf(tgt, m.code)}** (${hp(creditsOf(tgt, m.code) ?? 0)} hp): årskurs ${m.fromYear} → ${m.toYear}`);
       if (m.note) L.push(`  ${m.note}`);
+    }
+    L.push('');
+  }
+
+  if (plan.rescheduled?.length) {
+    L.push('## Kurser som läses i en annan kursomgång');
+    L.push('');
+    L.push('Samma kurs och samma årskurs, men den andra av KTH:s omgångar under året.');
+    L.push('');
+    for (const rs of plan.rescheduled) {
+      const from = ['P1', 'P2', 'P3', 'P4'].filter((q) => tgt.find((e) => e.code === rs.code)?.periodCredits?.[q])
+        .map((q) => `${q}: ${hp(tgt.find((e) => e.code === rs.code).periodCredits[q])} hp`).join(', ');
+      const to = ['P1', 'P2', 'P3', 'P4'].filter((q) => rs.periodCredits?.[q])
+        .map((q) => `${q}: ${hp(rs.periodCredits[q])} hp`).join(', ');
+      L.push(`- **${link(rs.code)} ${nameOf(tgt, rs.code)}** (${hp(creditsOf(tgt, rs.code) ?? 0)} hp): ${from} → **${to}**`);
+      if (rs.note) L.push(`  ${rs.note}`);
     }
     L.push('');
   }

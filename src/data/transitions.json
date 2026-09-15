@@ -487,7 +487,20 @@
     ],
     "verified": false,
     "source": "Övergångsplan för Öppen ingång - påbörjad H26 - till Industriell ekonomi (CINEK), daterad 2026-01-15 (LL). Gäller övergången till program H25.",
-    "sourceEn": "Transition plan for Öppen ingång to Industriell ekonomi (CINEK), dated 2026-01-15 (LL)."
+    "sourceEn": "Transition plan for Öppen ingång to Industriell ekonomi (CINEK), dated 2026-01-15 (LL).",
+    "rescheduled": [
+      {
+        "code": "DD1320",
+        "periodCredits": {
+          "P1": 5,
+          "P2": 1,
+          "P3": 0,
+          "P4": 0
+        },
+        "note": "Tillämpad datalogi läses i höstomgången i stället för våromgången. Övergångsplanen tillåter det uttryckligen: \"Kurs DD1320 Tillämpad datalogi kan läsas under höstterminen istället för under våren. De som vill läsa kursen under ht måste meddela detta till svl.\" För en student från Öppen ingång är hösten klart bättre, eftersom årskurs 2 annars är bakåttung — se signeringsunderlaget. Perioderna är hämtade från kurssidans höstomgång (HT 2026: P1 5 hp, P2 1 hp).",
+        "noteEn": "Applied computer science is taken in the autumn offering rather than the spring one. The transition plan allows this explicitly, and for a student from Öppen ingång the autumn is clearly better because year 2 is otherwise back-loaded. Periods are taken from the course page's autumn offering (HT 2026: P1 5 credits, P2 1 credit)."
+      }
+    ]
   },
   {
     "from": "COPEN",

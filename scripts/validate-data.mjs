@@ -1063,6 +1063,32 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
       }
     }
 
+    // `rescheduled` swaps a course's periods for its other offering in the same
+    // year. Only the period map is recorded, so the checks are that the course
+    // exists in the target and that the offering is the same size — a mismatch
+    // means the periods name a different course, not a different offering.
+    for (const rs of plan.rescheduled ?? []) {
+      if (!rs || typeof rs.code !== 'string') { err(file, `${ctx} ${label}: 'rescheduled' entry needs a 'code'`); continue; }
+      if (!tgt.has(rs.code)) {
+        err(file, `${ctx} ${label}: reschedules '${rs.code}', which ${plan.to} does not list`);
+        continue;
+      }
+      if (!rs.periodCredits || typeof rs.periodCredits !== 'object') {
+        err(file, `${ctx} ${label}: reschedules '${rs.code}' without a 'periodCredits' map`);
+        continue;
+      }
+      const bad = Object.keys(rs.periodCredits).filter((k) => !['P1', 'P2', 'P3', 'P4'].includes(k));
+      if (bad.length) err(file, `${ctx} ${label}: '${rs.code}' periodCredits has unknown period(s) ${bad.join(', ')}`);
+      const sum = ['P1', 'P2', 'P3', 'P4'].reduce((a, q) => a + Number(rs.periodCredits[q] || 0), 0);
+      const want = tgt.get(rs.code).totalCredits;
+      if (want != null && Math.abs(sum - want) > 0.05) {
+        err(file, `${ctx} ${label}: reschedules '${rs.code}' to ${sum} hp, but ${plan.to} lists it as ${want} hp`);
+      }
+      if ((plan.exempt ?? []).some((e) => e?.code === rs.code)) {
+        err(file, `${ctx} ${label}: '${rs.code}' is both exempted and rescheduled`);
+      }
+    }
+
     for (const ex of plan.exempt ?? []) {
       if (!ex || typeof ex.code !== 'string') { err(file, `${ctx} ${label}: 'exempt' entry needs a 'code'`); continue; }
       if (!tgt.has(ex.code)) {
