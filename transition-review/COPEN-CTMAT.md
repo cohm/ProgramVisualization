@@ -8,8 +8,8 @@ Dokumentet är däremot internt konsekvent på ett sätt som ger god tilltro til
 
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
-Varje kurskod nedan länkar till KTH:s kurssida. Kontrollera raderna i tur och
-ordning; de som är markerade **Fråga** kräver ett aktivt beslut.
+Varje kurskod nedan länkar till KTH:s kurssida.
+Kontrollera raderna i tur och ordning; de som är markerade **Fråga** kräver ett aktivt beslut.
 
 ## Tillgodoräknade kurser
 

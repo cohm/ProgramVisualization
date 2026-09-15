@@ -76,6 +76,11 @@
         "creditedBy": "SF1546",
         "note": "Numeriska metoder är redan avklarad genom SF1546 i COPEN.",
         "noteEn": "Numerical methods is already completed through SF1546 in COPEN."
+      },
+      {
+        "code": "SI1121",
+        "note": "Termodynamik läses inte av studenter från Öppen ingång. Den täcks löst av KD1000 och SA1007 tillsammans — en allmän ingenjörsintroduktion med delvis annat innehåll — och ingen enskild COPEN-kurs motsvarar den, varför 'creditedBy' är utelämnad.",
+        "noteEn": "Thermodynamics is not taken by students from Öppen ingång. It is loosely covered by KD1000 and SA1007 together — a general engineering introduction with partly different content — and no single COPEN course corresponds to it, which is why 'creditedBy' is omitted."
       }
     ],
     "added": [
@@ -107,9 +112,9 @@
         "cosmeticsGroup": "Matematik"
       }
     ],
-    "verified": false,
-    "source": "Programansvarigs val av upphämtningskurs; SF1920 hämtad från CELTE årskurs 2 (läsår 2025/26).",
-    "sourceEn": "Program director's choice of catch-up course; SF1920 taken from the CELTE year 2 plan (2025/26)."
+    "verified": true,
+    "source": "Programansvarigs val av upphämtningskurs; SF1920 hämtad från CELTE årskurs 2 (läsår 2025/26). Verifierad av programansvarig Christian Ohm.",
+    "sourceEn": "Program director's choice of catch-up course; SF1920 taken from the CELTE year 2 plan (2025/26). Verified by program director Christian Ohm."
   },
   {
     "from": "COPEN",
@@ -349,6 +354,135 @@
     "verified": false,
     "source": "Övergångsplan för Öppen ingång (version 2024-12-03), gäller övergång till Farkostteknik (CFATE). Årskurs 2 och 3 är oförändrade mot CFATE:s egen studieplan.",
     "sourceEn": "Transition plan for Öppen ingång (version 2024-12-03) for transfer to Farkostteknik (CFATE). Years 2 and 3 are unchanged from CFATE's own study plan."
+  },
+  {
+    "from": "COPEN",
+    "to": "CINEK",
+    "sourceYears": [
+      1
+    ],
+    "credited": [
+      {
+        "code": "SF1625",
+        "replaces": [
+          "SF1625"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen (\"Läses även av CINEK\").",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1624",
+        "replaces": [
+          "SF1624"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen (\"Läses även av CINEK\").",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1626",
+        "replaces": [
+          "SF1626"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen (\"Läses även av CINEK\").",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "DD1310",
+        "replaces": [
+          "DD1317"
+        ],
+        "note": "Programmeringsteknik (6 hp) ersätter CINEK:s DD1317 Programmeringsteknik (7,5 hp), enligt övergångsplanens \"Ers. DD1317 Obl. CINEK 1\".",
+        "noteEn": "Programming techniques (6 credits) replaces CINEK's DD1317 (7.5 credits), per the plan's \"Ers. DD1317 Obl. CINEK 1\"."
+      },
+      {
+        "code": "SG1133",
+        "replaces": [
+          "SG1109"
+        ],
+        "note": "Mekanik I (9 hp) motsvarar CINEK:s SG1109 Mekanik (8 hp).",
+        "noteEn": "Mechanics I (9 credits) corresponds to CINEK's SG1109 Mekanik (8 credits)."
+      },
+      {
+        "code": "SK1115",
+        "replaces": [
+          "SK1110"
+        ],
+        "note": "Elektromagnetism och vågrörelselära motsvarar SK1110, som CINEK läser i årskurs 2. Kursen utgår därför helt (se 'exempt').",
+        "noteEn": "Electromagnetism and wave motion corresponds to SK1110, which CINEK teaches in year 2. That course is therefore dropped entirely (see 'exempt')."
+      },
+      {
+        "code": "SF1546",
+        "replaces": [
+          "SF1545"
+        ],
+        "note": "Numeriska metoder, grundkurs ersätter SF1545, som CINEK läser i årskurs 2. Övergångsplanen säger uttryckligen: \"obl CINEK åk 2, har OPEN-studenter redan läst\". Kursen utgår därför helt (se 'exempt').",
+        "noteEn": "Numerical methods replaces SF1545, which CINEK teaches in year 2. The plan says explicitly that COPEN students have already taken it. The course is therefore dropped entirely (see 'exempt')."
+      },
+      {
+        "code": "SA1007",
+        "note": "Ingenjörsrollen och ingenjörskunskap; tillgodoräknas utan att ersätta en specifik CINEK-kurs.",
+        "noteEn": "The engineering role; credited without standing in for a specific CINEK course."
+      },
+      {
+        "code": "KD1000",
+        "note": "Kemiska principer för hållbar utveckling; tillgodoräknas utan att ersätta en specifik CINEK-kurs.",
+        "noteEn": "Chemical principles; credited without standing in for a specific CINEK course."
+      }
+    ],
+    "exempt": [
+      {
+        "code": "SK1110",
+        "creditedBy": "SK1115",
+        "note": "Elektromagnetism och vågrörelselära är redan avklarad genom SK1115 i Öppen ingång. CINEK läser den i årskurs 2, som villkorligt valfri för samtliga teknikinriktningar.",
+        "noteEn": "Electromagnetism and wave motion is already completed through SK1115 in Öppen ingång. CINEK teaches it in year 2 for all four inriktningar."
+      },
+      {
+        "code": "SF1545",
+        "creditedBy": "SF1546",
+        "note": "Numeriska metoder, grundkurs är redan avklarad genom SF1546 i Öppen ingång — övergångsplanens egen formulering.",
+        "noteEn": "Numerical methods is already completed through SF1546 in Öppen ingång — the transition plan's own wording."
+      }
+    ],
+    "moved": [
+      {
+        "code": "ME1314",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Introduktion till industriell ekonomi läses tillsammans med CINEK:s egen årskurs 1 (\"Läses med CINEK1\"), alltså under den transfererande studentens årskurs 2.",
+        "noteEn": "Introduction to industrial management is taken with CINEK's own year 1, i.e. during the transferring student's year 2."
+      },
+      {
+        "code": "ME1306",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Industriell projektledning för I läses med CINEK årskurs 1 under den transfererande studentens årskurs 2.",
+        "noteEn": "Industrial project management is taken with CINEK year 1 during the transferring student's year 2."
+      },
+      {
+        "code": "ME1315",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Industriell marknadsföring för I läses med CINEK årskurs 1 under den transfererande studentens årskurs 2.",
+        "noteEn": "Industrial marketing is taken with CINEK year 1 during the transferring student's year 2."
+      },
+      {
+        "code": "ME1310",
+        "fromYear": 3,
+        "toYear": 2,
+        "note": "Nationalekonomi flyttas TIDIGARE, från årskurs 3 till årskurs 2. Övergångsplanen är uttrycklig: \"Enbart Öppen-ingång-studenter antagna till CINEK direkt via Öppen ingång läser ME1310 under år 2. Övriga studenter läser den år 3.\"",
+        "noteEn": "Economics moves EARLIER, from year 3 to year 2. The plan is explicit that only students admitted to CINEK directly via Öppen ingång take it in year 2; everyone else takes it in year 3."
+      },
+      {
+        "code": "ME1309",
+        "fromYear": 2,
+        "toYear": 3,
+        "note": "Industriell ekonomistyrning för I skjuts till årskurs 3, enligt rubriken \"Följande obligatoriska kurser i årskurs 2 läses av öppen-ingång-studenter under årskurs 3\".",
+        "noteEn": "Industrial management control is deferred to year 3, per the plan's heading that these year-2 compulsory courses are taken by Öppen ingång students in year 3."
+      }
+    ],
+    "verified": false,
+    "source": "Övergångsplan för Öppen ingång - påbörjad H26 - till Industriell ekonomi (CINEK), daterad 2026-01-15 (LL). Gäller övergången till program H25.",
+    "sourceEn": "Transition plan for Öppen ingång to Industriell ekonomi (CINEK), dated 2026-01-15 (LL)."
   },
   {
     "from": "COPEN",

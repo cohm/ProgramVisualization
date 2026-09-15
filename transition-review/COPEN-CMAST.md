@@ -8,8 +8,8 @@ Fyra av COPEN:s kurser har samma kurskod i båda programmen (SF1624, SF1625, SF1
 
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
-Varje kurskod nedan länkar till KTH:s kurssida. Kontrollera raderna i tur och
-ordning; de som är markerade **Fråga** kräver ett aktivt beslut.
+Varje kurskod nedan länkar till KTH:s kurssida.
+Kontrollera raderna i tur och ordning; de som är markerade **Fråga** kräver ett aktivt beslut.
 
 ## Tillgodoräknade kurser
 
@@ -54,15 +54,18 @@ Heltid är **15 hp per läsperiod**. Avvikelser är inte nödvändigtvis fel —
 en övergångsplan innehåller ofta upphämtningskurser — men de bör stämma med
 övergångsplanens egna summor.
 
-| Årskurs | P1 | P2 | P3 | P4 | Totalt |
-|---|---|---|---|---|---|
-| 1 | 15 | 15 | 15 | 15 | 60 |
-| 2 | 13,5 | 12 | 13,5 | 13,5 | 52,5 |
-| 3 | 15 | 15 | 13,5 | 7,5 | 51 |
+| Årskurs | Inriktning | P1 | P2 | P3 | P4 | Totalt |
+|---|---|---|---|---|---|---|
+| 1 | _gemensamma_ | 15 | 15 | 15 | 15 | 60 |
+| 2 | _gemensamma_ | 13,5 | 12 | 13,5 | 13,5 | 52,5 |
+| 2 | INTF Internationell inriktning, franska | 17,5 | 15,5 | 16,5 | 15,5 | 65 |
+| 2 | INTS Internationell inriktning, spanska | 17,5 | 15,5 | 16,5 | 15,5 | 65 |
+| 2 | INTT Internationell inriktning, tyska | 17,5 | 15,5 | 16,5 | 15,5 | 65 |
+| 3 | _gemensamma_ | 15 | 15 | 13,5 | 7,5 | 51 |
 
-Tabellen ovan räknar enligt samma regel som appen: ett valblock räknas **en** gång och dess ingående kurser inte alls, eftersom studenten läser en av dem. Inriktningsmärkta kurser räknas bort på samma sätt — se fråga 4 och 5.
+Raden **_gemensamma_** är de kurser alla läser. Raderna under visar samma år med respektive internationell inriktning tillagd — en student läser högst en av dem, och de flesta ingen alls, så de ska inte summeras ihop.
 
-Räknar man i stället som övergångsplanen gör, med både MF1016 och MJ1112 som obligatoriska och utan valblock, blir årskurs 2 **61,5 hp**, vilket stämmer exakt med planens egen summa. Skillnaden på 9 hp är just den frågan — se fråga 5.
+Tabellen räknar dessutom ett valblock **en** gång i stället för dess ingående kurser, vilket är samma regel som appen använder. Räknar man i stället som övergångsplanen gör, med både MF1016 och MJ1112 som obligatoriska och utan valblock, blir årskurs 2 **61,5 hp** — exakt planens egen summa. Skillnaden på 9 hp är just den frågan; se fråga 5.
 
 ## Frågor som behöver besvaras
 

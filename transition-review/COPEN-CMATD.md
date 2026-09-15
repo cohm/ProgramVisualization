@@ -8,8 +8,8 @@ Fyra av COPEN:s kurser har samma kurskod i båda programmen (SF1624, SF1625, SF1
 
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
-Varje kurskod nedan länkar till KTH:s kurssida. Kontrollera raderna i tur och
-ordning; de som är markerade **Fråga** kräver ett aktivt beslut.
+Varje kurskod nedan länkar till KTH:s kurssida.
+Kontrollera raderna i tur och ordning; de som är markerade **Fråga** kräver ett aktivt beslut.
 
 ## Tillgodoräknade kurser
 

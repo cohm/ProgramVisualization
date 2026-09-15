@@ -1,11 +1,15 @@
 {
   "COPEN->CTFYS": {
-    "intro": "Planen är inläst från *Övergångsplan för Öppen ingång, påbörjad HT25 (gäller överg till CTFYS HT26)*, version 260114 Christian Ohm. Den maskinella tolkningen stämmer exakt med dokumentet: samtliga sex \"Ersätter\"-rader, undantaget av SF1544 och upphämtningskursen SF1920 återfinns i planen nedan.",
+    "intro": "Planen är inläst från *Övergångsplan för Öppen ingång, påbörjad HT25 (gäller överg till CTFYS HT26)*, version 260114 Christian Ohm. Den maskinella tolkningen stämmer exakt med dokumentet: samtliga sex \"Ersätter\"-rader, undantaget av SF1544 och upphämtningskursen SF1920 återfinns i planen nedan.\n\n**Planen är granskad och godkänd av programansvarig.** Frågan om det valfria utrymmet på våren i årskurs 3 är besvarad nedan, och SI1121 är tillagd bland de kurser som utgår.",
     "loadNote": "Dessa siffror stämmer med övergångsplanens egna summor (årskurs 2: 15,0/14,0/16,0/15,0).",
     "items": [
       {
-        "title": "Valfritt utrymme i årskurs 3",
-        "body": "Övergångsplanen anger *Valfria kurser* som 7,5 hp i P3 och 7,5 hp i P4. CTFYS egen studieplan formulerar samma sak som **ett** utrymme på 15,0 hp över hela våren (\"På våren i årskurs 3 finns ett utrymme på 15,0 hp valfria kurser\"), vilket är så det ritas här: en ruta som spänner P3+P4.\n\nSkillnaden spelar roll för studenten: en sammanhängande ruta säger att 15 hp får fördelas fritt över våren, två rutor säger 7,5 hp i varje period. **Fråga:** är den fria fördelningen över våren avsedd även för studenter från Öppen ingång?"
+        "title": "Besvarad: fri fördelning av det valfria utrymmet på våren i årskurs 3",
+        "body": "Övergångsplanen anger *Valfria kurser* som 7,5 hp i P3 och 7,5 hp i P4, medan CTFYS egen studieplan formulerar samma sak som **ett** utrymme på 15,0 hp över hela våren (\"På våren i årskurs 3 finns ett utrymme på 15,0 hp valfria kurser\").\n\n**Svar från programansvarig:** den fria fördelningen över våren gäller även för studenter från Öppen ingång, precis som för alla CTFYS-studenter. Diagrammet ritar därför en sammanhängande ruta som spänner P3+P4, vilket är korrekt."
+      },
+      {
+        "title": "Att bekräfta: SK1105 Experimentell fysik",
+        "body": "SI1121 Termodynamik är nu införd bland de kurser som utgår, efter besked från programansvarig att den inte läses av studenter från Öppen ingång.\n\n**SK1105** *Experimentell fysik* (4 hp, P4) står i exakt samma läge: den ligger i CTFYS årskurs 1, ingen COPEN-kurs ersätter den, och den förekommer inte någonstans i övergångsplanens tabeller för årskurs 2 eller 3. Detsamma gäller **DD1301** *Datorintroduktion* (1,5 hp), som dock är en frivillig kurs och därför ett mindre problem.\n\nIngen av dem påverkar diagrammet — hela CTFYS årskurs 1 ersätts av COPEN:s, så de ritas inte oavsett. Frågan gäller enbart om listan \"Kurser som utgår\" ska vara fullständig. **Ska SK1105 föras in på samma sätt som SI1121?**"
       }
     ]
   },
@@ -41,7 +45,7 @@
   },
   "COPEN->CMAST": {
     "intro": "Planen är inläst från *Övergångsplan för Öppen ingång - påbörjad H25 - till Maskinteknik (CMAST)*, version 2025-11-24, som gäller övergången till programmet HT2026. Ersättningarna anges på mottagarsidan (\"Ersätts av …\" och \"Läses på COPEN\") i tabellen för CMAST årskurs 1.\n\nFyra av COPEN:s kurser har samma kurskod i båda programmen (SF1624, SF1625, SF1626, DD1310) och behöver därför ingen översättning alls.",
-    "loadNote": "Tabellen ovan räknar enligt samma regel som appen: ett valblock räknas **en** gång och dess ingående kurser inte alls, eftersom studenten läser en av dem. Inriktningsmärkta kurser räknas bort på samma sätt — se fråga 4 och 5.\n\nRäknar man i stället som övergångsplanen gör, med både MF1016 och MJ1112 som obligatoriska och utan valblock, blir årskurs 2 **61,5 hp**, vilket stämmer exakt med planens egen summa. Skillnaden på 9 hp är just den frågan — se fråga 5.",
+    "loadNote": "Raden **_gemensamma_** är de kurser alla läser. Raderna under visar samma år med respektive internationell inriktning tillagd — en student läser högst en av dem, och de flesta ingen alls, så de ska inte summeras ihop.\n\nTabellen räknar dessutom ett valblock **en** gång i stället för dess ingående kurser, vilket är samma regel som appen använder. Räknar man i stället som övergångsplanen gör, med både MF1016 och MJ1112 som obligatoriska och utan valblock, blir årskurs 2 **61,5 hp** — exakt planens egen summa. Skillnaden på 9 hp är just den frågan; se fråga 5.",
     "items": [
       {
         "title": "Fråga: \"Ersätts av SF1502\" — avses SA1007?",
@@ -118,6 +122,36 @@
       {
         "title": "Fråga: DD1301 Datorintroduktion",
         "body": "CTMAT:s kursdata listar **DD1301** *Datorintroduktion* (1,5 hp) i årskurs 1. Övergångsplanen nämner den inte, och planens årskurs 1 summerar till exakt 60 hp utan den — samma mönster som i CFATE-planen. Antagandet är att kursen är frivillig. **Bekräfta.**"
+      }
+    ]
+  },
+  "COPEN->CINEK": {
+    "intro": "Planen är inläst från *Övergångsplan för Öppen ingång – påbörjad H26 – till Industriell ekonomi (CINEK)*, daterad 2026-01-15 (LL).\n\nCINEK-planen skiljer sig från de övriga på en punkt som är värd att notera: den flyttar kurser **i båda riktningarna**. Tre av CINEK:s egna årskurs 1-kurser (ME1314, ME1306, ME1315) läses under årskurs 2, ME1309 skjuts från årskurs 2 till årskurs 3, och ME1310 flyttas **tidigare**, från årskurs 3 till årskurs 2. Övriga planer flyttar bara framåt.\n\nTvå kurser i CINEK:s årskurs 2 utgår helt, eftersom Öppen ingång redan täcker dem: SK1110 (genom SK1115) och SF1545 (genom SF1546). Den senare är planens egen formulering: \"obl CINEK åk 2, har OPEN-studenter redan läst\".",
+    "loadNote": "**Höstterminen i årskurs 2 stämmer exakt med övergångsplanen: P1 10,0 och P2 18,5 hp.** Det är en stark bekräftelse på att kursurvalet och flyttarna är rätt lästa.\n\nÅrskurs 2 summerar till 69 hp, vilket är avsiktligt: det är infasningsåret, där studenten läser ikapp 28,5 hp av CINEK:s årskurs 1 (ME1314, ME1306, ME1315) plus ME1310. Planens egen årskurs 2 är också över 60 hp — den listar 52,5 hp namngivna kurser *plus* teknikinriktningskurser *plus* en valfri kurs.\n\nÅrskurs 3 summerar till exakt 60 hp och innehåller planens alla fyra namngivna kurser (ME1309, ME1311, ME1317 och kandidatexamensarbetet) samt teknikinriktningens kurser.\n\nSiffrorna ovan gäller teknikinriktningen **Datateknik (DTOI)**; välj inriktning i diagrammet för att se de övriga.",
+    "items": [
+      {
+        "title": "Fråga: kolumnen \"Aug\" i årskurs 2-tabellen",
+        "body": "Tabellen för årskurs 2 har en kolumnrubrik **Aug** till vänster om läsperioderna 1–4. Den är tom, och vår tolkning är att den inte betyder något — men det bör bekräftas, eftersom en augustiperiod inte finns i datamodellen alls.\n\nVad som talar för att den är en rest från kalkylbladet:\n\n- Vi mätte kolumnpositionerna i PDF:en. Rubrikerna börjar på kolumn **Aug=94**, 1=102, 2=112, 3=119, 4=126. Samtliga värden i tabellen ligger på position 101–128, alltså under P1–P4. **Inget enda värde ligger under Aug.**\n- Rubriken finns bara i årskurs 2-tabellen. Tabellerna för årskurs 1 och årskurs 3 i samma dokument har enbart `1 2 3 4`.\n- Den finns i **1 av 18** övergångsplaner. Ingen annan plan har en Aug-kolumn.\n- Orden *augusti*, *sommar* och *juli* förekommer inte någonstans i dokumentet.\n- I den tryckta tabellen omsluter linjerna bara kolumnerna 1–4; \"Aug\" står utanför ramen.\n\n**Fråga:** stämmer det att kolumnen kan ignoreras, eller var den avsedd att rymma något (t.ex. en sommarkurs eller en registreringsperiod) som aldrig fylldes i?"
+      },
+      {
+        "title": "Fråga: vilken kull gäller planen?",
+        "body": "Dokumentet anger tre olika årtal: filnamnet säger *kull HT25*, rubriken säger **\"påbörjad H26\"**, och raden under säger **\"Gäller övergången till program H25\"**. Tabellrubrikerna talar om COPEN 2025/2026, CINEK åk 2 2026/2027 och åk 3 2027/2028, vilket är konsekvent med en kull som börjar på Öppen ingång hösten 2025.\n\nVår tolkning är därför att \"påbörjad H26\" är en felskrivning för H25. **Bekräfta.**"
+      },
+      {
+        "title": "Fråga: teknikinriktningsblocket stämmer inte med kursdatan",
+        "body": "Planen anger teknikinriktningarnas omfattning i årskurs 2 som en klumpsumma per läsperiod:\n\n| inriktning | P3 | P4 |\n|---|---|---|\n| Datateknik (DTOI) | 13,5 | 12,0 |\n| Energisystem och hållbar utveckling (EHUI) | 12,0 | 12,0 |\n| Produkt- och produktionsutveckling (PPUI) | 12,0 | 12,0 |\n| Tillämpad matematik (TMAI) | 13,0 | 12,5 |\n\nKTH:s kursdata för CINEK ger för DTOI:s årskurs 2 i stället DD1320 (P3 4, P4 2), DH1623 (P3 4,5) och EP1200 (P4 6) — alltså **P3 8,5 och P4 8,0**, vilket är 5,0 respektive 4,0 hp mindre än planens siffror.\n\nSkillnaden går inte att stämma av mot de undantagna kurserna: SK1110 ligger i P3 (7,5 hp) och SF1545 i P1+P2, så att lägga tillbaka dem ger 16,0 i P3, alltså för mycket i stället för för lite. **Fråga:** vilka kurser ingår i planens block, och är kursdatans inriktningsmärkning för årskurs 2 fullständig?"
+      },
+      {
+        "title": "\"Ev. valfri kurs för kursregistrering 30 hp\"",
+        "body": "Raden är markerad med X i P1 och P2 och har ingen kurskod, så den ritas inte som en kursruta.\n\nAritmetiken förklarar vad den är till för: höstterminen i årskurs 2 summerar till 10,0 + 18,5 = **28,5 hp**, alltså strax under gränsen 30 hp för kursregistrering. Raden är en påfyllnad upp till tröskeln, inte en kurs i planen. **Bekräfta att den inte ska ritas ut.**"
+      },
+      {
+        "title": "ME1310 flyttas tidigare — bara för direktantagna",
+        "body": "Planens not är uttrycklig: *\"Enbart Öppen-ingång-studenter antagna till CINEK direkt via Öppen ingång läser ME1310 under år 2. Övriga studenter läser den år 3.\"*\n\nKursen är därför flyttad från årskurs 3 till årskurs 2 — den enda bakåtflytten i samtliga övergångsplaner. Datamodellen har ingen egen markering för \"gäller bara direktantagna\", så villkoret finns bara i noten. **Bekräfta att den sammansatta vyn ska visa direktantagningsfallet.**"
+      },
+      {
+        "title": "DD1320 kan läsas på hösten, och gäller inte alla inriktningar",
+        "body": "Planen noterar två saker om DD1320 Tillämpad datalogi som datamodellen inte kan uttrycka:\n\n- *\"kan läsas under höstterminen istället för under våren. De som vill läsa kursen under ht måste meddela detta till svl\"* — alltså ett val av läsperiod som studenten gör själv.\n- *\"DD1320 är obligatorisk för alla teknikinriktningar förutom Energisystem och hållbar utveckling (EHUI)\"*. Kursdatan märker DD1320 med DTOI och TMAI, men inte PPUI.\n\n**Fråga:** ska DD1320 vara obligatorisk även för PPUI? Om ja är kursdatans märkning ofullständig och bör rapporteras."
       }
     ]
   }

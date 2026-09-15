@@ -378,15 +378,33 @@ export default function HomeClient() {
     return new Set(v.split(',').map(s => decodeURIComponent(s.trim())).filter(Boolean));
   }, [searchParams]);
 
+  // The programme whose inriktningar govern the current view.
+  //
+  // Normally that is the selected programme, but in a composed transition view
+  // the years carrying `specializations` come from the TARGET: COPEN has no
+  // registry of its own, so reading `selectedProgram` there hid the filter
+  // entirely and nothing was filtered. Every inriktning's courses then counted
+  // at once — CMAST's three language tracks (INTF/INTS/INTT, 37.5 hp together,
+  // of which a student takes at most one) made its composed year 2 read ~90 hp
+  // against a true 61.5.
+  //
+  // COPEN's own year 1 has no inriktningar, so there is no case where both
+  // programmes have a registry and the target's has to win a conflict.
+  const specProgram = useMemo<ProgramConfig>(() => {
+    if (!selectedContinuation) return selectedProgram;
+    const target = (programsConfig as ProgramConfig[]).find(p => p.code === selectedContinuation.to);
+    return target?.specializations?.length ? target : selectedProgram;
+  }, [selectedProgram, selectedContinuation]);
+
   // Map spec code → group code, derived from the program's registry. The
   // filter pre-pass uses this to enforce AND-across-groups semantics.
   const specGroupMap = useMemo<Map<string, string>>(() => {
     const m = new Map<string, string>();
-    for (const s of selectedProgram.specializations || []) {
+    for (const s of specProgram.specializations || []) {
       m.set(s.code, s.group || '__default__');
     }
     return m;
-  }, [selectedProgram]);
+  }, [specProgram]);
 
   // ?spec=A,B = the user's pick per spec group. When the program has a
   // specs registry, the visualisation defaults to the first option in each
@@ -395,7 +413,7 @@ export default function HomeClient() {
     const v = searchParams.get('spec');
     if (v) return new Set(v.split(',').map(s => decodeURIComponent(s.trim())).filter(Boolean));
     // Default: first spec per group.
-    const specs = selectedProgram.specializations;
+    const specs = specProgram.specializations;
     if (!specs || specs.length === 0) return new Set();
     const seenGroups = new Set<string>();
     const defaults = new Set<string>();
@@ -406,7 +424,7 @@ export default function HomeClient() {
       defaults.add(s.code);
     }
     return defaults;
-  }, [searchParams, selectedProgram]);
+  }, [searchParams, specProgram]);
 
   const replaceParams = useCallback((mutate: (p: URLSearchParams) => void) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -482,7 +500,7 @@ export default function HomeClient() {
           : target.dataFile;
         Promise.all([loadCourses(dataFile), loadCourses(targetFile)])
           .then(([sourceEntries, targetEntries]) => {
-            const composed = composeTransition(sourceEntries, targetEntries, selectedContinuation);
+            const composed = composeTransition(sourceEntries, targetEntries, selectedContinuation, selectedSpecializations);
             setCourses(composed.entries);
             setTransitionWarnings(composed.warnings);
           })
@@ -524,8 +542,14 @@ export default function HomeClient() {
     // dep — switching language shouldn't re-fetch the cosmetics file. The
     // toast text uses whatever `language` was at the moment the failure
     // fires, which is acceptable for a transient banner.
+    //
+    // `selectedSpecializations` IS a dep, but only matters for a composed view:
+    // the full-time load warning counts a course tagged with inriktningar only
+    // when it matches the student's pick, so the banner has to be recomputed
+    // when that pick changes. The chart itself filters downstream in
+    // TimelineVisualization and does not need the refetch.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedProgram, selectedCohort, selectedContinuation]);
+  }, [selectedProgram, selectedCohort, selectedContinuation, selectedSpecializations]);
 
   // Initialize missing URL params
   useEffect(() => {
@@ -835,11 +859,11 @@ export default function HomeClient() {
         {/* Tighter padding on phones: `p-6` spent 48 of a 390 px viewport on
             whitespace either side of a chart that is already scrolled. */}
         <div className="bg-white rounded-lg shadow-lg p-3 sm:p-6 min-h-[600px]">
-          {selectedProgram.specializations && selectedProgram.specializations.length > 0 && (
+          {specProgram.specializations && specProgram.specializations.length > 0 && (
             <SpecializationFilter
               language={language}
-              specializations={selectedProgram.specializations}
-              groups={selectedProgram.specializationGroups}
+              specializations={specProgram.specializations}
+              groups={specProgram.specializationGroups}
               selected={selectedSpecializations}
               onChange={setSelectedSpecializations}
             />

@@ -2,12 +2,14 @@
 
 Planen är inläst från *Övergångsplan för Öppen ingång, påbörjad HT25 (gäller överg till CTFYS HT26)*, version 260114 Christian Ohm. Den maskinella tolkningen stämmer exakt med dokumentet: samtliga sex "Ersätter"-rader, undantaget av SF1544 och upphämtningskursen SF1920 återfinns i planen nedan.
 
-**Källa:** Programansvarigs val av upphämtningskurs; SF1920 hämtad från CELTE årskurs 2 (läsår 2025/26).
+**Planen är granskad och godkänd av programansvarig.** Frågan om det valfria utrymmet på våren i årskurs 3 är besvarad nedan, och SI1121 är tillagd bland de kurser som utgår.
 
-**Status:** **inte verifierad** — detta dokument är det som ska signeras.
+**Källa:** Programansvarigs val av upphämtningskurs; SF1920 hämtad från CELTE årskurs 2 (läsår 2025/26). Verifierad av programansvarig Christian Ohm.
 
-Varje kurskod nedan länkar till KTH:s kurssida. Kontrollera raderna i tur och
-ordning; de som är markerade **Fråga** kräver ett aktivt beslut.
+**Status:** verifierad
+
+Varje kurskod nedan länkar till KTH:s kurssida.
+Planen är godkänd; avsnitten nedan är kvar som dokumentation av vad som granskades.
 
 ## Tillgodoräknade kurser
 
@@ -31,6 +33,8 @@ Kurser i CTFYS som den transfererande studenten inte läser.
 
 - **[SF1544](https://www.kth.se/student/kurser/kurs/SF1544) Numeriska metoder, grundkurs IV** (6 hp) — tillgodoräknad genom [SF1546](https://www.kth.se/student/kurser/kurs/SF1546)
   Numeriska metoder är redan avklarad genom SF1546 i COPEN.
+- **[SI1121](https://www.kth.se/student/kurser/kurs/SI1121) Termodynamik** (6 hp)
+  Termodynamik läses inte av studenter från Öppen ingång. Den täcks löst av KD1000 och SA1007 tillsammans — en allmän ingenjörsintroduktion med delvis annat innehåll — och ingen enskild COPEN-kurs motsvarar den, varför 'creditedBy' är utelämnad.
 
 ## Kurser som tillkommer
 
@@ -55,11 +59,19 @@ Dessa siffror stämmer med övergångsplanens egna summor (årskurs 2: 15,0/14,0
 
 ## Frågor som behöver besvaras
 
-### 1. Valfritt utrymme i årskurs 3
+### 1. Besvarad: fri fördelning av det valfria utrymmet på våren i årskurs 3
 
-Övergångsplanen anger *Valfria kurser* som 7,5 hp i P3 och 7,5 hp i P4. CTFYS egen studieplan formulerar samma sak som **ett** utrymme på 15,0 hp över hela våren ("På våren i årskurs 3 finns ett utrymme på 15,0 hp valfria kurser"), vilket är så det ritas här: en ruta som spänner P3+P4.
+Övergångsplanen anger *Valfria kurser* som 7,5 hp i P3 och 7,5 hp i P4, medan CTFYS egen studieplan formulerar samma sak som **ett** utrymme på 15,0 hp över hela våren ("På våren i årskurs 3 finns ett utrymme på 15,0 hp valfria kurser").
 
-Skillnaden spelar roll för studenten: en sammanhängande ruta säger att 15 hp får fördelas fritt över våren, två rutor säger 7,5 hp i varje period. **Fråga:** är den fria fördelningen över våren avsedd även för studenter från Öppen ingång?
+**Svar från programansvarig:** den fria fördelningen över våren gäller även för studenter från Öppen ingång, precis som för alla CTFYS-studenter. Diagrammet ritar därför en sammanhängande ruta som spänner P3+P4, vilket är korrekt.
+
+### 2. Att bekräfta: SK1105 Experimentell fysik
+
+SI1121 Termodynamik är nu införd bland de kurser som utgår, efter besked från programansvarig att den inte läses av studenter från Öppen ingång.
+
+**SK1105** *Experimentell fysik* (4 hp, P4) står i exakt samma läge: den ligger i CTFYS årskurs 1, ingen COPEN-kurs ersätter den, och den förekommer inte någonstans i övergångsplanens tabeller för årskurs 2 eller 3. Detsamma gäller **DD1301** *Datorintroduktion* (1,5 hp), som dock är en frivillig kurs och därför ett mindre problem.
+
+Ingen av dem påverkar diagrammet — hela CTFYS årskurs 1 ersätts av COPEN:s, så de ritas inte oavsett. Frågan gäller enbart om listan "Kurser som utgår" ska vara fullständig. **Ska SK1105 föras in på samma sätt som SI1121?**
 
 ---
 

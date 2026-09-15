@@ -54,6 +54,7 @@ export function composeTransition(
   sourceEntries: Entry[],
   targetEntries: Entry[],
   plan: TransitionPlan,
+  selectedSpecializations?: Set<string>,
 ): ComposedPlan {
   const warnings: string[] = [];
   const sourceYears = new Set(plan.sourceYears);
@@ -153,7 +154,7 @@ export function composeTransition(
     redirectPrerequisites([...fromSource, ...fromTarget, ...added], plan);
   const entries = rewritten;
   warnings.push(...rewriteWarnings);
-  warnings.push(...fullTimeWarnings(entries, plan));
+  warnings.push(...fullTimeWarnings(entries, plan, selectedSpecializations));
 
   return {
     entries,
@@ -276,9 +277,26 @@ const LOAD_TOLERANCE = 0.05;
  * Reported rather than corrected. Where the plan puts a course is the program
  * director's call, and the arithmetic is what they need in order to make it.
  */
-function fullTimeWarnings(entries: Entry[], plan: TransitionPlan): string[] {
+function fullTimeWarnings(
+  entries: Entry[],
+  plan: TransitionPlan,
+  selectedSpecializations?: Set<string>,
+): string[] {
   const groups = entries.filter(isGroup);
   const inGroup = new Set(groups.flatMap(g => g.options));
+  // A course tagged with inriktningar is taken only by students on one of them,
+  // so counting every tag at once overstates the year. CMAST is the case: its
+  // three language tracks are 37.5 hp together and a student takes at most one,
+  // which made the composed year 2 read 90 hp against a true 61.5. When the view
+  // has a selection, count a tagged course only if it matches; with no selection
+  // (no registry, or nothing picked yet) keep the old behaviour of counting it,
+  // since dropping every tagged course would understate the year instead.
+  const matchesSpec = (e: Entry): boolean => {
+    const specs = (e as Course).specializations;
+    if (!specs?.length) return true;
+    if (!selectedSpecializations?.size) return true;
+    return specs.some(c => selectedSpecializations.has(c));
+  };
   const byYear = new Map<number, Record<string, number>>();
 
   const add = (year: number, period: string, hp: number) => {
@@ -295,6 +313,7 @@ function fullTimeWarnings(entries: Entry[], plan: TransitionPlan): string[] {
       continue;
     }
     if (inGroup.has(entry.code)) continue;
+    if (!matchesSpec(entry)) continue;
     for (const c of entry.credits) add(c.year, c.period, c.credits);
   }
 
