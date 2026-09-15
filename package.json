@@ -16,7 +16,7 @@
     {
       "name": "Client JS + cohort data (brotlied, all static chunks)",
       "path": ".next/static/chunks/**/*.js",
-      "limit": "330 KB"
+      "limit": "360 KB"
     }
   ],
   "dependencies": {

@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Matematik",
+    "nameEn": "Mathematics",
+    "colorFamily": "blue",
+    "courses": [
+      "SF1547",
+      "SF1624",
+      "SF1625",
+      "SF1626",
+      "SF1671",
+      "SF1688",
+      "SF1698",
+      "SF1935"
+    ]
+  },
+  {
+    "name": "Datalogi och programmering",
+    "nameEn": "Computer Science and Programming",
+    "colorFamily": "green",
+    "courses": [
+      "DA1600",
+      "DD1337",
+      "DD1338",
+      "DD1349",
+      "DD1351",
+      "DD1366",
+      "DD1367",
+      "DD1368",
+      "DD1390",
+      "DD1396",
+      "DD2350",
+      "DH1623"
+    ]
+  },
+  {
+    "name": "Datorteknik och system",
+    "nameEn": "Computer Systems",
+    "colorFamily": "turquoise",
+    "courses": [
+      "ID1200",
+      "IS1500"
+    ]
+  },
+  {
+    "name": "Ingenjörsämnen",
+    "nameEn": "Engineering Subjects",
+    "colorFamily": "brick",
+    "courses": [
+      "AL1504",
+      "ME1010"
+    ]
+  },
+  {
+    "name": "Övrigt",
+    "nameEn": "Other",
+    "colorFamily": "yellow",
+    "courses": [
+      "DA150X"
+    ]
+  }
+]

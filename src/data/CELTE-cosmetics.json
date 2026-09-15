@@ -1,0 +1,73 @@
+[
+  {
+    "name": "Matematik",
+    "nameEn": "Mathematics",
+    "colorFamily": "blue",
+    "courses": [
+      "SF1546",
+      "SF1624",
+      "SF1625",
+      "SF1626",
+      "SF1679",
+      "SF1691",
+      "SF1861",
+      "SF1920"
+    ]
+  },
+  {
+    "name": "Elektroteknik",
+    "nameEn": "Electrical Engineering",
+    "colorFamily": "green",
+    "courses": [
+      "ED1110",
+      "EH1010",
+      "EH1110",
+      "EI1110",
+      "EI1220",
+      "EI1222",
+      "EJ1200",
+      "EK1191",
+      "EL1020",
+      "EN1020",
+      "EP1100",
+      "EP1200",
+      "EQ1110",
+      "EQ1120",
+      "EQ1270"
+    ]
+  },
+  {
+    "name": "Fysik",
+    "nameEn": "Physics",
+    "colorFamily": "turquoise",
+    "courses": [
+      "SG1130",
+      "SH1012",
+      "SI1200",
+      "SK1108",
+      "SK1119"
+    ]
+  },
+  {
+    "name": "Datateknik och IT",
+    "nameEn": "Computer Science and IT",
+    "colorFamily": "brick",
+    "courses": [
+      "DD1310",
+      "DD1320",
+      "DD1388",
+      "IE1205",
+      "IE1207",
+      "IL2240"
+    ]
+  },
+  {
+    "name": "Övrigt",
+    "nameEn": "Other",
+    "colorFamily": "yellow",
+    "courses": [
+      "EF112X",
+      "MH1023"
+    ]
+  }
+]
