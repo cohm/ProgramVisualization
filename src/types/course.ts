@@ -230,6 +230,27 @@ export interface Course {
   // would need a richer override shape and aren't supported yet.
   periodCreditsBySpecialization?: Record<string, Record<'P1' | 'P2' | 'P3' | 'P4', number>>;
   /**
+   * Per-specialization STUDY YEAR override, the year-level counterpart of
+   * `periodCreditsBySpecialization`.
+   *
+   * One KTH course can sit in different study years for different inriktningar.
+   * CINEK's DD1320 is the case that forced this: Datateknik and Tillämpad
+   * matematik take it in year 2, while Produkt- och produktionsutveckling takes
+   * it in year 3 — and in the autumn offering rather than the spring one, so the
+   * two overrides are used together.
+   *
+   * Before this existed the extractor could only emit the year the most
+   * inriktningar took the course in and flag the rest, which meant PPUI's copy
+   * was simply absent from the data: a PPUI student was shown a year 3 missing
+   * six credits they in fact take.
+   *
+   * Keys must be codes listed in this course's own `specializations`, so a
+   * student who has not selected that inriktning never sees the override. The
+   * course code stays unique, which is what keeps the duplicate-code check in
+   * `useCourseModel.ts` meaningful.
+   */
+  yearBySpecialization?: Record<string, number>;
+  /**
    * Alternative offerings of this course in one academic year, when KTH gives
    * it more than once (see CourseRound). Absent for the overwhelming majority
    * of courses, which run once a year.

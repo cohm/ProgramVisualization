@@ -309,6 +309,7 @@
     "description": "",
     "specializations": [
       "DTOI",
+      "PPUI",
       "TMAI"
     ],
     "category": "mandatory",
@@ -317,7 +318,18 @@
     "courseLevel": "G",
     "prerequisitesCompleted": [
       "DD1317"
-    ]
+    ],
+    "yearBySpecialization": {
+      "PPUI": 3
+    },
+    "periodCreditsBySpecialization": {
+      "PPUI": {
+        "P1": 5,
+        "P2": 1,
+        "P3": 0,
+        "P4": 0
+      }
+    }
   },
   {
     "code": "SF1545",

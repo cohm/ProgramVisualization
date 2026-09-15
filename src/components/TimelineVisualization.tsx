@@ -190,6 +190,19 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     });
     return filtered.map(c => {
       if (!isCourse(c)) return c;
+      // Study-year override first, so a course that also overrides its periods
+      // gets both applied. CINEK's DD1320 needs exactly that: PPUI takes it in
+      // year 3 AND in the autumn offering, while DTOI and TMAI take it in year 2
+      // in the spring one.
+      const yearOv = c.yearBySpecialization;
+      if (yearOv) {
+        for (const code of sel) {
+          const y = yearOv[code];
+          if (y === undefined) continue;
+          c = { ...c, year: y, credits: c.credits.map(cr => ({ ...cr, year: y })) };
+          break;
+        }
+      }
       const overrides = c.periodCreditsBySpecialization;
       if (!overrides) return c;
       // First selected spec that has an override wins. The validator

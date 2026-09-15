@@ -64,6 +64,7 @@ interface RawEntry {
   gradingScale?: GradingScale;
   specializations?: string[];
   periodCreditsBySpecialization?: Record<string, Record<'P1' | 'P2' | 'P3' | 'P4', number>>;
+  yearBySpecialization?: Record<string, number>;
   rounds?: CourseRound[];
 }
 
@@ -212,6 +213,7 @@ export const parseCourseEntries = (rawData: RawCourseEntry[]): (Course | OptionG
         gradingScale: c.gradingScale,
         specializations: Array.isArray(c.specializations) ? [...c.specializations as string[]] : undefined,
         periodCreditsBySpecialization: (c as RawCourseEntry & { periodCreditsBySpecialization?: Record<string, Record<'P1' | 'P2' | 'P3' | 'P4', number>> }).periodCreditsBySpecialization,
+        yearBySpecialization: (c as RawCourseEntry & { yearBySpecialization?: Record<string, number> }).yearBySpecialization,
         rounds: parseRounds(c.rounds, c.year || 1),
       });
     } else {
@@ -305,6 +307,7 @@ export const parseCourseEntries = (rawData: RawCourseEntry[]): (Course | OptionG
       gradingScale: entry.gradingScale,
       specializations: entry.specializations,
       periodCreditsBySpecialization: entry.periodCreditsBySpecialization,
+      yearBySpecialization: entry.yearBySpecialization,
       rounds: entry.rounds,
     } as Course;
   });
