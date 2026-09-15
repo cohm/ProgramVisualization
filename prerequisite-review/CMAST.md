@@ -191,6 +191,6 @@ The requirement is a credit total ("minst N hp"), which the schema cannot repres
 
 Usually correct — the syllabus lists alternatives from other programmes and the in-programme filter drops them. But the lists also go stale: where the text describes a knowledge area and this programme has a course of that name, the candidate is called out below as **suggested**. Nothing is written to the data from a name match — confirm it first.
 
-- [SH1012](https://www.kth.se/student/kurser/kurs/SH1012) · kursplan [VT 2022 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SH1012-20221.pdf?lang=sv) · *HT2022, HT2023*
+- [SH1012](https://www.kth.se/student/kurser/kurs/SH1012) · kursplan [VT 2022 – HT 2026](https://www.kth.se/student/kurser/kurs/kursplan/SH1012-20221.pdf?lang=sv) · *HT2022, HT2023*
   > Slutförd kurs SK1108 eller motsvarande.
 

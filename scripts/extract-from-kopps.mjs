@@ -494,6 +494,51 @@ function parseConditionallyElectiveInfo(text) {
 // replaced outright, so a change at KTH always wins — this is not a merge, it is
 // a re-derivation that preserves the parts it has no opinion about.
 
+/**
+ * Refuse to let a degraded run quietly delete what a healthy one produced.
+ *
+ * A KOPPS outage costs English titles and nothing else — that is the claim the
+ * fallback makes, and it has to be checked rather than assumed. It was wrong
+ * once already: with KOPPS down the spec registry came back empty, so
+ * `isMasterSpec` could not recognise a years 4-5 destination, and CMATD's
+ * "Kurs för valt masterprogram" group vanished from all five cohort files
+ * along with every `qualifiesFor`. Five courses a student picks between were
+ * re-emitted as mandatory, and nothing said a word: validate-data reported the
+ * same warning count before and after.
+ *
+ * So compare against the file being replaced. Losing an option group or a set
+ * of courses may be legitimate when KTH changes a plan, but during a degraded
+ * run it is far more likely to be the extractor working with less than usual.
+ */
+function warnIfDegradedRunLosesContent(outPath, entries) {
+  if (!koppsIsDown()) return;
+  const raw = readTextOrNull(outPath);
+  if (!raw) return;
+  let before;
+  try { before = JSON.parse(raw); } catch { return; }
+  if (!Array.isArray(before)) return;
+
+  const groupsOf = (list) => new Set(list.filter((e) => e?.type === 'optionGroup').map((e) => e.name));
+  const codesOf = (list) => new Set(list.filter((e) => e?.code).map((e) => e.code));
+  const qualifiedOf = (list) =>
+    list.filter((e) => e?.qualifiesFor && Object.keys(e.qualifiesFor).length > 0).length;
+
+  const lostGroups = [...groupsOf(before)].filter((n) => !groupsOf(entries).has(n));
+  const lostCodes = [...codesOf(before)].filter((c) => !codesOf(entries).has(c));
+  const lostQualified = qualifiedOf(before) - qualifiedOf(entries);
+
+  if (lostGroups.length === 0 && lostCodes.length === 0 && lostQualified <= 0) return;
+  const parts = [];
+  if (lostGroups.length) parts.push(`${lostGroups.length} option group(s) (${lostGroups.join('; ')})`);
+  if (lostCodes.length) parts.push(`${lostCodes.length} course(s) (${lostCodes.slice(0, 8).join(', ')}${lostCodes.length > 8 ? ', …' : ''})`);
+  if (lostQualified > 0) parts.push(`${lostQualified} entr${lostQualified === 1 ? 'y' : 'ies'} carrying qualifiesFor`);
+  flag(
+    `this run had no KOPPS and produced LESS than the file it replaced — lost ${parts.join(', ')}. ` +
+    `That is usually the extractor working with less than usual rather than a change at KTH. ` +
+    `Check against the committed file before keeping this output.`,
+  );
+}
+
 /** Fields the extractor never derives, per entry kind. */
 const EDITORIAL_COURSE_FIELDS = ['teacher', 'description', 'webpage', 'briefName', 'briefNameEn'];
 const EDITORIAL_GROUP_FIELDS = ['name', 'nameEn', 'comment', 'commentEn'];
@@ -1319,6 +1364,50 @@ function englishTitleFromCommittedData(code) {
     }
   }
   return priorNamesEn.get(code) ?? null;
+}
+
+/**
+ * Years 4-5 master destinations for a programme, recovered from its committed
+ * cohort files.
+ *
+ * Only the KOPPS registry names these, and `isMasterSpec` needs their NAMES —
+ * it matches on "Master, …" / "Spår, …" — so an empty registry silently
+ * disables the whole destination path. The cohort files already store each
+ * destination as {code, name} inside `qualifiesFor`, on courses and on option
+ * groups alike, which is exactly what the registry would have supplied.
+ *
+ * Returned in registry shape so the caller can append them unchanged.
+ */
+function masterDestinationsFromCommittedData(prog) {
+  const byCode = new Map();
+  const collect = (qf) => {
+    for (const list of Object.values(qf || {})) {
+      for (const m of list || []) {
+        if (m?.code && m.name && !byCode.has(m.code)) {
+          byCode.set(m.code, { code: m.code, name: m.name, nameEn: m.nameEn || m.name });
+        }
+      }
+    }
+  };
+  let files = [];
+  try {
+    const cohortDir = join(dataDir, 'cohorts');
+    files = readdirSync(cohortDir)
+      .filter((f) => f.startsWith(`${prog}-`) && f.endsWith('.json'))
+      .map((f) => join(cohortDir, f));
+  } catch { /* no archive yet */ }
+  const curated = join(dataDir, `${prog}.json`);
+  if (readTextOrNull(curated) !== null) files.push(curated);
+
+  for (const f of files) {
+    const raw = readTextOrNull(f);
+    if (!raw) continue;
+    let parsed;
+    try { parsed = JSON.parse(raw); } catch { continue; }
+    if (!Array.isArray(parsed)) continue;
+    for (const e of parsed) collect(e?.qualifiesFor);
+  }
+  return [...byCode.values()];
 }
 
 const courseCache = new Map();
@@ -3517,6 +3606,7 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   // Update rather than overwrite: keep the hand-written decoration from the file
   // being replaced (see carryForwardEditorial).
   const carried = carryForwardEditorial(outPath, ordered);
+  warnIfDegradedRunLosesContent(outPath, ordered);
   writeFileSync(outPath, `${JSON.stringify([meta, ...ordered], null, 2)}\n`, 'utf8');
 
   // --- report -------------------------------------------------------------
@@ -3913,9 +4003,31 @@ async function main() {
       registryEntries.push(...known);
       console.log(`  inriktning registry: KOPPS unreachable — reused the ${known.length} ` +
         `entries already in programs.json`);
-    } else {
-      console.log('  inriktning registry: KOPPS unreachable and none in programs.json — ' +
-        'any inriktning-tagged course will fail validation until KOPPS answers');
+    }
+    // programs.json holds BACHELOR inriktningar only, and deliberately so. The
+    // registry also carries years 4-5 master destinations, which is how
+    // `isMasterSpec` tells a destination from an inriktning — and without them
+    // the whole master-destination path goes quiet: no `qualifiesFor`, and the
+    // "Kurs för valt masterprogram" group is never built.
+    //
+    // That is silent data loss, not graceful degradation. Re-extracting CMATD
+    // during the outage dropped its year-3 group entirely and left five courses
+    // marked mandatory that a student picks between.
+    //
+    // The destinations are recoverable from the committed cohort files, which
+    // record them in `qualifiesFor` as {code, name} — the same values KOPPS
+    // returned, so this is the same carry-over the English titles use.
+    const carried = masterDestinationsFromCommittedData(prog);
+    const have = new Set(registryEntries.map((r) => r.code));
+    const added = carried.filter((r) => !have.has(r.code));
+    if (added.length > 0) {
+      registryEntries.push(...added);
+      console.log(`  master destinations: KOPPS unreachable — recovered ${added.length} ` +
+        `(${added.map((r) => r.code).join(', ')}) from the committed cohort files`);
+    }
+    if (registryEntries.length === 0) {
+      console.log('  inriktning registry: KOPPS unreachable, nothing in programs.json and ' +
+        'nothing to recover — any inriktning-tagged course will fail validation until KOPPS answers');
     }
   }
 
