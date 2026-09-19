@@ -375,8 +375,13 @@ const SWEDISH_NUMBERS = { en: 1, ett: 1, två: 2, tre: 3, fyra: 4, fem: 5, sex: 
 // Swedish-numeral count in the data (CMAST's "minst två av följande kurser") and
 // only the digit and `en`/`tre` forms worked.
 const MIN_COUNT_RE = /\bminst\s+(en|ett|två|tre|fyra|fem|sex|\d+)(?!\p{L})/iu;
-// "En villkorligt valfri kurs ska läsas" — exactly one, stated as prose.
-const EXACT_ONE_RE = /^\s*(en|ett)\s+villkorligt\s+valfri\s+kurs\s+ska\s+läsas/i;
+// "En villkorligt valfri kurs ska läsas" — exactly one, stated as prose. The
+// plural carries a numeral and is the same statement: CELTE says "Tre
+// villkorligt valfria kurser ska läsas i årskurs 2 eller 3", which the singular
+// pattern missed entirely, so no count reached the grouper and its fourteen
+// options fell back to being keyed by period layout.
+const EXACT_COUNT_RE =
+  /^\s*(en|ett|två|tre|fyra|fem|sex|\d+)\s+villkorligt\s+valfri(?:a)?\s+kurs(?:er)?\s+ska\s+läsas/i;
 // "Endast en av kurserna SG1217 och SG1220 kan ingå i examen." — a mutual
 // exclusion, not a group rule: it caps what may count toward the degree rather
 // than saying how many to take. Recognised so it is not reported as unread, but
@@ -449,7 +454,13 @@ function parseConditionallyElectiveInfo(text) {
       continue;
     }
 
-    if (EXACT_ONE_RE.test(line) || EITHER_OR_RE.test(line)) {
+    const exact = EXACT_COUNT_RE.exec(line);
+    if (exact) {
+      const n = swedishCount(exact[1]);
+      if (n != null) out.exactCount = Math.max(out.exactCount ?? 0, n);
+      continue;
+    }
+    if (EITHER_OR_RE.test(line)) {
       out.exactCount = 1;
       continue;
     }
@@ -1847,9 +1858,28 @@ function buildOptionGroups(vvRecords, vvInfo = []) {
     // in P1. Splitting on term is what keeps CFATE's thesis box distinct.
     const term = PERIOD_IDS.filter((pid) => r.periodCredits[pid] > 0)
       .every((pid) => pid === 'P1' || pid === 'P2') ? 'HT' : 'VT';
+    // A stated count makes the year's whole pool ONE choice.
+    //
+    // "Tre villkorligt valfria kurser ska läsas i årskurs 2 eller 3" is a rule
+    // about the pool, not about any subset of it, so keying by period layout
+    // splits a single choice into as many boxes as there are layouts — and the
+    // single-option rule below then dissolves most of them back into plain
+    // courses. CELTE is the case: fourteen options with nine different layouts
+    // became four small boxes and nine loose courses, and the chart drew all of
+    // them at once, putting 61.5 hp of electives into year 2 on top of the
+    // mandatory courses.
+    //
+    // Term is deliberately NOT part of the key here: the count covers the whole
+    // pool, so splitting autumn from spring would license the stated number
+    // twice over. That differs from the `named` case, where the count comes from
+    // one master programme's own list and a thesis in P3+P4 really is not an
+    // alternative to a 4 hp course in P1.
+    const counted = !named && (rule?.exactCount != null || rule?.minCount != null);
     const key = named
       ? `${r.year}::${r.spec ?? ''}::named::${term}`
-      : `${r.year}::${pcKey(r.periodCredits)}::${r.credits}`;
+      : counted
+        ? `${r.year}::${r.spec ?? ''}::pool`
+        : `${r.year}::${pcKey(r.periodCredits)}::${r.credits}`;
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(r);
   }
@@ -1967,7 +1997,44 @@ function buildOptionGroups(vvRecords, vvInfo = []) {
     flag(`optionGroup "${entry.name}" (year ${entry.year}, ${entry.totalCredits} hp, options ${options.join(' / ')}): name is a placeholder — rename during merge.`);
     out.push(entry);
   }
-  return out;
+  return dedupePoolGroups(out);
+}
+
+/**
+ * One pool offered across several study years is one choice, not one per year.
+ *
+ * KTH lists a year's villkorligt valfria courses under EVERY year they may be
+ * taken in, so an identical pool turns up once per year. CELTE states the rule
+ * as "Tre villkorligt valfria kurser ska läsas i årskurs 2 eller 3" and lists
+ * the same fourteen courses under both — which came out as two pick-three boxes,
+ * licensing six courses where the plan allows three.
+ *
+ * The option COURSES are already collapsed to their earliest year by
+ * `buildEntriesForCode`, so a later duplicate group also points at options that
+ * no longer sit in its own year. Keeping the earliest is therefore both the
+ * plan's reading and the one consistent with the entries.
+ *
+ * Only groups with the SAME option set and the same pick rule are merged: two
+ * genuinely different choices in different years share neither.
+ */
+function dedupePoolGroups(groups) {
+  const byShape = new Map();
+  for (const g of groups) {
+    const shape = `${[...g.options].sort().join(',')}::${g.kind}::${g.pickN ?? ''}::${g.minCredits ?? ''}`;
+    const prev = byShape.get(shape);
+    if (!prev || g.year < prev.year) byShape.set(shape, g);
+  }
+  const keep = new Set(byShape.values());
+  for (const g of groups) {
+    if (keep.has(g)) continue;
+    const kept = [...keep].find((k) =>
+      [...k.options].sort().join(',') === [...g.options].sort().join(','));
+    flag(`optionGroup "${g.name}" (year ${g.year}): the same pool is listed for year ` +
+      `${kept?.year ?? '?'} as well, and the study plan states one rule covering both — ` +
+      `kept the year ${kept?.year ?? '?'} box and dropped this duplicate, so the stated ` +
+      `count is not licensed twice. Verify the years the courses may be taken in.`);
+  }
+  return groups.filter((g) => keep.has(g));
 }
 
 // ---------------------------------------------------------------------------

@@ -233,55 +233,6 @@
     ]
   },
   {
-    "code": "SF1679",
-    "name": "Diskret matematik",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 2,
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Discrete Mathematics",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SF1624"
-    ]
-  },
-  {
-    "code": "SK1119",
-    "name": "Termodynamik och statistisk fysik",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 2,
-    "exams": [
-      "P4"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SF1626",
-      "SF1920",
-      "SK1108"
-    ]
-  },
-  {
     "code": "EI1220",
     "name": "Teoretisk elektroteknik E",
     "totalCredits": 10.5,
@@ -313,6 +264,42 @@
     ]
   },
   {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 1",
+    "nameEn": "Conditionally elective group 1",
+    "year": 2,
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "options": [
+      "DD1320",
+      "DD1388",
+      "EI1222",
+      "EP1100",
+      "IL2240",
+      "MH1023",
+      "SF1546",
+      "SF1679",
+      "SF1691",
+      "SF1861",
+      "SG1130",
+      "SH1012",
+      "SI1200",
+      "SK1119"
+    ],
+    "allowedNumberOfOptions": 3,
+    "kind": "pickN",
+    "pickN": 3,
+    "exams": [
+      "P3"
+    ],
+    "category": "conditionallyElective"
+  },
+  {
     "code": "EN1020",
     "name": "Elektroprojekt, del II",
     "totalCredits": 6,
@@ -332,6 +319,71 @@
     "prerequisitesCompleted": [
       "EH1010",
       "EI1110"
+    ]
+  },
+  {
+    "code": "MH1023",
+    "name": "Praktiskt jämställdhets- och mångfaldsarbete i vetenskapliga, tekniska och industriella miljöer",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 3
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Practical Gender Equality and Diversity Work in Scientific, Technical and Industrial Environments",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "EI1222",
+    "name": "Teoretisk elektroteknik, fortsättningskurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 2,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "EI1220"
+    ]
+  },
+  {
+    "code": "DD1320",
+    "name": "Tillämpad datalogi",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Applied Computer Science",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1310"
     ]
   },
   {
@@ -357,313 +409,6 @@
     "courseLevel": "G",
     "prerequisitesParticipation": [
       "SF1625"
-    ]
-  },
-  {
-    "code": "MH1023",
-    "name": "Praktiskt jämställdhets- och mångfaldsarbete i vetenskapliga, tekniska och industriella miljöer",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 3,
-      "P4": 3
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Practical Gender Equality and Diversity Work in Scientific, Technical and Industrial Environments",
-    "gradingScale": "A-F",
-    "courseLevel": "G"
-  },
-  {
-    "code": "DD1388",
-    "name": "Programsystemkonstruktion med C++",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 4,
-      "P4": 3.5
-    },
-    "year": 2,
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "DD1310",
-      "DD1320"
-    ]
-  },
-  {
-    "type": "optionGroup",
-    "name": "Villkorligt valfri grupp 2",
-    "nameEn": "Conditionally elective group 2",
-    "year": 2,
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "options": [
-      "EP1100",
-      "IL2240",
-      "SF1679"
-    ],
-    "allowedNumberOfOptions": 1,
-    "kind": "pickN",
-    "pickN": 1,
-    "exams": [
-      "P3"
-    ],
-    "category": "conditionallyElective"
-  },
-  {
-    "code": "SI1200",
-    "name": "Fysikens matematiska metoder",
-    "totalCredits": 4,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 4,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Mathematical Methods in Physics",
-    "gradingScale": "A-F",
-    "courseLevel": "G"
-  },
-  {
-    "type": "optionGroup",
-    "name": "Villkorligt valfri grupp 1",
-    "nameEn": "Conditionally elective group 1",
-    "year": 2,
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "options": [
-      "EI1222",
-      "SF1861"
-    ],
-    "allowedNumberOfOptions": 1,
-    "kind": "pickN",
-    "pickN": 1,
-    "exams": [
-      "P4"
-    ],
-    "category": "conditionallyElective"
-  },
-  {
-    "code": "SF1861",
-    "name": "Optimeringslära",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 2,
-    "exams": [
-      "P4"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Optimization",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SF1546",
-      "SF1624",
-      "SF1626"
-    ]
-  },
-  {
-    "code": "SF1691",
-    "name": "Komplex analys",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 3.7,
-      "P4": 3.8
-    },
-    "year": 2,
-    "exams": [
-      "P4"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Complex Analysis",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SF1626"
-    ]
-  },
-  {
-    "code": "SF1546",
-    "name": "Numeriska metoder, grundkurs",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 4,
-      "P4": 2
-    },
-    "year": 2,
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Numerical Methods, Basic Course",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesParticipation": [
-      "DD1310",
-      "SF1625"
-    ]
-  },
-  {
-    "code": "SF1920",
-    "name": "Sannolikhetsteori och statistik",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "year": 2,
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SF1625"
-    ]
-  },
-  {
-    "code": "EQ1120",
-    "name": "Tidsdiskreta signaler och system",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 2,
-    "exams": [
-      "P4"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Discrete Time Signals and Systems",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SF1625"
-    ]
-  },
-  {
-    "code": "SH1012",
-    "name": "Modern fysik",
-    "totalCredits": 8,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 2,
-      "P4": 6
-    },
-    "year": 2,
-    "exams": [
-      "P4"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Modern Physics",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SK1108"
-    ]
-  },
-  {
-    "code": "IL2240",
-    "name": "Halvledarkomponenter för integrerade kretsar",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 2,
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "prerequisitesCompleted": [
-      "EI1220"
-    ]
-  },
-  {
-    "code": "EI1222",
-    "name": "Teoretisk elektroteknik, fortsättningskurs",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 2,
-    "exams": [
-      "P4"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "EI1220"
     ]
   },
   {
@@ -714,6 +459,54 @@
     "courseLevel": "G"
   },
   {
+    "code": "DD1388",
+    "name": "Programsystemkonstruktion med C++",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4,
+      "P4": 3.5
+    },
+    "year": 2,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1310",
+      "DD1320"
+    ]
+  },
+  {
+    "code": "SH1012",
+    "name": "Modern fysik",
+    "totalCredits": 8,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 2,
+      "P4": 6
+    },
+    "year": 2,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Modern Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SK1108"
+    ]
+  },
+  {
     "code": "ED1110",
     "name": "Vektoranalys",
     "totalCredits": 4.5,
@@ -734,28 +527,6 @@
     "courseLevel": "G",
     "prerequisitesCompleted": [
       "SF1625"
-    ]
-  },
-  {
-    "code": "DD1320",
-    "name": "Tillämpad datalogi",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "year": 2,
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Applied Computer Science",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "DD1310"
     ]
   },
   {
@@ -781,6 +552,222 @@
     ]
   },
   {
+    "code": "EQ1120",
+    "name": "Tidsdiskreta signaler och system",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 2,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Discrete Time Signals and Systems",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "SF1861",
+    "name": "Optimeringslära",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 2,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Optimization",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1546",
+      "SF1624",
+      "SF1626"
+    ]
+  },
+  {
+    "code": "IL2240",
+    "name": "Halvledarkomponenter för integrerade kretsar",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "EI1220"
+    ]
+  },
+  {
+    "code": "SF1546",
+    "name": "Numeriska metoder, grundkurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4,
+      "P4": 2
+    },
+    "year": 2,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Numerical Methods, Basic Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "DD1310",
+      "SF1625"
+    ]
+  },
+  {
+    "code": "SK1119",
+    "name": "Termodynamik och statistisk fysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 2,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1626",
+      "SF1920",
+      "SK1108"
+    ]
+  },
+  {
+    "code": "SF1920",
+    "name": "Sannolikhetsteori och statistik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "SF1691",
+    "name": "Komplex analys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "year": 2,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Complex Analysis",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1626"
+    ]
+  },
+  {
+    "code": "SI1200",
+    "name": "Fysikens matematiska metoder",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Mathematical Methods in Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1679",
+    "name": "Diskret matematik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Discrete Mathematics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1624"
+    ]
+  },
+  {
     "code": "EF112X",
     "name": "Examensarbete inom elektroteknik, grundnivå",
     "totalCredits": 15,
@@ -801,6 +788,29 @@
     "courseLevel": "G"
   },
   {
+    "code": "EL1020",
+    "name": "Reglerteknik, allmän kurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "EQ1110"
+    ]
+  },
+  {
     "code": "EJ1200",
     "name": "Eleffektsystem",
     "totalCredits": 6,
@@ -813,29 +823,6 @@
     "year": 3,
     "exams": [
       "P2"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "EI1110"
-    ]
-  },
-  {
-    "code": "IE1207",
-    "name": "Analog Elektronik",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "exams": [
-      "P1"
     ],
     "teacher": "",
     "description": "",
@@ -870,29 +857,6 @@
     ]
   },
   {
-    "code": "EL1020",
-    "name": "Reglerteknik, allmän kurs",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "EQ1110"
-    ]
-  },
-  {
     "code": "EQ1270",
     "name": "Stokastiska signaler och system",
     "totalCredits": 6,
@@ -917,48 +881,26 @@
     ]
   },
   {
-    "type": "optionGroup",
-    "name": "Villkorligt valfri grupp 3",
-    "nameEn": "Conditionally elective group 3",
-    "year": 3,
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "options": [
-      "EP1100",
-      "IL2240",
-      "SF1679"
-    ],
-    "allowedNumberOfOptions": 1,
-    "kind": "pickN",
-    "pickN": 1,
-    "exams": [],
-    "category": "conditionallyElective"
-  },
-  {
-    "type": "optionGroup",
-    "name": "Villkorligt valfri grupp 4",
-    "nameEn": "Conditionally elective group 4",
-    "year": 3,
+    "code": "IE1207",
+    "name": "Analog Elektronik",
     "totalCredits": 6,
     "periodCredits": {
-      "P1": 0,
+      "P1": 6,
       "P2": 0,
       "P3": 0,
-      "P4": 6
+      "P4": 0
     },
-    "options": [
-      "EI1222",
-      "SF1861"
+    "year": 3,
+    "exams": [
+      "P1"
     ],
-    "allowedNumberOfOptions": 1,
-    "kind": "pickN",
-    "pickN": 1,
-    "exams": [],
-    "category": "conditionallyElective"
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "EI1110"
+    ]
   }
 ]
