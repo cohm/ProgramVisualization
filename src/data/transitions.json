@@ -719,5 +719,463 @@
     "verified": false,
     "source": "Övergångsplan för Öppen ingång påbörjad HT26 till Materialdesign (version 2026-02-02, Mikael Ersson).",
     "sourceEn": "Transition plan for Öppen ingång starting HT26 to Materialdesign (version 2026-02-02, Mikael Ersson)."
+  },
+  {
+    "from": "COPEN",
+    "to": "CELTE",
+    "sourceYears": [
+      1
+    ],
+    "credited": [
+      {
+        "code": "SF1625",
+        "replaces": [
+          "SF1625"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen — övergångsplanen skriver \"Har redan lästs\".",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1624",
+        "replaces": [
+          "SF1624"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen — \"Har redan lästs\".",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1626",
+        "replaces": [
+          "SF1626"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen — \"Har redan lästs\".",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "DD1310",
+        "replaces": [
+          "DD1310"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen — \"Har redan lästs\".",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SK1115",
+        "replaces": [
+          "SK1108"
+        ],
+        "note": "Elektromagnetism och vågrörelselära \"räknas in mot SK1108\". Övergångsplanen anger att SK1115 och SG1133 TILLSAMMANS ersätter SK1108 (7,5 hp); schemat tillåter bara en ersättande kurs per målkurs, så SK1115 är vald som den kurs förkunskapspilarna utgår från.",
+        "noteEn": "Electromagnetism and wave motion counts toward SK1108. The plan states SK1115 and SG1133 together replace SK1108; the schema allows only one replacing course per target, so SK1115 is the one prerequisite arrows start from."
+      },
+      {
+        "code": "SG1133",
+        "replaces": [
+          "SG1130"
+        ],
+        "note": "Mekanik I motsvarar CELTE:s egen Mekanik I (SG1130), som därför utgår. SG1133 ingår dessutom, tillsammans med SK1115, i ersättningen av SK1108 — se raden ovan och signeringsunderlaget.",
+        "noteEn": "Mechanics I corresponds to CELTE's own SG1130 Mekanik I, which is therefore dropped. SG1133 also contributes, with SK1115, to replacing SK1108."
+      },
+      {
+        "code": "SA1007",
+        "replaces": [
+          "EH1010"
+        ],
+        "note": "Ingenjörsrollen och ingenjörskunskap ersätter, tillsammans med KD1000, EH1010 Elektroprojekt. SA1007 är vald som den kurs förkunskapspilarna utgår från.",
+        "noteEn": "The engineering role replaces, together with KD1000, EH1010 Elektroprojekt. SA1007 is the course prerequisite arrows start from."
+      },
+      {
+        "code": "KD1000",
+        "note": "Kemiska principer \"räknas in mot EH1010 (Elektroprojekt)\" tillsammans med SA1007, men schemat kan bara ange en ersättande kurs per målkurs.",
+        "noteEn": "Chemical principles counts toward EH1010 together with SA1007, but the schema allows only one replacing course per target."
+      },
+      {
+        "code": "SF1546",
+        "note": "Numeriska metoder, grundkurs. CELTE:s egen SF1546 i årskurs 2 utgår därför (se 'exempt'). Observera att den enligt planen INTE får räknas som den villkorligt valfria kurs studenten ska välja: \"Välj minst 1 (ej SF1546, SF1547, eller SG1130)\".",
+        "noteEn": "Numerical methods. CELTE's own SF1546 in year 2 is therefore dropped. Per the plan it may not count as the conditionally-elective course the student must choose."
+      }
+    ],
+    "exempt": [
+      {
+        "code": "SK1108",
+        "creditedBy": "SK1115",
+        "note": "Klassisk fysik, mekanik och vågrörelselära (7,5 hp, årskurs 2) ersätts enligt övergångsplanen av SK1115 och SG1133 tillsammans.",
+        "noteEn": "Classical physics (7.5 credits, year 2) is replaced per the plan by SK1115 and SG1133 together."
+      },
+      {
+        "code": "SG1130",
+        "creditedBy": "SG1133",
+        "note": "Mekanik I (9 hp, årskurs 2) är redan avklarad genom SG1133 i Öppen ingång. Planen utesluter den uttryckligen från de villkorligt valfria kurser studenten får välja.",
+        "noteEn": "Mechanics I (9 credits, year 2) is already completed through SG1133. The plan explicitly excludes it from the conditionally-elective choices."
+      },
+      {
+        "code": "SF1546",
+        "creditedBy": "SF1546",
+        "note": "Numeriska metoder, grundkurs (6 hp, årskurs 2) är redan avklarad genom kursen med samma kurskod i Öppen ingång.",
+        "noteEn": "Numerical methods (6 credits, year 2) is already completed through the course with the same code in Öppen ingång."
+      }
+    ],
+    "moved": [
+      {
+        "code": "EP1200",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Introduktion till datorsystemteknik läses i årskurs 2 i stället för årskurs 1, med bibehållen läsperiod (P4) — övergångsplanens egen anvisning \"Läses i årskurs 2\".",
+        "noteEn": "Introduction to computer systems is taken in year 2 rather than year 1, keeping its period (P4)."
+      }
+    ],
+    "added": [
+      {
+        "code": "EI1120",
+        "name": "Elkretsanalys för energi och miljö",
+        "nameEn": "Circuit Analysis for Energy and Environment",
+        "totalCredits": 7.5,
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        },
+        "exams": [
+          "P3"
+        ],
+        "gradingScale": "A-F",
+        "courseLevel": "G",
+        "category": "mandatory",
+        "substitutesFor": "EI1110",
+        "fromProgram": "CELTE",
+        "note": "Ersätter EI1110 Elkretsanalys, utökad kurs, som CELTE läser i årskurs 1. Enligt planen läses den parallellt med EN1020. Perioder från kurssidan (VT 2027: P3 7,5 hp); examineras med TEN1 utöver två projektmoment.",
+        "noteEn": "Replaces EI1110, which CELTE takes in year 1. Periods from the course page (VT 2027: P3 7.5 credits).",
+        "cosmeticsGroup": "Elektroteknik"
+      },
+      {
+        "code": "IE1204",
+        "name": "Digital design",
+        "nameEn": "Digital Design",
+        "totalCredits": 7.5,
+        "year": 2,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        },
+        "exams": [
+          "P1"
+        ],
+        "gradingScale": "A-F",
+        "courseLevel": "G",
+        "category": "mandatory",
+        "substitutesFor": "IE1205",
+        "fromProgram": "CINTE",
+        "note": "Ersätter IE1205 Digital design, som CELTE läser i årskurs 1. Läses enligt planen tillsammans med CINTE årskurs 1. Perioder från kurssidans höstomgång (HT 2026: P1 7,5 hp); kursen ges även i P2.",
+        "noteEn": "Replaces IE1205, which CELTE takes in year 1. Taken with CINTE year 1 per the plan. Periods from the course page's autumn offering.",
+        "cosmeticsGroup": "Datateknik och IT"
+      },
+      {
+        "code": "EN1001",
+        "name": "Elektroteknikens betydelse för ett globalt samhälle",
+        "nameEn": "The Importance of Electrical Engineering for a Global Society",
+        "totalCredits": 6,
+        "year": 2,
+        "periodCredits": {
+          "Year2": {
+            "P1": 0.5,
+            "P2": 0.5,
+            "P3": 0.5,
+            "P4": 1.5
+          },
+          "Year3": {
+            "P1": 0,
+            "P2": 0.5,
+            "P3": 1.5,
+            "P4": 1
+          }
+        },
+        "exams": [],
+        "gradingScale": "A-F",
+        "courseLevel": "G",
+        "category": "mandatory",
+        "substitutesFor": "EH1110",
+        "fromProgram": "CELTE",
+        "note": "Ersätter EH1110 Elektroteknikens betydelse (7,5 hp över tre år) med en tvåårig variant på 6 hp. Kursen finns uttryckligen för den här studentgruppen — dess egen behörighetstext lyder \"Obligatorisk för studenter antagna till CELTE via öppen ingång\". Perioder från kurssidan; planens tabell för årskurs 3 anger 0,5/0,5/0,5/1,5 medan kurssidan anger 0/0,5/1,5/1 — se signeringsunderlaget.",
+        "noteEn": "Replaces EH1110 with a two-year, 6-credit variant. The course exists specifically for this group of students — its own eligibility text says it is compulsory for students admitted to CELTE via Öppen ingång.",
+        "cosmeticsGroup": "Elektroteknik"
+      }
+    ],
+    "verified": false,
+    "source": "Övergångsplan för Öppen ingång, påbörjad HT-25 (gäller övergång till Elektroteknik), reviderad av Ragnar Thobaben, PA CELTE, version 2026-02-03.",
+    "sourceEn": "Transition plan for Öppen ingång starting HT-25 to Elektroteknik, revised by Ragnar Thobaben, PA CELTE, version 2026-02-03."
+  },
+  {
+    "from": "COPEN",
+    "to": "CDATE",
+    "sourceYears": [
+      1
+    ],
+    "credited": [
+      {
+        "code": "SF1625",
+        "replaces": [
+          "SF1625"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen — planen skriver \"Läses ej, samma kurskod i COPEN\".",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1624",
+        "replaces": [
+          "SF1624"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen — \"Läses ej, samma kurskod i COPEN\".",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1626",
+        "replaces": [
+          "SF1626"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen — \"Läses ej, samma kurskod i COPEN\".",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "DD1310",
+        "replaces": [
+          "DD1337"
+        ],
+        "note": "Programmeringsteknik ersätter CDATE:s DD1337 Programmering (7 hp) — planens kommentar \"Läses ej (om DD1310 slutförts)\".",
+        "noteEn": "Programming techniques replaces CDATE's DD1337 Programmering, per the plan's \"not taken if DD1310 is completed\"."
+      },
+      {
+        "code": "SA1007",
+        "replaces": [
+          "DA1600"
+        ],
+        "note": "Ingenjörsrollen och ingenjörskunskap ersätter DA1600 Ingenjörsmässigt skrivande (4,5 hp) — \"Läses ej (om SA1007 slutförts)\".",
+        "noteEn": "The engineering role replaces DA1600 Ingenjörsmässigt skrivande, per the plan's \"not taken if SA1007 is completed\"."
+      },
+      {
+        "code": "SF1546",
+        "replaces": [
+          "SF1547"
+        ],
+        "note": "Numeriska metoder, grundkurs ersätter CDATE:s SF1547 Numeriska metoder i årskurs 2, som därför utgår (se 'exempt'). SF1547 saknas i planens lista över kurser som läses år 2, vilket är hur ersättningen framgår.",
+        "noteEn": "Numerical methods replaces CDATE's SF1547 in year 2, which is therefore dropped. SF1547's absence from the plan's year-2 list is how the replacement is stated."
+      },
+      {
+        "code": "SK1115",
+        "note": "Elektromagnetism och vågrörelselära. Planen märker den som \"valbar kurs på mottagande program\" — den ersätter ingen CDATE-kurs utan räknas som valfri.",
+        "noteEn": "Electromagnetism and wave motion. The plan marks it as an elective on the receiving programme; it replaces no CDATE course."
+      },
+      {
+        "code": "SG1133",
+        "note": "Mekanik I. Märkt som valbar kurs på mottagande program; ersätter ingen CDATE-kurs.",
+        "noteEn": "Mechanics I. Marked as an elective on the receiving programme; replaces no CDATE course."
+      },
+      {
+        "code": "KD1000",
+        "note": "Kemiska principer för hållbar utveckling. Märkt som valbar kurs på mottagande program; ersätter ingen CDATE-kurs.",
+        "noteEn": "Chemical principles. Marked as an elective on the receiving programme; replaces no CDATE course."
+      }
+    ],
+    "exempt": [
+      {
+        "code": "SF1547",
+        "creditedBy": "SF1546",
+        "note": "Numeriska metoder (6 hp, årskurs 2) är redan avklarad genom SF1546 i Öppen ingång.",
+        "noteEn": "Numerical methods (6 credits, year 2) is already completed through SF1546 in Öppen ingång."
+      },
+      {
+        "code": "SF1688",
+        "note": "Diskret matematik, fortsättningskurs (6 hp, årskurs 3) ersätts av den nya kursen SF1699 med samma omfattning (se 'added').",
+        "noteEn": "Discrete mathematics, continuation course (6 credits, year 3) is replaced by the new course SF1699 of the same size."
+      },
+      {
+        "code": "ID1200",
+        "note": "Operativsystem (6 hp, årskurs 3) läses inte. Planen anger det uttryckligen längst ned i tabellen för årskurs 3: \"( ID1200 Operativsystem, 6 hp — Läses ej, utgår för COPEN )\".",
+        "noteEn": "Operating systems (6 credits, year 3) is not taken. The plan states this explicitly at the foot of its year-3 table."
+      }
+    ],
+    "moved": [
+      {
+        "code": "DD1338",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Algoritmer och datastrukturer läses tillsammans med CDATE årskurs 1 under den transfererande studentens årskurs 2. Planen noterar att kursen startar tre veckor in i period 2.",
+        "noteEn": "Algorithms and data structures is taken with CDATE year 1 during the transferring student's year 2."
+      },
+      {
+        "code": "DH1623",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Människa-datorinteraktion läses med CDATE årskurs 1 under årskurs 2. Planen placerar den i period 2, medan kurssidan och CDATE:s egen studieplan anger period 3 — se signeringsunderlaget.",
+        "noteEn": "Human-computer interaction is taken with CDATE year 1 during year 2. The plan places it in period 2 while the course page says period 3 — see the sign-off file."
+      },
+      {
+        "code": "DD1349",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Projektuppgift i introduktion till datalogi läses med CDATE årskurs 1 under årskurs 2.",
+        "noteEn": "Project assignment in introduction to computer science is taken with CDATE year 1 during year 2."
+      },
+      {
+        "code": "DD1396",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Parallellprogrammering läses med CDATE årskurs 1 under årskurs 2.",
+        "noteEn": "Parallel programming is taken with CDATE year 1 during year 2."
+      },
+      {
+        "code": "AL1504",
+        "fromYear": 3,
+        "toYear": 2,
+        "note": "Hållbar utveckling för datateknik flyttas TIDIGARE, från årskurs 3 till årskurs 2, och läses enligt planen tillsammans med CDATE årskurs 3.",
+        "noteEn": "Sustainable development for computer science moves EARLIER, from year 3 to year 2, taken with CDATE year 3."
+      },
+      {
+        "code": "DD1351",
+        "fromYear": 2,
+        "toYear": 3,
+        "note": "Logik för dataloger skjuts till årskurs 3 och läses tillsammans med CDATE årskurs 2.",
+        "noteEn": "Logic for computer scientists is deferred to year 3, taken with CDATE year 2."
+      },
+      {
+        "code": "DD1368",
+        "fromYear": 2,
+        "toYear": 3,
+        "note": "Databasteknik för D skjuts till årskurs 3 och läses tillsammans med CDATE årskurs 2.",
+        "noteEn": "Database technology is deferred to year 3, taken with CDATE year 2."
+      },
+      {
+        "code": "DD1366",
+        "fromYear": 2,
+        "toYear": 3,
+        "note": "Programmeringsparadigm skjuts till årskurs 3 och läses tillsammans med CDATE årskurs 2. Planen anger fördelningen P3 4,0 + P4 2,0 medan kurssidan anger P3 3,0 + P4 3,0 — se signeringsunderlaget.",
+        "noteEn": "Programming paradigms is deferred to year 3, taken with CDATE year 2. The plan splits it P3 4.0 + P4 2.0 while the course page says P3 3.0 + P4 3.0."
+      }
+    ],
+    "added": [
+      {
+        "code": "DD1391",
+        "name": "Programsammanhållande kurs i datateknik",
+        "nameEn": "Integrating Course in Computer Science",
+        "totalCredits": 4,
+        "year": 2,
+        "periodCredits": {
+          "Year2": {
+            "P1": 0.1,
+            "P2": 0.3,
+            "P3": 0.6,
+            "P4": 2
+          },
+          "Year3": {
+            "P1": 0.6,
+            "P2": 0.1,
+            "P3": 0.1,
+            "P4": 0.2
+          }
+        },
+        "exams": [],
+        "gradingScale": "A-F",
+        "courseLevel": "G",
+        "category": "mandatory",
+        "substitutesFor": "DD1390",
+        "fromProgram": "CDATE",
+        "cosmeticsGroup": "Datalogi och programmering",
+        "note": "Den 4 hp stora varianten av DD1390 Programsammanhållande kurs (6 hp), utan dess årskurs 1-del som en student från Öppen ingång aldrig läser. Planens kommentar på DD1390 lyder \"Ska läsas (men DD1391 4 hp i stället)\". Perioderna är hämtade från kurssidan och stämmer med planens båda tabeller. Examineras med seminarier och uppgifter, alltså utan tentamen.",
+        "noteEn": "The 4-credit variant of DD1390 (6 credits), without the year-1 part a student from Öppen ingång never takes. Periods from the course page, matching both of the plan's tables."
+      },
+      {
+        "code": "SF1698",
+        "name": "Diskret matematik",
+        "nameEn": "Discrete Mathematics",
+        "totalCredits": 7.5,
+        "year": 2,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        },
+        "exams": [
+          "P1"
+        ],
+        "gradingScale": "A-F",
+        "courseLevel": "G",
+        "category": "mandatory",
+        "substitutesFor": "SF1671",
+        "fromProgram": "CDATE",
+        "cosmeticsGroup": "Matematik",
+        "note": "Ny kurs enligt planen. Ersätter SF1671 Matematik, baskurs med diskret matematik (7,5 hp) ur CDATE:s årskurs 1 och läses tillsammans med CDATE årskurs 1. Perioder och examination från kurssidan (HT 2026: P1 7,5 hp, TEN1).",
+        "noteEn": "A new course per the plan. Replaces SF1671 from CDATE's year 1 and is taken with CDATE year 1."
+      },
+      {
+        "code": "SF1699",
+        "name": "Diskret matematik, fortsättningskurs",
+        "nameEn": "Discrete Mathematics, Continuation Course",
+        "totalCredits": 6,
+        "year": 3,
+        "periodCredits": {
+          "P1": 6,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        },
+        "exams": [],
+        "gradingScale": "A-F",
+        "courseLevel": "G",
+        "category": "mandatory",
+        "substitutesFor": "SF1688",
+        "fromProgram": "CDATE",
+        "cosmeticsGroup": "Matematik",
+        "note": "Ny kurs enligt planen, ersätter SF1688 (6 hp) i årskurs 3. Kurssidan finns men innehåller ännu ingen kursplan, så hp och period är tagna från övergångsplanen och examinationen är okänd — se signeringsunderlaget.",
+        "noteEn": "A new course per the plan, replacing SF1688 in year 3. Its course page exists but carries no syllabus yet, so credits and period come from the transition plan."
+      },
+      {
+        "code": "DD1380",
+        "name": "Javaprogrammering för Pythonprogrammerare",
+        "nameEn": "Java Programming for Python Programmers",
+        "totalCredits": 1.5,
+        "year": 2,
+        "periodCredits": {
+          "P1": 1.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        },
+        "exams": [],
+        "gradingScale": "P/F",
+        "courseLevel": "G",
+        "category": "mandatory",
+        "fromProgram": "CDATE",
+        "cosmeticsGroup": "Datalogi och programmering",
+        "note": "Kompletteringskurs. Planen anger att den \"måste läsas innan DD1338\", alltså i period 1. Perioder från kurssidans höstomgång (HT 2026: P1 1,5 hp); kursen ges i alla fyra perioderna. Examineras med laborationsuppgifter, utan tentamen.",
+        "noteEn": "Catch-up course. The plan requires it before DD1338, i.e. in period 1. The course is given in all four periods; the autumn offering is used."
+      },
+      {
+        "code": "DD1348",
+        "name": "Etikmoment i introduktion till datalogi",
+        "nameEn": "Ethics Module in Introduction to Computer Science",
+        "totalCredits": 1.5,
+        "year": 3,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 1.5,
+          "P3": 0,
+          "P4": 0
+        },
+        "exams": [],
+        "gradingScale": "P/F",
+        "courseLevel": "G",
+        "category": "mandatory",
+        "fromProgram": "CDATE",
+        "cosmeticsGroup": "Datalogi och programmering",
+        "note": "Kompletterande kurs till DD1391, enligt planens egen kommentar. Perioder och examination från kurssidan (HT 2026: P2 1,5 hp, ETI1, betygsskala P/F).",
+        "noteEn": "A complement to DD1391, per the plan's own comment. Periods and examination from the course page."
+      }
+    ],
+    "verified": false,
+    "source": "Övergångsplan för Öppen ingång, påbörjad HT25 (gäller övergång till CDATE HT26), Pawel Herman, PA CDATE, version 1, 2025-12-19. Dokumentet är en inskannad PDF utan textlager och är inläst manuellt.",
+    "sourceEn": "Transition plan for Öppen ingång starting HT25 to CDATE HT26, Pawel Herman, PA CDATE, version 1, 2025-12-19. The document is a scanned PDF with no text layer and was transcribed by hand."
   }
 ]
