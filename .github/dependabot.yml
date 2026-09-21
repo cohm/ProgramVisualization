@@ -24,10 +24,17 @@ updates:
       # dependency (@size-limit/file@13.0.3 requires size-limit@13.0.3), so a PR
       # bumping one without the other fails `npm ci` with ERESOLVE. That is what
       # sank #54 and #57. Grouping them means one PR carries both.
+      #
+      # The scoped package is named in full as well as by wildcard. `@size-limit/*`
+      # alone did NOT catch `@size-limit/file` on the 14.0.0 bump: #89 came out as
+      # "the size-limit group with 1 update" while #91 bumped the scoped package on
+      # its own, and both failed `npm ci` exactly as #54 and #57 had. Whatever the
+      # matcher does with a scoped wildcard, an exact name cannot be misread.
       size-limit:
         patterns:
           - "size-limit"
           - "@size-limit/*"
+          - "@size-limit/file"
     ignore:
       # @sparticuz/chromium must track the Chromium version in puppeteer-core.
       # Auto-bumping it independently can break PDF export on Vercel; bump
