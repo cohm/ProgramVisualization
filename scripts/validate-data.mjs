@@ -1074,6 +1074,20 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
       }
     }
 
+    // `exempt.creditedBy` and `added.substitutesFor` say the same thing as
+    // `credited.replaces`, and `redirectPrerequisites` builds its rewrite map
+    // from all three. Reading only the first reported five false missing arrows
+    // on COPEN -> CELTE, where EI1110 is stood in for by the ADDED course
+    // EI1120 rather than by a credited COPEN course.
+    for (const ex of plan.exempt ?? []) {
+      if (ex?.creditedBy && !replacedBy.has(ex.code)) replacedBy.set(ex.code, ex.creditedBy);
+    }
+    for (const add of plan.added ?? []) {
+      if (add?.substitutesFor && !replacedBy.has(add.substitutesFor)) {
+        replacedBy.set(add.substitutesFor, add.code);
+      }
+    }
+
     // Every target-programme prerequisite pointing into the years the source
     // replaces must have an equivalence, or its arrow vanishes from the chart.
     const targetProgram = programs.find((p) => p?.code === plan.to);
@@ -1175,9 +1189,23 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
       if (!Number.isInteger(ad.year) || plan.sourceYears.includes(ad.year)) {
         err(file, `${ctx} ${label}: '${ad.code}' has year ${ad.year}, which is not one of the target's own years`);
       }
-      const sum = PERIODS_ORDERED.reduce((a, p) => a + (Number(ad.periodCredits?.[p]) || 0), 0);
+      // `periodCredits` takes the data files' dual shape: flat {P1..P4}, or
+      // keyed by study year for a course that spans them. CELTE's EN1001 is the
+      // second kind — 3 hp in year 2 and 3 hp in year 3 — and summing only the
+      // flat keys scored it 0 against a totalCredits of 6.
+      const pc = ad.periodCredits || {};
+      const yearKeyed = Object.keys(pc).filter((k) => /^Year\d+$/.test(k));
+      const sumFlat = (map) => PERIODS_ORDERED.reduce((a, p) => a + (Number(map?.[p]) || 0), 0);
+      const sum = yearKeyed.length > 0
+        ? round(yearKeyed.reduce((a, k) => a + sumFlat(pc[k]), 0))
+        : sumFlat(pc);
       if (Math.abs(sum - ad.totalCredits) > CREDIT_TOLERANCE) {
         err(file, `${ctx} ${label}: '${ad.code}' periodCredits sum to ${sum} hp but totalCredits is ${ad.totalCredits}`);
+      }
+      for (const k of yearKeyed) {
+        if (Number(k.slice(4)) < Math.min(...plan.sourceYears) + 1) {
+          warn(file, `${ctx} ${label}: '${ad.code}' has credits in ${k}, which the source programme replaces`);
+        }
       }
       if (ad.substitutesFor && !tgt.has(ad.substitutesFor)) {
         err(file, `${ctx} ${label}: '${ad.code}' substitutes for '${ad.substitutesFor}', which ${plan.to} does not list`);
