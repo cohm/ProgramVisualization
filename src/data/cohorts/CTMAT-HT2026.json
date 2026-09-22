@@ -882,8 +882,8 @@
   },
   {
     "type": "optionGroup",
-    "name": "Villkorligt valfri grupp 2",
-    "nameEn": "Conditionally elective group 2",
+    "name": "Kandidatexamensarbete",
+    "nameEn": "Degree project, first cycle",
     "year": 3,
     "totalCredits": 15,
     "periodCredits": {
