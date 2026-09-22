@@ -21,76 +21,40 @@ curated `src/data/CFATE.json`) directly — this file is a worklist, not a sourc
 
 | kull | slutförd | aktivt deltagande | flaggat |
 |---|---|---|---|
-| HT2022 | 14 | 1 | 16 |
-| HT2023 | 12 | 1 | 18 |
-| HT2024 | 14 | 1 | 17 |
-| HT2025 | 14 | 1 | 17 |
-| HT2026 | 14 | 1 | 17 |
+| HT2022 | 14 | 0 | 22 |
+| HT2023 | 14 | 0 | 26 |
+| HT2024 | 14 | 0 | 27 |
+| HT2025 | 14 | 0 | 27 |
+| HT2026 | 14 | 0 | 27 |
 
-**20** distinct item(s) need review across all cohorts (an item shared by
+**29** distinct item(s) need review across all cohorts (an item shared by
 several cohorts is counted once).
 
-## Periods scheduled over full-time (3)
-
-Full-time is **15 hp per period**, and these schedule more — after every
-alternative we could identify has been grouped into a box and counted once,
-so this is what is left over. Two readings, and only the programme can say
-which applies: either some of these courses form a *minst N hp ur grupp*
-pool the student picks from — if so, which ones, and how many hp? — or the
-plan genuinely schedules an overload in that period.
-
-Courses listed below are counted individually; a *valblock* is counted once,
-however many options it holds.
-
-- **Årskurs 3, P1 — 18 hp, 3 hp over full-time.**
-  Cohorts: HT2022, HT2023, HT2024, HT2025, HT2026.
-  Courses: [MF1017](https://www.kth.se/student/kurser/kurs/MF1017) 6 hp, [SF1914](https://www.kth.se/student/kurser/kurs/SF1914) 6 hp.
-  Valblock: Villkorligt valfri grupp 1 6 hp.
-
-- **Årskurs 3, P2 — 18 hp, 3 hp over full-time.**
-  Cohorts: HT2022, HT2023, HT2024, HT2025, HT2026.
-  Courses: [EL1010](https://www.kth.se/student/kurser/kurs/EL1010) 6 hp, [SD2125](https://www.kth.se/student/kurser/kurs/SD2125) 6 hp.
-  Valblock: Villkorligt valfri grupp 1 6 hp.
-
-- **Årskurs 3, P4 — 19.5 hp, 4.5 hp over full-time.**
-  Cohorts: HT2022, HT2023, HT2024, HT2025, HT2026.
-  Courses: [SF1861](https://www.kth.se/student/kurser/kurs/SF1861) 6 hp.
-  Valblock: Villkorligt valfri grupp 2 7.5 hp; Villkorligt valfri grupp 3 6 hp.
-
-- [DD1320](https://www.kth.se/student/kurser/kurs/DD1320) — slutförd: [DD1333](https://www.kth.se/student/kurser/kurs/DD1333) · kursplan [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/DD1320-20262.pdf?lang=sv) — *HT2024, HT2025, HT2026*
 - [EL1010](https://www.kth.se/student/kurser/kurs/EL1010) — slutförd: [SF1682](https://www.kth.se/student/kurser/kurs/SF1682) · kursplan [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/EL1010-20262.pdf?lang=sv) / [HT 2021 – VT 2026](https://www.kth.se/student/kurser/kurs/kursplan/EL1010-20212.pdf?lang=sv)
-- [ME2163](https://www.kth.se/student/kurser/kurs/ME2163) — slutförd: [ME1003](https://www.kth.se/student/kurser/kurs/ME1003) · kursplan [VT 2021 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/ME2163-20211.pdf?lang=sv)
 - [MF1017](https://www.kth.se/student/kurser/kurs/MF1017) — slutförd: [SF1626](https://www.kth.se/student/kurser/kurs/SF1626) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MF1017-20192.pdf?lang=sv)
 - [MF1024](https://www.kth.se/student/kurser/kurs/MF1024) — slutförd: [SG1132](https://www.kth.se/student/kurser/kurs/SG1132) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MF1024-20192.pdf?lang=sv)
 - [MJ146X](https://www.kth.se/student/kurser/kurs/MJ146X) — slutförd: [SG1216](https://www.kth.se/student/kurser/kurs/SG1216) · kursplan [VT 2022 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MJ146X-20221.pdf?lang=sv)
 - [SD1120](https://www.kth.se/student/kurser/kurs/SD1120) — slutförd: [SF1626](https://www.kth.se/student/kurser/kurs/SF1626), [SG1132](https://www.kth.se/student/kurser/kurs/SG1132) · kursplan [VT 2020 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SD1120-20201.pdf?lang=sv)
+- [SD2125](https://www.kth.se/student/kurser/kurs/SD2125) — slutförd: [SF1668](https://www.kth.se/student/kurser/kurs/SF1668), [SF1694](https://www.kth.se/student/kurser/kurs/SF1694), [SF1626](https://www.kth.se/student/kurser/kurs/SF1626), [SF1682](https://www.kth.se/student/kurser/kurs/SF1682) · kursplan [HT 2024 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SD2125-20242.pdf?lang=sv)
 - [SE1010](https://www.kth.se/student/kurser/kurs/SE1010) — slutförd: [SG1132](https://www.kth.se/student/kurser/kurs/SG1132) · kursplan [HT 2023 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SE1010-20232.pdf?lang=sv)
 - [SE1025](https://www.kth.se/student/kurser/kurs/SE1025) — slutförd: [SE1010](https://www.kth.se/student/kurser/kurs/SE1010) · kursplan [HT 2007 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SE1025-20072.pdf?lang=sv)
 - [SF1682](https://www.kth.se/student/kurser/kurs/SF1682) — slutförd: [SF1626](https://www.kth.se/student/kurser/kurs/SF1626) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SF1682-20192.pdf?lang=sv)
 - [SF1861](https://www.kth.se/student/kurser/kurs/SF1861) — slutförd: [SF1626](https://www.kth.se/student/kurser/kurs/SF1626), [SF1668](https://www.kth.se/student/kurser/kurs/SF1668) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SF1861-20192.pdf?lang=sv)
 - [SF1914](https://www.kth.se/student/kurser/kurs/SF1914) — slutförd: [SF1668](https://www.kth.se/student/kurser/kurs/SF1668) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SF1914-20192.pdf?lang=sv)
 - [SG1140](https://www.kth.se/student/kurser/kurs/SG1140) — slutförd: [SG1132](https://www.kth.se/student/kurser/kurs/SG1132) · kursplan [VT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SG1140-20191.pdf?lang=sv)
-- [SG1216](https://www.kth.se/student/kurser/kurs/SG1216) — slutförd: [SF1626](https://www.kth.se/student/kurser/kurs/SF1626), [SG1132](https://www.kth.se/student/kurser/kurs/SG1132) · kursplan [VT 2023 – HT 2024](https://www.kth.se/student/kurser/kurs/kursplan/SG1216-20231.pdf?lang=sv) — *HT2022*
-- [SG1217](https://www.kth.se/student/kurser/kurs/SG1217) — slutförd: [SF1626](https://www.kth.se/student/kurser/kurs/SF1626), [SG1132](https://www.kth.se/student/kurser/kurs/SG1132) · kursplan [VT 2023 – HT 2024](https://www.kth.se/student/kurser/kurs/kursplan/SG1217-20231.pdf?lang=sv) — *HT2022*
-- [SH1014](https://www.kth.se/student/kurser/kurs/SH1014) — slutförd: [SK1112](https://www.kth.se/student/kurser/kurs/SK1112) · kursplan [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SH1014-20262.pdf?lang=sv) — *HT2024, HT2025, HT2026*
-- [SI1155](https://www.kth.se/student/kurser/kurs/SI1155) — deltagande: [SH1014](https://www.kth.se/student/kurser/kurs/SH1014) · kursplan [VT 2025 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SI1155-20251.pdf?lang=sv)
+- [SG1216](https://www.kth.se/student/kurser/kurs/SG1216) — slutförd: [SG1132](https://www.kth.se/student/kurser/kurs/SG1132) · kursplan [VT 2025 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SG1216-20251.pdf?lang=sv) / [VT 2023 – HT 2024](https://www.kth.se/student/kurser/kurs/kursplan/SG1216-20231.pdf?lang=sv)
+- [SG1217](https://www.kth.se/student/kurser/kurs/SG1217) — slutförd: [SG1132](https://www.kth.se/student/kurser/kurs/SG1132) · kursplan [VT 2025 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SG1217-20251.pdf?lang=sv) / [VT 2023 – HT 2024](https://www.kth.se/student/kurser/kurs/kursplan/SG1217-20231.pdf?lang=sv)
 
-## Cohorts read different kursplan versions (7)
+## Cohorts read different kursplan versions (4)
 
 These courses were revised while the cohorts below were studying, so each cohort is
 held to a different text. That is intended — a student is examined against the
 version in force when they sit the course — but it is also where a single "correct"
 answer does not exist, so it is worth a glance to confirm the split looks right.
 
-- [DD1320](https://www.kth.se/student/kurser/kurs/DD1320) ([alla versioner](https://www.kth.se/kursutveckling/DD1320/arkiv))
-  - HT2024, HT2025, HT2026 → [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/DD1320-20262.pdf?lang=sv)
-  - HT2022, HT2023 → [HT 2024 – VT 2026](https://www.kth.se/student/kurser/kurs/kursplan/DD1320-20242.pdf?lang=sv)
 - [EL1010](https://www.kth.se/student/kurser/kurs/EL1010) ([alla versioner](https://www.kth.se/kursutveckling/EL1010/arkiv))
   - HT2024, HT2025, HT2026 → [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/EL1010-20262.pdf?lang=sv)
   - HT2022, HT2023 → [HT 2021 – VT 2026](https://www.kth.se/student/kurser/kurs/kursplan/EL1010-20212.pdf?lang=sv)
-- [ME1003](https://www.kth.se/student/kurser/kurs/ME1003) ([alla versioner](https://www.kth.se/kursutveckling/ME1003/arkiv))
-  - HT2024, HT2025, HT2026 → [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/ME1003-20262.pdf?lang=sv)
-  - HT2022, HT2023 → [HT 2024 – VT 2026](https://www.kth.se/student/kurser/kurs/kursplan/ME1003-20242.pdf?lang=sv)
 - [MF130X](https://www.kth.se/student/kurser/kurs/MF130X) ([alla versioner](https://www.kth.se/kursutveckling/MF130X/arkiv))
   - HT2023, HT2024, HT2025, HT2026 → [VT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MF130X-20261.pdf?lang=sv)
   - HT2022 → [VT 2021 – HT 2025](https://www.kth.se/student/kurser/kurs/kursplan/MF130X-20211.pdf?lang=sv)
@@ -100,19 +64,19 @@ answer does not exist, so it is worth a glance to confirm the split looks right.
 - [SG1217](https://www.kth.se/student/kurser/kurs/SG1217) ([alla versioner](https://www.kth.se/kursutveckling/SG1217/arkiv))
   - HT2023, HT2024, HT2025, HT2026 → [VT 2025 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SG1217-20251.pdf?lang=sv)
   - HT2022 → [VT 2023 – HT 2024](https://www.kth.se/student/kurser/kurs/kursplan/SG1217-20231.pdf?lang=sv)
-- [SH1014](https://www.kth.se/student/kurser/kurs/SH1014) ([alla versioner](https://www.kth.se/kursutveckling/SH1014/arkiv))
-  - HT2024, HT2025, HT2026 → [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SH1014-20262.pdf?lang=sv)
-  - HT2022, HT2023 → [HT 2021 – VT 2026](https://www.kth.se/student/kurser/kurs/kursplan/SH1014-20212.pdf?lang=sv)
 
-## The course's own prerequisite list looks out of date — report it (1)
+## The course's own prerequisite list looks out of date — report it (2)
 
 These courses require a knowledge area that **this programme teaches**, but their list of qualifying courses does not include our course. CTMAT is the worked example: DD1385 and DD1380 ask for "programmering" while listing only `DD1310/DD1311/.../DD1331`, and CTMAT's own first-year programming course is DD1333. Neither syllabus has been revised since HT2021.
 
 This is a defect in the **other course's** syllabus, not in this programme's data, so nothing was recorded automatically. Confirm the suggested course is really the intended prerequisite, add it here, and **report it to the coordinator or administrator of that course** so it is corrected at source — otherwise it stays wrong for every programme that uses the course. DD1328 needed exactly this and has since been fixed upstream: its VT2026 syllabus lists DD1333.
 
-- [DD1320](https://www.kth.se/student/kurser/kurs/DD1320) · kursplan [HT 2024 – VT 2026](https://www.kth.se/student/kurser/kurs/kursplan/DD1320-20242.pdf?lang=sv) · *HT2022, HT2023*
-  > Kunskaper och färdigheter i grundläggande programmering, 6 hp, motsvarande slutförd kurs DD1310/DD1311/DD1312/DD1314/DD1315/DD1316/DD1318/DD1331/DD100N/ID1018. Aktivt deltagande i kursomgång vars slutexamination ännu inte är Ladokrapporterad jämställs med slutförd kurs. Den som är registrerad anses 
-  - **suggested:** [DD1333](https://www.kth.se/student/kurser/kurs/DD1333) Grundläggande programmering — the text asks for "grundläggande programmering" and this programme has that course, but the kursplan never lists it
+- [SG1216](https://www.kth.se/student/kurser/kurs/SG1216) · kursplan [VT 2025 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SG1216-20251.pdf?lang=sv) · *HT2023, HT2024, HT2025, HT2026*
+  > Slutförd kurs i grundläggande mekanik (Mekanik I), minst 9 hp
+  - **suggested:** [SG1132](https://www.kth.se/student/kurser/kurs/SG1132) Mekanik I med projekt — the text asks for "grundläggande mekanik (Mekanik I)" and this programme has that course, but the kursplan never lists it
+- [SG1217](https://www.kth.se/student/kurser/kurs/SG1217) · kursplan [VT 2025 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SG1217-20251.pdf?lang=sv) · *HT2023, HT2024, HT2025, HT2026*
+  > Slutförd kurs i grundläggande mekanik (Mekanik I), minst 9 hp
+  - **suggested:** [SG1132](https://www.kth.se/student/kurser/kurs/SG1132) Mekanik I med projekt — the text asks for "grundläggande mekanik (Mekanik I)" and this programme has that course, but the kursplan never lists it
 
 ## Type inferred, not stated (4)
 
@@ -157,18 +121,34 @@ The requirement is a credit total ("minst N hp"), which the schema cannot repres
 - [SG1217](https://www.kth.se/student/kurser/kurs/SG1217) · kursplan [VT 2025 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SG1217-20251.pdf?lang=sv) · *HT2023, HT2024, HT2025, HT2026*
   > Slutförd kurs i grundläggande mekanik (Mekanik I), minst 9 hp
 
-## Text names courses, but none in this programme (5)
+## Text names courses, but none in this programme (13)
 
 Usually correct — the syllabus lists alternatives from other programmes and the in-programme filter drops them. But the lists also go stale: where the text describes a knowledge area and this programme has a course of that name, the candidate is called out below as **suggested**. Nothing is written to the data from a name match — confirm it first.
 
-- [MJ1401](https://www.kth.se/student/kurser/kurs/MJ1401) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MJ1401-20192.pdf?lang=sv)
-  > Kursen MJ1112 Tillämpad termodynamik eller motsvarande
+- [EF112X](https://www.kth.se/student/kurser/kurs/EF112X) · kursplan [VT 2021 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/EF112X-20211.pdf?lang=sv)
+  > Minst 104 högskolepoäng från kurser i utbildningsplanen, till och med period 1 i årskurs 3, ska vara avklarade senast vid startdatum för period 2 för att studenten ska få påbörja examensarbetet.
+- [MF130X](https://www.kth.se/student/kurser/kurs/MF130X) · kursplan [VT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MF130X-20261.pdf?lang=sv) / [VT 2021 – HT 2025](https://www.kth.se/student/kurser/kurs/kursplan/MF130X-20211.pdf?lang=sv)
+  > Slutförda kurser om minst 120 hp inom civilingenjörsprogrammet
+- [MF131X](https://www.kth.se/student/kurser/kurs/MF131X) · kursplan [VT 2021 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MF131X-20211.pdf?lang=sv) · *HT2022, HT2023*
+  > Slutförda kurser om minst 120 hp inom civilingenjörsprogrammet
+- [MF133X](https://www.kth.se/student/kurser/kurs/MF133X) · kursplan [VT 2021 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MF133X-20211.pdf?lang=sv)
+  > Slutförda kurser om minst 120 hp inom civilingenjörsprogrammet.
+- [MF135X](https://www.kth.se/student/kurser/kurs/MF135X) · kursplan [VT 2027 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MF135X-20271.pdf?lang=sv) · *HT2024, HT2025, HT2026*
+  > Slutförda kurser om minst 120 hp inom civilingenjörsprogrammet
+- [SA115X](https://www.kth.se/student/kurser/kurs/SA115X) · kursplan [VT 2021 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SA115X-20211.pdf?lang=sv)
+  > Förkunskapskrav som gäller för att bli antagen till kursen: Allmänt gäller att en huvuddel av studierna, minst 120 högskolepoäng av de obligatoriska kurserna på studentens civilingenjörsprogram, ska vara avklarade innan examensarbetet får båbörjas. Det åligger examinator att tillse att studenten har
+- [SD1002](https://www.kth.se/student/kurser/kurs/SD1002) · kursplan [HT 2020 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SD1002-20202.pdf?lang=sv)
+  > Grundläggande behörighet.
+- [SD2125](https://www.kth.se/student/kurser/kurs/SD2125) · kursplan [HT 2024 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SD2125-20242.pdf?lang=sv)
+  > Slutförda kurser i envariabelanalys 7,5 hp, flervariabelanalys 7,5 hp, algebra och geometri 7,5 hp samt differentialekvationer 6 hp. Engelska B/Engelska 6
 - [SF1626](https://www.kth.se/student/kurser/kurs/SF1626) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SF1626-20192.pdf?lang=sv)
   > Aktivt deltagande i SF1625 Envariabelanalys.
+- [SF1668](https://www.kth.se/student/kurser/kurs/SF1668) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SF1668-20192.pdf?lang=sv)
+  > Grundläggande behörighet.
+- [SF1694](https://www.kth.se/student/kurser/kurs/SF1694) · kursplan [HT 2020 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SF1694-20202.pdf?lang=sv)
+  > Grundläggande behörighet.
 - [SG1132](https://www.kth.se/student/kurser/kurs/SG1132) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SG1132-20192.pdf?lang=sv)
   > Aktivt deltagande i SF1625 Envariabelanalys.
-- [SH1014](https://www.kth.se/student/kurser/kurs/SH1014) · kursplan [HT 2021 – VT 2026](https://www.kth.se/student/kurser/kurs/kursplan/SH1014-20212.pdf?lang=sv) · *HT2022, HT2023*
-  > Slutförd kurs SK1104 Klassisk fysik eller SK1115 Elektromagnetism och vågrörelselära.
-- [SI1146](https://www.kth.se/student/kurser/kurs/SI1146) · kursplan [VT 2017 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SI1146-20171.pdf?lang=sv)
-  > Slutförd kurs: SF1674 Flervariabelanalys
+- [SK1112](https://www.kth.se/student/kurser/kurs/SK1112) · kursplan [HT 2020 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SK1112-20202.pdf?lang=sv)
+  > Allmän behörighet för studier på M- och T-programmen. Obligatorisk för åk1, kan ej läsas av andra studenter
 
