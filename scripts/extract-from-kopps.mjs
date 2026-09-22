@@ -528,12 +528,21 @@ function warnIfDegradedRunLosesContent(outPath, entries) {
   try { before = JSON.parse(raw); } catch { return; }
   if (!Array.isArray(before)) return;
 
-  const groupsOf = (list) => new Set(list.filter((e) => e?.type === 'optionGroup').map((e) => e.name));
+  // Groups are compared by their OPTION SET, not their name. A renamed group is
+  // still the same choice, and keying on the name reported "lost 1 option
+  // group(s) (Villkorligt valfri grupp 2)" the moment CTMAT's thesis block
+  // gained its proper title. A guard that cries wolf on a deliberate
+  // improvement is one people stop reading.
+  const groupsOf = (list) => new Set(list.filter((e) => e?.type === 'optionGroup')
+    .map((e) => [...(e.options ?? [])].sort().join(',')));
+  const groupNameOf = (list, key) => (list.find((e) => e?.type === 'optionGroup'
+    && [...(e.options ?? [])].sort().join(',') === key) ?? {}).name ?? key;
   const codesOf = (list) => new Set(list.filter((e) => e?.code).map((e) => e.code));
   const qualifiedOf = (list) =>
     list.filter((e) => e?.qualifiesFor && Object.keys(e.qualifiesFor).length > 0).length;
 
-  const lostGroups = [...groupsOf(before)].filter((n) => !groupsOf(entries).has(n));
+  const lostGroups = [...groupsOf(before)].filter((k) => !groupsOf(entries).has(k))
+    .map((k) => groupNameOf(before, k));
   const lostCodes = [...codesOf(before)].filter((c) => !codesOf(entries).has(c));
   const lostQualified = qualifiedOf(before) - qualifiedOf(entries);
 
