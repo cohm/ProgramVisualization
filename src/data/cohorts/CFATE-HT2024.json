@@ -440,63 +440,48 @@
     }
   },
   {
-    "code": "SE1025",
-    "name": "FEM för ingenjörstillämpningar",
+    "code": "DD1320",
+    "name": "Tillämpad datalogi",
+    "nameEn": "Applied Computer Science",
     "totalCredits": 6,
     "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "year": 3,
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "FEM for Engineering Applications",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SE1010"
-    ]
-  },
-  {
-    "code": "EL1010",
-    "name": "Reglerteknik, allmän kurs",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 6,
+      "P1": 5,
+      "P2": 1,
       "P3": 0,
       "P4": 0
     },
-    "year": 3,
-    "exams": [
-      "P2"
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 5,
+          "P2": 1,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "10790"
+      },
+      {
+        "id": "P3-6",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 6,
+          "P4": 0
+        },
+        "applicationCode": "11750"
+      },
+      {
+        "id": "P3-4",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 4,
+          "P4": 2
+        },
+        "applicationCode": "11749"
+      }
     ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Automatic Control, General Course",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SF1682"
-    ]
-  },
-  {
-    "code": "ME2163",
-    "name": "Ledarskap och organisering i olika miljöer",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
     "year": 3,
     "prerequisites": [],
     "exams": [],
@@ -505,8 +490,8 @@
     "category": "recommended"
   },
   {
-    "code": "MF130X",
-    "name": "Examensarbete inom maskinkonstruktion, grundnivå",
+    "code": "MF131X",
+    "name": "Examensarbete inom integrerad produktutveckling, grundnivå",
     "totalCredits": 15,
     "periodCredits": {
       "P1": 0,
@@ -520,9 +505,135 @@
     "teacher": "",
     "description": "",
     "category": "conditionallyElective",
-    "nameEn": "Degree Project in Machine Design, First Cycle",
+    "nameEn": "Degree Project in Integrated Product Development, First Cycle",
     "gradingScale": "P/F",
     "courseLevel": "G"
+  },
+  {
+    "code": "SH1014",
+    "name": "Modern fysik",
+    "nameEn": "Modern Physics",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "MJ1401",
+    "name": "Värmeöverföring",
+    "nameEn": "Heat Transfer",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "EF112X",
+    "name": "Examensarbete inom elektroteknik, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Electrical Engineering, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "MF1017",
+    "name": "Elektroteknik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Basic Electrical Engineering",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1626"
+    ]
+  },
+  {
+    "code": "MJ146X",
+    "name": "Examensarbete inom hållbar energiteknik, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Sustainable Energy Engineering, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SG1216"
+    ]
+  },
+  {
+    "code": "SF1914",
+    "name": "Sannolikhetsteori och statistik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Probability Theory and Statistics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1668"
+    ]
   },
   {
     "code": "ME1003",
@@ -575,48 +686,15 @@
     "category": "recommended"
   },
   {
-    "code": "DD1320",
-    "name": "Tillämpad datalogi",
-    "nameEn": "Applied Computer Science",
+    "code": "ME2163",
+    "name": "Ledarskap och organisering i olika miljöer",
     "totalCredits": 6,
     "periodCredits": {
-      "P1": 5,
-      "P2": 1,
+      "P1": 0,
+      "P2": 0,
       "P3": 0,
-      "P4": 0
+      "P4": 6
     },
-    "rounds": [
-      {
-        "id": "P1",
-        "periodCredits": {
-          "P1": 5,
-          "P2": 1,
-          "P3": 0,
-          "P4": 0
-        },
-        "applicationCode": "10790"
-      },
-      {
-        "id": "P3-6",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 6,
-          "P4": 0
-        },
-        "applicationCode": "11750"
-      },
-      {
-        "id": "P3-4",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 4,
-          "P4": 2
-        },
-        "applicationCode": "11749"
-      }
-    ],
     "year": 3,
     "prerequisites": [],
     "exams": [],
@@ -625,8 +703,50 @@
     "category": "recommended"
   },
   {
-    "code": "EF112X",
-    "name": "Examensarbete inom elektroteknik, grundnivå",
+    "code": "SE1025",
+    "name": "FEM för ingenjörstillämpningar",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "FEM for Engineering Applications",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SE1010"
+    ]
+  },
+  {
+    "code": "SI1146",
+    "name": "Vektoranalys",
+    "nameEn": "Vector Analysis",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 4,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "MF130X",
+    "name": "Examensarbete inom maskinkonstruktion, grundnivå",
     "totalCredits": 15,
     "periodCredits": {
       "P1": 0,
@@ -640,7 +760,73 @@
     "teacher": "",
     "description": "",
     "category": "conditionallyElective",
-    "nameEn": "Degree Project in Electrical Engineering, First Cycle",
+    "nameEn": "Degree Project in Machine Design, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Kandidatexamensarbete",
+    "nameEn": "Degree project, first cycle",
+    "year": 3,
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "options": [
+      "EF112X",
+      "MF130X",
+      "MF131X",
+      "MF133X",
+      "MF135X",
+      "MJ146X",
+      "SA115X"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [],
+    "category": "conditionallyElective"
+  },
+  {
+    "code": "SA115X",
+    "name": "Examensarbete inom farkostteknik, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Vehicle Engineering, First Level",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "MF135X",
+    "name": "Examensarbete inom Innovations-och produktutvecklingsprocesser, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
     "gradingScale": "P/F",
     "courseLevel": "G"
   },
@@ -672,106 +858,28 @@
     ]
   },
   {
-    "code": "SF1914",
-    "name": "Sannolikhetsteori och statistik",
+    "code": "EL1010",
+    "name": "Reglerteknik, allmän kurs",
     "totalCredits": 6,
     "periodCredits": {
-      "P1": 6,
-      "P2": 0,
+      "P1": 0,
+      "P2": 6,
       "P3": 0,
       "P4": 0
     },
     "year": 3,
     "exams": [
-      "P1"
+      "P2"
     ],
     "teacher": "",
     "description": "",
     "category": "mandatory",
-    "nameEn": "Probability Theory and Statistics",
+    "nameEn": "Automatic Control, General Course",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
-      "SF1668"
+      "SF1682"
     ]
-  },
-  {
-    "code": "SI1146",
-    "name": "Vektoranalys",
-    "nameEn": "Vector Analysis",
-    "totalCredits": 4,
-    "periodCredits": {
-      "P1": 4,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "SH1014",
-    "name": "Modern fysik",
-    "nameEn": "Modern Physics",
-    "totalCredits": 4,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 4,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "MJ146X",
-    "name": "Examensarbete inom hållbar energiteknik, grundnivå",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 7.5
-    },
-    "year": 3,
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Degree Project in Sustainable Energy Engineering, First Cycle",
-    "gradingScale": "P/F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SG1216"
-    ]
-  },
-  {
-    "code": "SA115X",
-    "name": "Examensarbete inom farkostteknik, grundnivå",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 7.5
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Degree Project in Vehicle Engineering, First Level",
-    "gradingScale": "P/F",
-    "courseLevel": "G"
   },
   {
     "code": "MF133X",
@@ -794,65 +902,15 @@
     "courseLevel": "G"
   },
   {
-    "type": "optionGroup",
-    "name": "Kandidatexamensarbete",
-    "nameEn": "Degree project, first cycle",
-    "year": 3,
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 7.5
-    },
-    "options": [
-      "EF112X",
-      "MF130X",
-      "MF133X",
-      "MF135X",
-      "MJ146X",
-      "SA115X"
-    ],
-    "allowedNumberOfOptions": 1,
-    "kind": "pickN",
-    "pickN": 1,
-    "exams": [],
-    "category": "conditionallyElective"
-  },
-  {
-    "code": "MF1017",
-    "name": "Elektroteknik",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Basic Electrical Engineering",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "SF1626"
-    ]
-  },
-  {
-    "code": "MJ1401",
-    "name": "Värmeöverföring",
-    "nameEn": "Heat Transfer",
+    "code": "SI1155",
+    "name": "Teoretisk fysik",
+    "nameEn": "Theoretical Physics",
     "totalCredits": 6,
     "periodCredits": {
       "P1": 0,
-      "P2": 6,
+      "P2": 0,
       "P3": 0,
-      "P4": 0
+      "P4": 6
     },
     "year": 3,
     "prerequisites": [],
@@ -860,25 +918,6 @@
     "teacher": "",
     "description": "",
     "category": "recommended"
-  },
-  {
-    "code": "MF135X",
-    "name": "Examensarbete inom Innovations-och produktutvecklingsprocesser, grundnivå",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 7.5
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "gradingScale": "P/F",
-    "courseLevel": "G"
   },
   {
     "code": "SF1861",
@@ -904,23 +943,5 @@
       "SF1626",
       "SF1668"
     ]
-  },
-  {
-    "code": "SI1155",
-    "name": "Teoretisk fysik",
-    "nameEn": "Theoretical Physics",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
   }
 ]
