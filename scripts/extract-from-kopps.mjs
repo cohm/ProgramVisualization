@@ -2187,6 +2187,55 @@ function candidateCohorts(cohort) {
 // cell twice across years or cohorts costs one fetch.
 const stateCache = new Map();
 
+/**
+ * Put back an alternative KTH lists with no period data, when its siblings pin
+ * the layout.
+ *
+ * A record with all-zero `creditsPerPeriod` is normally dropped: in an
+ * unpublished year that is every course, and a bar cannot be drawn from
+ * nothing. But in a PUBLISHED year a single all-zero entry among scheduled ones
+ * is an omission in KTH's data rather than a statement, and dropping it costs
+ * the student a choice they actually have.
+ *
+ * CFATE's MF131X is the case and, measured across all nine programmes and five
+ * läsår, the only one that matters: it is one of seven interchangeable 15 hp
+ * degree projects, six of which carry P3 7.5 + P4 7.5 while it carries nothing,
+ * so it vanished from the Kandidatexamensarbete box for HT2024 onwards. The
+ * other four all-zero rows found are CMAST `R` (rekommenderad) courses, which
+ * are not written anyway.
+ *
+ * The layout is only borrowed when it is unambiguous: same year, same elective
+ * condition, same credits, and every scheduled peer agreeing on one shape. That
+ * is what makes it a recovery rather than a guess — if the siblings disagree,
+ * nothing is inferred.
+ */
+function recoverUnscheduledAlternatives(scheduled, unscheduled) {
+  if (unscheduled.length === 0 || scheduled.length === 0) return scheduled;
+  const out = [...scheduled];
+  for (const r of unscheduled) {
+    // Only villkorligt valfria alternatives. `V` and `R` are pools rather than a
+    // fixed choice: a V course with no period data is already handled downstream
+    // (fillElectiveSpace lists it in every box for the year rather than dropping
+    // it), and R courses are never written at all. Recovering those changed
+    // CMAST's elective boxes for no benefit, since they feed the candidate list.
+    if (r.condition !== COND_CONDITIONAL) continue;
+    const peers = scheduled.filter((p) => p.year === r.year
+      && p.condition === r.condition
+      && Math.abs(Number(p.credits) - Number(r.credits)) < 0.01
+      && (p.spec ?? null) === (r.spec ?? null));
+    if (peers.length === 0) continue;
+    const shapes = new Set(peers.map((p) => PERIOD_IDS.map((q) => p.periodCredits[q] || 0).join('/')));
+    if (shapes.size !== 1) continue;            // siblings disagree: infer nothing
+    const shape = peers[0].periodCredits;
+    out.push({ ...r, periodCredits: { ...shape } });
+    flag(`${r.code}: listed for year ${r.year} with no period data, while ${peers.length} ` +
+      `alternative(s) of the same size and condition all run ` +
+      `${PERIOD_IDS.filter((q) => shape[q] > 0).map((q) => `${q} ${shape[q]}`).join(' + ')} — ` +
+      `adopted that layout so the option is not silently lost. Verify against the study plan.`);
+  }
+  return out;
+}
+
 async function readYear(prog, cohort, year) {
   const key = `${prog}::${cohort}::${year}`;
   if (stateCache.has(key)) return stateCache.get(key);
@@ -2195,7 +2244,9 @@ async function readYear(prog, cohort, year) {
   try {
     const state = await fetchStudyPlanState(prog, termFor(cohort), year);
     const { records, specNames, notes, noteLines, vvInfo } = readCurriculum(state, prog, year);
-    const scheduled = records.filter((r) => hasAnyCredits(r.periodCredits));
+    const scheduled = recoverUnscheduledAlternatives(
+      records.filter((r) => hasAnyCredits(r.periodCredits)),
+      records.filter((r) => !hasAnyCredits(r.periodCredits)));
     result = { records: scheduled, listed: records.length, specNames, notes, noteLines, vvInfo };
   } catch {
     result = null; // page missing entirely
