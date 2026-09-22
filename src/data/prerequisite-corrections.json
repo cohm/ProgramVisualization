@@ -1,0 +1,45 @@
+{
+  "prerequisites": [
+    {
+      "program": "CFATE",
+      "codes": [
+        "SG1216",
+        "SG1217"
+      ],
+      "prerequisitesCompleted": [
+        "SG1132"
+      ],
+      "confirmedBy": "Programansvarig CFATE",
+      "confirmedOn": "2026-09-22",
+      "why": "Kursplanen beskriver behörigheten generiskt — \"Slutförd kurs i grundläggande mekanik (Mekanik I), minst 9 hp\" — utan att namnge en kurskod. Kursen som avses i CFATE är SG1132 Mekanik I med projekt. Extraheringen föreslår numera SG1132 på egen hand, men skriver inget från en namnmatchning; den här posten är programansvarigs bekräftelse.",
+      "whyEn": "The syllabus describes the requirement generically — \"a completed course in basic mechanics (Mechanics I), at least 9 credits\" — without naming a course code. The course meant in CFATE is SG1132. The extractor now suggests SG1132 on its own but never writes from a name match; this entry is the programme director's confirmation."
+    },
+    {
+      "program": "CFATE",
+      "codes": [
+        "SD2125"
+      ],
+      "prerequisitesCompleted": [
+        "SF1668",
+        "SF1694",
+        "SF1626",
+        "SF1682"
+      ],
+      "confirmedBy": "Programansvarig CFATE",
+      "confirmedOn": "2026-09-22",
+      "why": "Kursplanen räknar upp fyra kunskapsområden utan kurskoder: \"Slutförda kurser i envariabelanalys 7,5 hp, flervariabelanalys 7,5 hp, algebra och geometri 7,5 hp samt differentialekvationer 6 hp.\" I CFATE motsvaras de av SF1668 (envariabelanalys, som ingår i Matematisk och numerisk analys I), SF1694 (Tillämpad linjär algebra), SF1626 (Flervariabelanalys) och SF1682 (Analytiska och numeriska metoder för differentialekvationer). Namnmatchning räcker inte här: bara flervariabelanalys har ett kursnamn som stämmer ordagrant, och områdena står i en kommalista som bara den första fångas ur.",
+      "whyEn": "The syllabus lists four knowledge areas with no course codes. In CFATE they are SF1668, SF1694, SF1626 and SF1682. Name matching cannot recover these: only multivariable analysis matches a course name verbatim, and the areas are comma-chained so only the first is extracted."
+    }
+  ],
+  "electiveSpace": [
+    {
+      "program": "CFATE",
+      "year": 3,
+      "dropConditionallyElectiveGroups": true,
+      "confirmedBy": "Programansvarig CFATE",
+      "confirmedOn": "2026-09-22",
+      "why": "Utrymmet i årskurs 3 är VALFRIA poäng, men visades som villkorligt valfria block fyllda med de kurser som är behörighetsgivande för enskilda masterprogram. Programansvarig: \"kanske bättre att lämna detta tomma\". Aritmetiken bekräftar det: sex obligatoriska kurser (36 hp) plus kandidatexamensarbetet (15 hp) är 51 hp, vilket lämnar exakt 9 hp — samma 9 hp som CFATE:s egen övergångsplan anger som \"Valbara kurser\". Blocken tas därför bort och ersätts av fritt valfritt utrymme; kurserna som är behörighetsgivande för ett visst masterprogram står kvar i signeringsunderlaget.",
+      "whyEn": "The space in year 3 is FREE elective credit, but was shown as conditionally-elective blocks filled with the courses that qualify for individual master programmes. The programme director asked for it to be left empty. The arithmetic agrees: six compulsory courses (36 credits) plus the degree project (15) is 51, leaving exactly 9 — the same 9 credits CFATE's own transition plan lists as \"Valbara kurser\"."
+    }
+  ]
+}

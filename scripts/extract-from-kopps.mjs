@@ -522,7 +522,6 @@ function parseConditionallyElectiveInfo(text) {
  * run it is far more likely to be the extractor working with less than usual.
  */
 function warnIfDegradedRunLosesContent(outPath, entries) {
-  if (!koppsIsDown()) return;
   const raw = readTextOrNull(outPath);
   if (!raw) return;
   let before;
@@ -543,10 +542,16 @@ function warnIfDegradedRunLosesContent(outPath, entries) {
   if (lostGroups.length) parts.push(`${lostGroups.length} option group(s) (${lostGroups.join('; ')})`);
   if (lostCodes.length) parts.push(`${lostCodes.length} course(s) (${lostCodes.slice(0, 8).join(', ')}${lostCodes.length > 8 ? ', …' : ''})`);
   if (lostQualified > 0) parts.push(`${lostQualified} entr${lostQualified === 1 ? 'y' : 'ies'} carrying qualifiesFor`);
+  // Originally this only ran when KOPPS was down, on the theory that a healthy
+  // run losing content meant KTH had changed something. That was wrong: a new
+  // extractor rule can delete just as much. Dropping CFATE's villkorligt
+  // valfria blocks took the Kandidatexamensarbete with them — a degree project
+  // is villkorligt valfri too — and because KOPPS was answering, nothing said a
+  // word. The cause is reported, but the check now runs on every write.
   flag(
-    `this run had no KOPPS and produced LESS than the file it replaced — lost ${parts.join(', ')}. ` +
-    `That is usually the extractor working with less than usual rather than a change at KTH. ` +
-    `Check against the committed file before keeping this output.`,
+    `this run produced LESS than the file it replaced — lost ${parts.join(', ')}` +
+    `${koppsIsDown() ? ', and KOPPS was unreachable' : ''}. Check against the committed file ` +
+    `before keeping this output: a change at KTH looks exactly like a rule here dropping too much.`,
   );
 }
 
@@ -1421,6 +1426,65 @@ function masterDestinationsFromCommittedData(prog) {
   return [...byCode.values()];
 }
 
+/**
+ * Prerequisite corrections confirmed by a programme director.
+ *
+ * Some syllabuses state a requirement as a knowledge area with no course code —
+ * "Slutförd kurs i grundläggande mekanik (Mekanik I), minst 9 hp" — and the
+ * course meant is obvious to the programme but not derivable here. The matcher
+ * suggests a candidate where the area matches a course name outright, but it
+ * never WRITES from a name match, because a confident-looking guess in the data
+ * is worse than an absent arrow.
+ *
+ * So the confirmation is recorded instead, and applied on every run. Without
+ * that, a correction lives only in the curated file and the next extraction of
+ * the cohort archive quietly drops it again.
+ *
+ * Keyed by programme as well as course: a course shared between programmes can
+ * mean different things in each, and CFATE's reading of SD2125 is not
+ * automatically CMAST's.
+ */
+let correctionsCache = null;
+let electiveCorrections = [];
+
+/**
+ * Programme-level corrections to how a year's elective space is modelled.
+ *
+ * KOPPS marks a course villkorligt valfri whenever the plan names it under a
+ * master programme, so a year whose space is really FREE elective comes through
+ * as conditionally-elective blocks listing master-qualifying courses. CFATE
+ * year 3 is the case its director raised: the blocks occupied space that the
+ * plan grants freely, and the arithmetic agreed — 36 hp compulsory plus a 15 hp
+ * degree project leaves exactly the 9 hp its own transition plan calls
+ * "Valbara kurser".
+ *
+ * Dropping the blocks lets `fillElectiveSpace` do its ordinary job, which it
+ * previously refused because those same blocks pushed the year over full-time.
+ */
+function electiveCorrectionFor(prog, year) {
+  correctionFor(prog, '');   // force the file to load
+  return electiveCorrections.find((c) => c.program === prog && c.year === year) ?? null;
+}
+function correctionFor(prog, code) {
+  if (correctionsCache === null) {
+    correctionsCache = new Map();
+    const raw = readTextOrNull(join(dataDir, 'prerequisite-corrections.json'));
+    let parsed = [];
+    if (raw) {
+      try { parsed = JSON.parse(raw); } catch (e) {
+        console.warn(`  prerequisite-corrections.json could not be parsed: ${e.message}`);
+        parsed = [];
+      }
+    }
+    const list = Array.isArray(parsed) ? parsed : (parsed?.prerequisites ?? []);
+    for (const c of list) {
+      for (const one of c.codes ?? []) correctionsCache.set(`${c.program}::${one}`, c);
+    }
+    electiveCorrections = Array.isArray(parsed) ? [] : (parsed?.electiveSpace ?? []);
+  }
+  return correctionsCache.get(`${prog}::${code}`) ?? null;
+}
+
 const courseCache = new Map();
 
 async function fetchCourseMeta(code) {
@@ -1970,10 +2034,17 @@ function buildOptionGroups(vvRecords, vvInfo = []) {
       }
     }
 
+    // A block whose options are all degree projects is a thesis choice, and
+    // saying so beats "Villkorligt valfri grupp 1". The label is what a reader
+    // sees on the bar, and CFATE's director objected to exactly this: free
+    // choices presented under a villkorligt-valfri heading. A degree project
+    // ends in X throughout KTH's catalogue, which is the same test used when
+    // deciding what may be dropped as elective space.
+    const allDegreeProjects = options.length > 0 && options.every((c) => /X$/.test(c));
     const entry = {
       type: 'optionGroup',
-      name: `Villkorligt valfri grupp ${n}`,
-      nameEn: `Conditionally elective group ${n}`,
+      name: allDegreeProjects ? 'Kandidatexamensarbete' : `Villkorligt valfri grupp ${n}`,
+      nameEn: allDegreeProjects ? 'Degree project, first cycle' : `Conditionally elective group ${n}`,
       year: first.year,
       totalCredits: total,
       periodCredits,
@@ -2303,7 +2374,17 @@ function codesInClause(clause) {
 // the review file. This only ever suggests — nothing is written to the data from
 // a name match, because "the names are similar" is not evidence a coordinator
 // should have decided for them.
-const AREA_RE = /kunskaper(?:\s+och\s+färdigheter)?\s+i\s+([^,.;]{4,60})/gi;
+// KTH states a knowledge-area requirement two ways, and reading only the first
+// hid a whole class of them. "Kunskaper i elektromagnetism …" was matched;
+// "Slutförd kurs i grundläggande mekanik (Mekanik I), minst 9 hp" — CFATE's
+// SG1216 and SG1217 — was not, so no candidate was ever put in front of the
+// coordinator. With the second opener read, that text suggests SG1132 "Mekanik I
+// med projekt" on a full-token match, which is what the programme confirmed.
+//
+// Note `kurs(?:er)?` rather than `kurser?`: the latter reads as "kurse" plus an
+// optional "r" and therefore never matches the singular "kurs".
+const AREA_RE =
+  /(?:kunskaper(?:\s+och\s+färdigheter)?|slutförda?\s+kurs(?:er)?)\s+i\s+([^,.;]{4,60})/gi;
 const AREA_STOPWORDS = new Set([
   'och', 'i', 'för', 'med', 'av', 'en', 'ett', 'den', 'det', 'grundläggande',
   'grundkurs', 'kurs', 'hp', 'samt', 'eller', 'motsvarande',
@@ -2424,7 +2505,6 @@ function parsePrerequisites(text, inProgramme, selfCode, nameByCode = new Map())
   const completed = new Set();
   const participation = new Set();
   const notes = [];
-  let sawCodes = false;
 
   for (const c of clauses) {
     const codes = codesInClause(c).filter((x) => x !== selfCode);
@@ -2435,7 +2515,6 @@ function parsePrerequisites(text, inProgramme, selfCode, nameByCode = new Map())
       }
       continue;
     }
-    sawCodes = true;
     const inProg = codes.filter((x) => inProgramme.has(x));
     if (inProg.length === 0) continue; // cross-programme alternative; see below
 
@@ -2475,7 +2554,13 @@ function parsePrerequisites(text, inProgramme, selfCode, nameByCode = new Map())
   // A text whose every course mention was a recommendation has been read
   // correctly and yields nothing by design, so it is not also a miss.
   const allRecommended = notes.some((n) => n.kind === 'recommended-not-required');
-  if (sawCodes && !allRecommended && completed.size === 0 && participation.size === 0) {
+  // A `sawCodes` flag used to gate this, so a text naming NO course code reached
+  // the name matcher only if it happened to mention one from another programme.
+  // That is backwards: a text describing an area and nothing else is exactly the
+  // case where a suggestion is the only thing we can offer. CFATE's SG1216 and
+  // SG1217 fell in the gap — their clause carries "minst 9 hp", so it was filed
+  // as a credit threshold and nothing else was reported.
+  if (!allRecommended && completed.size === 0 && participation.size === 0) {
     const suggestions = [];
     for (const c of clauses) suggestions.push(...suggestByName(c, nameByCode, selfCode));
     // A name match means this programme teaches the thing the text asks for while
@@ -3370,9 +3455,34 @@ async function extractCohort(prog, cohort, args, registryEntries) {
 
   // VV options must exist as real courses for the validator to resolve
   // `options[]`, so emit both the group and one entry per option.
-  const groups = buildOptionGroups(vv, planVvInfo);
-  const vvByCode = new Map();
+  // A year whose elective space is really FREE is corrected here, before the
+  // groups and their option courses are built — dropping them afterwards would
+  // leave the options behind as loose bars, which is the shape that made
+  // CELTE's year 2 unreadable.
+  const droppedElectiveYears = new Set();
   for (const r of vv) {
+    const fix = electiveCorrectionFor(prog, r.year);
+    if (fix?.dropConditionallyElectiveGroups) droppedElectiveYears.add(r.year);
+  }
+  // A degree project is villkorligt valfri in KOPPS too — you pick one of six
+  // Kandidatexamensarbete courses — but it is a required 15 hp choice, not free
+  // elective space, and dropping it took the whole thesis block out of the year.
+  // Its code ends in X, which is the convention throughout KTH's catalogue.
+  const isDegreeProject = (code) => /X$/.test(code);
+  const vvKept = vv.filter((r) => !droppedElectiveYears.has(r.year) || isDegreeProject(r.code));
+  for (const year of droppedElectiveYears) {
+    const dropped = [...new Set(vv.filter((r) => r.year === year && !isDegreeProject(r.code))
+      .map((r) => r.code))].sort();
+    const fix = electiveCorrectionFor(prog, year);
+    flag(`year ${year}: the villkorligt valfria blocks were dropped and the space left free, ` +
+      `confirmed by ${fix.confirmedBy} (${fix.confirmedOn}). Courses no longer shown as a required ` +
+      `choice: ${dropped.join(', ')} — they remain candidates for the free elective space, and the ` +
+      `master programmes each qualifies for are listed above.`);
+  }
+
+  const groups = buildOptionGroups(vvKept, planVvInfo);
+  const vvByCode = new Map();
+  for (const r of vvKept) {
     if (byCode.has(r.code)) continue; // already emitted as a core course
     if (!vvByCode.has(r.code)) vvByCode.set(r.code, []);
     vvByCode.get(r.code).push(r);
@@ -3414,6 +3524,7 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   const chosenByCode = new Map();
   const prereqTexts = new Map();
   let withPrereqs = 0;
+  let corrected = 0;
   let versioned = 0;
   for (const e of entries) {
     // Use the kursplan that was in force when THIS cohort sat the course, not
@@ -3438,6 +3549,20 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     }
     const parsed = parsePrerequisites(
       chosen ? chosen.eligibility : null, inProgramme, e.code, nameByCode);
+    // A programme director's confirmation outranks anything derived from the
+    // text, and must survive re-extraction — otherwise the next run silently
+    // discards it. See prerequisiteCorrectionsFor.
+    const correction = correctionFor(prog, e.code);
+    if (correction) {
+      if (correction.prerequisitesCompleted) parsed.completed = [...correction.prerequisitesCompleted];
+      if (correction.prerequisitesParticipation) parsed.participation = [...correction.prerequisitesParticipation];
+      const missing = [...parsed.completed, ...parsed.participation].filter((c) => !inProgramme.has(c));
+      flag(`${e.code}: prerequisites set from the confirmed correction by ` +
+        `${correction.confirmedBy} (${correction.confirmedOn}) — ` +
+        `${[...parsed.completed, ...parsed.participation].join(', ')}` +
+        (missing.length ? `. WARNING: ${missing.join(', ')} not in this programme` : ''));
+      corrected++;
+    }
     if (parsed.completed.length > 0) e.prerequisitesCompleted = parsed.completed;
     if (parsed.participation.length > 0) e.prerequisitesParticipation = parsed.participation;
     // `prerequisites` is the legacy flat field. The validator warns when it is
@@ -3722,7 +3847,8 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   if (usedSpecs.length > 0) console.log(`  inriktningar: ${usedSpecs.join(', ')}`);
   console.log(`  provenance: ${provenance.map((p) => `y${p.year}=${p.sourceCohort ?? 'none'}${p.approximated ? '*' : ''}`).join(' ')}`);
   console.log(`  vertical drift: ${aligned.before} -> ${aligned.after} (bar-alignment across periods)`);
-  console.log(`  prerequisites: ${withPrereqs}/${courses.length} course(s), ${prereqReview.length} item(s) needing coordinator review`);
+  console.log(`  prerequisites: ${withPrereqs}/${courses.length} course(s), ${prereqReview.length} item(s) needing coordinator review`
+    + (corrected > 0 ? `, ${corrected} from confirmed corrections` : ''));
   console.log(`  kursplan versions: ${versioned} course(s) have more than one; each resolved to the version in force for this cohort`);
   if (approx.length > 0) {
     console.log(`  ${approx.length} of ${provenance.length} year(s) approximated (marked * above)`);
