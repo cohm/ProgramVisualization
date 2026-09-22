@@ -535,71 +535,240 @@
     ]
   },
   {
-    "code": "XY310Z",
-    "name": "Plats för valfri kurs",
-    "nameEn": "Space for elective course",
-    "totalCredits": 3.0,
+    "code": "DD1320",
+    "name": "Tillämpad datalogi",
+    "nameEn": "Applied Computer Science",
+    "totalCredits": 6,
     "periodCredits": {
-      "P1": 3.0,
-      "P2": 0.0,
-      "P3": 0.0,
-      "P4": 0.0
+      "P1": 5,
+      "P2": 1,
+      "P3": 0,
+      "P4": 0
     },
     "year": 3,
-    "exams": [
-      "P1"
-    ],
-    "category": "electivePlaceholder"
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
   },
   {
-    "code": "XY320Z",
-    "name": "Plats för valfri kurs",
-    "nameEn": "Space for elective course",
-    "totalCredits": 3.0,
+    "code": "ME1003",
+    "name": "Industriell ekonomi, grundkurs",
+    "nameEn": "Industrial Management, Basic Course",
+    "totalCredits": 6,
     "periodCredits": {
-      "P1": 0.0,
-      "P2": 3.0,
-      "P3": 0.0,
-      "P4": 0.0
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 6,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "10922"
+      },
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 6,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "10926"
+      }
+    ],
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "ME2163",
+    "name": "Ledarskap och organisering i olika miljöer",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
     },
     "year": 3,
-    "exams": [
-      "P2"
-    ],
-    "category": "electivePlaceholder"
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
   },
   {
-    "code": "XY330Z",
-    "name": "Plats för valfri kurs",
-    "nameEn": "Space for elective course",
-    "totalCredits": 1.5,
+    "code": "MJ1401",
+    "name": "Värmeöverföring",
+    "nameEn": "Heat Transfer",
+    "totalCredits": 6,
     "periodCredits": {
-      "P1": 0.0,
-      "P2": 0.0,
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SH1014",
+    "name": "Modern fysik",
+    "nameEn": "Modern Physics",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SI1146",
+    "name": "Vektoranalys",
+    "nameEn": "Vector Analysis",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 4,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SI1155",
+    "name": "Teoretisk fysik",
+    "nameEn": "Theoretical Physics",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "name": "Valfri kurs, årskurs 3",
+    "nameEn": "Elective course, year 3",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 3,
       "P3": 1.5,
-      "P4": 0.0
-    },
-    "year": 3,
-    "exams": [
-      "P3"
-    ],
-    "category": "electivePlaceholder"
-  },
-  {
-    "code": "XY340Z",
-    "name": "Plats för valfri kurs",
-    "nameEn": "Space for elective course",
-    "totalCredits": 1.5,
-    "periodCredits": {
-      "P1": 0.0,
-      "P2": 0.0,
-      "P3": 0.0,
       "P4": 1.5
     },
     "year": 3,
     "exams": [
+      "P1",
+      "P2",
+      "P3",
       "P4"
     ],
-    "category": "electivePlaceholder"
+    "category": "electivePlaceholder",
+    "type": "optionGroup",
+    "options": [
+      "DD1320",
+      "ME1003",
+      "ME2163",
+      "MJ1401",
+      "SH1014",
+      "SI1146",
+      "SI1155"
+    ],
+    "kind": "minCredits",
+    "minCredits": 9,
+    "comment": "Exempel på kurser som ger behörighet till masterprogram eller rekommenderas, även andra kan väljas",
+    "commentEn": "Examples of courses that give eligibility for a master's programme or are recommended; others may also be chosen",
+    "allowedNumberOfOptions": 7,
+    "qualifiesFor": {
+      "DD1320": [
+        {
+          "name": "Industriell produktutveckling",
+          "code": "TIPUM",
+          "track": "IPUC"
+        }
+      ],
+      "ME1003": [
+        {
+          "name": "Industriell ekonomi",
+          "code": "TINEM",
+          "track": null
+        }
+      ],
+      "ME2163": [
+        {
+          "name": "Industriell ekonomi",
+          "code": "TINEM",
+          "track": null
+        }
+      ],
+      "MJ1401": [
+        {
+          "name": "Hållbar energiteknik",
+          "code": "TSUEM",
+          "track": null
+        }
+      ],
+      "SH1014": [
+        {
+          "name": "Teknisk fysik",
+          "code": "TTFYM",
+          "track": null
+        }
+      ],
+      "SI1146": [
+        {
+          "name": "Teknisk fysik",
+          "code": "TTFYM",
+          "track": null
+        }
+      ],
+      "SI1155": [
+        {
+          "name": "Teknisk fysik",
+          "code": "TTFYM",
+          "track": null,
+          "tracks": [
+            "TFYA",
+            "TFYB",
+            "TFYG"
+          ]
+        }
+      ]
+    }
   }
 ]

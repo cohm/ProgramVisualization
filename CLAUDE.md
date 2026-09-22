@@ -290,10 +290,41 @@ nothing is filled there.
 Filling is deliberately refused when a year also has a period *over* full-time,
 or when the programme has inriktningar — an excess means the model of that year
 is incomplete, and adding placeholders on top would pile invention on a wrong
-base. CFATE year 3 is the case: 36 hp obligatorisk + 21 hp in option groups
-leaves 3 hp, but five villkorligt valfria courses totalling 26 hp are listed. The
-report spells that arithmetic out and names `kind: 'minCredits'` as the shape
-that could express it, without guessing the membership.
+base. CFATE year 3 was the case, and it has since been resolved — by asking.
+
+**"Villkorligt valfri" in KOPPS does not always mean a required choice.** KOPPS
+marks a course VV as soon as the study plan names it under a master programme,
+which is why CFATE year 3 came out as blocks of master-specific courses sitting
+in space the plan grants freely. The programme says the opposite in its own
+words:
+
+    "Följande program har behörighetsgivande kurser som borde läsas som
+     VALFRIA kurser under ÅK3."
+
+So they are electives, some of which additionally give eligibility for a master
+programme — which is exactly what CTFYS year 3 already looked like, and what
+`qualifiesFor` exists to record. Reclassifying them as `V` hands the ordinary
+elective machinery the job, and it builds the right box on its own: a
+`minCredits` slot whose options are the recommended and eligibility-giving
+courses. The arithmetic confirms the reading three ways — 36 hp obligatorisk +
+15 hp thesis leaves exactly the 9 hp CFATE's own transition plan lists as
+"Valbara kurser", and year 3 lands on 15/15/15/15.
+
+The confirmation lives in `src/data/prerequisite-corrections.json`
+(`conditionallyElectiveIsFreeElective`) so a re-extraction cannot undo it. Two
+details that had to be right for the box to be usable: the eligibility is parsed
+out of the VV prose rather than `supplementaryInformation`, where CTFYS and
+CTMAT state theirs, so reclassifying alone would have discarded it; and the box
+spans the whole year rather than one slot per period, because the candidates are
+4-8 hp courses while the per-period shortfalls are 1.5-3 hp — per-period boxes
+could not have held any of them.
+
+**Every generated elective box carries the note that other courses may be
+chosen.** Without it the listed courses read as the only permitted ones, which
+is the opposite of what an elective slot means. The curated CTFYS box had
+carried that note by hand since it was written, and none of the generated
+cohort files had it — so a regenerated file silently lost the one sentence that
+explains how to read the list.
 
 **The study plan states the villkorligt-valfri rule in prose, in a field we
 ignored for a long time.** `curriculumInfo.conditionallyElectiveCoursesInformation`

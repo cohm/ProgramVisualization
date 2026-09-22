@@ -35,11 +35,11 @@
     {
       "program": "CFATE",
       "year": 3,
-      "dropConditionallyElectiveGroups": true,
+      "conditionallyElectiveIsFreeElective": true,
       "confirmedBy": "Programansvarig CFATE",
       "confirmedOn": "2026-09-22",
-      "why": "Utrymmet i årskurs 3 är VALFRIA poäng, men visades som villkorligt valfria block fyllda med de kurser som är behörighetsgivande för enskilda masterprogram. Programansvarig: \"kanske bättre att lämna detta tomma\". Aritmetiken bekräftar det: sex obligatoriska kurser (36 hp) plus kandidatexamensarbetet (15 hp) är 51 hp, vilket lämnar exakt 9 hp — samma 9 hp som CFATE:s egen övergångsplan anger som \"Valbara kurser\". Blocken tas därför bort och ersätts av fritt valfritt utrymme; kurserna som är behörighetsgivande för ett visst masterprogram står kvar i signeringsunderlaget.",
-      "whyEn": "The space in year 3 is FREE elective credit, but was shown as conditionally-elective blocks filled with the courses that qualify for individual master programmes. The programme director asked for it to be left empty. The arithmetic agrees: six compulsory courses (36 credits) plus the degree project (15) is 51, leaving exactly 9 — the same 9 credits CFATE's own transition plan lists as \"Valbara kurser\"."
+      "why": "KOPPS märker en kurs som villkorligt valfri så snart studieplanen namnger den under ett masterprogram, vilket inte är samma sak som att studenten måste välja ur en fast uppsättning. CFATE:s egen text säger tvärtom: \"Följande program har behörighetsgivande kurser som borde läsas som valfria kurser under ÅK3.\" Kurserna är alltså valfria; några av dem ger dessutom behörighet till ett masterprogram. De klassas därför om till valfria och fyller årets valfria utrymme, i samma form som CTFYS årskurs 3 — ett minCredits-block vars alternativ är de rekommenderade och behörighetsgivande kurserna, med noteringen att även andra kurser får väljas.",
+      "whyEn": "KOPPS marks a course conditionally elective as soon as the study plan names it under a master programme, which is not the same as the student having to choose from a fixed set. CFATE says the opposite in its own words: these are courses that \"should be taken as elective courses during year 3\". They are reclassified as elective and fill the year's elective space, in the same shape as CTFYS year 3."
     }
   ]
 }
