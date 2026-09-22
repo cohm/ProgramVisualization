@@ -2713,8 +2713,8 @@ function scheduledLoad(entries) {
  * group, which is the state CINEK's and TIEMM's inriktningar are in — and adding
  * placeholders on top of that would pile invention on a wrong base.
  */
-function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords = [], eligibility = new Map(), electivePeriods = new Map(), electiveNames = new Map()) {
-  const stated = statedElectiveSpace(notes);
+function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords = [], eligibility = new Map(), electivePeriods = new Map(), electiveNames = new Map(), extraClaims = []) {
+  const stated = [...statedElectiveSpace(notes), ...extraClaims];
   const totals = scheduledLoad(entries);
   const years = [...new Set([...totals.keys()].map((k) => Number(k.split('|')[0])))].sort();
   const added = [];
@@ -2848,6 +2848,15 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
         entry.options = candidates;
         entry.kind = 'minCredits';
         entry.minCredits = slot.hp;
+        // Without this the listed courses read as the only permitted choices,
+        // which is the opposite of what an elective slot means. The curated
+        // CTFYS box has carried this note by hand since it was written; every
+        // generated box now says the same thing, so a regenerated file cannot
+        // silently lose it.
+        entry.comment = 'Exempel på kurser som ger behörighet till masterprogram eller '
+          + 'rekommenderas, även andra kan väljas';
+        entry.commentEn = 'Examples of courses that give eligibility for a master\'s programme '
+          + 'or are recommended; others may also be chosen';
         entry.allowedNumberOfOptions = candidates.length;
         delete entry.code;
         delete entry.prerequisites;
@@ -2925,23 +2934,27 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
 // spanning several is named for the span, because "P3+P4" is how the plan talks
 // about it ("på våren i årskurs 3") and a box called "P3" that also covers P4
 // would misdescribe itself.
-const SPAN_LABEL = { 'P1,P2': ['hösten', 'autumn'], 'P3,P4': ['våren', 'spring'] };
+// A box covering the whole year needs no period suffix at all — "Valfri kurs,
+// årskurs 3" reads as intended, where "… P1+P2+P3+P4" reads like a defect.
+const SPAN_LABEL = {
+  'P1,P2': ['hösten', 'autumn'],
+  'P3,P4': ['våren', 'spring'],
+  'P1,P2,P3,P4': ['', ''],
+};
 const spanLabel = (periods) => SPAN_LABEL[periods.join(',')] ?? null;
 const electiveGroupName = (periods, year) => {
   const pids = [].concat(periods);
   if (pids.length === 1) return `Valfri kurs, årskurs ${year} ${pids[0]}`;
   const label = spanLabel(pids);
-  return label
-    ? `Valfri kurs, årskurs ${year} ${label[0]}`
-    : `Valfri kurs, årskurs ${year} ${pids.join('+')}`;
+  if (!label) return `Valfri kurs, årskurs ${year} ${pids.join('+')}`;
+  return label[0] ? `Valfri kurs, årskurs ${year} ${label[0]}` : `Valfri kurs, årskurs ${year}`;
 };
 const electiveGroupNameEn = (periods, year) => {
   const pids = [].concat(periods);
   if (pids.length === 1) return `Elective course, year ${year} ${pids[0]}`;
   const label = spanLabel(pids);
-  return label
-    ? `Elective course, year ${year} ${label[1]}`
-    : `Elective course, year ${year} ${pids.join('+')}`;
+  if (!label) return `Elective course, year ${year} ${pids.join('+')}`;
+  return label[1] ? `Elective course, year ${year} ${label[1]}` : `Elective course, year ${year}`;
 };
 
 /**
@@ -3340,7 +3353,7 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   const vv = allRecords.filter((r) => r.condition === COND_CONDITIONAL);
   // 'V' (valfri) and 'R' (rekommenderad) are both pools the student picks from,
   // so both are held back by default — see COND_RECOMMENDED.
-  const elective = allRecords.filter((r) => r.condition === COND_ELECTIVE
+  const electiveBase = allRecords.filter((r) => r.condition === COND_ELECTIVE
     || r.condition === COND_RECOMMENDED);
   const core = allRecords.filter((r) => r.condition === COND_MANDATORY);
 
@@ -3455,29 +3468,68 @@ async function extractCohort(prog, cohort, args, registryEntries) {
 
   // VV options must exist as real courses for the validator to resolve
   // `options[]`, so emit both the group and one entry per option.
-  // A year whose elective space is really FREE is corrected here, before the
-  // groups and their option courses are built — dropping them afterwards would
-  // leave the options behind as loose bars, which is the shape that made
-  // CELTE's year 2 unreadable.
-  const droppedElectiveYears = new Set();
+  // A year whose "villkorligt valfria" courses are really FREE electives is
+  // corrected here, before the groups and their option courses are built.
+  //
+  // KOPPS marks a course villkorligt valfri whenever the plan names it under a
+  // master programme, which is not the same as the student being required to
+  // choose from a fixed set. CFATE year 3 says so in its own words: "Följande
+  // program har behörighetsgivande kurser som borde läsas som VALFRIA kurser
+  // under ÅK3." They are elective; some of them additionally give eligibility
+  // for a master programme, which is what `qualifiesFor` is for.
+  //
+  // So they are reclassified as elective rather than dropped, and the ordinary
+  // elective machinery then does the rest — it already builds exactly the box
+  // this needs, the one CTFYS year 3 has: a `minCredits` slot whose options are
+  // the recommended and eligibility-giving courses, carrying the note that
+  // others may be chosen too.
+  const reclassifiedYears = new Set();
   for (const r of vv) {
     const fix = electiveCorrectionFor(prog, r.year);
-    if (fix?.dropConditionallyElectiveGroups) droppedElectiveYears.add(r.year);
+    if (fix?.conditionallyElectiveIsFreeElective) reclassifiedYears.add(r.year);
   }
+  const droppedElectiveYears = reclassifiedYears;
   // A degree project is villkorligt valfri in KOPPS too — you pick one of six
   // Kandidatexamensarbete courses — but it is a required 15 hp choice, not free
   // elective space, and dropping it took the whole thesis block out of the year.
   // Its code ends in X, which is the convention throughout KTH's catalogue.
   const isDegreeProject = (code) => /X$/.test(code);
   const vvKept = vv.filter((r) => !droppedElectiveYears.has(r.year) || isDegreeProject(r.code));
-  for (const year of droppedElectiveYears) {
-    const dropped = [...new Set(vv.filter((r) => r.year === year && !isDegreeProject(r.code))
-      .map((r) => r.code))].sort();
+  // The reclassified records become elective candidates, so the box lists them.
+  const reclassified = vv.filter((r) => reclassifiedYears.has(r.year) && !isDegreeProject(r.code))
+    .map((r) => ({ ...r, condition: COND_ELECTIVE }));
+  const elective = [...electiveBase, ...reclassified];
+  // The eligibility CFATE states lives in the VV prose, not in
+  // `supplementaryInformation` where `planEligibility` is read from — so
+  // reclassifying alone would have thrown away exactly the part worth keeping,
+  // which master programme each course qualifies the student for.
+  const extraElectiveClaims = [];
+  for (const year of reclassifiedYears) {
+    for (const info of planVvInfo.filter((v) => v.year === year)) {
+      const rule = parseConditionallyElectiveInfo(info.text);
+      for (const [code, masters] of rule.requiredFor) {
+        const key = `${year}::${code}`;
+        const existing = planEligibility.get(key) ?? [];
+        for (const m of masters) {
+          if (!existing.some((x) => x.code === m.code)) existing.push(m);
+        }
+        planEligibility.set(key, existing);
+      }
+    }
+    // One box for the year, not one per period. The candidates are 4-8 hp
+    // courses while the per-period shortfalls here are 1.5-3 hp, so per-period
+    // boxes could not hold any of them; and the plan speaks of the year
+    // ("valfria kurser under ÅK3"), not of periods.
+    extraElectiveClaims.push({ kind: 'season', year, periods: [...PERIOD_IDS], hp: null,
+      quote: 'programansvarigs bekräftelse: valfria kurser under årskursen' });
+  }
+  for (const year of reclassifiedYears) {
+    const moved = [...new Set(reclassified.filter((r) => r.year === year).map((r) => r.code))].sort();
     const fix = electiveCorrectionFor(prog, year);
-    flag(`year ${year}: the villkorligt valfria blocks were dropped and the space left free, ` +
-      `confirmed by ${fix.confirmedBy} (${fix.confirmedOn}). Courses no longer shown as a required ` +
-      `choice: ${dropped.join(', ')} — they remain candidates for the free elective space, and the ` +
-      `master programmes each qualifies for are listed above.`);
+    flag(`year ${year}: the villkorligt valfria courses are free electives, confirmed by ` +
+      `${fix.confirmedBy} (${fix.confirmedOn}) — reclassified as valfri so they fill the year's ` +
+      `elective space instead of forming a required choice: ${moved.join(', ')}. The master ` +
+      `programmes each qualifies for are kept on the box.`);
   }
 
   const groups = buildOptionGroups(vvKept, planVvInfo);
@@ -3626,7 +3678,7 @@ async function extractCohort(prog, cohort, args, registryEntries) {
 
   const electiveSpace = fillElectiveSpace(
     allEntries, planNotes, usedSpecs.length > 0, elective, planEligibility,
-    electivePeriodsByCode, electiveNamesByCode);
+    electivePeriodsByCode, electiveNamesByCode, extraElectiveClaims);
   for (const r of electiveSpace.reports) {
     if (r.kind === 'elective-space-filled') {
       const vs = r.expected != null

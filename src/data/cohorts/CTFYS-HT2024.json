@@ -568,7 +568,9 @@
           "required": true
         }
       ]
-    }
+    },
+    "comment": "Exempel på kurser som ger behörighet till masterprogram eller rekommenderas, även andra kan väljas",
+    "commentEn": "Examples of courses that give eligibility for a master's programme or are recommended; others may also be chosen"
   },
   {
     "code": "SA114X",
