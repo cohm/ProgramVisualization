@@ -751,7 +751,9 @@
           "required": true
         }
       ]
-    }
+    },
+    "comment": "Exempel på kurser som ger behörighet till masterprogram eller rekommenderas, även andra kan väljas",
+    "commentEn": "Examples of courses that give eligibility for a master's programme or are recommended; others may also be chosen"
   },
   {
     "code": "DD1351",
@@ -920,7 +922,9 @@
           "required": false
         }
       ]
-    }
+    },
+    "comment": "Exempel på kurser som ger behörighet till masterprogram eller rekommenderas, även andra kan väljas",
+    "commentEn": "Examples of courses that give eligibility for a master's programme or are recommended; others may also be chosen"
   },
   {
     "code": "SG1220",
@@ -1106,7 +1110,9 @@
           "required": false
         }
       ]
-    }
+    },
+    "comment": "Exempel på kurser som ger behörighet till masterprogram eller rekommenderas, även andra kan väljas",
+    "commentEn": "Examples of courses that give eligibility for a master's programme or are recommended; others may also be chosen"
   },
   {
     "code": "EF112X",
@@ -1535,7 +1541,9 @@
           "required": true
         }
       ]
-    }
+    },
+    "comment": "Exempel på kurser som ger behörighet till masterprogram eller rekommenderas, även andra kan väljas",
+    "commentEn": "Examples of courses that give eligibility for a master's programme or are recommended; others may also be chosen"
   },
   {
     "code": "EL2810",

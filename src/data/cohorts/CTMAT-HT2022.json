@@ -836,7 +836,9 @@
           "required": false
         }
       ]
-    }
+    },
+    "comment": "Exempel på kurser som ger behörighet till masterprogram eller rekommenderas, även andra kan väljas",
+    "commentEn": "Examples of courses that give eligibility for a master's programme or are recommended; others may also be chosen"
   },
   {
     "code": "DD1367",
@@ -1381,7 +1383,9 @@
           "required": false
         }
       ]
-    }
+    },
+    "comment": "Exempel på kurser som ger behörighet till masterprogram eller rekommenderas, även andra kan väljas",
+    "commentEn": "Examples of courses that give eligibility for a master's programme or are recommended; others may also be chosen"
   },
   {
     "name": "Valfri kurs, årskurs 3 P3",
@@ -1480,7 +1484,9 @@
           "required": true
         }
       ]
-    }
+    },
+    "comment": "Exempel på kurser som ger behörighet till masterprogram eller rekommenderas, även andra kan väljas",
+    "commentEn": "Examples of courses that give eligibility for a master's programme or are recommended; others may also be chosen"
   },
   {
     "code": "EP1100",
@@ -1587,6 +1593,8 @@
           "required": true
         }
       ]
-    }
+    },
+    "comment": "Exempel på kurser som ger behörighet till masterprogram eller rekommenderas, även andra kan väljas",
+    "commentEn": "Examples of courses that give eligibility for a master's programme or are recommended; others may also be chosen"
   }
 ]
