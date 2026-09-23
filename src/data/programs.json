@@ -27,9 +27,9 @@
     "nameEn": "Degree Program in Vehicle Engineering",
     "dataFile": "CFATE.json",
     "cosmeticsFile": "CFATE-cosmetics.json",
-    "verified": false,
-    "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
-    "commentEn": "Study plan not yet verified — use with caution!",
+    "verified": true,
+    "comment": "Utbildningsplanen verifierad av programansvarig Carlos Casanueva Perez den 23 september 2026",
+    "commentEn": "Study plan verified by program director Carlos Casanueva Perez on 23 September 2026",
     "studyplan": "https://www.kth.se/student/kurser/program/CFATE"
   }
   ,
