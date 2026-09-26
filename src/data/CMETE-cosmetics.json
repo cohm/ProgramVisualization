@@ -1,0 +1,79 @@
+[
+  {
+    "name": "Matematik",
+    "nameEn": "Mathematics",
+    "colorFamily": "blue",
+    "courses": [
+      "SF1624",
+      "SF1625",
+      "SF1626",
+      "SF1662",
+      "SF1698",
+      "SF1919"
+    ]
+  },
+  {
+    "name": "Medieteknik",
+    "nameEn": "Media Technology",
+    "colorFamily": "brick",
+    "courses": [
+      "DM1135",
+      "DM1578",
+      "DM1579",
+      "DM1580",
+      "DM1581",
+      "DM1588",
+      "DM1590",
+      "DM1595",
+      "DM1998",
+      "DM2556",
+      "DM2573",
+      "DM2624",
+      "DM2720",
+      "DT1175",
+      "DT2112",
+      "DT2212"
+    ]
+  },
+  {
+    "name": "Datalogi och interaktion",
+    "nameEn": "Computer Science and Interaction",
+    "colorFamily": "green",
+    "courses": [
+      "DD1318",
+      "DD1320",
+      "DD1354",
+      "DD1380",
+      "DD2352",
+      "DH1609",
+      "DH1622",
+      "DH2323",
+      "DH2642"
+    ]
+  },
+  {
+    "name": "Fysik och övriga ämnen",
+    "nameEn": "Physics and Other Subjects",
+    "colorFamily": "turquoise",
+    "courses": [
+      "LS1464",
+      "ME1003",
+      "ME1042",
+      "ME2016",
+      "ME2163",
+      "SK1120",
+      "SK1140",
+      "SK1141",
+      "SK2304"
+    ]
+  },
+  {
+    "name": "Övrigt",
+    "nameEn": "Other",
+    "colorFamily": "yellow",
+    "courses": [
+      "AK2203",
+      "DM128X"
+    ]
+  }
+]

@@ -1,0 +1,818 @@
+[
+  {
+    "type": "cohortMeta",
+    "program": "CMETE",
+    "cohort": "HT2026",
+    "years": [
+      {
+        "year": 1,
+        "sourceCohort": "HT2026",
+        "approximated": false,
+        "confidence": "exact"
+      },
+      {
+        "year": 2,
+        "sourceCohort": "HT2025",
+        "approximated": true,
+        "corroboratedBy": {
+          "year": 1,
+          "agrees": true
+        },
+        "confidence": "high"
+      },
+      {
+        "year": 3,
+        "sourceCohort": "HT2024",
+        "approximated": true,
+        "confidence": "unknown"
+      }
+    ]
+  },
+  {
+    "code": "DM1578",
+    "name": "Programintegrerande kurs i medieteknik",
+    "totalCredits": 7,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0.5,
+        "P2": 1,
+        "P3": 0.5,
+        "P4": 1
+      },
+      "Year2": {
+        "P1": 0.5,
+        "P2": 0.5,
+        "P3": 0.5,
+        "P4": 0.5
+      },
+      "Year3": {
+        "P1": 0.5,
+        "P2": 0.5,
+        "P3": 0.5,
+        "P4": 0.5
+      }
+    },
+    "prerequisites": [],
+    "exams": {},
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Program Integrating Course in Media Technology",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1626",
+    "name": "Flervariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Calculus in Several Variables",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "DH1609",
+    "name": "Kommunikation och information",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 3,
+      "P3": 4.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Communication and information",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "DM1581",
+    "name": "Introduktion till medieteknik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Introduction to Media Technology",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "DM1579",
+    "name": "Medieproduktion",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 4,
+      "P3": 2,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Media Production",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1625",
+    "name": "Envariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Calculus in One Variable",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1624",
+    "name": "Algebra och geometri",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Algebra and Geometry",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SK1120",
+    "name": "Vågrörelselära",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 2,
+      "P4": 4
+    },
+    "year": 1,
+    "exams": [
+      "P3",
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Waves",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1624",
+      "SF1625"
+    ]
+  },
+  {
+    "code": "DD1318",
+    "name": "Programmeringsteknik och tekniska beräkningar",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 3
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Programming and Scientific Computing",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "DD1320",
+    "name": "Tillämpad datalogi",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 5,
+      "P2": 1,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Applied Computer Science",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1318"
+    ]
+  },
+  {
+    "code": "DM1588",
+    "name": "Sensorprogrammering för medieteknik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Sensor Programming for Media Technology",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1318",
+      "DD1320"
+    ]
+  },
+  {
+    "code": "DM1590",
+    "name": "Maskininlärning för medieteknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Machine Learning for Media Technology",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1318",
+      "SF1919"
+    ]
+  },
+  {
+    "code": "SF1919",
+    "name": "Sannolikhetsteori och statistik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Probability Theory and Statistics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "DM1580",
+    "name": "Videoteknik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 2,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Video Technology",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DM1135",
+      "SF1624",
+      "SF1919"
+    ]
+  },
+  {
+    "code": "SK1141",
+    "name": "Teknisk Fotografi",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Technical Photography",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SK1120"
+    ]
+  },
+  {
+    "code": "DM1135",
+    "name": "Multimediasystem och signaler",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Multimedia Systems and Signals",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1318",
+      "SF1624",
+      "SF1625",
+      "SF1626"
+    ]
+  },
+  {
+    "code": "DT1175",
+    "name": "Ljud",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 2.5,
+      "P3": 5,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Sound",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SK1120"
+    ]
+  },
+  {
+    "code": "DH1622",
+    "name": "Människa-datorinteraktion, inledande kurs",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 2.5,
+      "P2": 5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Human-Computer Interaction, Introductory Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "name": "Villkorligt valfria och valfria kurser, årskurs 3",
+    "nameEn": "Conditionally elective and elective courses, year 3",
+    "totalCredits": 14,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7,
+      "P4": 7
+    },
+    "year": 3,
+    "exams": [
+      "P3",
+      "P4"
+    ],
+    "category": "electivePlaceholder",
+    "type": "optionGroup",
+    "options": [
+      "DD1354",
+      "DD2352",
+      "DH2323",
+      "DM1998",
+      "DM2556",
+      "DM2624",
+      "DM2720",
+      "DT2112",
+      "DT2212",
+      "ME2163",
+      "SK2304"
+    ],
+    "kind": "minCredits",
+    "minCredits": 14,
+    "comment": "Minst 13 hp av de villkorligt valfria kurserna ska läsas, bland dessa kan även kurser i språk eller interkulturell kompetens väljas vid KTH språk och kommunikation. Övrigt utrymme är valfritt.",
+    "commentEn": "The study plan sets minimum credits from each block of conditionally elective courses across the programme — see the study plan. The remaining space is elective.",
+    "allowedNumberOfOptions": 11
+  },
+  {
+    "code": "DM128X",
+    "name": "Examensarbete inom medieteknik, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Degree Project in Media Technology, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DM1595"
+    ]
+  },
+  {
+    "code": "DD1354",
+    "name": "Modeller och simulering",
+    "nameEn": "Models and Simulation",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "DH2323",
+    "name": "Datorgrafik med interaktion",
+    "nameEn": "Computer Graphics and Interaction",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "ME1003",
+    "name": "Industriell ekonomi, grundkurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Industrial Management, Basic Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "DD2352",
+    "name": "Algoritmer och komplexitet",
+    "nameEn": "Algorithms and Complexity",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 4.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "DM2556",
+    "name": "Interkulturell kommunikation",
+    "nameEn": "Intercultural communication",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "DM2624",
+    "name": "Människocentrerad teknik för funktionshinder",
+    "nameEn": "Human Centered Technology for Disabilities",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "ME2163",
+    "name": "Ledarskap och organisering i olika miljöer",
+    "nameEn": "Leading People and Organizations in Different Contexts",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "DT2212",
+    "name": "Musikakustik",
+    "nameEn": "Music Acoustics",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "DM1998",
+    "name": "Ingenjörsinriktad yrkesträning",
+    "nameEn": "Engineering Training Course",
+    "totalCredits": 13,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 7
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SK2304",
+    "name": "Fotografi fördjupningskurs",
+    "nameEn": "Photography advanced course",
+    "totalCredits": 3.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 3.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "DT2112",
+    "name": "Talteknologi",
+    "nameEn": "Speech Technology",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "DM2573",
+    "name": "Hållbarhet och medieteknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Sustainability and Media Technology",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DM2720",
+    "name": "Hållbar Informations- och kommunikationsteknik (IKT) i praktiken",
+    "nameEn": "Sustainable Information and Communication Technology (ICT) in Practice",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "DM1595",
+    "name": "Programutveckling för interaktiva medier",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Program Development for Interactive Media",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1318",
+      "DD1320"
+    ]
+  },
+  {
+    "code": "ME1042",
+    "name": "Entreprenörskap inom Media och IKT",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Entrepreneurship for Media and ICT",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "DH2642",
+    "name": "Interaktionsprogrammering och dynamiska webben",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Interaction Programming and the Dynamic Web",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1318"
+    ]
+  }
+]

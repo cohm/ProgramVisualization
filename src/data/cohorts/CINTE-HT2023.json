@@ -1,0 +1,1089 @@
+[
+  {
+    "type": "cohortMeta",
+    "program": "CINTE",
+    "cohort": "HT2023",
+    "years": [
+      {
+        "year": 1,
+        "sourceCohort": "HT2025",
+        "approximated": true,
+        "confidence": "unknown"
+      },
+      {
+        "year": 2,
+        "sourceCohort": "HT2024",
+        "approximated": true,
+        "corroboratedBy": {
+          "year": 3,
+          "agrees": false
+        },
+        "confidence": "low"
+      },
+      {
+        "year": 3,
+        "sourceCohort": "HT2023",
+        "approximated": false,
+        "confidence": "exact"
+      }
+    ]
+  },
+  {
+    "code": "ID1018",
+    "name": "Programmering I",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Programming I",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "ID1021",
+    "name": "Algoritmer och datastrukturer",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Algorithms and Data Structures",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "ID1018"
+    ]
+  },
+  {
+    "code": "IE1204",
+    "name": "Digital design",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Digital Design",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "IE1206",
+    "name": "Inbyggd elektronik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Embedded Electronics",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "II1308",
+    "name": "Introduktion till programmering",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Introduction to Programming",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1610",
+    "name": "Diskret matematik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Discrete Mathematics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1624"
+    ]
+  },
+  {
+    "code": "SF1624",
+    "name": "Algebra och geometri",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Algebra and Geometry",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1625",
+    "name": "Envariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Calculus in One Variable",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1689",
+    "name": "Baskurs i matematik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Basic Course in Mathematics",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "DD2352",
+    "name": "Algoritmer och komplexitet",
+    "nameEn": "Algorithms and Complexity",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 4.5
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "DD1351",
+    "name": "Logik för dataloger",
+    "nameEn": "Logic for Computer Scientists",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "IS1300",
+    "name": "Inbyggda system",
+    "nameEn": "Embedded Systems",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF1686",
+    "name": "Flervariabelanalys",
+    "nameEn": "Calculus in Several Variable",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "IK1203",
+    "name": "Nätverk och kommunikation",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Networks and Communication",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "ID1018",
+      "IE1204"
+    ]
+  },
+  {
+    "code": "DD2350",
+    "name": "Algoritmer, datastrukturer och komplexitet",
+    "nameEn": "Algorithms, Data Structures and Complexity",
+    "totalCredits": 9.5,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 3.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "ID1217",
+    "name": "Programmering av parallella system",
+    "nameEn": "Concurrent Programming",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF1546",
+    "name": "Numeriska metoder, grundkurs",
+    "nameEn": "Numerical Methods, Basic Course",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4,
+      "P4": 2
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "name": "Villkorligt valfria och valfria kurser, årskurs 2",
+    "nameEn": "Conditionally elective and elective courses, year 2",
+    "totalCredits": 36,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 15,
+      "P3": 6,
+      "P4": 7.5
+    },
+    "year": 2,
+    "exams": [
+      "P1",
+      "P2",
+      "P3",
+      "P4"
+    ],
+    "category": "electivePlaceholder",
+    "type": "optionGroup",
+    "options": [
+      "DD1351",
+      "DD2350",
+      "DD2352",
+      "EQ1110",
+      "ID1214",
+      "ID1217",
+      "II1303",
+      "IL1333",
+      "IS1300",
+      "IV1350",
+      "IV1351",
+      "SF1546",
+      "SF1686",
+      "SK1118"
+    ],
+    "kind": "minCredits",
+    "minCredits": 36,
+    "comment": "För examen skall minst 15 hp kurser ur MatNat-blocket och minst 13,5 hp kurser ur IT-blocket ingå. Övrigt utrymme är valfritt.",
+    "commentEn": "The study plan sets minimum credits from each block of conditionally elective courses across the programme — see the study plan. The remaining space is elective.",
+    "allowedNumberOfOptions": 14
+  },
+  {
+    "code": "ID1214",
+    "name": "Artificiell intelligens och tillämpningar",
+    "nameEn": "Artificial Intelligence and Applied Methods",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "IS1200",
+    "name": "Datorteknik, grundkurs",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Computer Hardware Engineering",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "II1303",
+    "name": "Signalbehandling",
+    "nameEn": "Signal Processing",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "II1307",
+    "name": "Aktiv karriärstart",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 1.5,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Active Career",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "II1305",
+    "name": "Projekt inom informations- och kommunikationsteknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Project in Information and Communication Technology",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "ID1018",
+      "IS1200"
+    ]
+  },
+  {
+    "code": "IV1350",
+    "name": "Objektorienterad design",
+    "nameEn": "Object Oriented Design",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "IL1333",
+    "name": "Hårdvarusäkerhet",
+    "nameEn": "Hardware Security",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "IV1351",
+    "name": "Datalagring",
+    "nameEn": "Data Storage Paradigms",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SK1118",
+    "name": "Elektromagnetism och vågrörelselära",
+    "nameEn": "Electromagnetism and Waves",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "EQ1110",
+    "name": "Tidskontinuerliga signaler och system",
+    "nameEn": "Continuous Time Signals and Systems",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "IA150X",
+    "name": "Examensarbete inom informationsteknik, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Degree Project in Information and Communication Technology, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SH1011",
+    "name": "Modern fysik",
+    "nameEn": "Modern Physics",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 1.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "IS2202",
+    "name": "Datorsystemarkitektur",
+    "nameEn": "Computer Systems Architecture",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "ID2202",
+    "name": "Kompilatorer och exekveringsmiljöer",
+    "nameEn": "Compilers and Execution Environments",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF1912",
+    "name": "Sannolikhetsteori och statistik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Probability Theory and Statistics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "ID1206",
+    "name": "Operativsystem",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Operating Systems",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "ID1018",
+      "ID1021",
+      "IS1200"
+    ]
+  },
+  {
+    "code": "IE1202",
+    "name": "Analog elektronik",
+    "nameEn": "Analog Electronics",
+    "totalCredits": 16.5,
+    "periodCredits": {
+      "P1": 16.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF1683",
+    "name": "Differentialekvationer och transformmetoder",
+    "nameEn": "Differential Equations and Transforms",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 5,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "EL1020",
+    "name": "Reglerteknik, allmän kurs",
+    "nameEn": "Automatic Control, general course",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "ID2216",
+    "name": "Utveckling av mobila tillämpningar",
+    "nameEn": "Developing Mobile Applications",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "IV1013",
+    "name": "Introduktion till datasäkerhet",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Introduction to Computer Security",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "ID1018",
+      "IK1203",
+      "IS1200",
+      "SF1610"
+    ]
+  },
+  {
+    "name": "Villkorligt valfria och valfria kurser, årskurs 3",
+    "nameEn": "Conditionally elective and elective courses, year 3",
+    "totalCredits": 16.5,
+    "periodCredits": {
+      "P1": 9,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1",
+      "P2"
+    ],
+    "category": "electivePlaceholder",
+    "type": "optionGroup",
+    "options": [
+      "DD1351",
+      "DD2350",
+      "DH2642",
+      "EL1020",
+      "EQ1110",
+      "ID1214",
+      "ID2201",
+      "ID2202",
+      "ID2216",
+      "IE1202",
+      "II1303",
+      "IK1330",
+      "IS1300",
+      "IS2202",
+      "IV1351",
+      "LS1600",
+      "LS2442",
+      "LS2444",
+      "ME1003",
+      "ME2016",
+      "SF1633",
+      "SF1683",
+      "SH1011"
+    ],
+    "kind": "minCredits",
+    "minCredits": 16.5,
+    "comment": "För examen skall minst 15 hp kurser ur MatNat-blocket och minst 21 hp kurser ur IT-blocket ingå. Övrigt utrymme är valfritt.",
+    "commentEn": "The study plan sets minimum credits from each block of conditionally elective courses across the programme — see the study plan. The remaining space is elective.",
+    "allowedNumberOfOptions": 23
+  },
+  {
+    "code": "ME1003",
+    "name": "Industriell ekonomi, grundkurs",
+    "nameEn": "Industrial Management, Basic Course",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 6,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "10922"
+      },
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 6,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "10926"
+      }
+    ],
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "ID2201",
+    "name": "Distribuerade system, grundkurs",
+    "nameEn": "Distributed Systems, Basic Course",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "DH2642",
+    "name": "Interaktionsprogrammering och dynamiska webben",
+    "nameEn": "Interaction Programming and the Dynamic Web",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF1633",
+    "name": "Differentialekvationer I",
+    "nameEn": "Differential Equations I",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "LS1600",
+    "name": "Interkulturell kompetens",
+    "nameEn": "Intercultural Competence",
+    "totalCredits": 16.5,
+    "periodCredits": {
+      "P1": 16.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "LS2444",
+    "name": "Teknisk kommunikation på engelska",
+    "nameEn": "Technical Communication in English",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "IK1330",
+    "name": "Trådlösa system",
+    "nameEn": "Wireless Systems",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "AL1523",
+    "name": "Digitalisering och innovation för hållbar utveckling",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Digitalisation and Innovation for Sustainable Development",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "ME2016",
+    "name": "Project Management: Leadership and Control",
+    "nameEn": "Project Management: Leadership and Control",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "LS2442",
+    "name": "Engelska för arbetslivet",
+    "nameEn": "English for Employment",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  }
+]

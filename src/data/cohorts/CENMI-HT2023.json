@@ -1,0 +1,3249 @@
+[
+  {
+    "type": "cohortMeta",
+    "program": "CENMI",
+    "cohort": "HT2023",
+    "years": [
+      {
+        "year": 1,
+        "sourceCohort": "HT2025",
+        "approximated": true,
+        "confidence": "unknown"
+      },
+      {
+        "year": 2,
+        "sourceCohort": "HT2024",
+        "approximated": true,
+        "corroboratedBy": {
+          "year": 3,
+          "agrees": false
+        },
+        "confidence": "low"
+      },
+      {
+        "year": 3,
+        "sourceCohort": "HT2023",
+        "approximated": false,
+        "confidence": "exact"
+      }
+    ]
+  },
+  {
+    "code": "AL1351",
+    "name": "Energi, Miljö och hållbar utveckling",
+    "totalCredits": 4.5,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Energy, Environment and Sustainable development",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "DD1310",
+    "name": "Programmeringsteknik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 3,
+      "P3": 1.5,
+      "P4": 1.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Programming Techniques",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "MJ1508",
+    "name": "Ekologi och Miljöeffekter",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 3.5,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Ecology and Environmental Effects",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1624",
+    "name": "Algebra och geometri",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Algebra and Geometry",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1626",
+    "name": "Flervariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Calculus in Several Variables",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "SG1102",
+    "name": "Mekanik, mindre kurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Mechanics, Smaller Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1626"
+    ]
+  },
+  {
+    "code": "SK1110",
+    "name": "Elektromagnetism och vågrörelselära",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Electromagnetism and Waves",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "CK1020",
+    "name": "Grundläggande kemi",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Fundamental chemistry",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1625",
+    "name": "Envariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Calculus in One Variable",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "AE1502",
+    "name": "Miljösystemanalys för energi och miljö",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Environmental Systems Analysis for Energy and Environment",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AL1351",
+      "MJ1508"
+    ]
+  },
+  {
+    "code": "MJ1145",
+    "name": "Energisystem",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Energy Systems",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "EI1120",
+      "MJ1112",
+      "SK1110"
+    ]
+  },
+  {
+    "code": "SF1512",
+    "name": "Numeriska metoder, grundkurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Numerical Methods, basic course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1310",
+      "SF1625"
+    ]
+  },
+  {
+    "code": "EI1120",
+    "name": "Elkretsanalys för energi och miljö",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Electrical Circuit Analysis for the Environment and Energy Program",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "KE1060",
+    "name": "Material- och energibalanser",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Material and Energy Balances",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "MJ1112",
+    "name": "Tillämpad termodynamik",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Applied Thermodynamics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1624",
+      "SF1625",
+      "SG1102"
+    ]
+  },
+  {
+    "code": "AL1145",
+    "name": "Strategier för hållbar utveckling",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Strategies for Sustainable development",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AL1351"
+    ]
+  },
+  {
+    "code": "SF1633",
+    "name": "Differentialekvationer I",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Differential Equations I",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1626"
+    ]
+  },
+  {
+    "code": "SF1917",
+    "name": "Sannolikhetsteori och statistik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Probability Theory and Statistics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1625"
+    ]
+  },
+  {
+    "name": "Kurser för valt masterprogram och valfria kurser, årskurs 3",
+    "nameEn": "Courses for the chosen master's programme and electives, year 3",
+    "totalCredits": 37.5,
+    "periodCredits": {
+      "P1": 15,
+      "P2": 7.5,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "exams": [
+      "P1",
+      "P2",
+      "P3",
+      "P4"
+    ],
+    "category": "electivePlaceholder",
+    "type": "optionGroup",
+    "options": [
+      "AE1106",
+      "AE1602",
+      "AE1603",
+      "AE1801",
+      "AF1601",
+      "AG1137",
+      "AI1525",
+      "AK1204",
+      "AK2202",
+      "AL1357",
+      "AL1510",
+      "AL2113",
+      "AL2121",
+      "ED1110",
+      "EI1228",
+      "EJ1200",
+      "EL1020",
+      "EP1100",
+      "IS1200",
+      "KE1080",
+      "KE1090",
+      "MJ1150",
+      "MJ1401",
+      "MJ2381",
+      "MJ2438",
+      "MJ2513",
+      "MJ2515",
+      "MJ2615",
+      "MJ2627",
+      "ML1501",
+      "ML1502",
+      "ML1503",
+      "ML1504",
+      "ML1506",
+      "ML1507",
+      "SF1811",
+      "SF1861",
+      "SF1904",
+      "SG1220"
+    ],
+    "kind": "minCredits",
+    "minCredits": 37.5,
+    "comment": "Vilka kurser som krävs beror på valt masterprogram — se markeringen behörighetsgivande vid varje kurs och utbildningsplanen. Övrigt utrymme är valfritt.",
+    "commentEn": "Which courses are required depends on the chosen master's programme — see the eligibility note on each course and the study plan. The remaining space is elective.",
+    "allowedNumberOfOptions": 39,
+    "qualifiesFor": {
+      "AE1106": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": true
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "AE1602": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": true
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "AE1603": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": true
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "AE1801": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "AF1601": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "AG1137": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": true
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "AI1525": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": true
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "AK1204": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "AK2202": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "AL1357": [
+        {
+          "code": "ELP",
+          "name": "Master, elkraftteknik",
+          "required": true
+        },
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": true
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": true
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": true
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": true
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": true
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": true
+        },
+        {
+          "code": "SENS",
+          "name": "Master, smarta elektriska nätverk och system",
+          "required": true
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": true
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": true
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": true
+        }
+      ],
+      "AL1510": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "AL2113": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": true
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": true
+        }
+      ],
+      "AL2121": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "ED1110": [
+        {
+          "code": "ELP",
+          "name": "Master, elkraftteknik",
+          "required": true
+        },
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SENS",
+          "name": "Master, smarta elektriska nätverk och system",
+          "required": true
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "EI1228": [
+        {
+          "code": "ELP",
+          "name": "Master, elkraftteknik",
+          "required": true
+        },
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SENS",
+          "name": "Master, smarta elektriska nätverk och system",
+          "required": true
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "EJ1200": [
+        {
+          "code": "ELP",
+          "name": "Master, elkraftteknik",
+          "required": true
+        },
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SENS",
+          "name": "Master, smarta elektriska nätverk och system",
+          "required": true
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "EL1020": [
+        {
+          "code": "ELP",
+          "name": "Master, elkraftteknik",
+          "required": true
+        },
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SENS",
+          "name": "Master, smarta elektriska nätverk och system",
+          "required": true
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "EP1100": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "IS1200": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "KE1080": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": true
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "KE1090": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": true
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "MJ1150": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "MJ1401": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": true
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": true
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": true
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "MJ2381": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "MJ2438": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "MJ2513": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "MJ2515": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "MJ2615": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        }
+      ],
+      "MJ2627": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "ML1501": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "ML1502": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "ML1503": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": true
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "ML1504": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "ML1506": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "ML1507": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "SF1811": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": true
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "SF1861": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "SF1904": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": false
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": false
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": false
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ],
+      "SG1220": [
+        {
+          "code": "HSS",
+          "name": "Master, hållbar samhällsplanering och stadsutformning",
+          "required": false
+        },
+        {
+          "code": "ITH",
+          "name": "Master, hållbar produktionsutveckling",
+          "required": false
+        },
+        {
+          "code": "KEM",
+          "name": "Master, kemiteknik för energi och miljö",
+          "required": false
+        },
+        {
+          "code": "MES",
+          "name": "Master, miljövänliga energisystem",
+          "required": true
+        },
+        {
+          "code": "MHI",
+          "name": "Master, miljöteknik och hållbar infrastruktur",
+          "required": false
+        },
+        {
+          "code": "RENE",
+          "name": "Master, förnybar energi",
+          "required": true
+        },
+        {
+          "code": "SMCS",
+          "name": "Master, smarta städer",
+          "required": false
+        },
+        {
+          "code": "SUE",
+          "name": "Master, hållbar energiteknik",
+          "required": true
+        },
+        {
+          "code": "SUT",
+          "name": "Master, teknik och hållbar utveckling",
+          "required": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "MJ1401",
+    "name": "Värmeöverföring",
+    "nameEn": "Heat Transfer",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "AL2121",
+    "name": "Global utveckling och politisk ekologi",
+    "nameEn": "Global Development and Political Ecology",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "EF112X",
+    "name": "Examensarbete inom elektroteknik, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Electrical Engineering, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "AK2207",
+    "name": "Energisystem i samhället",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Energy Systems in Society",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "MJ1145"
+    ]
+  },
+  {
+    "code": "IS1200",
+    "name": "Datorteknik, grundkurs",
+    "nameEn": "Computer Hardware Engineering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF1904",
+    "name": "Markovprocesser, grundkurs",
+    "nameEn": "Markov Processes, Basic Course",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 3
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "KE1080",
+    "name": "Kemitekniska principer",
+    "nameEn": "Chemical Engineering Principles",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "AF1601",
+    "name": "Geoteknik med grundläggning",
+    "nameEn": "Soil Mechanics and Foundation Engineering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "EP1100",
+    "name": "Datakommunikation och datornät",
+    "nameEn": "Data Communications and Computer Networks",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "MJ2615",
+    "name": "Introduktion till industriell ekologi, större kurs",
+    "nameEn": "Introduction to Industrial Ecology, larger course",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "MJ2515",
+    "name": "Numerisk värmeöverföring i energiteknik",
+    "nameEn": "Numerical Heat Transfer in Energy Technology",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF1811",
+    "name": "Optimeringslära",
+    "nameEn": "Optimization",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "MJ1150",
+    "name": "Energisystem, innovation, entreprenörskap",
+    "nameEn": "Energy and Systems, Innovation and Entrepreneurship",
+    "totalCredits": 10.5,
+    "periodCredits": {
+      "P1": 9,
+      "P2": 1.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Kandidatexamensarbete",
+    "nameEn": "Degree project, first cycle",
+    "year": 3,
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "options": [
+      "AL127X",
+      "EF112X",
+      "KA103X",
+      "MJ146X",
+      "ML150X"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [],
+    "category": "conditionallyElective"
+  },
+  {
+    "code": "SG1220",
+    "name": "Teknisk strömningsmekanik",
+    "nameEn": "Fluid Mechanics for Engineers",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "ML1503",
+    "name": "Industriella system II",
+    "nameEn": "Industrial Systems II",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "ML1501",
+    "name": "Industriella system I",
+    "nameEn": "Industrial Systems I",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "ML1504",
+    "name": "Produktionslogistik",
+    "nameEn": "Logistics in Production",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF1861",
+    "name": "Optimeringslära",
+    "nameEn": "Optimization",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "AI1525",
+    "name": "Samhällsbyggandets regelsystem",
+    "nameEn": "Legal Framework of the Built Environment",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "EL1020",
+    "name": "Reglerteknik, allmän kurs",
+    "nameEn": "Automatic Control, general course",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "AK2202",
+    "name": "Genus och teknik",
+    "nameEn": "Gender and Technology",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "EJ1200",
+    "name": "Eleffektsystem",
+    "nameEn": "Electric Power Systems",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "ED1110",
+    "name": "Vektoranalys",
+    "nameEn": "Vector Analysis",
+    "totalCredits": 4.5,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "MJ2513",
+    "name": "Cirkulär ekonomi och energisystem",
+    "nameEn": "Circular Economy and Energy System",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "EI1228",
+    "name": "Teoretisk elektroteknik, mindre kurs",
+    "nameEn": "Electromagnetic Theory, Smaller Course",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "MJ2381",
+    "name": "Introduktion till Energisystemanalys och tillämpning - mindre kurs",
+    "nameEn": "Introduction to Energy Systems Analysis and Applications - Minor Course",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 3
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "MJ2627",
+    "name": "Miljöskyddsteknik, större kurs",
+    "nameEn": "Environmental Technology, Larger Course",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "MJ146X",
+    "name": "Examensarbete inom hållbar energiteknik, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Sustainable Energy Engineering, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "MJ1112"
+    ]
+  },
+  {
+    "code": "AE1603",
+    "name": "Strömningsmekanik för energi och miljö",
+    "nameEn": "Fluid Mechanics for Energy and Built Environment",
+    "totalCredits": 5,
+    "periodCredits": {
+      "P1": 5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "AK1204",
+    "name": "Miljöhistoria",
+    "nameEn": "Environmental History",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "AL1357",
+    "name": "Miljöekonomi",
+    "nameEn": "Environmental Economics",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "AL1510",
+    "name": "Tillstånd och trender",
+    "nameEn": "States and Trends",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "rounds": [
+      {
+        "id": "P1-3",
+        "periodCredits": {
+          "P1": 3,
+          "P2": 4.5,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "11893"
+      },
+      {
+        "id": "P1-3_5",
+        "periodCredits": {
+          "P1": 3.5,
+          "P2": 4,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "11519"
+      }
+    ],
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "KE1090",
+    "name": "Transportprocesser i kemiska system",
+    "nameEn": "Transport Processes in Chemical Systems",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "AL2113",
+    "name": "Hållbar utveckling i teori och praktik",
+    "nameEn": "Sustainable Development in theory and practise",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "AE1801",
+    "name": "Miljö- och markkemi",
+    "nameEn": "Environmental Soil Chemistry",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 4,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "AE1602",
+    "name": "Hydrologi",
+    "nameEn": "Hydrology",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "ML150X",
+    "name": "Examensarbete inom industriell teknik och hållbarhet, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Industrial Technology and Sustainability, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "AG1137",
+    "name": "Planering och styrning av urban och regional utveckling",
+    "nameEn": "Planning and Governance of Urban and Regional Development",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "MJ2438",
+    "name": "Modellering av energisystem - kraft och värme produktion",
+    "nameEn": "Modeling of Energy Systems - Heat and Power Generation",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 3
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "AL127X",
+    "name": "Examensarbete i Energi och Miljö, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Energy and Environment, First level",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "ML1507",
+    "name": "Kommunicerande ingenjör",
+    "nameEn": "Communicating Engineer",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 1.5,
+      "P4": 1.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "KA103X",
+    "name": "Examensarbete inom Teknisk kemi, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Engineering Chemistry, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "ML1506",
+    "name": "Övergångsmodul till industriell teknik",
+    "nameEn": "Adaption course for Industrial Technology",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "ML1502",
+    "name": "Hållbarhet i industrin",
+    "nameEn": "Sustainabillity for Industry",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "AE1106",
+    "name": "Geovetenskap",
+    "nameEn": "Geoscience",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  }
+]

@@ -1,0 +1,100 @@
+[
+  {
+    "name": "Matematik",
+    "nameEn": "Mathematics",
+    "colorFamily": "blue",
+    "courses": [
+      "SF1512",
+      "SF1624",
+      "SF1625",
+      "SF1626",
+      "SF1633",
+      "SF1811",
+      "SF1861",
+      "SF1904",
+      "SF1917"
+    ]
+  },
+  {
+    "name": "Energi- och kemiteknik",
+    "nameEn": "Energy and Chemical Engineering",
+    "colorFamily": "green",
+    "courses": [
+      "CK1020",
+      "KE1060",
+      "KE1080",
+      "KE1090",
+      "MJ1112",
+      "MJ1145",
+      "MJ1150",
+      "MJ1401",
+      "MJ1508",
+      "MJ2381",
+      "MJ2438",
+      "MJ2513",
+      "MJ2515",
+      "MJ2615",
+      "MJ2627"
+    ]
+  },
+  {
+    "name": "Miljö och hållbar utveckling",
+    "nameEn": "Environment and Sustainable Development",
+    "colorFamily": "brick",
+    "courses": [
+      "AE1106",
+      "AE1502",
+      "AE1602",
+      "AE1603",
+      "AE1801",
+      "AF1601",
+      "AG1137",
+      "AI1525",
+      "AK1204",
+      "AK2202",
+      "AK2207",
+      "AL1145",
+      "AL1351",
+      "AL1357",
+      "AL1510",
+      "AL2113",
+      "AL2121"
+    ]
+  },
+  {
+    "name": "Övriga ingenjörsämnen",
+    "nameEn": "Other Engineering Subjects",
+    "colorFamily": "turquoise",
+    "courses": [
+      "DD1310",
+      "ED1110",
+      "EI1120",
+      "EI1228",
+      "EJ1200",
+      "EL1020",
+      "EP1100",
+      "IS1200",
+      "ML1501",
+      "ML1502",
+      "ML1503",
+      "ML1504",
+      "ML1506",
+      "ML1507",
+      "SG1102",
+      "SG1220",
+      "SK1110"
+    ]
+  },
+  {
+    "name": "Övrigt",
+    "nameEn": "Other",
+    "colorFamily": "yellow",
+    "courses": [
+      "AL127X",
+      "EF112X",
+      "KA103X",
+      "MJ146X",
+      "ML150X"
+    ]
+  }
+]

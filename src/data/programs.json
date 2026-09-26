@@ -133,5 +133,77 @@
     "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet! Extraherad medan KOPPS låg nere, så engelska kursnamn saknas för kurser som inte finns i andra program.",
     "commentEn": "Study plan not yet verified — use with caution! Extracted while KOPPS was down, so English course titles are missing for courses not shared with other programmes.",
     "studyplan": "https://www.kth.se/student/kurser/program/CDATE"
+  },
+  {
+    "code": "CDEPR",
+    "name": "Civilingenjörsutbildning i design och produktframtagning",
+    "nameEn": "Degree Programme in Design and Product Realisation",
+    "dataFile": "cohorts/CDEPR-HT2025.json",
+    "cosmeticsFile": "CDEPR-cosmetics.json",
+    "verified": false,
+    "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
+    "commentEn": "Study plan not yet verified — use with caution!",
+    "studyplan": "https://www.kth.se/student/kurser/program/CDEPR"
+  },
+  {
+    "code": "CENMI",
+    "name": "Civilingenjörsutbildning i energi och miljö",
+    "nameEn": "Degree Programme in Energy and Environment",
+    "dataFile": "cohorts/CENMI-HT2025.json",
+    "cosmeticsFile": "CENMI-cosmetics.json",
+    "verified": false,
+    "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
+    "commentEn": "Study plan not yet verified — use with caution!",
+    "studyplan": "https://www.kth.se/student/kurser/program/CENMI"
+  },
+  {
+    "code": "CITEH",
+    "name": "Civilingenjörsutbildning i industriell teknik och hållbarhet",
+    "nameEn": "Degree Programme in Industrial Technology and Sustainability",
+    "dataFile": "cohorts/CITEH-HT2025.json",
+    "cosmeticsFile": "CITEH-cosmetics.json",
+    "verified": false,
+    "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
+    "commentEn": "Study plan not yet verified — use with caution!",
+    "studyplan": "https://www.kth.se/student/kurser/program/CITEH"
+  },
+  {
+    "code": "CLGYM",
+    "name": "Civilingenjör och lärare",
+    "nameEn": "Master of Science in Engineering and in Education",
+    "dataFile": "cohorts/CLGYM-HT2025.json",
+    "cosmeticsFile": "CLGYM-cosmetics.json",
+    "verified": false,
+    "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
+    "commentEn": "Study plan not yet verified — use with caution!",
+    "studyplan": "https://www.kth.se/student/kurser/program/CLGYM",
+    "specializations": [
+      { "code": "MAFY", "name": "Matematik och fysik", "nameEn": "Mathematics and Physics" },
+      { "code": "MAKE", "name": "Matematik och kemi", "nameEn": "Mathematics and Chemistry" },
+      { "code": "TEDA", "name": "Matematik och Teknik: Datateknik", "nameEn": "Mathematics and Engineering specialising in Computer Science" },
+      { "code": "TEMI", "name": "Matematik och Teknik: Energi och miljö", "nameEn": "Mathematics and Technology: Energy and Environment" }
+    ]
+  },
+  {
+    "code": "CINTE",
+    "name": "Civilingenjörsutbildning i informationsteknik",
+    "nameEn": "Degree Programme in Information and Communication Technology",
+    "dataFile": "cohorts/CINTE-HT2025.json",
+    "cosmeticsFile": "CINTE-cosmetics.json",
+    "verified": false,
+    "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
+    "commentEn": "Study plan not yet verified — use with caution!",
+    "studyplan": "https://www.kth.se/student/kurser/program/CINTE"
+  },
+  {
+    "code": "CMETE",
+    "name": "Civilingenjörsutbildning i medieteknik",
+    "nameEn": "Degree Programme in Media Technology",
+    "dataFile": "cohorts/CMETE-HT2025.json",
+    "cosmeticsFile": "CMETE-cosmetics.json",
+    "verified": false,
+    "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
+    "commentEn": "Study plan not yet verified — use with caution!",
+    "studyplan": "https://www.kth.se/student/kurser/program/CMETE"
   }
 ]

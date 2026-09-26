@@ -1,0 +1,81 @@
+[
+  {
+    "name": "Matematik",
+    "nameEn": "Mathematics",
+    "colorFamily": "blue",
+    "courses": [
+      "SF1546",
+      "SF1624",
+      "SF1625",
+      "SF1626",
+      "SF1633",
+      "SF1811",
+      "SF1917"
+    ]
+  },
+  {
+    "name": "Industriell teknik och ekonomi",
+    "nameEn": "Industrial Technology and Management",
+    "colorFamily": "brick",
+    "courses": [
+      "ME1003",
+      "ME1035",
+      "ME2016",
+      "ME2163",
+      "ML1500",
+      "ML1501",
+      "ML1502",
+      "ML1503",
+      "ML1504",
+      "ML1505",
+      "ML1507",
+      "ML1508"
+    ]
+  },
+  {
+    "name": "Maskin- och materialteknik",
+    "nameEn": "Mechanical and Materials Engineering",
+    "colorFamily": "green",
+    "courses": [
+      "MF1016",
+      "MF1017",
+      "MG1000",
+      "MG1002",
+      "MG1010",
+      "MG1011",
+      "MG1012",
+      "MG1016",
+      "MG1028",
+      "MG1213",
+      "MG1224",
+      "MH1004",
+      "MH1030",
+      "MH1031",
+      "MH1036",
+      "MJ1014",
+      "MJ1112",
+      "MJ1145",
+      "MJ1401",
+      "SG1117",
+      "SG1220",
+      "SK1117"
+    ]
+  },
+  {
+    "name": "Datateknik",
+    "nameEn": "Computer Science",
+    "colorFamily": "turquoise",
+    "courses": [
+      "DD1310",
+      "DD1320"
+    ]
+  },
+  {
+    "name": "Övrigt",
+    "nameEn": "Other",
+    "colorFamily": "yellow",
+    "courses": [
+      "ML150X"
+    ]
+  }
+]
