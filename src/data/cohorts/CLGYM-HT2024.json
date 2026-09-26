@@ -1,0 +1,5070 @@
+[
+  {
+    "type": "cohortMeta",
+    "program": "CLGYM",
+    "cohort": "HT2024",
+    "years": [
+      {
+        "year": 1,
+        "sourceCohort": "HT2025",
+        "approximated": true,
+        "corroboratedBy": {
+          "year": 2,
+          "agrees": false
+        },
+        "confidence": "low"
+      },
+      {
+        "year": 2,
+        "sourceCohort": "HT2024",
+        "approximated": false,
+        "confidence": "exact"
+      },
+      {
+        "year": 3,
+        "sourceCohort": "HT2024",
+        "approximated": false,
+        "confidence": "exact"
+      },
+      {
+        "year": 4,
+        "sourceCohort": "HT2023",
+        "approximated": true,
+        "corroboratedBy": {
+          "year": 3,
+          "agrees": false
+        },
+        "confidence": "low"
+      },
+      {
+        "year": 5,
+        "sourceCohort": "HT2022",
+        "approximated": true,
+        "confidence": "unknown"
+      }
+    ]
+  },
+  {
+    "code": "LT1041",
+    "name": "Programsammanhållande kurs för civilingenjör och lärare, årskurs 1",
+    "totalCredits": 1,
+    "periodCredits": {
+      "P1": 0.3,
+      "P2": 0.2,
+      "P3": 0.3,
+      "P4": 0.2
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Programme Integrating Course in Engineering and Education, year 1",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "DD1319",
+    "name": "Programmeringsteknik",
+    "totalCredits": 8,
+    "periodCredits": {
+      "P1": 1,
+      "P2": 3.5,
+      "P3": 3.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Programming Techniques",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "LT1036",
+    "name": "Lärande som professionellt uppdrag",
+    "totalCredits": 8.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 8.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Learning as Professional Assignments",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "ED1100",
+    "name": "Ingenjörsvetenskap",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Engineering Science",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1661",
+    "name": "Perspektiv på matematik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Perspectives on Mathematics",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1662",
+    "name": "Diskret matematik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 4,
+      "P3": 3.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Discrete Mathematics",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "LT1038",
+    "name": "Matematikdidaktik med verksamhetsförlagd utbildning för gymnasiet",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 1,
+      "P4": 6.5
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Mathematics Education and School Placement for Upper Secondary School",
+    "gradingScale": "VG/G/U",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1661"
+    ]
+  },
+  {
+    "code": "AL1130",
+    "name": "Fysik, Kemi, Energi och miljö för CL",
+    "totalCredits": 14,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 6.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2",
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Physics, Chemistry, Energy and the Environment for CL",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1546",
+    "name": "Numeriska metoder, grundkurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4,
+      "P4": 2
+    },
+    "year": 2,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Numerical Methods, Basic Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1625",
+      "SF1673"
+    ]
+  },
+  {
+    "code": "SF1673",
+    "name": "Analys i en variabel",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "mandatory",
+    "nameEn": "Analysis in one variable",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1672",
+    "name": "Linjär algebra",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "mandatory",
+    "nameEn": "Linear Algebra",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1624",
+    "name": "Algebra och geometri",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "periodCreditsBySpecialization": {
+      "TEMI": {
+        "P1": 7.5,
+        "P2": 0,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "category": "mandatory",
+    "nameEn": "Algebra and Geometry",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "DH1623",
+    "name": "Människa-datorinteraktion, grundläggande teori",
+    "totalCredits": 4.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "mandatory",
+    "nameEn": "Human-Computer Interaction, Basic theory",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "CK1060",
+    "name": "Material och energibalanser",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Material and Energy Balances",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1625",
+    "name": "Envariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "periodCreditsBySpecialization": {
+      "TEDA": {
+        "P1": 0,
+        "P2": 0,
+        "P3": 7.5,
+        "P4": 0
+      },
+      "TEMI": {
+        "P1": 0,
+        "P2": 7.5,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "category": "mandatory",
+    "nameEn": "Calculus in One Variable",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SG1112",
+    "name": "Mekanik I",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4,
+      "P4": 5
+    },
+    "year": 2,
+    "exams": [
+      "P3",
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "mandatory",
+    "nameEn": "Mechanics I",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1673"
+    ]
+  },
+  {
+    "code": "CK1280",
+    "name": "Kemisk jämvikt",
+    "totalCredits": 4.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "mandatory",
+    "nameEn": "Chemical Equilibrium",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "IS1500",
+    "name": "Datorteknik och komponenter",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "mandatory",
+    "nameEn": "Computer Organization and Components",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "CK1290",
+    "name": "Analytisk kemi",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 4
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "mandatory",
+    "nameEn": "Analytical Chemistry",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "DD1326",
+    "name": "Tillämpad datalogi med didaktik och etik",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 5,
+      "P2": 2.5,
+      "P3": 0.5,
+      "P4": 1
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "mandatory",
+    "nameEn": "Applied computer science with didactics and ethics",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "KE1150",
+    "name": "Teknisk kemi",
+    "totalCredits": 10,
+    "periodCredits": {
+      "P1": 2,
+      "P2": 8,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1",
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "mandatory",
+    "nameEn": "Engineering Chemistry",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "LT1037",
+    "name": "Läraren, ledaren och skolan",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 1.5,
+      "P4": 4.5
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "periodCreditsBySpecialization": {
+      "TEMI": {
+        "P1": 1.5,
+        "P2": 0,
+        "P3": 0,
+        "P4": 4.5
+      }
+    },
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Educational Leadership",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1674",
+    "name": "Flervariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "mandatory",
+    "nameEn": "Multivariable Calculus",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1673"
+    ]
+  },
+  {
+    "code": "LT1081",
+    "name": "De tekniska ämnenas didaktik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 4,
+      "P2": 2,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Teaching and learning in technology and engineering",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "LT1080",
+    "name": "Naturvetenskapsämnenas didaktik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 4,
+      "P2": 2,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE"
+    ],
+    "category": "mandatory",
+    "nameEn": "Teaching and learning in natural science",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "MJ1508",
+    "name": "Ekologi och Miljöeffekter",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 3.5,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Ecology and Environmental Effects",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SK1105",
+    "name": "Experimentell fysik",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 4
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "mandatory",
+    "nameEn": "Experimental Physics",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SK1104"
+    ]
+  },
+  {
+    "code": "SG1102",
+    "name": "Mekanik, mindre kurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Mechanics, Smaller Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1626",
+      "SF1673"
+    ]
+  },
+  {
+    "code": "KD1230",
+    "name": "Organisk kemi, grundläggande koncept och praktik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "mandatory",
+    "nameEn": "Organic Chemistry, Basic Concepts and Practice",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "KA1040",
+    "name": "Perspektivkurs forskning och innovation",
+    "totalCredits": 8.5,
+    "periodCredits": {
+      "Year2": {
+        "P1": 0.5,
+        "P2": 0.5,
+        "P3": 0,
+        "P4": 0
+      },
+      "Year3": {
+        "P1": 0,
+        "P2": 5,
+        "P3": 2.5,
+        "P4": 0
+      }
+    },
+    "prerequisites": [],
+    "exams": {
+      "Year2": [
+        "P1"
+      ],
+      "Year3": [
+        "P2"
+      ]
+    },
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "mandatory",
+    "nameEn": "Perspectives on Research and Innovation",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "LT1042",
+    "name": "Programsammanhållande kurs för civilingenjör och lärare, årskurs 2",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 0.5,
+      "P2": 0.5,
+      "P3": 0.5,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "mandatory",
+    "nameEn": "Programme Integrating Course in Engineering and Education, year 2",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "LT1041"
+    ]
+  },
+  {
+    "code": "SF1626",
+    "name": "Flervariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 2,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "periodCreditsBySpecialization": {
+      "TEMI": {
+        "P1": 0,
+        "P2": 0,
+        "P3": 7.5,
+        "P4": 0
+      }
+    },
+    "category": "mandatory",
+    "nameEn": "Calculus in Several Variables",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "SK1104",
+    "name": "Klassisk fysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 4,
+      "P3": 3.5,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P2",
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "mandatory",
+    "nameEn": "Classical Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1672",
+      "SF1673",
+      "SF1674"
+    ]
+  },
+  {
+    "code": "SI1122",
+    "name": "Termodynamik",
+    "totalCredits": 5,
+    "periodCredits": {
+      "P1": 5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "mandatory",
+    "nameEn": "Thermodynamics",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "DD1380",
+    "name": "Javaprogrammering för Pythonprogrammerare",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 1.5,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "mandatory",
+    "nameEn": "Java Programming for Python Programmers",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "LT1043",
+    "name": "Programsammanhållande kurs för civilingenjör och lärare, årskurs 3",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 0.3,
+      "P2": 0.3,
+      "P3": 0.3,
+      "P4": 0.6
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "mandatory",
+    "nameEn": "Programme Integrating Course in Engineering and Education, year 3",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "LT1042"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria kurser, årskurs 3 (TEMI)",
+    "nameEn": "Conditionally elective courses, year 3 (TEMI)",
+    "year": 3,
+    "specializations": [
+      "TEMI"
+    ],
+    "totalCredits": 10.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 1.5,
+      "P3": 1.5,
+      "P4": 7.5
+    },
+    "options": [
+      "DD1351",
+      "DD2350",
+      "DD2352",
+      "DD2421",
+      "DD2448",
+      "SF1677",
+      "SF1678",
+      "SF1681",
+      "SF1688",
+      "SF1691",
+      "SF1861",
+      "SF1904",
+      "SF2701",
+      "SF2930"
+    ],
+    "allowedNumberOfOptions": 14,
+    "kind": "minCredits",
+    "minCredits": 9,
+    "exams": [],
+    "category": "conditionallyElective",
+    "comment": "9 hp av de villkorligt valfria kurserna i listan nedan ska läsas i årskurs 3.",
+    "commentEn": "At least 9 credits from these conditionally elective courses in year 3."
+  },
+  {
+    "code": "SI1146",
+    "name": "Vektoranalys",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 4,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "mandatory",
+    "nameEn": "Vector Analysis",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1674"
+    ]
+  },
+  {
+    "code": "MJ1145",
+    "name": "Energisystem",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Energy Systems",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "MJ1112"
+    ]
+  },
+  {
+    "code": "SF1925",
+    "name": "Tillämpad statistik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Applied Statistics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "AE1502",
+    "name": "Miljösystemanalys för energi och miljö",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Environmental Systems Analysis for Energy and Environment",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "MJ1508"
+    ]
+  },
+  {
+    "code": "SF1633",
+    "name": "Differentialekvationer I",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Differential Equations I",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1626",
+      "SF1674"
+    ]
+  },
+  {
+    "code": "LT1095",
+    "name": "Lärande och hållbar utveckling",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Learning and sustainable development",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AL1130"
+    ]
+  },
+  {
+    "code": "SF1917",
+    "name": "Sannolikhetsteori och statistik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "mandatory",
+    "nameEn": "Probability Theory and Statistics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1625",
+      "SF1673"
+    ]
+  },
+  {
+    "code": "SI1200",
+    "name": "Fysikens matematiska metoder",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "mandatory",
+    "nameEn": "Mathematical Methods in Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1688",
+    "name": "Diskret matematik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Discrete Mathematics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1624"
+    ]
+  },
+  {
+    "code": "SF1683",
+    "name": "Differentialekvationer och transformmetoder",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 5,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1",
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "mandatory",
+    "nameEn": "Differential Equations and Transforms",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1626",
+      "SF1674"
+    ]
+  },
+  {
+    "code": "DD2350",
+    "name": "Algoritmer, datastrukturer och komplexitet",
+    "totalCredits": 9.5,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 3.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Algorithms, Data Structures and Complexity",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "DD1320",
+      "DD1326",
+      "SF1624",
+      "SF1625",
+      "SF1672",
+      "SF1673"
+    ],
+    "prerequisitesParticipation": [
+      "SF1662",
+      "SF1688"
+    ]
+  },
+  {
+    "code": "SF2701",
+    "name": "Finansiell matematik, grundkurs",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Financial Mathematics, Basic Course",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SF1677",
+    "name": "Analysens grunder",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "year": 3,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Foundations of Analysis",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1626",
+      "SF1674"
+    ]
+  },
+  {
+    "code": "SF1678",
+    "name": "Grupper och ringar",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "year": 3,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Groups and Rings",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1624",
+      "SF1672"
+    ]
+  },
+  {
+    "code": "SH1014",
+    "name": "Modern fysik",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "mandatory",
+    "nameEn": "Modern Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SK1104"
+    ]
+  },
+  {
+    "code": "SF1544",
+    "name": "Numeriska metoder, grundkurs IV",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 1,
+      "P3": 5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "mandatory",
+    "nameEn": "Numerical Methods, Basic Course IV",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1861",
+    "name": "Optimeringslära",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 3,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Optimization",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1546",
+      "SF1624",
+      "SF1626",
+      "SF1672",
+      "SF1674"
+    ]
+  },
+  {
+    "code": "DD1366",
+    "name": "Programmeringsparadigm",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 3
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "mandatory",
+    "nameEn": "Programming Paradigms",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "DD1320",
+      "DD1326"
+    ]
+  },
+  {
+    "code": "SF1914",
+    "name": "Sannolikhetsteori och statistik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "mandatory",
+    "nameEn": "Probability Theory and Statistics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1673"
+    ]
+  },
+  {
+    "code": "DD1351",
+    "name": "Logik för dataloger",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Logic for Computer Scientists",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "SF1662"
+    ]
+  },
+  {
+    "code": "AL2113",
+    "name": "Hållbar utveckling i teori och praktik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Sustainable Development in theory and practise",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "KE1160",
+    "name": "Termodynamik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "mandatory",
+    "nameEn": "Thermodynamics",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1691",
+    "name": "Komplex analys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "year": 3,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Complex Analysis",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1626",
+      "SF1674"
+    ]
+  },
+  {
+    "code": "KD1070",
+    "name": "Molekylär struktur",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "mandatory",
+    "nameEn": "Molecular Structure",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "KD1080",
+    "name": "Kemisk dynamik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "mandatory",
+    "nameEn": "Chemical Dynamics",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "MJ1112",
+    "name": "Tillämpad termodynamik",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Applied Thermodynamics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1624",
+      "SF1625",
+      "SG1102"
+    ]
+  },
+  {
+    "code": "DD1395",
+    "name": "Fördjupande uppsats i datalogi",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "mandatory",
+    "nameEn": "In-depth Essay in Computer Science",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "DD2421",
+    "name": "Maskininlärning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Machine Learning",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "SF1624",
+      "SF1626",
+      "SF1672",
+      "SF1674",
+      "SF1914",
+      "SF1917"
+    ]
+  },
+  {
+    "code": "DD1367",
+    "name": "Programvarukonstruktion i projektform",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 1.5,
+      "P3": 4,
+      "P4": 3.5
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "mandatory",
+    "nameEn": "Software Engineering in Project Form",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "DD1320",
+      "DD1326"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria kurser, årskurs 3 (MAKE)",
+    "nameEn": "Conditionally elective courses, year 3 (MAKE)",
+    "year": 3,
+    "specializations": [
+      "MAKE"
+    ],
+    "totalCredits": 9.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0.5,
+      "P4": 9
+    },
+    "options": [
+      "DD1351",
+      "DD2350",
+      "DD2352",
+      "DD2421",
+      "DD2448",
+      "SF1677",
+      "SF1678",
+      "SF1681",
+      "SF1688",
+      "SF1691",
+      "SF1861",
+      "SF1904",
+      "SF2701",
+      "SF2930"
+    ],
+    "allowedNumberOfOptions": 14,
+    "kind": "minCredits",
+    "minCredits": 9,
+    "exams": [],
+    "category": "conditionallyElective",
+    "comment": "9 hp av de villkorligt valfria kurserna i listan nedan ska läsas i årskurs 3.",
+    "commentEn": "At least 9 credits from these conditionally elective courses in year 3."
+  },
+  {
+    "code": "SF1681",
+    "name": "Linjär algebra, fortsättningskurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Linear Algebra. Advanced Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1624",
+      "SF1672"
+    ]
+  },
+  {
+    "code": "SF2930",
+    "name": "Regressionsanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Regression Analysis",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SF1544",
+      "SF1914"
+    ]
+  },
+  {
+    "code": "SF1514",
+    "name": "Numeriska metoder, grundkurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE",
+      "TEDA"
+    ],
+    "category": "mandatory",
+    "nameEn": "Numerical Methods, Basic Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1625",
+      "SF1673"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria kurser, årskurs 3 (TEDA)",
+    "nameEn": "Conditionally elective courses, year 3 (TEDA)",
+    "year": 3,
+    "specializations": [
+      "TEDA"
+    ],
+    "totalCredits": 12.3,
+    "periodCredits": {
+      "P1": 2.7,
+      "P2": 0,
+      "P3": 1.7,
+      "P4": 7.9
+    },
+    "options": [
+      "DD1351",
+      "DD2350",
+      "DD2352",
+      "DD2421",
+      "DD2448",
+      "SF1677",
+      "SF1678",
+      "SF1681",
+      "SF1688",
+      "SF1691",
+      "SF1861",
+      "SF1904",
+      "SF2701",
+      "SF2930"
+    ],
+    "allowedNumberOfOptions": 14,
+    "kind": "minCredits",
+    "minCredits": 9,
+    "exams": [],
+    "category": "conditionallyElective",
+    "comment": "9 hp av de villkorligt valfria kurserna i listan nedan ska läsas i årskurs 3.",
+    "commentEn": "At least 9 credits from these conditionally elective courses in year 3."
+  },
+  {
+    "code": "DD1368",
+    "name": "Databasteknik för D",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "mandatory",
+    "nameEn": "Database Technology",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "DD1320",
+      "DD1326"
+    ]
+  },
+  {
+    "code": "DD2352",
+    "name": "Algoritmer och komplexitet",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 4.5
+    },
+    "year": 3,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Algorithms and Complexity",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "DD1320",
+      "DD1326",
+      "SF1624",
+      "SF1625",
+      "SF1672",
+      "SF1673"
+    ],
+    "prerequisitesParticipation": [
+      "SF1662",
+      "SF1688"
+    ]
+  },
+  {
+    "code": "SF1904",
+    "name": "Markovprocesser, grundkurs",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 3
+    },
+    "year": 3,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Markov Processes, Basic Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1624",
+      "SF1672"
+    ]
+  },
+  {
+    "code": "SG1113",
+    "name": "Mekanik, fortsättningskurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "mandatory",
+    "nameEn": "Mechanics, Continuation Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SG1112"
+    ]
+  },
+  {
+    "code": "SI1155",
+    "name": "Teoretisk fysik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 3,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "mandatory",
+    "nameEn": "Theoretical Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SH1014"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria kurser, årskurs 3 (MAFY)",
+    "nameEn": "Conditionally elective courses, year 3 (MAFY)",
+    "year": 3,
+    "specializations": [
+      "MAFY"
+    ],
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 9
+    },
+    "options": [
+      "DD1351",
+      "DD2350",
+      "DD2352",
+      "DD2421",
+      "DD2448",
+      "SF1677",
+      "SF1678",
+      "SF1681",
+      "SF1688",
+      "SF1691",
+      "SF1861",
+      "SF1904",
+      "SF2701",
+      "SF2930"
+    ],
+    "allowedNumberOfOptions": 14,
+    "kind": "minCredits",
+    "minCredits": 9,
+    "exams": [],
+    "category": "conditionallyElective",
+    "comment": "9 hp av de villkorligt valfria kurserna i listan nedan ska läsas i årskurs 3.",
+    "commentEn": "At least 9 credits from these conditionally elective courses in year 3."
+  },
+  {
+    "code": "DD2448",
+    "name": "Kryptografins grunder",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Foundations of Cryptography",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1320",
+      "DD1326",
+      "DD2350",
+      "DD2352",
+      "SF1624",
+      "SF1625",
+      "SF1662",
+      "SF1672",
+      "SF1673",
+      "SF1688",
+      "SF1914",
+      "SF1917",
+      "SF1925"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria kurser, årskurs 4 (MAKE)",
+    "nameEn": "Conditionally elective courses, year 4 (MAKE)",
+    "year": 4,
+    "specializations": [
+      "MAKE"
+    ],
+    "totalCredits": 12,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 6,
+      "P3": 0,
+      "P4": 3
+    },
+    "options": [
+      "DD1320",
+      "DD1351",
+      "DD2350",
+      "DD2352",
+      "DD2421",
+      "DD2448",
+      "KD1270",
+      "KD2155",
+      "KD2170",
+      "KD2320",
+      "KD2330",
+      "KD2340",
+      "KD2350",
+      "KD2370",
+      "KE2045",
+      "KE2185",
+      "KE2351",
+      "KF2130",
+      "KF2140",
+      "KF2460",
+      "SF1677",
+      "SF1678",
+      "SF1681",
+      "SF1688",
+      "SF1691",
+      "SF1861",
+      "SF1904",
+      "SF2701",
+      "SF2930"
+    ],
+    "allowedNumberOfOptions": 29,
+    "kind": "minCredits",
+    "minCredits": 12,
+    "exams": [],
+    "category": "conditionallyElective",
+    "comment": "12 hp av de villkorligt valfria kurserna i listan nedan ska läsas i årskurs 4.",
+    "commentEn": "At least 12 credits from these conditionally elective courses in year 4."
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria kurser, årskurs 4 (TEDA)",
+    "nameEn": "Conditionally elective courses, year 4 (TEDA)",
+    "year": 4,
+    "specializations": [
+      "TEDA"
+    ],
+    "totalCredits": 18,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 6,
+      "P3": 0,
+      "P4": 9
+    },
+    "options": [
+      "DD1351",
+      "DD1385",
+      "DD1418",
+      "DD2350",
+      "DD2352",
+      "DD2367",
+      "DD2380",
+      "DD2395",
+      "DD2413",
+      "DD2417",
+      "DD2421",
+      "DD2448",
+      "DH1624",
+      "DH2323",
+      "DH2408",
+      "DH2642",
+      "DT2140",
+      "EN2720",
+      "ID1200",
+      "IK2218",
+      "IS2202",
+      "MG1028",
+      "SF1677",
+      "SF1678",
+      "SF1681",
+      "SF1688",
+      "SF1691",
+      "SF1861",
+      "SF1904",
+      "SF2701",
+      "SF2832",
+      "SF2930",
+      "SF2940"
+    ],
+    "allowedNumberOfOptions": 33,
+    "kind": "minCredits",
+    "minCredits": 18,
+    "exams": [],
+    "category": "conditionallyElective",
+    "comment": "18 hp av de villkorligt valfria kurserna i listan nedan ska läsas i årskurs 4.",
+    "commentEn": "At least 18 credits from these conditionally elective courses in year 4."
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria kurser, årskurs 4 (MAFY)",
+    "nameEn": "Conditionally elective courses, year 4 (MAFY)",
+    "year": 4,
+    "specializations": [
+      "MAFY"
+    ],
+    "totalCredits": 12,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 3,
+      "P3": 0,
+      "P4": 9
+    },
+    "options": [
+      "DD1351",
+      "DD2350",
+      "DD2352",
+      "DD2421",
+      "DD2448",
+      "ED2200",
+      "EF2240",
+      "EQ2341",
+      "SE1020",
+      "SF1677",
+      "SF1678",
+      "SF1681",
+      "SF1688",
+      "SF1691",
+      "SF1861",
+      "SF1904",
+      "SF2701",
+      "SF2832",
+      "SF2930",
+      "SF2940",
+      "SI1162",
+      "SI1336",
+      "SK2303",
+      "SK2411",
+      "SK2534",
+      "SK2712"
+    ],
+    "allowedNumberOfOptions": 26,
+    "kind": "minCredits",
+    "minCredits": 11,
+    "exams": [],
+    "category": "conditionallyElective",
+    "comment": "11 hp av de villkorligt valfria kurserna i listan nedan ska läsas i årskurs 4.",
+    "commentEn": "At least 11 credits from these conditionally elective courses in year 4."
+  },
+  {
+    "code": "EQ2341",
+    "name": "Mönsterigenkänning och maskininlärning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Pattern Recognition and Machine Learning",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "AL2115",
+    "name": "Tvärvetenskapliga metoder för innovativa systemåtgärder",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Transdisciplinary Approaches for System Innovations",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "KD2170",
+    "name": "Nanostrukturerade material",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Nanostructured Materials",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2534",
+    "name": "Molekylär biofysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Molecular Biophysics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "KD2155",
+    "name": "Fasta tillståndets kemi: struktur och metoder",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Solid State Chemistry: Structures and Methods",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2712",
+    "name": "Miljöfysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Environmental physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SI1336",
+    "name": "Simulering och modellering",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Simulation and Modeling",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1544"
+    ]
+  },
+  {
+    "code": "SK2303",
+    "name": "Optisk fysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Optical Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SE1020",
+    "name": "Hållfasthetslära, grundkurs",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Solid Mechanics, Basic Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "EI1228",
+    "name": "Teoretisk elektroteknik, mindre kurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "mandatory",
+    "nameEn": "Electromagnetic Theory, Smaller Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1624",
+      "SF1625",
+      "SF1626",
+      "SF1672",
+      "SF1673",
+      "SF1674",
+      "SI1146",
+      "SK1104"
+    ]
+  },
+  {
+    "code": "KE2351",
+    "name": "Riskanalys och riskhantering för kemiingenjörer",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Risk Analysis and Management for Chemical Engineers",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "KD2330",
+    "name": "Analytiska separationer",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Analytical Separations",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "KD2350",
+    "name": "Ytor, kolloider och mjuka material",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Surfaces, Colloids and Soft Matter",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DT2140",
+    "name": "Multimodala interaktioner och gränssnitt",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Multimodal Interaction and Interfaces",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1319"
+    ]
+  },
+  {
+    "code": "KE2045",
+    "name": "Kemisk reaktionsteknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Chemical Reaction Engineering",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "MG1028",
+    "name": "Grundläggande 3D-CAD",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Introductory 3D CAD",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "KF2130",
+    "name": "Polymerkemi",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Polymer Chemistry",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD1418",
+    "name": "Språkteknologi med introduktion till maskininlärning",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Language Engineering with Introduction to Machine Learning",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "DD1320",
+      "DD1326",
+      "SF1914",
+      "SF1917"
+    ]
+  },
+  {
+    "code": "ML1502",
+    "name": "Hållbarhet i industrin",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Sustainabillity for Industry",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF2940",
+    "name": "Sannolikhetsteori",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Probability Theory",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "KF2460",
+    "name": "Biofibrernas kemi",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Bio Fibre Chemistry",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "MJ2612",
+    "name": "Lärande och hållbar utveckling",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Teaching and Sustainable Development",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "AL1130"
+    ]
+  },
+  {
+    "code": "KE2185",
+    "name": "Separationsprocesser",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Separation Processes",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "EH2070",
+    "name": "Projektstyrning och verksamhetsutveckling",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Project Management and Business Development",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "LT1038",
+      "LT2033"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria kurser, årskurs 4 (TEMI)",
+    "nameEn": "Conditionally elective courses, year 4 (TEMI)",
+    "year": 4,
+    "specializations": [
+      "TEMI"
+    ],
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 0,
+      "P3": 0,
+      "P4": 3
+    },
+    "options": [
+      "AE1801",
+      "AL2115",
+      "AL2156",
+      "AL2181",
+      "AL2608",
+      "DD2448",
+      "ME2722",
+      "MJ2615",
+      "ML1502",
+      "SF1677",
+      "SF1678",
+      "SF1681",
+      "SF1688",
+      "SF1691",
+      "SF1861",
+      "SF1904",
+      "SF2701",
+      "SF2930"
+    ],
+    "allowedNumberOfOptions": 18,
+    "kind": "minCredits",
+    "minCredits": 6,
+    "exams": [],
+    "category": "conditionallyElective",
+    "comment": "6 hp av de villkorligt valfria kurserna i listan nedan ska läsas i årskurs 4.",
+    "commentEn": "At least 6 credits from these conditionally elective courses in year 4."
+  },
+  {
+    "code": "DH2323",
+    "name": "Datorgrafik med interaktion",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 4,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Computer Graphics and Interaction",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1319"
+    ]
+  },
+  {
+    "code": "KF2140",
+    "name": "Polymerfysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Polymer Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SF2832",
+    "name": "Matematisk systemteori",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Mathematical Systems Theory",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SF1544",
+      "SF1633",
+      "SF1683",
+      "SF1914"
+    ]
+  },
+  {
+    "code": "ME2722",
+    "name": "Grön ekonomi",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Green Economics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "MJ2615",
+    "name": "Introduktion till industriell ekologi, större kurs",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Introduction to Industrial Ecology, larger course",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD1320",
+    "name": "Tillämpad datalogi",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 5,
+      "P2": 1,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Applied Computer Science",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1319"
+    ]
+  },
+  {
+    "code": "KD2370",
+    "name": "Foto-, strålnings- och radikalkemi",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Photo, Radiation and Radical Chemistry",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2411",
+    "name": "Laserfysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Laser Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "LT2032",
+    "name": "Undervisning och bedömning i matematik och teknik eller naturvetenskap",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 9,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Teaching and Assessment in Mathematics and Technology or Science",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "LT1036",
+      "LT1038",
+      "LT1080",
+      "LT1081"
+    ]
+  },
+  {
+    "code": "EF2240",
+    "name": "Rymdfysik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Space Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "ID1200",
+    "name": "Operativsystem",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Operating Systems",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "DD1320",
+      "DD1326",
+      "IS1500"
+    ]
+  },
+  {
+    "code": "ED2200",
+    "name": "Energi och fusionsforskning",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 4,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Energy and Fusion Research",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SF1626"
+    ]
+  },
+  {
+    "code": "DD1385",
+    "name": "Programutvecklingsteknik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 2,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Software Engineering",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1320"
+    ]
+  },
+  {
+    "code": "DH2408",
+    "name": "Utvärderingsmetoder inom människa-datorinteraktion",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Evaluation Methods in Human-Computer Interaction",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DH1624",
+    "name": "Människa-datorinteraktion, grundläggande projekt",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 3
+    },
+    "year": 4,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Human-Computer Interaction, Basic project",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DH1623"
+    ]
+  },
+  {
+    "code": "KD1270",
+    "name": "Organisk kemi, grundläggande koncept och praktik 2",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 4,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Organic Chemistry, Basic Concepts and Practice 2",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "KD1230"
+    ]
+  },
+  {
+    "code": "IS2202",
+    "name": "Datorsystemarkitektur",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Computer Systems Architecture",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "IS1500"
+    ]
+  },
+  {
+    "code": "AE1801",
+    "name": "Miljö- och markkemi",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 4,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Environmental Soil Chemistry",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "MJ1508"
+    ]
+  },
+  {
+    "code": "SI1162",
+    "name": "Statistisk fysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Statistical Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1674",
+      "SI1155"
+    ]
+  },
+  {
+    "code": "DD2417",
+    "name": "Språkteknologi",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 4,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Language Engineering",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "DD1320",
+      "DD1326",
+      "SF1914",
+      "SF1917",
+      "SF1925"
+    ]
+  },
+  {
+    "code": "DD2413",
+    "name": "Sociala robotar",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Social Robotics",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "DD1320",
+      "DD1326"
+    ]
+  },
+  {
+    "code": "DD2367",
+    "name": "Kvantberäkning för dataloger",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Quantum Computing for Computer Scientists",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "SF1624",
+      "SF1672"
+    ]
+  },
+  {
+    "code": "LT2033",
+    "name": "Verksamhetsförlagd utbildning III med ämnesdidaktik",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 15,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "School Placement III with Subject Didactics",
+    "gradingScale": "VG/G/U",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1380",
+      "IS1500",
+      "KD1230",
+      "KE1150",
+      "MJ1145",
+      "MJ1508",
+      "SF1514",
+      "SF1544",
+      "SF1546",
+      "SF1624",
+      "SF1625",
+      "SF1626",
+      "SF1633",
+      "SF1661",
+      "SF1662",
+      "SF1672",
+      "SF1673",
+      "SF1674",
+      "SF1683",
+      "SG1102",
+      "SG1112",
+      "SH1014",
+      "SK1104",
+      "SK1105"
+    ]
+  },
+  {
+    "code": "AL2608",
+    "name": "Livscykelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Life Cycle Assessment",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "EN2720",
+    "name": "Etisk hackning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Ethical Hacking",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1319"
+    ]
+  },
+  {
+    "code": "IK2218",
+    "name": "Internets protokoll och principer",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Protocols and Principles of the Internet",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DH2642",
+    "name": "Interaktionsprogrammering och dynamiska webben",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Interaction Programming and the Dynamic Web",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1319"
+    ]
+  },
+  {
+    "code": "KD2340",
+    "name": "Molekylär termodynamik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Molecular Thermodynamics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "AK2209",
+    "name": "Energisystem i samhället",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Energy Systems in Society",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "MJ1145"
+    ]
+  },
+  {
+    "code": "SF2718",
+    "name": "Matematik för kemister",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 4,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE",
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Mathematics for Chemists",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SF1626",
+      "SF1633"
+    ]
+  },
+  {
+    "code": "DD2380",
+    "name": "Artificiell intelligens",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Artificial Intelligence",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "DD1320",
+      "DD1326",
+      "SF1624",
+      "SF1625",
+      "SF1672",
+      "SF1673",
+      "SF1914",
+      "SF1917",
+      "SF1925"
+    ]
+  },
+  {
+    "code": "DD2395",
+    "name": "Datasäkerhet",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Computer Security",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "DD1320",
+      "DD1326"
+    ]
+  },
+  {
+    "code": "AL2181",
+    "name": "Miljösystemanalys och beslutsfattande",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Environmental System Analysis and Decision making",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SF2717",
+    "name": "Matematik, fördjupning",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 4,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Mathematics, Advanced Course",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SF1626",
+      "SF1662"
+    ]
+  },
+  {
+    "code": "AL2156",
+    "name": "Tillämpad ekologi",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 4,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Applied Ecology",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "MJ2615"
+    ]
+  },
+  {
+    "code": "KD2320",
+    "name": "Spektroskopiska verktyg inom kemi",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 9,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 4,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Spectroscopic Tools for Chemistry",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DH2632",
+    "name": "Människa-datorinteraktion, högre seminarier",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 1.5,
+      "P4": 1.5
+    },
+    "year": 5,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Human-Computer Interaction, Research Seminars",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DH1623"
+    ]
+  },
+  {
+    "code": "DD2440",
+    "name": "Avancerade algoritmer",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 5,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Advanced Algorithms",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2350",
+      "DD2352",
+      "SF1662",
+      "SF1688",
+      "SF1914",
+      "SF1917",
+      "SF1925"
+    ]
+  },
+  {
+    "code": "LT200X",
+    "name": "Examensarbete inom teknik och lärande, avancerad nivå",
+    "totalCredits": 30,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 15,
+      "P4": 15
+    },
+    "year": 5,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Degree Project in Technology and Learning, Second Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "LT2035",
+    "name": "Specialpedagogik - ungdomar och vuxna",
+    "totalCredits": 5,
+    "periodCredits": {
+      "P1": 5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 5,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Special Education - Youth and Adults",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2458",
+    "name": "Problemlösning och programmering under press",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 4.5
+    },
+    "year": 5,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Problem Solving and Programming under Pressure",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesParticipation": [
+      "DD2350",
+      "DD2352"
+    ]
+  },
+  {
+    "code": "BB1150",
+    "name": "Biokemi 1",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 5,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "mandatory",
+    "nameEn": "Biochemistry 1",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "AK2055",
+    "name": "Vetenskapsteori och forskningsmetodik för lärare",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 5,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Theory of Science and Research Methodology for Teachers",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "LT2034",
+    "name": "Läroplansteori och ämnesdidaktik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 5,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Curriculum Theory and Subject Didactics",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "LT2033"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria kurser, årskurs 5 (TEMI)",
+    "nameEn": "Conditionally elective courses, year 5 (TEMI)",
+    "year": 5,
+    "specializations": [
+      "TEMI"
+    ],
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 4,
+      "P2": 5,
+      "P3": 0,
+      "P4": 0
+    },
+    "options": [
+      "AE1801",
+      "AE2801",
+      "AL2115",
+      "AL2121",
+      "AL2156",
+      "AL2160",
+      "AL2181",
+      "AL2608",
+      "ME2722",
+      "MJ2615",
+      "ML1502"
+    ],
+    "allowedNumberOfOptions": 11,
+    "kind": "minCredits",
+    "minCredits": 9,
+    "exams": [],
+    "category": "conditionallyElective",
+    "comment": "9 hp av de villkorligt valfria kurserna i listan nedan ska läsas i årskurs 5.",
+    "commentEn": "At least 9 credits from these conditionally elective courses in year 5."
+  },
+  {
+    "code": "SF2719",
+    "name": "Matematikens historia",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 5,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "MAKE",
+      "TEDA",
+      "TEMI"
+    ],
+    "category": "mandatory",
+    "nameEn": "The History of Mathematics",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SF1624",
+      "SF1625",
+      "SF1626"
+    ]
+  },
+  {
+    "code": "DD1386",
+    "name": "Internetprogrammering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 3
+    },
+    "year": 5,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Internet Programming",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1320",
+      "DD1326",
+      "DD1380",
+      "DD1385"
+    ]
+  },
+  {
+    "code": "DM2730",
+    "name": "Teknikförstärkt lärande",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 5,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Technology Enhanced Learning",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "DD1320",
+      "DD1326"
+    ]
+  },
+  {
+    "code": "DD2424",
+    "name": "Djupinlärning i Data Science",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 5,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Deep Learning in Data Science",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "DD2380",
+      "DD2421",
+      "SF1624",
+      "SF1626",
+      "SF1672",
+      "SF1674",
+      "SF1914",
+      "SF1917"
+    ]
+  },
+  {
+    "code": "DD1301",
+    "name": "Datorintroduktion",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 5,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Computer Introduction",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1811",
+    "name": "Optimeringslära",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 5,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY",
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Optimization",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1546",
+      "SF1624",
+      "SF1626",
+      "SF1672",
+      "SF1674"
+    ]
+  },
+  {
+    "code": "CB1180",
+    "name": "Färdigheter för framtidens ingenjörer 1",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 5,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Skills for future engineers 1",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria kurser, årskurs 5 (TEDA)",
+    "nameEn": "Conditionally elective courses, year 5 (TEDA)",
+    "year": 5,
+    "specializations": [
+      "TEDA"
+    ],
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 4,
+      "P2": 5,
+      "P3": 0,
+      "P4": 0
+    },
+    "options": [
+      "DD1301",
+      "DD1351",
+      "DD1385",
+      "DD1386",
+      "DD1396",
+      "DD1418",
+      "DD2350",
+      "DD2352",
+      "DD2356",
+      "DD2367",
+      "DD2380",
+      "DD2395",
+      "DD2413",
+      "DD2417",
+      "DD2421",
+      "DD2424",
+      "DD2434",
+      "DD2440",
+      "DD2448",
+      "DD2458",
+      "DD2525",
+      "DH1624",
+      "DH2323",
+      "DH2408",
+      "DH2413",
+      "DH2632",
+      "DH2642",
+      "DH2643",
+      "DH2650",
+      "DM2730",
+      "DT2140",
+      "EN2720",
+      "ID1200",
+      "IK2218",
+      "IS2202",
+      "MG1028",
+      "SF1677",
+      "SF1678",
+      "SF1811",
+      "SF2527",
+      "SF2701",
+      "SF2832",
+      "SF2930",
+      "SF2940"
+    ],
+    "allowedNumberOfOptions": 44,
+    "kind": "minCredits",
+    "minCredits": 9,
+    "exams": [],
+    "category": "conditionallyElective",
+    "comment": "9 hp av de villkorligt valfria kurserna i listan nedan ska läsas i årskurs 5.",
+    "commentEn": "At least 9 credits from these conditionally elective courses in year 5."
+  },
+  {
+    "code": "CB1170",
+    "name": "Bioteknik för ett hållbart samhälle",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 5,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Biotechnology for a sustainable society",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "AL2121",
+    "name": "Global utveckling och politisk ekologi",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 5,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Global Development and Political Ecology",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DH2650",
+    "name": "Datorspelsdesign",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 5,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Computer Game Design",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "DD1320",
+      "DD1326",
+      "DH1623"
+    ]
+  },
+  {
+    "code": "DH2643",
+    "name": "Avancerad interaktionsprogrammering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 5,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Advanced Interaction Programming",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DH2642"
+    ]
+  },
+  {
+    "code": "AE2801",
+    "name": "Miljökemi och riskbedömning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 5,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Environmental Chemistry and Risk Assessment",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2525",
+    "name": "Språkbaserad datasäkerhet",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 5,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Language-Based Security",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2395"
+    ]
+  },
+  {
+    "code": "CK1310",
+    "name": "Programmering i Python inom kemivetenskap",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 5,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Python Programming for Chemical Sciences",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1625"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria kurser, årskurs 5 (MAFY)",
+    "nameEn": "Conditionally elective courses, year 5 (MAFY)",
+    "year": 5,
+    "specializations": [
+      "MAFY"
+    ],
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 4,
+      "P2": 5,
+      "P3": 0,
+      "P4": 0
+    },
+    "options": [
+      "ED2200",
+      "EF2240",
+      "EQ2341",
+      "SE1020",
+      "SF1677",
+      "SF1678",
+      "SF1811",
+      "SF1904",
+      "SF2701",
+      "SF2832",
+      "SF2930",
+      "SF2940",
+      "SH2603",
+      "SI1162",
+      "SI1336",
+      "SK2303",
+      "SK2411",
+      "SK2534",
+      "SK2712"
+    ],
+    "allowedNumberOfOptions": 19,
+    "kind": "minCredits",
+    "minCredits": 9,
+    "exams": [],
+    "category": "conditionallyElective",
+    "comment": "9 hp av de villkorligt valfria kurserna i listan nedan ska läsas i årskurs 5.",
+    "commentEn": "At least 9 credits from these conditionally elective courses in year 5."
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria kurser, årskurs 5 (MAKE)",
+    "nameEn": "Conditionally elective courses, year 5 (MAKE)",
+    "year": 5,
+    "specializations": [
+      "MAKE"
+    ],
+    "totalCredits": 5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 5,
+      "P3": 0,
+      "P4": 0
+    },
+    "options": [
+      "CB1170",
+      "CB1180",
+      "CK1310",
+      "DD1320",
+      "KD1000",
+      "KD1270",
+      "KD2155",
+      "KD2170",
+      "KD2320",
+      "KD2330",
+      "KD2340",
+      "KD2350",
+      "KD2370",
+      "KE2045",
+      "KE2185",
+      "KE2351",
+      "KF2130",
+      "KF2140",
+      "KF2460",
+      "SF1677",
+      "SF1678",
+      "SF1691"
+    ],
+    "allowedNumberOfOptions": 22,
+    "kind": "minCredits",
+    "minCredits": 3,
+    "exams": [],
+    "category": "conditionallyElective",
+    "comment": "3 hp av de villkorligt valfria kurserna i listan nedan ska läsas i årskurs 5.",
+    "commentEn": "At least 3 credits from these conditionally elective courses in year 5."
+  },
+  {
+    "code": "AL2160",
+    "name": "Miljömanagement",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 5,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Environmental Management",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SH2603",
+    "name": "Strålskydd, dosimetri och detektorer",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 5,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAFY"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Radiation, Protection, Dosimetry and Detectors",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DH2413",
+    "name": "Avancerad grafik och interaktion",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 5,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Advanced Graphics and Interaction",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DH2323"
+    ]
+  },
+  {
+    "code": "DD2356",
+    "name": "Metoder inom högprestandaberäkningar",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 5,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Methods in High Performance Computing",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD1396",
+    "name": "Parallellprogrammering i introduktion till datalogi",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 3
+    },
+    "year": 5,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Parallel and Concurrent Programming in Introduction to Computer Science",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "DD1320",
+      "DD1326"
+    ]
+  },
+  {
+    "code": "KD1000",
+    "name": "Kemiska principer för hållbar utveckling",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 3
+    },
+    "year": 5,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MAKE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Chemical Principles for Sustainability",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF2527",
+    "name": "Numeriska metoder för differentialekvationer I",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 5,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Numerical Methods for Differential Equations I",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SF1544",
+      "SF1633",
+      "SF1683"
+    ]
+  },
+  {
+    "code": "DD2434",
+    "name": "Maskininlärning, avancerad kurs",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 5,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Machine Learning, Advanced Course",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD1319",
+      "DD1320",
+      "DD1326",
+      "DD2421",
+      "EQ2341",
+      "SF1624",
+      "SF1626",
+      "SF1672",
+      "SF1674",
+      "SF1914",
+      "SF1917",
+      "SF1925",
+      "SF2940"
+    ],
+    "prerequisitesParticipation": [
+      "DD2421",
+      "SF2940"
+    ]
+  }
+]

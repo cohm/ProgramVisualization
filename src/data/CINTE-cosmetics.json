@@ -1,0 +1,88 @@
+[
+  {
+    "name": "Matematik",
+    "nameEn": "Mathematics",
+    "colorFamily": "blue",
+    "courses": [
+      "SF1546",
+      "SF1610",
+      "SF1624",
+      "SF1625",
+      "SF1633",
+      "SF1683",
+      "SF1686",
+      "SF1689",
+      "SF1698",
+      "SF1912"
+    ]
+  },
+  {
+    "name": "Programvara och datalogi",
+    "nameEn": "Software and Computer Science",
+    "colorFamily": "green",
+    "courses": [
+      "DD1351",
+      "DD2350",
+      "DD2352",
+      "DH2642",
+      "ID1018",
+      "ID1021",
+      "ID1022",
+      "ID1206",
+      "ID1214",
+      "ID1217",
+      "ID2201",
+      "ID2202",
+      "ID2216",
+      "II1303",
+      "II1305",
+      "II1307",
+      "II1308",
+      "IV1013",
+      "IV1350",
+      "IV1351"
+    ]
+  },
+  {
+    "name": "Datorsystem, elektronik och nätverk",
+    "nameEn": "Computer Systems, Electronics and Networks",
+    "colorFamily": "turquoise",
+    "courses": [
+      "EL1020",
+      "EQ1110",
+      "IE1202",
+      "IE1204",
+      "IE1206",
+      "IK1203",
+      "IK1330",
+      "IL1333",
+      "IS1200",
+      "IS1300",
+      "IS2202",
+      "SH1011"
+    ]
+  },
+  {
+    "name": "Ekonomi, hållbarhet och kommunikation",
+    "nameEn": "Management, Sustainability and Communication",
+    "colorFamily": "brick",
+    "courses": [
+      "AL1523",
+      "LS1600",
+      "LS1601",
+      "LS2442",
+      "LS2444",
+      "ME1003",
+      "ME2016"
+    ]
+  },
+  {
+    "name": "Övrigt",
+    "nameEn": "Other",
+    "colorFamily": "yellow",
+    "courses": [
+      "IA150X",
+      "SK1118"
+    ]
+  }
+]
