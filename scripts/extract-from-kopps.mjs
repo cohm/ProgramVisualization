@@ -300,11 +300,23 @@ async function getJson(url, { allow404 = false } = {}) {
 // committed files. The degradation is reported loudly at the end, because
 // output that silently lost every English title would be worse than no output.
 const koppsFailures = [];
+// After this many failures in a row KOPPS is treated as down for the rest of the
+// run. Each failed call otherwise costs three attempts with backoff, twice per
+// course — minutes over a programme — for an answer that is not coming.
+const KOPPS_GIVE_UP_AFTER = 5;
+let koppsConsecutiveFailures = 0;
 async function getKopps(url) {
+  if (koppsConsecutiveFailures >= KOPPS_GIVE_UP_AFTER) {
+    koppsFailures.push(`skipped (KOPPS down): ${url}`);
+    return null;
+  }
   try {
-    return await getJson(url, { allow404: true });
+    const res = await getJson(url, { allow404: true });
+    koppsConsecutiveFailures = 0;
+    return res;
   } catch (e) {
     koppsFailures.push(e.message);
+    koppsConsecutiveFailures++;
     return null;
   }
 }
@@ -335,9 +347,80 @@ function decodeStateBlob(html, what) {
   return JSON.parse(decoded.slice(brace));
 }
 
-async function fetchStudyPlanState(prog, term, year) {
-  const url = `https://www.kth.se/student/kurser/program/${programmeCode(prog)}/${term}/arskurs${year}`;
+async function fetchStudyPlanState(prog, term, year, { english = false } = {}) {
+  const url = `https://www.kth.se/student/kurser/program/${programmeCode(prog)}/${term}/arskurs${year}` +
+    (english ? '?l=en' : '');
   return decodeStateBlob(await getText(url), `${prog}/${term}/arskurs${year}`);
+}
+
+/**
+ * The inriktning registry, read from the study-plan pages themselves.
+ *
+ * Every `curriculumInfo` carries its own `code` and `specializationName`
+ * ("Master, flyg- och rymdteknik", "Spår, mekatronik"), which is exactly what
+ * the KOPPS registry supplies and all `isMasterSpec` needs. The `?l=en` render of
+ * the same page gives the English names. Only the codes the study plan actually
+ * uses in years 1..`years` are returned — the KOPPS registry lists every years
+ * 4-5 destination, but one that no year-1..3 curriculum names cannot tag a course.
+ *
+ * This is what lets a programme new to the repo be added while KOPPS is down:
+ * before it, CDEPR's fourteen year-3 master destinations were anonymous, so
+ * nothing could tell them from bachelor inriktningar.
+ */
+async function registryFromStudyPlan(prog, cohorts, years) {
+  // All pages at once: the English render takes 20-25 s server-side (see
+  // fetchEnglishTitle), so nine of them in sequence cost four minutes.
+  const jobs = [];
+  for (const cohort of cohorts) {
+    for (let y = 1; y <= years; y++) {
+      for (const english of [false, true]) jobs.push({ cohort, y, english });
+    }
+  }
+  const states = await Promise.all(jobs.map(({ cohort, y, english }) =>
+    fetchStudyPlanState(prog, termFor(cohort), y, { english }).catch(() => null)));
+  const byCode = new Map();
+  jobs.forEach(({ english }, i) => {
+    for (const ci of states[i]?.curriculumInfos || []) {
+      if (!ci?.code || ci.isCommon || !ci.specializationName) continue;
+      const r = byCode.get(ci.code) ?? { code: ci.code, name: null, nameEn: null };
+      if (english) r.nameEn ??= tidy(ci.specializationName);
+      else r.name ??= tidy(ci.specializationName);
+      byCode.set(ci.code, r);
+    }
+  });
+  return [...byCode.values()]
+    .filter((r) => r.name)
+    .map((r) => ({ code: r.code, name: r.name, nameEn: r.nameEn || r.name }));
+}
+
+/**
+ * Does a five-year programme teach years 4-5 itself?
+ *
+ * Almost never: a civilingenjör programme's later years sit inside a master
+ * programme, and its year-4 page lists no obligatoriska courses at all —
+ * measured for CMAST, CDEPR, CTFYS, CINEK, CENMI and CDATE, zero in both läsår
+ * 2025/26 and 2026/27. Civilingenjör och lärare (CLGYM) is the exception: its
+ * year 4 carries 23-24 obligatoriska courses (the LT teacher-education courses,
+ * EH2070, SF2717, …) and its year 5 the 30 hp LT200X thesis. Cutting it at year
+ * 3 would drop two fifths of the programme, including its degree project.
+ *
+ * Year 4 is read from the cohorts currently taking it and about to.
+ */
+async function teachesOwnLaterYears(prog, newest) {
+  for (const c of [newest - 3, newest - 2]) {
+    let state;
+    try { state = await fetchStudyPlanState(prog, termFor(c), 4); } catch { continue; }
+    const mandatory = (state?.curriculumInfos || [])
+      .flatMap((ci) => ci?.participations?.[COND_MANDATORY] || []);
+    if (mandatory.length > 0) return true;
+  }
+  return false;
+}
+
+/** `lengthInStudyYears` as the study plan states it — the KOPPS-free answer. */
+async function lengthFromStudyPlan(prog, cohort) {
+  try { return Number((await fetchStudyPlanState(prog, termFor(cohort), 1))?.lengthInStudyYears) || null; }
+  catch { return null; }
 }
 
 
@@ -367,6 +450,25 @@ async function fetchStudyPlanState(prog, term, year) {
 
 const SWEDISH_NUMBERS = { en: 1, ett: 1, två: 2, tre: 3, fyra: 4, fem: 5, sex: 6 };
 
+// "ML1506 är obligatorisk endast för studenter som kommer från Öppen ingång."
+const transferOnlyCodes = new Set();
+async function scanTransferOnly(prog, newest, years) {
+  for (const c of [newest, newest - 1]) {
+    for (let y = 1; y <= years; y++) {
+      let state;
+      try { state = await fetchStudyPlanState(prog, termFor(c), y); } catch { continue; }
+      for (const ci of state?.curriculumInfos || []) {
+        for (const ft of ci.freeTexts || []) {
+          const m = TRANSFER_ONLY_RE.exec(tidy(ft?.Text || ''));
+          if (m) transferOnlyCodes.add(m[1]);
+        }
+      }
+    }
+  }
+}
+const TRANSFER_ONLY_RE =
+  /^([A-Z]{2}\d{3}[0-9A-Z])\s+är\s+obligatorisk\s+endast\s+för\s+studenter\s+som\s+kommer\s+från\s+Öppen\s+ingång/i;
+
 // "Minst en av de villkorligt valfria kurserna", "ska minst två av följande".
 //
 // The trailing boundary is `(?!\p{L})`, not `\b`. JavaScript's `\b` is
@@ -374,7 +476,18 @@ const SWEDISH_NUMBERS = { en: 1, ett: 1, två: 2, tre: 3, fyra: 4, fem: 5, sex: 
 // and finds none — the word simply fails to match, silently. That dropped every
 // Swedish-numeral count in the data (CMAST's "minst två av följande kurser") and
 // only the digit and `en`/`tre` forms worked.
-const MIN_COUNT_RE = /\bminst\s+(en|ett|två|tre|fyra|fem|sex|\d+)(?!\p{L})/iu;
+//
+// A numeral followed by "hp" is a CREDIT threshold, not a course count, and
+// reading it as one produced pickN 18 from CMAST's "minst 18 hp" (INE's
+// teknikprofil in years 4-5). Hence the lookahead that refuses a digit count
+// followed by a decimal part or by "hp".
+//
+// The numeral may run straight into "av": CDEPR's TEMA and TEMC say "Minst enav"
+// and "Minst tvåav", and missing them marked those destinations' pools as mere
+// recommendations.
+// "minst 15 hp kurser ur MatNat-blocket" — a credit threshold on a VV pool.
+const CREDIT_POOL_RE = /\bminst\s+\d+(?:[,.]\d+)?\s*hp\b/i;
+const MIN_COUNT_RE = /\bminst\s+(en|ett|två|tre|fyra|fem|sex|\d+)(?:(?![\p{L}\d])|(?=av(?!\p{L})))(?![,.]\d)(?!\s*hp\b)/iu;
 // "En villkorligt valfri kurs ska läsas" — exactly one, stated as prose. The
 // plural carries a numeral and is the same statement: CELTE says "Tre
 // villkorligt valfria kurser ska läsas i årskurs 2 eller 3", which the singular
@@ -1066,6 +1179,25 @@ function readCurriculum(state, prog, year) {
     const spec = info.isCommon ? null : (info.code || null);
     if (spec) specNames.set(spec, info.specializationName || spec);
 
+    // A course the plan lists as obligatorisk only for students transferring in
+    // from Öppen ingång (COPEN). CITEH year 2 carries ML1506 "Övergångsmodul
+    // till industriell teknik" with the free text "ML1506 är obligatorisk endast
+    // för studenter som kommer från Öppen ingång." — a complement to COPEN's
+    // SA1007. Counted as part of CITEH's own plan it put year 2 P1 at 18 hp;
+    // without it the year is 15 in P1. It belongs in the COPEN → CITEH
+    // transition plan, not here. Measured over the fifteen programmes' free
+    // texts, this is the only such statement, so the pattern is kept literal.
+    //
+    // Programme-wide, not per page: the same course is listed in CITEH's
+    // 2025/26 year 2 with no free text at all, and only the 2026/27 page says
+    // what it is. `scanTransferOnly` fills the set from the newest pages before
+    // any cohort is extracted.
+    for (const ft of info.freeTexts || []) {
+      const m = TRANSFER_ONLY_RE.exec(tidy(ft?.Text || ''));
+      if (m) transferOnlyCodes.add(m[1]);
+    }
+    const transferOnly = transferOnlyCodes;
+
     const participations = info.participations;
     if (participations == null) continue;
 
@@ -1079,6 +1211,12 @@ function readCurriculum(state, prog, year) {
         const course = part.course || {};
         const code = course.courseCode;
         if (!code) { flag(`${prog} year ${year}: participation with no courseCode — skipped`); continue; }
+        if (transferOnly.has(code)) {
+          flag(`${code}: year ${year} lists it as obligatorisk only for students coming from ` +
+            `Öppen ingång — left out of ${prog}'s own plan; it belongs in the COPEN → ${prog} ` +
+            `transition plan.`);
+          continue;
+        }
         const credits = Number(course.credits) || 0;
         records.push({
           code,
@@ -1120,11 +1258,12 @@ function readCurriculum(state, prog, year) {
 // "Slutförd kurs motsvarande SI1200", the page says "…SI1200 eller SF1693").
 //
 // So the page is primary for everything it carries, and KOPPS is the fallback.
-// The one thing only KOPPS has is the ENGLISH title: the English course page
-// (`kth.se/en/student/kurser/kurs/<CODE>`) returns HTTP 500, exactly like the
-// English study-plan route. English titles therefore inherit KOPPS's staleness,
-// including its typos — KD1000 is "Chemical Principles for Sustainabillty" there
-// and the curated file corrects it by hand.
+// That includes the ENGLISH title. The `/en/student/kurser/kurs/<CODE>` route
+// returns HTTP 500, exactly like the English study-plan route, which for a long
+// time made KOPPS look like the only source of English titles — but the same
+// page with `?l=en` answers 200 and renders in English. It is also the fresher
+// text: KD1000 is "Chemical Principles for Sustainabillty" in KOPPS and
+// "…Sustainability" on the page. See `fetchEnglishTitle`.
 const ELIGIBILITY_MARKER = '%22course_eligibility%22';
 // The page writes this placeholder where a field is simply unset.
 const NO_INFO = /^ingen information tillagd\.?$/i;
@@ -1346,12 +1485,60 @@ async function fetchCoursePage(code) {
   };
 }
 
+/**
+ * The course's English title, from the course page rendered with `?l=en`.
+ *
+ * The render state carries `lang`, and it is checked: were the parameter ever
+ * ignored, the page would quietly come back in Swedish and every "English"
+ * title would be the Swedish one — a failure no later check would notice.
+ */
+//
+// The English render is SLOW: measured 21-22 s per page on 2026-09-26, against
+// 0.5 s for the Swedish one, identically with `Accept-Language: en` — the delay
+// is server-side. Fetched one course at a time that is ~8 minutes per 22-course
+// cohort, so the calls are memoised per course and `prefetchEnglishTitles`
+// issues them concurrently before a cohort is enriched.
+const englishTitleCache = new Map();
+function fetchEnglishTitle(code) {
+  if (!englishTitleCache.has(code)) englishTitleCache.set(code, fetchEnglishTitleUncached(code));
+  return englishTitleCache.get(code);
+}
+const ENGLISH_TITLE_CONCURRENCY = 8;
+async function prefetchEnglishTitles(codes) {
+  const queue = [...new Set(codes)].filter((c) => c && !englishTitleCache.has(c));
+  const worker = async () => {
+    while (queue.length > 0) await fetchEnglishTitle(queue.shift());
+  };
+  await Promise.all(Array.from({ length: ENGLISH_TITLE_CONCURRENCY }, worker));
+}
+async function fetchEnglishTitleUncached(code) {
+  let html;
+  try {
+    html = await getText(`https://www.kth.se/student/kurser/kurs/${courseCode(code)}?l=en`);
+  } catch { return null; }
+  const marker = html.indexOf(ELIGIBILITY_MARKER);
+  if (marker < 0) return null;
+  let start = marker;
+  while (start > 0 && PCT_SAFE.test(html[start - 1])) start--;
+  let end = marker;
+  while (end < html.length && PCT_SAFE.test(html[end])) end++;
+  let state;
+  try {
+    const decoded = decodeURIComponent(html.slice(start, end));
+    state = JSON.parse(decoded.slice(decoded.indexOf('{')));
+  } catch { return null; }
+  if (state?.lang !== 'en') return null;
+  const title = state.courseData?.courseTitleData?.course_title
+    ?? state.courseData?.courseInfo?.course_title;
+  return title ? tidy(decodeHtmlText(title)) : null;
+}
+
 // English titles already committed, keyed by course code.
 //
-// Only KOPPS has `nameEn`, so when KOPPS is unreachable a fresh extraction
-// would emit every course with no English title — silently halving the
-// bilingual UI. The titles we already hold are the best available answer, and
-// they came from the same source, so they are carried over rather than lost.
+// The last resort for `nameEn`, after the English course page and KOPPS: when
+// both fail, a fresh extraction would emit a course with no English title —
+// silently halving the bilingual UI. The titles we already hold are the best
+// available answer, so they are carried over rather than lost.
 // Built once, from every data file, because a course shared between programmes
 // has the same English title in each.
 let priorNamesEn = null;
@@ -1506,8 +1693,10 @@ async function fetchCourseMeta(code) {
     versions: [],
   };
 
+  // English title: the live page first, KOPPS second, committed data last.
+  meta.nameEn = await fetchEnglishTitle(code);
   const basic = await getKopps(`https://api.kth.se/api/kopps/v2/course/${courseCode(code)}`);
-  if (basic?.title?.en) meta.nameEn = tidy(basic.title.en);
+  if (!meta.nameEn && basic?.title?.en) meta.nameEn = tidy(basic.title.en);
   if (!meta.nameEn) {
     const carried = englishTitleFromCommittedData(code);
     if (carried) { meta.nameEn = carried; meta.nameEnCarriedOver = true; }
@@ -1535,7 +1724,7 @@ async function fetchCourseMeta(code) {
   }
 
   // Page wins wherever it has something; KOPPS values already loaded above stay
-  // as the fallback. nameEn is untouched here — only KOPPS has it.
+  // as the fallback. nameEn was settled above, from the English page.
   const page = await fetchCoursePage(code);
   if (page) {
     meta.versions = page.versions;
@@ -2789,11 +2978,23 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
   for (const year of years) {
     const load = PERIOD_IDS.map((pid) => round(totals.get(`${year}|${pid}`) || 0));
     const short = load.map((hp) => round(FULL_TIME_HP - hp));
-    const anyExcess = load.some((hp, i) => hp > 0 && short[i] < -LOAD_TOLERANCE);
-    const anyShort = load.some((hp, i) => hp > 0 && short[i] > LOAD_TOLERANCE);
+    // A year with an explicit pool — split by master destination, or a
+    // credit-minimum VV rule — is resolved BY the pool, so a small excess
+    // elsewhere in it must not block the box. CMETE's DM1578 is 7 hp spread over
+    // years 1-3 at 0.5 hp per period, which put year 3 P1 and P2 at 15.5 and left
+    // the whole pool unbuilt (15.5/15.5/8/8). The threshold is validate-data's
+    // LOAD_EXCESS_NOTEWORTHY: below 3 hp over is not treated as structural.
+    const poolClaim = stated.find((c) => c.year === year && (c.masterDestinations || c.creditPool));
+    const excessLimit = poolClaim ? 3 : LOAD_TOLERANCE;
+    const anyExcess = load.some((hp, i) => hp > 0 && short[i] < -excessLimit + (poolClaim ? LOAD_TOLERANCE : 0));
+    const anyShort = load.some((hp, i) => (hp > 0 || poolClaim) && short[i] > LOAD_TOLERANCE);
     if (!anyShort) continue;
 
-    if (anyExcess || hasSpecialisations) {
+    // A boolean for curated files (the programme as a whole), or the set of
+    // years that carry a real inriktning.
+    const inriktningarHere = hasSpecialisations instanceof Set
+      ? hasSpecialisations.has(year) : Boolean(hasSpecialisations);
+    if (anyExcess || inriktningarHere) {
       // Where the excess comes from villkorligt valfria courses, the arithmetic
       // usually reveals a "minst N hp ur grupp" pool: more VV credits are listed
       // than a student can take, because they choose a subset. CFATE year 3 is
@@ -2875,6 +3076,13 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
       }
       const candidates = [...recordByCode.keys()]
         .filter((code) => {
+          // A box for a year split by master destination offers every course a
+          // destination names, whatever its period. CDEPR's AEE requires SF1916,
+          // which runs in P1 while the common core already fills P1; filtering
+          // by the box's periods dropped it, so an AEE-bound student never saw
+          // the course at all. Picking it draws P1 over full-time, which is
+          // true of that choice.
+          if (claim?.masterDestinations) return true;
           const got = electivePeriods.get(`${year}::${code}`);
           if (!got) return true;                // unknown: keep, and flag below
           // ANY offering teaching in ANY period this slot spans qualifies the
@@ -2917,6 +3125,24 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
           + 'rekommenderas, även andra kan väljas';
         entry.commentEn = 'Examples of courses that give eligibility for a master\'s programme '
           + 'or are recommended; others may also be chosen';
+        if (claim?.creditPool) {
+          entry.name = `Villkorligt valfria och valfria kurser, årskurs ${year}`;
+          entry.nameEn = `Conditionally elective and elective courses, year ${year}`;
+          entry.comment = `${claim.creditPool} Övrigt utrymme är valfritt.`;
+          entry.commentEn = 'The study plan sets minimum credits from each block of conditionally '
+            + 'elective courses across the programme — see the study plan. The remaining space is elective.';
+        }
+        if (claim?.masterDestinations) {
+          // Which of these are required depends on the master programme the
+          // student is heading for, and some require a number of them. Without
+          // saying so, "others may also be chosen" reads as if none were needed.
+          entry.name = `Kurser för valt masterprogram och valfria kurser, årskurs ${year}`;
+          entry.nameEn = `Courses for the chosen master's programme and electives, year ${year}`;
+          entry.comment = 'Vilka kurser som krävs beror på valt masterprogram — se markeringen '
+            + 'behörighetsgivande vid varje kurs och utbildningsplanen. Övrigt utrymme är valfritt.';
+          entry.commentEn = 'Which courses are required depends on the chosen master\'s programme — '
+            + 'see the eligibility note on each course and the study plan. The remaining space is elective.';
+        }
         entry.allowedNumberOfOptions = candidates.length;
         delete entry.code;
         delete entry.prerequisites;
@@ -3040,7 +3266,13 @@ const electiveGroupNameEn = (periods, year) => {
  * that spans periods asserts the student may move credits between them.
  */
 function electiveSlots(claim, load, short) {
-  const isShort = (i) => load[i] > 0 && short[i] > LOAD_TOLERANCE;
+  // A period with nothing scheduled normally means the year does not use it, so
+  // it is not filled. A year split by master destination is the exception: all
+  // of CENMI's year-3 P1 is destination-specific, so its common core leaves P1
+  // at 0 hp and the year drew 0/15/15/15. A credit-pool year is the same:
+  // CINTE's year-2 P2 is chosen entirely from the villkorligt valfri pool.
+  const wholeYear = Boolean(claim?.masterDestinations || claim?.creditPool);
+  const isShort = (i) => (load[i] > 0 || wholeYear) && short[i] > LOAD_TOLERANCE;
   const perPeriod = () => PERIOD_IDS
     .map((pid, i) => ({ periods: [pid], hp: short[i], expected: claim?.kind === 'per-period' ? claim.hp : null }))
     .filter((_, i) => isShort(i));
@@ -3314,6 +3546,135 @@ async function newestPublishedCohort(prog, from) {
   return null;
 }
 
+// ---------------------------------------------------------------------------
+// Per-inriktning credit pools
+// ---------------------------------------------------------------------------
+//
+// Civilingenjör och lärare (CLGYM) states its villkorligt valfri rule per
+// inriktning and per year, in the COMMON `supplementaryInformation`:
+//
+//     MAFY:
+//     9 hp av de villkorligt valfria kurserna i listan nedan ska läsas i årskurs 3.
+//     TEDA:
+//     18 hp av de villkorligt valfria kurserna i listan nedan ska läsas i årskurs 4.
+//
+// and each inriktning's obligatoriska courses plus that figure make exactly
+// the year: TEDA year 4 is 42 + 18 hp, MAKE 48 + 12, TEMI 54 + 6. So the VV list
+// is a pool, one per (year, inriktning), not a set of pick-one groups — built
+// the old way, keyed by period layout, CLGYM came out with some twenty groups
+// and years 4-5 far over full-time.
+//
+// The year-4 page also states each inriktning's TOTAL across years 4-5 ("20 hp
+// av de av de villkorligt valfria kurserna … ska läsas"); only the per-year
+// lines are used, since the total is their sum.
+const INRIKTNING_HEADING_RE = /^([A-ZÅÄÖ]{3,5}):?$/;
+const INRIKTNING_POOL_RE =
+  /^(\d+(?:[,.]\d+)?)\s*hp\s+av\s+de\s+villkorligt\s+valfria\s+kurserna\b.*?\bska\s+läsas\s+i\s+årskurs\s+(\d)/i;
+
+function parseInriktningPools(noteLinesByYear, specNames) {
+  const pools = new Map();
+  for (const notes of noteLinesByYear.values()) {
+    for (const note of notes) {
+      let spec = null;
+      for (const raw of String(note).split('\n')) {
+        const line = tidy(raw);
+        const h = INRIKTNING_HEADING_RE.exec(line);
+        if (h && specNames.has(h[1])) { spec = h[1]; continue; }
+        const m = INRIKTNING_POOL_RE.exec(line);
+        if (m && spec) {
+          const year = Number(m[2]);
+          pools.set(`${year}::${spec}`, { year, spec, hp: Number(m[1].replace(',', '.')), sentence: line });
+        }
+      }
+    }
+  }
+  return pools;
+}
+
+/**
+ * One `minCredits` box per (year, inriktning) pool, tagged with that
+ * inriktning. The bar is the inriktning's own shortfall in each period, which
+ * is the space the pool fills; `minCredits` is the figure the plan states.
+ */
+function buildInriktningPoolGroups(pools, pooledRecords, entries) {
+  const out = [];
+  const members = new Set(entries.filter((e) => e.type === 'optionGroup').flatMap((g) => g.options || []));
+  const pooledCodes = new Set(pooledRecords.map((r) => r.code));
+  for (const { year, spec, hp, sentence } of pools.values()) {
+    // A course the programme makes obligatorisk somewhere cannot also be an
+    // option: the renderer draws an option only once it is picked, so listing
+    // it would hide the mandatory course from the students who must take it.
+    // CLGYM's DD1326 is obligatorisk for TEDA in year 2 and villkorligt valfri
+    // for MAKE in year 4; as an option it vanished from TEDA's year 2.
+    const mandatoryCodes = new Set(entries
+      .filter((e) => e.type !== 'optionGroup' && e.category === 'mandatory').map((e) => e.code));
+    const listed = [...new Set(pooledRecords
+      .filter((r) => r.year === year && r.spec === spec).map((r) => r.code))].sort();
+    const options = listed.filter((c) => !mandatoryCodes.has(c));
+    const withheld = listed.filter((c) => mandatoryCodes.has(c));
+    if (withheld.length > 0) {
+      flag(`year ${year} ${spec}: ${withheld.join(', ')} left out of the villkorligt valfri pool — ` +
+        `obligatorisk elsewhere in the programme, and an option is not drawn until picked. ` +
+        `A ${spec} student may still choose ${withheld.length === 1 ? 'it' : 'them'}; verify.`);
+    }
+    if (options.length === 0) continue;
+    // This inriktning's scheduled load in the year: common entries and its own.
+    const load = Object.fromEntries(PERIOD_IDS.map((q) => [q, 0]));
+    for (const e of entries) {
+      // Options are not load until picked — but a course obligatorisk for this
+      // inriktning is, even when another inriktning's pool lists it. SF2718 is
+      // obligatorisk for MAKE and TEMI and villkorligt valfri for TEDA;
+      // skipping every pooled code drew MAKE's year-4 box 6 hp too tall.
+      if (e.type !== 'optionGroup' && e.category !== 'mandatory'
+        && (members.has(e.code) || pooledCodes.has(e.code))) continue;
+      if (e.specializations?.length && !e.specializations.includes(spec)) continue;
+      let pc;
+      if (e.yearBySpecialization?.[spec] != null || e.periodCreditsBySpecialization?.[spec]) {
+        const y = e.yearBySpecialization?.[spec] ?? e.year;
+        pc = y === year ? (e.periodCreditsBySpecialization?.[spec] ?? e.periodCredits) : null;
+      } else {
+        pc = alignYearMaps(e)[year];
+      }
+      for (const q of PERIOD_IDS) load[q] += Number(pc?.[q] || 0);
+    }
+    let periodCredits = Object.fromEntries(PERIOD_IDS.map((q) =>
+      [q, round(Math.max(0, FULL_TIME_HP - load[q]))]));
+    if (PERIOD_IDS.every((q) => periodCredits[q] < LOAD_TOLERANCE)) {
+      // No room left on paper: fall back to the options' envelope rather than
+      // drawing a zero-height box.
+      periodCredits = Object.fromEntries(PERIOD_IDS.map((q) => [q, round(Math.max(...options.map((c) => {
+        const e = entries.find((x) => x.code === c);
+        return Number(alignYearMaps(e || {})[year]?.[q] || e?.periodCredits?.[q] || 0);
+      })))]));
+    }
+    const totalCredits = round(PERIOD_IDS.reduce((a, q) => a + periodCredits[q], 0));
+    out.push({
+      type: 'optionGroup',
+      // The inriktning is in the name because the validator requires group
+      // names to be unique within a file, and there is one box per inriktning.
+      name: `Villkorligt valfria kurser, årskurs ${year} (${spec})`,
+      nameEn: `Conditionally elective courses, year ${year} (${spec})`,
+      year,
+      specializations: [spec],
+      totalCredits,
+      periodCredits,
+      options,
+      allowedNumberOfOptions: options.length,
+      kind: 'minCredits',
+      minCredits: hp,
+      exams: [],
+      category: 'conditionallyElective',
+      comment: sentence,
+      commentEn: `At least ${hp} credits from these conditionally elective courses in year ${year}.`,
+    });
+    flag(`year ${year} ${spec}: villkorligt valfria courses form a ${hp} hp pool, as the plan ` +
+      `states ("${sentence}") — one minCredits box of ${options.length} options, drawn over the ` +
+      `inriktning's shortfall (${PERIOD_IDS.map((q) => periodCredits[q]).join('/')} hp).` +
+      (Math.abs(totalCredits - hp) > 0.05 ? ` NOTE: the shortfall totals ${totalCredits} hp, not ${hp}.` : ''));
+  }
+  return out;
+}
+
 async function extractCohort(prog, cohort, args, registryEntries) {
   // The programme's own entry, needed to tell a civilingenjör programme (whose
   // "Master, X" specialisations are years 4-5 destinations) from a master's
@@ -3338,6 +3699,9 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   const planVvInfo = [];
   // Master-programme eligibility parsed from each year's prose, per year.
   const planEligibility = new Map();
+  // Each year's `supplementaryInformation`, line by line, for the per-inriktning
+  // credit pools (see parseInriktningPools).
+  const noteLinesByYear = new Map();
 
   for (let year = 1; year <= args.years; year++) {
     process.stdout.write(`• year ${year} … `);
@@ -3357,6 +3721,7 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     allRecords.push(...src.records);
     planNotes.push(...(src.notes || []));
     for (const v of src.vvInfo || []) planVvInfo.push({ ...v, year });
+    noteLinesByYear.set(year, src.noteLines || []);
     // CTFYS and CTMAT state master eligibility in `supplementaryInformation`
     // rather than the VV field, so both are read; see parseMasterEligibility.
     for (const note of src.noteLines || []) {
@@ -3406,8 +3771,125 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     return null;
   }
 
+  // --- years split by master destination --------------------------------
+  //
+  // In the ITM programmes' year 3 — CMAST, CMATD, CDEPR, CENMI, CITEH — every
+  // curriculumInfo but the common one is named after a years 4-5 destination
+  // ("Master, industriell ekonomi", "Spår, mekatronik"). Measured on läsår
+  // 2024/25, the shape is the same in all five:
+  //
+  //   - a COMMON core of obligatoriska courses, the thesis among them or as a
+  //     villkorligt valfri choice of degree projects;
+  //   - per destination, a few obligatoriska courses of its own (CITEH's PRM:
+  //     MF1017, MG1002, MG1016; its ITH: none) and/or a VV pool with a stated
+  //     minimum ("minst två av följande kurser");
+  //   - the rest of the year free, often with a common rekommenderad list.
+  //
+  // A student takes ONE destination's courses, so emitting them all stacks
+  // alternatives on top of each other: CITEH year 3 came out 23/13/21/21 hp and
+  // CMAST's per-destination VV pools produced eight overlapping boxes. The
+  // earlier "Kurs för valt masterprogram" pick-N group was a patch over the same
+  // problem and came out degenerate (CMAST: pick 2 of 2).
+  //
+  // So the year is modelled the way CFATE's year 3 is, which its programme
+  // director confirmed: the common core stays; everything destination-specific
+  // becomes elective, and the year's remaining space is ONE box whose options
+  // are those courses, each carrying `qualifiesFor` — required (obligatorisk or
+  // villkorligt valfri for that destination) or recommended. The per-destination
+  // counts are reported for review rather than encoded; the schema has no way to
+  // say "INE: two of these, MRS: one".
+  const masterSpecCodes = new Map(
+    registryEntries.filter((r) => isMasterSpec(r, programMeta)).map((r) => [r.code, r.name]));
+  const masterYears = new Set();
+  for (const year of new Set(allRecords.map((r) => r.year))) {
+    const specs = new Set(allRecords.filter((r) => r.year === year && r.spec).map((r) => r.spec));
+    if (specs.size >= 2 && [...specs].every((c) => masterSpecCodes.has(c))) masterYears.add(year);
+  }
+  const isDegreeProjectCode = (code) => /X$/.test(code);
+  // The records are shared with resolveYear's cache — a borrowed year is the
+  // same objects in every cohort that borrows it — so they are copied before
+  // being rewritten. Mutating them in place made the second cohort to borrow
+  // CITEH's year 3 see it already stripped: "split by 0 master destinations".
+  if (masterYears.size > 0) {
+    for (let i = 0; i < allRecords.length; i++) {
+      if (masterYears.has(allRecords[i].year)) allRecords[i] = { ...allRecords[i] };
+    }
+  }
+  const masterYearClaims = [];
+  const masterYearEligibility = [];
+  for (const year of masterYears) {
+    const commonMandatory = new Set(allRecords
+      .filter((r) => r.year === year && !r.spec && r.condition === COND_MANDATORY).map((r) => r.code));
+    const perDest = new Map();
+    const moved = new Set();
+    const destinationsWithCount = new Set(planVvInfo
+      .filter((v) => v.year === year && v.spec)
+      .filter((v) => { const rule = parseConditionallyElectiveInfo(v.text);
+        return rule.minCount != null || rule.exactCount != null; })
+      .map((v) => v.spec));
+    for (const r of allRecords) {
+      if (r.year !== year) continue;
+      if (r.spec && commonMandatory.has(r.code)) {
+        // The common core repeated under a destination: everyone takes it once.
+        r.dropAsDuplicate = true;
+        continue;
+      }
+      if (isDegreeProjectCode(r.code)) continue; // the thesis choice stays a group
+      const wasCondition = r.condition;
+      if (r.spec) {
+        if (wasCondition === COND_MANDATORY || wasCondition === COND_CONDITIONAL
+          || wasCondition === COND_RECOMMENDED || wasCondition === COND_ELECTIVE) {
+          // Obligatorisk for the destination is a requirement. A VV pool is one
+          // only where the destination states how many to take; without a
+          // count KTH's VV marking just means "named under this master" — the
+          // lesson of CFATE year 3 — and calling each of CITEH ITH's 22 listed
+          // courses "behörighetsgivande" would overstate it.
+          const required = wasCondition === COND_MANDATORY
+            || (wasCondition === COND_CONDITIONAL && destinationsWithCount.has(r.spec));
+          masterYearEligibility.push({ year, code: r.code, master: {
+            code: r.spec, name: masterSpecCodes.get(r.spec), required } });
+          if (!perDest.has(r.spec)) perDest.set(r.spec, { O: [], VV: [] });
+          if (wasCondition === COND_MANDATORY) perDest.get(r.spec).O.push(r.code);
+          if (wasCondition === COND_CONDITIONAL) perDest.get(r.spec).VV.push(r.code);
+        }
+        if (wasCondition === COND_MANDATORY || wasCondition === COND_CONDITIONAL) {
+          r.condition = COND_ELECTIVE;
+          moved.add(r.code);
+        }
+        // The destination is now eligibility information, not a filter.
+        r.masterSpec = r.spec;
+        delete r.spec;
+      } else if (wasCondition === COND_CONDITIONAL) {
+        // A common VV list that is not a degree project is part of the same pool.
+        r.condition = COND_ELECTIVE;
+        moved.add(r.code);
+      }
+    }
+    for (let i = allRecords.length - 1; i >= 0; i--) {
+      if (allRecords[i].dropAsDuplicate) allRecords.splice(i, 1);
+    }
+    masterYearClaims.push({ kind: 'season', year, periods: [...PERIOD_IDS], hp: null,
+      masterDestinations: true, quote: 'kurser för valt masterprogram och valfria kurser' });
+    const rules = planVvInfo.filter((v) => v.year === year && v.text)
+      .map((v) => `${v.spec ?? 'COMMON'}: ${v.text}`);
+    flag(`year ${year}: split by ${perDest.size} master ` +
+      `destinations, modelled as a common core plus one elective box — ${moved.size} ` +
+      `destination-specific course(s) moved into it (${[...moved].sort().join(', ')}). ` +
+      `Per destination (obligatorisk / villkorligt valfri): ` +
+      [...perDest.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([c, d]) =>
+        `${c}: ${d.O.length ? d.O.join('+') : '–'} / ${d.VV.length ? `${d.VV.length} VV` : '–'}`)
+        .join('; ') +
+      (rules.length ? `. Stated VV rules: ${[...new Set(rules.map((t) => tidy(t).slice(0, 160)))].join(' | ')}` : '') +
+      '. Verify with the programme.');
+  }
+
   // Inriktningar actually referenced by the extracted years.
   const usedSpecs = [...new Set(allRecords.map((r) => r.spec).filter(Boolean))].sort();
+  // Years in which a REAL inriktning (not a master destination) is present. The
+  // elective filler must stay out of those, since one box cannot serve several
+  // inriktningar with different loads; elsewhere it may run.
+  const yearsWithInriktningar = new Set(allRecords
+    .filter((r) => r.spec && !masterSpecCodes.has(r.spec)).map((r) => r.year));
 
   // --- group and build ---------------------------------------------------
   const vv = allRecords.filter((r) => r.condition === COND_CONDITIONAL);
@@ -3548,7 +4030,34 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     const fix = electiveCorrectionFor(prog, r.year);
     if (fix?.conditionallyElectiveIsFreeElective) reclassifiedYears.add(r.year);
   }
-  const droppedElectiveYears = reclassifiedYears;
+  // A year whose villkorligt valfria rule is a CREDIT minimum rather than a
+  // course count is a pool, and the same machinery applies.
+  //
+  // CINTE is the case: "För examen skall minst 15 hp kurser ur MatNat-blocket och
+  // minst 13,5 hp kurser ur IT-blocket ingå", over years 1-3, with most blocks'
+  // courses "läses i åk 2 eller åk 3". Built as pick-one groups keyed by period
+  // layout, with the courses listed in both years emitted as loose year-2
+  // courses, CINTE's year 2 came out at 25.5/20/23.5/21.5 hp. The student in
+  // fact fills the year's space (36 hp in year 2, 16.5 in year 3) from the
+  // pool, so each year gets one box of that size, carrying the plan's own
+  // threshold sentence — the block minimums span three years and cannot be a
+  // property of one year's box.
+  //
+  // Only where the text states no course count and names no per-master
+  // requirement, and never in a year with inriktningar or master destinations:
+  // those have their own handling.
+  const creditPoolYears = new Map();
+  for (const year of new Set(vv.map((r) => r.year))) {
+    if (reclassifiedYears.has(year) || masterYears.has(year) || yearsWithInriktningar.has(year)) continue;
+    const texts = planVvInfo.filter((v) => v.year === year && !v.spec).map((v) => v.text || '');
+    const sentence = texts.map((t) => tidy(t).split(/(?<=\.)\s+/).find((x) => CREDIT_POOL_RE.test(x)))
+      .find(Boolean);
+    if (!sentence) continue;
+    const rules = texts.map(parseConditionallyElectiveInfo);
+    if (rules.some((r) => r.minCount != null || r.exactCount != null || r.requiredFor.size > 0)) continue;
+    creditPoolYears.set(year, sentence);
+  }
+  const droppedElectiveYears = new Set([...reclassifiedYears, ...creditPoolYears.keys()]);
   // A degree project is villkorligt valfri in KOPPS too — you pick one of six
   // Kandidatexamensarbete courses — but it is a required 15 hp choice, not free
   // elective space, and dropping it took the whole thesis block out of the year.
@@ -3556,7 +4065,7 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   const isDegreeProject = (code) => /X$/.test(code);
   const vvKept = vv.filter((r) => !droppedElectiveYears.has(r.year) || isDegreeProject(r.code));
   // The reclassified records become elective candidates, so the box lists them.
-  const reclassified = vv.filter((r) => reclassifiedYears.has(r.year) && !isDegreeProject(r.code))
+  const reclassified = vv.filter((r) => droppedElectiveYears.has(r.year) && !isDegreeProject(r.code))
     .map((r) => ({ ...r, condition: COND_ELECTIVE }));
   const elective = [...electiveBase, ...reclassified];
   // The eligibility CFATE states lives in the VV prose, not in
@@ -3583,6 +4092,14 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     extraElectiveClaims.push({ kind: 'season', year, periods: [...PERIOD_IDS], hp: null,
       quote: 'programansvarigs bekräftelse: valfria kurser under årskursen' });
   }
+  for (const [year, sentence] of creditPoolYears) {
+    extraElectiveClaims.push({ kind: 'season', year, periods: [...PERIOD_IDS], hp: null,
+      creditPool: sentence, quote: sentence });
+    const moved = [...new Set(reclassified.filter((r) => r.year === year).map((r) => r.code))].sort();
+    flag(`year ${year}: the villkorligt valfria rule is a credit minimum, not a course count ` +
+      `("${sentence}") — the ${moved.length} courses form one pool that fills the year's space: ` +
+      `${moved.join(', ')}. The minimum is stated in the box's note; it cannot be enforced per year.`);
+  }
   for (const year of reclassifiedYears) {
     const moved = [...new Set(reclassified.filter((r) => r.year === year).map((r) => r.code))].sort();
     const fix = electiveCorrectionFor(prog, year);
@@ -3592,7 +4109,19 @@ async function extractCohort(prog, cohort, args, registryEntries) {
       `programmes each qualifies for are kept on the box.`);
   }
 
-  const groups = buildOptionGroups(vvKept, planVvInfo);
+  extraElectiveClaims.push(...masterYearClaims);
+  for (const { year, code, master } of masterYearEligibility) {
+    const key = `${year}::${code}`;
+    const existing = planEligibility.get(key) ?? [];
+    const dup = existing.find((x) => x.code === master.code);
+    if (dup) dup.required = dup.required || master.required;
+    else existing.push(master);
+    planEligibility.set(key, existing);
+  }
+
+  const inriktningPools = parseInriktningPools(noteLinesByYear, specNames);
+  const isPooled = (r) => Boolean(r.spec) && inriktningPools.has(`${r.year}::${r.spec}`);
+  const groups = buildOptionGroups(vvKept.filter((r) => !isPooled(r)), planVvInfo);
   const vvByCode = new Map();
   for (const r of vvKept) {
     if (byCode.has(r.code)) continue; // already emitted as a core course
@@ -3602,6 +4131,9 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   for (const [code, recs] of vvByCode) entries.push(...buildEntriesForCode(code, recs));
 
   // --- enrich -------------------------------------------------------------
+  // English titles for every course this cohort can show, electives included,
+  // fetched concurrently — see fetchEnglishTitle for why.
+  await prefetchEnglishTitles([...entries.map((e) => e.code), ...elective.map((r) => r.code)]);
   process.stdout.write(`\nEnriching ${entries.length} course(s) from KOPPS … `);
   for (const e of entries) {
     let meta;
@@ -3711,6 +4243,7 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   // Option groups count toward the load (the student takes one option), so the
   // combined list is what gets measured and extended.
   const allEntries = [...entries, ...groups];
+  allEntries.push(...buildInriktningPoolGroups(inriktningPools, vvKept.filter(isPooled), allEntries));
   // Resolve each listed elective's actual periods, so a placeholder box can offer
   // only the courses that really run in its period. The study plan gives no
   // period for these; the course page's `round_periods` does.
@@ -3737,7 +4270,7 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   }
 
   const electiveSpace = fillElectiveSpace(
-    allEntries, planNotes, usedSpecs.length > 0, elective, planEligibility,
+    allEntries, planNotes, yearsWithInriktningar, elective, planEligibility,
     electivePeriodsByCode, electiveNamesByCode, extraElectiveClaims);
   for (const r of electiveSpace.reports) {
     if (r.kind === 'elective-space-filled') {
@@ -4307,15 +4840,19 @@ async function main() {
   // is fully described by its own two years.
   const CIVING_BACHELOR_YEARS = 3;
   const programme = await getKopps(`https://api.kth.se/api/kopps/v2/programme/${programmeCode(prog)}`);
-  if (args.years == null) {
-    const len = Number(programme?.lengthInStudyYears) || CIVING_BACHELOR_YEARS;
-    args.years = len >= 5 ? CIVING_BACHELOR_YEARS : len;
-  }
-
-  // --- inriktning registry ------------------------------------------------
   const thisYear = new Date().getFullYear();
   const newest = await newestPublishedCohort(prog, thisYear);
   if (!newest) throw new Error(`no published study plan found for ${prog}`);
+  if (args.years == null) {
+    const len = Number(programme?.lengthInStudyYears)
+      || await lengthFromStudyPlan(prog, newest) || CIVING_BACHELOR_YEARS;
+    args.years = len >= 5 && !(await teachesOwnLaterYears(prog, newest))
+      ? CIVING_BACHELOR_YEARS : len;
+  }
+
+  await scanTransferOnly(prog, newest, args.years);
+
+  // --- inriktning registry ------------------------------------------------
 
   const specRegistry = await getKopps(
     `https://api.kth.se/api/kopps/v2/programme/${programmeCode(prog)}/${termFor(newest)}`);
@@ -4329,6 +4866,16 @@ async function main() {
   // one already in programs.json is the same data from the same source, so it
   // is reused rather than emitting courses tagged with codes nothing registers
   // — which the validator would (correctly) reject.
+  // KOPPS answered nothing: read the registry off the study-plan pages, which
+  // name every curriculum they contain. The three newest cohorts, since each
+  // publishes only the years it is taking or about to take.
+  if (registryEntries.length === 0) {
+    registryEntries.push(...await registryFromStudyPlan(prog, [newest, newest - 1, newest - 2], args.years));
+    if (registryEntries.length > 0) {
+      console.log(`  inriktning registry: KOPPS gave none — read ${registryEntries.length} ` +
+        `entries from the study-plan pages`);
+    }
+  }
   if (registryEntries.length === 0 && koppsIsDown()) {
     const raw = readTextOrNull(join(dataDir, 'programs.json'));
     let known = null;
@@ -4402,7 +4949,7 @@ async function main() {
   writeCohortIndex();
 
   if (warningCount > 0) console.log(`\n${warningCount} warning(s).`);
-  reportKoppsDegradation();
+  reportKoppsDegradation(args.prog);
   console.log(`\nValidate with:\n  node scripts/validate-data.mjs --cohorts`);
 }
 
@@ -4414,20 +4961,19 @@ async function main() {
  * quietly reverting to whatever was already committed. Anyone reading the diff
  * deserves to know which parts of it are degraded.
  */
-function reportKoppsDegradation() {
+function reportKoppsDegradation(prog) {
   if (!koppsIsDown()) return;
-  const carried = priorNamesEn ? priorNamesEn.size : 0;
+  const noEnglish = [...courseCache.entries()].filter(([, m]) => !m.nameEn).map(([c]) => c);
   console.log(
     `\nKOPPS was unreachable during this run (${koppsFailures.length} failed request(s), ` +
     `first: ${koppsFailures[0]}).\n` +
     `  KOPPS is retired and every other field comes from the live pages, so the run continued.\n` +
-    `  Affected: English course titles (nameEn) — the only field KOPPS alone provides. Titles\n` +
-    `  already present in the committed data were carried over` +
-    (carried ? ` (${carried} available)` : '') + `; a course new to this repo\n` +
-    `  will have no English title until KOPPS answers again.\n` +
-    `  Also degraded: the programme's lengthInStudyYears (defaulted) and the inriktning\n` +
-    `  registry used by --specializations (empty).\n` +
-    `  Re-run when https://api.kth.se/api/kopps/v2/programme/CTFYS returns 200.`);
+    `  English titles come from the course pages first, so they are unaffected` +
+    (noEnglish.length ? ` except for ${noEnglish.length} course(s) with no English page: ${noEnglish.join(', ')}` : '') +
+    `.\n` +
+    `  Degraded: the programme's lengthInStudyYears (defaulted) and the inriktning\n` +
+    `  registry used by --specializations (reused from programs.json).\n` +
+    `  Re-run when https://api.kth.se/api/kopps/v2/programme/${programmeCode(prog)} returns 200.`);
 }
 
 /**

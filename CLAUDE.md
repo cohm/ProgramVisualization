@@ -401,26 +401,99 @@ options — `pickN` × one option's size, a range when they differ — so CMATD 
 box reads "15+". The stored `totalCredits` is unchanged; only the display was
 wrong.
 
-**Courses listed under a master destination are alternatives, not a stack.**
-CMATD's year-3 `curriculumInfos` are named after master programmes ("Master,
-nanoteknik", "Spår, Hållfasthetsteknik"), so `isMasterSpec` correctly strips
-`specializations` and moves the fact to `qualifiesFor` — they are years 4-5
-destinations, not bachelor inriktningar. But with the tags gone nothing recorded
-that a student takes only ONE of the extra courses each destination adds, so all
-of them were emitted `mandatory` and summed: year 3 P3 came out at **25.5 hp**
-against a full-time 15.
+**A year split by master destination is a common core plus ONE elective box.**
+In the ITM programmes' year 3 (CMAST, CMATD, CDEPR, CENMI, CITEH) every
+`curriculumInfo` but the common one is named after a years 4-5 destination
+("Master, industriell ekonomi", "Spår, mekatronik"). `isMasterSpec` recognises
+them, so they are eligibility information rather than inriktningar. Measured on
+läsår 2024/25, the shape is the same in all five:
 
-They are now grouped as a pick-one "Kurs för valt masterprogram", which takes P3
-to **13.5**. The group keeps each option's `qualifiesFor`, so the box answers what
-a year-3 student is actually asking of it — which course leads to the master they
-want. Scoped to `mandatory` courses whose ONLY tags were master destinations; a
-course in the COMMON set is untouched, since everyone takes it, **and so is one
-already offered by another group**. CMAST is why that last guard exists: six of
-its eight destination-tagged courses are already options in "Villkorligt valfri
-grupp 3" and "4", and grouping them again made the year's load count BOTH
-envelopes — year 3 went from 6 hp of excess to 10.5. With the guard it lands at
-15/15/13.5/7.5, better than the 21/15/13.5/7.5 it had before any grouping,
-because the two genuinely ungrouped P1 courses do get grouped.
+- a COMMON core of obligatoriska courses, the thesis among them or offered as a
+  villkorligt valfri choice of degree projects;
+- per destination, a few obligatoriska courses of its own (CITEH's PRM: MF1017,
+  MG1002, MG1016; its ITH: none) and/or a VV pool, sometimes with a stated
+  minimum ("minst två av följande kurser");
+- the rest of the year free, often with a common rekommenderad list.
+
+A student follows ONE destination, so emitting every destination's courses
+stacks alternatives: CITEH year 3 came out at 23/13/21/21 hp, and CMAST's
+per-destination VV pools produced eight overlapping boxes. The earlier fix, a
+pick-N "Kurs för valt masterprogram" group, was a patch over the same problem,
+and it came out degenerate for CMAST (pick 2 of 2, i.e. "take all of them").
+
+Such a year is now modelled the way CFATE's year 3 is, which its programme
+director confirmed. The common core stays mandatory. Everything
+destination-specific is reclassified as elective, and the year's remaining space
+becomes one `minCredits` box spanning the year ("Kurser för valt masterprogram
+och valfria kurser"). Each option carries `qualifiesFor`, with
+`required: true` for a destination's obligatoriska courses and for a VV pool
+whose destination states a count; otherwise it is `required: false`
+(rekommenderad). A VV pool with no count is not a requirement: KOPPS marks VV
+whenever a plan names a course under a master, which is the CFATE lesson, and
+calling each of CITEH ITH's 22 listed courses "behörighetsgivande" would
+overstate it. The per-destination counts ("INE: two of these, MRS: one") cannot
+be expressed in the schema, so they are written to the review file for the
+programme to confirm.
+
+A year counts as master-split when it carries at least two spec codes and every
+one of them is a master destination. CINEK's year 3 has four curricula too, but
+they are real inriktningar (Datateknik, Tillämpad matematik, …) and are left
+alone. The elective filler used to refuse any programme with inriktningar; it
+now refuses only the YEARS that carry a real inriktning, since master
+destinations were counted as inriktningar and blocked every ITM year 3.
+
+The records are copied before being rewritten. `resolveYear` caches them, and a
+borrowed year is the same objects in every cohort that borrows it, so mutating
+them in place made the second cohort see CITEH's year 3 already stripped.
+
+The committed CMAST and CMATD cohort files predate this rule and still carry the
+pick-N group. Re-extracting them applies it.
+
+**A VV rule stated as a credit minimum is a pool too.** CINTE says "För examen
+skall minst 15 hp kurser ur MatNat-blocket och minst 13,5 hp kurser ur
+IT-blocket ingå", over years 1-3, and lists most of those courses under both
+year 2 and year 3 ("läses i åk 2 eller åk 3"). Built as pick-one groups keyed
+by period layout, with the courses listed in both years emitted as loose year-2
+courses, CINTE's year 2 came out at 25.5/20/23.5/21.5 hp. CMETE's "Minst 13 hp
+av de villkorligt valfria kurserna ska läsas" gave year 3 up to 40 hp in one
+period. A year whose VV text states a credit minimum, and no course count or
+per-master requirement, therefore gets one `minCredits` box sized to the year's
+space, carrying the plan's own threshold sentence as its note. The block
+minimums span several years, so they cannot be a property of one year's box and
+are not enforced.
+
+Two details keep such a box honest. It may fill a period with nothing else
+scheduled: CINTE's year-2 P2 and CENMI's year-3 P1 are chosen entirely from the
+pool, and the usual rule that a zero-load period is "not part of this year"
+left them empty. And an excess below 3 hp elsewhere in the year does not block
+it (validate-data's `LOAD_EXCESS_NOTEWORTHY`): CMETE's DM1578 is 7 hp spread
+over years 1-3 at 0.5 hp per period, which put year 3 at 15.5 hp in P1 and P2
+and left the whole pool unbuilt.
+
+**Civilingenjör och lärare (CLGYM) states its pools per inriktning and per
+year** in the common `supplementaryInformation` ("MAFY: 9 hp av de villkorligt
+valfria kurserna … ska läsas i årskurs 3"). Each inriktning's obligatoriska
+courses plus that figure make exactly the year: TEDA year 4 is 42 + 18 hp, MAKE
+48 + 12, TEMI 54 + 6. So each (year, inriktning) gets its own `minCredits` box,
+tagged with the inriktning and drawn over that inriktning's own shortfall
+(`parseInriktningPools`, `buildInriktningPoolGroups`).
+
+CLGYM is also the one programme that teaches years 4-5 itself. A civilingenjör
+programme's later years sit inside a master programme and its year-4 page lists
+no obligatoriska courses. That was measured as zero for CMAST, CDEPR, CTFYS,
+CINEK, CENMI and CDATE in läsår 2025/26 and 2026/27. CLGYM's year 4 lists 23-24,
+and its year 5 holds the 30 hp LT200X thesis. `teachesOwnLaterYears` checks
+exactly that, and such a programme is extracted for its full length.
+
+**A course the plan marks as obligatorisk only for students from Öppen ingång
+is left out of the programme's own plan.** CITEH year 2 lists ML1506
+"Övergångsmodul till industriell teknik" with the free text "ML1506 är
+obligatorisk endast för studenter som kommer från Öppen ingång". Counted as
+CITEH's own course, it put year 2 P1 at 18 hp. It belongs in the COPEN → CITEH
+transition plan. The free text appears only on the 2026/27 page, while the
+2025/26 page lists the same course with no note, so the newest pages are
+scanned before extraction and the exclusion applies to every cohort. Measured
+over the fifteen programmes' free texts, it is the only such statement.
 
 **The review file reports periods still over full-time**, under "Periods
 scheduled over full-time". It is the other question only the programme can
@@ -676,11 +749,19 @@ and where they differ the page is the fuller text (EI1320: KOPPS says
 
 So `fetchCoursePage()` reads the course page's own render state — prerequisites,
 grading scale, cycle level and examination modules, from the newest entry in
-`syllabusList` sorted by `course_valid_from` — and KOPPS is the fallback. The one
-field only KOPPS has is the **English title**: the English course page
-(`kth.se/en/student/kurser/kurs/<CODE>`) returns HTTP 500, exactly like the
-English study-plan route, so English titles inherit KOPPS's staleness *and* its
-typos (KD1000 is "Chemical Principles for Sustainabillty" there).
+`syllabusList` sorted by `course_valid_from` — and KOPPS is the fallback.
+
+**English titles come from the same page with `?l=en`.** The
+`kth.se/en/student/kurser/kurs/<CODE>` route returns HTTP 500, exactly like the
+English study-plan route, and for a long time that made KOPPS look like the only
+source of English titles. But `kth.se/student/kurser/kurs/<CODE>?l=en` answers
+200 and renders in English, carrying `courseTitleData.course_title` in its render
+state. It is also the fresher text: KD1000 is "Chemical Principles for
+Sustainabillty" in KOPPS and "…Sustainability" on the page. `fetchEnglishTitle`
+checks the state's `lang` is `en` before trusting it, since a silently ignored
+parameter would hand back the Swedish title as the English one. The study-plan
+pages take `?l=en` too, which is where the English names of inriktningar and
+master destinations come from when KOPPS is down.
 
 **A KOPPS outage must not stop a run, and now does not.** On 2026-09-15 every
 KOPPS endpoint returned HTTP 502 for hours. Because `getJson` threw, the very
@@ -696,22 +777,26 @@ What actually degrades, and the fallback for each:
 
 | lost | fallback |
 |---|---|
-| `nameEn` (only KOPPS has it) | carried over from committed data |
-| `lengthInStudyYears` | defaults to 3 (civilingenjör) |
-| inriktning registry | reused from `programs.json` |
+| `lengthInStudyYears` | read from the study-plan page's own state, else 3 |
+| inriktning registry | read from the study-plan pages' `curriculumInfos` (`code`, `specializationName`, English via `?l=en`), else `programs.json` |
+| master destinations | as above, else recovered from the committed cohort files' `qualifiesFor` |
+| `nameEn` of a course with no English page | carried over from committed data |
+
+Before the page fallbacks, a programme new to the repo could not be added while
+KOPPS was down: CELTE came out with 19 of 36 English titles blank, and CDEPR's
+fourteen year-3 master destinations would have been anonymous — nothing could
+tell them from bachelor inriktningar. The study-plan state names every
+curriculum it contains, so the registry no longer needs KOPPS at all.
 
 **The carry-over reads the cohort archive BEFORE the curated files, and the
-order is load-bearing.** The archive holds what KOPPS last returned; the curated
-files carry titles fixed by hand. KD1000 is "Chemical Principles for
-Sustainabillty" in KOPPS and in the archive, "…Sustainability" in the curated
-`COPEN.json`. Preferring the curated value made a degraded re-extraction differ
-from the committed file by one letter — which reads as a real change and is not
-one. A degraded run should produce the bytes a normal run would; fixing the typo
-is a curation decision, not something an outage should make.
+order is load-bearing.** The archive holds what was last fetched; the curated
+files carry titles fixed by hand. A degraded run should produce the bytes a
+normal run would; fixing a typo is a curation decision, not something an outage
+should make.
 
-A course new to the repo still gets no English title: CELTE came out with 17 of
-36 carried over and 19 blank, all CELTE-specific. So adding a *new* programme is
-worth deferring until KOPPS answers; re-extracting an existing one is not.
+**KOPPS is abandoned for the rest of a run after five consecutive failures.**
+Each failed call otherwise costs three attempts with backoff, twice per course,
+for an answer that is not coming.
 
 **Transient HTTP failures are retried** — three attempts with exponential
 backoff on 408/429/5xx and network errors, never on a 4xx, which is an answer.
@@ -932,7 +1017,7 @@ case is reported and left to a human.
 
 **Adding a programme from scratch** (CMAST and CMATD were added this way):
 
-1. Confirm it exists: `api.kth.se/api/kopps/v2/programme/<CODE>`.
+1. Confirm it exists: `kth.se/student/kurser/program/<CODE>` (KOPPS is not needed).
 2. Append an entry to `programs.json` with `verified: false`. Point `dataFile` at
    `cohorts/<CODE>-HT<year>.json` rather than inventing a curated file — there is
    no hand-curated data for a new programme, and duplicating a cohort file would
@@ -1095,7 +1180,7 @@ year the plan claims. `verified: false` warns, exactly like `programs.json`.
 
 **Course merge logic**: A single course code can appear across multiple JSON entries or carry the by-year `periodCredits` shape. `src/lib/useCourseModel.ts` normalises both to a uniform per-year credits map (`HomeClient.tsx` no longer does this). Two foot-guns the validator catches: duplicate `code` entries are silently summed, and a flat `prerequisites` array is silently dropped if `prerequisitesCompleted` is also non-empty.
 
-**Option groups**: `OptionGroup` is a special data-file entry (`type: "optionGroup"`) for course choices like thesis options. Two rules are supported, discriminated by `kind` (see `src/lib/optionGroupKind.ts`): `pickN` — pick exactly N, the historical default with N = 1 — and `minCredits`, "pick any number summing to at least N hp", which is the shape KTH's *villkorligt valfri* pools actually have. `minCredits` is implemented end to end (schema, validator, selection modal with a running "X / Y hp" banner and no selection cap) but **no data file uses it yet**; every committed group is `pickN: 1`.
+**Option groups**: `OptionGroup` is a special data-file entry (`type: "optionGroup"`) for course choices like thesis options. Two rules are supported, discriminated by `kind` (see `src/lib/optionGroupKind.ts`): `pickN` — pick exactly N, the historical default with N = 1 — and `minCredits`, "pick any number summing to at least N hp", which is the shape KTH's *villkorligt valfri* pools actually have. `minCredits` is implemented end to end (schema, validator, selection modal with a running "X / Y hp" banner and no selection cap) and is what every generated elective box uses — CTFYS's and CFATE's year-3 boxes among them, and every year split by master destination.
 
 The selection modal lives in `src/components/OptionGroupModal.tsx`. Two earlier notes in this file and in `REVIEW.md` said it had been inlined into `TimelineVisualization.tsx` — it was, and then extracted again; grepping only `TimelineVisualization.tsx` for `kind` therefore suggests `minCredits` is unimplemented when it is not.
 
