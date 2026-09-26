@@ -143,6 +143,14 @@ interface TimelineVisualizationProps {
 }
 
 // Type guard to distinguish between Course and OptionGroup
+// The id of an option group's striped fill pattern, referenced as `url(#…)`.
+// Only letters, digits, `-` and `_` survive: a `(` or `)` in the name ends the
+// url() reference early, the fill is then invalid and SVG paints the bar black.
+// CLGYM's per-inriktning boxes are named "… årskurs 3 (MAFY)" and drew as solid
+// black bars before this.
+const optionGroupPatternId = (name: string): string =>
+  `option-group-pattern-${name.replace(/[^\p{L}\p{N}_-]+/gu, '-')}`;
+
 const isCourse = (item: CourseOrOptionGroup): item is Course => {
   return 'code' in item && !('type' in item);
 };
@@ -890,7 +898,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // Create a striped pattern for each option group using colors of its option courses
   courses.filter(isOptionGroup).forEach(og => {
     const optionGroup = og as OptionGroup;
-    const patternId = `option-group-pattern-${optionGroup.name.replace(/\s+/g, '-')}`;
+    const patternId = optionGroupPatternId(optionGroup.name);
     
     // Get colors for each option course
     const optionColors = optionGroup.options
@@ -1482,7 +1490,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             
             // For option groups, use a striped pattern fill in connectors too
             const connectorFillValue = isOptionGroup(item) 
-              ? `url(#option-group-pattern-${(item as OptionGroup).name.replace(/\s+/g, '-')})`
+              ? `url(#${optionGroupPatternId((item as OptionGroup).name)})`
               : connectorColors.fill;
 
             g.append('polygon')
@@ -1567,7 +1575,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   
   // For option groups, use a striped pattern fill
   const fillValue = isOptionGroup(item) 
-    ? `url(#option-group-pattern-${(item as OptionGroup).name.replace(/\s+/g, '-')})`
+    ? `url(#${optionGroupPatternId((item as OptionGroup).name)})`
     : colors.fill;
 
   // Check if this bar is connected to others (applies to both courses and option groups)
