@@ -392,28 +392,6 @@
     ]
   },
   {
-    "code": "MH2057",
-    "name": "Termodynamisk modellering",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Computational Thermodynamics",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
     "code": "MH101X",
     "name": "Examensarbete inom material och processdesign, grundnivå",
     "totalCredits": 15,
@@ -434,52 +412,8 @@
     "courseLevel": "G"
   },
   {
-    "code": "ME1003",
-    "name": "Industriell ekonomi, grundkurs",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Industrial Management, Basic Course",
-    "gradingScale": "A-F",
-    "courseLevel": "G"
-  },
-  {
-    "code": "MG1024",
-    "name": "Produktion",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 6,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [
-      "P2"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Production",
-    "gradingScale": "A-F",
-    "courseLevel": "G"
-  },
-  {
-    "code": "MH2055",
-    "name": "Materials strukturer I",
+    "code": "MH2056",
+    "name": "Materials egenskaper I",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -495,63 +429,27 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
-    "nameEn": "Materials Structures I",
+    "nameEn": "Materials Properties I",
     "gradingScale": "A-F",
     "courseLevel": "A"
   },
   {
-    "type": "optionGroup",
-    "name": "Kurs för valt masterprogram, årskurs 3",
-    "nameEn": "Course for chosen master programme, year 3",
-    "year": 3,
-    "totalCredits": 12,
+    "code": "KD1230",
+    "name": "Organisk kemi, grundläggande koncept och praktik",
+    "nameEn": "Organic Chemistry, Basic Concepts and Practice",
+    "totalCredits": 6,
     "periodCredits": {
       "P1": 0,
-      "P2": 6,
+      "P2": 0,
       "P3": 6,
       "P4": 0
     },
-    "options": [
-      "KD1230",
-      "ME1003",
-      "MG1024",
-      "SE1025"
-    ],
-    "allowedNumberOfOptions": 1,
-    "kind": "pickN",
-    "pickN": 1,
+    "year": 3,
+    "prerequisites": [],
     "exams": [],
-    "category": "conditionallyElective",
-    "qualifiesFor": {
-      "ME1003": [
-        {
-          "code": "INE",
-          "name": "Master, industriell ekonomi",
-          "required": true
-        }
-      ],
-      "KD1230": [
-        {
-          "code": "MMM",
-          "name": "Master, makromolekylära material",
-          "required": true
-        }
-      ],
-      "MG1024": [
-        {
-          "code": "PRM",
-          "name": "Master, industriell produktion",
-          "required": true
-        }
-      ],
-      "SE1025": [
-        {
-          "code": "TEMB",
-          "name": "Spår, Hållfasthetsteknik",
-          "required": true
-        }
-      ]
-    }
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
   },
   {
     "code": "MH1031",
@@ -578,8 +476,89 @@
     ]
   },
   {
-    "code": "KD1230",
-    "name": "Organisk kemi, grundläggande koncept och praktik",
+    "code": "MH2055",
+    "name": "Materials strukturer I",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Materials Structures I",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "name": "Kurser för valt masterprogram och valfria kurser, årskurs 3",
+    "nameEn": "Courses for the chosen master's programme and electives, year 3",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P3"
+    ],
+    "category": "electivePlaceholder",
+    "type": "optionGroup",
+    "options": [
+      "KD1230",
+      "ME1003",
+      "MG1024",
+      "SE1025"
+    ],
+    "kind": "minCredits",
+    "minCredits": 7.5,
+    "comment": "Vilka kurser som krävs beror på valt masterprogram — se markeringen behörighetsgivande vid varje kurs och utbildningsplanen. Övrigt utrymme är valfritt.",
+    "commentEn": "Which courses are required depends on the chosen master's programme — see the eligibility note on each course and the study plan. The remaining space is elective.",
+    "allowedNumberOfOptions": 4,
+    "qualifiesFor": {
+      "KD1230": [
+        {
+          "code": "MMM",
+          "name": "Master, makromolekylära material",
+          "required": true
+        }
+      ],
+      "ME1003": [
+        {
+          "code": "INE",
+          "name": "Master, industriell ekonomi",
+          "required": true
+        }
+      ],
+      "MG1024": [
+        {
+          "code": "PRM",
+          "name": "Master, industriell produktion",
+          "required": true
+        }
+      ],
+      "SE1025": [
+        {
+          "code": "TEMB",
+          "name": "Spår, Hållfasthetsteknik",
+          "required": true
+        }
+      ]
+    }
+  },
+  {
+    "code": "SE1025",
+    "name": "FEM för ingenjörstillämpningar",
+    "nameEn": "FEM for Engineering Applications",
     "totalCredits": 6,
     "periodCredits": {
       "P1": 0,
@@ -587,17 +566,34 @@
       "P3": 6,
       "P4": 0
     },
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 6,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "11391"
+      },
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 6,
+          "P4": 0
+        },
+        "applicationCode": "11379"
+      }
+    ],
     "year": 3,
     "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
+    "exams": [],
     "teacher": "",
     "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Organic Chemistry, Basic Concepts and Practice",
-    "gradingScale": "A-F",
-    "courseLevel": "G"
+    "category": "recommended"
   },
   {
     "code": "MH1033",
@@ -620,6 +616,46 @@
     "courseLevel": "G"
   },
   {
+    "code": "MH2057",
+    "name": "Termodynamisk modellering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Computational Thermodynamics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "MG1024",
+    "name": "Produktion",
+    "nameEn": "Production",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
     "code": "MH2054",
     "name": "Materials processer I",
     "totalCredits": 7.5,
@@ -640,30 +676,9 @@
     "courseLevel": "A"
   },
   {
-    "code": "MH2056",
-    "name": "Materials egenskaper I",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [
-      "P2"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Materials Properties I",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "SE1025",
-    "name": "FEM för ingenjörstillämpningar",
+    "code": "ME1003",
+    "name": "Industriell ekonomi, grundkurs",
+    "nameEn": "Industrial Management, Basic Course",
     "totalCredits": 6,
     "periodCredits": {
       "P1": 0,
@@ -671,16 +686,43 @@
       "P3": 6,
       "P4": 0
     },
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 6,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "10922"
+      },
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 6,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "10926"
+      },
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 6,
+          "P4": 0
+        },
+        "applicationCode": "10928"
+      }
+    ],
     "year": 3,
     "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
+    "exams": [],
     "teacher": "",
     "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "FEM for Engineering Applications",
-    "gradingScale": "A-F",
-    "courseLevel": "G"
+    "category": "recommended"
   }
 ]

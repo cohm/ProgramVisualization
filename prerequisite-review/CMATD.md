@@ -21,31 +21,14 @@ curated `src/data/CMATD.json`) directly — this file is a worklist, not a sourc
 
 | kull | slutförd | aktivt deltagande | flaggat |
 |---|---|---|---|
-| HT2022 | 4 | 3 | 15 |
-| HT2023 | 4 | 3 | 15 |
-| HT2024 | 4 | 3 | 14 |
-| HT2025 | 4 | 3 | 15 |
-| HT2026 | 4 | 3 | 15 |
+| HT2022 | 4 | 3 | 27 |
+| HT2023 | 4 | 3 | 27 |
+| HT2024 | 4 | 3 | 27 |
+| HT2025 | 4 | 3 | 28 |
+| HT2026 | 4 | 3 | 28 |
 
-**16** distinct item(s) need review across all cohorts (an item shared by
+**28** distinct item(s) need review across all cohorts (an item shared by
 several cohorts is counted once).
-
-## Periods scheduled over full-time (1)
-
-Full-time is **15 hp per period**, and these schedule more — after every
-alternative we could identify has been grouped into a box and counted once,
-so this is what is left over. Two readings, and only the programme can say
-which applies: either some of these courses form a *minst N hp ur grupp*
-pool the student picks from — if so, which ones, and how many hp? — or the
-plan genuinely schedules an overload in that period.
-
-Courses listed below are counted individually; a *valblock* is counted once,
-however many options it holds.
-
-- **Årskurs 3, P2 — 22.5 hp, 7.5 hp over full-time.**
-  Cohorts: HT2022, HT2023, HT2024, HT2025, HT2026.
-  Courses: [MH1033](https://www.kth.se/student/kurser/kurs/MH1033) 1.5 hp, [MH2055](https://www.kth.se/student/kurser/kurs/MH2055) 7.5 hp, [MH2056](https://www.kth.se/student/kurser/kurs/MH2056) 7.5 hp.
-  Valblock: Kurs för valt masterprogram, årskurs 3 6 hp.
 
 - [MH1031](https://www.kth.se/student/kurser/kurs/MH1031) — slutförd: [MH1030](https://www.kth.se/student/kurser/kurs/MH1030) · kursplan [VT 2022 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MH1031-20221.pdf?lang=sv)
 - [SE1021](https://www.kth.se/student/kurser/kurs/SE1021) — slutförd: [SG1120](https://www.kth.se/student/kurser/kurs/SG1120) · kursplan [HT 2024 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SE1021-20242.pdf?lang=sv)
@@ -55,7 +38,7 @@ however many options it holds.
 - [SG1120](https://www.kth.se/student/kurser/kurs/SG1120) — deltagande: [SF1625](https://www.kth.se/student/kurser/kurs/SF1625) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SG1120-20192.pdf?lang=sv)
 - [SK1117](https://www.kth.se/student/kurser/kurs/SK1117) — deltagande: [SF1625](https://www.kth.se/student/kurser/kurs/SF1625), [SG1120](https://www.kth.se/student/kurser/kurs/SG1120) · kursplan [VT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SK1117-20261.pdf?lang=sv) / [HT 2019 – HT 2025](https://www.kth.se/student/kurser/kurs/kursplan/SK1117-20192.pdf?lang=sv)
 
-## Cohorts read different kursplan versions (6)
+## Cohorts read different kursplan versions (5)
 
 These courses were revised while the cohorts below were studying, so each cohort is
 held to a different text. That is intended — a student is examined against the
@@ -68,9 +51,6 @@ answer does not exist, so it is worth a glance to confirm the split looks right.
   - HT2024 → [HT 2024 – HT 2024](https://www.kth.se/student/kurser/kurs/kursplan/DD1310-20242.pdf?lang=sv)
   - HT2023 → [HT 2023 – VT 2024](https://www.kth.se/student/kurser/kurs/kursplan/DD1310-20232.pdf?lang=sv)
   - HT2022 → [HT 2020 – VT 2023](https://www.kth.se/student/kurser/kurs/kursplan/DD1310-20202.pdf?lang=sv)
-- [ME1003](https://www.kth.se/student/kurser/kurs/ME1003) ([alla versioner](https://www.kth.se/kursutveckling/ME1003/arkiv))
-  - HT2024, HT2025, HT2026 → [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/ME1003-20262.pdf?lang=sv)
-  - HT2022, HT2023 → [HT 2024 – VT 2026](https://www.kth.se/student/kurser/kurs/kursplan/ME1003-20242.pdf?lang=sv)
 - [MH101X](https://www.kth.se/student/kurser/kurs/MH101X) ([alla versioner](https://www.kth.se/kursutveckling/MH101X/arkiv))
   - HT2024, HT2025, HT2026 → [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MH101X-20262.pdf?lang=sv)
   - HT2022, HT2023 → [VT 2022 – VT 2026](https://www.kth.se/student/kurser/kurs/kursplan/MH101X-20221.pdf?lang=sv)
@@ -125,14 +105,38 @@ The requirement is a credit total ("minst N hp"), which the schema cannot repres
 - [MH2057](https://www.kth.se/student/kurser/kurs/MH2057) · kursplan [HT 2024 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MH2057-20242.pdf?lang=sv)
   > För CMATD gäller minst 90 hp inom huvudområdet Teknik från utbildningsplan för årskurs 1-3.
 
-## Text names courses, but none in this programme (3)
+## Text names courses, but none in this programme (15)
 
 Usually correct — the syllabus lists alternatives from other programmes and the in-programme filter drops them. But the lists also go stale: where the text describes a knowledge area and this programme has a course of that name, the candidate is called out below as **suggested**. Nothing is written to the data from a name match — confirm it first.
 
-- [MG1002](https://www.kth.se/student/kurser/kurs/MG1002) · kursplan [VT 2020 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MG1002-20201.pdf?lang=sv) · *HT2022, HT2023*
-  > MF1016 Elektroteknik eller motsvarande Svenska B och engelska A eller motsvarande
-- [MG1024](https://www.kth.se/student/kurser/kurs/MG1024) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MG1024-20192.pdf?lang=sv)
-  > MF1001 Maskinteknik introduktionskurs/MJ1103 Introduktion till maskinteknik/MF1061 Introduktion till design och produktframtagning och MG1016/MG1026 Tillverkningsteknik eller motsvarande förkunskaper
-- [SE1025](https://www.kth.se/student/kurser/kurs/SE1025) · kursplan [HT 2007 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SE1025-20072.pdf?lang=sv)
-  > Grundkurs i hållfasthetslära SE1010, SE1020, SE1055 eller motsvarande.
+- [CK1050](https://www.kth.se/student/kurser/kurs/CK1050) · kursplan [VT 2025 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/CK1050-20251.pdf?lang=sv)
+  > Totalt 45 hp inom huvudområdet teknik.
+- [CK1260](https://www.kth.se/student/kurser/kurs/CK1260) · kursplan [VT 2023 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/CK1260-20231.pdf?lang=sv)
+  > Grundläggande behörighet samt Matematik E, Fysik B och Kemi A
+- [MH101X](https://www.kth.se/student/kurser/kurs/MH101X) · kursplan [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MH101X-20262.pdf?lang=sv) / [VT 2022 – VT 2026](https://www.kth.se/student/kurser/kurs/kursplan/MH101X-20221.pdf?lang=sv)
+  > För särskild behörighet till examensarbeteskurs om 15 hp på grundnivå gäller att: kurser om minst 120 hp från utbildningsplan årskurs 1-3 ska vara slutförda för studenter inom program där examensarbetskurs påbörjas i period 3.
+- [MH1030](https://www.kth.se/student/kurser/kurs/MH1030) · kursplan [HT 2020 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MH1030-20202.pdf?lang=sv)
+  > Grundläggande behörighet till högskolestudier i Sverige
+- [MH1033](https://www.kth.se/student/kurser/kurs/MH1033) · kursplan [HT 2023 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MH1033-20232.pdf?lang=sv)
+  > Endast Grundläggande behörighet
+- [MH1034](https://www.kth.se/student/kurser/kurs/MH1034) · kursplan [VT 2025 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MH1034-20251.pdf?lang=sv)
+  > För CMATD gäller minst 45 hp inom huvudområdet Teknik från utbildningsplan för årskurs 1-3.
+- [MH1035](https://www.kth.se/student/kurser/kurs/MH1035) · kursplan [HT 2024 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MH1035-20242.pdf?lang=sv)
+  > För CMATD gäller minst 45 hp inom huvudområdet Teknik från utbildningsplan för årskurs 1-3.
+- [MH1036](https://www.kth.se/student/kurser/kurs/MH1036) · kursplan [VT 2025 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MH1036-20251.pdf?lang=sv)
+  > För CMATD gäller minst 45 hp inom huvudområdet Teknik från utbildningsplan för årskurs 1-3.
+- [MH1037](https://www.kth.se/student/kurser/kurs/MH1037) · kursplan [VT 2025 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MH1037-20251.pdf?lang=sv)
+  > För CMATD gäller minst 45 hp inom huvudområdet Teknik från utbildningsplan för årskurs 1-3.
+- [MH2054](https://www.kth.se/student/kurser/kurs/MH2054) · kursplan [HT 2025 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MH2054-20252.pdf?lang=sv) / [HT 2024 – VT 2025](https://www.kth.se/student/kurser/kurs/kursplan/MH2054-20242.pdf?lang=sv)
+  > Totalt 90 hp inom huvudområdet teknik.
+- [MH2055](https://www.kth.se/student/kurser/kurs/MH2055) · kursplan [HT 2023 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MH2055-20232.pdf?lang=sv)
+  > Totalt 90 hp inom huvudområdet teknik.
+- [MH2056](https://www.kth.se/student/kurser/kurs/MH2056) · kursplan [HT 2025 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MH2056-20252.pdf?lang=sv) / [HT 2023 – VT 2025](https://www.kth.se/student/kurser/kurs/kursplan/MH2056-20232.pdf?lang=sv)
+  > Totalt 90 hp inom huvudområdet teknik.
+- [MH2057](https://www.kth.se/student/kurser/kurs/MH2057) · kursplan [HT 2024 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MH2057-20242.pdf?lang=sv)
+  > För CMATD gäller minst 90 hp inom huvudområdet Teknik från utbildningsplan för årskurs 1-3.
+- [SF1624](https://www.kth.se/student/kurser/kurs/SF1624) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SF1624-20192.pdf?lang=sv)
+  > Grundläggande behörighet.
+- [SF1625](https://www.kth.se/student/kurser/kurs/SF1625) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SF1625-20192.pdf?lang=sv)
+  > Grundläggande behörighet.
 

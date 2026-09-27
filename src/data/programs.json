@@ -95,6 +95,7 @@
     "commentEn": "Fully auto-extracted, never verified. The default view shows the HT2025 cohort; pick an admission year for others.",
     "studyplan": "https://www.kth.se/student/kurser/program/CMAST",
     "specializations": [
+      { "code": "STD", "name": "Utan internationell inriktning", "nameEn": "Without international profile" },
       { "code": "INTF", "name": "Internationell inriktning, franska", "nameEn": "International Profile, french" },
       { "code": "INTS", "name": "Internationell inriktning, spanska", "nameEn": "International Profile, spanish" },
       { "code": "INTT", "name": "Internationell inriktning, tyska", "nameEn": "International Profile, german" }
