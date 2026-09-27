@@ -1799,11 +1799,11 @@
     ],
     "allowedNumberOfOptions": 41,
     "kind": "minCredits",
-    "minCredits": 18,
+    "minCredits": 12,
     "exams": [],
     "category": "conditionallyElective",
-    "comment": "18 hp av de villkorligt valfria kurserna i listan nedan ska läsas i årskurs 4.",
-    "commentEn": "At least 18 credits from these conditionally elective courses in year 4."
+    "comment": "18 hp av de villkorligt valfria kurserna i listan nedan ska läsas i årskurs 4. Årskursens kurslista lämnar dock bara 12 hp utrymme.",
+    "commentEn": "The study plan asks for 18 credits from these conditionally elective courses in year 4, but the year's course list leaves room for only 12."
   },
   {
     "code": "DD1386",

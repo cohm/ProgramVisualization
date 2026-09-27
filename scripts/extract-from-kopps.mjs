@@ -3648,6 +3648,14 @@ function buildInriktningPoolGroups(pools, pooledRecords, entries) {
       })))]));
     }
     const totalCredits = round(PERIOD_IDS.reduce((a, q) => a + periodCredits[q], 0));
+    // The stated figure can exceed the room the same page's course list leaves.
+    // CLGYM HT2022 lists SF2832 as obligatorisk for TEDA in year 4 while still
+    // saying "18 hp av de villkorligt valfria kurserna … i årskurs 4": 49.5 +
+    // 18 = 67.5 hp. Later läsår have SF2832 as villkorligt valfri, which fits.
+    // A box demanding more than it can hold is rejected by the validator and
+    // misleads the reader, so the requirement is capped at the room and the
+    // plan's own sentence is kept, with the discrepancy spelled out beside it.
+    const overstated = hp > totalCredits + LOAD_TOLERANCE;
     out.push({
       type: 'optionGroup',
       // The inriktning is in the name because the validator requires group
@@ -3661,16 +3669,22 @@ function buildInriktningPoolGroups(pools, pooledRecords, entries) {
       options,
       allowedNumberOfOptions: options.length,
       kind: 'minCredits',
-      minCredits: hp,
+      minCredits: overstated ? totalCredits : hp,
       exams: [],
       category: 'conditionallyElective',
-      comment: sentence,
-      commentEn: `At least ${hp} credits from these conditionally elective courses in year ${year}.`,
+      comment: overstated
+        ? `${sentence} Årskursens kurslista lämnar dock bara ${totalCredits} hp utrymme.`
+        : sentence,
+      commentEn: overstated
+        ? `The study plan asks for ${hp} credits from these conditionally elective courses in year ${year}, but the year's course list leaves room for only ${totalCredits}.`
+        : `At least ${hp} credits from these conditionally elective courses in year ${year}.`,
     });
     flag(`year ${year} ${spec}: villkorligt valfria courses form a ${hp} hp pool, as the plan ` +
       `states ("${sentence}") — one minCredits box of ${options.length} options, drawn over the ` +
       `inriktning's shortfall (${PERIOD_IDS.map((q) => periodCredits[q]).join('/')} hp).` +
-      (Math.abs(totalCredits - hp) > 0.05 ? ` NOTE: the shortfall totals ${totalCredits} hp, not ${hp}.` : ''));
+      (overstated ? ` CONFLICT: the year's obligatoriska courses leave only ${totalCredits} hp, so ` +
+        `minCredits is capped at ${totalCredits} — ask the programme which is right.`
+        : Math.abs(totalCredits - hp) > 0.05 ? ` NOTE: the shortfall totals ${totalCredits} hp, not ${hp}.` : ''));
   }
   return out;
 }
