@@ -256,12 +256,18 @@ function checkFullTimeLoad(program, data, file) {
   // thing. Identical lanes are merged into a single line.
   const collected = [];
   const groups = data.filter((e) => e?.type === 'optionGroup');
-  const optionMembers = new Set(groups.flatMap((g) => g.options || []));
   const specs = (program.specializations || []).map((x) => x?.code).filter(Boolean);
   // No inriktningar declared: one pass over everything.
   const lanes = specs.length > 0 ? specs : [null];
 
   for (const spec of lanes) {
+    // Membership is per lane, the way the renderer sees it: groups are filtered
+    // by inriktning BEFORE a course counts as "an option somewhere". A course
+    // obligatorisk for BBP and an option in MHI's group is drawn as BBP's
+    // course, so BBP's load must count it — CSAMH year 3 is the case.
+    const visible = (e) => !Array.isArray(e.specializations) || e.specializations.length === 0
+      || (spec != null && e.specializations.includes(spec));
+    const optionMembers = new Set(groups.filter(visible).flatMap((g) => g.options || []));
     const totals = new Map(); // "year|period" -> hp
     for (const entry of data) {
       if (!entry || entry.type === 'cohortMeta') continue;
