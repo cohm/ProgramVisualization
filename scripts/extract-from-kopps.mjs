@@ -399,20 +399,27 @@ async function registryFromStudyPlan(prog, cohorts, years) {
  * Almost never: a civilingenjör programme's later years sit inside a master
  * programme, and its year-4 page lists no obligatoriska courses at all —
  * measured for CMAST, CDEPR, CTFYS, CINEK, CENMI and CDATE, zero in both läsår
- * 2025/26 and 2026/27. Civilingenjör och lärare (CLGYM) is the exception: its
+ * 2025/26 and 2026/27 (CTKEM lists one, a thin multi-year course; hence the
+ * credit threshold below). Civilingenjör och lärare (CLGYM) is the exception: its
  * year 4 carries 23-24 obligatoriska courses (the LT teacher-education courses,
  * EH2070, SF2717, …) and its year 5 the 30 hp LT200X thesis. Cutting it at year
  * 3 would drop two fifths of the programme, including its degree project.
  *
  * Year 4 is read from the cohorts currently taking it and about to.
  */
+const TEACHES_LATER_YEARS_MIN_HP = 30;
 async function teachesOwnLaterYears(prog, newest) {
   for (const c of [newest - 3, newest - 2]) {
     let state;
     try { state = await fetchStudyPlanState(prog, termFor(c), 4); } catch { continue; }
     const mandatory = (state?.curriculumInfos || [])
       .flatMap((ci) => ci?.participations?.[COND_MANDATORY] || []);
-    if (mandatory.length > 0) return true;
+    // A substantial amount, not merely any course: CTKEM's KA1030 is a 6 hp
+    // course threaded through all five years (2-3 hp in each of years 4-5), and
+    // counting it made CTKEM a five-year extraction of two near-empty years.
+    // CLGYM's year 4 carries 186-192 hp across its inriktningar.
+    const hp = mandatory.reduce((a, p) => a + (Number(p?.course?.credits) || 0), 0);
+    if (hp >= TEACHES_LATER_YEARS_MIN_HP) return true;
   }
   return false;
 }
@@ -485,6 +492,15 @@ const TRANSFER_ONLY_RE =
 // The numeral may run straight into "av": CDEPR's TEMA and TEMC say "Minst enav"
 // and "Minst tvåav", and missing them marked those destinations' pools as mere
 // recommendations.
+// A supplementary line about villkorligt valfria courses that states a count.
+// Deliberately narrow: only lines naming the VV courses AND carrying one of the
+// count phrasings below are borrowed from `supplementaryInformation`.
+const SUPPLEMENTARY_VV_RE =
+  /villkorlig\w*\s+valfri.*\b(?:väljer|läsa)\s+(?:en|ett|två|tre|\d+)\s+av\s+(?:dem|de)\b|\b(?:väljer|läsa)\s+(?:en|ett|två|tre|\d+)\s+av\s+dem\b/i;
+// "Det betyder att du väljer två av dem." / "måste läsa två av de tre
+// villkorligt valfria kurserna" (CSAMH year 2).
+const CHOOSE_COUNT_RE =
+  /\b(?:väljer|läsa)\s+(en|ett|två|tre|fyra|fem|sex|\d+)\s+av\s+(?:dem\b|de\s+(?:\S+\s+)?villkorligt\s+valfria)/i;
 // "minst 15 hp kurser ur MatNat-blocket" — a credit threshold on a VV pool.
 const CREDIT_POOL_RE = /\bminst\s+\d+(?:[,.]\d+)?\s*hp\b/i;
 const MIN_COUNT_RE = /\bminst\s+(en|ett|två|tre|fyra|fem|sex|\d+)(?:(?![\p{L}\d])|(?=av(?!\p{L})))(?![,.]\d)(?!\s*hp\b)/iu;
@@ -493,8 +509,13 @@ const MIN_COUNT_RE = /\bminst\s+(en|ett|två|tre|fyra|fem|sex|\d+)(?:(?![\p{L}\d
 // villkorligt valfria kurser ska läsas i årskurs 2 eller 3", which the singular
 // pattern missed entirely, so no count reached the grouper and its fourteen
 // options fell back to being keyed by period layout.
+//
+// "En av de villkorligt valfria kurserna ska läsas" (CMEDT year 2) says the same
+// thing; missing it left SF1682 and SF1683, which have different period
+// layouts, as two single-option "groups" emitted as plain courses, and year 2
+// counted both: 20/20/14/16 hp.
 const EXACT_COUNT_RE =
-  /^\s*(en|ett|två|tre|fyra|fem|sex|\d+)\s+villkorligt\s+valfri(?:a)?\s+kurs(?:er)?\s+ska\s+läsas/i;
+  /^\s*(en|ett|två|tre|fyra|fem|sex|\d+)\s+(?:av\s+de\s+)?villkorligt\s+valfri(?:a)?\s+kurs(?:er|erna)?\s+ska\s+läsas/i;
 // "Endast en av kurserna SG1217 och SG1220 kan ingå i examen." — a mutual
 // exclusion, not a group rule: it caps what may count toward the degree rather
 // than saying how many to take. Recognised so it is not reported as unread, but
@@ -578,7 +599,7 @@ function parseConditionallyElectiveInfo(text) {
       continue;
     }
 
-    const min = MIN_COUNT_RE.exec(line);
+    const min = MIN_COUNT_RE.exec(line) ?? CHOOSE_COUNT_RE.exec(line);
     if (min) {
       const n = swedishCount(min[1]);
       if (n != null) out.minCount = Math.max(out.minCount ?? 0, n);
@@ -1167,12 +1188,25 @@ function readCurriculum(state, prog, year) {
     }
     // The VV rule and per-master requirements, kept per inriktning so a group
     // built from one curriculumInfo gets its own programme's wording.
-    if (info.conditionallyElectiveCoursesInformation) {
+    //
+    // Some plans state the rule in `supplementaryInformation` instead: CSAMH's
+    // year 2 says "Det betyder att du väljer två av dem" there, and nothing in
+    // the VV field. So the common curriculum's supplementary lines that mention
+    // villkorligt valfria courses are appended to the year's rule text.
+    const vvText = [
+      info.conditionallyElectiveCoursesInformation
+        ? decodeHtmlLines(info.conditionallyElectiveCoursesInformation) : '',
+      info.isCommon && info.supplementaryInformation
+        ? decodeHtmlLines(info.supplementaryInformation).split('\n')
+          .filter((l) => SUPPLEMENTARY_VV_RE.test(l)).join('\n')
+        : '',
+    ].filter(Boolean).join('\n');
+    if (vvText) {
       vvInfo.push({
         spec: info.isCommon ? null : (info.code || null),
         // Newlines matter: the CFATE text is a list of master programmes, each a
         // heading line followed by its "Kurs som krävs" line.
-        text: decodeHtmlLines(info.conditionallyElectiveCoursesInformation),
+        text: vvText,
       });
     }
     // `isCommon` marks the shared curriculum; its `code` is the empty string.
@@ -2067,6 +2101,12 @@ function buildMultiYearEntry(code, byYear) {
       `${code}: spans years ${years.join(', ')} placing ${round(placed)} hp in total, but the ` +
       `course is ${entry.totalCredits} hp — verify which years belong to it`,
     );
+    // A course threaded through the whole programme can continue past the last
+    // year extracted. CTKEM's KA1030 is 6 hp over five years, and for the
+    // HT2022-23 cohorts only 4 hp of it falls in years 1-3. The validator
+    // requires Σ periodCredits = totalCredits, so the entry carries the part the
+    // plan shows; the flag above records the full size.
+    if (placed < entry.totalCredits) entry.totalCredits = round(placed);
   }
 
   if (!inCommon && specs.length > 0) entry.specializations = specs.slice().sort();
@@ -2141,7 +2181,10 @@ function buildOptionGroups(vvRecords, vvInfo = []) {
       ? `${r.year}::${r.spec ?? ''}::named::${term}`
       : counted
         ? `${r.year}::${r.spec ?? ''}::pool`
-        : `${r.year}::${pcKey(r.periodCredits)}::${r.credits}`;
+        // An inriktning's choices are its own. Without the spec in the key,
+        // CSAMH's year-3 groups merged BBP's, MHI's and STP's alternatives that
+        // happened to share a layout into untagged boxes shown to everyone.
+        : `${r.year}::${r.spec ?? ''}::${pcKey(r.periodCredits)}::${r.credits}`;
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(r);
   }
@@ -2215,6 +2258,16 @@ function buildOptionGroups(vvRecords, vvInfo = []) {
       }
     }
     const pickN = stated ?? 1;
+    // Picking N options of one layout takes N times that layout. The bar is what
+    // the load count and the elective filler measure, so drawing a pick-two
+    // group at one option's size left half the choice looking like free space:
+    // CSAMH year 2 P4 (two of AF1002 / AH1030 / SF1676, 7.5 hp each) came out as
+    // a 7.5 hp group plus a 7.5 hp "Plats för valfri kurs". Options of different
+    // layouts keep the envelope, since which N are picked decides the shape.
+    if (uniform && pickN > 1) {
+      for (const q of PERIOD_IDS) periodCredits[q] = round(periodCredits[q] * pickN);
+      total = sumCredits(periodCredits);
+    }
 
     // Which master programmes require each option, when the plan says. This is
     // the answer to what a student is actually asking of a VV box, and it exists
@@ -2264,6 +2317,17 @@ function buildOptionGroups(vvRecords, vvInfo = []) {
       flag(`optionGroup "${entry.name}" (year ${entry.year}): master eligibility read from the plan: ${summary}`);
     }
     flag(`optionGroup "${entry.name}" (year ${entry.year}, ${entry.totalCredits} hp, options ${options.join(' / ')}): name is a placeholder — rename during merge.`);
+    // A group built from one inriktning's records belongs to that inriktning.
+    const groupSpecs = [...new Set(recs.map((r) => r.spec).filter(Boolean))];
+    if (groupSpecs.length > 0 && recs.every((r) => r.spec)) {
+      entry.specializations = groupSpecs.sort();
+      // Group names must be unique within a file, and a fixed name like
+      // "Kandidatexamensarbete" recurs once per inriktning (CSAMH: GIT and STP).
+      if (!/\d/.test(entry.name)) {
+        entry.name = `${entry.name} (${entry.specializations.join('/')})`;
+        entry.nameEn = `${entry.nameEn} (${entry.specializations.join('/')})`;
+      }
+    }
     out.push(entry);
   }
   return dedupePoolGroups(out);
@@ -2914,6 +2978,10 @@ const ELECTIVE_PER_PERIOD_RE = /utrymme\w*\s+för\s+valfria\s+kurser\s+är\s+([\
 // "På våren i årskurs 3 finns (ett) utrymme på 15,0 hp valfria kurser."
 const ELECTIVE_SEASON_RE = /på\s+(våren|hösten)\s+i\s+årskurs\s+(\d)\s+finns\s+(?:ett\s+)?utrymme\s+på\s+([\d]+(?:[,.]\d+)?)\s*hp\s+valfria/i;
 
+// "Studenten ska också läsa 15 hp valfria kurser i åk 3." (CMEDT) — a figure for
+// the whole year, with no season.
+const ELECTIVE_YEAR_RE = /\bska\s+(?:också\s+)?läsa\s+([\d]+(?:[,.]\d+)?)\s*hp\s+valfria\s+kurser\s+i\s+(?:åk|årskurs)\s*(\d)/i;
+
 const hpFromText = (x) => Number(String(x).replace(',', '.'));
 
 /** What the descriptive text claims about elective space, if anything. */
@@ -2923,6 +2991,11 @@ function statedElectiveSpace(notes) {
     const perPeriod = ELECTIVE_PER_PERIOD_RE.exec(note);
     if (perPeriod) {
       out.push({ kind: 'per-period', hp: hpFromText(perPeriod[1]), periods: PERIOD_IDS, quote: perPeriod[0] });
+    }
+    const wholeYear = ELECTIVE_YEAR_RE.exec(note);
+    if (wholeYear) {
+      out.push({ kind: 'season', hp: hpFromText(wholeYear[1]), year: Number(wholeYear[2]),
+        periods: [...PERIOD_IDS], statedWholeYear: true, quote: wholeYear[0] });
     }
     const season = ELECTIVE_SEASON_RE.exec(note);
     if (season) {
@@ -2984,7 +3057,12 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
     // years 1-3 at 0.5 hp per period, which put year 3 P1 and P2 at 15.5 and left
     // the whole pool unbuilt (15.5/15.5/8/8). The threshold is validate-data's
     // LOAD_EXCESS_NOTEWORTHY: below 3 hp over is not treated as structural.
-    const poolClaim = stated.find((c) => c.year === year && (c.masterDestinations || c.creditPool));
+    // A year whose prose states its elective figure outright ("ska också läsa 15
+    // hp valfria kurser i åk 3", CMEDT) is treated the same way: the plan says
+    // the space exists, and CMEDT's 0.5 hp overhang in P3 is HF1201 finishing
+    // from year 2, not a sign of a wrong model.
+    const poolClaim = stated.find((c) => c.year === year
+      && (c.masterDestinations || c.creditPool || c.statedWholeYear));
     const excessLimit = poolClaim ? 3 : LOAD_TOLERANCE;
     const anyExcess = load.some((hp, i) => hp > 0 && short[i] < -excessLimit + (poolClaim ? LOAD_TOLERANCE : 0));
     const anyShort = load.some((hp, i) => (hp > 0 || poolClaim) && short[i] > LOAD_TOLERANCE);
@@ -4135,7 +4213,32 @@ async function extractCohort(prog, cohort, args, registryEntries) {
 
   const inriktningPools = parseInriktningPools(noteLinesByYear, specNames);
   const isPooled = (r) => Boolean(r.spec) && inriktningPools.has(`${r.year}::${r.spec}`);
-  const groups = buildOptionGroups(vvKept.filter((r) => !isPooled(r)), planVvInfo);
+  // A course obligatorisk for one inriktning can be villkorligt valfri for
+  // another: CSAMH's AF1006 is obligatorisk for BBP and a choice for MHI. The
+  // renderer filters groups by inriktning before deciding what is an option, so
+  // MHI's group does not hide AF1006 from BBP; but MHI's view needs the course
+  // entry too, so MHI is added to its `specializations`. Inside MHI's visible
+  // group it then behaves as an option, and BBP still sees it as mandatory.
+  //
+  // A course obligatorisk for EVERYONE (no inriktning tags) that is also listed
+  // as a choice is contradictory, and as an option it would vanish for all, so
+  // it is left out of the groups and flagged.
+  const entryByCode = new Map(entries.filter((e) => e.code).map((e) => [e.code, e]));
+  const contradictory = new Set();
+  for (const r of vvKept) {
+    if (!byCode.has(r.code)) continue;
+    const e = entryByCode.get(r.code);
+    if (r.spec && e?.specializations?.length) {
+      if (!e.specializations.includes(r.spec)) e.specializations = [...e.specializations, r.spec].sort();
+    } else {
+      contradictory.add(r.code);
+    }
+  }
+  if (contradictory.size > 0) {
+    flag(`${[...contradictory].sort().join(', ')}: listed as villkorligt valfri but obligatorisk for ` +
+      `every student — left out of the option groups so the mandatory course stays visible. Verify.`);
+  }
+  const groups = buildOptionGroups(vvKept.filter((r) => !isPooled(r) && !contradictory.has(r.code)), planVvInfo);
   const vvByCode = new Map();
   for (const r of vvKept) {
     if (byCode.has(r.code)) continue; // already emitted as a core course

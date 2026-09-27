@@ -483,7 +483,64 @@ programme's later years sit inside a master programme and its year-4 page lists
 no obligatoriska courses. That was measured as zero for CMAST, CDEPR, CTFYS,
 CINEK, CENMI and CDATE in läsår 2025/26 and 2026/27. CLGYM's year 4 lists 23-24,
 and its year 5 holds the 30 hp LT200X thesis. `teachesOwnLaterYears` checks
-exactly that, and such a programme is extracted for its full length.
+exactly that, and such a programme is extracted for its full length. The test
+counts CREDITS, at least 30 hp, rather than courses. CTKEM's KA1030 is a 6 hp
+course threaded through all five years (2-3 hp in each of years 4-5), and
+counting any course at all made CTKEM a five-year extraction with two
+near-empty years.
+
+**Rules stated outside the VV field are read too, narrowly.** Three phrasings
+that occur in the CBH and ABE plans:
+
+- "En av de villkorligt valfria kurserna ska läsas" (CMEDT year 2) is an exact
+  count, like "En villkorligt valfri kurs ska läsas". Missing it left SF1682 and
+  SF1683, which have different period layouts, as two single-option "groups"
+  emitted as plain courses, and year 2 counted both at 20/20/14/16 hp.
+- "Det betyder att du väljer två av dem" and "måste läsa två av de tre
+  villkorligt valfria kurserna" (CSAMH year 2) sit in the common
+  `supplementaryInformation`, not the VV field. Supplementary lines that name
+  villkorligt valfria courses AND state such a count are appended to the
+  year's rule text, and nothing else from that field is borrowed. CSAMH's P4
+  choice comes out as pick two of AF1002 / AH1030 / SF1676. The HT2022-24
+  pages say only "väljer en av dem", for one BBP path, so those cohorts read
+  pick one.
+- "Studenten ska också läsa 15 hp valfria kurser i åk 3" (CMEDT) states a
+  whole year's elective space. It becomes one box over the year's shortfall,
+  and like the pool years it tolerates an excess below 3 hp: CMEDT's P3 is
+  0.5 hp over because HF1201 finishes there from year 2.
+
+**An inriktning's villkorligt valfria groups are its own.** The layout-keyed
+grouper used to ignore the inriktning. So in CSAMH year 3, BBP's, MHI's and
+STP's alternatives that shared a period layout merged into untagged boxes shown
+to every student, and every lane came out over full-time. Records that belong to
+an inriktning are now keyed by it, and the group carries
+`specializations: [<spec>]`.
+
+**A course obligatorisk for one inriktning and a choice for another stays
+visible to both.** CSAMH's AF1006 is obligatorisk for BBP and villkorligt
+valfri for MHI. The renderer filters groups by inriktning before deciding what
+counts as "an option somewhere", so MHI's group does not hide AF1006 from BBP.
+MHI's view still needs the course entry, so MHI is added to the entry's
+`specializations`. Inside MHI's visible group the course is then an option,
+drawn only once picked, and BBP still sees it as mandatory. A course
+obligatorisk for EVERY student that is also listed as a choice is
+contradictory, and as an option it would vanish for everyone, so it is left out
+of the groups and flagged. `validate-data`'s full-time check now computes option
+membership per lane in the same way. It used one global set, which dropped
+AF1006 from BBP's load.
+
+**A pick-N group of same-shaped options is drawn N options tall.** The bar is
+what the load count and the elective filler measure. CSAMH year 2 P4 is two of
+AF1002 / AH1030 / SF1676, 7.5 hp each. Drawn at one option's size, it came out
+as a 7.5 hp group plus a 7.5 hp "Plats för valfri kurs", presenting half of a
+required choice as free space. Options of different shapes keep the envelope,
+because which N are picked decides the shape. The committed CMAST files have
+one such undersized group, the pre-rule "Kurs för valt masterprogram".
+
+**A course threaded past the last extracted year carries only its in-plan
+part.** CTKEM's KA1030 is 6 hp over five years. For the HT2022-23 cohorts only
+4 hp falls in years 1-3, so the entry's `totalCredits` is 4, and the
+extraction flag records the full size.
 
 **A course the plan marks as obligatorisk only for students from Öppen ingång
 is left out of the programme's own plan.** CITEH year 2 lists ML1506
