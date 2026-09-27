@@ -111,10 +111,17 @@ export function composeTransition(
       // Re-stamp the year on the course and on each of its credits, leaving the
       // periods alone.
       const course = entry as Course;
+      // A partial read (see TransitionMove.periodCredits) replaces the periods;
+      // totalCredits stays the course's own, since that is still its size.
+      const credits = move.periodCredits
+        ? PERIODS
+          .map(period => ({ year: move.toYear, period, credits: Number(move.periodCredits![period] ?? 0) }))
+          .filter(c => c.credits > 0)
+        : course.credits.map(c => ({ ...c, year: move.toYear }));
       fromTarget.push({
         ...course,
         year: move.toYear,
-        credits: course.credits.map(c => ({ ...c, year: move.toYear })),
+        credits,
         examsByYear: undefined,
         reexamsByYear: undefined,
       });
