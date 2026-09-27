@@ -1758,5 +1758,124 @@
     "verified": false,
     "source": "Övergångsplan för Öppen ingång - påbörjad H25 - till Design och produktframtagning (CDEPR), version 2025-11-24. Gäller övergången till programmet H26.",
     "sourceEn": "Transition plan for Öppen ingång starting H25 to Design and Product Realisation (CDEPR), version 2025-11-24, for transfer to the programme in H26."
+  },
+  {
+    "from": "COPEN",
+    "to": "CENMI",
+    "sourceYears": [
+      1
+    ],
+    "credited": [
+      {
+        "code": "SF1625",
+        "replaces": [
+          "SF1625"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen (\"Ingår i OPEN\").",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1624",
+        "replaces": [
+          "SF1624"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen (\"Ingår i OPEN\").",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1626",
+        "replaces": [
+          "SF1626"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen (\"Ingår i OPEN\").",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "DD1310",
+        "replaces": [
+          "DD1310"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen (\"Ingår i OPEN\").",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SG1133",
+        "replaces": [
+          "SG1102"
+        ],
+        "note": "Mekanik I (9 hp) motsvarar CENMI:s SG1102 Mekanik, mindre kurs (6 hp), med 3 hp över (\"Ingår i OPEN, SG1133 (3 hp över)\").",
+        "noteEn": "Mechanics I (9 credits) corresponds to CENMI's SG1102 Mechanics, smaller course (6 credits), with 3 credits to spare."
+      },
+      {
+        "code": "SK1115",
+        "replaces": [
+          "SK1110"
+        ],
+        "note": "Elektromagnetism och vågrörelselära tillgodoräknas mot CENMI:s SK1110.",
+        "noteEn": "Electromagnetism and wave motion is credited against CENMI's SK1110."
+      },
+      {
+        "code": "KD1000",
+        "note": "Kemiska principer för hållbar utveckling tillgodoräknas som 3 hp av CK1020 Grundläggande kemi (6 hp). Resterande 3 hp läses med CENMI årskurs 1 (se 'moved').",
+        "noteEn": "Chemical principles is credited as 3 credits of CK1020 Basic chemistry (6 credits). The remaining 3 credits are taken with CENMI year 1 (see 'moved')."
+      },
+      {
+        "code": "SF1546",
+        "note": "Numeriska metoder, grundkurs tillgodoräknas mot CENMI:s numerikkurs i årskurs 2, som därför utgår (se 'exempt').",
+        "noteEn": "Numerical methods is credited against CENMI's year-2 numerics course, which is therefore dropped (see 'exempt')."
+      },
+      {
+        "code": "SA1007",
+        "note": "Ingenjörsrollen och ingenjörskunskap kan tillgodoräknas som valfri kurs i årskurs 3 (\"Valfri kurs 7,5 … Ev SA1007\").",
+        "noteEn": "The engineering role can be credited as an elective course in year 3."
+      }
+    ],
+    "exempt": [
+      {
+        "code": "SF1512",
+        "creditedBy": "SF1546",
+        "note": "Numeriska metoder, grundkurs (årskurs 2, P1-P2) tillgodoräknas mot SF1546. Planen skriver kurskoden SF1514; CENMI:s kursdata anger SF1512 — se signeringsunderlaget.",
+        "noteEn": "Numerical methods (year 2, P1-P2) is credited against SF1546. The plan writes the code SF1514; CENMI's course data says SF1512 — see the sign-off file."
+      }
+    ],
+    "moved": [
+      {
+        "code": "AL1351",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Energi, miljö och hållbar utveckling läses med CENMI årskurs 1, alltså under den transfererande studentens årskurs 2.",
+        "noteEn": "Energy, environment and sustainable development is taken with CENMI year 1, i.e. during the transferring student's year 2."
+      },
+      {
+        "code": "MJ1508",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Ekologi och miljöeffekter läses med CENMI årskurs 1, alltså under den transfererande studentens årskurs 2.",
+        "noteEn": "Ecology and environmental effects is taken with CENMI year 1, i.e. during the transferring student's year 2."
+      },
+      {
+        "code": "CK1020",
+        "fromYear": 1,
+        "toYear": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 3
+        },
+        "note": "Grundläggande kemi är 6 hp. 3 hp tillgodoräknas från KD1000, och resterande 3 hp läses med CENMI årskurs 1 i P4, under den transfererande studentens årskurs 2.",
+        "noteEn": "Basic chemistry is 6 credits. 3 are credited from KD1000, and the remaining 3 are taken with CENMI year 1 in P4, during the transferring student's year 2."
+      },
+      {
+        "code": "AL1145",
+        "fromYear": 2,
+        "toYear": 3,
+        "note": "Strategier för hållbar utveckling läses med CENMI årskurs 2 i P1, men under den transfererande studentens årskurs 3, enligt planens tabell för årskurs 3.",
+        "noteEn": "Strategies for sustainable development is taken with CENMI year 2 in P1, but during the transferring student's year 3, per the plan's year-3 table."
+      }
+    ],
+    "verified": false,
+    "source": "Övergångsplan för Öppen ingång, påbörjad HT-25 till Energi och miljö (CENMI) ett år senare, version 2026-01-26.",
+    "sourceEn": "Transition plan for Öppen ingång starting HT25, for transfer to Energy and Environment (CENMI) a year later, version 2026-01-26."
   }
 ]

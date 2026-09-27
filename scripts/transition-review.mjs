@@ -88,7 +88,7 @@ function composedLoad(plan, spec) {
     if (e.code && exempt.has(e.code)) continue;
     if (e.type !== 'optionGroup' && e.code && taken.has(e.code)) continue;  // same course, already read
     const mv = e.code ? moves.get(e.code) : null;
-    if (mv) { out.push({ ...e, year: mv.toYear, periodCredits: yearRows(e)[0]?.periodCredits ?? e.periodCredits }); continue; }
+    if (mv) { out.push({ ...e, year: mv.toYear, periodCredits: mv.periodCredits ?? yearRows(e)[0]?.periodCredits ?? e.periodCredits }); continue; }
     if (plan.sourceYears.includes(firstYear(e))) continue;
     const rs = e.code ? resched.get(e.code) : null;
     // A group cannot offer what the student already took or was exempted from
@@ -213,7 +213,10 @@ function write(plan) {
     L.push('Kursen läses i samma läsperioder som vanligt, men ett år senare.');
     L.push('');
     for (const m of plan.moved) {
-      L.push(`- **${link(m.code)} ${nameOf(tgt, m.code)}** (${hp(creditsOf(tgt, m.code) ?? 0)} hp): årskurs ${m.fromYear} → ${m.toYear}`);
+      const part = m.periodCredits
+        ? `, varav **${['P1', 'P2', 'P3', 'P4'].filter((q) => m.periodCredits[q]).map((q) => `${q}: ${hp(m.periodCredits[q])} hp`).join(', ')}** läses`
+        : '';
+      L.push(`- **${link(m.code)} ${nameOf(tgt, m.code)}** (${hp(creditsOf(tgt, m.code) ?? 0)} hp${part}): årskurs ${m.fromYear} → ${m.toYear}`);
       if (m.note) L.push(`  ${m.note}`);
     }
     L.push('');

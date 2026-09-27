@@ -276,5 +276,23 @@
         "body": "MG1028 och MF1018 står i tabellen för årskurs 2 (2026/2027) med kommentaren *\"Läses av Open-studenter ht-25\"*, och SF1633 i tabellen för årskurs 3 (2027/2028) med *\"ht-26\"*. Båda ligger ett år före tabellens läsår. Diagrammet följer tabellerna: MG1028 och MF1018 hösten i årskurs 2, SF1633 hösten i årskurs 3. **Bekräfta.**"
       }
     ]
+  },
+  "COPEN->CENMI": {
+    "intro": "Planen är inläst från *Övergångsplan för Öppen ingång, påbörjad HT-25 till Energi och miljö (CENMI) ett år senare*, version 2026-01-26. Motsvarigheterna står i planens kommentarer till CENMI:s årskurs 1.\n\nFyra av Öppen ingångs kurser har samma kurskod i CENMI (SF1624, SF1625, SF1626, DD1310). **CK1020** *Grundläggande kemi* (6 hp) tillgodoräknas till hälften från KD1000, och resterande 3 hp läses i årskurs 2. Diagrammet visar därför CK1020 med 3 hp i P4.",
+    "loadNote": "Årskurs 2 blir **17/16/15/18 = 66 hp** och årskurs 3 **18/15/15/15 = 63 hp**, exakt planens egna summor. Båda åren ligger över 60 hp; se fråga 2.",
+    "items": [
+      {
+        "title": "Fråga: SF1514 eller SF1512?",
+        "body": "Planens tabell för årskurs 2 listar **SF1514** *Numeriska metoder* (6 hp, P1-P2) med kommentaren *\"Tillgodoräknas mot SF1546\"*. CENMI:s kursdata för årskurs 2 anger i stället **SF1512** *Numeriska metoder, grundkurs* med samma omfattning och perioder. Diagrammet utgår från att det är SF1512 som tillgodoräknas. **Bekräfta.**"
+      },
+      {
+        "title": "Fråga: 66 + 63 hp, och SA1007 som valfri kurs",
+        "body": "Studenten läser enligt planen 66 hp i årskurs 2 och 63 hp i årskurs 3. I årskurs 3 består överskottet av AL1145 (3 hp), som flyttats från CENMI:s årskurs 2.\n\nPlanen anger också att SA1007 *\"Kan tillgodoräknas som valfri kurs i åk 3\"*, och tabellen för årskurs 3 har raden *\"Valfri kurs 7,5 — Ev SA1007\"*. Görs det, behöver studenten bara läsa 22,5 hp i valblocket i stället för 30, och årskurs 3 blir 55,5 hp. Diagrammet visar valblocket med CENMI:s 30 hp, som planens summa på 63 hp.\n\n**Fråga:** räknas SA1007 som den valfria kursen för alla studenter från Öppen ingång, och ska valblocket då visas som 22,5 hp?"
+      },
+      {
+        "title": "Fråga: AL1145 i årskurs 3",
+        "body": "AL1145 *Strategier för hållbar utveckling* (3 hp, P1) står i planens tabell för årskurs 3 med kommentaren *\"Läses med CENMI åk 2\"*. Diagrammet lägger den i den transfererande studentens årskurs 3, P1. **Bekräfta** att den inte i stället läses i årskurs 2, där P1 redan är 17 hp."
+      }
+    ]
   }
 }
