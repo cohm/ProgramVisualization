@@ -250,5 +250,31 @@
         "body": "I tabellen *\"År 1 CBIOT\"* är KD1020, CB1170, SF1625, KD1230 och KE1180 gråmarkerade. Färgen finns inte i planens teckenförklaring, och tre av kurserna (KD1020, KD1230, KE1180) läses ändå i årskurs 2. **Fråga:** vad betyder markeringen?"
       }
     ]
+  },
+  "COPEN->CDEPR": {
+    "intro": "Planen är inläst från *Övergångsplan för Öppen ingång - påbörjad H25 - till Design och produktframtagning (CDEPR)*, version 2025-11-24, som gäller övergången till programmet H26. Motsvarigheterna står i planens kommentarskolumn för båda årskurs 1-tabellerna.\n\nTre av Öppen ingångs kurser har samma kurskod i CDEPR (SF1624, SF1625, SF1626). Två CDEPR-kurser ersätts av flera kurser tillsammans: **MF1061** av SA1007, KD1000, MG1028 och MF1018, och **SF1523** av SF1546 och SF1633. MG1028, MF1018 och SF1633 finns i ingen av de två studieplanerna och är tillagda från kurssidorna.",
+    "loadNote": "Den sammansatta planen ligger **över heltid** i båda årskurserna, och det mesta av överskottet finns i planens egna tabeller:\n\n- **Årskurs 2: 19,5/15/18/18 = 70,5 hp.** Planen anger 16,5/16,5/18/18. P3 och P4 stämmer. I P1 saknar planens summa MG1028 (1,5 hp), och MF1018 ligger enligt kurssidan helt i P1 (se fråga 3).\n- **Årskurs 3: 21/15/15/15 = 66 hp.** P1 är planens egen summa (21 hp). Valblocket *Kurser för valt masterprogram och valfria kurser* är CDEPR:s egna 21 hp; se fråga 1.",
+    "items": [
+      {
+        "title": "Fråga: hur stort är det valfria utrymmet i årskurs 3?",
+        "body": "CDEPR:s egen årskurs 3 har 39 hp obligatoriska kurser och examensarbete, plus ett block på **21 hp** med behörighetsgivande och valfria kurser. För studenten från Öppen ingång tillkommer **SF1633** (6 hp) i P1, och planen listar årskursen som 45 hp plus *\"Behörighetsgivande kurser – Olika kurser, beroende på masterval\"*, utan hp.\n\nOm årskursen ska vara 60 hp återstår **15 hp** för blocket. Samtidigt räknas SK1115 från Öppen ingång som *\"Valfri på CDEPR\"* (7,5 hp). Diagrammet visar i dag blocket med CDEPR:s 21 hp, vilket ger 66 hp.\n\n**Fråga:** hur många hp ska blocket omfatta för en student från Öppen ingång, och räknas SK1115 in i det?"
+      },
+      {
+        "title": "Fråga: MF1064 kräver SF1523 — men SF1633 läses först i årskurs 3",
+        "body": "SF1523 ersätts av SF1546 **och** SF1633 tillsammans, och SF1633 läses enligt planen i årskurs 3 P1. **MF1064** *Modellering och simulering* i årskurs 2 (P3-P4) kräver SF1523 enligt sin kursplan. Diagrammet ritar förkunskapspilen från SF1546, som studenten har, men den del av SF1523 som SF1633 täcker har studenten inte läst när MF1064 börjar.\n\n**Fråga:** räcker SF1546 som behörighet för MF1064? Annars behöver SF1633 läsas redan i årskurs 2; kurssidan har omgångar i både P1 (hösten) och P4 (våren)."
+      },
+      {
+        "title": "Fråga: MF1018 i P1 eller P1-P2?",
+        "body": "Planens tabell anger MF1018 *Industriell design Prop* (3 hp) som 1,5 hp i P1 och 1,5 hp i P2. Kurssidan anger omgången HT 2026 som **P1 (3 hp)**, och diagrammet följer kurssidan. **Bekräfta vilket som gäller.**\n\nKursplanens behörighet är *\"SF1502 Ingenjörsrollen och ingenjörskunskap\"*, som hos Öppen ingång heter SA1007; se fråga 4."
+      },
+      {
+        "title": "Fråga: \"SF1502\" i planens text — avses SA1007?",
+        "body": "Planens fotnot säger *\"Kurserna SF1502 Ingenjörsrollen och ingenjörskunskap + KD1000 … + MG1028 … + MF1018 … motsvarar tillsammans MF1061\"*, medan tabellen för Öppen ingång anger SA1007 (*\"Motsv. del av MF1061\"*). Samma namn med kod SF1502 förekommer i CMAST:s övergångsplan och i MF1018:s kursplan. Här har SA1007 använts. **Bekräfta.**"
+      },
+      {
+        "title": "Fråga: terminerna i kommentarerna",
+        "body": "MG1028 och MF1018 står i tabellen för årskurs 2 (2026/2027) med kommentaren *\"Läses av Open-studenter ht-25\"*, och SF1633 i tabellen för årskurs 3 (2027/2028) med *\"ht-26\"*. Båda ligger ett år före tabellens läsår. Diagrammet följer tabellerna: MG1028 och MF1018 hösten i årskurs 2, SF1633 hösten i årskurs 3. **Bekräfta.**"
+      }
+    ]
   }
 }
