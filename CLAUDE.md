@@ -1221,6 +1221,12 @@ Likewise, a target course with the same code as a source course is left out
 automatically: nobody reads the same course twice. Without that, CBIOT's own
 SF1626 stayed in year 3 once the group was gone.
 
+**A `moved` course can be read in part.** `moved[].periodCredits` replaces the
+periods with the part still read. CENMI's CK1020 is 6 hp in P4; 3 hp are
+credited from COPEN's KD1000, and the student reads 3 hp. The plan's year-2 sums
+only come out with CK1020 at 3 hp. `totalCredits` stays the course's own, and
+the validator requires the part to be less than the whole.
+
 **A group never offers what the student already has.** Options the student took
 in the source years, or is exempted from, are dropped from the target's groups.
 CELTE's year-2 group lists SF1546, which a COPEN student read in year 1. As an

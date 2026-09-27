@@ -38,6 +38,13 @@ export interface TransitionMove {
   code: string;
   fromYear: number;
   toYear: number;
+  /**
+   * The part of the course still read, when the rest is credited. CENMI's
+   * CK1020 is 6 hp in P4; 3 hp are credited from COPEN's KD1000 and the
+   * student reads the other 3 with CENMI year 1. Omitted, the course keeps
+   * all its periods. Must sum to less than the course's own credits.
+   */
+  periodCredits?: Record<string, number>;
   note?: string;
   noteEn?: string;
 }

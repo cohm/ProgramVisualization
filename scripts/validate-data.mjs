@@ -1172,6 +1172,15 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
       if (plan.sourceYears.includes(mv.toYear)) {
         err(file, `${ctx} ${label}: moves '${mv.code}' into year ${mv.toYear}, which is taken in ${plan.from}`);
       }
+      // A partial read: the part still taken must be a real part of the course.
+      if (mv.periodCredits != null) {
+        const bad = Object.keys(mv.periodCredits).filter((k) => !['P1', 'P2', 'P3', 'P4'].includes(k));
+        if (bad.length) err(file, `${ctx} ${label}: '${mv.code}' periodCredits has unknown period(s) ${bad.join(', ')}`);
+        const sum = ['P1', 'P2', 'P3', 'P4'].reduce((a, q) => a + Number(mv.periodCredits[q] || 0), 0);
+        if (!(sum > 0) || (course.totalCredits != null && sum >= course.totalCredits - 0.05)) {
+          err(file, `${ctx} ${label}: moves '${mv.code}' with ${sum} hp of periodCredits — a partial read must be more than 0 and less than the course's ${course.totalCredits} hp`);
+        }
+      }
       if (mv.toYear <= mv.fromYear) {
         warn(file, `${ctx} ${label}: moves '${mv.code}' from year ${mv.fromYear} to ${mv.toYear} — not a later year, check this is intended`);
       }
