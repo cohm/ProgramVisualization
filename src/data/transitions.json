@@ -1384,5 +1384,223 @@
     "verified": false,
     "source": "Övergångsplan för Öppen ingång, påbörjad HT-25 (gäller överg till prog. CSAMH), version 2025-12-17.",
     "sourceEn": "Transition plan for Öppen ingång starting HT25, for transfer to Samhällsbyggnad (CSAMH), version 2025-12-17."
+  },
+  {
+    "from": "COPEN",
+    "to": "CBIOT",
+    "sourceYears": [
+      1
+    ],
+    "credited": [
+      {
+        "code": "SF1625",
+        "replaces": [
+          "SF1625"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1624",
+        "note": "Algebra och geometri läses i CBIOT i årskurs 2, som samma kurs. Den utgår därför där (se exempt).",
+        "noteEn": "Algebra and geometry is taught in CBIOT year 2, as the same course. It is therefore dropped there (see exempt)."
+      },
+      {
+        "code": "SF1626",
+        "note": "Flervariabelanalys är i CBIOT ett av två villkorligt valfria alternativ i årskurs 3 P4 (KD1270 eller SF1626). Studenten har redan läst den, så valet är gjort (se valgruppen).",
+        "noteEn": "Multivariable calculus is one of two conditionally elective options in CBIOT year 3 P4 (KD1270 or SF1626). The student has already taken it, so the choice is made (see the option group)."
+      },
+      {
+        "code": "SF1546",
+        "note": "Numeriska metoder, grundkurs motsvarar SF1525 Grundkurs i numeriska metoder i CBIOT årskurs 2, som utgår.",
+        "noteEn": "Numerical methods corresponds to SF1525 in CBIOT year 2, which is dropped."
+      },
+      {
+        "code": "DD1310",
+        "note": "Programmeringsteknik motsvarar CB1050 Python för bioteknologi i CBIOT årskurs 2, som utgår.",
+        "noteEn": "Programming techniques corresponds to CB1050 Python for biotechnology in CBIOT year 2, which is dropped."
+      },
+      {
+        "code": "SK1115",
+        "note": "Elektromagnetism och vågrörelselära motsvarar tillsammans med SG1133 SK1150 Grundläggande fysik I i CBIOT årskurs 2, som utgår.",
+        "noteEn": "Electromagnetism and wave motion, together with SG1133, corresponds to SK1150 Basic physics I in CBIOT year 2, which is dropped."
+      },
+      {
+        "code": "SG1133",
+        "note": "Mekanik I; se SK1115.",
+        "noteEn": "Mechanics I; see SK1115."
+      },
+      {
+        "code": "SA1007",
+        "note": "Ingenjörsrollen och ingenjörskunskap; planen anger ingen enskild CBIOT-kurs som den ersätter.",
+        "noteEn": "The engineering role; the plan names no single CBIOT course it replaces."
+      },
+      {
+        "code": "KD1000",
+        "note": "Kemiska principer för hållbar utveckling; planen anger ingen enskild CBIOT-kurs som den ersätter.",
+        "noteEn": "Chemical principles; the plan names no single CBIOT course it replaces."
+      }
+    ],
+    "exempt": [
+      {
+        "code": "SF1624",
+        "creditedBy": "SF1624",
+        "note": "Algebra och geometri (årskurs 2 P1 i CBIOT) är redan avklarad genom samma kurs i Öppen ingång.",
+        "noteEn": "Algebra and geometry (CBIOT year 2 P1) is already completed through the same course in Öppen ingång."
+      },
+      {
+        "code": "SF1525",
+        "creditedBy": "SF1546",
+        "note": "Grundkurs i numeriska metoder motsvaras av SF1546 i Öppen ingång. Planen tar inte upp kursen; motsvarigheten är en tolkning.",
+        "noteEn": "Basic numerical methods is covered by SF1546 in Öppen ingång. The plan does not list the course; the equivalence is an interpretation."
+      },
+      {
+        "code": "CB1050",
+        "creditedBy": "DD1310",
+        "note": "Python för bioteknologi motsvaras av DD1310 i Öppen ingång. Planen tar inte upp kursen; motsvarigheten är en tolkning.",
+        "noteEn": "Python for biotechnology is covered by DD1310 in Öppen ingång. The plan does not list the course; the equivalence is an interpretation."
+      },
+      {
+        "code": "SK1150",
+        "creditedBy": "SK1115",
+        "note": "Grundläggande fysik I motsvaras av SK1115 och SG1133 i Öppen ingång. Planen tar inte upp kursen; motsvarigheten är en tolkning.",
+        "noteEn": "Basic physics I is covered by SK1115 and SG1133 in Öppen ingång. The plan does not list the course; the equivalence is an interpretation."
+      },
+      {
+        "code": "CK1285",
+        "note": "Planen tar inte upp kursen, och den läses inte av studenter från Öppen ingång. Planen anger att Öppen ingångs årskurs 1 motsvarar 51 hp obligatoriska kurser och 9 hp villkorligt valfria kurser i CBIOT, men inte vilka. Se signeringsunderlaget.",
+        "noteEn": "The plan does not include the course, and students from Öppen ingång do not take it. The plan says Öppen ingång year 1 corresponds to 51 credits of compulsory and 9 credits of conditionally elective CBIOT courses, without saying which. See the sign-off file."
+      },
+      {
+        "code": "SI1410",
+        "note": "Planen tar inte upp kursen, och den läses inte av studenter från Öppen ingång. Planen anger att Öppen ingångs årskurs 1 motsvarar 51 hp obligatoriska kurser och 9 hp villkorligt valfria kurser i CBIOT, men inte vilka. Se signeringsunderlaget.",
+        "noteEn": "The plan does not include the course, and students from Öppen ingång do not take it. The plan says Öppen ingång year 1 corresponds to 51 credits of compulsory and 9 credits of conditionally elective CBIOT courses, without saying which. See the sign-off file."
+      },
+      {
+        "code": "CB1200",
+        "note": "Planen tar inte upp kursen, och den läses inte av studenter från Öppen ingång. Planen anger att Öppen ingångs årskurs 1 motsvarar 51 hp obligatoriska kurser och 9 hp villkorligt valfria kurser i CBIOT, men inte vilka. Se signeringsunderlaget.",
+        "noteEn": "The plan does not include the course, and students from Öppen ingång do not take it. The plan says Öppen ingång year 1 corresponds to 51 credits of compulsory and 9 credits of conditionally elective CBIOT courses, without saying which. See the sign-off file."
+      }
+    ],
+    "moved": [
+      {
+        "code": "KD1020",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Inledande kemi läses tillsammans med CBIOT årskurs 1, alltså under den transfererande studentens årskurs 2.",
+        "noteEn": "Introductory chemistry is taken with CBIOT year 1, i.e. during the transferring student's year 2."
+      },
+      {
+        "code": "BB1150",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Biokemi 1 läses tillsammans med CBIOT årskurs 1, alltså under den transfererande studentens årskurs 2.",
+        "noteEn": "Biochemistry 1 is taken with CBIOT year 1, i.e. during the transferring student's year 2."
+      },
+      {
+        "code": "BB1160",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Eukaryot cellbiologi läses tillsammans med CBIOT årskurs 1, alltså under den transfererande studentens årskurs 2.",
+        "noteEn": "Eukaryotic cell biology is taken with CBIOT year 1, i.e. during the transferring student's year 2."
+      },
+      {
+        "code": "BB1030",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Mikrobiologi läses tillsammans med CBIOT årskurs 1, alltså under den transfererande studentens årskurs 2.",
+        "noteEn": "Microbiology is taken with CBIOT year 1, i.e. during the transferring student's year 2."
+      },
+      {
+        "code": "KD1230",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Organisk kemi, grundläggande koncept och praktik läses tillsammans med CBIOT årskurs 1, alltså under den transfererande studentens årskurs 2.",
+        "noteEn": "Organic chemistry, basic concepts is taken with CBIOT year 1, i.e. during the transferring student's year 2."
+      },
+      {
+        "code": "BB1190",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Genteknik läses tillsammans med CBIOT årskurs 1, alltså under den transfererande studentens årskurs 2.",
+        "noteEn": "Gene technology is taken with CBIOT year 1, i.e. during the transferring student's year 2."
+      },
+      {
+        "code": "KE1180",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Inledande kemiteknik läses tillsammans med CBIOT årskurs 1, alltså under den transfererande studentens årskurs 2.",
+        "noteEn": "Introductory chemical engineering is taken with CBIOT year 1, i.e. during the transferring student's year 2."
+      },
+      {
+        "code": "SF1911",
+        "fromYear": 3,
+        "toYear": 2,
+        "note": "Statistik för bioteknik flyttas TIDIGARE, från årskurs 3 till årskurs 2 (P2), enligt planens tabell för årskurs 2.",
+        "noteEn": "Statistics for biotechnology moves EARLIER, from year 3 to year 2 (P2), per the plan's year-2 table."
+      },
+      {
+        "code": "BB1210",
+        "fromYear": 2,
+        "toYear": 3,
+        "note": "Rening av biomolekyler läses tillsammans med CBIOT årskurs 2, under den transfererande studentens årskurs 3.",
+        "noteEn": "Purification of biomolecules is taken with CBIOT year 2, during the transferring student's year 3."
+      },
+      {
+        "code": "BB1200",
+        "fromYear": 2,
+        "toYear": 3,
+        "note": "Analys av biomolekyler läses tillsammans med CBIOT årskurs 2, under den transfererande studentens årskurs 3.",
+        "noteEn": "Analysis of biomolecules is taken with CBIOT year 2, during the transferring student's year 3."
+      },
+      {
+        "code": "BB1230",
+        "fromYear": 2,
+        "toYear": 3,
+        "note": "Biokemi 2 läses tillsammans med CBIOT årskurs 2, under den transfererande studentens årskurs 3.",
+        "noteEn": "Biochemistry 2 is taken with CBIOT year 2, during the transferring student's year 3."
+      },
+      {
+        "code": "CB1015",
+        "fromYear": 2,
+        "toYear": 3,
+        "note": "Hållbar utveckling av bioteknik läses tillsammans med CBIOT årskurs 2, under den transfererande studentens årskurs 3.",
+        "noteEn": "Sustainable development of biotechnology is taken with CBIOT year 2, during the transferring student's year 3."
+      }
+    ],
+    "groupChanges": [
+      {
+        "year": 3,
+        "offering": "BB1070",
+        "qualifiesFor": {
+          "BB1070": [
+            {
+              "code": "TMBIM",
+              "name": "Medicinsk bioteknologi",
+              "required": true
+            }
+          ],
+          "KD1070": [
+            {
+              "code": "TMMMM",
+              "name": "Makromolekylära material",
+              "required": true
+            }
+          ]
+        },
+        "comment": "Välj en av kurserna. Planen anger BB1070 som särskild behörighet för masterprogrammet i medicinsk bioteknologi (TMBIM) och KD1070 för makromolekylära material (TMMMM).",
+        "commentEn": "Choose one of the courses. The plan gives BB1070 as specific eligibility for the master programme in medical biotechnology (TMBIM) and KD1070 for macromolecular materials (TMMMM)."
+      },
+      {
+        "year": 3,
+        "offering": "KD1270",
+        "satisfiedBy": "SF1626",
+        "comment": "CBIOT:s val mellan KD1270 och SF1626 fylls redan av SF1626 från Öppen ingång. Planen listar KD1270 i årskurs 3 som särskild behörighet för masterprogrammet i industriell och miljöinriktad bioteknologi (TIMBM), men räknar inte med den i årskursens 61 hp. Se fråga 1.",
+        "commentEn": "CBIOT's choice between KD1270 and SF1626 is already filled by SF1626 from Öppen ingång. The plan lists KD1270 in year 3 as specific eligibility for the master programme in industrial and environmental biotechnology (TIMBM), but does not count it in the year's 61 credits. See question 1."
+      }
+    ],
+    "verified": false,
+    "source": "Övergångsplan för Öppen ingång, påbörjad HT-25 (gäller överg till prog. CBIOT), version 20251113.",
+    "sourceEn": "Transition plan for Öppen ingång starting HT25, for transfer to Bioteknik (CBIOT), version 20251113."
   }
 ]

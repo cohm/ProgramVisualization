@@ -1210,6 +1210,17 @@ per-inriktning table ("obligatorisk / rekommenderad för inriktningen") goes int
 `qualifiesFor` with the inriktning codes, and renders as "krävs för STP" /
 "rek. för MHI".
 
+**`groupChanges[].satisfiedBy` removes a choice the source already filled.**
+CBIOT's year-3 P4 choice is KD1270 or SF1626, and a COPEN student read SF1626
+in year 1. The group and its remaining options leave the plan. It is stated per
+plan rather than inferred, because plans read this differently: COPEN → CELTE
+says "välj minst 1 (ej SF1546 … SG1130)" of a pick-three group, which is not
+"three minus the two already taken".
+
+Likewise, a target course with the same code as a source course is left out
+automatically: nobody reads the same course twice. Without that, CBIOT's own
+SF1626 stayed in year 3 once the group was gone.
+
 **A group never offers what the student already has.** Options the student took
 in the source years, or is exempted from, are dropped from the target's groups.
 CELTE's year-2 group lists SF1546, which a COPEN student read in year 1. As an

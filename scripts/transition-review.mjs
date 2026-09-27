@@ -86,6 +86,7 @@ function composedLoad(plan, spec) {
   const resched = new Map((plan.rescheduled ?? []).map((r) => [r.code, r]));
   for (const e of tgt) {
     if (e.code && exempt.has(e.code)) continue;
+    if (e.type !== 'optionGroup' && e.code && taken.has(e.code)) continue;  // same course, already read
     const mv = e.code ? moves.get(e.code) : null;
     if (mv) { out.push({ ...e, year: mv.toYear, periodCredits: yearRows(e)[0]?.periodCredits ?? e.periodCredits }); continue; }
     if (plan.sourceYears.includes(firstYear(e))) continue;
@@ -100,7 +101,16 @@ function composedLoad(plan, spec) {
   // the group's own options (COPEN -> CSAMH's AG1314 in year 2 P4).
   for (const gc of plan.groupChanges ?? []) {
     const g = out.find((e) => e.type === 'optionGroup' && e.year === gc.year && (e.options ?? []).includes(gc.offering));
-    if (g) g.options = [...new Set([...(g.options ?? []), ...(gc.addOptions ?? [])])];
+    if (!g) continue;
+    if (gc.satisfiedBy) {
+      // Filled by a credited course: the group and its options leave the plan.
+      const drop = new Set(g.options ?? []);
+      for (let i = out.length - 1; i >= 0; i--) {
+        if (out[i] === g || (out[i].type !== 'optionGroup' && drop.has(out[i].code) && firstYear(out[i]) === gc.year)) out.splice(i, 1);
+      }
+      continue;
+    }
+    g.options = [...new Set([...(g.options ?? []), ...(gc.addOptions ?? [])])];
   }
 
   // Same counting rule the app uses (`fullTimeWarnings` in src/lib/transitions.ts):
@@ -249,6 +259,12 @@ function write(plan) {
     for (const gc of plan.groupChanges) {
       const g = tgt.find((e) => e.type === 'optionGroup' && e.year === gc.year && (e.options ?? []).includes(gc.offering));
       if (!g) continue;
+      if (gc.satisfiedBy) {
+        L.push(`**Årskurs ${gc.year}, valet mellan ${(g.options ?? []).map(link).join(' och ')}** utgår: det fylls redan av ${link(gc.satisfiedBy)} från ${plan.from}.`);
+        L.push('');
+        if (gc.comment) { L.push(gc.comment); L.push(''); }
+        continue;
+      }
       const rule = g.kind === 'minCredits' ? `minst ${hp(g.minCredits)} hp` : `välj ${g.pickN ?? g.allowedNumberOfOptions ?? 1}`;
       L.push(`**Årskurs ${gc.year}, ${rule}** av:`);
       L.push('');

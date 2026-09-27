@@ -95,6 +95,10 @@ export function composeTransition(
     const code = isGroup(entry) ? null : entry.code;
 
     if (code && exemptCodes.has(code)) continue;      // credited away
+    // Already taken in the source years, as the same course. CBIOT teaches
+    // SF1626 as a year-3 option, which a COPEN student read in year 1; kept, it
+    // would be drawn twice.
+    if (code && sourceCodes.has(code)) continue;
 
     const move = code ? movesByCode.get(code) : undefined;
     if (move) {
@@ -237,6 +241,19 @@ function applyGroupChanges(entries: Entry[], plan: TransitionPlan, warnings: str
       continue;
     }
     const group = out[at] as OptionGroup;
+    if (change.satisfiedBy) {
+      // The student's credited course fills the choice; the options they did
+      // not take leave the plan with the group, unless another group still
+      // offers them.
+      out.splice(at, 1);
+      const stillOffered = new Set(out.filter(isGroup).flatMap(g => g.options));
+      for (const code of group.options) {
+        if (stillOffered.has(code)) continue;
+        const i = out.findIndex(e => !isGroup(e) && e.code === code && entryYear(e) === change.year);
+        if (i >= 0) out.splice(i, 1);
+      }
+      continue;
+    }
     const options = [...group.options];
     for (const code of change.addOptions ?? []) {
       const course = courses.get(code);
