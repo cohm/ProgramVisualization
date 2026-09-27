@@ -1602,5 +1602,161 @@
     "verified": false,
     "source": "Övergångsplan för Öppen ingång, påbörjad HT-25 (gäller överg till prog. CBIOT), version 20251113.",
     "sourceEn": "Transition plan for Öppen ingång starting HT25, for transfer to Bioteknik (CBIOT), version 20251113."
+  },
+  {
+    "from": "COPEN",
+    "to": "CDEPR",
+    "sourceYears": [
+      1
+    ],
+    "credited": [
+      {
+        "code": "SF1625",
+        "replaces": [
+          "SF1625"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen (\"Läses även av CDEPR\").",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1624",
+        "replaces": [
+          "SF1624"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen (\"Läses även av CDEPR\").",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1626",
+        "replaces": [
+          "SF1626"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen (\"Läses även av CDEPR\").",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "DD1310",
+        "replaces": [
+          "SF1522"
+        ],
+        "note": "Programmeringsteknik motsvarar tillsammans med SF1546 SF1522 Numeriska beräkningar i CDEPR årskurs 1 (\"DD1310+SF1546 motsv. SF1522\"). DD1310 är vald som den kurs förkunskapspilarna utgår från.",
+        "noteEn": "Programming techniques, together with SF1546, corresponds to SF1522 Numerical computations in CDEPR year 1. DD1310 is chosen as the course prerequisite arrows start from."
+      },
+      {
+        "code": "SF1546",
+        "replaces": [
+          "SF1523"
+        ],
+        "note": "Numeriska metoder, grundkurs motsvarar tillsammans med SF1633, som läses i årskurs 3, SF1523 Analytiska och numeriska metoder för differentialekvationer i CDEPR årskurs 1 (\"SF1546+SF1633 motsv. SF1523\"). Den ingår också i motsvarigheten till SF1522. Förkunskapspilarna för SF1523 utgår från SF1546, eftersom MF1064 i årskurs 2 kräver SF1523 och SF1633 läses först efter den.",
+        "noteEn": "Numerical methods, together with SF1633 (taken in year 3), corresponds to SF1523 in CDEPR year 1. It also counts toward SF1522. Prerequisite arrows for SF1523 start from SF1546, since MF1064 in year 2 requires SF1523 and SF1633 comes only after it."
+      },
+      {
+        "code": "SG1133",
+        "replaces": [
+          "SG1130"
+        ],
+        "note": "Mekanik I motsvarar CDEPR:s SG1130 Mekanik I.",
+        "noteEn": "Mechanics I corresponds to CDEPR's SG1130 Mechanics I."
+      },
+      {
+        "code": "SA1007",
+        "replaces": [
+          "MF1061"
+        ],
+        "note": "Ingenjörsrollen motsvarar del av MF1061 Introduktion till design och produktframtagning. Planen anger att MF1061 ersätts av SA1007, KD1000, MG1028 och MF1018 tillsammans; SA1007 är vald som den kurs förkunskapspilarna utgår från.",
+        "noteEn": "The engineering role covers part of MF1061. The plan states MF1061 is replaced by SA1007, KD1000, MG1028 and MF1018 together; SA1007 is chosen as the course prerequisite arrows start from."
+      },
+      {
+        "code": "KD1000",
+        "note": "Kemiska principer motsvarar del av MF1061 (se SA1007).",
+        "noteEn": "Chemical principles covers part of MF1061 (see SA1007)."
+      },
+      {
+        "code": "SK1115",
+        "note": "Elektromagnetism och vågrörelselära räknas enligt planen som valfri kurs på CDEPR (\"Valfri på CDEPR\"), och ersätter ingen enskild kurs.",
+        "noteEn": "Electromagnetism and wave motion counts as an elective course in CDEPR, per the plan, and replaces no single course."
+      }
+    ],
+    "moved": [
+      {
+        "code": "MF1062",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Design och produktframtagning läses under våren med CDEPR årskurs 1 (\"Läses under vt med CDEPR1\"), alltså under den transfererande studentens årskurs 2.",
+        "noteEn": "Design and product realisation is taken in the spring with CDEPR year 1, i.e. during the transferring student's year 2."
+      }
+    ],
+    "added": [
+      {
+        "code": "MG1028",
+        "name": "Grundläggande 3D-CAD",
+        "nameEn": "Basic 3D CAD",
+        "totalCredits": 1.5,
+        "year": 2,
+        "periodCredits": {
+          "P1": 1.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        },
+        "exams": [],
+        "gradingScale": "A-F",
+        "courseLevel": "G",
+        "category": "mandatory",
+        "fromProgram": "CMAST",
+        "cosmeticsGroup": "Design och produktframtagning",
+        "note": "Ingår med SA1007, KD1000 och MF1018 i motsvarigheten till MF1061. Perioden är kurssidans omgång HT 2026 (P1); kursen ges även i P3.",
+        "noteEn": "Part, with SA1007, KD1000 and MF1018, of the equivalent of MF1061. The period is the course page's HT 2026 offering (P1); the course is also given in P3."
+      },
+      {
+        "code": "MF1018",
+        "name": "Industriell design Prop",
+        "nameEn": "Industrial Design Prep",
+        "totalCredits": 3,
+        "year": 2,
+        "periodCredits": {
+          "P1": 3,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        },
+        "exams": [],
+        "gradingScale": "P/F",
+        "courseLevel": "G",
+        "category": "mandatory",
+        "cosmeticsGroup": "Design och produktframtagning",
+        "note": "Ingår med SA1007, KD1000 och MG1028 i motsvarigheten till MF1061. Kurssidans omgång HT 2026 ligger helt i P1 (3 hp), medan planens tabell anger 1,5 hp i P1 och 1,5 hp i P2; se signeringsunderlaget. Examination PRO1 (projekt), inget tentamen.",
+        "noteEn": "Part, with SA1007, KD1000 and MG1028, of the equivalent of MF1061. The course page's HT 2026 offering is all in P1 (3 credits), while the plan's table gives 1.5 in P1 and 1.5 in P2; see the sign-off file. Examined by a project, no exam."
+      },
+      {
+        "code": "SF1633",
+        "name": "Differentialekvationer I",
+        "nameEn": "Differential Equations I",
+        "totalCredits": 6,
+        "year": 3,
+        "periodCredits": {
+          "P1": 6,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        },
+        "exams": [
+          "P1"
+        ],
+        "gradingScale": "A-F",
+        "courseLevel": "G",
+        "category": "mandatory",
+        "prerequisitesCompleted": [
+          "SF1626"
+        ],
+        "fromProgram": "CMAST",
+        "cosmeticsGroup": "Matematik",
+        "note": "Ingår med SF1546 i motsvarigheten till SF1523 (\"Motsv. SF1546 + Måste läsa SF1633\"). Planen placerar kursen i årskurs 3 P1; kurssidan har en höstomgång i P1 och en vårkurs i P4 som läses av CMAST årskurs 2.",
+        "noteEn": "Part, with SF1546, of the equivalent of SF1523. The plan places it in year 3 P1; the course page has an autumn offering in P1 and a spring one in P4, taken by CMAST year 2."
+      }
+    ],
+    "verified": false,
+    "source": "Övergångsplan för Öppen ingång - påbörjad H25 - till Design och produktframtagning (CDEPR), version 2025-11-24. Gäller övergången till programmet H26.",
+    "sourceEn": "Transition plan for Öppen ingång starting H25 to Design and Product Realisation (CDEPR), version 2025-11-24, for transfer to the programme in H26."
   }
 ]
