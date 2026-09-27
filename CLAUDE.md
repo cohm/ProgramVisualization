@@ -522,10 +522,20 @@ valfri for MHI. The renderer filters groups by inriktning before deciding what
 counts as "an option somewhere", so MHI's group does not hide AF1006 from BBP.
 MHI's view still needs the course entry, so MHI is added to the entry's
 `specializations`. Inside MHI's visible group the course is then an option,
-drawn only once picked, and BBP still sees it as mandatory. A course
-obligatorisk for EVERY student that is also listed as a choice is
-contradictory, and as an option it would vanish for everyone, so it is left out
-of the groups and flagged. `validate-data`'s full-time check now computes option
+drawn only once picked, and BBP still sees it as mandatory. The same holds when the course is obligatorisk in the COMMON curriculum:
+CMAST's MG1026, MF1016 and MJ1112 are obligatoriska for students without an
+international profile and choices for INTF/INTS/INTT. The tagged group hides
+them only in those views. Only a choice that is itself common, for a course
+obligatorisk for every student, is contradictory; as an option it would vanish
+for everyone, so it is left out of the groups and flagged.
+
+**CMAST has a default "Utan internationell inriktning" option (`STD`).** Its
+real inriktningar are the three international profiles, and the chart selects
+the first registered option by default. So there was no view for the majority
+of students, who take none: every CMAST view was an INT view. `STD` exists only
+in `programs.json` and the URL, and no course carries it. Selecting it shows the
+untagged courses and hides every INT-tagged course and group, which is exactly
+the default track. It is listed first, so it is the default. `validate-data`'s full-time check now computes option
 membership per lane in the same way. It used one global set, which dropped
 AF1006 from BBP's load.
 
@@ -1087,7 +1097,9 @@ case is reported and left to a human.
    master-programme choices for years 4-5 as specialisations (46 for CMAST, 24 for
    CMATD, and CTFYS likewise has dozens); listing all of them would be wrong. The
    validator errors if a course names a code that is not registered, which is what
-   surfaces the real set.
+   surfaces the real set. If the inriktningar are optional profiles that most
+   students do not take, register a default "without" option first, as CMAST's
+   `STD`.
 5. Write `<CODE>-cosmetics.json` following the palette convention above, grouping
    by course-code prefix (SF maths, SK/SG/SE physics and mechanics, MF/MG/MJ/MH
    mechanical, CK/KD chemistry, DD computing, LS languages), with thesis courses

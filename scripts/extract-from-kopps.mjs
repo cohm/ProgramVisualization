@@ -2350,10 +2350,37 @@ function buildOptionGroups(vvRecords, vvInfo = []) {
  * Only groups with the SAME option set and the same pick rule are merged: two
  * genuinely different choices in different years share neither.
  */
-function dedupePoolGroups(groups) {
+function dedupePoolGroups(input) {
+  // The same choice listed under several inriktningar in ONE year is one group
+  // tagged with all of them. Deduplicating without looking at the tags kept
+  // whichever came first: CMAST's MF1016/MJ1112 choice is offered by INTF, INTS
+  // and INTT alike, and came out tagged INTF only, so INTS and INTT counted
+  // both courses as mandatory.
+  const sameYear = new Map();
+  const groups = [];
+  for (const g of input) {
+    if (!g.specializations?.length) { groups.push(g); continue; }
+    const k = `${g.year}::${[...g.options].sort().join(',')}::${g.kind}::${g.pickN ?? ''}::${g.minCredits ?? ''}::${PERIOD_IDS.map((q) => g.periodCredits?.[q] ?? 0).join('/')}`;
+    const prev = sameYear.get(k);
+    if (prev) {
+      prev.specializations = [...new Set([...prev.specializations, ...g.specializations])].sort();
+      continue;
+    }
+    sameYear.set(k, g);
+    groups.push(g);
+  }
+  // A merged group's name must not claim a single inriktning.
+  for (const g of sameYear.values()) {
+    const m = /^(.*) \(([A-Z/]+)\)$/.exec(g.name);
+    if (m && m[2] !== g.specializations.join('/')) {
+      g.name = `${m[1]} (${g.specializations.join('/')})`;
+      g.nameEn = g.nameEn?.replace(/ \([A-Z/]+\)$/, ` (${g.specializations.join('/')})`);
+    }
+  }
+
   const byShape = new Map();
   for (const g of groups) {
-    const shape = `${[...g.options].sort().join(',')}::${g.kind}::${g.pickN ?? ''}::${g.minCredits ?? ''}`;
+    const shape = `${[...g.options].sort().join(',')}::${g.kind}::${g.pickN ?? ''}::${g.minCredits ?? ''}::${(g.specializations ?? []).join('/')}`;
     const prev = byShape.get(shape);
     if (!prev || g.year < prev.year) byShape.set(shape, g);
   }
@@ -2361,7 +2388,8 @@ function dedupePoolGroups(groups) {
   for (const g of groups) {
     if (keep.has(g)) continue;
     const kept = [...keep].find((k) =>
-      [...k.options].sort().join(',') === [...g.options].sort().join(','));
+      [...k.options].sort().join(',') === [...g.options].sort().join(',')
+      && (k.specializations ?? []).join('/') === (g.specializations ?? []).join('/'));
     flag(`optionGroup "${g.name}" (year ${g.year}): the same pool is listed for year ` +
       `${kept?.year ?? '?'} as well, and the study plan states one rule covering both — ` +
       `kept the year ${kept?.year ?? '?'} box and dropped this duplicate, so the stated ` +
@@ -4220,18 +4248,23 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   // entry too, so MHI is added to its `specializations`. Inside MHI's visible
   // group it then behaves as an option, and BBP still sees it as mandatory.
   //
-  // A course obligatorisk for EVERYONE (no inriktning tags) that is also listed
-  // as a choice is contradictory, and as an option it would vanish for all, so
-  // it is left out of the groups and flagged.
+  // A course obligatorisk in the COMMON curriculum but a choice under an
+  // inriktning needs nothing more: CMAST's MG1026, MF1016 and MJ1112 are
+  // obligatoriska for students without an international profile and
+  // villkorligt valfria for INTF/INTS/INTT. The group is tagged with the
+  // inriktning, so it hides the course only in that inriktning's view.
+  //
+  // Only a choice that is itself COMMON, for a course obligatorisk for every
+  // student, is contradictory; as an option it would vanish for all, so it is
+  // left out of the groups and flagged.
   const entryByCode = new Map(entries.filter((e) => e.code).map((e) => [e.code, e]));
   const contradictory = new Set();
   for (const r of vvKept) {
     if (!byCode.has(r.code)) continue;
     const e = entryByCode.get(r.code);
-    if (r.spec && e?.specializations?.length) {
-      if (!e.specializations.includes(r.spec)) e.specializations = [...e.specializations, r.spec].sort();
-    } else {
-      contradictory.add(r.code);
+    if (!r.spec) { contradictory.add(r.code); continue; }
+    if (e?.specializations?.length && !e.specializations.includes(r.spec)) {
+      e.specializations = [...e.specializations, r.spec].sort();
     }
   }
   if (contradictory.size > 0) {
