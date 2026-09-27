@@ -1,0 +1,64 @@
+[
+  {
+    "name": "Matematik",
+    "nameEn": "Mathematics",
+    "colorFamily": "blue",
+    "courses": [
+      "SF1624",
+      "SF1625",
+      "SF1626",
+      "SF1682",
+      "SF1683",
+      "SF1923"
+    ]
+  },
+  {
+    "name": "Medicinsk teknik",
+    "nameEn": "Medical Engineering",
+    "colorFamily": "brick",
+    "courses": [
+      "CB1040",
+      "CB1180",
+      "CB1190",
+      "CM1004",
+      "CM1009",
+      "CM1012",
+      "HL1001",
+      "HL1202",
+      "HL1203",
+      "HL1204",
+      "HL2015"
+    ]
+  },
+  {
+    "name": "Fysik och mekanik",
+    "nameEn": "Physics and Mechanics",
+    "colorFamily": "green",
+    "courses": [
+      "SG1130",
+      "SH1011",
+      "SK1114"
+    ]
+  },
+  {
+    "name": "Elektro- och datateknik, ekonomi",
+    "nameEn": "Electrical and Computer Engineering, Management",
+    "colorFamily": "turquoise",
+    "courses": [
+      "EL1010",
+      "HE1200",
+      "HE1201",
+      "HF1201",
+      "HI1024",
+      "HI1027"
+    ]
+  },
+  {
+    "name": "Övrigt",
+    "nameEn": "Other",
+    "colorFamily": "yellow",
+    "courses": [
+      "HL103X"
+    ]
+  }
+]

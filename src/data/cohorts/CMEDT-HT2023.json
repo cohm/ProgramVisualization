@@ -1,0 +1,670 @@
+[
+  {
+    "type": "cohortMeta",
+    "program": "CMEDT",
+    "cohort": "HT2023",
+    "years": [
+      {
+        "year": 1,
+        "sourceCohort": "HT2025",
+        "approximated": true,
+        "confidence": "unknown"
+      },
+      {
+        "year": 2,
+        "sourceCohort": "HT2024",
+        "approximated": true,
+        "corroboratedBy": {
+          "year": 3,
+          "agrees": false
+        },
+        "confidence": "low"
+      },
+      {
+        "year": 3,
+        "sourceCohort": "HT2023",
+        "approximated": false,
+        "confidence": "exact"
+      }
+    ]
+  },
+  {
+    "code": "CM1009",
+    "name": "Ingenjörsintroduktion",
+    "totalCredits": 1,
+    "periodCredits": {
+      "P1": 0.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Engineering Introduction",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "CB1040",
+    "name": "Inledande bioteknik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Introduction to Biotechnology",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1625",
+    "name": "Envariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Calculus in One Variable",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1624",
+    "name": "Algebra och geometri",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Algebra and Geometry",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "HI1024",
+    "name": "Programmering, grundkurs",
+    "totalCredits": 8,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 2,
+      "P3": 1.5,
+      "P4": 4.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2",
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Computer Programming, Basic Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "HL1001",
+    "name": "Medicinsk grundkurs",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7,
+      "P2": 0.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1",
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Basic Medicine",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "HL1204",
+    "name": "Termodynamik, grundkurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Thermodynamics, Basic Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1626",
+    "name": "Flervariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Calculus in Several Variables",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "HE1200",
+    "name": "Ellära och mätteknik",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 5,
+      "P3": 0,
+      "P4": 4
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2",
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Electrical Principals and Measurement",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1683",
+    "name": "Differentialekvationer och transformmetoder",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 5,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P1",
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Differential Equations and Transforms",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1626"
+    ]
+  },
+  {
+    "code": "SG1130",
+    "name": "Mekanik I",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 4.5
+    },
+    "year": 2,
+    "exams": [
+      "P3",
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Mechanics I",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "HL1203",
+    "name": "Medicinsk mätteknik",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 3.5,
+      "P3": 0,
+      "P4": 5.5
+    },
+    "year": 2,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Medical Instrumentation",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "HE1200"
+    ]
+  },
+  {
+    "code": "SK1114",
+    "name": "Elektromagnetism och vågrörelselära",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Electromagnetism and Waves",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1923",
+    "name": "Sannolikhetsteori och statistik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 2,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Probability Theory and Statistics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "CB1190",
+    "name": "Färdigheter för framtidens ingenjörer 2",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 1.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Skills for future engineers 2",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "HI1027",
+    "name": "Objektorienterad programmering",
+    "totalCredits": 8,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 8,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Object Oriented Programming",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "HI1024"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 1",
+    "nameEn": "Conditionally elective group 1",
+    "year": 2,
+    "totalCredits": 11,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 5,
+      "P3": 0,
+      "P4": 0
+    },
+    "options": [
+      "SF1682",
+      "SF1683"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [
+      "P1"
+    ],
+    "category": "conditionallyElective"
+  },
+  {
+    "code": "SF1682",
+    "name": "Analytiska och numeriska metoder för differentialekvationer",
+    "totalCredits": 11,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Analytical and Numerical Methods for Differential Equations",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1626"
+    ]
+  },
+  {
+    "code": "HE1201",
+    "name": "Företagsekonomi och entreprenörskap",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Business Economics and Entrepreneurship",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "CB1180",
+    "name": "Färdigheter för framtidens ingenjörer 1",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 1.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Skills for future engineers 1",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "HF1201",
+    "name": "Hållbar utveckling och ergonomi",
+    "totalCredits": 6,
+    "periodCredits": {
+      "Year2": {
+        "P1": 0,
+        "P2": 0,
+        "P3": 1.5,
+        "P4": 0
+      },
+      "Year3": {
+        "P1": 0,
+        "P2": 0,
+        "P3": 4.5,
+        "P4": 0
+      }
+    },
+    "prerequisites": [],
+    "exams": {
+      "Year2": [
+        "P3"
+      ],
+      "Year3": [
+        "P3"
+      ]
+    },
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Sustainability and Ergonomics",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "CM1004",
+    "name": "Programsammanhållande kurs i medicinsk teknik",
+    "totalCredits": 1,
+    "periodCredits": {
+      "P1": 0.5,
+      "P2": 0.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Programme Integrating course in Medical Engineering",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "HL2015",
+    "name": "Kvalitet och regelverk för medicintekniska produkter",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 2,
+      "P4": 1
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Quality and Regulatory Aspects on Medical Devices",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "XY310Z",
+    "name": "Plats för valfri kurs",
+    "nameEn": "Space for elective course",
+    "totalCredits": 15.5,
+    "periodCredits": {
+      "P1": 8.5,
+      "P2": 7,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P1",
+      "P2"
+    ],
+    "category": "electivePlaceholder"
+  },
+  {
+    "code": "HL103X",
+    "name": "Examensarbete inom medicinsk teknik, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 1,
+      "P4": 14
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Degree Project in Medical Engineering, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SH1011",
+    "name": "Modern fysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 1.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Modern Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "HL1202",
+    "name": "Medicinska bildgivande system",
+    "totalCredits": 8,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 8,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Medical Imaging Systems",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SH1011"
+    ]
+  },
+  {
+    "code": "EL1010",
+    "name": "Reglerteknik, allmän kurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Automatic Control, General Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1682",
+      "SF1683"
+    ]
+  }
+]

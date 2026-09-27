@@ -1,0 +1,640 @@
+[
+  {
+    "type": "cohortMeta",
+    "program": "CTKEM",
+    "cohort": "HT2024",
+    "years": [
+      {
+        "year": 1,
+        "sourceCohort": "HT2025",
+        "approximated": true,
+        "corroboratedBy": {
+          "year": 2,
+          "agrees": true
+        },
+        "confidence": "high"
+      },
+      {
+        "year": 2,
+        "sourceCohort": "HT2024",
+        "approximated": false,
+        "confidence": "exact"
+      },
+      {
+        "year": 3,
+        "sourceCohort": "HT2024",
+        "approximated": false,
+        "confidence": "exact"
+      }
+    ]
+  },
+  {
+    "code": "BB1050",
+    "name": "Bioteknik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 3
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Biotechnology",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "CK1285",
+    "name": "Kemisk jämvikt",
+    "totalCredits": 5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Chemical Equilibrium",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "CK1295",
+    "name": "Analytisk Kemi med statistik",
+    "totalCredits": 5.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 5.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Analytical Chemistry with Statistics",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "KA1030",
+    "name": "Perspektivkurs forskning och innovation",
+    "totalCredits": 6,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0.5,
+        "P2": 0.5,
+        "P3": 0,
+        "P4": 0
+      },
+      "Year2": {
+        "P1": 2,
+        "P2": 0,
+        "P3": 0,
+        "P4": 0
+      },
+      "Year3": {
+        "P1": 3,
+        "P2": 0,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "prerequisites": [],
+    "exams": {},
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Perspectives on Research and Innovation",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "KD1230",
+    "name": "Organisk kemi, grundläggande koncept och praktik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Organic Chemistry, Basic Concepts and Practice",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "KE1140",
+    "name": "Teknisk kemi",
+    "totalCredits": 14,
+    "periodCredits": {
+      "P1": 6.5,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1",
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Engineering Chemistry",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1624",
+    "name": "Algebra och geometri",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Algebra and Geometry",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1625",
+    "name": "Envariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Calculus in One Variable",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1626",
+    "name": "Flervariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Calculus in Several Variables",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "CK1310",
+    "name": "Programmering i Python inom kemivetenskap",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Python Programming for Chemical Sciences",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "SF1552",
+    "name": "Numeriska metoder, grundkurs",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 2.5,
+      "P3": 3.5,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Numerical Methods, basic course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1625"
+    ],
+    "prerequisitesParticipation": [
+      "CK1310"
+    ]
+  },
+  {
+    "code": "KD1080",
+    "name": "Kemisk dynamik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 2,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Chemical Dynamics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "KE1140"
+    ]
+  },
+  {
+    "code": "SK1151",
+    "name": "Grundläggande fysik",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 7,
+      "P2": 2,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1",
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Elementary Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "KE1170",
+    "name": "Transportprocesser",
+    "totalCredits": 7,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 5,
+      "P4": 2
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Transport Phenomena",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "KE1160",
+    "name": "Termodynamik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Thermodynamics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "KE1140"
+    ]
+  },
+  {
+    "code": "KD1070",
+    "name": "Molekylär struktur",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Molecular Structure",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "KE1140"
+    ]
+  },
+  {
+    "code": "SF1633",
+    "name": "Differentialekvationer I",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Differential Equations I",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1626"
+    ]
+  },
+  {
+    "code": "KD1270",
+    "name": "Organisk kemi, grundläggande koncept och praktik 2",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 2,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Organic Chemistry, Basic Concepts and Practice 2",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "KD1230"
+    ]
+  },
+  {
+    "code": "CK1030",
+    "name": "Kemi för hållbar utveckling",
+    "totalCredits": 5.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 5.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Chemistry for Sustainable Development",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "CK1165",
+    "name": "Materialens kemi och egenskaper",
+    "totalCredits": 8,
+    "periodCredits": {
+      "P1": 8,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Materials Chemistry and Properties",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "KD1230",
+      "KE1140"
+    ]
+  },
+  {
+    "code": "CK1175",
+    "name": "Kemisk processteknik",
+    "totalCredits": 5,
+    "periodCredits": {
+      "P1": 5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Chemical Process Engineering",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "KE1140",
+      "SF1624",
+      "SF1625"
+    ]
+  },
+  {
+    "code": "CK1300",
+    "name": "Elektrokemi",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Electrochemistry",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "KA103X",
+    "name": "Examensarbete inom Teknisk kemi, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Degree Project in Engineering Chemistry, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "KE1185",
+    "name": "Kemitekniska system",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Chemical Engineering Systems",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "ME1041",
+    "name": "Industriell ekonomi för kemi- och bioteknik",
+    "totalCredits": 4.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Industrial Management for Chemistry and Biotechnology",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 1",
+    "nameEn": "Conditionally elective group 1",
+    "year": 3,
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "options": [
+      "KD1270",
+      "KE1185"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [
+      "P4"
+    ],
+    "category": "conditionallyElective"
+  }
+]

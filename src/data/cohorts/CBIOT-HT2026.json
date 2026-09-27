@@ -1,0 +1,780 @@
+[
+  {
+    "type": "cohortMeta",
+    "program": "CBIOT",
+    "cohort": "HT2026",
+    "years": [
+      {
+        "year": 1,
+        "sourceCohort": "HT2026",
+        "approximated": false,
+        "confidence": "exact"
+      },
+      {
+        "year": 2,
+        "sourceCohort": "HT2025",
+        "approximated": true,
+        "corroboratedBy": {
+          "year": 1,
+          "agrees": true
+        },
+        "confidence": "high"
+      },
+      {
+        "year": 3,
+        "sourceCohort": "HT2024",
+        "approximated": true,
+        "confidence": "unknown"
+      }
+    ]
+  },
+  {
+    "code": "BB1030",
+    "name": "Mikrobiologi",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 9,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Microbiology",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "BB1150",
+    "name": "Biokemi 1",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Biochemistry 1",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "BB1160",
+    "name": "Eukaryot cellbiologi",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Eukaryotic Cell Biology",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "BB1190",
+    "name": "Genteknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Gene Technology",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "CB1170",
+    "name": "Bioteknik för ett hållbart samhälle",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Biotechnology for a sustainable society",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "KD1020",
+    "name": "Inledande kemi",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Introductory Chemistry",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "KD1230",
+    "name": "Organisk kemi, grundläggande koncept och praktik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Organic Chemistry, Basic Concepts and Practice",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "KE1180",
+    "name": "Inledande kemiteknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Introduction to Chemical Engineering",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1625",
+    "name": "Envariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Calculus in One Variable",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "BB1200",
+    "name": "Analys av biomolekyler",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Analysis of Biomolecules",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "BB1150"
+    ]
+  },
+  {
+    "code": "CB1015",
+    "name": "Hållbar utveckling av bioteknik",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 2.5,
+      "P4": 1.5
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Sustainable Development in Biotechnology",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "BB1030",
+      "BB1150",
+      "BB1160",
+      "BB1190",
+      "CB1180"
+    ]
+  },
+  {
+    "code": "BB1230",
+    "name": "Biokemi 2",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 2,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Biochemistry 2",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "BB1150"
+    ]
+  },
+  {
+    "code": "CK1285",
+    "name": "Kemisk jämvikt",
+    "totalCredits": 5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 5,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Chemical Equilibrium",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "BB1210",
+    "name": "Rening av biomolekyler",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Purification of Biomolecules",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "BB1150"
+    ]
+  },
+  {
+    "code": "CB1180",
+    "name": "Färdigheter för framtidens ingenjörer 1",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Skills for future engineers 1",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SK1150",
+    "name": "Grundläggande fysik I",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 9,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Fundamental Physics I",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1624",
+      "SF1625"
+    ]
+  },
+  {
+    "code": "CB1050",
+    "name": "Python för bioteknologi",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Python for Biotechnology",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "CB1190",
+    "name": "Färdigheter för framtidens ingenjörer 2",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 1.5
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Skills for future engineers 2",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1624",
+    "name": "Algebra och geometri",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Algebra and Geometry",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1525",
+    "name": "Grundkurs i numeriska metoder",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 2,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Basic Course in Numerical Methods",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "BB103X",
+    "name": "Examensarbete inom bioteknik, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Degree Project in Biotechnology, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "BB1070",
+    "name": "Genetik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Genetics",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1626",
+    "name": "Flervariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Calculus in Several Variables",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "CB1020",
+    "name": "Projekt i matematisk modellering",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 1.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Project in Mathematical Modelling",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1525",
+      "SF1625"
+    ]
+  },
+  {
+    "code": "CB1200",
+    "name": "Färdigheter för framtidens ingenjörer 3",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 1.5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Skills for future engineers 3",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "KD1070",
+    "name": "Molekylär struktur",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Molecular Structure",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "KD1270",
+    "name": "Organisk kemi, grundläggande koncept och praktik 2",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Organic Chemistry, Basic Concepts and Practice 2",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "KD1230"
+    ]
+  },
+  {
+    "code": "SF1911",
+    "name": "Statistik för bioteknik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Statistics for Bioengineering",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "SI1410",
+    "name": "Grundläggande modellering inom bioteknologi",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Basic Modeling in Biotechnology",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1525",
+      "SF1624",
+      "SF1625"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 1",
+    "nameEn": "Conditionally elective group 1",
+    "year": 3,
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "options": [
+      "BB1070",
+      "KD1070"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [
+      "P3"
+    ],
+    "category": "conditionallyElective"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 2",
+    "nameEn": "Conditionally elective group 2",
+    "year": 3,
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "options": [
+      "KD1270",
+      "SF1626"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [
+      "P4"
+    ],
+    "category": "conditionallyElective"
+  },
+  {
+    "code": "BB1300",
+    "name": "Odlingsteknologi",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Cultivation Technology",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "KD1500",
+    "name": "Fysikalisk biokemi",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Physical Biochemistry",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "BB1150",
+      "KD1020"
+    ]
+  }
+]

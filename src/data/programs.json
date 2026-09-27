@@ -205,5 +205,56 @@
     "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
     "commentEn": "Study plan not yet verified — use with caution!",
     "studyplan": "https://www.kth.se/student/kurser/program/CMETE"
+  },
+  {
+    "code": "CBIOT",
+    "name": "Civilingenjörsutbildning i bioteknik",
+    "nameEn": "Degree Programme in Biotechnology",
+    "dataFile": "cohorts/CBIOT-HT2025.json",
+    "cosmeticsFile": "CBIOT-cosmetics.json",
+    "verified": false,
+    "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
+    "commentEn": "Study plan not yet verified — use with caution!",
+    "studyplan": "https://www.kth.se/student/kurser/program/CBIOT"
+  },
+  {
+    "code": "CTKEM",
+    "name": "Civilingenjörsutbildning i teknisk kemi",
+    "nameEn": "Degree Programme in Engineering Chemistry",
+    "dataFile": "cohorts/CTKEM-HT2025.json",
+    "cosmeticsFile": "CTKEM-cosmetics.json",
+    "verified": false,
+    "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
+    "commentEn": "Study plan not yet verified — use with caution!",
+    "studyplan": "https://www.kth.se/student/kurser/program/CTKEM"
+  },
+  {
+    "code": "CMEDT",
+    "name": "Civilingenjörsutbildning i medicinsk teknik",
+    "nameEn": "Degree Programme in Medical Engineering",
+    "dataFile": "cohorts/CMEDT-HT2025.json",
+    "cosmeticsFile": "CMEDT-cosmetics.json",
+    "verified": false,
+    "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
+    "commentEn": "Study plan not yet verified — use with caution!",
+    "studyplan": "https://www.kth.se/student/kurser/program/CMEDT"
+  },
+  {
+    "code": "CSAMH",
+    "name": "Civilingenjörsutbildning i samhällsbyggnad",
+    "nameEn": "Degree Programme in Civil Engineering and Urban Management",
+    "dataFile": "cohorts/CSAMH-HT2025.json",
+    "cosmeticsFile": "CSAMH-cosmetics.json",
+    "verified": false,
+    "comment": "Utbildningsplanen är ännu inte verifierad - använd med försiktighet!",
+    "commentEn": "Study plan not yet verified — use with caution!",
+    "studyplan": "https://www.kth.se/student/kurser/program/CSAMH",
+    "specializations": [
+      { "code": "BBP", "name": "Bygg och byggprojektledning", "nameEn": "Civil Engineering and Construction Project Management" },
+      { "code": "FEFJ", "name": "Fastighetsekonomi och fastighetsjuridik", "nameEn": "Real Estate Economics and Real Estate Law" },
+      { "code": "GIT", "name": "Geografisk IT", "nameEn": "Geographic IT" },
+      { "code": "MHI", "name": "Miljöteknik och hållbar infrastruktur", "nameEn": "Environmental Engineering and Sustainable Infrastructure" },
+      { "code": "STP", "name": "Stads- och trafikplanering", "nameEn": "Urban and Traffic Planning" }
+    ]
   }
 ]
