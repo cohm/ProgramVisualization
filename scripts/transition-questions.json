@@ -45,7 +45,7 @@
   },
   "COPEN->CMAST": {
     "intro": "Planen är inläst från *Övergångsplan för Öppen ingång - påbörjad H25 - till Maskinteknik (CMAST)*, version 2025-11-24, som gäller övergången till programmet HT2026. Ersättningarna anges på mottagarsidan (\"Ersätts av …\" och \"Läses på COPEN\") i tabellen för CMAST årskurs 1.\n\nFyra av COPEN:s kurser har samma kurskod i båda programmen (SF1624, SF1625, SF1626, DD1310) och behöver därför ingen översättning alls.",
-    "loadNote": "Raden **_gemensamma_** är de kurser alla läser. Raderna under visar samma år med respektive internationell inriktning tillagd — en student läser högst en av dem, och de flesta ingen alls, så de ska inte summeras ihop.\n\nTabellen räknar dessutom ett valblock **en** gång i stället för dess ingående kurser, vilket är samma regel som appen använder. Räknar man i stället som övergångsplanen gör, med både MF1016 och MJ1112 som obligatoriska och utan valblock, blir årskurs 2 **61,5 hp** — exakt planens egen summa. Skillnaden på 9 hp är just den frågan; se fråga 5.",
+    "loadNote": "Raden **_gemensamma_** är de kurser en student utan internationell inriktning läser, vilket är de flesta. Raderna under visar samma år med respektive internationell inriktning; en student läser högst en av dem.\n\nÅrskurs 2 summerar till **61,5 hp**, exakt planens egen summa, med MF1016 och MJ1112 båda obligatoriska som planen anger. Fördelningen är 13,5/12/18/18: MJ1104, som flyttas in från årskurs 1, ger 3 hp extra i både P3 och P4.",
     "items": [
       {
         "title": "Fråga: \"Ersätts av SF1502\" — avses SA1007?",
@@ -61,15 +61,11 @@
       },
       {
         "title": "Fråga: de internationella inriktningarna",
-        "body": "CMAST årskurs 2 innehåller tre språkspår — tyska (LS1426/LS1427), franska (LS1436/LS1437) och spanska (LS1445/LS1446) — på sammanlagt 37,5 hp. En student läser högst ett av dem, och de flesta inget alls.\n\nDen sammansatta vyn saknar i dag inriktningsfilter, så alla tre visas samtidigt och årskurs 2 ser ut att omfatta ~90 hp i stället för 61,5. Det är en begränsning i appen, inte ett fel i planen, och den är noterad för åtgärd. **Fråga:** ingår de internationella inriktningarna alls i övergången från Öppen ingång?"
+        "body": "CMAST årskurs 2 innehåller tre språkspår, tyska (LS1426/LS1427), franska (LS1436/LS1437) och spanska (LS1445/LS1446). En student läser högst ett av dem, och de flesta inget alls.\n\nDen sammansatta vyn har ett inriktningsfilter, och förvalet är *Utan internationell inriktning*. **Fråga:** ingår de internationella inriktningarna alls i övergången från Öppen ingång?"
       },
       {
-        "title": "Fråga: är MF1016 och MJ1112 båda obligatoriska?",
-        "body": "Övergångsplanen listar både **MF1016** *Elektroteknik* (9 hp) och **MJ1112** *Tillämpad termodynamik* (9 hp) i årskurs 2, båda med kommentaren \"Obligatorisk CMAST2\".\n\nKTH:s egen strukturerade studieplansdata modellerar dem i stället som **villkorligt valfria alternativ i samma grupp** (\"Villkorligt valfri grupp 1\", omfång 9 hp), alltså att studenten läser en av dem.\n\nDe två beskrivningarna går inte ihop, och skillnaden är 9 hp i årskurs 2. Diagrammet följer i dag studieplansdatan och ritar ett valblock. **Fråga:** läser en student från Öppen ingång båda kurserna, eller en av dem?"
-      },
-      {
-        "title": "Fråga: årskurs 3 summerar lägre än planen anger",
-        "body": "Övergångsplanen anger 60 hp i årskurs 3 (fyra kurser, kandidatexamensarbete 15 hp och 21 hp inriktningskurser). Våra data ger 51 hp, eftersom CMAST:s inriktningskurser är modellerade som flera mindre valblock i stället för ett block på 21 hp.\n\nDet är en fråga om CMAST:s egen studieplan snarare än om övergången, men den syns i den sammansatta vyn. **Bekräfta hur inriktningskurserna ska redovisas.**"
+        "title": "Löst av studieplansdatan: MF1016 och MJ1112 är båda obligatoriska",
+        "body": "Övergångsplanen listar både **MF1016** *Elektroteknik* och **MJ1112** *Tillämpad termodynamik* som \"Obligatorisk CMAST2\". Efter en ny inläsning av CMAST:s studieplan stämmer det med KTH:s data: kurserna är obligatoriska för studenter utan internationell inriktning, och valbara, en av dem, bara för de internationella inriktningarna. Diagrammet ritar dem nu som obligatoriska. Ingen åtgärd behövs, men säg till om bilden är fel."
       }
     ]
   },
@@ -208,6 +204,32 @@
       {
         "title": "ID1200 utgår, och åtta kurser flyttas",
         "body": "Planen utesluter **ID1200** *Operativsystem* (6 hp) uttryckligen: \"( ID1200 Operativsystem, 6 hp — Läses ej, utgår för COPEN )\". Den är därför borttagen ur den sammansatta planen.\n\nÅtta kurser flyttas mellan årskurser, i båda riktningarna:\n\n| kurs | flytt | läses med |\n|---|---|---|\n| DD1338, DH1623, DD1349, DD1396 | årskurs 1 → 2 | CDATE årskurs 1 |\n| AL1504 | årskurs 3 → **2** | CDATE årskurs 3 |\n| DD1351, DD1368, DD1366 | årskurs 2 → 3 | CDATE årskurs 2 |\n\nAL1504 är den enda bakåtflytten. **Bekräfta samtliga.**"
+      }
+    ]
+  },
+  "COPEN->CSAMH": {
+    "intro": "Planen är inläst från *Övergångsplan för Öppen ingång, påbörjad HT-25 (gäller överg till prog. CSAMH)*, version 2025-12-17.\n\nTre av Öppen ingångs kurser har samma kurskod i CSAMH (SF1624, SF1625, SF1626). Övriga ersätter CSAMH-kurser gemensamt, två och två, och schemat kan bara ange en ersättande kurs per CSAMH-kurs; valet är redovisat under fråga 3.\n\nDen transfererande studentens årskurs 2 blandar CSAMH:s årskurs 1 och 2. **AI1531** *Samhällsbyggnadsprocessen, mindre kurs* ersätter AI1527, AI1128 och AG1314 läses med CSAMH årskurs 1, och AL1301 och SG1117 utgår.",
+    "loadNote": "Årskurs 2 blir **11,5/18,5/15/15**, exakt planens egna summor. Obalansen mellan P1 och P2 kommer från AI1531, som följer AI1527:s schema (4 hp i P1, 3,5 hp i P2) medan AL1302 och AI1525/SF1910 fyller resten.\n\nP4 räknas som ett valblock på 15 hp: två av fyra kurser. Följer en BBP-student även rekommendationen AG1314 blir P4 22,5 hp; se fråga 2.\n\nÅrskurs 3 läses enligt CSAMH:s ordinarie plan. Raden för STP visar 7,5 hp för lite i P3, men det gäller CSAMH:s egen studieplan och syns även i den vanliga CSAMH-vyn.",
+    "items": [
+      {
+        "title": "Fråga: särskild behörighet för kurserna i årskurs 2",
+        "body": "Planen har rutan *\"Ange särskild behörighet för kurser i år 2:\"*, och den är **tom**.\n\nAL1302 (P1) och AI1525 (P2) kräver enligt sina kursplaner slutförd AI1527, och AI1802 (P3) likaså. En student från Öppen ingång läser i stället AI1531, som pågår **samtidigt** med AL1302 och AI1525 och slutar först i P2. Diagrammet ritar förkunskapspilarna från AI1531.\n\n**Fråga:** räcker AI1531 som behörighet för dessa kurser, och gäller det även när den läses parallellt?"
+      },
+      {
+        "title": "Fråga: valet i P4 per inriktning",
+        "body": "Planens tabell anger vilka av kurserna i P4 som är obligatoriska respektive rekommenderade för studenter från Öppen ingång, beroende på vilken inriktning de tänker välja. Diagrammet visar det som CSAMH:s eget valblock (\"två av AF1002, AH1030 och SF1676\") utökat med **AG1314**, alltså två av fyra, och varje kurs märkt med \"krävs för\" eller \"rek. för\" per inriktning, se tabellen ovan.\n\nTvå saker att bekräfta:\n\n- **GIT** har bara AG1314 som obligatorisk och ingen rekommendation. Den andra kursen är alltså fri bland AF1002, AH1030 och SF1676?\n- **BBP** har AF1002 och SF1676 som obligatoriska och AG1314 som rekommenderad, med kommentaren *\"Planering sker med SVL, kontakta vid kursval för P4\"*. Det ger 22,5 hp i P4. Diagrammet visar valblocket på 15 hp; AG1314 får BBP-studenten lägga till själv. Stämmer det?"
+      },
+      {
+        "title": "Fråga: vilken kurs förkunskapspilarna utgår från",
+        "body": "Planen anger två gemensamma ersättningar:\n\n- **DD1310 och SF1546** ersätter SF1516 *Numeriska metoder och grundläggande programmering* (9 hp). Pilen till DD1321, som kräver SF1516, utgår här från DD1310.\n- **SK1115 och KD1000** ersätter AL1301 *Naturresursteori* (7,5 hp). Pilarna till AH1030, AL1303, AE1105 och AE1501, som kräver AL1301, utgår här från SK1115.\n\nSchemat kan bara ange en kurs per ersatt kurs, så valet påverkar bara vilken ruta pilen börjar i. **Bekräfta, eller ange den andra.**"
+      },
+      {
+        "title": "Fråga: SA1007",
+        "body": "Planen ger ingen kommentar till SA1007 *Ingenjörsrollen och ingenjörskunskap*. Planens färgkodning (\"Räknas som ordinarie kurser\" respektive \"Räknas som valbar kurs på mottagande program\") går inte att läsa i PDF:en för raderna i årskurs 1. **Fråga:** räknas SA1007 som ordinarie kurs, och ersätter den någon CSAMH-kurs?"
+      },
+      {
+        "title": "Fråga: läsåren i rubrikerna",
+        "body": "Planen gäller kull HT25, men rubrikerna anger *\"År 2 CSAMH från Öppen ingång lå 25/26\"* och *\"År 3 … lå 26/27\"*. För kull HT25 är årskurs 2 läsåret 26/27 och årskurs 3 läsåret 27/28, och diagrammet utgår från det. **Bekräfta att rubrikerna är en felskrivning.**"
       }
     ]
   }

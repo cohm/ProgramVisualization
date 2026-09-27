@@ -67,8 +67,8 @@ en övergångsplan innehåller ofta upphämtningskurser — men de bör stämma 
 | Årskurs | P1 | P2 | P3 | P4 | Totalt |
 |---|---|---|---|---|---|
 | 1 | 15 | 15 | 15 | 15 | 60 |
-| 2 | 15,5 | 15 | 46,7 | 45,8 | 123 |
-| 3 | 15 | 15,5 | 16,5 | 14,5 | 61,5 |
+| 2 | 15,5 | 15 | 24 | 23,5 | 78 |
+| 3 | 15 | 15,5 | 9 | 8,5 | 48 |
 
 Årskurs 3 landar på 61,5 hp, nära heltid. Årskurs 2 visar ett stort överskott i P3 och P4, men det kommer **inte** från övergången: CELTE:s egen studieplan listar tretton villkorligt valfria kurser i årskurs 2 som ligger utanför valblocken, så hela poolen räknas. Samma siffra syns i den vanliga CELTE-vyn. Se frågan om villkorligt valfria kurser nedan.
 

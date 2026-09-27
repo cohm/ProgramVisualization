@@ -82,6 +82,7 @@ function composedLoad(plan, spec) {
   const moves = new Map((plan.moved ?? []).map((m) => [m.code, m]));
   const out = [];
   for (const e of src) if (plan.sourceYears.includes(firstYear(e))) out.push({ ...e });
+  const taken = new Set(out.map((e) => e.code).filter(Boolean));
   const resched = new Map((plan.rescheduled ?? []).map((r) => [r.code, r]));
   for (const e of tgt) {
     if (e.code && exempt.has(e.code)) continue;
@@ -89,14 +90,28 @@ function composedLoad(plan, spec) {
     if (mv) { out.push({ ...e, year: mv.toYear, periodCredits: yearRows(e)[0]?.periodCredits ?? e.periodCredits }); continue; }
     if (plan.sourceYears.includes(firstYear(e))) continue;
     const rs = e.code ? resched.get(e.code) : null;
+    // A group cannot offer what the student already took or was exempted from
+    // (CELTE's SF1546); same rule as composeTransition.
+    if (e.type === 'optionGroup') { out.push({ ...e, options: (e.options ?? []).filter((c) => !taken.has(c) && !exempt.has(c)) }); continue; }
     out.push(rs ? { ...e, periodCredits: rs.periodCredits } : { ...e });
   }
   for (const a of plan.added ?? []) out.push({ ...a });
+  // Options a plan adds to a target group are counted through the group, like
+  // the group's own options (COPEN -> CSAMH's AG1314 in year 2 P4).
+  for (const gc of plan.groupChanges ?? []) {
+    const g = out.find((e) => e.type === 'optionGroup' && e.year === gc.year && (e.options ?? []).includes(gc.offering));
+    if (g) g.options = [...new Set([...(g.options ?? []), ...(gc.addOptions ?? [])])];
+  }
 
   // Same counting rule the app uses (`fullTimeWarnings` in src/lib/transitions.ts):
   // an option group counts ONCE and its member courses do not, because the
   // student takes one of them. Counting both is what made year 3 read 207 hp.
-  const inGroup = new Set(out.filter((e) => e.type === 'optionGroup').flatMap((g) => g.options ?? []));
+  //
+  // Membership comes from the groups this inriktning sees, as in the renderer.
+  // CMAST's MF1016 and MJ1112 are options only in the INT profiles' groups and
+  // obligatoriska otherwise; a global set dropped them from the common row.
+  const visible = (e) => !e.specializations?.length || (spec && e.specializations.includes(spec));
+  const inGroup = new Set(out.filter((e) => e.type === 'optionGroup' && visible(e)).flatMap((g) => g.options ?? []));
   const byYear = new Map();
   for (const e of out) {
     if (!e.periodCredits) continue;
@@ -225,6 +240,31 @@ function write(plan) {
     L.push('');
   }
 
+  if (plan.groupChanges?.length) {
+    L.push('## Valgrupper som ändras');
+    L.push('');
+    L.push(`Valgrupper i ${plan.to} som ser annorlunda ut för den transfererande studenten.`);
+    L.push('');
+    const who = (list, required) => (list ?? []).filter((m) => (m.required !== false) === required).map((m) => m.code).join(', ');
+    for (const gc of plan.groupChanges) {
+      const g = tgt.find((e) => e.type === 'optionGroup' && e.year === gc.year && (e.options ?? []).includes(gc.offering));
+      if (!g) continue;
+      const rule = g.kind === 'minCredits' ? `minst ${hp(g.minCredits)} hp` : `välj ${g.pickN ?? g.allowedNumberOfOptions ?? 1}`;
+      L.push(`**Årskurs ${gc.year}, ${rule}** av:`);
+      L.push('');
+      L.push('| Kurs | hp | Obligatorisk för | Rekommenderad för |');
+      L.push('|---|---|---|---|');
+      const options = [...new Set([...(g.options ?? []), ...(gc.addOptions ?? [])])];
+      for (const code of options) {
+        const added = (gc.addOptions ?? []).includes(code) && !(g.options ?? []).includes(code);
+        const q = gc.qualifiesFor?.[code] ?? g.qualifiesFor?.[code];
+        L.push(`| ${link(code)} ${nameOf(tgt, code)}${added ? ' _(tillkommer)_' : ''} | ${hp(creditsOf(tgt, code) ?? 0)} | ${who(q, true) || '—'} | ${who(q, false) || '—'} |`);
+      }
+      L.push('');
+      if (gc.comment) { L.push(gc.comment); L.push(''); }
+    }
+  }
+
   L.push('## Läsårsbelastning i den sammansatta planen');
   L.push('');
   L.push('Heltid är **15 hp per läsperiod**. Avvikelser är inte nödvändigtvis fel —');
@@ -248,11 +288,18 @@ function write(plan) {
     // student reads, which is what the inriktning rows are added to.
     L.push('| Årskurs | Inriktning | P1 | P2 | P3 | P4 | Totalt |');
     L.push('|---|---|---|---|---|---|---|');
+    // Every year any inriktning has, not just the years with common courses:
+    // all of CSAMH's year-3 courses belong to an inriktning, and iterating the
+    // common rows alone left year 3 out of the table.
     const common = new Map(composedLoad(plan));
-    for (const [year, row] of common) {
+    const bySpec = new Map(specs.map((sp) => [sp.code, new Map(composedLoad(plan, sp.code))]));
+    const years = [...new Set([...common.keys(), ...[...bySpec.values()].flatMap((m) => [...m.keys()])])].sort((a, b) => a - b);
+    const empty = { P1: 0, P2: 0, P3: 0, P4: 0 };
+    for (const year of years) {
+      const row = common.get(year) ?? empty;
       L.push(rowFor(year, row, '_gemensamma_'));
       for (const sp of specs) {
-        const r = new Map(composedLoad(plan, sp.code)).get(year);
+        const r = bySpec.get(sp.code).get(year);
         if (!r) continue;
         const differs = ['P1', 'P2', 'P3', 'P4'].some((q) => r[q] !== row[q]);
         if (differs) L.push(rowFor(year, r, `${sp.code} ${sp.name}`));

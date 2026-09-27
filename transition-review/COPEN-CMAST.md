@@ -57,15 +57,15 @@ en övergångsplan innehåller ofta upphämtningskurser — men de bör stämma 
 | Årskurs | Inriktning | P1 | P2 | P3 | P4 | Totalt |
 |---|---|---|---|---|---|---|
 | 1 | _gemensamma_ | 15 | 15 | 15 | 15 | 60 |
-| 2 | _gemensamma_ | 13,5 | 12 | 13,5 | 13,5 | 52,5 |
+| 2 | _gemensamma_ | 13,5 | 12 | 18 | 18 | 61,5 |
 | 2 | INTF Internationell inriktning, franska | 17,5 | 15,5 | 16,5 | 15,5 | 65 |
 | 2 | INTS Internationell inriktning, spanska | 17,5 | 15,5 | 16,5 | 15,5 | 65 |
 | 2 | INTT Internationell inriktning, tyska | 17,5 | 15,5 | 16,5 | 15,5 | 65 |
-| 3 | _gemensamma_ | 15 | 15 | 13,5 | 7,5 | 51 |
+| 3 | _gemensamma_ | 15 | 15 | 15 | 15 | 60 |
 
-Raden **_gemensamma_** är de kurser alla läser. Raderna under visar samma år med respektive internationell inriktning tillagd — en student läser högst en av dem, och de flesta ingen alls, så de ska inte summeras ihop.
+Raden **_gemensamma_** är de kurser en student utan internationell inriktning läser, vilket är de flesta. Raderna under visar samma år med respektive internationell inriktning; en student läser högst en av dem.
 
-Tabellen räknar dessutom ett valblock **en** gång i stället för dess ingående kurser, vilket är samma regel som appen använder. Räknar man i stället som övergångsplanen gör, med både MF1016 och MJ1112 som obligatoriska och utan valblock, blir årskurs 2 **61,5 hp** — exakt planens egen summa. Skillnaden på 9 hp är just den frågan; se fråga 5.
+Årskurs 2 summerar till **61,5 hp**, exakt planens egen summa, med MF1016 och MJ1112 båda obligatoriska som planen anger. Fördelningen är 13,5/12/18/18: MJ1104, som flyttas in från årskurs 1, ger 3 hp extra i både P3 och P4.
 
 ## Frågor som behöver besvaras
 
@@ -93,23 +93,13 @@ Kursen ges även i P3 (VT 2027). **Fråga:** är P1 rätt period för studenter 
 
 ### 4. Fråga: de internationella inriktningarna
 
-CMAST årskurs 2 innehåller tre språkspår — tyska (LS1426/LS1427), franska (LS1436/LS1437) och spanska (LS1445/LS1446) — på sammanlagt 37,5 hp. En student läser högst ett av dem, och de flesta inget alls.
+CMAST årskurs 2 innehåller tre språkspår, tyska (LS1426/LS1427), franska (LS1436/LS1437) och spanska (LS1445/LS1446). En student läser högst ett av dem, och de flesta inget alls.
 
-Den sammansatta vyn saknar i dag inriktningsfilter, så alla tre visas samtidigt och årskurs 2 ser ut att omfatta ~90 hp i stället för 61,5. Det är en begränsning i appen, inte ett fel i planen, och den är noterad för åtgärd. **Fråga:** ingår de internationella inriktningarna alls i övergången från Öppen ingång?
+Den sammansatta vyn har ett inriktningsfilter, och förvalet är *Utan internationell inriktning*. **Fråga:** ingår de internationella inriktningarna alls i övergången från Öppen ingång?
 
-### 5. Fråga: är MF1016 och MJ1112 båda obligatoriska?
+### 5. Löst av studieplansdatan: MF1016 och MJ1112 är båda obligatoriska
 
-Övergångsplanen listar både **MF1016** *Elektroteknik* (9 hp) och **MJ1112** *Tillämpad termodynamik* (9 hp) i årskurs 2, båda med kommentaren "Obligatorisk CMAST2".
-
-KTH:s egen strukturerade studieplansdata modellerar dem i stället som **villkorligt valfria alternativ i samma grupp** ("Villkorligt valfri grupp 1", omfång 9 hp), alltså att studenten läser en av dem.
-
-De två beskrivningarna går inte ihop, och skillnaden är 9 hp i årskurs 2. Diagrammet följer i dag studieplansdatan och ritar ett valblock. **Fråga:** läser en student från Öppen ingång båda kurserna, eller en av dem?
-
-### 6. Fråga: årskurs 3 summerar lägre än planen anger
-
-Övergångsplanen anger 60 hp i årskurs 3 (fyra kurser, kandidatexamensarbete 15 hp och 21 hp inriktningskurser). Våra data ger 51 hp, eftersom CMAST:s inriktningskurser är modellerade som flera mindre valblock i stället för ett block på 21 hp.
-
-Det är en fråga om CMAST:s egen studieplan snarare än om övergången, men den syns i den sammansatta vyn. **Bekräfta hur inriktningskurserna ska redovisas.**
+Övergångsplanen listar både **MF1016** *Elektroteknik* och **MJ1112** *Tillämpad termodynamik* som "Obligatorisk CMAST2". Efter en ny inläsning av CMAST:s studieplan stämmer det med KTH:s data: kurserna är obligatoriska för studenter utan internationell inriktning, och valbara, en av dem, bara för de internationella inriktningarna. Diagrammet ritar dem nu som obligatoriska. Ingen åtgärd behövs, men säg till om bilden är fel.
 
 ---
 

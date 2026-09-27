@@ -1223,6 +1223,44 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
       }
     }
 
+    // `groupChanges` extends one of the target's option groups (COPEN -> CSAMH
+    // adds AG1314 to year 2's P4 choice). The group is found by a course it
+    // offers, and each added option must be a course the composed plan has, in
+    // that year, or the option would have no data behind it.
+    for (const gc of plan.groupChanges ?? []) {
+      if (!gc || !Number.isInteger(gc.year) || typeof gc.offering !== 'string') {
+        err(file, `${ctx} ${label}: 'groupChanges' entry needs a 'year' and an 'offering'`);
+        continue;
+      }
+      const groups = Array.isArray(targetData) ? targetData.filter((e) => e?.type === 'optionGroup') : [];
+      const group = groups.find((g) => g.year === gc.year && (g.options ?? []).includes(gc.offering));
+      if (!group) {
+        err(file, `${ctx} ${label}: no year-${gc.year} group in ${plan.to} offers '${gc.offering}'`);
+        continue;
+      }
+      const composedYear = (code) => {
+        const mv = (plan.moved ?? []).find((m) => m?.code === code);
+        if (mv) return mv.toYear;
+        const ad = (plan.added ?? []).find((a) => a?.code === code);
+        if (ad) return ad.year;
+        if ((plan.exempt ?? []).some((e) => e?.code === code)) return null;
+        const y = tgt.get(code)?.year;
+        return y == null || plan.sourceYears.includes(y) ? null : y;
+      };
+      for (const code of gc.addOptions ?? []) {
+        const y = composedYear(code);
+        if (y == null) err(file, `${ctx} ${label}: adds '${code}' to a group, but the composed plan does not have it`);
+        else if (y !== gc.year) err(file, `${ctx} ${label}: adds '${code}' to a year-${gc.year} group, but the composed plan has it in year ${y}`);
+      }
+      const options = new Set([...(group.options ?? []), ...(gc.addOptions ?? [])]);
+      for (const [code, list] of Object.entries(gc.qualifiesFor ?? {})) {
+        if (!options.has(code)) err(file, `${ctx} ${label}: qualifiesFor names '${code}', which is not an option of the group`);
+        if (!Array.isArray(list) || list.some((m) => typeof m?.code !== 'string' || typeof m?.name !== 'string')) {
+          err(file, `${ctx} ${label}: qualifiesFor['${code}'] must be an array of { code, name, required? }`);
+        }
+      }
+    }
+
     if (plan.verified !== true) {
       warn(file, `${ctx} ${label}: not yet verified — confirm against the program director's transition plan`);
     }

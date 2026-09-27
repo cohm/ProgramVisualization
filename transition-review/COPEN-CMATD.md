@@ -53,7 +53,7 @@ en övergångsplan innehåller ofta upphämtningskurser — men de bör stämma 
 |---|---|---|---|---|---|
 | 1 | 15 | 15 | 15 | 15 | 60 |
 | 2 | 19,5 | 10,5 | 15 | 22,5 | 67,5 |
-| 3 | 15 | 22,5 | 13,5 | 15,5 | 66,5 |
+| 3 | 15 | 16,5 | 15 | 15,5 | 62 |
 
 Årskurs 2 är en tung upphämtningstermin: två kurser ur CMATD:s egen årskurs 1 (CK1260 och MH1030) läses parallellt med årskurs 2. Övergångsplanen anger själv 75 hp för året; siffran här är lägre eftersom SF1551 räknas bort helt — se fråga 2.
 

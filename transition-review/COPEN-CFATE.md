@@ -37,7 +37,7 @@ en övergångsplan innehåller ofta upphämtningskurser — men de bör stämma 
 |---|---|---|---|---|---|
 | 1 | 15 | 15 | 15 | 15 | 60 |
 | 2 | 15 | 16 | 15 | 15 | 61 |
-| 3 | 16 | 16 | 13,5 | 19,5 | 65 |
+| 3 | 15 | 15 | 15 | 15 | 60 |
 
 Årskurs 2 stämmer med övergångsplanens summa (61 hp). Årskurs 3 summerar här högre än planens 60 hp, eftersom våra data räknar in valblockens hela omfång — se fråga 5.
 

@@ -1177,5 +1177,212 @@
     "verified": false,
     "source": "Övergångsplan för Öppen ingång, påbörjad HT25 (gäller övergång till CDATE HT26), Pawel Herman, PA CDATE, version 1, 2025-12-19. Dokumentet är en inskannad PDF utan textlager och är inläst manuellt.",
     "sourceEn": "Transition plan for Öppen ingång starting HT25 to CDATE HT26, Pawel Herman, PA CDATE, version 1, 2025-12-19. The document is a scanned PDF with no text layer and was transcribed by hand."
+  },
+  {
+    "from": "COPEN",
+    "to": "CSAMH",
+    "sourceYears": [
+      1
+    ],
+    "credited": [
+      {
+        "code": "SF1625",
+        "replaces": [
+          "SF1625"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1624",
+        "replaces": [
+          "SF1624"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1626",
+        "replaces": [
+          "SF1626"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "DD1310",
+        "replaces": [
+          "SF1516"
+        ],
+        "note": "Programmeringsteknik ersätter, tillsammans med SF1546, SF1516 Numeriska metoder och grundläggande programmering (9 hp) i CSAMH årskurs 1. DD1310 är vald som den kurs förkunskapspilarna utgår från, eftersom kursen som kräver SF1516 (DD1321) bygger på programmeringsdelen.",
+        "noteEn": "Programming techniques replaces, together with SF1546, SF1516 Numerical methods and basic programming (9 credits) in CSAMH year 1. DD1310 is chosen as the course prerequisite arrows start from, since the course that requires SF1516 (DD1321) builds on the programming part."
+      },
+      {
+        "code": "SF1546",
+        "note": "Numeriska metoder ersätter, tillsammans med DD1310, SF1516 i CSAMH årskurs 1.",
+        "noteEn": "Numerical methods replaces, together with DD1310, SF1516 in CSAMH year 1."
+      },
+      {
+        "code": "SK1115",
+        "note": "Elektromagnetism och vågrörelselära ersätter, tillsammans med KD1000, AL1301 Naturresursteori i CSAMH årskurs 2, som därför utgår (se 'exempt').",
+        "noteEn": "Electromagnetism and wave motion replaces, together with KD1000, AL1301 Natural resources theory in CSAMH year 2, which is therefore dropped (see 'exempt')."
+      },
+      {
+        "code": "KD1000",
+        "note": "Kemiska principer ersätter, tillsammans med SK1115, AL1301 Naturresursteori i CSAMH årskurs 2.",
+        "noteEn": "Chemical principles replaces, together with SK1115, AL1301 Natural resources theory in CSAMH year 2."
+      },
+      {
+        "code": "SG1133",
+        "note": "Mekanik I ersätter SG1117 Teknisk mekanik i CSAMH årskurs 2, som därför utgår (se 'exempt').",
+        "noteEn": "Mechanics I replaces SG1117 Engineering mechanics in CSAMH year 2, which is therefore dropped (see 'exempt')."
+      },
+      {
+        "code": "SA1007",
+        "note": "Ingenjörsrollen och ingenjörskunskap; övergångsplanen anger ingen CSAMH-kurs som den ersätter.",
+        "noteEn": "The engineering role; the transition plan names no CSAMH course it replaces."
+      }
+    ],
+    "exempt": [
+      {
+        "code": "AL1301",
+        "creditedBy": "SK1115",
+        "note": "Naturresursteori ersätts av SK1115 och KD1000 tillsammans. SK1115 är angiven som den kurs förkunskapspilarna utgår från (AH1030, AL1303, AE1105 och AE1501 kräver AL1301).",
+        "noteEn": "Natural resources theory is replaced by SK1115 and KD1000 together. SK1115 is recorded as the course prerequisite arrows start from (AH1030, AL1303, AE1105 and AE1501 require AL1301)."
+      },
+      {
+        "code": "SG1117",
+        "creditedBy": "SG1133",
+        "note": "Teknisk mekanik ersätts av SG1133 Mekanik I.",
+        "noteEn": "Engineering mechanics is replaced by SG1133 Mechanics I."
+      }
+    ],
+    "moved": [
+      {
+        "code": "AI1128",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Samhällsbyggnadsekonomi läses tillsammans med CSAMH årskurs 1, alltså under den transfererande studentens årskurs 2.",
+        "noteEn": "Economics of the built environment is taken with CSAMH year 1, i.e. during the transferring student's year 2."
+      },
+      {
+        "code": "AG1314",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "GIS och mätningsteknik läses tillsammans med CSAMH årskurs 1 i P4. För studenten är den ett av alternativen i årskurs 2:s P4-val (se valgruppen), obligatorisk för GIT.",
+        "noteEn": "GIS and surveying is taken with CSAMH year 1 in P4. For the student it is one of the options in year 2's P4 choice (see the option group), compulsory for GIT."
+      }
+    ],
+    "added": [
+      {
+        "code": "AI1531",
+        "name": "Samhällsbyggnadsprocessen, mindre kurs",
+        "nameEn": "Introduction to the Planning and Building Process, Minor Course",
+        "totalCredits": 7.5,
+        "year": 2,
+        "periodCredits": {
+          "P1": 4,
+          "P2": 3.5,
+          "P3": 0,
+          "P4": 0
+        },
+        "exams": [
+          "P1",
+          "P2"
+        ],
+        "gradingScale": "A-F",
+        "courseLevel": "G",
+        "category": "mandatory",
+        "substitutesFor": "AI1527",
+        "fromProgram": "CSAMH",
+        "note": "Ersätter AI1527 Samhällsbyggnadsprocessen (13,5 hp). Följer schemat för AI1527, bortsett från övningsmomenten om 6 hp. Kursplanens behörighet: \"Obligatorisk åk 2 för studenter som har läst Civilingenjör Öppen ingång och som blivit antagna till civilingenjörsutbildningen i samhällsbyggnad (CSAMH).\" Perioderna är kurssidans omgång HT 2026 (P1 4 hp, P2 3,5 hp).",
+        "noteEn": "Replaces AI1527 Introduction to the planning and building process (13.5 credits). Follows AI1527's schedule, apart from the 6-credit exercise modules. Its syllabus makes it compulsory in year 2 for Öppen ingång students admitted to CSAMH. Periods are the course page's HT 2026 offering (P1 4 credits, P2 3.5 credits).",
+        "cosmeticsGroup": "Samhällsplanering och fastigheter"
+      }
+    ],
+    "groupChanges": [
+      {
+        "year": 2,
+        "offering": "AF1002",
+        "addOptions": [
+          "AG1314"
+        ],
+        "qualifiesFor": {
+          "AH1030": [
+            {
+              "code": "STP",
+              "name": "Stads- och trafikplanering",
+              "required": true
+            },
+            {
+              "code": "MHI",
+              "name": "Miljöteknik och hållbar infrastruktur",
+              "required": false
+            },
+            {
+              "code": "FEFJ",
+              "name": "Fastighetsekonomi och fastighetsjuridik",
+              "required": false
+            }
+          ],
+          "AG1314": [
+            {
+              "code": "GIT",
+              "name": "Geografisk IT",
+              "required": true
+            },
+            {
+              "code": "STP",
+              "name": "Stads- och trafikplanering",
+              "required": false
+            },
+            {
+              "code": "MHI",
+              "name": "Miljöteknik och hållbar infrastruktur",
+              "required": false
+            },
+            {
+              "code": "FEFJ",
+              "name": "Fastighetsekonomi och fastighetsjuridik",
+              "required": false
+            },
+            {
+              "code": "BBP",
+              "name": "Bygg och byggprojektledning",
+              "required": false
+            }
+          ],
+          "AF1002": [
+            {
+              "code": "FEFJ",
+              "name": "Fastighetsekonomi och fastighetsjuridik",
+              "required": true
+            },
+            {
+              "code": "BBP",
+              "name": "Bygg och byggprojektledning",
+              "required": true
+            }
+          ],
+          "SF1676": [
+            {
+              "code": "BBP",
+              "name": "Bygg och byggprojektledning",
+              "required": true
+            },
+            {
+              "code": "MHI",
+              "name": "Miljöteknik och hållbar infrastruktur",
+              "required": false
+            }
+          ]
+        },
+        "comment": "Studenter från Öppen ingång väljer två av fyra kurser i P4, beroende på vilken inriktning de tänker välja i årskurs 3. Obligatoriskt: STP AH1030; GIT AG1314; FEFJ AF1002; BBP AF1002 och SF1676; MHI inget. Rekommenderat: STP AG1314; MHI två av AH1030, SF1676 och AG1314; FEFJ AG1314 eller AH1030; BBP AG1314, där planeringen sker med studievägledaren.",
+        "commentEn": "Students from Öppen ingång pick two of four courses in P4, depending on the inriktning they intend to choose in year 3. Compulsory: STP AH1030; GIT AG1314; FEFJ AF1002; BBP AF1002 and SF1676; MHI none. Recommended: STP AG1314; MHI two of AH1030, SF1676 and AG1314; FEFJ AG1314 or AH1030; BBP AG1314, planned with the study counsellor."
+      }
+    ],
+    "verified": false,
+    "source": "Övergångsplan för Öppen ingång, påbörjad HT-25 (gäller överg till prog. CSAMH), version 2025-12-17.",
+    "sourceEn": "Transition plan for Öppen ingång starting HT25, for transfer to Samhällsbyggnad (CSAMH), version 2025-12-17."
   }
 ]
