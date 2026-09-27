@@ -70,8 +70,10 @@ jobs:
         # production chunk names are fully hashed and size-limit cannot tell
         # them apart:
         #   ~201 kB  application JS
-        #   ~50 kB   the committed cohort archive (src/data/cohorts/*.json),
-        #            ~2 kB brotlied per cohort file
+        #   the rest the committed cohort archive (src/data/cohorts/*.json):
+        #            2-7 kB brotlied per cohort file, 10-34 kB per programme
+        #            across its five cohorts. 438 kB in total with 16
+        #            programmes; 500 leaves room for the four still to add.
         # Each cohort file is its own lazily-loaded chunk, so an unselected
         # cohort costs a viewer nothing — but every one counts here. When this
         # fails, check `du -sh src/data/cohorts` before assuming the app grew.

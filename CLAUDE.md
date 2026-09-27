@@ -574,15 +574,17 @@ that erasing our copy; re-running extraction only ever adds. They live inside
 `src/data/` (unlike the ad-hoc `--out` candidates) because the app must load
 whichever cohort the user picks, and each JSON becomes its own lazily-loaded
 chunk — an unselected cohort costs a viewer nothing. They do all count toward the
-`size-limit` budget, which is why it is 330 kB and not 250 (~201 kB app,
-~50 kB archive, ~2 kB per cohort file). `src/data/cohorts/index.json` is
+`size-limit` budget, which is why it is 500 kB and not 250: about 201 kB of
+app, and the rest archive. CI measured 438 kB with 16 programmes. A programme
+costs 10-34 kB across its five cohorts, and CLGYM is the largest at five study
+years with four inriktningar. `src/data/cohorts/index.json` is
 regenerated from disk on every run and drives the UI's selector; the validator
 cross-checks it both ways.
 
 Adding the HT2022 cohort costs **16.4 kB brotlied** across the eight programmes
 (measured as the difference between two builds, and independently by brotliing
-the eight files: 16.0 kB — TIEMM alone is 5.0 kB of it). That leaves the 330 kB
-budget intact on the bundler CI uses.
+the eight files: 16.0 kB — TIEMM alone is 5.0 kB of it). That left the
+budget of the time (330 kB) intact on the bundler CI uses.
 
 **Measuring the budget locally needs `next build --webpack`, and the number is
 not comparable.** The default Turbopack build spawns a PostCSS subprocess that
