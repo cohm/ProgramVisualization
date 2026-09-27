@@ -1252,6 +1252,17 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
         if (y == null) err(file, `${ctx} ${label}: adds '${code}' to a group, but the composed plan does not have it`);
         else if (y !== gc.year) err(file, `${ctx} ${label}: adds '${code}' to a year-${gc.year} group, but the composed plan has it in year ${y}`);
       }
+      if (gc.satisfiedBy != null) {
+        if (!(group.options ?? []).includes(gc.satisfiedBy)) {
+          err(file, `${ctx} ${label}: '${gc.satisfiedBy}' is said to satisfy the group offering '${gc.offering}', but is not one of its options`);
+        }
+        if (!plan.credited.some((c) => c.code === gc.satisfiedBy)) {
+          err(file, `${ctx} ${label}: '${gc.satisfiedBy}' satisfies a group but is not a credited ${plan.from} course`);
+        }
+        if (gc.addOptions?.length || gc.qualifiesFor) {
+          warn(file, `${ctx} ${label}: the group offering '${gc.offering}' is satisfied and removed, so its other changes have no effect`);
+        }
+      }
       const options = new Set([...(group.options ?? []), ...(gc.addOptions ?? [])]);
       for (const [code, list] of Object.entries(gc.qualifiesFor ?? {})) {
         if (!options.has(code)) err(file, `${ctx} ${label}: qualifiesFor names '${code}', which is not an option of the group`);

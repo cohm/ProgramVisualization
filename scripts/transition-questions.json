@@ -232,5 +232,23 @@
         "body": "Planen gäller kull HT25, men rubrikerna anger *\"År 2 CSAMH från Öppen ingång lå 25/26\"* och *\"År 3 … lå 26/27\"*. För kull HT25 är årskurs 2 läsåret 26/27 och årskurs 3 läsåret 27/28, och diagrammet utgår från det. **Bekräfta att rubrikerna är en felskrivning.**"
       }
     ]
+  },
+  "COPEN->CBIOT": {
+    "intro": "Planen är inläst från *Övergångsplan för Öppen ingång, påbörjad HT-25 (gäller överg till prog. CBIOT)*, version 20251113.\n\nPlanen anger inte vilka CBIOT-kurser Öppen ingångs kurser ersätter, bara att årskurs 1 *\"Motsvarar 51hp obligatoriska kurser på mottagande programmet och 9hp villkorligt valfria kurser\"*. Motsvarigheterna nedan är därför lästa ur vilka CBIOT-kurser planens tabeller för årskurs 2 och 3 **inte** tar med; se fråga 2.\n\nDen transfererande studentens årskurs 2 är CBIOT:s årskurs 1 (utom SF1625 och CB1170) plus CB1180, CB1190 och SF1911. Årskurs 3 är CBIOT:s årskurs 3 plus BB1200, BB1210, BB1230 och CB1015 från CBIOT:s årskurs 2.",
+    "loadNote": "Årskurs 2 blir **15/13,5/15/16,5**, exakt planens egna summor. Årskurs 3 blir **15/15/16/15 = 61 hp**, planens egen totalsumma för årskursen, med KD1270 utanför; se fråga 1.",
+    "items": [
+      {
+        "title": "Fråga: ska KD1270 läsas i årskurs 3?",
+        "body": "CBIOT:s egen studieplan har i årskurs 3 P4 valet **KD1270 eller SF1626**. En student från Öppen ingång har redan läst SF1626, så diagrammet räknar valet som gjort och tar inte med KD1270.\n\nPlanens tabell för årskurs 3 listar ändå KD1270, med kommentaren *\"Särskild behörighet för Masterprogrammet - industriell och miljöinriktad bioteknologi\"*. Tabellens summor går inte ihop:\n\n- hp-kolumnen summerar till **61**, vilket stämmer **utan** KD1270;\n- periodsumman för P4 är **16,5**, vilket stämmer med KD1270 men **utan** BB1230 (6 hp);\n- med alla listade kurser blir P4 **22,5 hp**.\n\n**Fråga:** är KD1270 bara aktuell för den som siktar på TIMBM, och då utöver heltid? Eller ingår den för alla, och vad utgår i så fall?"
+      },
+      {
+        "title": "Fråga: vilka CBIOT-kurser täcks av årskurs 1 i Öppen ingång?",
+        "body": "Följande obligatoriska CBIOT-kurser finns inte med i planens tabeller för årskurs 2 och 3, och diagrammet tar därför inte med dem:\n\n| Kurs | hp | CBIOT årskurs | Tolkad motsvarighet |\n|---|---|---|---|\n| CB1170 Bioteknik för ett hållbart samhälle | 1,5 | 1 | — |\n| SF1625 Envariabelanalys | 7,5 | 1 | SF1625 (samma kurs) |\n| SF1624 Algebra och geometri | 7,5 | 2 | SF1624 (samma kurs) |\n| SK1150 Grundläggande fysik I | 9 | 2 | SK1115 + SG1133 |\n| SF1525 Grundkurs i numeriska metoder | 6 | 2 | SF1546 |\n| CB1050 Python för bioteknologi | 7,5 | 2 | DD1310 |\n| CK1285 Kemisk jämvikt | 5 | 2 | — |\n| SI1410 Grundläggande modellering inom bioteknologi | 6 | 3 | — |\n| CB1200 Färdigheter för framtidens ingenjörer 3 | 1,5 | 3 | — |\n\nSumman är **51,5 hp**, mot planens *\"51hp obligatoriska kurser\"*. De villkorligt valfria 9 hp motsvaras här av SF1626 (7,5 hp), som fyller valet i årskurs 3 P4.\n\n**Frågor:** stämmer listan? Vilka av Öppen ingångs kurser täcker CK1285, SI1410, CB1200 och CB1170? Och vilka kurser utgör de 9 hp villkorligt valfria? Förkunskapspilen till CB1020, som kräver SF1525, utgår i diagrammet från SF1546."
+      },
+      {
+        "title": "Fråga: de grå raderna i tabellen för CBIOT årskurs 1",
+        "body": "I tabellen *\"År 1 CBIOT\"* är KD1020, CB1170, SF1625, KD1230 och KE1180 gråmarkerade. Färgen finns inte i planens teckenförklaring, och tre av kurserna (KD1020, KD1230, KE1180) läses ändå i årskurs 2. **Fråga:** vad betyder markeringen?"
+      }
+    ]
   }
 }

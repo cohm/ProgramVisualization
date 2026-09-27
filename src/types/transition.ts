@@ -155,6 +155,17 @@ export interface TransitionGroupChange {
    * way: "krävs för STP", "rek. för MHI".
    */
   qualifiesFor?: Record<string, MasterEligibility[]>;
+  /**
+   * A credited source course that already fills the group's choice. The group
+   * and its remaining options are then left out of the composed plan.
+   *
+   * CBIOT's year-3 P4 choice is KD1270 or SF1626, and a COPEN student took
+   * SF1626 in year 1. Without this the group would stay, offering KD1270 alone,
+   * and P4 would read 22.5 hp. It is stated per plan rather than inferred from
+   * "an option was already taken", because plans read that differently: COPEN
+   * -> CELTE says "välj minst 1 (ej SF1546 … SG1130)" of a pick-three group.
+   */
+  satisfiedBy?: string;
   /** Replaces the group's own note. */
   comment?: string;
   commentEn?: string;
