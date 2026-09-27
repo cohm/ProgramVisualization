@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Matematik",
+    "nameEn": "Mathematics",
+    "colorFamily": "blue",
+    "courses": [
+      "SF1552",
+      "SF1624",
+      "SF1625",
+      "SF1626",
+      "SF1633"
+    ]
+  },
+  {
+    "name": "Kemi",
+    "nameEn": "Chemistry",
+    "colorFamily": "brick",
+    "courses": [
+      "CK1030",
+      "CK1165",
+      "CK1175",
+      "CK1285",
+      "CK1295",
+      "CK1300",
+      "CK1310",
+      "KD1070",
+      "KD1080",
+      "KD1230",
+      "KD1270"
+    ]
+  },
+  {
+    "name": "Kemiteknik",
+    "nameEn": "Chemical Engineering",
+    "colorFamily": "green",
+    "courses": [
+      "KA1030",
+      "KE1140",
+      "KE1160",
+      "KE1170",
+      "KE1185"
+    ]
+  },
+  {
+    "name": "Fysik, bioteknik och övrigt",
+    "nameEn": "Physics, Biotechnology and Other Subjects",
+    "colorFamily": "turquoise",
+    "courses": [
+      "BB1050",
+      "ME1041",
+      "SK1151"
+    ]
+  },
+  {
+    "name": "Övrigt",
+    "nameEn": "Other",
+    "colorFamily": "yellow",
+    "courses": [
+      "KA103X"
+    ]
+  }
+]

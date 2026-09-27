@@ -1,0 +1,1715 @@
+[
+  {
+    "type": "cohortMeta",
+    "program": "CSAMH",
+    "cohort": "HT2026",
+    "years": [
+      {
+        "year": 1,
+        "sourceCohort": "HT2026",
+        "approximated": false,
+        "confidence": "exact"
+      },
+      {
+        "year": 2,
+        "sourceCohort": "HT2025",
+        "approximated": true,
+        "corroboratedBy": {
+          "year": 1,
+          "agrees": true
+        },
+        "confidence": "high"
+      },
+      {
+        "year": 3,
+        "sourceCohort": "HT2024",
+        "approximated": true,
+        "confidence": "unknown"
+      }
+    ]
+  },
+  {
+    "code": "AG1314",
+    "name": "GIS och mätningsteknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "GIS and Surveying",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "AI1128",
+    "name": "Samhällsbyggnadsekonomi",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Economics of the Built Environment",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "AI1527",
+    "name": "Samhällsbyggnadsprocessen",
+    "totalCredits": 13.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1",
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Introduction to the Planning and Building Process",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1626",
+    "name": "Flervariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 1.5,
+      "P4": 6
+    },
+    "year": 1,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Calculus in Several Variables",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "SF1624",
+    "name": "Algebra och geometri",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Algebra and Geometry",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "SF1516",
+    "name": "Numeriska metoder och grundläggande programmering",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 1.5,
+      "P3": 6,
+      "P4": 1.5
+    },
+    "year": 1,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Numerical Methods and Basic Programming",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "SF1625",
+    "name": "Envariabelanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Calculus in One Variable",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "AF1002",
+    "name": "Hus och anläggningar",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 2,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Buildings and Civil Engineering Structures",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "AI1527",
+      "AI1802",
+      "AL1302",
+      "SG1117"
+    ]
+  },
+  {
+    "code": "AH1030",
+    "name": "Stadsutveckling och transportsystem",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 2,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Urban Development and Transport System",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AI1128",
+      "AI1525",
+      "AI1527",
+      "AL1301"
+    ]
+  },
+  {
+    "code": "AI1525",
+    "name": "Samhällsbyggandets regelsystem",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Legal Framework of the Built Environment",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AG1137",
+      "AI1527"
+    ]
+  },
+  {
+    "code": "AI1802",
+    "name": "Projektledning och BIM inom samhällsbyggandet",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Project Management and BIM in the Built Environment",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AI1527"
+    ]
+  },
+  {
+    "code": "AL1301",
+    "name": "Naturresursteori",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Natural Resources Theory",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AI1527"
+    ]
+  },
+  {
+    "code": "AL1302",
+    "name": "Geovetenskap och geoteknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Geoscience and Geotechnical Engineering",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AI1527"
+    ]
+  },
+  {
+    "code": "SF1676",
+    "name": "Differentialekvationer med tillämpningar",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 2,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Differential Equations with Applications",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1626"
+    ]
+  },
+  {
+    "code": "SF1910",
+    "name": "Tillämpad statistik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Applied Statistics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1625"
+    ]
+  },
+  {
+    "code": "SG1117",
+    "name": "Teknisk mekanik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Engineering Mechanics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1625"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 1",
+    "nameEn": "Conditionally elective group 1",
+    "year": 2,
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 15
+    },
+    "options": [
+      "AF1002",
+      "AH1030",
+      "SF1676"
+    ],
+    "allowedNumberOfOptions": 2,
+    "kind": "pickN",
+    "pickN": 2,
+    "exams": [
+      "P4"
+    ],
+    "category": "conditionallyElective"
+  },
+  {
+    "code": "AL130X",
+    "name": "Examensarbete inom samhällsbyggnad, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MHI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Degree Project in Built Environment, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "AL1303",
+    "name": "Mark och vatten",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MHI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Soil and Water",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AL1301",
+      "AL1302"
+    ]
+  },
+  {
+    "code": "AI1524",
+    "name": "Markexploatering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "FEFJ"
+    ],
+    "category": "mandatory",
+    "nameEn": "Land Development",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AI1525"
+    ]
+  },
+  {
+    "code": "AE1601",
+    "name": "Strömningsmekanik för samhällsbyggnad",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "BBP",
+      "MHI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Fluid Mechanics for Architecture and Built Environment",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SG1117"
+    ]
+  },
+  {
+    "code": "AH101X",
+    "name": "Examensarbete inom samhällsbyggnad, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 15
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "STP"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Civil Engineering, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "AF1006",
+    "name": "Byggnadsmekanik, grundkurs",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "BBP",
+      "MHI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Structural Mechanics, Basic course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1676",
+      "SG1117"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 9",
+    "nameEn": "Conditionally elective group 9",
+    "year": 3,
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "options": [
+      "AG1107",
+      "AG1138",
+      "AH1022"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [
+      "P3"
+    ],
+    "category": "conditionallyElective",
+    "specializations": [
+      "STP"
+    ]
+  },
+  {
+    "code": "AG1818",
+    "name": "Geodetisk mätningsteknik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "GIT"
+    ],
+    "category": "mandatory",
+    "nameEn": "Geodetic Surveying",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AG1314"
+    ]
+  },
+  {
+    "code": "AG111X",
+    "name": "Examensarbete inom samhällsbyggnad, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 15
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "STP"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in the Built Environment, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "AG1137",
+    "name": "Planering och styrning av urban och regional utveckling",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MHI",
+      "STP"
+    ],
+    "category": "mandatory",
+    "nameEn": "Planning and Governance of Urban and Regional Development",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "AH1030"
+    ]
+  },
+  {
+    "code": "AF1402",
+    "name": "Byggfysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "BBP"
+    ],
+    "category": "mandatory",
+    "nameEn": "Building Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AE1601",
+      "AF1002",
+      "AF1301",
+      "SF1676"
+    ]
+  },
+  {
+    "code": "DD1321",
+    "name": "Tillämpad programmering och datalogi",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 3,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "GIT"
+    ],
+    "category": "mandatory",
+    "nameEn": "Applied Programming and Computer Science",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "SF1516"
+    ]
+  },
+  {
+    "code": "AG1817",
+    "name": "Kartprojektioner och referenssystem",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "GIT"
+    ],
+    "category": "mandatory",
+    "nameEn": "Map Projections and Reference Systems",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AG1818"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 6",
+    "nameEn": "Conditionally elective group 6",
+    "year": 3,
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "options": [
+      "AF1601",
+      "AK1204"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [
+      "P4"
+    ],
+    "category": "conditionallyElective",
+    "specializations": [
+      "MHI"
+    ]
+  },
+  {
+    "code": "AG1323",
+    "name": "GIS för samhällsbyggnad",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "GIT"
+    ],
+    "category": "mandatory",
+    "nameEn": "GIS for the Built Environment",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AG1314"
+    ]
+  },
+  {
+    "code": "AG134X",
+    "name": "Examensarbete inom samhällsbyggnad, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 15
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "GIT"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Built Environment, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "AI1517",
+    "name": "Fastighetsrätt",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "FEFJ"
+    ],
+    "category": "mandatory",
+    "nameEn": "Real Estate Law",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "AG1107",
+    "name": "Bebyggelse, trafiken och lokala livsmiljöer",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "STP"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "The built environment, traffic and local living environments",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AG1137",
+      "AH1030",
+      "AI1525"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 8",
+    "nameEn": "Conditionally elective group 8",
+    "year": 3,
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "options": [
+      "AH1025",
+      "AI1518"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [
+      "P2"
+    ],
+    "category": "conditionallyElective",
+    "specializations": [
+      "STP"
+    ]
+  },
+  {
+    "code": "AI1146",
+    "name": "Fastighetsförvaltning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "FEFJ"
+    ],
+    "category": "mandatory",
+    "nameEn": "Property Management",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AI1108",
+      "AI1128"
+    ]
+  },
+  {
+    "code": "AE1501",
+    "name": "Miljösystemanalys för samhällsbyggnad",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MHI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Environmental System Analysis for Built Environment",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AL1301"
+    ]
+  },
+  {
+    "code": "AF102X",
+    "name": "Examensarbete inom samhällsbyggnad, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "BBP"
+    ],
+    "category": "mandatory",
+    "nameEn": "Degree Project in Built Environment, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "AH1031",
+    "name": "Transport och samhälle",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "STP"
+    ],
+    "category": "mandatory",
+    "nameEn": "Transport and Society",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "AH1030"
+    ]
+  },
+  {
+    "code": "AG181X",
+    "name": "Examensarbete inom samhällsbyggnad, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 15
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "GIT"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Built Environment, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "AE1105",
+    "name": "Miljö- och markkemi",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MHI"
+    ],
+    "category": "mandatory",
+    "nameEn": "Environmental Soil Chemistry",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AL1301",
+      "AL1302"
+    ]
+  },
+  {
+    "code": "AI151X",
+    "name": "Examensarbete inom samhällsbyggnad, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 15
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "FEFJ"
+    ],
+    "category": "mandatory",
+    "nameEn": "Degree Project in Built Environment, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "AF1301",
+    "name": "Byggmaterial, grundkurs",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "BBP"
+    ],
+    "category": "mandatory",
+    "nameEn": "Building Materials, Basic Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AF1002",
+      "AI1527"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Kandidatexamensarbete (STP)",
+    "nameEn": "Degree project, first cycle (STP)",
+    "year": 3,
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 15
+    },
+    "options": [
+      "AG111X",
+      "AH101X"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "STP"
+    ]
+  },
+  {
+    "code": "AI1148",
+    "name": "Fastighetsvärdering för samhällsbyggnad",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "FEFJ"
+    ],
+    "category": "mandatory",
+    "nameEn": "Real Estate Valuation for Civil Engineering and Urban Management",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AI1108",
+      "SF1910"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 4",
+    "nameEn": "Conditionally elective group 4",
+    "year": 3,
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "options": [
+      "AE1601",
+      "AG1137"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [
+      "P1"
+    ],
+    "category": "conditionallyElective",
+    "specializations": [
+      "MHI"
+    ]
+  },
+  {
+    "code": "AH1022",
+    "name": "Trafik- och vägteknik, grundkurs",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "STP"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Traffic and Road Engineering, Basic Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AH1030",
+      "AI1128",
+      "AI1527"
+    ]
+  },
+  {
+    "code": "AK1204",
+    "name": "Miljöhistoria",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MHI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Environmental History",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "AF1005",
+    "name": "Byggkonstruktionslära, grundkurs",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "BBP"
+    ],
+    "category": "mandatory",
+    "nameEn": "Structural Engineering, Basic Course",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "AF1006"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Kandidatexamensarbete (GIT)",
+    "nameEn": "Degree project, first cycle (GIT)",
+    "year": 3,
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 15
+    },
+    "options": [
+      "AG134X",
+      "AG181X"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "GIT"
+    ]
+  },
+  {
+    "code": "AI1149",
+    "name": "Geodatakvalitet och tidsserieanalys",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "GIT"
+    ],
+    "category": "mandatory",
+    "nameEn": "Geodata quality and time series analysis",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AG1818"
+    ]
+  },
+  {
+    "code": "AG1324",
+    "name": "Fotogrammetri och fjärranalys",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 9,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "GIT"
+    ],
+    "category": "mandatory",
+    "nameEn": "Photogrammetry and Remote Sensing",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AG1314"
+    ]
+  },
+  {
+    "code": "AH1025",
+    "name": "Kollektivtrafiksystem, bussar och spårtrafik, gk",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "STP"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Public Transport Systems, Buses and Rail, BC",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AI1128",
+      "AI1527"
+    ]
+  },
+  {
+    "code": "AH1023",
+    "name": "Stads- och trafikplanering, metoder och tillämpningar",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MHI",
+      "STP"
+    ],
+    "category": "mandatory",
+    "nameEn": "Urban and Traffic Planning, Methods and Applications",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 2",
+    "nameEn": "Conditionally elective group 2",
+    "year": 3,
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "options": [
+      "AF1601",
+      "AI1801"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [
+      "P4"
+    ],
+    "category": "conditionallyElective",
+    "specializations": [
+      "BBP"
+    ]
+  },
+  {
+    "code": "AF1601",
+    "name": "Geoteknik med grundläggning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "BBP",
+      "MHI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Soil Mechanics and Foundation Engineering",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AL1302",
+      "SF1624",
+      "SF1910"
+    ]
+  },
+  {
+    "code": "AI1108",
+    "name": "Investeringsanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "FEFJ"
+    ],
+    "category": "mandatory",
+    "nameEn": "Investment Analysis",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AI1128",
+      "SF1625"
+    ]
+  },
+  {
+    "code": "AI1801",
+    "name": "Byggprojektledning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "BBP"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Construction Project Management",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "AL1304",
+    "name": "Vattenförsörjnings- och avloppsteknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MHI"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Water Supply and Wastewater Treatment",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AE1105",
+      "AL1303"
+    ]
+  },
+  {
+    "code": "AG1138",
+    "name": "Planeringens aktörer och processer",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "STP"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Actors and processes in planning",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AG1137",
+      "AH1030",
+      "AI1525"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 5",
+    "nameEn": "Conditionally elective group 5",
+    "year": 3,
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "options": [
+      "AF1006",
+      "AH1023"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [
+      "P2"
+    ],
+    "category": "conditionallyElective",
+    "specializations": [
+      "MHI"
+    ]
+  },
+  {
+    "code": "AI1518",
+    "name": "Fastighetsutveckling och regelsystem",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "FEFJ",
+      "STP"
+    ],
+    "category": "mandatory",
+    "nameEn": "Real Estate Development Legislation",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "AI1525"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 7",
+    "nameEn": "Conditionally elective group 7",
+    "year": 3,
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "options": [
+      "AE1501",
+      "AL1304"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [
+      "P3"
+    ],
+    "category": "conditionallyElective",
+    "specializations": [
+      "MHI"
+    ]
+  },
+  {
+    "code": "DD1380",
+    "name": "Javaprogrammering för Pythonprogrammerare",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 1.5,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "GIT"
+    ],
+    "category": "mandatory",
+    "nameEn": "Java Programming for Python Programmers",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1321"
+    ]
+  }
+]

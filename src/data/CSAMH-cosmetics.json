@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Matematik",
+    "nameEn": "Mathematics",
+    "colorFamily": "blue",
+    "courses": [
+      "SF1516",
+      "SF1624",
+      "SF1625",
+      "SF1626",
+      "SF1676",
+      "SF1910"
+    ]
+  },
+  {
+    "name": "Samhällsplanering och fastigheter",
+    "nameEn": "Urban Planning and Real Estate",
+    "colorFamily": "brick",
+    "courses": [
+      "AH1022",
+      "AH1023",
+      "AH1025",
+      "AH1030",
+      "AH1031",
+      "AI1108",
+      "AI1128",
+      "AI1146",
+      "AI1148",
+      "AI1149",
+      "AI1517",
+      "AI1518",
+      "AI1524",
+      "AI1525",
+      "AI1527",
+      "AI1801",
+      "AI1802",
+      "AK1204"
+    ]
+  },
+  {
+    "name": "Byggteknik och miljö",
+    "nameEn": "Building Technology and Environment",
+    "colorFamily": "green",
+    "courses": [
+      "AE1105",
+      "AE1501",
+      "AE1601",
+      "AF1002",
+      "AF1005",
+      "AF1006",
+      "AF1301",
+      "AF1402",
+      "AF1601",
+      "AL1301",
+      "AL1302",
+      "AL1303",
+      "AL1304",
+      "SG1117"
+    ]
+  },
+  {
+    "name": "Geoinformatik och data",
+    "nameEn": "Geoinformatics and Computing",
+    "colorFamily": "turquoise",
+    "courses": [
+      "AG1107",
+      "AG1137",
+      "AG1138",
+      "AG1314",
+      "AG1323",
+      "AG1324",
+      "AG1817",
+      "AG1818",
+      "DD1321",
+      "DD1380"
+    ]
+  },
+  {
+    "name": "Övrigt",
+    "nameEn": "Other",
+    "colorFamily": "yellow",
+    "courses": [
+      "AF102X",
+      "AG111X",
+      "AG134X",
+      "AG181X",
+      "AH101X",
+      "AI151X",
+      "AL130X"
+    ]
+  }
+]
