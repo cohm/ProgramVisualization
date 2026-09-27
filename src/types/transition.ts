@@ -14,6 +14,8 @@
  * recorded is the *difference* from the target programme's published plan.
  */
 
+import type { MasterEligibility } from '@/types/course';
+
 /** A target course the transferring student does not take. */
 export interface TransitionExemption {
   /** Course code in the TARGET programme that is dropped. */
@@ -121,6 +123,44 @@ export interface TransitionAddition {
 }
 
 /**
+ * A change to one of the target programme's option groups.
+ *
+ * COPEN -> CSAMH is the case. CSAMH's own year-2 P4 group is "two of AF1002,
+ * AH1030 and SF1676". A transfer student also reads AG1314 there, which CSAMH's
+ * own students took in year 1, so for them the same slot is two of FOUR. Which
+ * two depends on the inriktning they are heading for, and the plan states that
+ * per inriktning: STP must take AH1030, GIT AG1314, and so on.
+ *
+ * Moving AG1314 into year 2 as a course would draw it on top of the group and
+ * put P4 at 22.5 hp. Making it an option of the group is what the plan says.
+ *
+ * The group is identified by a course it already offers, not by its name,
+ * because the names of extracted groups are generated ("Villkorligt valfri
+ * grupp 1") and would not survive a re-extraction.
+ */
+export interface TransitionGroupChange {
+  /** Study year of the group, after any `moved` re-stamping. */
+  year: number;
+  /** A course the target's group already offers. */
+  offering: string;
+  /**
+   * Courses added as options. Each must be in the composed plan (a target
+   * course, typically one the plan `moved`, or an `added` one), so the option
+   * has course data behind it.
+   */
+  addOptions?: string[];
+  /**
+   * Per option, which inriktningar require or recommend it. The same shape as
+   * the master-programme eligibility on extracted groups, and rendered the same
+   * way: "krävs för STP", "rek. för MHI".
+   */
+  qualifiesFor?: Record<string, MasterEligibility[]>;
+  /** Replaces the group's own note. */
+  comment?: string;
+  commentEn?: string;
+}
+
+/**
  * A source-programme course credited into the target degree.
  *
  * `replaces` is what makes prerequisite arrows come out right. A target course
@@ -159,6 +199,7 @@ export interface TransitionPlan {
   moved?: TransitionMove[];
   rescheduled?: TransitionReschedule[];
   added?: TransitionAddition[];
+  groupChanges?: TransitionGroupChange[];
   /** False until a program director has confirmed it, like `programs.json`. */
   verified?: boolean;
   source?: string;

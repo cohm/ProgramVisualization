@@ -148,6 +148,16 @@ export function composeTransition(
       continue;
     }
 
+    // A group cannot offer a course the student already took in the source
+    // years, or was exempted from. CELTE's year-2 group lists SF1546, which a
+    // COPEN student read in year 1; left in, the renderer treats it as an
+    // unpicked option and hides the course everywhere, year 1 included.
+    if (isGroup(entry)) {
+      const options = entry.options.filter(c => !sourceCodes.has(c) && !exemptCodes.has(c));
+      fromTarget.push(options.length === entry.options.length ? entry : { ...entry, options });
+      continue;
+    }
+
     fromTarget.push(entry);
   }
 
@@ -185,9 +195,11 @@ export function composeTransition(
     }
   }
 
+  const regrouped = applyGroupChanges([...fromSource, ...fromTarget, ...added], plan, warnings);
+
   // --- redirect prerequisites onto the courses actually taken --------------
   const { entries: rewritten, warnings: rewriteWarnings } =
-    redirectPrerequisites([...fromSource, ...fromTarget, ...added], plan);
+    redirectPrerequisites(regrouped, plan);
   const entries = rewritten;
   warnings.push(...rewriteWarnings);
   warnings.push(...fullTimeWarnings(entries, plan, selectedSpecializations));
@@ -199,6 +211,56 @@ export function composeTransition(
     moved: plan.moved ?? [],
     warnings,
   };
+}
+
+/**
+ * Extend the target's option groups as the plan says; see TransitionGroupChange.
+ *
+ * Runs on the composed entries, after `moved`, so a course moved into the
+ * group's year (CSAMH's AG1314) is already there to become an option. Once it
+ * is an option, the group bar stands for it: the renderer draws it only when
+ * picked, and the load check counts the group rather than the course.
+ */
+function applyGroupChanges(entries: Entry[], plan: TransitionPlan, warnings: string[]): Entry[] {
+  if (!plan.groupChanges?.length) return entries;
+  const out = [...entries];
+  const courses = new Map(
+    entries.filter((e): e is Course => !isGroup(e)).map(e => [e.code, e]),
+  );
+  for (const change of plan.groupChanges) {
+    const at = out.findIndex(e => isGroup(e) && e.year === change.year && e.options.includes(change.offering));
+    if (at < 0) {
+      warnings.push(
+        `The plan changes the year-${change.year} group offering ${change.offering}, but the ` +
+        `composed plan has no such group.`,
+      );
+      continue;
+    }
+    const group = out[at] as OptionGroup;
+    const options = [...group.options];
+    for (const code of change.addOptions ?? []) {
+      const course = courses.get(code);
+      if (!course) {
+        warnings.push(`The plan adds ${code} to the group offering ${change.offering}, but ${code} is not in the composed plan.`);
+        continue;
+      }
+      if (entryYear(course) !== change.year) {
+        warnings.push(
+          `The plan adds ${code} to a year-${change.year} group, but the composed plan has it in ` +
+          `year ${entryYear(course)}.`,
+        );
+      }
+      if (!options.includes(code)) options.push(code);
+    }
+    out[at] = {
+      ...group,
+      options,
+      qualifiesFor: change.qualifiesFor ? { ...group.qualifiesFor, ...change.qualifiesFor } : group.qualifiesFor,
+      comment: change.comment ?? group.comment,
+      commentEn: change.commentEn ?? group.commentEn,
+    };
+  }
+  return out;
 }
 
 /**
@@ -318,8 +380,6 @@ function fullTimeWarnings(
   plan: TransitionPlan,
   selectedSpecializations?: Set<string>,
 ): string[] {
-  const groups = entries.filter(isGroup);
-  const inGroup = new Set(groups.flatMap(g => g.options));
   // A course tagged with inriktningar is taken only by students on one of them,
   // so counting every tag at once overstates the year. CMAST is the case: its
   // three language tracks are 37.5 hp together and a student takes at most one,
@@ -328,11 +388,18 @@ function fullTimeWarnings(
   // (no registry, or nothing picked yet) keep the old behaviour of counting it,
   // since dropping every tagged course would understate the year instead.
   const matchesSpec = (e: Entry): boolean => {
-    const specs = (e as Course).specializations;
+    const specs = e.specializations;
     if (!specs?.length) return true;
     if (!selectedSpecializations?.size) return true;
     return specs.some(c => selectedSpecializations.has(c));
   };
+  // Option groups are filtered the same way, and membership is taken from the
+  // visible groups only, as the renderer and validate-data do. Counting every
+  // inriktning's groups put COPEN -> CSAMH's year 3 at 45 hp in STP's P4, and a
+  // course obligatorisk for one inriktning but an option for another would
+  // otherwise drop out of the first one's load.
+  const groups = entries.filter(isGroup).filter(matchesSpec);
+  const inGroup = new Set(groups.flatMap(g => g.options));
   const byYear = new Map<number, Record<string, number>>();
 
   const add = (year: number, period: string, hp: number) => {
@@ -341,13 +408,13 @@ function fullTimeWarnings(
     byYear.set(year, row);
   };
 
+  for (const entry of groups) {
+    // A group counts once; the student takes one of its options, so the
+    // member courses must not be counted as well.
+    for (const p of PERIODS) add(entry.year, p, entry.periodCredits[p] ?? 0);
+  }
   for (const entry of entries) {
-    if (isGroup(entry)) {
-      // A group counts once; the student takes one of its options, so the
-      // member courses must not be counted as well.
-      for (const p of PERIODS) add(entry.year, p, entry.periodCredits[p] ?? 0);
-      continue;
-    }
+    if (isGroup(entry)) continue;
     if (inGroup.has(entry.code)) continue;
     if (!matchesSpec(entry)) continue;
     for (const c of entry.credits) add(c.year, c.period, c.credits);

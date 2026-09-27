@@ -82,13 +82,21 @@ export function buildOptionGroupTooltip(og: OptionGroup, language: Lang, deps: O
   const eligibilityFor = (code: string): string => {
     const masters = og.qualifiesFor?.[code];
     if (!masters?.length) return '';
-    const parts = masters.map(m => {
+    const label = (m: typeof masters[number]) => {
       const spår = m.tracks?.length ? m.tracks.join('/') : m.track;
       // The programme code is what a student matches against when applying, so
       // it leads; the name is the human-readable gloss.
       return spår ? `${m.code} (${spår})` : m.code;
-    });
-    return ` — <em>${escapeHtml(tr[language].qualifiesFor)} ${escapeHtml(parts.join(', '))}</em>`;
+    };
+    // A rekommenderad course is advice, not an eligibility condition, so it is
+    // not called behörighetsgivande. Same split as the selection modal.
+    const required = masters.filter(m => m.required !== false).map(label);
+    const recommended = masters.filter(m => m.required === false).map(label);
+    const parts = [
+      required.length ? `${tr[language].qualifiesFor} ${required.join(', ')}` : '',
+      recommended.length ? `${tr[language].recommendedFor} ${recommended.join(', ')}` : '',
+    ].filter(Boolean);
+    return ` — <em>${escapeHtml(parts.join('; '))}</em>`;
   };
 
   const optionsList = og.options

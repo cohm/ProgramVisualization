@@ -1199,6 +1199,29 @@ the moment either programme is re-extracted, and silently: nothing would say the
 composed plan no longer matches. Recording only the difference means the
 composition is a pure function of both programmes' current data.
 
+**`groupChanges` extends one of the target's option groups.** COPEN → CSAMH
+needs it. CSAMH's year-2 P4 group is two of AF1002 / AH1030 / SF1676, and a
+transfer student also reads AG1314 there, which CSAMH's own students take in
+year 1. So for them the slot is two of four. Moving AG1314 as a plain course
+would stack it on the group and put P4 at 22.5 hp. The plan moves it to year 2
+and adds it to the group, found by a course the group already offers
+(`offering`), because extracted group names are generated. The plan's
+per-inriktning table ("obligatorisk / rekommenderad för inriktningen") goes into
+`qualifiesFor` with the inriktning codes, and renders as "krävs för STP" /
+"rek. för MHI".
+
+**A group never offers what the student already has.** Options the student took
+in the source years, or is exempted from, are dropped from the target's groups.
+CELTE's year-2 group lists SF1546, which a COPEN student read in year 1. As an
+unpicked option it hid COPEN's own SF1546 from year 1 of the chart, and the load
+check reported year 1 at 54 hp.
+
+**The load check filters option groups by inriktning too**, and takes membership
+from the visible groups only, like the renderer and `validate-data`. Counting
+every inriktning's groups put COPEN → CSAMH's year 3 at 45 hp in STP's P4. The
+global membership set also dropped CMAST's MF1016 and MJ1112 from the default
+track's year 2, which read 13.5 hp in P3 and P4 instead of 18.
+
 **Year numbering needs no adjustment.** The source contributes year 1 and the
 target years 2-3, so the composed years already read 1/2/3. A `moved` course is
 re-stamped to its new year but **keeps its periods** — CTFYS's SF1922 runs in P4
