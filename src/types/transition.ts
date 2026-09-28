@@ -42,9 +42,15 @@ export interface TransitionMove {
    * The part of the course still read, when the rest is credited. CENMI's
    * CK1020 is 6 hp in P4; 3 hp are credited from COPEN's KD1000 and the
    * student reads the other 3 with CENMI year 1. Omitted, the course keeps
-   * all its periods. Must sum to less than the course's own credits.
+   * all its periods. Must not sum to more than the course's own credits; equal
+   * means the whole course in other periods (CTKEM's BB1050, read with BB1150).
+   *
+   * May be keyed by study year, `{ Year2: {…}, Year3: {…} }`, for a course
+   * that spans years. CMETE's DM1578 runs over years 1-3; the transfer student
+   * reads 5 hp of it in year 2 (3 of them CMETE's year-1 part) and 2 in year 3.
+   * `toYear` is then the first of those years.
    */
-  periodCredits?: Record<string, number>;
+  periodCredits?: Record<string, number> | Record<string, Record<string, number>>;
   note?: string;
   noteEn?: string;
 }
@@ -172,7 +178,9 @@ export interface TransitionGroupChange {
   qualifiesFor?: Record<string, MasterEligibility[]>;
   /**
    * A credited source course that already fills the group's choice. The group
-   * and its remaining options are then left out of the composed plan.
+   * and its remaining options are then left out of the composed plan. Several
+   * courses may fill a credit pool together: CINTE's 36 hp year-2 box is filled
+   * by six COPEN courses (39 hp).
    *
    * CBIOT's year-3 P4 choice is KD1270 or SF1626, and a COPEN student took
    * SF1626 in year 1. Without this the group would stay, offering KD1270 alone,
@@ -180,7 +188,16 @@ export interface TransitionGroupChange {
    * "an option was already taken", because plans read that differently: COPEN
    * -> CELTE says "välj minst 1 (ej SF1546 … SG1130)" of a pick-three group.
    */
-  satisfiedBy?: string;
+  satisfiedBy?: string | string[];
+  /**
+   * A smaller size for a `minCredits` group, when part of its space is taken
+   * by courses the plan moves in. CITEH's year-3 box is 24 hp over P1-P4; the
+   * transfer student reads ML1504 in its P3, and the plan leaves "Valfri/VV
+   * 18 hp" in P1, P2 and P4. Both fields together, and the periods must sum to
+   * `minCredits`.
+   */
+  minCredits?: number;
+  periodCredits?: Record<string, number>;
   /** Replaces the group's own note. */
   comment?: string;
   commentEn?: string;

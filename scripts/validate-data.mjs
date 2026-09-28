@@ -1182,12 +1182,22 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
         err(file, `${ctx} ${label}: moves '${mv.code}' into year ${mv.toYear}, which is taken in ${plan.from}`);
       }
       // A partial read: the part still taken must be a real part of the course.
+      // Flat for `toYear`, or keyed by study year for a course read over
+      // several (CMETE's DM1578); equal to the whole means other periods only.
       if (mv.periodCredits != null) {
-        const bad = Object.keys(mv.periodCredits).filter((k) => !['P1', 'P2', 'P3', 'P4'].includes(k));
-        if (bad.length) err(file, `${ctx} ${label}: '${mv.code}' periodCredits has unknown period(s) ${bad.join(', ')}`);
-        const sum = ['P1', 'P2', 'P3', 'P4'].reduce((a, q) => a + Number(mv.periodCredits[q] || 0), 0);
-        if (!(sum > 0) || (course.totalCredits != null && sum >= course.totalCredits - 0.05)) {
-          err(file, `${ctx} ${label}: moves '${mv.code}' with ${sum} hp of periodCredits — a partial read must be more than 0 and less than the course's ${course.totalCredits} hp`);
+        const yearKeys = Object.keys(mv.periodCredits).filter((k) => /^Year\d+$/.test(k));
+        const maps = yearKeys.length ? yearKeys.map((k) => mv.periodCredits[k]) : [mv.periodCredits];
+        if (yearKeys.length && Number(yearKeys.map((k) => k.slice(4)).sort()[0]) !== mv.toYear) {
+          err(file, `${ctx} ${label}: moves '${mv.code}' to year ${mv.toYear}, but its periodCredits start in ${yearKeys.sort()[0]}`);
+        }
+        for (const y of yearKeys) {
+          if (plan.sourceYears.includes(Number(y.slice(4)))) err(file, `${ctx} ${label}: '${mv.code}' has credits in ${y}, which is taken in ${plan.from}`);
+        }
+        const bad = maps.flatMap((m) => Object.keys(m ?? {})).filter((k) => !['P1', 'P2', 'P3', 'P4'].includes(k));
+        if (bad.length) err(file, `${ctx} ${label}: '${mv.code}' periodCredits has unknown period(s) ${[...new Set(bad)].join(', ')}`);
+        const sum = maps.reduce((a, m) => a + ['P1', 'P2', 'P3', 'P4'].reduce((b, q) => b + Number(m?.[q] || 0), 0), 0);
+        if (!(sum > 0) || (course.totalCredits != null && sum > course.totalCredits + 0.05)) {
+          err(file, `${ctx} ${label}: moves '${mv.code}' with ${sum} hp of periodCredits — must be more than 0 and at most the course's ${course.totalCredits} hp`);
         }
       }
       if (mv.toYear <= mv.fromYear) {
@@ -1271,14 +1281,28 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
         else if (y !== gc.year) err(file, `${ctx} ${label}: adds '${code}' to a year-${gc.year} group, but the composed plan has it in year ${y}`);
       }
       if (gc.satisfiedBy != null) {
-        if (!(group.options ?? []).includes(gc.satisfiedBy)) {
-          err(file, `${ctx} ${label}: '${gc.satisfiedBy}' is said to satisfy the group offering '${gc.offering}', but is not one of its options`);
+        const by = [gc.satisfiedBy].flat();
+        for (const c of by) {
+          if (!plan.credited.some((k) => k.code === c)) {
+            err(file, `${ctx} ${label}: '${c}' satisfies a group but is not a credited ${plan.from} course`);
+          }
         }
-        if (!plan.credited.some((c) => c.code === gc.satisfiedBy)) {
-          err(file, `${ctx} ${label}: '${gc.satisfiedBy}' satisfies a group but is not a credited ${plan.from} course`);
+        // A pick-N choice is filled by one of its own options; a credit pool
+        // may be filled by credits from anywhere, so only the first is checked.
+        if (group.kind !== 'minCredits' && !by.some((c) => (group.options ?? []).includes(c))) {
+          err(file, `${ctx} ${label}: '${by.join(', ')}' is said to satisfy the group offering '${gc.offering}', but none is one of its options`);
         }
-        if (gc.addOptions?.length || gc.qualifiesFor) {
+        if (gc.addOptions?.length || gc.qualifiesFor || gc.minCredits != null) {
           warn(file, `${ctx} ${label}: the group offering '${gc.offering}' is satisfied and removed, so its other changes have no effect`);
+        }
+      }
+      if (gc.minCredits != null || gc.periodCredits != null) {
+        if (group.kind !== 'minCredits') err(file, `${ctx} ${label}: resizes the group offering '${gc.offering}', which is not a minCredits group`);
+        if (gc.minCredits == null || gc.periodCredits == null) err(file, `${ctx} ${label}: a resize needs both 'minCredits' and 'periodCredits'`);
+        else {
+          const sum = ['P1', 'P2', 'P3', 'P4'].reduce((a, q) => a + Number(gc.periodCredits[q] || 0), 0);
+          if (Math.abs(sum - gc.minCredits) > 0.05) err(file, `${ctx} ${label}: resized periods sum to ${sum} hp, but minCredits is ${gc.minCredits}`);
+          if (gc.minCredits >= (group.minCredits ?? Infinity)) warn(file, `${ctx} ${label}: resizes the group offering '${gc.offering}' to ${gc.minCredits} hp, not smaller than its ${group.minCredits}`);
         }
       }
       const options = new Set([...(group.options ?? []), ...(gc.addOptions ?? [])]);
