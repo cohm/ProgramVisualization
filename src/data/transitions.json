@@ -56,18 +56,18 @@
       },
       {
         "code": "SF1546",
-        "note": "Numeriska metoder; ersätter SF1544, som därför utgår helt (se 'exempt').",
-        "noteEn": "Numerical methods; replaces SF1544, which is therefore dropped entirely (see 'exempt')."
+        "note": "Numeriska metoder, grundkurs. Ersätter SF1544, som du därför inte läser.",
+        "noteEn": "Numerical methods, basic course. Replaces SF1544, which you therefore do not take."
       },
       {
         "code": "SA1007",
-        "note": "Ingenjörsrollen och ingenjörskunskap. SA1007 Ingenjörsrollen (6 hp) och KD1000 Kemiska principer (3 hp) motsvarar tillsammans, löst, SI1121 Termodynamik (6 hp) och SK1105 Experimentell fysik (4 hp) — en allmän ingenjörsintroduktion mot en termodynamik- och en laborationskurs. Motsvarigheten gäller paret som helhet, inte kurs mot kurs, varför varken 'replaces' eller 'creditedBy' är satt.",
-        "noteEn": "The engineering role. SA1007 (6 credits) and KD1000 (3 credits) together loosely correspond to SI1121 Termodynamik (6 credits) and SK1105 Experimentell fysik (4 credits) — a general engineering introduction against a thermodynamics and a laboratory course. The correspondence holds for the pair as a whole rather than course by course, which is why neither 'replaces' nor 'creditedBy' is set."
+        "note": "Tillgodoräknas tillsammans med KD1000 i stället för SI1121 Termodynamik och SK1105 Experimentell fysik, som studenter från Öppen ingång inte läser. Kurserna motsvarar varandra som helhet, inte kurs för kurs.",
+        "noteEn": "Credited together with KD1000 in place of SI1121 Termodynamik and SK1105 Experimentell fysik, which students from Öppen ingång do not take. The courses correspond as a whole, not one to one."
       },
       {
         "code": "KD1000",
-        "note": "Kemiska principer för hållbar utveckling. SA1007 Ingenjörsrollen (6 hp) och KD1000 Kemiska principer (3 hp) motsvarar tillsammans, löst, SI1121 Termodynamik (6 hp) och SK1105 Experimentell fysik (4 hp) — en allmän ingenjörsintroduktion mot en termodynamik- och en laborationskurs. Motsvarigheten gäller paret som helhet, inte kurs mot kurs, varför varken 'replaces' eller 'creditedBy' är satt.",
-        "noteEn": "Chemical principles for sustainable development. SA1007 (6 credits) and KD1000 (3 credits) together loosely correspond to SI1121 Termodynamik (6 credits) and SK1105 Experimentell fysik (4 credits) — a general engineering introduction against a thermodynamics and a laboratory course. The correspondence holds for the pair as a whole rather than course by course, which is why neither 'replaces' nor 'creditedBy' is set."
+        "note": "Tillgodoräknas tillsammans med SA1007 i stället för SI1121 Termodynamik och SK1105 Experimentell fysik, som studenter från Öppen ingång inte läser. Kurserna motsvarar varandra som helhet, inte kurs för kurs.",
+        "noteEn": "Credited together with SA1007 in place of SI1121 Termodynamik and SK1105 Experimentell fysik, which students from Öppen ingång do not take. The courses correspond as a whole, not one to one."
       }
     ],
     "exempt": [
@@ -79,13 +79,13 @@
       },
       {
         "code": "SI1121",
-        "note": "Termodynamik läses inte av studenter från Öppen ingång. SA1007 Ingenjörsrollen (6 hp) och KD1000 Kemiska principer (3 hp) motsvarar tillsammans, löst, SI1121 Termodynamik (6 hp) och SK1105 Experimentell fysik (4 hp) — en allmän ingenjörsintroduktion mot en termodynamik- och en laborationskurs. Motsvarigheten gäller paret som helhet, inte kurs mot kurs, varför varken 'replaces' eller 'creditedBy' är satt.",
-        "noteEn": "Thermodynamics is not taken by students from Öppen ingång. SA1007 (6 credits) and KD1000 (3 credits) together loosely correspond to SI1121 Termodynamik (6 credits) and SK1105 Experimentell fysik (4 credits) — a general engineering introduction against a thermodynamics and a laboratory course. The correspondence holds for the pair as a whole rather than course by course, which is why neither 'replaces' nor 'creditedBy' is set."
+        "note": "Termodynamik läses inte av studenter från Öppen ingång. SA1007 Ingenjörsrollen och ingenjörskunskap och KD1000 Kemiska principer för hållbar utveckling från Öppen ingång tillgodoräknas i stället för denna kurs och SK1105 Experimentell fysik.",
+        "noteEn": "Thermodynamics is not taken by students from Öppen ingång. SA1007 and KD1000 from Öppen ingång are credited in place of this course and SK1105 Experimentell fysik."
       },
       {
         "code": "SK1105",
-        "note": "Experimentell fysik läses inte av studenter från Öppen ingång. SA1007 Ingenjörsrollen (6 hp) och KD1000 Kemiska principer (3 hp) motsvarar tillsammans, löst, SI1121 Termodynamik (6 hp) och SK1105 Experimentell fysik (4 hp) — en allmän ingenjörsintroduktion mot en termodynamik- och en laborationskurs. Motsvarigheten gäller paret som helhet, inte kurs mot kurs, varför varken 'replaces' eller 'creditedBy' är satt.",
-        "noteEn": "Experimental physics is not taken by students from Öppen ingång. SA1007 (6 credits) and KD1000 (3 credits) together loosely correspond to SI1121 Termodynamik (6 credits) and SK1105 Experimentell fysik (4 credits) — a general engineering introduction against a thermodynamics and a laboratory course. The correspondence holds for the pair as a whole rather than course by course, which is why neither 'replaces' nor 'creditedBy' is set."
+        "note": "Experimentell fysik läses inte av studenter från Öppen ingång. SA1007 Ingenjörsrollen och ingenjörskunskap och KD1000 Kemiska principer för hållbar utveckling från Öppen ingång tillgodoräknas i stället för denna kurs och SI1121 Termodynamik.",
+        "noteEn": "Experimental physics is not taken by students from Öppen ingång. SA1007 and KD1000 from Öppen ingång are credited in place of this course and SI1121 Termodynamik."
       }
     ],
     "added": [

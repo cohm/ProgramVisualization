@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import TimelineVisualization, { TimelineVisualizationHandle } from '@/components/TimelineVisualization';
 import SpecializationFilter from '@/components/SpecializationFilter';
 import Toast, { type ToastMessage } from '@/components/Toast';
+import TransitionDetails from '@/components/TransitionDetails';
 import { Course, OptionGroup } from '@/types/course';
 import type { CohortMeta } from '@/types/course';
 import kthColors from '@/data/kth-colors.json';
@@ -798,6 +799,15 @@ export default function HomeClient() {
                   </span>
                 ))}
               </div>
+              {/*
+                Only for a signed-off plan. An unverified plan's notes still
+                carry the open questions and the modelling reasoning written
+                for its programme director; they are rewritten for students
+                as part of the sign-off.
+              */}
+              {shownContinuation && selectedContinuation.verified === true && (
+                <TransitionDetails plan={shownContinuation} language={language} courses={courses} color={kthColors.KthBlue?.HEX} />
+              )}
               {selectedContinuation.verified !== true && (
                 <div style={{ marginTop: 2, fontStyle: 'italic' }}>{ui[language].transitionUnverified}</div>
               )}

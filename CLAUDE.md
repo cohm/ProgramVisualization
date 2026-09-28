@@ -1330,6 +1330,17 @@ added to COPEN that nobody added to the plan would otherwise be dropped
 silently), and every `exempt` / `moved` code must exist in the target with the
 year the plan claims. `verified: false` warns, exactly like `programs.json`.
 
+**A signed-off plan shows its notes; an unverified one does not.** Every
+credited, exempt, moved, rescheduled and added entry carries a `note` saying
+why, and `TransitionDetails` lists them under the summary line ("Visa
+ändringarna och varför"). It renders only for `verified: true`, because until
+sign-off the notes are written for the programme director: 28 of the 305 named
+the data format ("se 'exempt'", "schemat kan bara ange en ersättande kurs"),
+and 49 repeated another note of the same plan word for word. So rewriting a
+plan's notes for a student reader is part of signing it off. CTFYS's were
+rewritten when the panel was added. The notes ship in the bundle either way,
+so the gate costs nothing and saves nothing in the size budget.
+
 ### Types (`src/types/`)
 
 - **`course.ts`** — `Course`, `Period`, `CourseCredit`, `OptionGroup` interfaces
