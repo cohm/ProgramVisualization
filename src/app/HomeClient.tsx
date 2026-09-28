@@ -11,7 +11,7 @@ import kthColors from '@/data/kth-colors.json';
 import programsConfig from '@/data/programs.json';
 import type { ProgramCosmetics } from '@/types/cosmetics';
 import { loadCourses, loadCosmetics, loadCohortMeta, cohortDataFile } from '@/lib/useCourseModel';
-import { composeTransition, mergeCosmetics, composedTitle } from '@/lib/transitions';
+import { composeTransition, mergeCosmetics, composedTitle, effectivePlan } from '@/lib/transitions';
 import type { TransitionPlan } from '@/types/transition';
 import transitionsConfig from '@/data/transitions.json';
 import cohortIndex from '@/data/cohorts/index.json';
@@ -426,6 +426,13 @@ export default function HomeClient() {
     return defaults;
   }, [searchParams, specProgram]);
 
+  // The transition plan as the selected inriktning sees it: common changes plus
+  // its own (`bySpecialization`), so the summary line matches the chart.
+  const shownContinuation = useMemo<TransitionPlan | null>(
+    () => (selectedContinuation ? effectivePlan(selectedContinuation, selectedSpecializations) : null),
+    [selectedContinuation, selectedSpecializations],
+  );
+
   const replaceParams = useCallback((mutate: (p: URLSearchParams) => void) => {
     const params = new URLSearchParams(searchParams.toString());
     mutate(params);
@@ -511,7 +518,7 @@ export default function HomeClient() {
         // Neither programme's cosmetics covers the other's courses, so merge them.
         Promise.all([loadCosmetics(target.cosmeticsFile), loadCosmetics(selectedProgram.cosmeticsFile)])
           .then(([targetCos, sourceCos]) => {
-            const { cosmetics: merged, warnings } = mergeCosmetics(targetCos, sourceCos, selectedContinuation);
+            const { cosmetics: merged, warnings } = mergeCosmetics(targetCos, sourceCos, effectivePlan(selectedContinuation, selectedSpecializations));
             setCosmetics(merged);
             if (warnings.length > 0) console.warn(warnings.join('\n'));
           })
@@ -777,13 +784,13 @@ export default function HomeClient() {
               <div>{ui[language].transitionNotice(selectedContinuation.from, selectedContinuation.to)}</div>
               <div style={{ marginTop: 2, opacity: 0.85 }}>
                 {ui[language].transitionCredited(selectedContinuation.credited.length)}
-                {(selectedContinuation.exempt ?? []).map(e => (
+                {(shownContinuation?.exempt ?? []).map(e => (
                   <span key={e.code}>{` · ${ui[language].transitionExempt}: ${e.code}`}</span>
                 ))}
-                {(selectedContinuation.moved ?? []).map(m => (
+                {(shownContinuation?.moved ?? []).map(m => (
                   <span key={m.code}>{` · ${ui[language].transitionMoved}: ${m.code} → ${ui[language].transitionToYear(m.toYear)}`}</span>
                 ))}
-                {(selectedContinuation.added ?? []).map(a => (
+                {(shownContinuation?.added ?? []).map(a => (
                   <span key={a.code}>
                     {` · ${ui[language].transitionAdded}: ${a.code}`}
                     {a.fromProgram ? ` (${a.fromProgram})` : ''}

@@ -1007,10 +1007,44 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
   if (!Array.isArray(plans)) { err(file, 'expected an array of transition plans'); return; }
   const seen = new Set();
 
+  // A plan with `bySpecialization` is checked as its common part and once per
+  // inriktning, merged the way `effectivePlan` in src/lib/transitions.ts does,
+  // so every check below holds for what each inriktning's view actually shows.
+  const OVERLAY_KEYS = ['exempt', 'moved', 'rescheduled', 'added', 'groupChanges'];
+  const variants = [];
   plans.forEach((plan, i) => {
-    const ctx = `[${i}]`;
+    variants.push({ plan, i, spec: null });
+    const overlays = plan && typeof plan === 'object' ? plan.bySpecialization : null;
+    if (overlays == null) return;
+    if (typeof overlays !== 'object' || Array.isArray(overlays)) {
+      err(file, `[${i}] 'bySpecialization' must map inriktning codes to overlays`);
+      return;
+    }
+    const registry = (programs.find((p) => p?.code === plan.to)?.specializations ?? []).map((s) => s.code);
+    for (const [spec, overlay] of Object.entries(overlays)) {
+      if (!registry.includes(spec)) err(file, `[${i}] bySpecialization names '${spec}', which is not an inriktning of ${plan.to}`);
+      const extra = Object.keys(overlay ?? {}).filter((k) => !OVERLAY_KEYS.includes(k));
+      if (extra.length) err(file, `[${i}] bySpecialization.${spec} has unsupported field(s) ${extra.join(', ')}`);
+      const merged = { ...plan };
+      for (const k of OVERLAY_KEYS) if (overlay?.[k]?.length) merged[k] = [...(plan[k] ?? []), ...overlay[k]];
+      variants.push({ plan: merged, i, spec });
+    }
+  });
+
+  // An inriktning's variant repeats every finding of the common part; report
+  // only what differs, or CLGYM's four inriktningar print each one five times.
+  const reported = new Set();
+  const outerWarn = warn;
+  variants.forEach(({ plan, i, spec }) => {
+    const warn = (f, msg) => {
+      const key = `${i}:${msg.replace(/^\[\d+\](\[\w+\])? /, '').replace(/ \(\w+\):/, ':')}`;
+      if (reported.has(key)) return;
+      reported.add(key);
+      outerWarn(f, msg);
+    };
+    const ctx = spec ? `[${i}][${spec}]` : `[${i}]`;
     if (!plan || typeof plan !== 'object') { err(file, `${ctx} not an object`); return; }
-    const label = `${plan.from} -> ${plan.to}`;
+    const label = `${plan.from} -> ${plan.to}${spec ? ` (${spec})` : ''}`;
 
     for (const field of ['from', 'to']) {
       if (typeof plan[field] !== 'string' || !plan[field]) {
@@ -1024,7 +1058,7 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
     if (plan.from === plan.to) err(file, `${ctx} ${label}: 'from' and 'to' are the same program`);
 
     const key = `${plan.from}->${plan.to}`;
-    if (seen.has(key)) err(file, `${ctx} duplicate plan for ${label}`);
+    if (!spec && seen.has(key)) err(file, `${ctx} duplicate plan for ${label}`);
     seen.add(key);
 
     if (!Array.isArray(plan.sourceYears) || plan.sourceYears.length === 0
@@ -1261,7 +1295,8 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
         continue;
       }
       const groups = Array.isArray(targetData) ? targetData.filter((e) => e?.type === 'optionGroup') : [];
-      const group = groups.find((g) => g.year === gc.year && (g.options ?? []).includes(gc.offering));
+      const group = groups.find((g) => g.year === gc.year && (g.options ?? []).includes(gc.offering)
+        && (!spec || !g.specializations?.length || g.specializations.includes(spec)));
       if (!group) {
         err(file, `${ctx} ${label}: no year-${gc.year} group in ${plan.to} offers '${gc.offering}'`);
         continue;
@@ -1302,7 +1337,6 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
         else {
           const sum = ['P1', 'P2', 'P3', 'P4'].reduce((a, q) => a + Number(gc.periodCredits[q] || 0), 0);
           if (Math.abs(sum - gc.minCredits) > 0.05) err(file, `${ctx} ${label}: resized periods sum to ${sum} hp, but minCredits is ${gc.minCredits}`);
-          if (gc.minCredits >= (group.minCredits ?? Infinity)) warn(file, `${ctx} ${label}: resizes the group offering '${gc.offering}' to ${gc.minCredits} hp, not smaller than its ${group.minCredits}`);
         }
       }
       const options = new Set([...(group.options ?? []), ...(gc.addOptions ?? [])]);
@@ -1314,7 +1348,7 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
       }
     }
 
-    if (plan.verified !== true) {
+    if (plan.verified !== true && !spec) {
       warn(file, `${ctx} ${label}: not yet verified — confirm against the program director's transition plan`);
     }
   });

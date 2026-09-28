@@ -1248,11 +1248,32 @@ Three further shapes came with CINTE, CTKEM, CMETE and CITEH:
 - `groupChanges[].minCredits` + `periodCredits` shrink a `minCredits` box whose
   space moved courses take (CITEH's year-3 box, 24 → 18 hp, P3 taken by ML1504).
 
-**CLGYM has no transition plan yet, on purpose.** Its plan gives year 2 and 3
-separately for each inriktning, and the same course moves to different years
-depending on it: SF1633 is year 2 for TEMI and MAKE but year 3 for TEDA, and
-LT1038 is year 2 for TEMI only. `moved` has no inriktning, so that needs a
-per-inriktning move before the plan can be written down.
+**`bySpecialization` holds per-inriktning changes** (COPEN → CLGYM). CLGYM's
+plan gives year 2 and 3 as a separate table per inriktning, and the same course
+lands in different years depending on it: SF1633 is year 2 for TEMI and MAKE
+but year 3 for TEDA, and LT1038 is year 2 for TEMI only. So a plan may carry
+`bySpecialization: { MAFY: { exempt, moved, rescheduled, added, groupChanges } }`,
+merged over the common changes by `effectivePlan` when exactly that inriktning
+is selected (lists concatenated). It mirrors the PDF, one block per table.
+
+What that needed elsewhere:
+
+- `validate-data` checks the common part and each inriktning's merged plan,
+  and reports a variant's finding only when it differs from the common one.
+  Otherwise CLGYM printed every finding five times.
+- `transition-review` renders the common changes, then a section per
+  inriktning, and computes each inriktning's load from its merged plan.
+- A `groupChanges` entry finds its group among those the selected inriktning
+  can see. CLGYM's four year-3 boxes all offer DD1351, so "the group offering
+  DD1351" was ambiguous.
+- The load check now applies `periodCreditsBySpecialization` and
+  `yearBySpecialization`, as the renderer does. Before, CLGYM's TEMI view counted
+  LT1037 in P3 while the chart drew it in P1, and CINEK's PPUI view counted
+  DD1320 in year 2 while the chart drew it in year 3.
+
+CLGYM's plan states no equivalences, only what is read. The plan is modelled on
+the assumption that its tables are complete: a year-2 or year-3 course missing
+from an inriktning's table is exempted in that inriktning's block.
 
 **A group never offers what the student already has.** Options the student took
 in the source years, or is exempted from, are dropped from the target's groups.
