@@ -1877,5 +1877,145 @@
     "verified": false,
     "source": "Övergångsplan för Öppen ingång, påbörjad HT-25 till Energi och miljö (CENMI) ett år senare, version 2026-01-26.",
     "sourceEn": "Transition plan for Öppen ingång starting HT25, for transfer to Energy and Environment (CENMI) a year later, version 2026-01-26."
+  },
+  {
+    "from": "COPEN",
+    "to": "CMEDT",
+    "sourceYears": [
+      1
+    ],
+    "credited": [
+      {
+        "code": "SF1625",
+        "replaces": [
+          "SF1625"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen (\"Läses även av MT\").",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1624",
+        "replaces": [
+          "SF1624"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen (\"Läses även av MT\").",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1626",
+        "replaces": [
+          "SF1626"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen (\"Läses även av MT\").",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "DD1310",
+        "replaces": [
+          "HI1024"
+        ],
+        "note": "Programmeringsteknik ersätter HI1024 Programmering, grundkurs.",
+        "noteEn": "Programming techniques replaces HI1024 Programming, basic course."
+      },
+      {
+        "code": "SA1007",
+        "replaces": [
+          "CM1009"
+        ],
+        "note": "Ingenjörsrollen ersätter CMEDT:s programsammanhållande kurs i årskurs 1. Planen skriver CM1004; CMEDT:s kursdata anger CM1009 Ingenjörsintroduktion, med samma omfattning och perioder — se signeringsunderlaget.",
+        "noteEn": "The engineering role replaces CMEDT's programme-integrating course in year 1. The plan writes CM1004; CMEDT's course data says CM1009, with the same size and periods — see the sign-off file."
+      },
+      {
+        "code": "SG1133",
+        "note": "Mekanik I ersätter mekanikkursen i CMEDT årskurs 2, SG1130, som därför utgår (se 'exempt').",
+        "noteEn": "Mechanics I replaces the mechanics course in CMEDT year 2, SG1130, which is therefore dropped (see 'exempt')."
+      },
+      {
+        "code": "SK1115",
+        "note": "Elektromagnetism och vågrörelselära; planen anger \"Läses även av MT\". CMEDT:s kursdata har i årskurs 2 SK1114 med samma namn, som därför utgår (se 'exempt').",
+        "noteEn": "Electromagnetism and wave motion; the plan says CMEDT reads it too. CMEDT's data has SK1114 with the same name in year 2, which is therefore dropped (see 'exempt')."
+      },
+      {
+        "code": "SF1546",
+        "note": "Numeriska metoder räknas som valbar kurs, och fyller tillsammans med KD1000 9 hp av det valfria utrymmet i årskurs 3 (se 'rescheduled').",
+        "noteEn": "Numerical methods counts as an elective course and, with KD1000, fills 9 credits of the year-3 elective space (see 'rescheduled')."
+      },
+      {
+        "code": "KD1000",
+        "note": "Kemiska principer räknas som valbar kurs; se SF1546.",
+        "noteEn": "Chemical principles counts as an elective course; see SF1546."
+      }
+    ],
+    "exempt": [
+      {
+        "code": "SG1130",
+        "creditedBy": "SG1133",
+        "note": "Mekanik I (årskurs 2) ersätts av SG1133 (\"Ersätter Mekanikkursen i åk 2 på CMEDT\").",
+        "noteEn": "Mechanics I (year 2) is replaced by SG1133."
+      },
+      {
+        "code": "SK1114",
+        "creditedBy": "SK1115",
+        "note": "Elektromagnetism och vågrörelselära (årskurs 2) motsvaras av SK1115 i Öppen ingång. Planen tar upp kursen som samma kurs; kurskoderna skiljer sig.",
+        "noteEn": "Electromagnetism and wave motion (year 2) corresponds to SK1115 in Öppen ingång. The plan treats it as the same course; the codes differ."
+      }
+    ],
+    "moved": [
+      {
+        "code": "HL1001",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Medicinsk grundkurs läses med CMEDT årskurs 1, under den transfererande studentens årskurs 2 (\"Läses av studenter från OPEN i åk 2\").",
+        "noteEn": "Basic medical course is taken with CMEDT year 1, during the transferring student's year 2."
+      },
+      {
+        "code": "HE1200",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Ellära och mätteknik läses med CMEDT årskurs 1, under den transfererande studentens årskurs 2 (\"Läses av studenter från OPEN i åk 2\").",
+        "noteEn": "Electrical engineering and measurement is taken with CMEDT year 1, during the transferring student's year 2."
+      },
+      {
+        "code": "HL1204",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Termodynamik, grundkurs läses med CMEDT årskurs 1, under den transfererande studentens årskurs 2 (\"Läses av studenter från OPEN i åk 2\").",
+        "noteEn": "Thermodynamics, basic course is taken with CMEDT year 1, during the transferring student's year 2."
+      },
+      {
+        "code": "HL2015",
+        "fromYear": 3,
+        "toYear": 2,
+        "note": "Kvalitet och regelverk för medicintekniska produkter flyttas TIDIGARE, till årskurs 2, enligt planens tabell för årskurs 2. Perioderna är CMEDT:s egna (P3 2 hp, P4 1 hp); planen anger 1,5 + 1,5.",
+        "noteEn": "Quality and regulations for medical devices moves EARLIER, to year 2, per the plan's year-2 table. The periods are CMEDT's own (P3 2, P4 1); the plan gives 1.5 + 1.5."
+      },
+      {
+        "code": "HL1203",
+        "fromYear": 2,
+        "toYear": 3,
+        "note": "Medicinsk mätteknik läses i årskurs 3, enligt planens tabell för årskurs 3.",
+        "noteEn": "Medical measurement is taken in year 3, per the plan's year-3 table."
+      }
+    ],
+    "rescheduled": [
+      {
+        "code": "XY310Z",
+        "periodCredits": {
+          "P1": 6,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        },
+        "creditedBy": [
+          "SF1546",
+          "KD1000"
+        ],
+        "note": "Det valfria utrymmet i årskurs 3 är 15,5 hp (P1 9, P2 6,5). SF1546 och KD1000 räknas som valbara kurser (9 hp), och planen anger det som återstår som \"Valbar kurs 6 hp\" i P1. Perioden följer planen; CMEDT:s eget utrymme skulle lämna 6,5 hp.",
+        "noteEn": "The year-3 elective space is 15.5 credits (P1 9, P2 6.5). SF1546 and KD1000 count as electives (9 credits), and the plan gives what remains as \"Valbar kurs 6 hp\" in P1. The period follows the plan; CMEDT's own space would leave 6.5."
+      }
+    ],
+    "verified": false,
+    "source": "Övergångsplan för Öppen ingång, påbörjad ht-25, till Medicinsk teknik (CMEDT). Gäller övergången till programmet ht-26.",
+    "sourceEn": "Transition plan for Öppen ingång starting HT25 to Medical Engineering (CMEDT), for transfer to the programme in HT26."
   }
 ]

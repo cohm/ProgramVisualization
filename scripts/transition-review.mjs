@@ -223,16 +223,17 @@ function write(plan) {
   }
 
   if (plan.rescheduled?.length) {
-    L.push('## Kurser som läses i en annan kursomgång');
+    L.push('## Kurser som läses i andra perioder');
     L.push('');
-    L.push('Samma kurs och samma årskurs, men den andra av KTH:s omgångar under året.');
+    L.push('Samma kurs och samma årskurs, men i andra läsperioder: en annan av KTH:s omgångar under året, eller bara den del som inte tillgodoräknas.');
     L.push('');
     for (const rs of plan.rescheduled) {
       const from = ['P1', 'P2', 'P3', 'P4'].filter((q) => tgt.find((e) => e.code === rs.code)?.periodCredits?.[q])
         .map((q) => `${q}: ${hp(tgt.find((e) => e.code === rs.code).periodCredits[q])} hp`).join(', ');
       const to = ['P1', 'P2', 'P3', 'P4'].filter((q) => rs.periodCredits?.[q])
         .map((q) => `${q}: ${hp(rs.periodCredits[q])} hp`).join(', ');
-      L.push(`- **${link(rs.code)} ${nameOf(tgt, rs.code)}** (${hp(creditsOf(tgt, rs.code) ?? 0)} hp): ${from} → **${to}**`);
+      const rest = rs.creditedBy?.length ? `; resten tillgodoräknas genom ${rs.creditedBy.map(link).join(' och ')}` : '';
+      L.push(`- **${link(rs.code)} ${nameOf(tgt, rs.code)}** (${hp(creditsOf(tgt, rs.code) ?? 0)} hp): ${from} → **${to}**${rest}`);
       if (rs.note) L.push(`  ${rs.note}`);
     }
     L.push('');

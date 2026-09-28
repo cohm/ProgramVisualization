@@ -1141,7 +1141,16 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
       if (bad.length) err(file, `${ctx} ${label}: '${rs.code}' periodCredits has unknown period(s) ${bad.join(', ')}`);
       const sum = ['P1', 'P2', 'P3', 'P4'].reduce((a, q) => a + Number(rs.periodCredits[q] || 0), 0);
       const want = tgt.get(rs.code).totalCredits;
-      if (want != null && Math.abs(sum - want) > 0.05) {
+      // With `creditedBy`, the periods are the part still read and must be
+      // less than the whole; otherwise they are another offering of all of it.
+      if (rs.creditedBy?.length) {
+        if (want != null && !(sum > 0 && sum < want - 0.05)) {
+          err(file, `${ctx} ${label}: reschedules '${rs.code}' in part to ${sum} hp, which must be more than 0 and less than its ${want} hp`);
+        }
+        for (const c of rs.creditedBy) {
+          if (!plan.credited.some((k) => k.code === c)) err(file, `${ctx} ${label}: '${rs.code}' is partly credited by '${c}', which is not a credited ${plan.from} course`);
+        }
+      } else if (want != null && Math.abs(sum - want) > 0.05) {
         err(file, `${ctx} ${label}: reschedules '${rs.code}' to ${sum} hp, but ${plan.to} lists it as ${want} hp`);
       }
       if ((plan.exempt ?? []).some((e) => e?.code === rs.code)) {
