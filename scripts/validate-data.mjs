@@ -1071,9 +1071,8 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
     if (!spec) {
       if (plan.cohorts === undefined) {
         warn(file, `${ctx} ${label}: 'cohorts' is not set — the plan does not say which kull it applies to; ask the program director`);
-      } else if (plan.cohorts !== 'all'
-          && !(plan.cohorts && typeof plan.cohorts === 'object' && /^HT\d{4}$/.test(plan.cohorts.from ?? ''))) {
-        err(file, `${ctx} ${label}: 'cohorts' must be "all" or { "from": "HT<year>" }`);
+      } else if (!(plan.cohorts && typeof plan.cohorts === 'object' && /^HT\d{4}$/.test(plan.cohorts.from ?? ''))) {
+        err(file, `${ctx} ${label}: 'cohorts' must be { "from": "HT<year>" }`);
       }
     }
     if (!Array.isArray(plan.credited) || plan.credited.some((c) => !c || typeof c.code !== 'string')) {

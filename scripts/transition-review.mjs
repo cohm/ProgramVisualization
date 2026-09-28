@@ -299,9 +299,7 @@ function write(plan) {
   if (plan.source) { L.push(`**Källa:** ${plan.source}`); L.push(''); }
   // Which kull the plan applies to. The chart composes it with any cohort, and
   // says so for one before `from`, so the value needs the director's check too.
-  L.push(`**Gäller:** ${plan.cohorts === 'all'
-    ? 'alla kullar'
-    : plan.cohorts?.from
+  L.push(`**Gäller:** ${plan.cohorts?.from
       ? `kull ${plan.cohorts.from} och senare, tills planen ändras`
       : '**Fråga:** planen anger inte vilken kull den gäller — vilken är det?'}`);
   L.push('');

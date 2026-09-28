@@ -260,14 +260,15 @@ export interface TransitionPlan {
   /**
    * The source programme's admission cohorts the plan applies to. A plan
    * stands until it is revised, so `from` has no end: `{ from: "HT2025" }`
-   * covers HT2025 and every later kull. `"all"` is a plan written to apply to
-   * every kull (COPEN -> CTFYS). Omitted when the plan does not say.
+   * covers HT2025 and every later kull. Omitted when the plan does not say.
+   * Nothing goes back before HT2025: no plan is known to hold for the older
+   * cohorts, CTFYS's included.
    *
    * The chart composes a plan with whichever cohort is selected, so for a kull
    * before `from` it shows another cohort's plan. It says so rather than
    * hiding the view: an approximation is still what that student has.
    */
-  cohorts?: 'all' | { from: string };
+  cohorts?: { from: string };
   /** False until a program director has confirmed it, like `programs.json`. */
   verified?: boolean;
   source?: string;

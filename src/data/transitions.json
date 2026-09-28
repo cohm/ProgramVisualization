@@ -117,7 +117,9 @@
         "cosmeticsGroup": "Matematik"
       }
     ],
-    "cohorts": "all",
+    "cohorts": {
+      "from": "HT2025"
+    },
     "verified": true,
     "source": "Programansvarigs val av upphämtningskurs; SF1920 hämtad från CELTE årskurs 2 (läsår 2025/26). Verifierad av programansvarig Christian Ohm.",
     "sourceEn": "Program director's choice of catch-up course; SF1920 taken from the CELTE year 2 plan (2025/26). Verified by program director Christian Ohm."
