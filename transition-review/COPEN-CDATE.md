@@ -8,6 +8,8 @@ Planen är den mest detaljerade av de åtta. Den anger för varje kurs i CDATE:s
 
 **Källa:** Övergångsplan för Öppen ingång, påbörjad HT25 (gäller övergång till CDATE HT26), Pawel Herman, PA CDATE, version 1, 2025-12-19. Dokumentet är en inskannad PDF utan textlager och är inläst manuellt.
 
+**Gäller:** kull HT2025 och senare, tills planen ändras
+
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
 Varje kurskod nedan länkar till KTH:s kurssida.

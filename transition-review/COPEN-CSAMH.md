@@ -8,6 +8,8 @@ Den transfererande studentens årskurs 2 blandar CSAMH:s årskurs 1 och 2. **AI1
 
 **Källa:** Övergångsplan för Öppen ingång, påbörjad HT-25 (gäller överg till prog. CSAMH), version 2025-12-17.
 
+**Gäller:** kull HT2025 och senare, tills planen ändras
+
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
 Varje kurskod nedan länkar till KTH:s kurssida.

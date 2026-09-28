@@ -8,6 +8,8 @@ Gemensamt för alla inriktningar: LT1036 och SF1662 läses med CLGYM årskurs 1 
 
 **Källa:** Övergångsplan OPEN-CLGYM: per inriktning (MAFY, TEMI, TEDA, MAKE) tabeller för årskurs 2 (HT 2026/2027) och årskurs 3. Utan versionsdatum.
 
+**Gäller:** kull HT2025 och senare, tills planen ändras
+
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
 Varje kurskod nedan länkar till KTH:s kurssida.

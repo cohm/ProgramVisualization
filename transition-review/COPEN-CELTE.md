@@ -8,6 +8,8 @@ CELTE-planen är den mest genomarbetade av de åtta: den anger för varje kurs i
 
 **Källa:** Övergångsplan för Öppen ingång, påbörjad HT-25 (gäller övergång till Elektroteknik), reviderad av Ragnar Thobaben, PA CELTE, version 2026-02-03.
 
+**Gäller:** kull HT2025 och senare, tills planen ändras
+
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
 Varje kurskod nedan länkar till KTH:s kurssida.

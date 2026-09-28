@@ -8,6 +8,8 @@ Den transfererande studentens årskurs 2 är CBIOT:s årskurs 1 (utom SF1625 och
 
 **Källa:** Övergångsplan för Öppen ingång, påbörjad HT-25 (gäller överg till prog. CBIOT), version 20251113.
 
+**Gäller:** kull HT2025 och senare, tills planen ändras
+
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
 Varje kurskod nedan länkar till KTH:s kurssida.

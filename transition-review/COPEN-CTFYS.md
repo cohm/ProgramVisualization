@@ -8,6 +8,8 @@ Efter granskningen går motsvarigheterna ihop **fullständigt**: varje kurs i CO
 
 **Källa:** Programansvarigs val av upphämtningskurs; SF1920 hämtad från CELTE årskurs 2 (läsår 2025/26). Verifierad av programansvarig Christian Ohm.
 
+**Gäller:** alla kullar
+
 **Status:** verifierad
 
 Varje kurskod nedan länkar till KTH:s kurssida.

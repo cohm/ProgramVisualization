@@ -6,6 +6,8 @@ Fyra av COPEN:s kurser har samma kurskod i båda programmen (SF1624, SF1625, SF1
 
 **Källa:** Övergångsplan för Öppen ingång påbörjad H25 (version 2025-11-24), gäller övergången till Maskinteknik (CMAST) HT2026.
 
+**Gäller:** kull HT2025 och senare, tills planen ändras
+
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
 Varje kurskod nedan länkar till KTH:s kurssida.

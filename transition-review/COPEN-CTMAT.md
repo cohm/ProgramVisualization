@@ -6,6 +6,8 @@ Dokumentet är däremot internt konsekvent på ett sätt som ger god tilltro til
 
 **Källa:** Övergångsplan för Öppen ingång (version 2024-12-03), gäller övergång till Teknisk matematik (CTMAT).
 
+**Gäller:** kull HT2025 och senare, tills planen ändras
+
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
 Varje kurskod nedan länkar till KTH:s kurssida.

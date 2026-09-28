@@ -1330,6 +1330,20 @@ added to COPEN that nobody added to the plan would otherwise be dropped
 silently), and every `exempt` / `moved` code must exist in the target with the
 year the plan claims. `verified: false` warns, exactly like `programs.json`.
 
+**A plan records which kull it applies to (`cohorts`).** The chart composes a
+plan with whichever cohort is selected, but each plan was written for one:
+most say "påbörjad HT25", CMATD's and CTKEM's "HT26". A plan stands until it is
+revised, so the field is `{ "from": "HT2025" }` with no end; `"all"` is a plan
+meant for every kull (CTFYS). For a cohort before `from` the chart still
+composes the view and says it is another cohort's plan, since an approximation
+is still what that student has. Omitted, the chart says the plan does not
+state one, `validate-data` warns, and the sign-off file asks. CINTE's and
+CITEH's name no kull. Three values are readings, not quotes: CTMAT's and
+CFATE's plans (2024-12-03) name none and were confirmed to apply from HT2025,
+and CINEK's says both "påbörjad H26" and "gäller övergången till program H25",
+read as HT2025. The notice needs a selected cohort; the view without one is a
+läsår across cohorts and gets none.
+
 **A signed-off plan shows its notes; an unverified one does not.** Every
 credited, exempt, moved, rescheduled and added entry carries a `note` saying
 why, and `TransitionDetails` lists them under the summary line ("Visa

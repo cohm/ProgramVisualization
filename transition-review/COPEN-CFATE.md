@@ -6,6 +6,8 @@ Planen är inläst från *Övergångsplan för Öppen ingång (gäller överg ti
 
 **Källa:** Övergångsplan för Öppen ingång (version 2024-12-03), gäller övergång till Farkostteknik (CFATE). Årskurs 2 och 3 är oförändrade mot CFATE:s egen studieplan.
 
+**Gäller:** kull HT2025 och senare, tills planen ändras
+
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
 Varje kurskod nedan länkar till KTH:s kurssida.

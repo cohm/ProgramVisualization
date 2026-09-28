@@ -6,6 +6,8 @@ SG1133 och KD1000 räknas som valbara kurser. DM1578 (7 hp över årskurs 1-3) l
 
 **Källa:** Övergångsplan för Öppen ingång, påbörjad HT25 (gäller övergång till CMETE HT26), version 2025-12-09, Roberto Bresin, PA CMETE. Inskannad; inläst manuellt.
 
+**Gäller:** kull HT2025 och senare, tills planen ändras
+
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
 Varje kurskod nedan länkar till KTH:s kurssida.

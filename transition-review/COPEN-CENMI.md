@@ -6,6 +6,8 @@ Fyra av Öppen ingångs kurser har samma kurskod i CENMI (SF1624, SF1625, SF1626
 
 **Källa:** Övergångsplan för Öppen ingång, påbörjad HT-25 till Energi och miljö (CENMI) ett år senare, version 2026-01-26.
 
+**Gäller:** kull HT2025 och senare, tills planen ändras
+
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
 Varje kurskod nedan länkar till KTH:s kurssida.

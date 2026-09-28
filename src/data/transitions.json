@@ -117,6 +117,7 @@
         "cosmeticsGroup": "Matematik"
       }
     ],
+    "cohorts": "all",
     "verified": true,
     "source": "Programansvarigs val av upphämtningskurs; SF1920 hämtad från CELTE årskurs 2 (läsår 2025/26). Verifierad av programansvarig Christian Ohm.",
     "sourceEn": "Program director's choice of catch-up course; SF1920 taken from the CELTE year 2 plan (2025/26). Verified by program director Christian Ohm."
@@ -278,6 +279,9 @@
         "cosmeticsGroup": "Datateknik"
       }
     ],
+    "cohorts": {
+      "from": "HT2025"
+    },
     "verified": false,
     "source": "Övergångsplan för Öppen ingång (version 2024-12-03), gäller övergång till Teknisk matematik (CTMAT).",
     "sourceEn": "Transition plan for Öppen ingång (version 2024-12-03) for transfer to Teknisk matematik (CTMAT)."
@@ -356,6 +360,9 @@
         "noteEn": "Chemical principles; credited without standing in for a specific CFATE course."
       }
     ],
+    "cohorts": {
+      "from": "HT2025"
+    },
     "verified": false,
     "source": "Övergångsplan för Öppen ingång (version 2024-12-03), gäller övergång till Farkostteknik (CFATE). Årskurs 2 och 3 är oförändrade mot CFATE:s egen studieplan.",
     "sourceEn": "Transition plan for Öppen ingång (version 2024-12-03) for transfer to Farkostteknik (CFATE). Years 2 and 3 are unchanged from CFATE's own study plan."
@@ -485,6 +492,9 @@
         "noteEn": "Industrial management control is deferred to year 3, per the plan's heading that these year-2 compulsory courses are taken by Öppen ingång students in year 3."
       }
     ],
+    "cohorts": {
+      "from": "HT2025"
+    },
     "verified": false,
     "source": "Övergångsplan för Öppen ingång - påbörjad H26 - till Industriell ekonomi (CINEK), daterad 2026-01-15 (LL). Gäller övergången till program H25.",
     "sourceEn": "Transition plan for Öppen ingång to Industriell ekonomi (CINEK), dated 2026-01-15 (LL).",
@@ -617,6 +627,9 @@
         "cosmeticsGroup": "Maskinteknik"
       }
     ],
+    "cohorts": {
+      "from": "HT2025"
+    },
     "verified": false,
     "source": "Övergångsplan för Öppen ingång påbörjad H25 (version 2025-11-24), gäller övergången till Maskinteknik (CMAST) HT2026.",
     "sourceEn": "Transition plan for Öppen ingång starting H25 (version 2025-11-24), for transfer to Maskinteknik (CMAST) in HT2026."
@@ -716,6 +729,9 @@
         "noteEn": "Materials design I is taken together with CMATD's own year 1, i.e. during the transferring student's year 2."
       }
     ],
+    "cohorts": {
+      "from": "HT2026"
+    },
     "verified": false,
     "source": "Övergångsplan för Öppen ingång påbörjad HT26 till Materialdesign (version 2026-02-02, Mikael Ersson).",
     "sourceEn": "Transition plan for Öppen ingång starting HT26 to Materialdesign (version 2026-02-02, Mikael Ersson)."
@@ -903,6 +919,9 @@
         "cosmeticsGroup": "Elektroteknik"
       }
     ],
+    "cohorts": {
+      "from": "HT2025"
+    },
     "verified": false,
     "source": "Övergångsplan för Öppen ingång, påbörjad HT-25 (gäller övergång till Elektroteknik), reviderad av Ragnar Thobaben, PA CELTE, version 2026-02-03.",
     "sourceEn": "Transition plan for Öppen ingång starting HT-25 to Elektroteknik, revised by Ragnar Thobaben, PA CELTE, version 2026-02-03."
@@ -1174,6 +1193,9 @@
         "noteEn": "A complement to DD1391, per the plan's own comment. Periods and examination from the course page."
       }
     ],
+    "cohorts": {
+      "from": "HT2025"
+    },
     "verified": false,
     "source": "Övergångsplan för Öppen ingång, påbörjad HT25 (gäller övergång till CDATE HT26), Pawel Herman, PA CDATE, version 1, 2025-12-19. Dokumentet är en inskannad PDF utan textlager och är inläst manuellt.",
     "sourceEn": "Transition plan for Öppen ingång starting HT25 to CDATE HT26, Pawel Herman, PA CDATE, version 1, 2025-12-19. The document is a scanned PDF with no text layer and was transcribed by hand."
@@ -1381,6 +1403,9 @@
         "commentEn": "Students from Öppen ingång pick two of four courses in P4, depending on the inriktning they intend to choose in year 3. Compulsory: STP AH1030; GIT AG1314; FEFJ AF1002; BBP AF1002 and SF1676; MHI none. Recommended: STP AG1314; MHI two of AH1030, SF1676 and AG1314; FEFJ AG1314 or AH1030; BBP AG1314, planned with the study counsellor."
       }
     ],
+    "cohorts": {
+      "from": "HT2025"
+    },
     "verified": false,
     "source": "Övergångsplan för Öppen ingång, påbörjad HT-25 (gäller överg till prog. CSAMH), version 2025-12-17.",
     "sourceEn": "Transition plan for Öppen ingång starting HT25, for transfer to Samhällsbyggnad (CSAMH), version 2025-12-17."
@@ -1599,6 +1624,9 @@
         "commentEn": "CBIOT's choice between KD1270 and SF1626 is already filled by SF1626 from Öppen ingång. The plan lists KD1270 in year 3 as specific eligibility for the master programme in industrial and environmental biotechnology (TIMBM), but does not count it in the year's 61 credits. See question 1."
       }
     ],
+    "cohorts": {
+      "from": "HT2025"
+    },
     "verified": false,
     "source": "Övergångsplan för Öppen ingång, påbörjad HT-25 (gäller överg till prog. CBIOT), version 20251113.",
     "sourceEn": "Transition plan for Öppen ingång starting HT25, for transfer to Bioteknik (CBIOT), version 20251113."
@@ -1755,6 +1783,9 @@
         "noteEn": "Part, with SF1546, of the equivalent of SF1523. The plan places it in year 3 P1; the course page has an autumn offering in P1 and a spring one in P4, taken by CMAST year 2."
       }
     ],
+    "cohorts": {
+      "from": "HT2025"
+    },
     "verified": false,
     "source": "Övergångsplan för Öppen ingång - påbörjad H25 - till Design och produktframtagning (CDEPR), version 2025-11-24. Gäller övergången till programmet H26.",
     "sourceEn": "Transition plan for Öppen ingång starting H25 to Design and Product Realisation (CDEPR), version 2025-11-24, for transfer to the programme in H26."
@@ -1874,6 +1905,9 @@
         "noteEn": "Strategies for sustainable development is taken with CENMI year 2 in P1, but during the transferring student's year 3, per the plan's year-3 table."
       }
     ],
+    "cohorts": {
+      "from": "HT2025"
+    },
     "verified": false,
     "source": "Övergångsplan för Öppen ingång, påbörjad HT-25 till Energi och miljö (CENMI) ett år senare, version 2026-01-26.",
     "sourceEn": "Transition plan for Öppen ingång starting HT25, for transfer to Energy and Environment (CENMI) a year later, version 2026-01-26."
@@ -2014,6 +2048,9 @@
         "noteEn": "The year-3 elective space is 15.5 credits (P1 9, P2 6.5). SF1546 and KD1000 count as electives (9 credits), and the plan gives what remains as \"Valbar kurs 6 hp\" in P1. The period follows the plan; CMEDT's own space would leave 6.5."
       }
     ],
+    "cohorts": {
+      "from": "HT2025"
+    },
     "verified": false,
     "source": "Övergångsplan för Öppen ingång, påbörjad ht-25, till Medicinsk teknik (CMEDT). Gäller övergången till programmet ht-26.",
     "sourceEn": "Transition plan for Öppen ingång starting HT25 to Medical Engineering (CMEDT), for transfer to the programme in HT26."
@@ -2348,6 +2385,9 @@
         "noteEn": "One of the two conditionally elective courses to take over years 2 and 3 (\"two of five\"). The plan places a language course here; the other is the choice between KE1185 and KD1270 in year 3."
       }
     ],
+    "cohorts": {
+      "from": "HT2026"
+    },
     "verified": false,
     "source": "Övergångsplan för Öppen ingång, påbörjad HT26, till Teknisk kemi (CTKEM), gäller övergång till Teknisk kemi HT27. 2026-01-22, Magnus Johnson.",
     "sourceEn": "Transition plan for Öppen ingång to Chemical Science and Engineering (CTKEM), 2026-01-22."
@@ -2467,6 +2507,9 @@
         "noteEn": "Technical photography is taken in year 3, together with CMETE year 2 in P3."
       }
     ],
+    "cohorts": {
+      "from": "HT2025"
+    },
     "verified": false,
     "source": "Övergångsplan för Öppen ingång, påbörjad HT25 (gäller övergång till CMETE HT26), version 2025-12-09, Roberto Bresin, PA CMETE. Inskannad; inläst manuellt.",
     "sourceEn": "Transition plan for Öppen ingång starting HT25, for transfer to Media Technology (CMETE) in HT26, version 2025-12-09. Scanned; read by hand."
@@ -3016,6 +3059,9 @@
           }
         ]
       }
+    },
+    "cohorts": {
+      "from": "HT2025"
     },
     "verified": false,
     "source": "Övergångsplan OPEN-CLGYM: per inriktning (MAFY, TEMI, TEDA, MAKE) tabeller för årskurs 2 (HT 2026/2027) och årskurs 3. Utan versionsdatum.",
