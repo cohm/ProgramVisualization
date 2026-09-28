@@ -294,5 +294,35 @@
         "body": "AL1145 *Strategier för hållbar utveckling* (3 hp, P1) står i planens tabell för årskurs 3 med kommentaren *\"Läses med CENMI åk 2\"*. Diagrammet lägger den i den transfererande studentens årskurs 3, P1. **Bekräfta** att den inte i stället läses i årskurs 2, där P1 redan är 17 hp."
       }
     ]
+  },
+  "COPEN->CMEDT": {
+    "intro": "Planen är inläst från *Övergångsplan för Öppen ingång, påbörjad ht-25, till Medicinsk teknik*, som gäller övergången till programmet ht-26. Planen saknar versionsdatum.\n\nPå flera punkter stämmer planens kursuppgifter inte med CMEDT:s nuvarande studieplan (fråga 1). **Där planen anger en skillnad för studenter från Öppen ingång följer diagrammet planen; i övrigt följer det CMEDT:s egna data.**\n\nSF1546 och KD1000 räknas som valbara kurser och fyller 9 hp av det valfria utrymmet i årskurs 3. Planens rad för SF1611 *Inledande i matematik* (1,5 hp) beskriver läsåret på Öppen ingång och tillgodoräknas inte.",
+    "loadNote": "Årskurs 2 blir **14,5/17/11,5/17 = 60 hp** mot planens 14,5/15/15,5/17,5 = 63 hp. Skillnaden är CM1012 (2 hp i P2), som planen inte tar upp, och HF1201, som planen lägger med 6 hp i P3 medan CMEDT läser 1,5 hp i årskurs 2 (frågorna 3 och 4).\n\nÅrskurs 3 blir **12/12/13,5/19,5 = 57 hp** mot planens 58,5 hp, av samma skäl och för att HL1203 här ligger i CMEDT:s perioder (P2 och P4) i stället för planens P3 och P4.",
+    "items": [
+      {
+        "title": "Fråga: planens kursuppgifter skiljer sig från CMEDT:s studieplan",
+        "body": "Följande uppgifter i planen stämmer inte med CMEDT:s nuvarande data. Diagrammet följer CMEDT:s data.\n\n| Kurs | Planen | CMEDT:s data |\n|---|---|---|\n| Programsammanhållande kurs, åk 1 | CM1004 | CM1009 *Ingenjörsintroduktion*, 1 hp |\n| Examensarbete | HL102X | HL103X |\n| Elektromagnetism och vågrörelselära | SK1115, \"Läses även av MT\" | SK1114 i årskurs 2 |\n| SF1682 | 9 hp | 11 hp (P1 6, P2 5) |\n| HI1027 | 6 hp | 8 hp |\n| CB1040 | 7,5 hp (i årskurs 2) | 6 hp |\n| HF1201 | 3 hp | 6 hp |\n| HL2015 | P3 1,5, P4 1,5 | P3 2, P4 1 |\n| HL1203 | P3 3,5, P4 5,5 | P2 3,5, P4 5,5 |\n\n**Fråga:** bygger planen på en äldre studieplan? Diagrammet räknar SA1007 som ersättning för CM1009 och SK1115 för SK1114. **Bekräfta.**"
+      },
+      {
+        "title": "Fråga: läses CB1040?",
+        "body": "Tabellen för CMEDT årskurs 1 anger CB1040 *Inledande bioteknik* med *\"Läses av studenter från OPEN i åk 2\"*, medan tabellen för årskurs 2 anger *\"Behöver inte läsas\"*. Diagrammet följer den senare och tar inte med kursen. **Bekräfta.**"
+      },
+      {
+        "title": "Fråga: CM1012 finns inte i planen",
+        "body": "CMEDT:s årskurs 2 innehåller **CM1012** *Färdigheter för framtidens ingenjörer – Jämställdhet, Jämlikhet och Inkludering* (2 hp, P2). Planen tar inte upp den, varken som kurs eller som undantag. Diagrammet tar med den. **Fråga:** läser studenter från Öppen ingång CM1012?"
+      },
+      {
+        "title": "Fråga: HF1201 och EL1010",
+        "body": "- **HF1201** *Hållbar utveckling och ergonomi*: planens tabell för årskurs 2 anger 6 hp i P3, kommentaren säger *\"Kursen läses med 1,5hp i åk 2 och 4,5hp i åk 3 för CMEDT\"*, och tabellen för årskurs 3 har en rad med 3 hp och *\"Läsperiod för denna kurs ej bestämt ännu\"*. Diagrammet följer CMEDT: 1,5 hp i årskurs 2 och 4,5 hp i årskurs 3, båda i P3.\n- **EL1010** *Reglerteknik*: kommentaren säger *\"Kursen läses med 3hp i åk 2 och 3hp i åk 3\"*, men tabellen lägger hela kursen i årskurs 3 P2, som CMEDT gör. Diagrammet följer tabellen.\n\n**Bekräfta** eller ange perioderna."
+      },
+      {
+        "title": "Fråga: SF1682 som villkorligt valfri",
+        "body": "Planen anger för SF1682 *\"Villkorligt valfri, studenten kan i stället läsa SF1682\"*, alltså kursen som alternativ till sig själv. I CMEDT:s data är SF1682 obligatorisk, och diagrammet visar den så. **Fråga:** vilken kurs är alternativet?"
+      },
+      {
+        "title": "Fråga: det valfria utrymmet i årskurs 3",
+        "body": "CMEDT:s valfria utrymme i årskurs 3 är 15,5 hp (P1 9, P2 6,5). SF1546 och KD1000 räknas som valbara kurser, 9 hp, och planen anger *\"Valbar kurs 6 hp\"* i P1. Diagrammet visar 6 hp valfritt i P1, alltså sammanlagt 15 hp valfritt. **Bekräfta** att 6 hp i P1 stämmer."
+      }
+    ]
   }
 }

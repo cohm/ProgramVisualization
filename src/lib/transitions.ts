@@ -141,11 +141,24 @@ export function composeTransition(
         .filter(c => c.credits > 0);
       const sum = credits.reduce((a, c) => a + c.credits, 0);
       const was = course.credits.reduce((a, c) => a + c.credits, 0);
-      if (Math.abs(sum - was) > LOAD_TOLERANCE) {
+      const partial = (resched.creditedBy?.length ?? 0) > 0;
+      if (!partial && Math.abs(sum - was) > LOAD_TOLERANCE) {
         warnings.push(
           `The plan reschedules ${code} to periods totalling ${sum} hp, but ${plan.to} lists it ` +
           `as ${was} hp — the offering should be the same course.`,
         );
+      }
+      if (partial) {
+        // Part of the course is credited: keep only the markers in the periods
+        // still read, since the credited part has no bar.
+        const kept = new Set(credits.map(c => c.period));
+        fromTarget.push({
+          ...course, credits,
+          exams: course.exams?.filter(p => kept.has(p)),
+          reexams: course.reexams?.filter(p => kept.has(p)),
+          examsByYear: undefined, reexamsByYear: undefined,
+        });
+        continue;
       }
       // The exam sits in the teaching period, so an exam recorded against the
       // old periods no longer has a bar to anchor to.

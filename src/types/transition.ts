@@ -71,6 +71,14 @@ export interface TransitionReschedule {
   code: string;
   /** The offering's periods, replacing the ones the target programme lists. */
   periodCredits: Record<string, number>;
+  /**
+   * Source courses that are credited for the rest, when the periods cover
+   * only part of the course. CMEDT's year-3 elective placeholder is 9 hp in P1
+   * and 6.5 hp in P2; the plan counts COPEN's SF1546 and KD1000 (9 hp) as
+   * electives, so the transfer student's space is the 6.5 hp in P2. Without
+   * it the periods must add up to the whole course.
+   */
+  creditedBy?: string[];
   note?: string;
   noteEn?: string;
 }

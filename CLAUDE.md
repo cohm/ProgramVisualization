@@ -1227,6 +1227,13 @@ credited from COPEN's KD1000, and the student reads 3 hp. The plan's year-2 sums
 only come out with CK1020 at 3 hp. `totalCredits` stays the course's own, and
 the validator requires the part to be less than the whole.
 
+**`rescheduled[].creditedBy` is the same-year counterpart.** When part of a
+course is credited and the rest stays in its own year, the periods are the part
+still read and must sum to less than the course. CMEDT's year-3 elective
+placeholder is 15.5 hp; the plan counts COPEN's SF1546 and KD1000 (9 hp) as
+electives and leaves "Valbar kurs 6 hp" in P1. Exam markers outside the periods
+still read are dropped with the credited part.
+
 **A group never offers what the student already has.** Options the student took
 in the source years, or is exempted from, are dropped from the target's groups.
 CELTE's year-2 group lists SF1546, which a COPEN student read in year 1. As an

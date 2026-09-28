@@ -53,9 +53,9 @@ Kursen läses i samma läsperioder som vanligt, men ett år senare.
 - **[ME1309](https://www.kth.se/student/kurser/kurs/ME1309) Industriell ekonomistyrning för I** (6 hp): årskurs 2 → 3
   Industriell ekonomistyrning för I skjuts till årskurs 3, enligt rubriken "Följande obligatoriska kurser i årskurs 2 läses av öppen-ingång-studenter under årskurs 3".
 
-## Kurser som läses i en annan kursomgång
+## Kurser som läses i andra perioder
 
-Samma kurs och samma årskurs, men den andra av KTH:s omgångar under året.
+Samma kurs och samma årskurs, men i andra läsperioder: en annan av KTH:s omgångar under året, eller bara den del som inte tillgodoräknas.
 
 - **[DD1320](https://www.kth.se/student/kurser/kurs/DD1320) Tillämpad datalogi** (6 hp): P3: 4 hp, P4: 2 hp → **P1: 5 hp, P2: 1 hp**
   Tillämpad datalogi läses i höstomgången i stället för våromgången. Övergångsplanen tillåter det uttryckligen: "Kurs DD1320 Tillämpad datalogi kan läsas under höstterminen istället för under våren. De som vill läsa kursen under ht måste meddela detta till svl." För en student från Öppen ingång är hösten klart bättre, eftersom årskurs 2 annars är bakåttung — se signeringsunderlaget. Perioderna är hämtade från kurssidans höstomgång (HT 2026: P1 5 hp, P2 1 hp).
