@@ -1333,8 +1333,9 @@ year the plan claims. `verified: false` warns, exactly like `programs.json`.
 **A plan records which kull it applies to (`cohorts`).** The chart composes a
 plan with whichever cohort is selected, but each plan was written for one:
 most say "påbörjad HT25", CMATD's and CTKEM's "HT26". A plan stands until it is
-revised, so the field is `{ "from": "HT2025" }` with no end; `"all"` is a plan
-meant for every kull (CTFYS). For a cohort before `from` the chart still
+revised, so the field is `{ "from": "HT2025" }` with no end. Nothing goes back
+further: no plan is known to hold for the older cohorts, and CTFYS, whose plan
+has no stated kull, starts at HT2025 too by its programme director's decision. For a cohort before `from` the chart still
 composes the view and says it is another cohort's plan, since an approximation
 is still what that student has. Omitted, the chart says the plan does not
 state one, `validate-data` warns, and the sign-off file asks. CINTE's and
