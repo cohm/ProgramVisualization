@@ -1234,6 +1234,26 @@ placeholder is 15.5 hp; the plan counts COPEN's SF1546 and KD1000 (9 hp) as
 electives and leaves "Valbar kurs 6 hp" in P1. Exam markers outside the periods
 still read are dropped with the credited part.
 
+Three further shapes came with CINTE, CTKEM, CMETE and CITEH:
+
+- `moved[].periodCredits` may equal the whole course, meaning the course is read
+  in other periods (CTKEM's BB1050, read with BB1150 in P1). It may also be keyed
+  by study year for a course read over several (CMETE's DM1578: 5 hp in year 2,
+  2 in year 3). Exam markers follow the new periods: kept where they still have a
+  bar, and placed in the teaching period of a course now read in one.
+  Rescheduled courses follow the same rule, and warn only when a marker loses its
+  bar.
+- `groupChanges[].satisfiedBy` may list several courses, for a credit pool that
+  COPEN courses fill together (CINTE's 36 hp year-2 box, 39 hp from six).
+- `groupChanges[].minCredits` + `periodCredits` shrink a `minCredits` box whose
+  space moved courses take (CITEH's year-3 box, 24 → 18 hp, P3 taken by ML1504).
+
+**CLGYM has no transition plan yet, on purpose.** Its plan gives year 2 and 3
+separately for each inriktning, and the same course moves to different years
+depending on it: SF1633 is year 2 for TEMI and MAKE but year 3 for TEDA, and
+LT1038 is year 2 for TEMI only. `moved` has no inriktning, so that needs a
+per-inriktning move before the plan can be written down.
+
 **A group never offers what the student already has.** Options the student took
 in the source years, or is exempted from, are dropped from the target's groups.
 CELTE's year-2 group lists SF1546, which a COPEN student read in year 1. As an

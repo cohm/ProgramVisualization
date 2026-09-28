@@ -114,14 +114,22 @@ export function composeTransition(
       // A partial read (see TransitionMove.periodCredits) replaces the periods;
       // totalCredits stays the course's own, since that is still its size.
       const credits = move.periodCredits
-        ? PERIODS
-          .map(period => ({ year: move.toYear, period, credits: Number(move.periodCredits![period] ?? 0) }))
-          .filter(c => c.credits > 0)
+        ? movedCredits(move.periodCredits, move.toYear)
         : course.credits.map(c => ({ ...c, year: move.toYear }));
+      // New periods move the exam with them: kept where it still has a bar,
+      // and put in the teaching period of a course now read in one (§1.1 of
+      // the riktlinje, as for periodCreditsBySpecialization).
+      const periods = [...new Set(credits.map(c => c.period))];
+      const placeExams = (list: Period['id'][]): Period['id'][] => {
+        if (!move.periodCredits || !list.length) return list;
+        return periods.length === 1 ? [periods[0]] : list.filter(p => periods.includes(p));
+      };
       fromTarget.push({
         ...course,
         year: move.toYear,
         credits,
+        exams: placeExams(course.exams),
+        reexams: placeExams(course.reexams),
         examsByYear: undefined,
         reexamsByYear: undefined,
       });
@@ -160,15 +168,24 @@ export function composeTransition(
         });
         continue;
       }
-      // The exam sits in the teaching period, so an exam recorded against the
-      // old periods no longer has a bar to anchor to.
-      if (course.exams?.length) {
+      // The exam sits in the teaching period. An offering in one period takes
+      // its exam there (CITEH's ME1003, P2 -> P3); markers that still have a
+      // bar are kept (ML1505's P4). Only a marker left without one is a
+      // question, since a multi-period exam placement is not derivable.
+      const newPeriods = [...new Set(credits.map(c => c.period))];
+      const place = (list: Period['id'][]): Period['id'][] =>
+        !list.length ? list : newPeriods.length === 1 ? [newPeriods[0]] : list.filter(p => newPeriods.includes(p));
+      const exams = place(course.exams);
+      if (newPeriods.length > 1 && exams.length < course.exams.length) {
         warnings.push(
           `${code} is rescheduled, but it carries exam marker(s) in ${course.exams.join(', ')} ` +
           `from ${plan.to}'s own offering — check where the exam falls in the offering actually taken.`,
         );
       }
-      fromTarget.push({ ...course, credits, examsByYear: undefined, reexamsByYear: undefined });
+      fromTarget.push({
+        ...course, credits, exams, reexams: place(course.reexams),
+        examsByYear: undefined, reexamsByYear: undefined,
+      });
       continue;
     }
 
@@ -238,6 +255,23 @@ export function composeTransition(
 }
 
 /**
+ * Credits for a moved course's `periodCredits`: flat for `toYear`, or keyed by
+ * study year for a course read over several (CMETE's DM1578).
+ */
+function movedCredits(
+  pc: Record<string, number> | Record<string, Record<string, number>>,
+  toYear: number,
+): Course['credits'] {
+  const byYear = Object.keys(pc).filter(k => /^Year\d+$/.test(k));
+  const rows: [number, Record<string, number>][] = byYear.length
+    ? byYear.map(k => [Number(k.slice(4)), (pc as Record<string, Record<string, number>>)[k]])
+    : [[toYear, pc as Record<string, number>]];
+  return rows.flatMap(([year, map]) => PERIODS
+    .map(period => ({ year, period, credits: Number(map[period] ?? 0) }))
+    .filter(c => c.credits > 0));
+}
+
+/**
  * Extend the target's option groups as the plan says; see TransitionGroupChange.
  *
  * Runs on the composed entries, after `moved`, so a course moved into the
@@ -261,7 +295,7 @@ function applyGroupChanges(entries: Entry[], plan: TransitionPlan, warnings: str
       continue;
     }
     const group = out[at] as OptionGroup;
-    if (change.satisfiedBy) {
+    if (change.satisfiedBy?.length) {
       // The student's credited course fills the choice; the options they did
       // not take leave the plan with the group, unless another group still
       // offers them.
@@ -289,8 +323,17 @@ function applyGroupChanges(entries: Entry[], plan: TransitionPlan, warnings: str
       }
       if (!options.includes(code)) options.push(code);
     }
+    // A smaller credit pool: the plan moves courses into part of its space.
+    const resized = change.minCredits != null && change.periodCredits
+      ? {
+        minCredits: change.minCredits,
+        totalCredits: change.minCredits,
+        periodCredits: Object.fromEntries(PERIODS.map(p => [p, Number(change.periodCredits![p] ?? 0)])) as OptionGroup['periodCredits'],
+      }
+      : {};
     out[at] = {
       ...group,
+      ...resized,
       options,
       qualifiesFor: change.qualifiesFor ? { ...group.qualifiesFor, ...change.qualifiesFor } : group.qualifiesFor,
       comment: change.comment ?? group.comment,

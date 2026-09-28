@@ -102,8 +102,12 @@ function composedLoad(plan, spec) {
   for (const gc of plan.groupChanges ?? []) {
     const g = out.find((e) => e.type === 'optionGroup' && e.year === gc.year && (e.options ?? []).includes(gc.offering));
     if (!g) continue;
-    if (gc.satisfiedBy) {
-      // Filled by a credited course: the group and its options leave the plan.
+    if (gc.minCredits != null && gc.periodCredits) {
+      g.minCredits = gc.minCredits;
+      g.periodCredits = { P1: 0, P2: 0, P3: 0, P4: 0, ...gc.periodCredits };
+    }
+    if ([gc.satisfiedBy ?? []].flat().length) {
+      // Filled by credited courses: the group and its options leave the plan.
       const drop = new Set(g.options ?? []);
       for (let i = out.length - 1; i >= 0; i--) {
         if (out[i] === g || (out[i].type !== 'optionGroup' && drop.has(out[i].code) && firstYear(out[i]) === gc.year)) out.splice(i, 1);
@@ -213,9 +217,15 @@ function write(plan) {
     L.push('Kursen läses i samma läsperioder som vanligt, men ett år senare.');
     L.push('');
     for (const m of plan.moved) {
-      const part = m.periodCredits
-        ? `, varav **${['P1', 'P2', 'P3', 'P4'].filter((q) => m.periodCredits[q]).map((q) => `${q}: ${hp(m.periodCredits[q])} hp`).join(', ')}** läses`
-        : '';
+      // New periods, flat or keyed by study year; "varav" only for a partial read.
+      let part = '';
+      if (m.periodCredits) {
+        const yearKeys = Object.keys(m.periodCredits).filter((k) => /^Year\d+$/.test(k));
+        const rows = yearKeys.length ? yearKeys.map((k) => [`åk ${k.slice(4)} `, m.periodCredits[k]]) : [['', m.periodCredits]];
+        const text = rows.map(([lead, map]) => lead + ['P1', 'P2', 'P3', 'P4'].filter((q) => map[q]).map((q) => `${q}: ${hp(map[q])} hp`).join(', ')).join('; ');
+        const sum = rows.reduce((a, [, map]) => a + ['P1', 'P2', 'P3', 'P4'].reduce((b, q) => b + Number(map[q] || 0), 0), 0);
+        part = sum < (creditsOf(tgt, m.code) ?? 0) - 0.05 ? `, varav **${text}** läses` : `, i **${text}**`;
+      }
       L.push(`- **${link(m.code)} ${nameOf(tgt, m.code)}** (${hp(creditsOf(tgt, m.code) ?? 0)} hp${part}): årskurs ${m.fromYear} → ${m.toYear}`);
       if (m.note) L.push(`  ${m.note}`);
     }
@@ -263,11 +273,20 @@ function write(plan) {
     for (const gc of plan.groupChanges) {
       const g = tgt.find((e) => e.type === 'optionGroup' && e.year === gc.year && (e.options ?? []).includes(gc.offering));
       if (!g) continue;
-      if (gc.satisfiedBy) {
-        L.push(`**Årskurs ${gc.year}, valet mellan ${(g.options ?? []).map(link).join(' och ')}** utgår: det fylls redan av ${link(gc.satisfiedBy)} från ${plan.from}.`);
+      const by = [gc.satisfiedBy ?? []].flat();
+      if (by.length) {
+        const what = g.kind === 'minCredits' ? `valblocket *${g.name}* (${hp(g.minCredits)} hp)` : `valet mellan ${(g.options ?? []).map(link).join(' och ')}`;
+        L.push(`**Årskurs ${gc.year}, ${what}** utgår: det fylls redan av ${by.map(link).join(', ')} från ${plan.from}.`);
         L.push('');
         if (gc.comment) { L.push(gc.comment); L.push(''); }
         continue;
+      }
+      if (gc.minCredits != null && gc.periodCredits) {
+        const per = ['P1', 'P2', 'P3', 'P4'].filter((q) => gc.periodCredits[q]).map((q) => `${q}: ${hp(gc.periodCredits[q])} hp`).join(', ');
+        L.push(`**Årskurs ${gc.year}, valblocket *${g.name}*** minskar från ${hp(g.minCredits)} till **${hp(gc.minCredits)} hp** (${per}).`);
+        L.push('');
+        if (gc.comment) { L.push(gc.comment); L.push(''); }
+        if (!gc.addOptions?.length && !gc.qualifiesFor) continue;
       }
       const rule = g.kind === 'minCredits' ? `minst ${hp(g.minCredits)} hp` : `välj ${g.pickN ?? g.allowedNumberOfOptions ?? 1}`;
       L.push(`**Årskurs ${gc.year}, ${rule}** av:`);

@@ -2017,5 +2017,618 @@
     "verified": false,
     "source": "Övergångsplan för Öppen ingång, påbörjad ht-25, till Medicinsk teknik (CMEDT). Gäller övergången till programmet ht-26.",
     "sourceEn": "Transition plan for Öppen ingång starting HT25 to Medical Engineering (CMEDT), for transfer to the programme in HT26."
+  },
+  {
+    "from": "COPEN",
+    "to": "CINTE",
+    "sourceYears": [
+      1
+    ],
+    "credited": [
+      {
+        "code": "SF1624",
+        "replaces": [
+          "SF1624"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1625",
+        "replaces": [
+          "SF1625"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1626",
+        "note": "Flervariabelanalys ingår i CINTE (årskurs 2, som villkorligt valfri) och räknas in i valblocket för årskurs 2 (se valgruppen).",
+        "noteEn": "Multivariable calculus is part of CINTE (year 2, conditionally elective) and counts toward the year-2 elective box (see the option group)."
+      },
+      {
+        "code": "SK1115",
+        "note": "Elektromagnetism och vågrörelselära ingår som CINTE:s SK1118 (årskurs 2, villkorligt valfri, MatNat) och räknas in i valblocket för årskurs 2.",
+        "noteEn": "Electromagnetism and wave motion counts as CINTE's SK1118 (year 2, conditionally elective, MatNat) toward the year-2 elective box."
+      },
+      {
+        "code": "DD1310",
+        "replaces": [
+          "ID1018"
+        ],
+        "note": "Programmeringsteknik tillgodoräknas som ID1018 Programmering I, kompletterad med DD1380 Javaprogrammering för Pythonprogrammerare (se 'added').",
+        "noteEn": "Programming techniques is credited as ID1018 Programming I, complemented by DD1380 (see 'added')."
+      },
+      {
+        "code": "SG1133",
+        "note": "Mekanik I tillgodoräknas som valfri kurs (MatNat).",
+        "noteEn": "Mechanics I is credited as an elective (MatNat)."
+      },
+      {
+        "code": "KD1000",
+        "note": "Kemiska principer tillgodoräknas som valfri kurs (MatNat).",
+        "noteEn": "Chemical principles is credited as an elective (MatNat)."
+      },
+      {
+        "code": "SA1007",
+        "note": "Ingenjörsrollen tillgodoräknas som valfri kurs.",
+        "noteEn": "The engineering role is credited as an elective."
+      },
+      {
+        "code": "SF1546",
+        "note": "Numeriska metoder tillgodoräknas som valfri kurs (informationsteknik).",
+        "noteEn": "Numerical methods is credited as an elective (information technology)."
+      }
+    ],
+    "moved": [
+      {
+        "code": "IE1204",
+        "fromYear": 1,
+        "toYear": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        },
+        "note": "Digital design läses i årskurs 2, i höstens andra omgång (P2), enligt planens exempel för årskurs 2. Kursen ges HT 2026 i både P1 och P2.",
+        "noteEn": "Digital design is taken in year 2, in the second autumn offering (P2), per the plan's year-2 example. It is given in both P1 and P2 in HT 2026."
+      },
+      {
+        "code": "ID1021",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Algoritmer och datastrukturer läses med CINTE årskurs 1 i P3, under den transfererande studentens årskurs 2.",
+        "noteEn": "Algorithms and data structures is taken with CINTE year 1 in P3, during the transferring student's year 2."
+      },
+      {
+        "code": "IE1206",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Inbyggd elektronik läses med CINTE årskurs 1 i P4, under den transfererande studentens årskurs 2.",
+        "noteEn": "Embedded electronics is taken with CINTE year 1 in P4, during the transferring student's year 2."
+      }
+    ],
+    "added": [
+      {
+        "code": "IX1500",
+        "name": "Diskret matematik",
+        "nameEn": "Discrete Mathematics",
+        "totalCredits": 7.5,
+        "year": 2,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        },
+        "exams": [
+          "P1"
+        ],
+        "gradingScale": "A-F",
+        "courseLevel": "G",
+        "category": "mandatory",
+        "substitutesFor": "SF1610",
+        "cosmeticsGroup": "Matematik",
+        "note": "Diskret matematik i P1, enligt planens exempel för årskurs 2, i stället för CINTE:s SF1610 i årskurs 1 P4. Perioden är kurssidans omgång HT 2026; examination INL1 och TEN1.",
+        "noteEn": "Discrete mathematics in P1, per the plan's year-2 example, instead of CINTE's SF1610 in year 1 P4. The period is the course page's HT 2026 offering."
+      },
+      {
+        "code": "DD1380",
+        "name": "Javaprogrammering för Pythonprogrammerare",
+        "nameEn": "Java Programming for Python Programmers",
+        "totalCredits": 1.5,
+        "year": 2,
+        "periodCredits": {
+          "P1": 1.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        },
+        "exams": [],
+        "gradingScale": "P/F",
+        "courseLevel": "G",
+        "category": "mandatory",
+        "prerequisitesCompleted": [
+          "DD1310"
+        ],
+        "fromProgram": "CTFYS",
+        "cosmeticsGroup": "Programvara och datalogi",
+        "note": "Komplettering till DD1310, så att den motsvarar ID1018. Onlinekurs, som enligt planen ska läsas \"så tidigt som möjligt\"; kurssidan har omgångar i alla fyra perioder, och P1 är vald.",
+        "noteEn": "Complements DD1310 so that it corresponds to ID1018. An online course the plan says to take as early as possible; the course page has offerings in all four periods, and P1 is used."
+      },
+      {
+        "code": "XY220Z",
+        "name": "Plats för valfri kurs (t.ex. ME1003)",
+        "nameEn": "Space for elective course (e.g. ME1003)",
+        "totalCredits": 6,
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 6,
+          "P3": 0,
+          "P4": 0
+        },
+        "exams": [],
+        "category": "electivePlaceholder",
+        "cosmeticsGroup": "Övrigt",
+        "note": "Planens exempel har ME1003 Industriell ekonomi, grundkurs (6 hp) här, \"Obligatorisk om man vill läsa industriell ekonomi som inriktning. Kan annars ersättas av annan valfri kurs, till exempel språkkurs eller ev. behörighetsgivande kurs för vald inriktning.\"",
+        "noteEn": "The plan's example has ME1003 Industrial management, basic course (6 credits) here: compulsory for the industrial management track, otherwise replaceable by another elective."
+      }
+    ],
+    "groupChanges": [
+      {
+        "year": 2,
+        "offering": "SK1118",
+        "satisfiedBy": [
+          "SK1115",
+          "SF1626",
+          "SG1133",
+          "KD1000",
+          "SA1007",
+          "SF1546"
+        ],
+        "comment": "CINTE:s valblock i årskurs 2 (36 hp villkorligt valfria och valfria kurser) fylls av Öppen ingångs SK1115, SF1626, SG1133, KD1000, SA1007 och SF1546, sammanlagt 39 hp. Av dem räknas 31,5 hp mot MatNat-blocket och 6 hp mot IT-blocket, som kräver 13,5 hp; resten får tas i årskurs 3.",
+        "commentEn": "CINTE's year-2 elective box (36 credits) is filled by Öppen ingång's SK1115, SF1626, SG1133, KD1000, SA1007 and SF1546, 39 credits in all. Of these, 31.5 count toward the MatNat block and 6 toward the IT block, which requires 13.5; the rest can be taken in year 3."
+      }
+    ],
+    "verified": false,
+    "source": "Övergång COPEN – CINTE (bildspel, tre sidor): motsvarigheter, \"Övergång år 2 (exempel)\" och \"Informationsteknik år 3\". Utan versionsdatum.",
+    "sourceEn": "Transition COPEN – CINTE (slides, three pages): equivalences, a year-2 example and CINTE year 3. No version date."
+  },
+  {
+    "from": "COPEN",
+    "to": "CTKEM",
+    "sourceYears": [
+      1
+    ],
+    "credited": [
+      {
+        "code": "SF1625",
+        "replaces": [
+          "SF1625"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1624",
+        "replaces": [
+          "SF1624"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1626",
+        "replaces": [
+          "SF1626"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "DD1310",
+        "note": "Programmeringsteknik ersätter CK1310 Programmering i Python inom kemivetenskap (årskurs 2), som därför utgår; \"6 hp får räknas i examen på CTKEM\".",
+        "noteEn": "Programming techniques replaces CK1310 (year 2), which is therefore dropped; all 6 credits may count toward the CTKEM degree."
+      },
+      {
+        "code": "SF1546",
+        "note": "Numeriska metoder, grundkurs motsvarar CTKEM:s SF1552 i årskurs 2, som därför utgår.",
+        "noteEn": "Numerical methods corresponds to CTKEM's SF1552 in year 2, which is therefore dropped."
+      },
+      {
+        "code": "SK1115",
+        "note": "Elektromagnetism och vågrörelselära ersätter tillsammans med SG1133 SK1151 Grundläggande fysik (årskurs 2) plus en valfri kurs på 7,5 hp (\"SG1133 + SK1115 = SK1151 + valfri kurs på 7,5 hp\").",
+        "noteEn": "Electromagnetism and wave motion, together with SG1133, replaces SK1151 Basic physics (year 2) plus a 7.5-credit elective."
+      },
+      {
+        "code": "SG1133",
+        "note": "Mekanik I; se SK1115.",
+        "noteEn": "Mechanics I; see SK1115."
+      },
+      {
+        "code": "SA1007",
+        "note": "Ingenjörsrollen och ingenjörskunskap räknas med 6 hp; planen skriver kurskoden SF1502.",
+        "noteEn": "The engineering role counts with 6 credits; the plan writes the code SF1502."
+      },
+      {
+        "code": "KD1000",
+        "note": "Kemiska principer för hållbar utveckling \"Får ej ingå i examen på CTKEM pga överlapp med KE1140\".",
+        "noteEn": "Chemical principles may not count toward the CTKEM degree, because it overlaps with KE1140."
+      }
+    ],
+    "exempt": [
+      {
+        "code": "CK1310",
+        "creditedBy": "DD1310",
+        "note": "Programmering i Python inom kemivetenskap ersätts av DD1310.",
+        "noteEn": "Python programming in chemical science is replaced by DD1310."
+      },
+      {
+        "code": "SF1552",
+        "creditedBy": "SF1546",
+        "note": "Numeriska metoder, grundkurs motsvaras av SF1546. Planen tar inte upp kursen; den räknar SF1546 med 6 hp.",
+        "noteEn": "Numerical methods is covered by SF1546. The plan does not list the course; it counts SF1546 at 6 credits."
+      },
+      {
+        "code": "SK1151",
+        "creditedBy": "SK1115",
+        "note": "Grundläggande fysik ersätts av SK1115 och SG1133 tillsammans.",
+        "noteEn": "Basic physics is replaced by SK1115 and SG1133 together."
+      }
+    ],
+    "moved": [
+      {
+        "code": "KE1140",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Teknisk kemi läses med CTKEM årskurs 1, under den transfererande studentens årskurs 2.",
+        "noteEn": "Chemical engineering is taken with CTKEM year 1, during the transferring student's year 2."
+      },
+      {
+        "code": "CK1285",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Kemisk jämvikt läses med CTKEM årskurs 1.",
+        "noteEn": "Chemical equilibrium is taken with CTKEM year 1."
+      },
+      {
+        "code": "KD1230",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Organisk kemi, grundläggande koncept och praktik läses med CTKEM årskurs 1.",
+        "noteEn": "Organic chemistry, basic concepts is taken with CTKEM year 1."
+      },
+      {
+        "code": "CK1295",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Analytisk kemi med statistik läses med CTKEM årskurs 1.",
+        "noteEn": "Analytical chemistry with statistics is taken with CTKEM year 1."
+      },
+      {
+        "code": "KD1070",
+        "fromYear": 2,
+        "toYear": 3,
+        "note": "Molekylär struktur läses i årskurs 3, med CTKEM årskurs 2 i P3, enligt planens tabell för årskurs 3.",
+        "noteEn": "Molecular structure is taken in year 3, with CTKEM year 2 in P3, per the plan's year-3 table."
+      },
+      {
+        "code": "BB1050",
+        "fromYear": 1,
+        "toYear": 3,
+        "periodCredits": {
+          "P1": 6,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        },
+        "note": "Bioteknik läses i årskurs 3, P1, \"tillsammans med BB1150 (endast teoridelen på 6,5 hp)\", i stället för i CTKEM:s årskurs 1 P3-P4.",
+        "noteEn": "Biotechnology is taken in year 3, P1, together with BB1150 (the theory part only), instead of in CTKEM year 1 P3-P4."
+      }
+    ],
+    "added": [
+      {
+        "code": "XY210Z",
+        "name": "Språkkurs (villkorligt valfri)",
+        "nameEn": "Language course (conditionally elective)",
+        "totalCredits": 7.5,
+        "year": 2,
+        "periodCredits": {
+          "P1": 4,
+          "P2": 3.5,
+          "P3": 0,
+          "P4": 0
+        },
+        "exams": [],
+        "category": "electivePlaceholder",
+        "cosmeticsGroup": "Övrigt",
+        "note": "En av de två villkorligt valfria kurser som ska läsas under årskurs 2 och 3 (\"två av fem\": KD1270, KE1185, Språkkurs 1, Språkkurs 2, BB1190). Planen placerar en språkkurs här; den andra är valet mellan KE1185 och KD1270 i årskurs 3.",
+        "noteEn": "One of the two conditionally elective courses to take over years 2 and 3 (\"two of five\"). The plan places a language course here; the other is the choice between KE1185 and KD1270 in year 3."
+      }
+    ],
+    "verified": false,
+    "source": "Övergångsplan för Öppen ingång, påbörjad HT26, till Teknisk kemi (CTKEM), gäller övergång till Teknisk kemi HT27. 2026-01-22, Magnus Johnson.",
+    "sourceEn": "Transition plan for Öppen ingång to Chemical Science and Engineering (CTKEM), 2026-01-22."
+  },
+  {
+    "from": "COPEN",
+    "to": "CMETE",
+    "sourceYears": [
+      1
+    ],
+    "credited": [
+      {
+        "code": "SF1625",
+        "replaces": [
+          "SF1625"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1624",
+        "replaces": [
+          "SF1624"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1626",
+        "replaces": [
+          "SF1626"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "DD1310",
+        "replaces": [
+          "DD1318"
+        ],
+        "note": "Programmeringsteknik ersätter tillsammans med SF1546 DD1318 Programmeringsteknik och tekniska beräkningar (9 hp) (\"Läses ej, ersätts av D1310+SF1546 i OPEN\").",
+        "noteEn": "Programming techniques, together with SF1546, replaces DD1318 (9 credits)."
+      },
+      {
+        "code": "SF1546",
+        "note": "Numeriska metoder; se DD1310.",
+        "noteEn": "Numerical methods; see DD1310."
+      },
+      {
+        "code": "SK1115",
+        "replaces": [
+          "SK1120"
+        ],
+        "note": "Elektromagnetism och vågrörelselära ersätter SK1120 Vågrörelselära.",
+        "noteEn": "Electromagnetism and wave motion replaces SK1120 Wave motion."
+      },
+      {
+        "code": "SA1007",
+        "replaces": [
+          "DM1581"
+        ],
+        "note": "Ingenjörsrollen ersätter DM1581 Introduktion till medieteknik.",
+        "noteEn": "The engineering role replaces DM1581 Introduction to media technology."
+      },
+      {
+        "code": "SG1133",
+        "note": "Mekanik I räknas som valbar kurs på CMETE.",
+        "noteEn": "Mechanics I counts as an elective in CMETE."
+      },
+      {
+        "code": "KD1000",
+        "note": "Kemiska principer räknas som valbar kurs på CMETE.",
+        "noteEn": "Chemical principles counts as an elective in CMETE."
+      }
+    ],
+    "moved": [
+      {
+        "code": "DH1609",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Kommunikation och information samläses med CMETE årskurs 1, under den transfererande studentens årskurs 2.",
+        "noteEn": "Communication and information is taken with CMETE year 1, during the transferring student's year 2."
+      },
+      {
+        "code": "DM1579",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Medieproduktion samläses med CMETE årskurs 1.",
+        "noteEn": "Media production is taken with CMETE year 1."
+      },
+      {
+        "code": "DM1578",
+        "fromYear": 1,
+        "toYear": 2,
+        "periodCredits": {
+          "Year2": {
+            "P1": 0.5,
+            "P2": 0.5,
+            "P3": 0.5,
+            "P4": 3.5
+          },
+          "Year3": {
+            "P1": 0.5,
+            "P2": 0.5,
+            "P3": 0.5,
+            "P4": 0.5
+          }
+        },
+        "note": "Programintegrerande kurs i medieteknik (7 hp över årskurs 1-3) läses med 5 hp i årskurs 2, \"där 3 hp motsvarar åk 1\", och 2 hp i årskurs 3. Perioderna är planens.",
+        "noteEn": "The programme-integrating course (7 credits over years 1-3) is taken with 5 credits in year 2, 3 of them corresponding to year 1, and 2 in year 3. The periods are the plan's."
+      },
+      {
+        "code": "SK1141",
+        "fromYear": 2,
+        "toYear": 3,
+        "note": "Teknisk fotografi läses i årskurs 3, samläst med CMETE årskurs 2 i P3.",
+        "noteEn": "Technical photography is taken in year 3, together with CMETE year 2 in P3."
+      }
+    ],
+    "verified": false,
+    "source": "Övergångsplan för Öppen ingång, påbörjad HT25 (gäller övergång till CMETE HT26), version 2025-12-09, Roberto Bresin, PA CMETE. Inskannad; inläst manuellt.",
+    "sourceEn": "Transition plan for Öppen ingång starting HT25, for transfer to Media Technology (CMETE) in HT26, version 2025-12-09. Scanned; read by hand."
+  },
+  {
+    "from": "COPEN",
+    "to": "CITEH",
+    "sourceYears": [
+      1
+    ],
+    "credited": [
+      {
+        "code": "SF1625",
+        "replaces": [
+          "SF1625"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1624",
+        "replaces": [
+          "SF1624"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SF1626",
+        "replaces": [
+          "SF1626"
+        ],
+        "note": "Samma kurs med samma kurskod i båda programmen.",
+        "noteEn": "The same course with the same code in both programmes."
+      },
+      {
+        "code": "SA1007",
+        "replaces": [
+          "ML1500"
+        ],
+        "note": "Ingenjörsrollen \"Ersätter delvis ML1500\" Introduktion till industriell teknik; resten ges av ML1506 Övergångsmodul till industriell teknik i årskurs 2 (se 'added').",
+        "noteEn": "The engineering role partly replaces ML1500; the rest is covered by ML1506 in year 2 (see 'added')."
+      },
+      {
+        "code": "SG1133",
+        "replaces": [
+          "SG1117"
+        ],
+        "note": "Mekanik I motsvarar SG1117 Teknisk mekanik.",
+        "noteEn": "Mechanics I corresponds to SG1117 Engineering mechanics."
+      },
+      {
+        "code": "SK1115",
+        "replaces": [
+          "SK1117"
+        ],
+        "note": "Elektromagnetism och vågrörelselära motsvarar CITEH:s SK1117.",
+        "noteEn": "Electromagnetism and wave motion corresponds to CITEH's SK1117."
+      },
+      {
+        "code": "DD1310",
+        "note": "Programmeringsteknik läses i CITEH årskurs 2 som samma kurs, och utgår där.",
+        "noteEn": "Programming techniques is taught in CITEH year 2 as the same course, and is dropped there."
+      },
+      {
+        "code": "SF1546",
+        "note": "Numeriska metoder, grundkurs läses i CITEH årskurs 2 som samma kurs, och utgår där.",
+        "noteEn": "Numerical methods is taught in CITEH year 2 as the same course, and is dropped there."
+      },
+      {
+        "code": "KD1000",
+        "note": "Kemiska principer för hållbar utveckling räknas enligt planen som ordinarie kurs; ingen enskild CITEH-kurs anges.",
+        "noteEn": "Chemical principles counts as an ordinary course per the plan; no single CITEH course is named."
+      }
+    ],
+    "moved": [
+      {
+        "code": "ML1501",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Industriella system I läses med CITEH årskurs 1 i P2.",
+        "noteEn": "Industrial systems I is taken with CITEH year 1 in P2."
+      },
+      {
+        "code": "ML1502",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Hållbarhet i industrin läses med CITEH årskurs 1 i P4.",
+        "noteEn": "Sustainability in industry is taken with CITEH year 1 in P4."
+      },
+      {
+        "code": "ML1504",
+        "fromYear": 2,
+        "toYear": 3,
+        "note": "Produktionslogistik läses i årskurs 3, med CITEH årskurs 2 i P3 (\"Läses i åk2 CITEH\").",
+        "noteEn": "Production logistics is taken in year 3, with CITEH year 2 in P3."
+      }
+    ],
+    "rescheduled": [
+      {
+        "code": "ME1003",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 6,
+          "P4": 0
+        },
+        "note": "Industriell ekonomi, grundkurs läses i vårens omgång i P3, \"Annan kursomgång än övriga CITEH\". Kursen ges VT 2027 i P3.",
+        "noteEn": "Industrial management, basic course is taken in the spring offering in P3, a different one from other CITEH students. It is given in P3 in VT 2027."
+      },
+      {
+        "code": "ML1505",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 1.5,
+          "P3": 4,
+          "P4": 3.5
+        },
+        "note": "Industriella system III: \"Utbrutna självstudier för P2 och P3 för att inte belasta P4, ökad mängd självstudier i P3 mot året innan\". Kurssidan anger bara P4 (9 hp); perioderna är planens.",
+        "noteEn": "Industrial systems III: self-study split out into P2 and P3 so as not to load P4. The course page gives only P4 (9 credits); the periods are the plan's."
+      }
+    ],
+    "added": [
+      {
+        "code": "ML1506",
+        "name": "Övergångsmodul till industriell teknik",
+        "nameEn": "Adaption course for Industrial Technology",
+        "totalCredits": 3,
+        "year": 2,
+        "periodCredits": {
+          "P1": 3,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        },
+        "exams": [],
+        "gradingScale": "P/F",
+        "courseLevel": "G",
+        "category": "mandatory",
+        "fromProgram": "CITEH",
+        "cosmeticsGroup": "Industriell teknik och ekonomi",
+        "note": "\"Modul som komplement till SA1007\", för den del av ML1500 som SA1007 inte täcker. CITEH:s studieplan anger kursen som obligatorisk endast för studenter från Öppen ingång, och den ingår därför inte i CITEH:s egen plan. Perioden är kurssidans omgång HT 2026; examination INL1 och ÖVN2.",
+        "noteEn": "Module complementing SA1007, for the part of ML1500 it does not cover. CITEH's study plan makes it compulsory only for students from Öppen ingång, so it is not in CITEH's own plan."
+      }
+    ],
+    "groupChanges": [
+      {
+        "year": 3,
+        "offering": "ME1035",
+        "minCredits": 18,
+        "periodCredits": {
+          "P1": 4,
+          "P2": 8,
+          "P3": 0,
+          "P4": 6
+        },
+        "comment": "För en student från Öppen ingång är utrymmet 18 hp (P1 4, P2 8, P4 6), enligt planens rad \"Valfri/VV 18\". P3 upptas av ML1504, som flyttats från årskurs 2.",
+        "commentEn": "For a student from Öppen ingång the space is 18 credits (P1 4, P2 8, P4 6), per the plan's \"Valfri/VV 18\" row. P3 is taken by ML1504, moved from year 2."
+      }
+    ],
+    "verified": false,
+    "source": "Övergångsplan för Öppen ingång (gäller överg till prog. Industriell teknik och hållbarhet), version 2026-02-10.",
+    "sourceEn": "Transition plan for Öppen ingång, for transfer to Industrial Technology and Sustainability (CITEH), version 2026-02-10."
   }
 ]
