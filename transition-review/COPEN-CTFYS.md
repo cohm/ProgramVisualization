@@ -25,9 +25,9 @@ De 9 kurserna i COPEN årskurs 1 och vad de ersätter i CTFYS.
 | [DD1310](https://www.kth.se/student/kurser/kurs/DD1310) Programmeringsteknik | 6 | [DD1331](https://www.kth.se/student/kurser/kurs/DD1331) Grundläggande programmering | 5 | Programmeringsteknik motsvarar CTFYS Grundläggande programmering. |
 | [SG1133](https://www.kth.se/student/kurser/kurs/SG1133) Mekanik I | 9 | [SG1112](https://www.kth.se/student/kurser/kurs/SG1112) Mekanik I | 9 | Mekanik I, samma kurs som CTFYS läser i årskurs 1. |
 | [SK1115](https://www.kth.se/student/kurser/kurs/SK1115) Elektromagnetism och vågrörelselära | 7,5 | [SK1104](https://www.kth.se/student/kurser/kurs/SK1104) Klassisk fysik | 7,5 | Elektromagnetism och vågrörelselära täcker CTFYS Klassisk fysik. |
-| [SF1546](https://www.kth.se/student/kurser/kurs/SF1546) Numeriska metoder, grundkurs | 6 | _(ingen enskild motsvarighet — se kommentar)_ | — | Numeriska metoder; ersätter SF1544, som därför utgår helt (se 'exempt'). |
-| [SA1007](https://www.kth.se/student/kurser/kurs/SA1007) Ingenjörsrollen och ingenjörskunskap | 6 | _(ingen enskild motsvarighet — se kommentar)_ | — | Ingenjörsrollen och ingenjörskunskap. SA1007 Ingenjörsrollen (6 hp) och KD1000 Kemiska principer (3 hp) motsvarar tillsammans, löst, SI1121 Termodynamik (6 hp) och SK1105 Experimentell fysik (4 hp) — en allmän ingenjörsintroduktion mot en termodynamik- och en laborationskurs. Motsvarigheten gäller paret som helhet, inte kurs mot kurs, varför varken 'replaces' eller 'creditedBy' är satt. |
-| [KD1000](https://www.kth.se/student/kurser/kurs/KD1000) Kemiska principer för hållbar utveckling | 3 | _(ingen enskild motsvarighet — se kommentar)_ | — | Kemiska principer för hållbar utveckling. SA1007 Ingenjörsrollen (6 hp) och KD1000 Kemiska principer (3 hp) motsvarar tillsammans, löst, SI1121 Termodynamik (6 hp) och SK1105 Experimentell fysik (4 hp) — en allmän ingenjörsintroduktion mot en termodynamik- och en laborationskurs. Motsvarigheten gäller paret som helhet, inte kurs mot kurs, varför varken 'replaces' eller 'creditedBy' är satt. |
+| [SF1546](https://www.kth.se/student/kurser/kurs/SF1546) Numeriska metoder, grundkurs | 6 | _(ingen enskild motsvarighet — se kommentar)_ | — | Numeriska metoder, grundkurs. Ersätter SF1544, som du därför inte läser. |
+| [SA1007](https://www.kth.se/student/kurser/kurs/SA1007) Ingenjörsrollen och ingenjörskunskap | 6 | _(ingen enskild motsvarighet — se kommentar)_ | — | Tillgodoräknas tillsammans med KD1000 i stället för SI1121 Termodynamik och SK1105 Experimentell fysik, som studenter från Öppen ingång inte läser. Kurserna motsvarar varandra som helhet, inte kurs för kurs. |
+| [KD1000](https://www.kth.se/student/kurser/kurs/KD1000) Kemiska principer för hållbar utveckling | 3 | _(ingen enskild motsvarighet — se kommentar)_ | — | Tillgodoräknas tillsammans med SA1007 i stället för SI1121 Termodynamik och SK1105 Experimentell fysik, som studenter från Öppen ingång inte läser. Kurserna motsvarar varandra som helhet, inte kurs för kurs. |
 
 ## Kurser som utgår
 
@@ -36,9 +36,9 @@ Kurser i CTFYS som den transfererande studenten inte läser.
 - **[SF1544](https://www.kth.se/student/kurser/kurs/SF1544) Numeriska metoder, grundkurs IV** (6 hp) — tillgodoräknad genom [SF1546](https://www.kth.se/student/kurser/kurs/SF1546)
   Numeriska metoder är redan avklarad genom SF1546 i COPEN.
 - **[SI1121](https://www.kth.se/student/kurser/kurs/SI1121) Termodynamik** (6 hp)
-  Termodynamik läses inte av studenter från Öppen ingång. SA1007 Ingenjörsrollen (6 hp) och KD1000 Kemiska principer (3 hp) motsvarar tillsammans, löst, SI1121 Termodynamik (6 hp) och SK1105 Experimentell fysik (4 hp) — en allmän ingenjörsintroduktion mot en termodynamik- och en laborationskurs. Motsvarigheten gäller paret som helhet, inte kurs mot kurs, varför varken 'replaces' eller 'creditedBy' är satt.
+  Termodynamik läses inte av studenter från Öppen ingång. SA1007 Ingenjörsrollen och ingenjörskunskap och KD1000 Kemiska principer för hållbar utveckling från Öppen ingång tillgodoräknas i stället för denna kurs och SK1105 Experimentell fysik.
 - **[SK1105](https://www.kth.se/student/kurser/kurs/SK1105) Experimentell fysik** (4 hp)
-  Experimentell fysik läses inte av studenter från Öppen ingång. SA1007 Ingenjörsrollen (6 hp) och KD1000 Kemiska principer (3 hp) motsvarar tillsammans, löst, SI1121 Termodynamik (6 hp) och SK1105 Experimentell fysik (4 hp) — en allmän ingenjörsintroduktion mot en termodynamik- och en laborationskurs. Motsvarigheten gäller paret som helhet, inte kurs mot kurs, varför varken 'replaces' eller 'creditedBy' är satt.
+  Experimentell fysik läses inte av studenter från Öppen ingång. SA1007 Ingenjörsrollen och ingenjörskunskap och KD1000 Kemiska principer för hållbar utveckling från Öppen ingång tillgodoräknas i stället för denna kurs och SI1121 Termodynamik.
 
 ## Kurser som tillkommer
 
