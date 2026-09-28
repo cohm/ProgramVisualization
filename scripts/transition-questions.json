@@ -396,5 +396,31 @@
         "body": "Planen räknar KD1000 *Kemiska principer för hållbar utveckling* (3 hp) som ordinarie kurs men anger ingen CITEH-kurs som den motsvarar. **Fråga:** vad tillgodoräknas den som?"
       }
     ]
+  },
+  "COPEN->CLGYM": {
+    "intro": "Planen är inläst från *Övergångsplan OPEN-CLGYM*: en tabell per inriktning (MAFY, TEMI, TEDA, MAKE) för årskurs 2 och en för årskurs 3. Den saknar versionsdatum.\n\n**Planen anger inga motsvarigheter**, bara vilka kurser som läses. Vilken kurs i Öppen ingång som ersätter vilken CLGYM-kurs är därför en tolkning av tabellerna (fråga 2), och diagrammet utgår från att **tabellerna är fullständiga**: en CLGYM-kurs i årskurs 2-3 som inte står i inriktningens tabell läses inte.\n\nGemensamt för alla inriktningar: LT1036 och SF1662 läses med CLGYM årskurs 1 under årskurs 2. Övriga ändringar står per inriktning nedan.",
+    "loadNote": "Siffrorna stämmer med planens egna summor inom 0,5 hp, med ett undantag: **TEMI årskurs 2, P4 = 25,5 hp** (fråga 1). Småskillnaderna kommer av att planen avrundar och att LT1041 och LT1037 är uppdelade på bråkdelar av hp.",
+    "items": [
+      {
+        "title": "Fråga: TEMI årskurs 2 summerar till 69 hp",
+        "body": "Tabellen för TEMI årskurs 2 listar LT1036 (8,5), LT1081 (6), LT1037 (6), SF1662 (7,5), SF1633 (6), LT1038 (7,5), AE1502 (7,5), KE1060 (6) och villkorligt valbara kurser (14), alltså **69 hp**, medan summaraden anger 60. I P4 ligger LT1036, LT1037, LT1038 och KE1060, sammanlagt 25,5 hp. **Fråga:** vilka kurser ska läsas i årskurs 2, och läses LT1038 där eller i årskurs 3 som för övriga inriktningar?"
+      },
+      {
+        "title": "Fråga: vilka CLGYM-kurser ersätts av Öppen ingångs kurser?",
+        "body": "Diagrammet utgår från följande, eftersom kurserna saknas i planens tabeller:\n\n| Öppen ingång | ersätter i CLGYM |\n|---|---|\n| SF1624, SF1625, SF1626 | samma kurser (MAKE, TEDA, TEMI årskurs 2); för MAFY SF1672, SF1673, SF1674 |\n| SG1133 | SG1112 (MAFY), SG1102 (TEMI) |\n| SF1546 | samma kurs (TEMI); SF1544 (MAFY), SF1514 (MAKE, TEDA) |\n| DD1310 | DD1319 (årskurs 1) |\n| SK1115, SA1007, KD1000 | ingen angiven |\n\n**Bekräfta**, eller ange rätt motsvarigheter."
+      },
+      {
+        "title": "Fråga: CLGYM-kurser i årskurs 1 som studenten inte läser",
+        "body": "Tre av CLGYM:s kurser i årskurs 1 finns inte i planen och har ingen motsvarighet i Öppen ingång: **SF1661** *Perspektiv på matematik* (6 hp), **AL1130** *Fysik, kemi, energi och miljö för lärare* (14 hp) och **ED1100** *Ingenjörsvetenskap* (7,5 hp). Senare kurser kräver två av dem: LT1038 och LT2033 kräver SF1661, och LT1095 och MJ2612 kräver AL1130. **Fråga:** behöver studenter från Öppen ingång läsa dem, eller räknas SK1115, SA1007 och KD1000 som motsvarighet?"
+      },
+      {
+        "title": "Fråga: kurskoder och programsammanhållande kurser",
+        "body": "- Planen skriver **KE1060** (TEMI) och **DD1362** (TEDA); CLGYM:s data anger **CK1060** *Material och energibalanser* och **DD1366** *Programmeringsparadigm*, med samma namn. Diagrammet använder CLGYM:s koder.\n- TEDA:s tabell har **LT1041** (programsammanhållande kurs, årskurs 1) i årskurs 2, men varken LT1042 eller LT1043, som CLGYM:s TEDA läser i årskurs 2 och 3. Diagrammet följer tabellen. MAKE har LT1041 som *\"t ex … valbar kurs\"*.\n\n**Bekräfta.**"
+      },
+      {
+        "title": "Fråga: de villkorligt valbara kurserna",
+        "body": "Planens rader för villkorligt valbara kurser stämmer inte alltid med sina egna perioder: MAFY årskurs 3 anger 17 hp men perioderna summerar till 16,5, TEMI 14 hp (13,5) och 17 hp (16,5), MAKE 14 hp (13,5). Diagrammet använder periodernas summa. CLGYM:s egen studieplan har inget valblock i årskurs 2, så där visas planens utrymme som en plats för villkorligt valbara kurser."
+      }
+    ]
   }
 }

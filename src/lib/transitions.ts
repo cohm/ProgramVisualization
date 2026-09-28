@@ -12,7 +12,7 @@
 // course list would not.
 
 import type { Course, OptionGroup, Period } from '@/types/course';
-import type { TransitionCredit, TransitionPlan } from '@/types/transition';
+import type { TransitionCredit, TransitionOverlay, TransitionPlan } from '@/types/transition';
 import { parseCourseEntries } from '@/lib/useCourseModel';
 import type { CourseGroup, ProgramCosmetics } from '@/types/cosmetics';
 import type { FamilyName } from '@/lib/colors';
@@ -53,9 +53,10 @@ export interface ComposedPlan {
 export function composeTransition(
   sourceEntries: Entry[],
   targetEntries: Entry[],
-  plan: TransitionPlan,
+  fullPlan: TransitionPlan,
   selectedSpecializations?: Set<string>,
 ): ComposedPlan {
+  const plan = effectivePlan(fullPlan, selectedSpecializations);
   const warnings: string[] = [];
   const sourceYears = new Set(plan.sourceYears);
   const exemptCodes = new Set((plan.exempt ?? []).map(e => e.code));
@@ -236,7 +237,8 @@ export function composeTransition(
     }
   }
 
-  const regrouped = applyGroupChanges([...fromSource, ...fromTarget, ...added], plan, warnings);
+  const onlySpec = selectedSpecializations?.size === 1 ? [...selectedSpecializations][0] : undefined;
+  const regrouped = applyGroupChanges([...fromSource, ...fromTarget, ...added], plan, warnings, onlySpec);
 
   // --- redirect prerequisites onto the courses actually taken --------------
   const { entries: rewritten, warnings: rewriteWarnings } =
@@ -279,14 +281,17 @@ function movedCredits(
  * is an option, the group bar stands for it: the renderer draws it only when
  * picked, and the load check counts the group rather than the course.
  */
-function applyGroupChanges(entries: Entry[], plan: TransitionPlan, warnings: string[]): Entry[] {
+function applyGroupChanges(entries: Entry[], plan: TransitionPlan, warnings: string[], spec?: string): Entry[] {
   if (!plan.groupChanges?.length) return entries;
   const out = [...entries];
   const courses = new Map(
     entries.filter((e): e is Course => !isGroup(e)).map(e => [e.code, e]),
   );
   for (const change of plan.groupChanges) {
-    const at = out.findIndex(e => isGroup(e) && e.year === change.year && e.options.includes(change.offering));
+    // With an inriktning selected, only a group it can see: CLGYM's four
+    // year-3 boxes, one per inriktning, all offer DD1351.
+    const at = out.findIndex(e => isGroup(e) && e.year === change.year && e.options.includes(change.offering)
+      && (!spec || !e.specializations?.length || e.specializations.includes(spec)));
     if (at < 0) {
       warnings.push(
         `The plan changes the year-${change.year} group offering ${change.offering}, but the ` +
@@ -341,6 +346,29 @@ function applyGroupChanges(entries: Entry[], plan: TransitionPlan, warnings: str
     };
   }
   return out;
+}
+
+const OVERLAY_KEYS: (keyof TransitionOverlay)[] = ['exempt', 'moved', 'rescheduled', 'added', 'groupChanges'];
+
+/**
+ * The plan as it applies to one inriktning: the common changes plus that
+ * inriktning's own (`bySpecialization`), lists concatenated. With no single
+ * inriktning selected, only the common part applies. See
+ * TransitionPlan.bySpecialization; COPEN -> CLGYM is the case.
+ */
+export function effectivePlan(plan: TransitionPlan, selected?: Set<string> | string): TransitionPlan {
+  const spec = typeof selected === 'string'
+    ? selected
+    : selected?.size === 1 ? [...selected][0] : undefined;
+  const overlay = spec ? plan.bySpecialization?.[spec] : undefined;
+  if (!overlay) return plan;
+  const merged: TransitionPlan = { ...plan };
+  for (const key of OVERLAY_KEYS) {
+    const extra = overlay[key];
+    if (!extra?.length) continue;
+    (merged as unknown as Record<string, unknown[]>)[key] = [...(plan[key] ?? []), ...extra];
+  }
+  return merged;
 }
 
 /**
@@ -497,7 +525,17 @@ function fullTimeWarnings(
     if (isGroup(entry)) continue;
     if (inGroup.has(entry.code)) continue;
     if (!matchesSpec(entry)) continue;
-    for (const c of entry.credits) add(c.year, c.period, c.credits);
+    // The inriktning's own layout, as the renderer draws it: CLGYM's LT1037 is
+    // P3+P4 but P1+P4 for TEMI, and CINEK's DD1320 sits in year 3 for PPUI.
+    const spec = selectedSpecializations?.size === 1 ? [...selectedSpecializations][0] : undefined;
+    const layout = spec ? entry.periodCreditsBySpecialization?.[spec] : undefined;
+    const yearOverride = spec ? entry.yearBySpecialization?.[spec] : undefined;
+    if (layout) {
+      const y = yearOverride ?? entryYear(entry);
+      for (const p of PERIODS) add(y, p, layout[p] ?? 0);
+      continue;
+    }
+    for (const c of entry.credits) add(yearOverride ?? c.year, c.period, c.credits);
   }
 
   const out: string[] = [];

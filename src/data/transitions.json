@@ -2630,5 +2630,395 @@
     "verified": false,
     "source": "Övergångsplan för Öppen ingång (gäller överg till prog. Industriell teknik och hållbarhet), version 2026-02-10.",
     "sourceEn": "Transition plan for Öppen ingång, for transfer to Industrial Technology and Sustainability (CITEH), version 2026-02-10."
+  },
+  {
+    "from": "COPEN",
+    "to": "CLGYM",
+    "sourceYears": [
+      1
+    ],
+    "credited": [
+      {
+        "code": "SF1625",
+        "note": "Envariabelanalys: samma kurs som CLGYM läser i årskurs 2 (MAKE, TEDA, TEMI). För MAFY ersätter den SF1673 Analys i en variabel. Planen anger inga motsvarigheter; detta är en tolkning av dess tabeller.",
+        "noteEn": "Single-variable calculus: the same course CLGYM teaches in year 2 (MAKE, TEDA, TEMI). For MAFY it replaces SF1673. The plan states no equivalences; this is a reading of its tables."
+      },
+      {
+        "code": "SF1624",
+        "note": "Algebra och geometri: samma kurs som CLGYM läser i årskurs 2 (MAKE, TEDA, TEMI). För MAFY ersätter den SF1672 Linjär algebra. Planen anger inga motsvarigheter; detta är en tolkning av dess tabeller.",
+        "noteEn": "Algebra and geometry: the same course CLGYM teaches in year 2 (MAKE, TEDA, TEMI). For MAFY it replaces SF1672. The plan states no equivalences; this is a reading of its tables."
+      },
+      {
+        "code": "SF1626",
+        "note": "Flervariabelanalys: samma kurs som CLGYM läser i årskurs 2 (MAKE, TEDA, TEMI). För MAFY ersätter den SF1674 Flervariabelanalys. Planen anger inga motsvarigheter; detta är en tolkning av dess tabeller.",
+        "noteEn": "Multivariable calculus: the same course CLGYM teaches in year 2 (MAKE, TEDA, TEMI). For MAFY it replaces SF1674. The plan states no equivalences; this is a reading of its tables."
+      },
+      {
+        "code": "DD1310",
+        "replaces": [
+          "DD1319"
+        ],
+        "note": "Programmeringsteknik motsvarar CLGYM:s DD1319 Programmeringsteknik (8 hp) i årskurs 1. Planen anger inga motsvarigheter; detta är en tolkning av dess tabeller.",
+        "noteEn": "Programming techniques corresponds to CLGYM's DD1319 (8 credits) in year 1. The plan states no equivalences; this is a reading of its tables."
+      },
+      {
+        "code": "SG1133",
+        "note": "Mekanik I ersätter MAFY:s SG1112 Mekanik I och TEMI:s SG1102 Mekanik, mindre kurs, som inte finns i planens tabeller. Planen anger inga motsvarigheter; detta är en tolkning av dess tabeller.",
+        "noteEn": "Mechanics I replaces MAFY's SG1112 and TEMI's SG1102, which are not in the plan's tables. The plan states no equivalences; this is a reading of its tables."
+      },
+      {
+        "code": "SF1546",
+        "note": "Numeriska metoder, grundkurs: samma kurs som TEMI läser i årskurs 2. Den ersätter MAFY:s SF1544 och MAKE:s och TEDA:s SF1514 i årskurs 3, som inte finns i planens tabeller. Planen anger inga motsvarigheter; detta är en tolkning av dess tabeller.",
+        "noteEn": "Numerical methods: the same course TEMI takes in year 2. It replaces MAFY's SF1544 and MAKE's and TEDA's SF1514 in year 3, which are not in the plan's tables. The plan states no equivalences; this is a reading of its tables."
+      },
+      {
+        "code": "SK1115",
+        "note": "Elektromagnetism och vågrörelselära; planen anger ingen CLGYM-kurs som den motsvarar.",
+        "noteEn": "Electromagnetism and wave motion; the plan names no CLGYM course it corresponds to."
+      },
+      {
+        "code": "SA1007",
+        "note": "Ingenjörsrollen och ingenjörskunskap; planen anger ingen CLGYM-kurs som den motsvarar.",
+        "noteEn": "The engineering role; the plan names no CLGYM course it corresponds to."
+      },
+      {
+        "code": "KD1000",
+        "note": "Kemiska principer för hållbar utveckling; planen anger ingen CLGYM-kurs som den motsvarar.",
+        "noteEn": "Chemical principles; the plan names no CLGYM course it corresponds to."
+      }
+    ],
+    "moved": [
+      {
+        "code": "LT1036",
+        "fromYear": 1,
+        "toYear": 2,
+        "note": "Lärande som professionellt uppdrag läses med CLGYM årskurs 1 i P4, under den transfererande studentens årskurs 2 (alla inriktningar).",
+        "noteEn": "Learning as a professional assignment is taken with CLGYM year 1 in P4, during the transferring student's year 2 (all inriktningar)."
+      },
+      {
+        "code": "SF1662",
+        "fromYear": 1,
+        "toYear": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        },
+        "note": "Diskret matematik läses i årskurs 2, med 7,5 hp i P2 enligt planens tabeller; CLGYM:s årskurs 1 läser den 4 hp i P2 och 3,5 hp i P3.",
+        "noteEn": "Discrete mathematics is taken in year 2, 7.5 credits in P2 per the plan's tables; CLGYM year 1 takes it as 4 in P2 and 3.5 in P3."
+      }
+    ],
+    "bySpecialization": {
+      "MAFY": {
+        "exempt": [
+          {
+            "code": "SF1673",
+            "creditedBy": "SF1625",
+            "note": "Analys i en variabel ersätts av SF1625. Planen anger inga motsvarigheter; detta är en tolkning av dess tabeller.",
+            "noteEn": "Single-variable analysis is replaced by SF1625. The plan states no equivalences; this is a reading of its tables."
+          },
+          {
+            "code": "SF1672",
+            "creditedBy": "SF1624",
+            "note": "Linjär algebra ersätts av SF1624. Planen anger inga motsvarigheter; detta är en tolkning av dess tabeller.",
+            "noteEn": "Linear algebra is replaced by SF1624. The plan states no equivalences; this is a reading of its tables."
+          },
+          {
+            "code": "SF1674",
+            "creditedBy": "SF1626",
+            "note": "Flervariabelanalys ersätts av SF1626. Planen anger inga motsvarigheter; detta är en tolkning av dess tabeller.",
+            "noteEn": "Multivariable analysis is replaced by SF1626. The plan states no equivalences; this is a reading of its tables."
+          },
+          {
+            "code": "SG1112",
+            "creditedBy": "SG1133",
+            "note": "Mekanik I ersätts av SG1133. Planen anger inga motsvarigheter; detta är en tolkning av dess tabeller.",
+            "noteEn": "Mechanics I is replaced by SG1133. The plan states no equivalences; this is a reading of its tables."
+          },
+          {
+            "code": "SF1544",
+            "creditedBy": "SF1546",
+            "note": "Numeriska metoder, grundkurs IV ersätts av SF1546. Planen anger inga motsvarigheter; detta är en tolkning av dess tabeller.",
+            "noteEn": "Numerical methods IV is replaced by SF1546. The plan states no equivalences; this is a reading of its tables."
+          }
+        ],
+        "moved": [
+          {
+            "code": "SF1683",
+            "fromYear": 3,
+            "toYear": 2,
+            "note": "Differentialekvationer och transformmetoder läses redan i årskurs 2, P1-P2, enligt planens tabell.",
+            "noteEn": "Differential equations and transforms is taken already in year 2, P1-P2, per the plan's table."
+          },
+          {
+            "code": "LT1038",
+            "fromYear": 1,
+            "toYear": 3,
+            "note": "Matematikdidaktik med VFU läses med CLGYM årskurs 1 i P3-P4, under den transfererande studentens årskurs 3.",
+            "noteEn": "Mathematics education with placement is taken with CLGYM year 1 in P3-P4, during the transferring student's year 3."
+          }
+        ],
+        "added": [
+          {
+            "code": "XY200Z",
+            "name": "Villkorligt valbara kurser",
+            "nameEn": "Conditionally elective courses",
+            "totalCredits": 6.5,
+            "year": 2,
+            "periodCredits": {
+              "P1": 0,
+              "P2": 0,
+              "P3": 6.5,
+              "P4": 0
+            },
+            "exams": [],
+            "category": "electivePlaceholder",
+            "cosmeticsGroup": "Övrigt",
+            "note": "Planens rad \"Villkorligt valbara kurser\" i årskurs 2, 6,5 hp i P3. CLGYM:s egen studieplan har inget valblock i årskurs 2.",
+            "noteEn": "The plan's \"Villkorligt valbara kurser\" row in year 2. CLGYM's own study plan has no elective box in year 2."
+          }
+        ],
+        "groupChanges": [
+          {
+            "year": 3,
+            "offering": "DD1351",
+            "minCredits": 16.5,
+            "periodCredits": {
+              "P1": 6,
+              "P2": 3,
+              "P3": 4,
+              "P4": 3.5
+            },
+            "comment": "För en student från Öppen ingång är utrymmet 16,5 hp, enligt planens rad för villkorligt valbara kurser i årskurs 3 (planen anger 17 hp; perioderna summerar till 16,5).",
+            "commentEn": "For a student from Öppen ingång the space is 16.5 credits, per the plan's conditionally elective row in year 3."
+          }
+        ]
+      },
+      "TEMI": {
+        "exempt": [
+          {
+            "code": "SG1102",
+            "creditedBy": "SG1133",
+            "note": "Mekanik, mindre kurs ersätts av SG1133. Planen anger inga motsvarigheter; detta är en tolkning av dess tabeller.",
+            "noteEn": "Mechanics, smaller course is replaced by SG1133. The plan states no equivalences; this is a reading of its tables."
+          }
+        ],
+        "moved": [
+          {
+            "code": "SF1633",
+            "fromYear": 3,
+            "toYear": 2,
+            "note": "Differentialekvationer I läses redan i årskurs 2, P1, enligt planens tabell.",
+            "noteEn": "Differential equations I is taken already in year 2, P1, per the plan's table."
+          },
+          {
+            "code": "LT1038",
+            "fromYear": 1,
+            "toYear": 2,
+            "note": "Matematikdidaktik med VFU läses med CLGYM årskurs 1 i P3-P4, under den transfererande studentens årskurs 2.",
+            "noteEn": "Mathematics education with placement is taken with CLGYM year 1 in P3-P4, during the transferring student's year 2."
+          },
+          {
+            "code": "AE1502",
+            "fromYear": 3,
+            "toYear": 2,
+            "note": "Miljösystemanalys för energi och miljö läses redan i årskurs 2, P3.",
+            "noteEn": "Environmental systems analysis is taken already in year 2, P3."
+          },
+          {
+            "code": "MJ1508",
+            "fromYear": 2,
+            "toYear": 3,
+            "note": "Ekologi och miljöeffekter läses i årskurs 3, P1-P2.",
+            "noteEn": "Ecology and environmental effects is taken in year 3, P1-P2."
+          }
+        ],
+        "added": [
+          {
+            "code": "XY200Z",
+            "name": "Villkorligt valbara kurser",
+            "nameEn": "Conditionally elective courses",
+            "totalCredits": 13.5,
+            "year": 2,
+            "periodCredits": {
+              "P1": 4,
+              "P2": 6,
+              "P3": 3.5,
+              "P4": 0
+            },
+            "exams": [],
+            "category": "electivePlaceholder",
+            "cosmeticsGroup": "Övrigt",
+            "note": "Planens rad \"Villkorligt valbara kurser\" i årskurs 2, med perioderna 4/6/3,5 hp (planen anger 14 hp; perioderna summerar till 13,5). CLGYM:s egen studieplan har inget valblock i årskurs 2.",
+            "noteEn": "The plan's \"Villkorligt valbara kurser\" row in year 2. CLGYM's own study plan has no elective box in year 2."
+          }
+        ],
+        "groupChanges": [
+          {
+            "year": 3,
+            "offering": "DD1351",
+            "minCredits": 16.5,
+            "periodCredits": {
+              "P1": 0,
+              "P2": 0,
+              "P3": 9,
+              "P4": 7.5
+            },
+            "comment": "För en student från Öppen ingång är utrymmet 16,5 hp, enligt planens rad för villkorligt valbara kurser i årskurs 3 (planen anger 17 hp; perioderna summerar till 16,5).",
+            "commentEn": "For a student from Öppen ingång the space is 16.5 credits, per the plan's conditionally elective row in year 3."
+          }
+        ]
+      },
+      "TEDA": {
+        "exempt": [
+          {
+            "code": "SF1514",
+            "creditedBy": "SF1546",
+            "note": "Numeriska metoder, grundkurs ersätts av SF1546. Planen anger inga motsvarigheter; detta är en tolkning av dess tabeller.",
+            "noteEn": "Numerical methods is replaced by SF1546. The plan states no equivalences; this is a reading of its tables."
+          },
+          {
+            "code": "LT1042",
+            "note": "Programsammanhållande kurs för årskurs 2 finns inte i planens tabell för TEDA, som i stället har LT1041 (årskurs 1) i årskurs 2.",
+            "noteEn": "The year-2 programme-integrating course is not in the plan's TEDA table, which has LT1041 (year 1) in year 2 instead."
+          },
+          {
+            "code": "LT1043",
+            "note": "Programsammanhållande kurs för årskurs 3 finns inte i planens tabell för TEDA.",
+            "noteEn": "The year-3 programme-integrating course is not in the plan's TEDA table."
+          }
+        ],
+        "moved": [
+          {
+            "code": "DD1366",
+            "fromYear": 3,
+            "toYear": 2,
+            "periodCredits": {
+              "P1": 0,
+              "P2": 0,
+              "P3": 4,
+              "P4": 2
+            },
+            "note": "Programmeringsparadigm läses i årskurs 2, P3-P4 (4 + 2 hp), enligt planens tabell. Planen skriver kurskoden DD1362; CLGYM:s data anger DD1366 med samma namn.",
+            "noteEn": "Programming paradigms is taken in year 2, P3-P4 (4 + 2), per the plan's table. The plan writes DD1362; CLGYM's data has DD1366 with the same name."
+          },
+          {
+            "code": "DD1395",
+            "fromYear": 3,
+            "toYear": 2,
+            "note": "Fördjupande uppsats i datalogi läses redan i årskurs 2, P1.",
+            "noteEn": "In-depth essay in computer science is taken already in year 2, P1."
+          },
+          {
+            "code": "LT1041",
+            "fromYear": 1,
+            "toYear": 2,
+            "note": "Programsammanhållande kurs (1 hp) läses med CLGYM årskurs 1, under den transfererande studentens årskurs 2.",
+            "noteEn": "The programme-integrating course (1 credit) is taken with CLGYM year 1, during the transferring student's year 2."
+          },
+          {
+            "code": "IS1500",
+            "fromYear": 2,
+            "toYear": 3,
+            "note": "Datorteknik och komponenter läses i årskurs 3, P1-P2.",
+            "noteEn": "Computer hardware engineering is taken in year 3, P1-P2."
+          },
+          {
+            "code": "LT1038",
+            "fromYear": 1,
+            "toYear": 3,
+            "note": "Matematikdidaktik med VFU läses med CLGYM årskurs 1 i P3-P4, under den transfererande studentens årskurs 3.",
+            "noteEn": "Mathematics education with placement is taken with CLGYM year 1 in P3-P4, during the transferring student's year 3."
+          }
+        ],
+        "added": [
+          {
+            "code": "XY200Z",
+            "name": "Villkorligt valbara kurser",
+            "nameEn": "Conditionally elective courses",
+            "totalCredits": 7,
+            "year": 2,
+            "periodCredits": {
+              "P1": 3,
+              "P2": 4,
+              "P3": 0,
+              "P4": 0
+            },
+            "exams": [],
+            "category": "electivePlaceholder",
+            "cosmeticsGroup": "Övrigt",
+            "note": "Planens rad \"Villkorligt valbara kurser\" i årskurs 2, med perioderna 3/4 hp. CLGYM:s egen studieplan har inget valblock i årskurs 2.",
+            "noteEn": "The plan's \"Villkorligt valbara kurser\" row in year 2. CLGYM's own study plan has no elective box in year 2."
+          }
+        ],
+        "groupChanges": [
+          {
+            "year": 3,
+            "offering": "DD1351",
+            "minCredits": 9,
+            "periodCredits": {
+              "P1": 0,
+              "P2": 0,
+              "P3": 3,
+              "P4": 6
+            },
+            "comment": "För en student från Öppen ingång är utrymmet 9 hp, enligt planens rad för villkorligt valbara kurser i årskurs 3 med perioderna P3 3, P4 6.",
+            "commentEn": "For a student from Öppen ingång the space is 9 credits, per the plan's conditionally elective row in year 3."
+          }
+        ]
+      },
+      "MAKE": {
+        "exempt": [
+          {
+            "code": "SF1514",
+            "creditedBy": "SF1546",
+            "note": "Numeriska metoder, grundkurs ersätts av SF1546. Planen anger inga motsvarigheter; detta är en tolkning av dess tabeller.",
+            "noteEn": "Numerical methods is replaced by SF1546. The plan states no equivalences; this is a reading of its tables."
+          }
+        ],
+        "moved": [
+          {
+            "code": "SF1633",
+            "fromYear": 3,
+            "toYear": 2,
+            "note": "Differentialekvationer I läses redan i årskurs 2, P1, enligt planens tabell.",
+            "noteEn": "Differential equations I is taken already in year 2, P1, per the plan's table."
+          },
+          {
+            "code": "LT1041",
+            "fromYear": 1,
+            "toYear": 2,
+            "note": "Programsammanhållande kurs (1 hp) läses med CLGYM årskurs 1, under den transfererande studentens årskurs 2. Planen anger den som \"t ex LT1041 Prosam 1, valbar kurs\".",
+            "noteEn": "The programme-integrating course (1 credit) is taken with CLGYM year 1, during the transferring student's year 2. The plan lists it as an elective example."
+          },
+          {
+            "code": "LT1038",
+            "fromYear": 1,
+            "toYear": 3,
+            "note": "Matematikdidaktik med VFU läses med CLGYM årskurs 1 i P3-P4, under den transfererande studentens årskurs 3.",
+            "noteEn": "Mathematics education with placement is taken with CLGYM year 1 in P3-P4, during the transferring student's year 3."
+          }
+        ],
+        "groupChanges": [
+          {
+            "year": 3,
+            "offering": "DD1351",
+            "minCredits": 13.5,
+            "periodCredits": {
+              "P1": 7.5,
+              "P2": 6,
+              "P3": 0,
+              "P4": 0
+            },
+            "comment": "För en student från Öppen ingång är utrymmet 13,5 hp, enligt planens rad för villkorligt valbara kurser i årskurs 3 (planen anger 14 hp; perioderna summerar till 13,5).",
+            "commentEn": "For a student from Öppen ingång the space is 13.5 credits, per the plan's conditionally elective row in year 3."
+          }
+        ]
+      }
+    },
+    "verified": false,
+    "source": "Övergångsplan OPEN-CLGYM: per inriktning (MAFY, TEMI, TEDA, MAKE) tabeller för årskurs 2 (HT 2026/2027) och årskurs 3. Utan versionsdatum.",
+    "sourceEn": "Transition plan COPEN-CLGYM: per-inriktning tables (MAFY, TEMI, TEDA, MAKE) for years 2 and 3. No version date."
   }
 ]

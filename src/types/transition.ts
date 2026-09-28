@@ -225,6 +225,9 @@ export interface TransitionCredit {
   noteEn?: string;
 }
 
+/** The parts of a plan an inriktning may add to; see TransitionPlan.bySpecialization. */
+export type TransitionOverlay = Pick<TransitionPlan, 'exempt' | 'moved' | 'rescheduled' | 'added' | 'groupChanges'>;
+
 export interface TransitionPlan {
   /** Programme the student starts in (COPEN today). */
   from: string;
@@ -243,6 +246,17 @@ export interface TransitionPlan {
   rescheduled?: TransitionReschedule[];
   added?: TransitionAddition[];
   groupChanges?: TransitionGroupChange[];
+  /**
+   * Changes that apply only when one inriktning is selected, merged over the
+   * common ones (lists are concatenated).
+   *
+   * COPEN -> CLGYM is why. Its plan gives year 2 and year 3 as a separate table
+   * per inriktning, and the same course lands in different years depending on
+   * it: SF1633 is year 2 for TEMI and MAKE but year 3 for TEDA, and LT1038 is
+   * year 2 for TEMI only. A per-inriktning overlay mirrors the plan as written,
+   * one block per table, so each block can be checked against its table.
+   */
+  bySpecialization?: Record<string, TransitionOverlay>;
   /** False until a program director has confirmed it, like `programs.json`. */
   verified?: boolean;
   source?: string;

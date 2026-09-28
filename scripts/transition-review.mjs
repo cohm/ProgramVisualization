@@ -75,7 +75,8 @@ const firstYear = (e) => {
   return rows.length ? Math.min(...rows.map((r) => r.year)) : e.year;
 };
 
-function composedLoad(plan, spec) {
+function composedLoad(fullPlan, spec) {
+  const plan = effective(fullPlan, spec);
   const src = entriesFor(plan.from);
   const tgt = entriesFor(plan.to);
   const exempt = new Set((plan.exempt ?? []).map((e) => e.code));
@@ -100,7 +101,7 @@ function composedLoad(plan, spec) {
   // Options a plan adds to a target group are counted through the group, like
   // the group's own options (COPEN -> CSAMH's AG1314 in year 2 P4).
   for (const gc of plan.groupChanges ?? []) {
-    const g = out.find((e) => e.type === 'optionGroup' && e.year === gc.year && (e.options ?? []).includes(gc.offering));
+    const g = out.find((e) => e.type === 'optionGroup' && e.year === gc.year && (e.options ?? []).includes(gc.offering) && (!spec || !e.specializations?.length || e.specializations.includes(spec)));
     if (!g) continue;
     if (gc.minCredits != null && gc.periodCredits) {
       g.minCredits = gc.minCredits;
@@ -157,7 +158,132 @@ function composedLoad(plan, spec) {
 
 // Hand-written, per plan: the readings a human made of the PDF and the questions
 // only the programme can settle. Keyed `FROM->TO`.
+// The plan for one inriktning: common changes plus its overlay, as in
+// `effectivePlan` (src/lib/transitions.ts).
+const OVERLAY_KEYS = ['exempt', 'moved', 'rescheduled', 'added', 'groupChanges'];
+function effective(plan, spec) {
+  const overlay = spec ? plan.bySpecialization?.[spec] : null;
+  if (!overlay) return plan;
+  const merged = { ...plan };
+  for (const k of OVERLAY_KEYS) if (overlay[k]?.length) merged[k] = [...(plan[k] ?? []), ...overlay[k]];
+  return merged;
+}
+
 const QUESTIONS = readJson(join(root, 'scripts', 'transition-questions.json'));
+
+/**
+ * The sections describing a plan's changes: exemptions, moves, reschedules,
+ * additions and group changes. Rendered once for the common part and once per
+ * inriktning overlay (`bySpecialization`), with `h` the heading level.
+ */
+function renderChanges(plan, L, tgt, h, spec) {
+  if (plan.exempt?.length) {
+    L.push(h + ' Kurser som utgår');
+    L.push('');
+    L.push(`Kurser i ${plan.to} som den transfererande studenten inte läser.`);
+    L.push('');
+    for (const e of plan.exempt) {
+      L.push(`- **${link(e.code)} ${nameOf(tgt, e.code)}** (${hp(creditsOf(tgt, e.code) ?? 0)} hp)` +
+        (e.creditedBy ? ` — tillgodoräknad genom ${link(e.creditedBy)}` : ''));
+      if (e.note) L.push(`  ${e.note}`);
+    }
+    L.push('');
+  }
+
+  if (plan.moved?.length) {
+    L.push(h + ' Kurser som flyttas till en senare årskurs');
+    L.push('');
+    L.push('Kursen läses i samma läsperioder som vanligt, men ett år senare.');
+    L.push('');
+    for (const m of plan.moved) {
+      // New periods, flat or keyed by study year; "varav" only for a partial read.
+      let part = '';
+      if (m.periodCredits) {
+        const yearKeys = Object.keys(m.periodCredits).filter((k) => /^Year\d+$/.test(k));
+        const rows = yearKeys.length ? yearKeys.map((k) => [`åk ${k.slice(4)} `, m.periodCredits[k]]) : [['', m.periodCredits]];
+        const text = rows.map(([lead, map]) => lead + ['P1', 'P2', 'P3', 'P4'].filter((q) => map[q]).map((q) => `${q}: ${hp(map[q])} hp`).join(', ')).join('; ');
+        const sum = rows.reduce((a, [, map]) => a + ['P1', 'P2', 'P3', 'P4'].reduce((b, q) => b + Number(map[q] || 0), 0), 0);
+        part = sum < (creditsOf(tgt, m.code) ?? 0) - 0.05 ? `, varav **${text}** läses` : `, i **${text}**`;
+      }
+      L.push(`- **${link(m.code)} ${nameOf(tgt, m.code)}** (${hp(creditsOf(tgt, m.code) ?? 0)} hp${part}): årskurs ${m.fromYear} → ${m.toYear}`);
+      if (m.note) L.push(`  ${m.note}`);
+    }
+    L.push('');
+  }
+
+  if (plan.rescheduled?.length) {
+    L.push(h + ' Kurser som läses i andra perioder');
+    L.push('');
+    L.push('Samma kurs och samma årskurs, men i andra läsperioder: en annan av KTH:s omgångar under året, eller bara den del som inte tillgodoräknas.');
+    L.push('');
+    for (const rs of plan.rescheduled) {
+      const from = ['P1', 'P2', 'P3', 'P4'].filter((q) => tgt.find((e) => e.code === rs.code)?.periodCredits?.[q])
+        .map((q) => `${q}: ${hp(tgt.find((e) => e.code === rs.code).periodCredits[q])} hp`).join(', ');
+      const to = ['P1', 'P2', 'P3', 'P4'].filter((q) => rs.periodCredits?.[q])
+        .map((q) => `${q}: ${hp(rs.periodCredits[q])} hp`).join(', ');
+      const rest = rs.creditedBy?.length ? `; resten tillgodoräknas genom ${rs.creditedBy.map(link).join(' och ')}` : '';
+      L.push(`- **${link(rs.code)} ${nameOf(tgt, rs.code)}** (${hp(creditsOf(tgt, rs.code) ?? 0)} hp): ${from} → **${to}**${rest}`);
+      if (rs.note) L.push(`  ${rs.note}`);
+    }
+    L.push('');
+  }
+
+  if (plan.added?.length) {
+    L.push(h + ' Kurser som tillkommer');
+    L.push('');
+    L.push('Kurser som inte finns i någon av de två publicerade studieplanerna.');
+    L.push('');
+    for (const a of plan.added) {
+      const per = ['P1', 'P2', 'P3', 'P4'].filter((p) => a.periodCredits?.[p])
+        .map((p) => `${p}: ${hp(a.periodCredits[p])} hp`).join(', ');
+      L.push(`- **${link(a.code)} ${a.name}** (${hp(a.totalCredits)} hp, årskurs ${a.year}, ${per})` +
+        (a.substitutesFor ? ` — i stället för ${link(a.substitutesFor)}` : ''));
+      if (a.note) L.push(`  ${a.note}`);
+    }
+    L.push('');
+  }
+
+  if (plan.groupChanges?.length) {
+    L.push(h + ' Valgrupper som ändras');
+    L.push('');
+    L.push(`Valgrupper i ${plan.to} som ser annorlunda ut för den transfererande studenten.`);
+    L.push('');
+    const who = (list, required) => (list ?? []).filter((m) => (m.required !== false) === required).map((m) => m.code).join(', ');
+    for (const gc of plan.groupChanges) {
+      const g = tgt.find((e) => e.type === 'optionGroup' && e.year === gc.year && (e.options ?? []).includes(gc.offering) && (!spec || !e.specializations?.length || e.specializations.includes(spec)));
+      if (!g) continue;
+      const by = [gc.satisfiedBy ?? []].flat();
+      if (by.length) {
+        const what = g.kind === 'minCredits' ? `valblocket *${g.name}* (${hp(g.minCredits)} hp)` : `valet mellan ${(g.options ?? []).map(link).join(' och ')}`;
+        L.push(`**Årskurs ${gc.year}, ${what}** utgår: det fylls redan av ${by.map(link).join(', ')} från ${plan.from}.`);
+        L.push('');
+        if (gc.comment) { L.push(gc.comment); L.push(''); }
+        continue;
+      }
+      if (gc.minCredits != null && gc.periodCredits) {
+        const per = ['P1', 'P2', 'P3', 'P4'].filter((q) => gc.periodCredits[q]).map((q) => `${q}: ${hp(gc.periodCredits[q])} hp`).join(', ');
+        L.push(`**Årskurs ${gc.year}, valblocket *${g.name}*** minskar från ${hp(g.minCredits)} till **${hp(gc.minCredits)} hp** (${per}).`);
+        L.push('');
+        if (gc.comment) { L.push(gc.comment); L.push(''); }
+        if (!gc.addOptions?.length && !gc.qualifiesFor) continue;
+      }
+      const rule = g.kind === 'minCredits' ? `minst ${hp(g.minCredits)} hp` : `välj ${g.pickN ?? g.allowedNumberOfOptions ?? 1}`;
+      L.push(`**Årskurs ${gc.year}, ${rule}** av:`);
+      L.push('');
+      L.push('| Kurs | hp | Obligatorisk för | Rekommenderad för |');
+      L.push('|---|---|---|---|');
+      const options = [...new Set([...(g.options ?? []), ...(gc.addOptions ?? [])])];
+      for (const code of options) {
+        const added = (gc.addOptions ?? []).includes(code) && !(g.options ?? []).includes(code);
+        const q = gc.qualifiesFor?.[code] ?? g.qualifiesFor?.[code];
+        L.push(`| ${link(code)} ${nameOf(tgt, code)}${added ? ' _(tillkommer)_' : ''} | ${hp(creditsOf(tgt, code) ?? 0)} | ${who(q, true) || '—'} | ${who(q, false) || '—'} |`);
+      }
+      L.push('');
+      if (gc.comment) { L.push(gc.comment); L.push(''); }
+    }
+  }
+
+}
 
 function write(plan) {
   const key = `${plan.from}->${plan.to}`;
@@ -198,110 +324,18 @@ function write(plan) {
   }
   L.push('');
 
-  if (plan.exempt?.length) {
-    L.push('## Kurser som utgår');
-    L.push('');
-    L.push(`Kurser i ${plan.to} som den transfererande studenten inte läser.`);
-    L.push('');
-    for (const e of plan.exempt) {
-      L.push(`- **${link(e.code)} ${nameOf(tgt, e.code)}** (${hp(creditsOf(tgt, e.code) ?? 0)} hp)` +
-        (e.creditedBy ? ` — tillgodoräknad genom ${link(e.creditedBy)}` : ''));
-      if (e.note) L.push(`  ${e.note}`);
-    }
-    L.push('');
-  }
+  renderChanges(plan, L, tgt, '##', undefined);
 
-  if (plan.moved?.length) {
-    L.push('## Kurser som flyttas till en senare årskurs');
+  // Per-inriktning overlays, one section each, in the order of the registry.
+  const targetSpecs = programs.find((p) => p.code === plan.to)?.specializations ?? [];
+  for (const sp of targetSpecs) {
+    const overlay = plan.bySpecialization?.[sp.code];
+    if (!overlay) continue;
+    L.push(`## Inriktning ${sp.code} ${sp.name}`);
     L.push('');
-    L.push('Kursen läses i samma läsperioder som vanligt, men ett år senare.');
+    L.push(`Utöver ändringarna ovan gäller följande för en student som läser ${sp.code}.`);
     L.push('');
-    for (const m of plan.moved) {
-      // New periods, flat or keyed by study year; "varav" only for a partial read.
-      let part = '';
-      if (m.periodCredits) {
-        const yearKeys = Object.keys(m.periodCredits).filter((k) => /^Year\d+$/.test(k));
-        const rows = yearKeys.length ? yearKeys.map((k) => [`åk ${k.slice(4)} `, m.periodCredits[k]]) : [['', m.periodCredits]];
-        const text = rows.map(([lead, map]) => lead + ['P1', 'P2', 'P3', 'P4'].filter((q) => map[q]).map((q) => `${q}: ${hp(map[q])} hp`).join(', ')).join('; ');
-        const sum = rows.reduce((a, [, map]) => a + ['P1', 'P2', 'P3', 'P4'].reduce((b, q) => b + Number(map[q] || 0), 0), 0);
-        part = sum < (creditsOf(tgt, m.code) ?? 0) - 0.05 ? `, varav **${text}** läses` : `, i **${text}**`;
-      }
-      L.push(`- **${link(m.code)} ${nameOf(tgt, m.code)}** (${hp(creditsOf(tgt, m.code) ?? 0)} hp${part}): årskurs ${m.fromYear} → ${m.toYear}`);
-      if (m.note) L.push(`  ${m.note}`);
-    }
-    L.push('');
-  }
-
-  if (plan.rescheduled?.length) {
-    L.push('## Kurser som läses i andra perioder');
-    L.push('');
-    L.push('Samma kurs och samma årskurs, men i andra läsperioder: en annan av KTH:s omgångar under året, eller bara den del som inte tillgodoräknas.');
-    L.push('');
-    for (const rs of plan.rescheduled) {
-      const from = ['P1', 'P2', 'P3', 'P4'].filter((q) => tgt.find((e) => e.code === rs.code)?.periodCredits?.[q])
-        .map((q) => `${q}: ${hp(tgt.find((e) => e.code === rs.code).periodCredits[q])} hp`).join(', ');
-      const to = ['P1', 'P2', 'P3', 'P4'].filter((q) => rs.periodCredits?.[q])
-        .map((q) => `${q}: ${hp(rs.periodCredits[q])} hp`).join(', ');
-      const rest = rs.creditedBy?.length ? `; resten tillgodoräknas genom ${rs.creditedBy.map(link).join(' och ')}` : '';
-      L.push(`- **${link(rs.code)} ${nameOf(tgt, rs.code)}** (${hp(creditsOf(tgt, rs.code) ?? 0)} hp): ${from} → **${to}**${rest}`);
-      if (rs.note) L.push(`  ${rs.note}`);
-    }
-    L.push('');
-  }
-
-  if (plan.added?.length) {
-    L.push('## Kurser som tillkommer');
-    L.push('');
-    L.push('Kurser som inte finns i någon av de två publicerade studieplanerna.');
-    L.push('');
-    for (const a of plan.added) {
-      const per = ['P1', 'P2', 'P3', 'P4'].filter((p) => a.periodCredits?.[p])
-        .map((p) => `${p}: ${hp(a.periodCredits[p])} hp`).join(', ');
-      L.push(`- **${link(a.code)} ${a.name}** (${hp(a.totalCredits)} hp, årskurs ${a.year}, ${per})` +
-        (a.substitutesFor ? ` — i stället för ${link(a.substitutesFor)}` : ''));
-      if (a.note) L.push(`  ${a.note}`);
-    }
-    L.push('');
-  }
-
-  if (plan.groupChanges?.length) {
-    L.push('## Valgrupper som ändras');
-    L.push('');
-    L.push(`Valgrupper i ${plan.to} som ser annorlunda ut för den transfererande studenten.`);
-    L.push('');
-    const who = (list, required) => (list ?? []).filter((m) => (m.required !== false) === required).map((m) => m.code).join(', ');
-    for (const gc of plan.groupChanges) {
-      const g = tgt.find((e) => e.type === 'optionGroup' && e.year === gc.year && (e.options ?? []).includes(gc.offering));
-      if (!g) continue;
-      const by = [gc.satisfiedBy ?? []].flat();
-      if (by.length) {
-        const what = g.kind === 'minCredits' ? `valblocket *${g.name}* (${hp(g.minCredits)} hp)` : `valet mellan ${(g.options ?? []).map(link).join(' och ')}`;
-        L.push(`**Årskurs ${gc.year}, ${what}** utgår: det fylls redan av ${by.map(link).join(', ')} från ${plan.from}.`);
-        L.push('');
-        if (gc.comment) { L.push(gc.comment); L.push(''); }
-        continue;
-      }
-      if (gc.minCredits != null && gc.periodCredits) {
-        const per = ['P1', 'P2', 'P3', 'P4'].filter((q) => gc.periodCredits[q]).map((q) => `${q}: ${hp(gc.periodCredits[q])} hp`).join(', ');
-        L.push(`**Årskurs ${gc.year}, valblocket *${g.name}*** minskar från ${hp(g.minCredits)} till **${hp(gc.minCredits)} hp** (${per}).`);
-        L.push('');
-        if (gc.comment) { L.push(gc.comment); L.push(''); }
-        if (!gc.addOptions?.length && !gc.qualifiesFor) continue;
-      }
-      const rule = g.kind === 'minCredits' ? `minst ${hp(g.minCredits)} hp` : `välj ${g.pickN ?? g.allowedNumberOfOptions ?? 1}`;
-      L.push(`**Årskurs ${gc.year}, ${rule}** av:`);
-      L.push('');
-      L.push('| Kurs | hp | Obligatorisk för | Rekommenderad för |');
-      L.push('|---|---|---|---|');
-      const options = [...new Set([...(g.options ?? []), ...(gc.addOptions ?? [])])];
-      for (const code of options) {
-        const added = (gc.addOptions ?? []).includes(code) && !(g.options ?? []).includes(code);
-        const q = gc.qualifiesFor?.[code] ?? g.qualifiesFor?.[code];
-        L.push(`| ${link(code)} ${nameOf(tgt, code)}${added ? ' _(tillkommer)_' : ''} | ${hp(creditsOf(tgt, code) ?? 0)} | ${who(q, true) || '—'} | ${who(q, false) || '—'} |`);
-      }
-      L.push('');
-      if (gc.comment) { L.push(gc.comment); L.push(''); }
-    }
+    renderChanges({ ...overlay, from: plan.from, to: plan.to }, L, tgt, '###', sp.code);
   }
 
   L.push('## Läsårsbelastning i den sammansatta planen');
