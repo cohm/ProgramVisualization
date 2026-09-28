@@ -104,6 +104,10 @@ const ui = {
     transitionAdded: 'Tillkommer',
     transitionInsteadOf: 'i stället för',
     transitionUnverified: 'Övergångsplanen är inte verifierad — kontrollera mot programansvarigs plan.',
+    // A plan applies from one kull on; an earlier cohort is shown someone else's plan.
+    transitionOtherCohort: (from: string, cohort: string) =>
+      `Övergångsplanen gäller från kull ${from}. Här tillämpas den på kull ${cohort}, som kan ha haft en annan plan.`,
+    transitionCohortUnstated: 'Övergångsplanen anger inte vilken kull den gäller.',
     // "År 3 är uppskattat" / "År 1 och 2 är uppskattade" / "År 1, 2 och 3 ..."
     // Neuter singular: it agrees with "år", which is an ett-word.
     approxSummary: (years: number[]) => {
@@ -149,6 +153,9 @@ const ui = {
     transitionAdded: 'Added',
     transitionInsteadOf: 'instead of',
     transitionUnverified: 'The transition plan is unverified — check it against the program director\u2019s plan.',
+    transitionOtherCohort: (from: string, cohort: string) =>
+      `The transition plan applies from the ${from} cohort. It is applied here to the ${cohort} cohort, which may have had a different plan.`,
+    transitionCohortUnstated: 'The transition plan does not state which cohort it applies to.',
     approxSummary: (years: number[]) => {
       const list = years.length <= 1
         ? String(years[0] ?? '')
@@ -807,6 +814,16 @@ export default function HomeClient() {
               */}
               {shownContinuation && selectedContinuation.verified === true && (
                 <TransitionDetails plan={shownContinuation} language={language} courses={courses} color={kthColors.KthBlue?.HEX} />
+              )}
+              {selectedCohort && selectedContinuation.cohorts === undefined && (
+                <div style={{ marginTop: 2, fontStyle: 'italic' }}>{ui[language].transitionCohortUnstated}</div>
+              )}
+              {/* Cohort codes are HT<year>, so they order as strings. */}
+              {selectedCohort && typeof selectedContinuation.cohorts === 'object'
+                && selectedCohort < selectedContinuation.cohorts.from && (
+                <div style={{ marginTop: 2, fontStyle: 'italic' }}>
+                  {ui[language].transitionOtherCohort(selectedContinuation.cohorts.from, selectedCohort)}
+                </div>
               )}
               {selectedContinuation.verified !== true && (
                 <div style={{ marginTop: 2, fontStyle: 'italic' }}>{ui[language].transitionUnverified}</div>

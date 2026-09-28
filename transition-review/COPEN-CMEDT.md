@@ -8,6 +8,8 @@ SF1546 och KD1000 räknas som valbara kurser och fyller 9 hp av det valfria utry
 
 **Källa:** Övergångsplan för Öppen ingång, påbörjad ht-25, till Medicinsk teknik (CMEDT). Gäller övergången till programmet ht-26.
 
+**Gäller:** kull HT2025 och senare, tills planen ändras
+
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
 Varje kurskod nedan länkar till KTH:s kurssida.

@@ -8,6 +8,8 @@ Två kurser i CINEK:s årskurs 2 utgår helt, eftersom Öppen ingång redan täc
 
 **Källa:** Övergångsplan för Öppen ingång - påbörjad H26 - till Industriell ekonomi (CINEK), daterad 2026-01-15 (LL). Gäller övergången till program H25.
 
+**Gäller:** kull HT2025 och senare, tills planen ändras
+
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
 Varje kurskod nedan länkar till KTH:s kurssida.

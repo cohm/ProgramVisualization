@@ -6,6 +6,8 @@ Planen är inläst från bildspelet *Övergång COPEN – CINTE*: en sida med mo
 
 **Källa:** Övergång COPEN – CINTE (bildspel, tre sidor): motsvarigheter, "Övergång år 2 (exempel)" och "Informationsteknik år 3". Utan versionsdatum.
 
+**Gäller:** **Fråga:** planen anger inte vilken kull den gäller — vilken är det?
+
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
 Varje kurskod nedan länkar till KTH:s kurssida.

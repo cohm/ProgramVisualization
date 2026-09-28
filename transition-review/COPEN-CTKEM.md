@@ -6,6 +6,8 @@ Planen är inläst från *Övergångsplan för Öppen ingång, påbörjad HT26, 
 
 **Källa:** Övergångsplan för Öppen ingång, påbörjad HT26, till Teknisk kemi (CTKEM), gäller övergång till Teknisk kemi HT27. 2026-01-22, Magnus Johnson.
 
+**Gäller:** kull HT2026 och senare, tills planen ändras
+
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
 Varje kurskod nedan länkar till KTH:s kurssida.

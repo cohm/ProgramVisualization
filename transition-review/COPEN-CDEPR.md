@@ -6,6 +6,8 @@ Tre av Öppen ingångs kurser har samma kurskod i CDEPR (SF1624, SF1625, SF1626)
 
 **Källa:** Övergångsplan för Öppen ingång - påbörjad H25 - till Design och produktframtagning (CDEPR), version 2025-11-24. Gäller övergången till programmet H26.
 
+**Gäller:** kull HT2025 och senare, tills planen ändras
+
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
 Varje kurskod nedan länkar till KTH:s kurssida.

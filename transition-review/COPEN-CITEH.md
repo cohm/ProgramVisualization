@@ -6,6 +6,8 @@ DD1310 och SF1546 läses i CITEH årskurs 2 som samma kurser och utgår där. **
 
 **Källa:** Övergångsplan för Öppen ingång (gäller överg till prog. Industriell teknik och hållbarhet), version 2026-02-10.
 
+**Gäller:** **Fråga:** planen anger inte vilken kull den gäller — vilken är det?
+
 **Status:** **inte verifierad** — detta dokument är det som ska signeras.
 
 Varje kurskod nedan länkar till KTH:s kurssida.

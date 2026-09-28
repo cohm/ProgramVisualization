@@ -1066,6 +1066,16 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
       err(file, `${ctx} ${label}: 'sourceYears' must be a non-empty array of positive integers`);
       return;
     }
+    // Which kull the plan was written for. Checked on the common part only;
+    // an inriktning overlay cannot carry it.
+    if (!spec) {
+      if (plan.cohorts === undefined) {
+        warn(file, `${ctx} ${label}: 'cohorts' is not set — the plan does not say which kull it applies to; ask the program director`);
+      } else if (plan.cohorts !== 'all'
+          && !(plan.cohorts && typeof plan.cohorts === 'object' && /^HT\d{4}$/.test(plan.cohorts.from ?? ''))) {
+        err(file, `${ctx} ${label}: 'cohorts' must be "all" or { "from": "HT<year>" }`);
+      }
+    }
     if (!Array.isArray(plan.credited) || plan.credited.some((c) => !c || typeof c.code !== 'string')) {
       err(file, `${ctx} ${label}: 'credited' must be an array of { code, replaces? } objects`);
       return;
