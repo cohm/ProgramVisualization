@@ -1405,8 +1405,22 @@ previous render had written onto that node — and then only ever grew it
 (`if (requiredTotalHeight > height)`). Switching from a tall programme to a short
 one therefore left the SVG at the tall size, stranding the legend far below the
 chart; measured CTFYS 659 → TIEMM 2994 → CTFYS 3882 against 659 on a fresh load.
-The height is now derived from `initialChartHeightRef` plus the data, and set
-unconditionally so it shrinks as well as grows.
+The height is set unconditionally so it shrinks as well as grows.
+
+**Every study year has the same height.** A year's band is a constant, what a
+three-year chart got at the old 600 px floor: (600 − 140 margins − 2 × 58 gap)
+/ 3 = 114.67 px, i.e. 7.64 px/hp. It used to be the chart height divided by the
+number of years, so COPEN's one year filled the whole chart and a five-year
+plan was squeezed into the same space. Measured against main: CTFYS (659 px)
+and CINEK HT2025 (732 px) are identical down to every rect; CLGYM's five years
+went from 673 to 1043 px, and COPEN draws 278 px instead of 658. A band still
+grows past the constant when its stacked bars need more.
+
+The one floor left is the legend's, which sits inside the chart's box:
+`TimelineVisualization` measures the legend (`boxRef`) and gives the SVG a CSS
+`min-height` of legend + offset + top margin. So COPEN's box is 469 px, with
+white space under year 1 beside the legend. Exports measure the rendered box,
+so they include it.
 
 **SVG export**: Embeds Figtree font CSS inline so the exported SVG renders correctly outside the browser. The font is fetched fresh from Google Fonts on every export.
 
