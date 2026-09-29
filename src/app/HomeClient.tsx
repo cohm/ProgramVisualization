@@ -891,8 +891,10 @@ export default function HomeClient() {
           </div>
         </div>
         {/* Tighter padding on phones: `p-6` spent 48 of a 390 px viewport on
-            whitespace either side of a chart that is already scrolled. */}
-        <div className="bg-white rounded-lg shadow-lg p-3 sm:p-6 min-h-[600px]">
+            whitespace either side of a chart that is already scrolled.
+            No minimum height: the chart sizes itself, a fixed height per study
+            year, and a floor here left a one-year plan in an empty card. */}
+        <div className="bg-white rounded-lg shadow-lg p-3 sm:p-6">
           {specProgram.specializations && specProgram.specializations.length > 0 && (
             <SpecializationFilter
               language={language}
