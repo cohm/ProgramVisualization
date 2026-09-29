@@ -1128,6 +1128,92 @@ case is reported and left to a human.
 6. `npm run validate-data` and read the full-time warnings — they are the fastest
    check that the extraction is sane.
 
+### Master programmes
+
+**A master programme is extracted in master mode** (`scripts/lib/master-plan.mjs`),
+because it states its elective space for the whole programme, per spår, while
+KTH lists each pool under both years. The per-year bachelor model misread it:
+TTFYM came out as 23 pick-one boxes keyed by period layout. Master mode keeps
+the thesis as a pick-one group and turns two obligatoriska theses in the same
+periods into one (TSCRM's DA236X/EA236X). It drops every other option group
+and gives each spår ONE `minCredits` box spanning both years, sized to that
+spår's own shortfall per (year, period). The options are the spår's and the
+common villkorligt valfria courses, then rekommenderade and valfria ones. A
+course listed in both years becomes one entry with a round per year
+(`rounds[].year`), and the plan's rules become `constraints`.
+
+Measured on kull HT2025, each box is 120 hp minus the obligatoriska courses and
+the thesis: TTFYM TFYA 73.5 hp, TFYB and TFYG 66, TFYF 81; TTMAM COMA and OPST
+75, CSSE 67.5, DAVE and FMIA 60; TMAIM 60.5. All three validate with no
+full-time warnings. TMAIM's year 1 P1 is 17 hp of obligatoriska courses, as
+KTH lists them.
+
+A programme is a master when its code is T…M, its `programs.json` entry has
+`level: "master"`, or its name starts "Masterprogram". The code test is what
+works for a programme new to the repo while KOPPS is down: TTFYM's five spår
+were otherwise read as years 4-5 destinations of a civilingenjör programme.
+
+**Rules read into `constraints`**, each labelled with the plan's own clause:
+
+- a credit minimum of the villkorligt valfria courses, the pool named before or
+  after it ("minst 32,5 hp villkorligt valfria kurser inom spåret"; "Av de
+  villkorligt valfria kurserna i åk 2 ska minst 30 hp väljas");
+- a count of named courses ("Minst två av … SK2533, SK2534 och SK2535",
+  "Dock gäller att en av SF2930 eller SF2943 … ska läsas");
+- a count of villkorligt valfria courses ("Minst 4 villkorligt valfria
+  spårkurser ska läsas"), and one per year for "i varje årskurs";
+- a count from a list the plan names in prose, TMAIM's "Teori" and
+  "Tillämpningsområden" ("minst 2 av de 6 kurserna är från Teori").
+
+One sentence can state two rules, so it is split into clauses before each
+"minst" that follows a separator ("…, samt minst en av …"). A rule already met
+by an obligatorisk course is dropped (TTMAM's "minst en av SF2527 och SF2524"
+for CSSE, where SF2524 is O). A rule mentioning a number that is not read is
+reported. The ones left, by design: TTFYM TFYE's CMEDT exception, and TMAIM's
+three "minst N kurser ur …" alternatives, which spell out combinations the
+main rule already allows.
+
+**A course obligatorisk for one spår and villkorligt valfri for the rest** is
+that spår's course and an option in every other box. The entry is tagged with
+exactly the spår that see it, so it is visible where it is offered. TTMAM's
+SF2524 is O for CSSE and a common VV course.
+
+**The master mapping** (`src/data/master-mapping.json`, `npm run
+extract-master-mapping`) records which masters each civilingenjör programme
+leads into, per cohort. There is no one place KTH states it. Measured over the
+18 programmes' pages for kull HT2022-HT2026:
+
+- a list with codes in the year-4 page's text (CTFYS, CTKEM, CITEH);
+- names only, in the year-4 text or in `studyProgramme.arskursinformationAr3`,
+  with no consistent separator ("Flyg- och rymdteknik Fordonsteknik …": CFATE,
+  CMEDT, CMATD, CDEPR, CSAMH, CBIOT, CTMAT);
+- year-3 curricula named after a destination ("Master, industriell ekonomi",
+  the ITM programmes);
+- nothing on the programme's own pages (CDATE, CELTE, CINTE, CMETE). There the
+  masters' own plans say it: 13 EECS masters list the programmes under
+  "platsgaranti (mappning)" in `behorighetOchUrval`.
+
+Names are resolved against KTH's catalogue of CURRENT masters, from the state
+blob of `kth.se/student/kurser/kurser-inom-program` (`first` holds the
+admitting programmes, `second` the retired ones, several with a current
+programme's name: TMTHM and TMAKM are both "matematik"). A name two current
+programmes share, TINEM and TIEMM "industriell ekonomi", is resolved by the
+code the programme itself writes, else by the code most other programmes
+write (TINEM, 4 to 1), and that case is reported.
+
+Parentheses right after a name hold its qualifiers ("(ej spår Management)");
+a name inside parentheses is not a master (CTFYS's "(Inklusive spåret CSSE
+Datorsimuleringar …)" is TTMAM's track, not TDTNM); "Spår, Mekatronik" under a
+master is that master's track. A cohort whose pages name nothing, or lack the
+year-3 destination curricula because that year is not published yet, borrows
+from the nearest cohort (earlier on a tie), marked "(från kull …)". The lists
+do change between cohorts, e.g. CTFYS names TBDVM from HT2023 on. Every
+judgement is listed in `master-mapping-review.md`.
+
+`scripts/lib/kth-pages.mjs` holds the HTTP and state-blob helpers both
+scripts use (moved from the extractor unchanged; re-extracting CTFYS HT2025
+is byte-identical before and after).
+
 ### Transition plans (`src/data/transitions.json`)
 
 COPEN (Öppen ingång) students take one common year and then transfer into a

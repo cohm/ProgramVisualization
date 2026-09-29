@@ -1,0 +1,4361 @@
+{
+  "CBIOT": {
+    "HT2022": [
+      {
+        "code": "TIMBM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMBIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMMMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMVTM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2023": [
+      {
+        "code": "TIMBM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMBIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMMMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMVTM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2024": [
+      {
+        "code": "TIMBM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TMBIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMMMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMVTM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2025": [
+      {
+        "code": "TIMBM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMBBM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMBIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMMMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMVTM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2026": [
+      {
+        "code": "TIMBM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMBBM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMBIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMMMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMVTM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      }
+    ]
+  },
+  "CDATE": {
+    "HT2022": [
+      {
+        "code": "TCOMM",
+        "sources": [
+          "TCOMM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEBSM",
+        "sources": [
+          "TEBSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TIMTM",
+        "sources": [
+          "TIMTM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "TSCRM:s platsgaranti"
+        ]
+      }
+    ],
+    "HT2023": [
+      {
+        "code": "TCOMM",
+        "sources": [
+          "TCOMM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEBSM",
+        "sources": [
+          "TEBSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TIMTM",
+        "sources": [
+          "TIMTM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "TSCRM:s platsgaranti"
+        ]
+      }
+    ],
+    "HT2024": [
+      {
+        "code": "TCOMM",
+        "sources": [
+          "TCOMM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEBSM",
+        "sources": [
+          "TEBSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TIMTM",
+        "sources": [
+          "TIMTM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "TSCRM:s platsgaranti"
+        ]
+      }
+    ],
+    "HT2025": [
+      {
+        "code": "TCOMM",
+        "sources": [
+          "TCOMM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEBSM",
+        "sources": [
+          "TEBSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TIMTM",
+        "sources": [
+          "TIMTM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "TSCRM:s platsgaranti"
+        ]
+      }
+    ],
+    "HT2026": [
+      {
+        "code": "TCOMM",
+        "sources": [
+          "TCOMM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEBSM",
+        "sources": [
+          "TEBSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TIMTM",
+        "sources": [
+          "TIMTM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "TSCRM:s platsgaranti"
+        ]
+      }
+    ]
+  },
+  "CDEPR": {
+    "HT2022": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TIPDM",
+        "note": "Spår, Innovationsledning och produktutveckling; Spår, teknisk design",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TIPUM",
+        "note": "spår Maskinkonstruktion; spår Mekatronik",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "note": "Spår, Strömningsmekanik; Spår, Hållfasthetsteknik; Spår, Ljud och vibrationer",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2023": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      }
+    ],
+    "HT2024": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TIPDM",
+        "note": "Spår, Innovationsledning och produktutveckling; Spår, teknisk design",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMEKM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TMSKM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "note": "Spår, Strömningsmekanik; Spår, Hållfasthetsteknik; Spår, Ljud och vibrationer",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2025": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TIPDM",
+        "note": "Spår, Innovationsledning och produktutveckling; Spår, teknisk design",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TIPUM",
+        "note": "spår Maskinkonstruktion; spår Mekatronik",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "note": "Spår, Strömningsmekanik; Spår, Hållfasthetsteknik; Spår, Ljud och vibrationer",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2026": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TIPDM",
+        "note": "Spår, Innovationsledning och produktutveckling; Spår, teknisk design",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TIPUM",
+        "note": "spår Maskinkonstruktion; spår Mekatronik",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "note": "Spår, Strömningsmekanik; Spår, Hållfasthetsteknik; Spår, Ljud och vibrationer",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      }
+    ]
+  },
+  "CELTE": {
+    "HT2022": [
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEBSM",
+        "sources": [
+          "TEBSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEFRM",
+        "sources": [
+          "TEFRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TELPM",
+        "sources": [
+          "TELPM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TNTEM",
+        "sources": [
+          "TNTEM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "TSCRM:s platsgaranti"
+        ]
+      }
+    ],
+    "HT2023": [
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEBSM",
+        "sources": [
+          "TEBSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEFRM",
+        "sources": [
+          "TEFRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TELPM",
+        "sources": [
+          "TELPM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TNTEM",
+        "sources": [
+          "TNTEM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "TSCRM:s platsgaranti"
+        ]
+      }
+    ],
+    "HT2024": [
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEBSM",
+        "sources": [
+          "TEBSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEFRM",
+        "sources": [
+          "TEFRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TELPM",
+        "sources": [
+          "TELPM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TNTEM",
+        "sources": [
+          "TNTEM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "TSCRM:s platsgaranti"
+        ]
+      }
+    ],
+    "HT2025": [
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEBSM",
+        "sources": [
+          "TEBSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEFRM",
+        "sources": [
+          "TEFRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TELPM",
+        "sources": [
+          "TELPM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TNTEM",
+        "sources": [
+          "TNTEM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "TSCRM:s platsgaranti"
+        ]
+      }
+    ],
+    "HT2026": [
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEBSM",
+        "sources": [
+          "TEBSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEFRM",
+        "sources": [
+          "TEFRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TELPM",
+        "sources": [
+          "TELPM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TNTEM",
+        "sources": [
+          "TNTEM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "TSCRM:s platsgaranti"
+        ]
+      }
+    ]
+  },
+  "CENMI": {
+    "HT2022": [
+      {
+        "code": "TELPM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)",
+          "TELPM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "THSSM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TITHM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TKEMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TMESM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TMHIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TSUTM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      }
+    ],
+    "HT2023": [
+      {
+        "code": "TELPM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master",
+          "TELPM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "THSSM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TITHM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TKEMM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TMESM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TMHIM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TSUTM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      }
+    ],
+    "HT2024": [
+      {
+        "code": "TELPM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master",
+          "TELPM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "THSSM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TITHM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TKEMM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TMESM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TMHIM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TSUTM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      }
+    ],
+    "HT2025": [
+      {
+        "code": "TELPM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master",
+          "TELPM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "THSSM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TITHM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TKEMM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TMESM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TMHIM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TSUTM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      }
+    ],
+    "HT2026": [
+      {
+        "code": "TELPM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master",
+          "TELPM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "THSSM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TITHM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TKEMM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TMESM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TMHIM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TSUTM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      }
+    ]
+  },
+  "CFATE": {
+    "HT2022": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TIPDM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TIPUM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMEKM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TNEEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "årskurs 4",
+          "TSCRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTMAM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2023": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TIPDM",
+        "note": "endast spår Innovationsledning och produktutveckling",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMEKM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMSKM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TNEEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "årskurs 4",
+          "TSCRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTMAM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2024": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TIPDM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TIPUM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMEKM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TNEEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "årskurs 4",
+          "TSCRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTMAM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2025": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TIPDM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TIPUM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMEKM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TNEEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "årskurs 4",
+          "TSCRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTMAM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2026": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TIPDM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TMEKM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TNEEM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "årskurs 4",
+          "TSCRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TTMAM",
+        "sources": [
+          "årskurs 4"
+        ]
+      }
+    ]
+  },
+  "CINEK": {
+    "HT2022": [
+      {
+        "code": "TIEMM",
+        "sources": [
+          "årskurs 4"
+        ]
+      }
+    ],
+    "HT2023": [
+      {
+        "code": "TIEMM",
+        "sources": [
+          "årskurs 4"
+        ]
+      }
+    ],
+    "HT2024": [
+      {
+        "code": "TIEMM",
+        "sources": [
+          "årskurs 4"
+        ]
+      }
+    ],
+    "HT2025": [
+      {
+        "code": "TIEMM",
+        "sources": [
+          "årskurs 4"
+        ]
+      }
+    ],
+    "HT2026": [
+      {
+        "code": "TIEMM",
+        "sources": [
+          "årskurs 4"
+        ]
+      }
+    ]
+  },
+  "CINTE": {
+    "HT2022": [
+      {
+        "code": "TCOMM",
+        "sources": [
+          "TCOMM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEBSM",
+        "sources": [
+          "TEBSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TIMTM",
+        "sources": [
+          "TIMTM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "TSCRM:s platsgaranti"
+        ]
+      }
+    ],
+    "HT2023": [
+      {
+        "code": "TCOMM",
+        "sources": [
+          "TCOMM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEBSM",
+        "sources": [
+          "TEBSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TIMTM",
+        "sources": [
+          "TIMTM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "TSCRM:s platsgaranti"
+        ]
+      }
+    ],
+    "HT2024": [
+      {
+        "code": "TCOMM",
+        "sources": [
+          "TCOMM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEBSM",
+        "sources": [
+          "TEBSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TIMTM",
+        "sources": [
+          "TIMTM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "TSCRM:s platsgaranti"
+        ]
+      }
+    ],
+    "HT2025": [
+      {
+        "code": "TCOMM",
+        "sources": [
+          "TCOMM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEBSM",
+        "sources": [
+          "TEBSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TIMTM",
+        "sources": [
+          "TIMTM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "TSCRM:s platsgaranti"
+        ]
+      }
+    ],
+    "HT2026": [
+      {
+        "code": "TCOMM",
+        "sources": [
+          "TCOMM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEBSM",
+        "sources": [
+          "TEBSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TIMTM",
+        "sources": [
+          "TIMTM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "TSCRM:s platsgaranti"
+        ]
+      }
+    ]
+  },
+  "CITEH": {
+    "HT2022": [
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TITHM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMAKM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TTMAM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2023": [
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TITHM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskurs 4",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskurs 4",
+          "årskurs 3, inriktning mot master"
+        ]
+      }
+    ],
+    "HT2024": [
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TITHM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      }
+    ],
+    "HT2025": [
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TITHM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      }
+    ],
+    "HT2026": [
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2025)"
+        ]
+      },
+      {
+        "code": "TITHM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2025)"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2025)"
+        ]
+      }
+    ]
+  },
+  "CLGYM": {
+    "HT2022": [],
+    "HT2023": [],
+    "HT2024": [],
+    "HT2025": [],
+    "HT2026": []
+  },
+  "CMAST": {
+    "HT2022": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TNEEM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TSUTM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TTMAM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TTMVM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      }
+    ],
+    "HT2023": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TNEEM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TSUTM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TTMAM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TTMVM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      }
+    ],
+    "HT2024": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TNEEM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TTMVM",
+        "sources": [
+          "årskurs 3, inriktning mot master"
+        ]
+      }
+    ],
+    "HT2025": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2024)"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2024)"
+        ]
+      },
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4",
+          "årskurs 3, inriktning mot master (från kull HT2024)"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2024)"
+        ]
+      },
+      {
+        "code": "TNEEM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2024)"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2024)"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2024)"
+        ]
+      },
+      {
+        "code": "TTMVM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2024)"
+        ]
+      }
+    ],
+    "HT2026": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2024)"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2024)"
+        ]
+      },
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskurs 4",
+          "årskurs 3, inriktning mot master (från kull HT2024)"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2024)"
+        ]
+      },
+      {
+        "code": "TNEEM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2024)"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2024)"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2024)"
+        ]
+      },
+      {
+        "code": "TTMVM",
+        "sources": [
+          "årskurs 3, inriktning mot master (från kull HT2024)"
+        ]
+      }
+    ]
+  },
+  "CMATD": {
+    "HT2022": [
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TMMMM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "note": "spåret Lättkonstruktioner",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TNEEM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TNTEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)",
+          "TNTEM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      },
+      {
+        "code": "TSUEM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "note": "spåret Hållfasthetsteknik",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTMVM",
+        "note": "spår Industriella material; spår Hållbara material",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master (från kull HT2023)"
+        ]
+      }
+    ],
+    "HT2023": [
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TMMMM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TNTEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master",
+          "TNTEM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "note": "spåret Hållfasthetsteknik",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTMVM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      }
+    ],
+    "HT2024": [
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TMMMM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TNTEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master",
+          "TNTEM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "note": "spåret Hållfasthetsteknik",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTMVM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      }
+    ],
+    "HT2025": [
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TMMMM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TNTEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master",
+          "TNTEM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "note": "spåret Hållfasthetsteknik",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTMVM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      }
+    ],
+    "HT2026": [
+      {
+        "code": "TINEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TMMMM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TNTEM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master",
+          "TNTEM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TPRMM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "note": "spåret Hållfasthetsteknik",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTMVM",
+        "sources": [
+          "årskursinformation år 3",
+          "årskurs 3, inriktning mot master"
+        ]
+      }
+    ]
+  },
+  "CMEDT": {
+    "HT2022": [
+      {
+        "code": "TDDHM",
+        "sources": [
+          "årskurs 4 (från kull HT2025)"
+        ]
+      },
+      {
+        "code": "TIDTM",
+        "sources": [
+          "årskurs 4 (från kull HT2025)"
+        ]
+      },
+      {
+        "code": "TIHLM",
+        "sources": [
+          "årskurs 4 (från kull HT2025)"
+        ]
+      },
+      {
+        "code": "TMLEM",
+        "sources": [
+          "årskurs 4 (från kull HT2025)"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "note": "spår mot biomedicinsk fysik",
+        "sources": [
+          "årskurs 4 (från kull HT2025)"
+        ]
+      }
+    ],
+    "HT2023": [
+      {
+        "code": "TDDHM",
+        "sources": [
+          "årskurs 4 (från kull HT2025)"
+        ]
+      },
+      {
+        "code": "TIDTM",
+        "sources": [
+          "årskurs 4 (från kull HT2025)"
+        ]
+      },
+      {
+        "code": "TIHLM",
+        "sources": [
+          "årskurs 4 (från kull HT2025)"
+        ]
+      },
+      {
+        "code": "TMLEM",
+        "sources": [
+          "årskurs 4 (från kull HT2025)"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "note": "spår mot biomedicinsk fysik",
+        "sources": [
+          "årskurs 4 (från kull HT2025)"
+        ]
+      }
+    ],
+    "HT2024": [
+      {
+        "code": "TDDHM",
+        "sources": [
+          "årskurs 4 (från kull HT2025)"
+        ]
+      },
+      {
+        "code": "TIDTM",
+        "sources": [
+          "årskurs 4 (från kull HT2025)"
+        ]
+      },
+      {
+        "code": "TIHLM",
+        "sources": [
+          "årskurs 4 (från kull HT2025)"
+        ]
+      },
+      {
+        "code": "TMLEM",
+        "sources": [
+          "årskurs 4 (från kull HT2025)"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "note": "spår mot biomedicinsk fysik",
+        "sources": [
+          "årskurs 4 (från kull HT2025)"
+        ]
+      }
+    ],
+    "HT2025": [
+      {
+        "code": "TDDHM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TIDTM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TIHLM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TMLEM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "note": "spår mot biomedicinsk fysik",
+        "sources": [
+          "årskurs 4"
+        ]
+      }
+    ],
+    "HT2026": [
+      {
+        "code": "TDDHM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TIDTM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TIHLM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TMLEM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "note": "spår mot biomedicinsk fysik",
+        "sources": [
+          "årskurs 4"
+        ]
+      }
+    ]
+  },
+  "CMETE": {
+    "HT2022": [
+      {
+        "code": "TCSCM",
+        "sources": [
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TIMTM",
+        "sources": [
+          "TIMTM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      }
+    ],
+    "HT2023": [
+      {
+        "code": "TCSCM",
+        "sources": [
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TIMTM",
+        "sources": [
+          "TIMTM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      }
+    ],
+    "HT2024": [
+      {
+        "code": "TCSCM",
+        "sources": [
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TIMTM",
+        "sources": [
+          "TIMTM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      }
+    ],
+    "HT2025": [
+      {
+        "code": "TCSCM",
+        "sources": [
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TIMTM",
+        "sources": [
+          "TIMTM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      }
+    ],
+    "HT2026": [
+      {
+        "code": "TCSCM",
+        "sources": [
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TDIGM",
+        "sources": [
+          "TDIGM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TIMTM",
+        "sources": [
+          "TIMTM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "TMAIM:s platsgaranti"
+        ]
+      }
+    ]
+  },
+  "CSAMH": {
+    "HT2022": [
+      {
+        "code": "TCAEM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TFOBM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "THSSM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TMHIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTGTM",
+        "sources": [
+          "årskurs 4"
+        ]
+      }
+    ],
+    "HT2023": [
+      {
+        "code": "TCAEM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TFOBM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "THSSM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TMHIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTGTM",
+        "sources": [
+          "årskurs 4"
+        ]
+      }
+    ],
+    "HT2024": [
+      {
+        "code": "TCAEM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TFOBM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "THSSM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMHIM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTGTM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2025": [
+      {
+        "code": "TCAEM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TFOBM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "THSSM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMHIM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTGTM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2026": [
+      {
+        "code": "TCAEM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TFOBM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "THSSM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMHIM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTGTM",
+        "sources": [
+          "årskursinformation år 3"
+        ]
+      }
+    ]
+  },
+  "CTFYS": {
+    "HT2022": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "årskurs 4",
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEFRM",
+        "sources": [
+          "årskurs 4",
+          "TEFRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "årskurs 4",
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "årskurs 4",
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAKM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "note": "ej spår Management",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TNEEM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TNTEM",
+        "sources": [
+          "årskurs 4",
+          "TNTEM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "årskurs 4",
+          "TSCRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TTMAM",
+        "sources": [
+          "årskurs 4"
+        ]
+      }
+    ],
+    "HT2023": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TBDVM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEFRM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TEFRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAKM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TNEEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TNTEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TNTEM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TSCRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTMAM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2024": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TBDVM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEFRM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TEFRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAKM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TNEEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TNTEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TNTEM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TSCRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTMAM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2025": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TBDVM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEFRM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TEFRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAKM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TNEEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TNTEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TNTEM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TSCRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTMAM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2026": [
+      {
+        "code": "TAEEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TBDVM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TEFRM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TEFRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TFORM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TINNM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TINNM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAKM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMRSM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TNEEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TNTEM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TNTEM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TSCRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTMAM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      }
+    ]
+  },
+  "CTKEM": {
+    "HT2022": [
+      {
+        "code": "TIMBM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TKEMM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TMBIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMMMM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TMVTM",
+        "sources": [
+          "årskurs 4"
+        ]
+      }
+    ],
+    "HT2023": [
+      {
+        "code": "TIMBM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TKEMM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TMBIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMMMM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TMVTM",
+        "sources": [
+          "årskurs 4"
+        ]
+      }
+    ],
+    "HT2024": [
+      {
+        "code": "TIMBM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TKEMM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TMBIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMMMM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TMVTM",
+        "sources": [
+          "årskurs 4"
+        ]
+      }
+    ],
+    "HT2025": [
+      {
+        "code": "TIMBM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TKEMM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TMBIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMMMM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TMVTM",
+        "sources": [
+          "årskurs 4"
+        ]
+      }
+    ],
+    "HT2026": [
+      {
+        "code": "TIMBM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TKEMM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TMBBM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMBIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TMMMM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TMVTM",
+        "sources": [
+          "årskurs 4"
+        ]
+      }
+    ]
+  },
+  "CTMAT": {
+    "HT2022": [
+      {
+        "code": "TBDVM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAKM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TSCRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTMAM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2023": [
+      {
+        "code": "TBDVM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAKM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TSCRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTMAM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2024": [
+      {
+        "code": "TBDVM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAKM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TSCRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTMAM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2025": [
+      {
+        "code": "TBDVM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAKM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TSCRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTMAM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      }
+    ],
+    "HT2026": [
+      {
+        "code": "TBDVM",
+        "sources": [
+          "årskurs 4"
+        ]
+      },
+      {
+        "code": "TCSCM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TCSCM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TCYSM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TCYSM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAIM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TMAIM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TMAKM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TSCRM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3",
+          "TSCRM:s platsgaranti"
+        ]
+      },
+      {
+        "code": "TTEMM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTFYM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      },
+      {
+        "code": "TTMAM",
+        "sources": [
+          "årskurs 4",
+          "årskursinformation år 3"
+        ]
+      }
+    ]
+  }
+}
