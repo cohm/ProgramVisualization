@@ -10,13 +10,18 @@
     "transition-review": "node scripts/transition-review.mjs",
     "validate-data": "node scripts/validate-data.mjs --cohorts",
     "extract-plan": "node scripts/extract-from-kopps.mjs",
-    "size": "size-limit"
+    "size": "node scripts/split-size-chunks.mjs && size-limit"
   },
   "size-limit": [
     {
-      "name": "Client JS + cohort data (brotlied, all static chunks)",
-      "path": ".next/static/chunks/**/*.js",
-      "limit": "500 KB"
+      "name": "Application JS (brotlied)",
+      "path": ".next/size-limit/app/*.js",
+      "limit": "225 KB"
+    },
+    {
+      "name": "Study-plan data chunks, loaded on demand (brotlied)",
+      "path": ".next/size-limit/data/*.js",
+      "limit": "350 KB"
     }
   ],
   "dependencies": {

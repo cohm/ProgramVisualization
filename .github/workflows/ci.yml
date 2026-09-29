@@ -61,20 +61,17 @@ jobs:
         run: npm run build
 
       - name: Check bundle size
-        # Fails when the brotlied client JS exceeds the budget in
-        # `package.json` → `size-limit`. Bump the limit deliberately when an
-        # increase is justified (new feature, dep upgrade); the diff documents
-        # why.
+        # Two budgets, in `package.json` -> `size-limit`. Bump a limit
+        # deliberately when an increase is justified; the diff documents why.
         #
-        # The budget now covers two things that grow independently, because
-        # production chunk names are fully hashed and size-limit cannot tell
-        # them apart:
-        #   ~201 kB  application JS
-        #   the rest the committed cohort archive (src/data/cohorts/*.json):
-        #            2-7 kB brotlied per cohort file, 10-34 kB per programme
-        #            across its five cohorts. 438 kB in total with 16
-        #            programmes; 500 leaves room for the four still to add.
-        # Each cohort file is its own lazily-loaded chunk, so an unselected
-        # cohort costs a viewer nothing — but every one counts here. When this
-        # fails, check `du -sh src/data/cohorts` before assuming the app grew.
+        # scripts/split-size-chunks.mjs first sorts the chunks, since their
+        # names are content hashes: a chunk is data only if it is a single
+        # JSON module whose value equals a file in src/data.
+        #   app   ~202 kB  the application code, every chunk that is not data
+        #   data  ~290 kB  one lazily loaded chunk per src/data JSON file, the
+        #                  cohort archive above all (2-7 kB brotlied per
+        #                  cohort file). A viewer downloads only what they
+        #                  open, so this grows with every programme added
+        #                  without the app getting any heavier.
+        # When the data budget fails, check `du -sh src/data/cohorts` first.
         run: npm run size
