@@ -80,6 +80,10 @@
 import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'fs';
 import { join, dirname, relative, isAbsolute } from 'path';
 import { fileURLToPath } from 'url';
+import {
+  PCT_SAFE, courseCode, programmeCode, getText, getJson, fetchStudyPlanState,
+} from './lib/kth-pages.mjs';
+import { buildMasterPlan } from './lib/master-plan.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = join(__dirname, '..');
@@ -182,106 +186,6 @@ const seenFlags = new Set();
 const flag = (msg) => { if (!seenFlags.has(msg)) { seenFlags.add(msg); review.push(msg); } };
 
 // ---------------------------------------------------------------------------
-// HTTP
-// ---------------------------------------------------------------------------
-
-// KTH's www host rejects requests without a browser-ish UA.
-const UA = 'Mozilla/5.0 (compatible; ProgramVisualization data extractor)';
-
-// A transient failure is worth retrying; a 4xx is an answer. Without this a
-// single blip anywhere in a run of hundreds of requests took the whole run down
-// — or, worse, was caught by a caller and became a silently wrong value. Both
-// happened: a rate-limited course page once returned a fallback shape that
-// collapsed five CTMAT courses to an identical {P1: 7.5}, which only showed up
-// because the committed data disagreed.
-const RETRY_ATTEMPTS = 3;
-const RETRY_BASE_MS = 400;
-const isTransient = (status) => status === 408 || status === 429 || status >= 500;
-
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
-// Every URL this script fetches is built by interpolating a course or programme
-// code into a fixed template, and those codes come from files in this repo and
-// from KTH's own pages. CodeQL flags that as file data reaching an outbound
-// request (js/file-access-to-http), and while a code sits in the PATH — so it
-// cannot move the request to another host — nothing in the code SAID so.
-//
-// Now it does. The extractor talks to exactly two hosts, and a value that tried
-// to reach anywhere else fails loudly instead of being silently fetched.
-const ALLOWED_HOSTS = new Set(['www.kth.se', 'api.kth.se']);
-
-// Course and programme codes are interpolated into those URLs, and they come
-// from files in this repo: `--prereqs`, `--exams` and `--align` all read a
-// curated data file and then fetch each code they find. That is the flow CodeQL
-// reports (js/file-access-to-http), and it is a fair description — a value read
-// off disk decides what gets requested.
-//
-// Validating the shape is the honest answer to it. A KTH course code is two to
-// four letters, three or four digits and an optional trailing character; a
-// programme code is four to six letters. Anything else is a malformed data file,
-// and failing here names the bad value instead of quietly fetching a nonsense
-// URL and reporting "no page" three retries later.
-// Distinct from COURSE_CODE_RE further down, which is a GLOBAL scanning regex
-// for finding codes inside free text. These are anchored whole-string checks.
-const URL_COURSE_CODE_RE = /^[A-ZÅÄÖ]{2,4}\d{3,4}[A-Z0-9]?$/;
-const URL_PROGRAMME_CODE_RE = /^[A-ZÅÄÖ]{4,6}$/;
-
-function checkedCode(value, pattern, what) {
-  if (typeof value !== 'string' || !pattern.test(value)) {
-    throw new Error(`refusing to build a URL from an invalid ${what}: ${JSON.stringify(value)}`);
-  }
-  return value;
-}
-const courseCode = (c) => checkedCode(c, URL_COURSE_CODE_RE, 'course code');
-const programmeCode = (p) => checkedCode(p, URL_PROGRAMME_CODE_RE, 'programme code');
-
-function assertKthHost(url) {
-  let host;
-  try {
-    ({ host } = new URL(url));
-  } catch {
-    throw new Error(`refusing to fetch a malformed URL: ${String(url).slice(0, 120)}`);
-  }
-  if (!ALLOWED_HOSTS.has(host)) {
-    throw new Error(
-      `refusing to fetch ${host}: this extractor only talks to ${[...ALLOWED_HOSTS].join(' and ')}. ` +
-      `A course or programme code in the data files may be malformed.`);
-  }
-}
-
-async function fetchWithRetry(url, init, { allow404 = false } = {}) {
-  assertKthHost(url);
-  let last = null;
-  for (let attempt = 1; attempt <= RETRY_ATTEMPTS; attempt++) {
-    let res;
-    try {
-      res = await fetch(url, init);
-    } catch (e) {
-      last = new Error(`network error for ${url}: ${e.message}`);
-      if (attempt < RETRY_ATTEMPTS) { await sleep(RETRY_BASE_MS * 2 ** (attempt - 1)); continue; }
-      throw last;
-    }
-    if (res.status === 404 && allow404) return null;
-    if (res.ok) return res;
-    last = new Error(`HTTP ${res.status} for ${url}`);
-    if (!isTransient(res.status) || attempt === RETRY_ATTEMPTS) throw last;
-    await sleep(RETRY_BASE_MS * 2 ** (attempt - 1));
-  }
-  throw last;
-}
-
-async function getText(url) {
-  const res = await fetchWithRetry(url, { headers: { 'User-Agent': UA } });
-  return res.text();
-}
-
-async function getJson(url, { allow404 = false } = {}) {
-  const res = await fetchWithRetry(url,
-    { headers: { 'User-Agent': UA, Accept: 'application/json' } }, { allow404 });
-  return res ? res.json() : null;
-}
-
-// ---------------------------------------------------------------------------
 // KOPPS is retired, so treat it as optional
 // ---------------------------------------------------------------------------
 //
@@ -322,36 +226,6 @@ async function getKopps(url) {
 }
 const koppsIsDown = () => koppsFailures.length > 0;
 
-// ---------------------------------------------------------------------------
-// Study-plan SSR state
-// ---------------------------------------------------------------------------
-
-// The blob is one contiguous run of percent-encoded characters. Rather than
-// guess where it starts, find a marker we know is inside it and expand outwards
-// to the run boundaries. `decodeURIComponent` then yields the JSON.
-const PCT_SAFE = /[%0-9A-Za-z._~\-*!'()]/;
-const STATE_MARKER = '%22programmeCode%22';
-
-function decodeStateBlob(html, what) {
-  const marker = html.indexOf(STATE_MARKER);
-  if (marker < 0) throw new Error(`no SSR state blob found in ${what} (page structure changed?)`);
-
-  let start = marker;
-  while (start > 0 && PCT_SAFE.test(html[start - 1])) start--;
-  let end = marker;
-  while (end < html.length && PCT_SAFE.test(html[end])) end++;
-
-  const decoded = decodeURIComponent(html.slice(start, end));
-  const brace = decoded.indexOf('{');
-  if (brace < 0) throw new Error(`no JSON object inside state blob for ${what}`);
-  return JSON.parse(decoded.slice(brace));
-}
-
-async function fetchStudyPlanState(prog, term, year, { english = false } = {}) {
-  const url = `https://www.kth.se/student/kurser/program/${programmeCode(prog)}/${term}/arskurs${year}` +
-    (english ? '?l=en' : '');
-  return decodeStateBlob(await getText(url), `${prog}/${term}/arskurs${year}`);
-}
 
 /**
  * The inriktning registry, read from the study-plan pages themselves.
@@ -792,7 +666,13 @@ const MASTER_SPEC_RE = /^\s*(master|spår)\b/i;
 // destination; a spår named inside a master's programme is its own structure.
 const MASTER_PROGRAMME_RE = /^\s*(masterprogram|master's programme)\b/i;
 
-const isMasterProgramme = (program) => MASTER_PROGRAMME_RE.test(program?.name || '');
+// By name, by `level: "master"` in programs.json, or by the code: KTH's master
+// programmes are T…M (TTFYM, TIEMM). The code matters for a programme new to
+// the repo, which has no programs.json entry yet, while KOPPS is down: TTFYM's
+// five spår were otherwise read as years 4-5 destinations of a civilingenjör
+// programme and merged into one box per year.
+const isMasterProgramme = (program) => MASTER_PROGRAMME_RE.test(program?.name || '')
+  || program?.level === 'master' || /^T[A-Z]{3}M$/.test(program?.code || '');
 
 /**
  * True for a registry entry that names a years 4-5 destination rather than a
@@ -1176,6 +1056,11 @@ function readCurriculum(state, prog, year) {
   const specNames = new Map();
   const notes = [];
   const noteLines = [];
+  // The same text per curriculum. A master programme states its spår rules in
+  // the spår's own supplementaryInformation ("Under åk 1+2 ska studenten läsa
+  // … minst 32,5 hp villkorligt valfria kurser inom spåret", TTFYM TFYA), and
+  // `noteLines` merges every curriculum of the year.
+  const specNotes = [];
   const vvInfo = [];
 
   for (const info of infos) {
@@ -1185,6 +1070,7 @@ function readCurriculum(state, prog, year) {
       // matching (elective-space wording), but the master-eligibility parser is
       // line-based — a heading and the courses under it are separate <p> blocks.
       noteLines.push(decodeHtmlLines(info.supplementaryInformation));
+      specNotes.push({ spec: info.isCommon ? null : (info.code || null), text: decodeHtmlLines(info.supplementaryInformation) });
     }
     // The VV rule and per-master requirements, kept per inriktning so a group
     // built from one curriculumInfo gets its own programme's wording.
@@ -1268,7 +1154,7 @@ function readCurriculum(state, prog, year) {
       }
     }
   }
-  return { records, specNames, notes, noteLines, vvInfo };
+  return { records, specNames, notes, noteLines, vvInfo, specNotes };
 }
 
 // ---------------------------------------------------------------------------
@@ -2524,11 +2410,11 @@ async function readYear(prog, cohort, year) {
   let result = null;
   try {
     const state = await fetchStudyPlanState(prog, termFor(cohort), year);
-    const { records, specNames, notes, noteLines, vvInfo } = readCurriculum(state, prog, year);
+    const { records, specNames, notes, noteLines, vvInfo, specNotes } = readCurriculum(state, prog, year);
     const scheduled = recoverUnscheduledAlternatives(
       records.filter((r) => hasAnyCredits(r.periodCredits)),
       records.filter((r) => !hasAnyCredits(r.periodCredits)));
-    result = { records: scheduled, listed: records.length, specNames, notes, noteLines, vvInfo };
+    result = { records: scheduled, listed: records.length, specNames, notes, noteLines, vvInfo, specNotes };
   } catch {
     result = null; // page missing entirely
   }
@@ -2555,6 +2441,7 @@ async function resolveYear(prog, cohort, year) {
         notes: got.notes || [],
         noteLines: got.noteLines || [],
         vvInfo: got.vvInfo || [],
+        specNotes: got.specNotes || [],
         approximated: cand !== cohort,
       };
     }
@@ -3801,10 +3688,10 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   // programme (whose "Spår, X" specialisations are its own inriktningar).
   const programMeta = (() => {
     const raw = readTextOrNull(join(dataDir, 'programs.json'));
-    if (!raw) return null;
+    if (!raw) return { code: prog };
     try {
-      return JSON.parse(raw).find((p) => p?.code === prog) ?? null;
-    } catch { return null; }
+      return JSON.parse(raw).find((p) => p?.code === prog) ?? { code: prog };
+    } catch { return { code: prog }; }
   })();
   review.length = 0; // report per cohort
 
@@ -3817,6 +3704,8 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   const planNotes = [];
   // Per-year VV rule text, keyed for the group builder below.
   const planVvInfo = [];
+  // Per-year, per-curriculum supplementary text, for a master programme's rules.
+  const planSpecNotes = [];
   // Master-programme eligibility parsed from each year's prose, per year.
   const planEligibility = new Map();
   // Each year's `supplementaryInformation`, line by line, for the per-inriktning
@@ -3841,6 +3730,7 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     allRecords.push(...src.records);
     planNotes.push(...(src.notes || []));
     for (const v of src.vvInfo || []) planVvInfo.push({ ...v, year });
+    for (const v of src.specNotes || []) planSpecNotes.push({ ...v, year });
     noteLinesByYear.set(year, src.noteLines || []);
     // CTFYS and CTMAT state master eligibility in `supplementaryInformation`
     // rather than the VV field, so both are read; see parseMasterEligibility.
@@ -4419,9 +4309,31 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     console.log(`${electivePeriodsByCode.size}/${elective.length} placed`);
   }
 
-  const electiveSpace = fillElectiveSpace(
-    allEntries, planNotes, yearsWithInriktningar, elective, planEligibility,
-    electivePeriodsByCode, electiveNamesByCode, extraElectiveClaims);
+  // A master programme states its elective space for the whole programme, per
+  // spår, so it gets one spanning box per spår instead of the per-year boxes
+  // (see scripts/lib/master-plan.mjs).
+  let electiveSpace;
+  if (isMasterProgramme(programMeta)) {
+    const plan = buildMasterPlan({
+      entries: allEntries,
+      vvRecords: vvKept,
+      coreRecords: core,
+      electiveRecords: elective,
+      electivePeriods: electivePeriodsByCode,
+      electiveNames: electiveNamesByCode,
+      ruleTexts: [...planVvInfo, ...planSpecNotes],
+      specNames,
+      years: args.years,
+      roundIds,
+    });
+    allEntries.splice(0, allEntries.length, ...plan.entries);
+    for (const f of plan.flags) flag(`master programme: ${f}`);
+    electiveSpace = { added: [], reports: [], electiveCourses: [] };
+  } else {
+    electiveSpace = fillElectiveSpace(
+      allEntries, planNotes, yearsWithInriktningar, elective, planEligibility,
+      electivePeriodsByCode, electiveNamesByCode, extraElectiveClaims);
+  }
   for (const r of electiveSpace.reports) {
     if (r.kind === 'elective-space-filled') {
       const vs = r.expected != null
