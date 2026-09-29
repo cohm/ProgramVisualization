@@ -52,7 +52,13 @@ const OUT_REVIEW = join(repoRoot, 'master-mapping-review.md');
 const MASTER_CODE = /^T[A-Z]{3}M$/;
 // What a note on a listed master says: a track, or a restriction on one.
 const QUALIFIER = /sp[åa]r|\bej\b|endast|inklusive|utom|tid\./iu;
-const termFor = (cohort) => `${cohort.slice(2)}2`;
+// A cohort label from cohorts/index.json, "HT2025", as the term code 20252.
+// Checked here too, so a malformed index names the bad label rather than
+// failing later as a malformed term.
+const termFor = (cohort) => {
+  if (!/^HT\d{4}$/.test(cohort)) throw new Error(`not a cohort label: ${JSON.stringify(cohort)}`);
+  return `${cohort.slice(2)}2`;
+};
 const DESTINATIONS = 'årskurs 3, inriktning mot master';
 
 // The cohort nearest to `i` that satisfies `ok`, the earlier one on a tie; the
@@ -415,5 +421,17 @@ for (const { prog, perCohort, notesFor, pages } of review) {
   if (missing.length) L.push(`Pages not published for: ${missing.join(', ')}.`, '');
   if (notesFor.length) { L.push('**To resolve:**', ''); for (const n of notesFor) L.push(`- ${n}`); L.push(''); }
 }
-writeFileSync(OUT_REVIEW, `${L.join('\n')}\n`);
+// A run for some programmes replaces only their sections, like the JSON above;
+// the others are kept from the committed file, in programs.json order.
+const sectionsOf = (text) => {
+  const out = new Map();
+  for (const part of text.split(/^(?=## [A-Z]{5}$)/m).slice(1)) out.set(part.slice(3, 8), part.replace(/\n+$/, '\n\n'));
+  return out;
+};
+const fresh = sectionsOf(`${L.join('\n')}\n`);
+let previous = new Map();
+try { previous = sectionsOf(readFileSync(OUT_REVIEW, 'utf8')); } catch { /* first run */ }
+const header = L.slice(0, L.findIndex((l) => l.startsWith('## '))).join('\n');
+const order = programs.map((p) => p.code).filter((c) => fresh.has(c) || previous.has(c));
+writeFileSync(OUT_REVIEW, `${header}\n${order.map((c) => fresh.get(c) ?? previous.get(c)).join('').replace(/\n+$/, '')}\n`);
 console.log(`Wrote ${OUT_JSON.replace(`${repoRoot}/`, '')} and ${OUT_REVIEW.replace(`${repoRoot}/`, '')}.`);

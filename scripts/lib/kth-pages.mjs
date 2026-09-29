@@ -58,6 +58,17 @@ export function checkedCode(value, pattern, what) {
 export const courseCode = (c) => checkedCode(c, URL_COURSE_CODE_RE, 'course code');
 export const programmeCode = (p) => checkedCode(p, URL_PROGRAMME_CODE_RE, 'programme code');
 
+// The other two values a study-plan URL carries. A term is KTH's term code, a
+// year and 1 (spring) or 2 (autumn): 20252 is HT2025. A study year is 1-9.
+// extract-master-mapping.mjs derives the term from a cohort label it reads
+// from src/data/cohorts/index.json, which is the file data CodeQL traced into
+// the request (js/file-access-to-http); the extractor computes it. Both now
+// pass through the same check the codes do.
+export const URL_TERM_RE = /^\d{4}[12]$/;
+export const URL_STUDY_YEAR_RE = /^[1-9]$/;
+export const termCode = (t) => checkedCode(String(t), URL_TERM_RE, 'term code');
+export const studyYear = (y) => checkedCode(String(y), URL_STUDY_YEAR_RE, 'study year');
+
 export function assertKthHost(url) {
   let host;
   try {
@@ -130,7 +141,7 @@ export function decodeStateBlob(html, what) {
 }
 
 export async function fetchStudyPlanState(prog, term, year, { english = false } = {}) {
-  const url = `https://www.kth.se/student/kurser/program/${programmeCode(prog)}/${term}/arskurs${year}` +
+  const url = `https://www.kth.se/student/kurser/program/${programmeCode(prog)}/${termCode(term)}/arskurs${studyYear(year)}` +
     (english ? '?l=en' : '');
   return decodeStateBlob(await getText(url), `${prog}/${term}/arskurs${year}`);
 }

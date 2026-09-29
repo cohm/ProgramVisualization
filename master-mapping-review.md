@@ -231,4 +231,3 @@ Codes are resolved against KTH's catalogue of current master programmes.
 | [THSSM](https://www.kth.se/student/kurser/program/THSSM) hållbar samhällsplanering och stadsutformning | ✓ | ✓ | ✓ | ✓ | ✓ | årskurs 4; årskursinformation år 3 |  |
 | [TMHIM](https://www.kth.se/student/kurser/program/TMHIM) miljöteknik och hållbar infrastruktur | ✓ | ✓ | ✓ | ✓ | ✓ | årskurs 4; årskursinformation år 3 |  |
 | [TTGTM](https://www.kth.se/student/kurser/program/TTGTM) transport och geoinformatik | ✓ | ✓ | ✓ | ✓ | ✓ | årskurs 4; årskursinformation år 3 |  |
-
