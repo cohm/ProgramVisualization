@@ -14,6 +14,7 @@
 import type { Course, OptionGroup, Period } from '@/types/course';
 import type { TransitionCredit, TransitionOverlay, TransitionPlan } from '@/types/transition';
 import { parseCourseEntries } from '@/lib/useCourseModel';
+import { groupCredits, spansYears } from '@/lib/groupCredits';
 import type { CourseGroup, ProgramCosmetics } from '@/types/cosmetics';
 import type { FamilyName } from '@/lib/colors';
 
@@ -329,7 +330,12 @@ function applyGroupChanges(entries: Entry[], plan: TransitionPlan, warnings: str
       if (!options.includes(code)) options.push(code);
     }
     // A smaller credit pool: the plan moves courses into part of its space.
-    const resized = change.minCredits != null && change.periodCredits
+    // Only for a group in one year: `change.periodCredits` is a flat map, and
+    // applied to a spanning group it would leave its other years untouched.
+    if (change.minCredits != null && spansYears(group)) {
+      warnings.push(`The plan resizes the group offering ${change.offering}, which spans study years; a resize supports one-year groups only.`);
+    }
+    const resized = change.minCredits != null && change.periodCredits && !spansYears(group)
       ? {
         minCredits: change.minCredits,
         totalCredits: change.minCredits,
@@ -519,7 +525,7 @@ function fullTimeWarnings(
   for (const entry of groups) {
     // A group counts once; the student takes one of its options, so the
     // member courses must not be counted as well.
-    for (const p of PERIODS) add(entry.year, p, entry.periodCredits[p] ?? 0);
+    for (const c of groupCredits(entry)) add(c.year, c.period, c.credits);
   }
   for (const entry of entries) {
     if (isGroup(entry)) continue;

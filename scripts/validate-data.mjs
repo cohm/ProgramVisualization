@@ -45,10 +45,12 @@
 //     type: "optionGroup"
 //     name: string
 //     nameEn?: string
-//     year: integer
+//     year: integer                     (the first year, for a by-year group)
 //     totalCredits: number
-//     periodCredits: { P1, P2, P3, P4 }   (flat only)
+//     periodCredits: { P1, P2, P3, P4 } | { Year<n>: { P1..P4 }, ... }
+//                                          by-year = a box spanning study years
 //     options: Array<courseCode>          (must each exist in same file)
+//     constraints?: Array<{ kind: 'minCount'|'minCredits', value, from?, label, labelEn? }>
 //     allowedNumberOfOptions: integer
 //     exams?, reexams?: Array<periodId>
 //     category?, gradingScale?, specializations?: same as Course
@@ -640,7 +642,17 @@ function validateCourse(c, ctx, file) {
         // `P3`, or `P1-3` when two offerings start in the same period and are
         // told apart by the credits there (CTMAT's SE1010: P1+P2 as 3+9 and
         // 6+6). The base before the dash is the round's first teaching period.
+        // An offering in another study year carries `year`, and its id ends
+        // `-y<year>` so two offerings in the same period stay apart (SF2743
+        // read in year 1 P1 or year 2 P1: `P1`, `P1-y2`).
         const idBase = typeof r.id === 'string' ? r.id.split('-')[0] : null;
+        if (r.year !== undefined) {
+          if (!Number.isInteger(r.year) || r.year < 1) {
+            err(file, `${rctx}: 'year' must be a positive integer`);
+          } else if (r.year !== (c.year ?? 1) && !(typeof r.id === 'string' && r.id.endsWith(`-y${r.year}`))) {
+            err(file, `${rctx}: an offering in year ${r.year} needs an id ending '-y${r.year}' (got ${JSON.stringify(r.id)})`);
+          }
+        }
         if (!idBase || !PERIOD_IDS.has(idBase)) {
           err(file, `${rctx}: 'id' must be P1..P4, optionally suffixed '-<hp>' (got ${JSON.stringify(r.id)})`);
         } else if (seenIds.has(r.id)) {
@@ -680,7 +692,7 @@ function validateCourse(c, ctx, file) {
       if (flatShape) {
         const key = (pc) => [...PERIOD_IDS].sort().map((p) => round(pc?.[p] || 0)).join('/');
         const flat = key(c.periodCredits);
-        if (!c.rounds.some((r) => key(r.periodCredits) === flat)) {
+        if (!c.rounds.some((r) => key(r.periodCredits) === flat && (r.year ?? c.year ?? 1) === (c.year ?? 1))) {
           err(file, `${ctx} ${c.code}: 'periodCredits' matches no entry in 'rounds' — ` +
             `it must be a copy of the default offering`);
         }
@@ -833,8 +845,15 @@ function validateCohortMeta(m, program, ctx, file, index) {
 function validateOptionGroup(og, ctx, file) {
   if (og.type !== 'optionGroup') err(file, `${ctx}: type must be 'optionGroup'`);
   if (!og.name || typeof og.name !== 'string') err(file, `${ctx}: missing or invalid 'name'`);
+  const byYear = og.periodCredits && typeof og.periodCredits === 'object'
+    && Object.keys(og.periodCredits).some((k) => /^Year\d+$/i.test(k));
   if (typeof og.year !== 'number' || og.year < 1) {
     err(file, `${ctx} optionGroup '${og.name}': missing or invalid 'year'`);
+  } else if (byYear) {
+    const first = Math.min(...Object.keys(og.periodCredits).map((k) => Number(k.replace(/\D/g, ''))));
+    if (og.year !== first) {
+      err(file, `${ctx} optionGroup '${og.name}': 'year' is ${og.year} but its periodCredits start in Year${first} — a spanning group's year is its first`);
+    }
   }
   if (typeof og.totalCredits !== 'number') {
     err(file, `${ctx} optionGroup '${og.name}': missing or invalid 'totalCredits'`);
@@ -933,18 +952,33 @@ function validateOptionGroup(og, ctx, file) {
   }
 
   if (og.periodCredits && typeof og.periodCredits === 'object') {
+    // Flat, or by year for a box spanning study years; the sum covers all of it.
+    const keys = Object.keys(og.periodCredits);
+    if (byYear && keys.some((k) => !/^Year\d+$/i.test(k))) {
+      err(file, `${ctx} optionGroup '${og.name}': 'periodCredits' mixes flat (P1..P4) and year-keyed (Year<n>) shapes`);
+    }
+    const maps = byYear
+      ? Object.entries(og.periodCredits).filter(([k]) => /^Year\d+$/i.test(k))
+      : [[null, og.periodCredits]];
+    if (byYear && maps.length < 2) {
+      warn(file, `${ctx} optionGroup '${og.name}': by-year 'periodCredits' with a single year — use the flat shape`);
+    }
     let sum = 0;
-    for (const [pid, val] of Object.entries(og.periodCredits)) {
-      if (!PERIOD_IDS.has(pid)) {
-        err(file, `${ctx} optionGroup '${og.name}': invalid period '${pid}'`);
-        continue;
-      }
-      if (typeof val !== 'number' || Number.isNaN(val)) {
-        err(file, `${ctx} optionGroup '${og.name}'.${pid}: not a number`);
-      } else if (val < 0) {
-        err(file, `${ctx} optionGroup '${og.name}'.${pid}: credits must be ≥ 0`);
-      } else {
-        sum += val;
+    for (const [yk, map] of maps) {
+      const where = yk ? `.${yk}` : '';
+      if (!map || typeof map !== 'object') { err(file, `${ctx} optionGroup '${og.name}'${where}: must be { P1..P4 }`); continue; }
+      for (const [pid, val] of Object.entries(map)) {
+        if (!PERIOD_IDS.has(pid)) {
+          err(file, `${ctx} optionGroup '${og.name}'${where}: invalid period '${pid}'`);
+          continue;
+        }
+        if (typeof val !== 'number' || Number.isNaN(val)) {
+          err(file, `${ctx} optionGroup '${og.name}'${where}.${pid}: not a number`);
+        } else if (val < 0) {
+          err(file, `${ctx} optionGroup '${og.name}'${where}.${pid}: credits must be ≥ 0`);
+        } else {
+          sum += val;
+        }
       }
     }
     if (typeof og.totalCredits === 'number' && Math.abs(sum - og.totalCredits) > CREDIT_TOLERANCE) {
@@ -952,6 +986,35 @@ function validateOptionGroup(og, ctx, file) {
     }
   } else {
     err(file, `${ctx} optionGroup '${og.name}': missing or invalid 'periodCredits'`);
+  }
+
+  // Sub-quotas inside the pool (OptionGroup.constraints in src/types/course.ts).
+  if (og.constraints !== undefined) {
+    if (!Array.isArray(og.constraints) || og.constraints.length === 0) {
+      err(file, `${ctx} optionGroup '${og.name}': 'constraints' must be a non-empty array when present`);
+    } else {
+      const options = new Set(Array.isArray(og.options) ? og.options : []);
+      og.constraints.forEach((c, i) => {
+        const cctx = `${ctx} optionGroup '${og.name}'.constraints[${i}]`;
+        if (!c || typeof c !== 'object') { err(file, `${cctx}: must be an object`); return; }
+        if (c.kind !== 'minCount' && c.kind !== 'minCredits') err(file, `${cctx}: 'kind' must be 'minCount' or 'minCredits'`);
+        if (typeof c.value !== 'number' || !(c.value > 0)) err(file, `${cctx}: 'value' must be a positive number`);
+        else if (c.kind === 'minCount' && !Number.isInteger(c.value)) err(file, `${cctx}: a 'minCount' value must be an integer`);
+        if (typeof c.label !== 'string' || !c.label) err(file, `${cctx}: 'label' must be a non-empty string (the plan's own wording)`);
+        if (c.from !== undefined) {
+          if (!Array.isArray(c.from) || c.from.length === 0) {
+            err(file, `${cctx}: 'from' must be a non-empty array of option codes when present`);
+          } else {
+            for (const code of c.from) {
+              if (!options.has(code)) err(file, `${cctx}: 'from' names '${code}', which is not an option of the group`);
+            }
+            if (c.kind === 'minCount' && typeof c.value === 'number' && c.value > c.from.length) {
+              err(file, `${cctx}: asks for ${c.value} of ${c.from.length} courses`);
+            }
+          }
+        }
+      });
+    }
   }
 
   validatePeriodList(og.exams, 'exams', { code: `optionGroup '${og.name}'` }, ctx, file);

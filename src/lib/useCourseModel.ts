@@ -75,11 +75,13 @@ interface RawRound {
   exams?: unknown;
   reexams?: unknown;
   applicationCode?: string;
+  /** The study year of this offering, when it is not the course's own. */
+  year?: number;
 }
 
 /**
- * Normalise `rounds` into CourseRound[], stamping each round's credits with the
- * course's own year.
+ * Normalise `rounds` into CourseRound[], stamping each round's credits with its
+ * study year: the round's own `year` when set, else the course's.
  *
  * A round is a whole-year alternative, so it uses the flat {P1..P4} shape only —
  * a course that both spans study years and runs several times a year would need
@@ -93,10 +95,11 @@ const parseRounds = (raw: unknown, year: number): CourseRound[] | undefined => {
   for (const r of raw as RawRound[]) {
     const pc = r?.periodCredits;
     if (!pc || typeof pc !== 'object') continue;
+    const roundYear = Number.isInteger(r.year) && (r.year as number) >= 1 ? r.year as number : year;
     const credits: CourseCredit[] = [];
     Object.entries(pc as Record<string, unknown>).forEach(([p, val]) => {
       const num = Number(val) || 0;
-      if (num > 0) credits.push({ period: p as Period['id'], credits: num, year });
+      if (num > 0) credits.push({ period: p as Period['id'], credits: num, year: roundYear });
     });
     if (credits.length === 0) continue;
     // Default the id to the round's first teaching period, which is what the
@@ -148,6 +151,30 @@ export const loadCourses = async (dataFile: string): Promise<(Course | OptionGro
  * `src/lib/transitions.ts`), and re-implementing the period/credit
  * normalisation for it would be a second parser to keep in step with this one.
  */
+/**
+ * A group written in the by-year shape (`periodCredits: { Year1: {…}, Year2:
+ * {…} }`) spans study years. It gets `periodCreditsByYear`, and `year` /
+ * `periodCredits` describe its first year, so code that reads only those still
+ * sees a well-formed group. A flat group is returned unchanged.
+ */
+const normaliseGroup = (g: OptionGroup): OptionGroup => {
+  const pc = g.periodCredits as unknown as Record<string, unknown> | undefined;
+  if (!pc || !Object.keys(pc).some(k => /^Year\d+$/i.test(k))) return g;
+  const byYear: Record<number, Record<Period['id'], number>> = {};
+  Object.entries(pc).forEach(([yk, periods]) => {
+    const year = Number(yk.replace(/\D/g, '')) || 1;
+    const flat = { P1: 0, P2: 0, P3: 0, P4: 0 } as Record<Period['id'], number>;
+    Object.entries((periods ?? {}) as Record<string, unknown>).forEach(([p, v]) => {
+      if (p in flat) flat[p as Period['id']] = Number(v) || 0;
+    });
+    byYear[year] = flat;
+  });
+  const years = Object.keys(byYear).map(Number).sort((a, b) => a - b);
+  if (years.length === 0) return { ...g, periodCredits: { P1: 0, P2: 0, P3: 0, P4: 0 } };
+  if (years.length === 1) return { ...g, year: years[0], periodCredits: byYear[years[0]] };
+  return { ...g, year: years[0], periodCredits: byYear[years[0]], periodCreditsByYear: byYear };
+};
+
 export const parseCourseEntries = (rawData: RawCourseEntry[]): (Course | OptionGroup)[] => {
   const optionGroups = rawData.filter(c => c.type === 'optionGroup');
   // `cohortMeta` is the provenance header in a cohort file, not a course — it
@@ -332,7 +359,7 @@ export const parseCourseEntries = (rawData: RawCourseEntry[]): (Course | OptionG
   const byCodeCourse = new Map<string, Course>();
   courses.forEach(c => byCodeCourse.set(c.code, c));
   const groupsByIndex = new Map<number, OptionGroup>();
-  optionGroups.forEach((g, i) => groupsByIndex.set(i, g as unknown as OptionGroup));
+  optionGroups.forEach((g, i) => groupsByIndex.set(i, normaliseGroup(g as unknown as OptionGroup)));
 
   const ordered: (Course | OptionGroup)[] = [];
   const emitted = new Set<string>();

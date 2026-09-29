@@ -1369,6 +1369,40 @@ so the gate costs nothing and saves nothing in the size budget.
 
 The selection modal lives in `src/components/OptionGroupModal.tsx`. Two earlier notes in this file and in `REVIEW.md` said it had been inlined into `TimelineVisualization.tsx` — it was, and then extracted again; grepping only `TimelineVisualization.tsx` for `kind` therefore suggests `minCredits` is unimplemented when it is not.
 
+**Three shapes exist for the master programmes, and nothing emits them yet.**
+The master study plans state their pools for the whole programme, "under åk
+1+2 … minst 32,5 hp villkorligt valfria kurser" (TTFYM), while KTH lists each
+pool under both years, often with the same courses twice. So:
+
+- **A group may span study years.** Its `periodCredits` takes the by-year
+  shape courses already use, `{ Year1: {P3, P4}, Year2: {P1, P2} }`, with
+  `year` its first year. The loader adds `periodCreditsByYear` and keeps
+  `year`/`periodCredits` as the first year's part. Read a group through
+  `groupCredits()` (`src/lib/groupCredits.ts`), never through `periodCredits`
+  alone, which loses the other years. A partly filled spanning box shrinks per
+  (year, period), so a year-1 pick does not eat into year 2. A one-year box
+  still matches picks by period, as before.
+- **`constraints` on a group** are the sub-quotas inside a pool: `{ kind:
+  'minCount' | 'minCredits', value, from?, label }`. Examples: TFYE's "minst
+  två av SK2533, SK2534 och SK2535", TMAIM's "minst 2 kurser från Teori". The
+  modal shows them as a checklist that follows the selection, the tooltip lists
+  them, and nothing enforces them, like the box total. `constraintProgress()`
+  in `optionGroupKind.ts` computes them for both.
+- **`rounds[].year`**: a course read "år 1 eller år 2" is one entry with a
+  round per year. The id ends `-y<year>` (`P1-y2`) so same-period offerings
+  stay apart. Two entries would be summed into one course twice the size. In a
+  spanning box `pickRound()` scores rounds by (year, period), so the pick lands
+  in the year the box offered it. A one-year box keeps period-only scoring,
+  because its picks are re-stamped to its year anyway (CTMAT's SF1677).
+
+Checked with a hand-written two-year fixture, which is not committed. With
+picks totalling 22.5 of 66 hp, including SK2303's year-2 round, the box
+redrew year 1 as 6/7.5/15/15 and dropped its year-2 part. The checklist ticked
+at 22.5 hp and at one of two named courses. CTFYS with a pick and CTMAT
+HT2025 rendered identically to main, down to every rect. `validate-data`
+rejects a spanning group whose `year` is not its first, a constraint naming a
+non-option or a fractional count, and a year-2 round without the `-y2` id.
+
 **A picked option is drawn where the box was, not where the data files it.** One
 course code can be offered by several boxes, and the boxes need not sit in the
 same study year. CTMAT offers SF1677/SF1678/SF1691 as the year-2 *villkorligt

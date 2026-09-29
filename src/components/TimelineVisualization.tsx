@@ -23,6 +23,7 @@ import { Course, CourseCredit, OptionGroup, Period, SelectedInfo, academicPeriod
 import kthColors from '@/data/kth-colors.json';
 import type { ProgramCosmetics } from '@/types/cosmetics';
 import { STYLE, defaultColor, getColorForFamily, getCosmeticsColor } from '@/lib/colors';
+import { groupCredits, groupYears, spansYears, withGroupCredits } from '@/lib/groupCredits';
 import { tr, type Lang } from '@/lib/translations';
 import Legend, { type ToggleableLayerKey } from '@/components/Legend';
 import InfoPanel from '@/components/InfoPanel';
@@ -262,7 +263,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       if (isCourse(c)) {
         return c.credits.map(cr => cr.year || c.year || 1);
       } else {
-        return [(c as OptionGroup).year || 1];
+        return groupYears(c as OptionGroup);
       }
     }));
     return Math.max(1, maxYear);
@@ -1022,6 +1023,28 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     };
   };
 
+  // The study year a pick is drawn in. A box in one year re-stamps it to that
+  // year (above). A box spanning years keeps a pick in its own year when the
+  // box covers that year: the round was already chosen by year-and-period
+  // overlap, so a course read "år 1 eller år 2" lands where the box said.
+  // Otherwise it goes to the box's year whose periods it overlaps most, the
+  // earliest on a tie.
+  const pickYear = (course: Course, group: OptionGroup): number => {
+    if (!spansYears(group)) return group.year;
+    const years = groupYears(group);
+    const own = course.credits.length ? Math.min(...course.credits.map(c => c.year)) : course.year;
+    if (years.includes(own)) return own;
+    const box = groupCredits(group);
+    let best = years[0];
+    let bestScore = -1;
+    for (const y of years) {
+      const periods = new Set(box.filter(c => c.year === y).map(c => c.period));
+      const score = course.credits.filter(c => periods.has(c.period)).reduce((a, c) => a + c.credits, 0);
+      if (score > bestScore) { best = y; bestScore = score; }
+    }
+    return best;
+  };
+
   // Courses hidden because they are an option somewhere and picked nowhere. A
   // course picked in one box must NOT land in this set: the bar-drawing loop
   // uses it as a defensive "skip option courses" guard, so adding picked ones
@@ -1036,7 +1059,10 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     if (isOptionGroup(c)) return [];
     const course = c as Course;
     const group = pickedIn.get(course.code);
-    if (group) return [placeCourseInYear(applyRound(course, group), group.year)];
+    if (group) {
+      const rounded = applyRound(course, group);
+      return [placeCourseInYear(rounded, pickYear(rounded, group))];
+    }
     return coursesInOptionGroups.has(course.code) ? [] : [course];
   });
   // Lookup map built once and reused everywhere a Course needs to be
@@ -1108,25 +1134,27 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     // Per-period leftovers, floored — then capped so they cannot claim more
     // space than is actually left. A pick that overshoots one period frees no
     // room in another, so without the cap the box would over-report.
-    const used: Record<string, number> = { P1: 0, P2: 0, P3: 0, P4: 0 };
+    //
+    // A box in one year matches picks by period alone, since its picks were
+    // re-stamped to its year, and a multi-year pick's other year still takes
+    // room in the period it shares with the box. A box spanning years matches
+    // by (year, period), or a year-1 pick would shrink its year-2 part.
+    const spanning = spansYears(og);
+    const slotKey = (c: CourseCredit) => (spanning ? `${c.year}-${c.period}` : c.period);
+    const used = new Map<string, number>();
     pickedCourses.forEach(c => {
-      c.credits.forEach(cr => { used[cr.period] = (used[cr.period] || 0) + cr.credits; });
+      c.credits.forEach(cr => used.set(slotKey(cr), (used.get(slotKey(cr)) || 0) + cr.credits));
     });
-    const periodCredits = { P1: 0, P2: 0, P3: 0, P4: 0 } as Record<'P1'|'P2'|'P3'|'P4', number>;
-    (['P1','P2','P3','P4'] as const).forEach(p => {
-      periodCredits[p] = Math.max(0, round1((og.periodCredits?.[p] ?? 0) - (used[p] || 0)));
-    });
-    const flooredSum = (['P1','P2','P3','P4'] as const).reduce((a, p) => a + periodCredits[p], 0);
+    let left = groupCredits(og).map(c => ({ ...c, credits: Math.max(0, round1(c.credits - (used.get(slotKey(c)) || 0))) }));
+    const flooredSum = left.reduce((a, c) => a + c.credits, 0);
     if (flooredSum > remainingTotal + 0.05 && flooredSum > 0) {
       const scale = remainingTotal / flooredSum;
-      (['P1','P2','P3','P4'] as const).forEach(p => {
-        periodCredits[p] = round1(periodCredits[p] * scale);
-      });
+      left = left.map(c => ({ ...c, credits: round1(c.credits * scale) }));
     }
 
-    const total = (['P1','P2','P3','P4'] as const).reduce((a, p) => a + periodCredits[p], 0);
+    const total = left.reduce((a, c) => a + c.credits, 0);
     if (total <= 0.05) return null;
-    return { ...og, periodCredits, totalCredits: round1(total) };
+    return withGroupCredits(og, left);
   };
 
   const displayItems: Array<Course | OptionGroup> = [];
@@ -1165,13 +1193,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   type SlotEntry = { item: Course | OptionGroup; credit: { period: string; credits: number; year: number } };
   const slotsByYearPeriod: Record<string, SlotEntry[]> = {};
   displayItems.forEach((item) => {
-    const credits = isCourse(item) ? item.credits : Object.entries((item as OptionGroup).periodCredits)
-      .filter(([, credits]) => credits > 0)
-      .map(([period, credits]) => ({
-        period: period as 'P1' | 'P2' | 'P3' | 'P4',
-        credits,
-        year: (item as OptionGroup).year
-      }));
+    const credits = isCourse(item) ? item.credits : groupCredits(item as OptionGroup);
 
     credits.forEach((credit) => {
       const key = `${credit.year}-${credit.period}`;
@@ -1886,7 +1908,14 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       if (cr.year >= 1 && cr.year <= numYears) totalCreditsByYear[cr.year - 1] += cr.credits;
     }));
     optionGroups.forEach(og => {
-      if (og.year >= 1 && og.year <= numYears) totalCreditsByYear[og.year - 1] += og.totalCredits;
+      // A spanning group's space is split by year, as its box is drawn.
+      if (spansYears(og)) {
+        groupCredits(og).forEach(cr => {
+          if (cr.year >= 1 && cr.year <= numYears) totalCreditsByYear[cr.year - 1] += cr.credits;
+        });
+      } else if (og.year >= 1 && og.year <= numYears) {
+        totalCreditsByYear[og.year - 1] += og.totalCredits;
+      }
     });
     const formatCredits = (n: number) => {
       const r = Math.round(n * 10) / 10;
@@ -3207,7 +3236,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         // Find option group by name
         const ogName = id.substring('optionGroup-'.length);
         const og = courses.filter(isOptionGroup).find(c => (c as OptionGroup).name === ogName) as OptionGroup | undefined;
-        return og ? og.year === focusYear : false;
+        return og ? groupYears(og).includes(focusYear) : false;
       }
       // Otherwise it's a course code. Resolve through the rendered-course map
       // first: an option picked from a group is drawn in that group's year,

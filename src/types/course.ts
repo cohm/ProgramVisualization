@@ -39,7 +39,17 @@ export interface CourseRound {
    * KTH application code changes every year and cannot serve this purpose.
    */
   id: Period['id'];
-  /** This round's own period layout. Sums to the course's totalCredits. */
+  /**
+   * This round's own period layout. Sums to the course's totalCredits. Each
+   * credit carries the round's study year: the course's own, or the round's
+   * `year` in the data file for an offering read in another study year.
+   *
+   * That second case is the master programmes'. A plan often lists the same
+   * course under both years ("läses år 1 eller år 2"): TMAKM's SF2743, TTMAM
+   * FMIA's SF2701. As two entries the loader sums them into one course of
+   * twice the size, so the data file gives the course one round per year and
+   * the chart draws the one that fits the box it was picked from.
+   */
   credits: CourseCredit[];
   /** Ordinary exam periods for this round. */
   exams: Period['id'][];
@@ -70,13 +80,53 @@ export type CourseCategory =
 // examensarbete on grundnivå and avancerad nivå.
 export type GradingScale = 'A-F' | 'P/F' | 'VG/G/U';
 
+/**
+ * A sub-quota inside an option group: "minst två av SK2533, SK2534 och
+ * SK2535", "minst 32,5 hp av de villkorligt valfria kurserna". Shown to the
+ * student as a checklist beside the group's own total and never enforced,
+ * like the total itself.
+ *
+ * The master programmes are why it exists. Their rules come in layers within
+ * one pool: TTFYM's TFYE track asks for 32.5 hp of its villkorligt valfria
+ * courses, of which at least two from one list and two from another; TMAIM
+ * asks for six courses, at least two from Teori and two from Tillämpning.
+ * `kind` + `pickN` / `minCredits` state one rule per group, and splitting the
+ * pool into several groups would draw the same space more than once.
+ */
+export interface OptionGroupConstraint {
+  /** 'minCount': at least `value` courses; 'minCredits': at least `value` hp. */
+  kind: 'minCount' | 'minCredits';
+  value: number;
+  /** The options it counts. Omitted: every option of the group. */
+  from?: string[];
+  /** The plan's own wording, shown as the checklist line. */
+  label: string;
+  labelEn?: string;
+}
+
 export interface OptionGroup {
   type: 'optionGroup';
   name: string;
   nameEn?: string;
+  /** The group's first study year; see `periodCreditsByYear`. */
   year: number;
   totalCredits: number;
+  /** The periods of `year`. For a group spanning years, only the first year's part. */
   periodCredits: Record<'P1' | 'P2' | 'P3' | 'P4', number>;
+  /**
+   * Set only for a group that spans study years, from the data file's by-year
+   * shape `{ Year1: {P3, P4}, Year2: {P1, P2} }`: every year's periods, keyed
+   * by year. Read it through `groupCredits()` (src/lib/groupCredits.ts), which
+   * gives both shapes as one list, rather than reading `periodCredits`.
+   *
+   * The master programmes need it. Their pools are stated for the whole
+   * programme ("under åk 1+2 … minst 32,5 hp villkorligt valfria kurser"), and
+   * KTH lists the pool under each year, often the same courses twice. One box
+   * per year would count the pool twice or invent a split between the years.
+   */
+  periodCreditsByYear?: Record<number, Record<'P1' | 'P2' | 'P3' | 'P4', number>>;
+  /** Sub-quotas the plan states inside the group; see OptionGroupConstraint. */
+  constraints?: OptionGroupConstraint[];
   options: string[]; // Array of course codes
   // Discriminator for the group's selection rule.
   //   'pickN'      — pick exactly N courses (the historical default; N comes

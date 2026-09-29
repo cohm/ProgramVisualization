@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import kthColors from '@/data/kth-colors.json';
 import { tr, type Lang } from '@/lib/translations';
-import { getOptionGroupKind, getOptionGroupPickN, getOptionGroupMinCredits } from '@/lib/optionGroupKind';
+import { constraintProgress, getOptionGroupKind, getOptionGroupPickN, getOptionGroupMinCredits } from '@/lib/optionGroupKind';
 import { creditsForRound, formatPeriods, hasRounds, pickRound, roundLabel } from '@/lib/courseRounds';
 import type { Course, OptionGroup, SelectedInfo } from '@/types/course';
 
@@ -88,8 +88,10 @@ export default function OptionGroupModal({
     return out;
   })();
   const commentHeight = commentLines.length * 15;
+  // One checklist line per sub-quota (OptionGroup.constraints), under the note.
+  const constraintHeight = (optionGroup.constraints?.length ?? 0) * 15;
 
-  const headerHeight = 95 + commentHeight;
+  const headerHeight = 95 + commentHeight + constraintHeight;
   const optionHeight = 50;
   const optionSpacing = 12;
   const padding = 20;
@@ -122,6 +124,12 @@ export default function OptionGroupModal({
     return c.credits.reduce((sum, cr) => sum + cr.credits, 0);
   };
   const selectedSum = highlightedOptionCodes.reduce((sum, code) => sum + creditsForCode(code), 0);
+  const constraintLines = constraintProgress(optionGroup, highlightedOptionCodes, creditsForCode, language)
+    .map(p => {
+      const fmt = (n: number) => Number.isInteger(n) ? String(n) : n.toFixed(1);
+      const unit = p.unit === 'credits' ? ` ${tr[language].credits}` : '';
+      return { met: p.met, text: `${p.met ? '✓' : '○'} ${fmt(p.have)} / ${fmt(p.need)}${unit} — ${p.label}` };
+    });
 
   /**
    * Credits the student actually earns from this box.
@@ -460,6 +468,20 @@ export default function OptionGroupModal({
           </text>
         ))}
 
+        {/* The plan's sub-quotas, as a checklist that follows the selection */}
+        {constraintLines.map((line, i) => (
+          <text
+            key={`constraint-${i}`}
+            x={padding}
+            y={padding + 92 + commentHeight + i * 15}
+            fontSize={11}
+            fontWeight={line.met ? 400 : 600}
+            fill={line.met ? '#2e7d32' : (kthColors.KthBlue?.HEX || '#004791')}
+          >
+            {line.text}
+          </text>
+        ))}
+
         {/* Choose button */}
         <rect
           x={svgWidth - padding - 160}
@@ -629,7 +651,7 @@ export default function OptionGroupModal({
                     {tr[language].offering}:
                   </text>
                   {rounds.map((r, ri) => {
-                    const chipText = roundLabel(r, rounds);
+                    const chipText = roundLabel(r, rounds, tr[language].year);
                     // Chips are laid out by character count rather than measured:
                     // the modal's SVG is built before layout, so there is no
                     // getComputedTextLength here (same constraint as the row labels).
