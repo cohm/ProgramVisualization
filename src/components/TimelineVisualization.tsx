@@ -304,8 +304,19 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
-  // Preserve the initial chart height to keep a stable px-per-ECTS baseline across re-renders/toggles
-  const initialChartHeightRef = useRef<number | null>(null);
+  // The legend's measured height. It sits inside the chart's box, so the
+  // chart must be at least this tall; a one-year COPEN chart is shorter.
+  const legendBoxRef = useRef<HTMLDivElement | null>(null);
+  const [legendHeight, setLegendHeight] = useState(0);
+  useEffect(() => {
+    const el = legendBoxRef.current;
+    if (!el) return;
+    const apply = () => setLegendHeight(h => (h === el.offsetHeight ? h : el.offsetHeight));
+    apply();
+    const ro = new ResizeObserver(apply);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
   // Single delegated tooltip element, persisted across renders.
   const tooltipElRef = useRef<HTMLDivElement | null>(null);
   // Pre-built tooltip HTML, keyed by `${kind}|${id}`. Populated at the end of
@@ -876,18 +887,13 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   svg.style('font-family', STYLE.fontFamily);
   const margin = CHART_MARGIN;
   const width = svgRef.current.clientWidth - margin.left - margin.right;
-  // The chart height must be a pure function of the data plus a fixed baseline.
-  // It used to be seeded from `svgRef.current.clientHeight` — i.e. from the
-  // height the *previous* render had written onto this same node — which fed
-  // each render's output back into its input. Combined with the one-way
-  // `if (requiredTotalHeight > height)` expansion below, switching from a tall
-  // programme (TIEMM) to a short one (CTFYS) left the SVG at the tall size, so
-  // the legend ended up far below the chart. Measured before the fix:
-  // CTFYS 659 -> TIEMM 2994 -> CTFYS 3882, against 659 on a fresh load.
-  if (initialChartHeightRef.current == null) {
-    initialChartHeightRef.current = svgRef.current.clientHeight - margin.top - margin.bottom;
-  }
-  let height = initialChartHeightRef.current;
+  // Every study year gets the same height, whatever the number of years, so
+  // one year of COPEN is a third of a three-year bachelor chart and a 5-year
+  // degree five thirds. The height used to be the SVG's own client height
+  // divided by the number of years, so a one-year plan filled the whole chart.
+  // (Seeding it from the previous render's height also fed each render's
+  // output back into its input: CTFYS 659 -> TIEMM 2994 -> CTFYS 3882 px.)
+  let height = 0;
 
   // Clear previous content
   svg.selectAll('*').remove();
@@ -1139,9 +1145,10 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // Increase inter-year gap by 20% (from 48 to ~57.6). Use integer for pixel grid.
   const yearRowGap = 58; // was 48
   const totalGaps = Math.max(0, numYears - 1) * yearRowGap;
-  // Base band height from current SVG height, used to derive a baseline pixels-per-ECTS
-  // Use the initial chart height for baseline band height so layer toggles don't create feedback loops
-  const baseYearBandHeight = ((initialChartHeightRef.current || height) - totalGaps) / numYears;
+  // One year's band: what a three-year chart got at the old 600 px floor,
+  // (600 - 140 margins - 2 gaps) / 3 = 114.67 px, so three-year charts are
+  // drawn exactly as before.
+  const baseYearBandHeight = (600 - margin.top - margin.bottom - 2 * yearRowGap) / 3;
   // Baseline pixels per ECTS (15 ECTS previously mapped to a year band)
   const pxPerECTS = baseYearBandHeight / 15;
   // Minimum ECTS to enforce for bar height so labels fit nicely
@@ -1203,11 +1210,11 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     yearBandHeights[y - 1] = Math.max(baseYearBandHeight, maxPeriodHeightNeeded);
   }
 
-  // Size the SVG to what this data needs, never smaller than the baseline. Set
-  // unconditionally: the previous version only ever grew the node, which is
-  // what stranded the legend after switching to a smaller programme.
+  // Size the SVG to what this data needs. Set unconditionally, so it shrinks
+  // as well as grows when the programme changes; the legend's floor is a CSS
+  // min-height on the node, not part of the drawing.
   const requiredTotalHeight = yearBandHeights.reduce((a, b) => a + b, 0) + totalGaps;
-  height = Math.max(requiredTotalHeight, initialChartHeightRef.current);
+  height = requiredTotalHeight;
   select(svgRef.current)
     .attr('height', height + margin.top + margin.bottom);
 
@@ -3273,7 +3280,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           <svg
             ref={svgRef}
             className="w-full h-full"
-            style={{ minHeight: '600px' }}
+            // Tall enough for the legend, which is placed inside the chart's
+            // box: its height, its bottom offset, and the title area above.
+            style={{ minHeight: legendHeight ? legendHeight + STYLE.legend.offsetY + CHART_MARGIN.top : undefined }}
             role="img"
             aria-labelledby="chart-title chart-desc"
           />
@@ -3285,6 +3294,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             toggleLayer={toggleLayer}
             toggleGroup={toggleGroup}
             left={legendLeftIn(canvasWidth)}
+            boxRef={legendBoxRef}
           />
         </div>
       </div>
