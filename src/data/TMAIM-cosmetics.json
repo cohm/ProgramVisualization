@@ -1,0 +1,79 @@
+[
+  {
+    "name": "Matematik",
+    "nameEn": "Mathematics",
+    "colorFamily": "blue",
+    "courses": [
+      "SF1811",
+      "SF2568",
+      "SF2930",
+      "SF2940",
+      "SF2943"
+    ]
+  },
+  {
+    "name": "Datavetenskap",
+    "nameEn": "Computer Science",
+    "colorFamily": "turquoise",
+    "courses": [
+      "DA2205",
+      "DD1388",
+      "DD1420",
+      "DD2257",
+      "DD2301",
+      "DD2352",
+      "DD2380",
+      "DD2395",
+      "DD2401",
+      "DD2402",
+      "DD2410",
+      "DD2411",
+      "DD2417",
+      "DD2419",
+      "DD2420",
+      "DD2423",
+      "DD2424",
+      "DD2430",
+      "DD2434",
+      "DD2435",
+      "DD2437",
+      "DD2438",
+      "DD2447",
+      "DD2448",
+      "DD2477",
+      "DD2601",
+      "DD2603",
+      "DD2610",
+      "DT2112",
+      "DT2119",
+      "DT2470",
+      "ID2221",
+      "ID2222",
+      "ID2223"
+    ]
+  },
+  {
+    "name": "Ingenjörsämnen",
+    "nameEn": "Engineering",
+    "colorFamily": "brick",
+    "courses": [
+      "DH2642",
+      "EL2320",
+      "EL2805",
+      "EL2810",
+      "EQ2341",
+      "EQ2425",
+      "IK2215",
+      "IK2221",
+      "IK2227"
+    ]
+  },
+  {
+    "name": "Övrigt",
+    "nameEn": "Other",
+    "colorFamily": "yellow",
+    "courses": [
+      "DA233X"
+    ]
+  }
+]

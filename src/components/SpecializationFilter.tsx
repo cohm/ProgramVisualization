@@ -25,6 +25,9 @@ interface Props {
   // the parent typically initialises this to the first option per group.
   selected: Set<string>;
   onChange: (next: Set<string>) => void;
+  // Heading for the implicit single group. A master programme's are spår, not
+  // inriktningar.
+  label?: string;
 }
 
 function activate(e: KeyboardEvent, fn: () => void) {
@@ -39,7 +42,7 @@ const DEFAULT_GROUP = '__default__';
 // Pick-exactly-one per group. Selecting a chip in a group replaces any prior
 // pick within that same group, leaving picks in other groups untouched.
 // Hidden when the program declares no specs.
-export default function SpecializationFilter({ language, specializations, groups, selected, onChange }: Props) {
+export default function SpecializationFilter({ language, specializations, groups, selected, onChange, label }: Props) {
   if (!specializations || specializations.length === 0) return null;
 
   // Bucket specs by group code; specs without a `group` go in DEFAULT_GROUP.
@@ -62,7 +65,7 @@ export default function SpecializationFilter({ language, specializations, groups
     }
   } else {
     // Single implicit group — label it with the generic translation.
-    orderedGroups.push({ code: DEFAULT_GROUP, name: tr[language].specializations });
+    orderedGroups.push({ code: DEFAULT_GROUP, name: label ?? tr[language].specializations });
   }
 
   const blue = kthColors.KthBlue?.HEX || '#004791';

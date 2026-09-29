@@ -68,6 +68,10 @@ interface ProgramConfig {
   // pick-one rows (e.g. "Tekniskt val" + "Verksamhetsinriktning"). When
   // omitted, all specs are treated as one implicit group.
   specializationGroups?: SpecializationGroupDef[];
+  // "master" for a two-year master programme, whose spår are its
+  // specializations. Its spår change between kullar (TTFYM's TFYF became TFYH
+  // for HT2026), so the selector offers only the spår the loaded cohort has.
+  level?: 'master';
 }
 
 const programs: ProgramConfig[] = programsConfig as unknown as ProgramConfig[];
@@ -404,6 +408,26 @@ export default function HomeClient() {
     return target?.specializations?.length ? target : selectedProgram;
   }, [selectedProgram, selectedContinuation]);
 
+  // The spår the loaded data actually uses, for a master programme; the whole
+  // registry otherwise. A bachelor keeps every entry because some are defaults
+  // no course carries (CMAST's "STD", the track without an international
+  // profile), while a master's registry spans kullar that differ.
+  //
+  // Keyed on the codes as a string, not on `courses`: the loading effect below
+  // depends on the selected specs and sets `courses`, so a list rebuilt from
+  // every new `courses` array made a new default selection each time and
+  // re-ran the load for ever ("Maximum update depth exceeded").
+  const usedSpecKey = useMemo(
+    () => [...new Set(courses.flatMap(c => c.specializations ?? []))].sort().join(','),
+    [courses],
+  );
+  const shownSpecializations = useMemo(() => {
+    const all = specProgram.specializations ?? [];
+    if (specProgram.level !== 'master') return all;
+    const used = new Set(usedSpecKey.split(','));
+    return all.filter(s => used.has(s.code));
+  }, [specProgram, usedSpecKey]);
+
   // Map spec code → group code, derived from the program's registry. The
   // filter pre-pass uses this to enforce AND-across-groups semantics.
   const specGroupMap = useMemo<Map<string, string>>(() => {
@@ -421,7 +445,7 @@ export default function HomeClient() {
     const v = searchParams.get('spec');
     if (v) return new Set(v.split(',').map(s => decodeURIComponent(s.trim())).filter(Boolean));
     // Default: first spec per group.
-    const specs = specProgram.specializations;
+    const specs = shownSpecializations;
     if (!specs || specs.length === 0) return new Set();
     const seenGroups = new Set<string>();
     const defaults = new Set<string>();
@@ -432,7 +456,7 @@ export default function HomeClient() {
       defaults.add(s.code);
     }
     return defaults;
-  }, [searchParams, specProgram]);
+  }, [searchParams, shownSpecializations]);
 
   // The transition plan as the selected inriktning sees it: common changes plus
   // its own (`bySpecialization`), so the summary line matches the chart.
@@ -895,10 +919,11 @@ export default function HomeClient() {
             No minimum height: the chart sizes itself, a fixed height per study
             year, and a floor here left a one-year plan in an empty card. */}
         <div className="bg-white rounded-lg shadow-lg p-3 sm:p-6">
-          {specProgram.specializations && specProgram.specializations.length > 0 && (
+          {shownSpecializations.length > 0 && (
             <SpecializationFilter
               language={language}
-              specializations={specProgram.specializations}
+              specializations={shownSpecializations}
+              label={specProgram.level === 'master' ? tr[language].tracks : undefined}
               groups={specProgram.specializationGroups}
               selected={selectedSpecializations}
               onChange={setSelectedSpecializations}
