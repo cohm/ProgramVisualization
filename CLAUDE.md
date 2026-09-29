@@ -640,11 +640,25 @@ HT2023's years 1–2 are already unrecoverable, and the whole of HT2022 now is. 
 that erasing our copy; re-running extraction only ever adds. They live inside
 `src/data/` (unlike the ad-hoc `--out` candidates) because the app must load
 whichever cohort the user picks, and each JSON becomes its own lazily-loaded
-chunk — an unselected cohort costs a viewer nothing. They do all count toward the
-`size-limit` budget, which is why it is 500 kB and not 250: about 201 kB of
-app, and the rest archive. CI measured 438 kB with 16 programmes. A programme
-costs 10-34 kB across its five cohorts, and CLGYM is the largest at five study
-years with four inriktningar. `src/data/cohorts/index.json` is
+chunk — an unselected cohort costs a viewer nothing. So `size-limit` budgets
+them apart from the app: 225 kB for application JS (202.1 kB measured) and
+350 kB for the data chunks (289.6 kB). They used to share one 500 kB limit,
+which the archive had filled to 491.7 kB, so every added programme read as the
+app growing. A bachelor programme costs 10-34 kB across its five cohorts, CLGYM
+the most at five study years with four inriktningar; a master cohort is about
+5 kB (TIEMM).
+
+Chunk names are content hashes, so `scripts/split-size-chunks.mjs` sorts them
+after the build (`npm run size` runs it). A chunk counts as data only if it is
+one module of the form `x.exports = <literal>` AND running it yields a value
+equal to a file in `src/data`, so nothing is classed as data for merely looking
+like it. 128 of the 132 files have a chunk; programs.json, cohorts/index.json,
+kth-colors.json and academic-periods.json are imported statically into the
+app. transitions.json is imported statically too, yet also gets a chunk,
+because the template-literal import makes one for every file in the directory;
+prerequisite-corrections.json gets one for the same reason, though nothing
+loads it. The script reads Turbopack's production format only, and fails if it
+finds no data chunk rather than counting everything as app. `src/data/cohorts/index.json` is
 regenerated from disk on every run and drives the UI's selector; the validator
 cross-checks it both ways.
 
@@ -652,6 +666,13 @@ Adding the HT2022 cohort costs **16.4 kB brotlied** across the eight programmes
 (measured as the difference between two builds, and independently by brotliing
 the eight files: 16.0 kB — TIEMM alone is 5.0 kB of it). That left the
 budget of the time (330 kB) intact on the bundler CI uses.
+
+**A local Turbopack build works outside the sandbox, in a copy of the tree.**
+Unsandboxed, `npx next build` completes, and in a clean `git archive` copy it
+measured 491.73 kB against CI's 490.73. It rejects a symlinked `node_modules`
+("points out of the filesystem root"), so clone it (`cp -Rc`). It is also the
+only local build `split-size-chunks.mjs` can read. The webpack route below is
+the sandboxed fallback.
 
 **Measuring the budget locally needs `next build --webpack`, and the number is
 not comparable.** The default Turbopack build spawns a PostCSS subprocess that
