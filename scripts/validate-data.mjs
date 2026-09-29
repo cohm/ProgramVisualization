@@ -258,7 +258,15 @@ function checkFullTimeLoad(program, data, file) {
   // thing. Identical lanes are merged into a single line.
   const collected = [];
   const groups = data.filter((e) => e?.type === 'optionGroup');
-  const specs = (program.specializations || []).map((x) => x?.code).filter(Boolean);
+  let specs = (program.specializations || []).map((x) => x?.code).filter(Boolean);
+  // A master programme's registry spans kullar whose spår differ (TTFYM's
+  // TFYF became TFYH for HT2026; TTMAM's CSSE starts with HT2025), so only the
+  // spår this file uses are lanes. A bachelor's registry may name a default no
+  // course carries (CMAST's STD), which still needs its lane.
+  if (program.level === 'master') {
+    const used = new Set(data.flatMap((e) => (Array.isArray(e?.specializations) ? e.specializations : [])));
+    specs = specs.filter((c) => used.has(c));
+  }
   // No inriktningar declared: one pass over everything.
   const lanes = specs.length > 0 ? specs : [null];
 

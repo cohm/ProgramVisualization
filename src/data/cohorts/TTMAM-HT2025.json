@@ -1,0 +1,2258 @@
+[
+  {
+    "type": "cohortMeta",
+    "program": "TTMAM",
+    "cohort": "HT2025",
+    "years": [
+      {
+        "year": 1,
+        "sourceCohort": "HT2025",
+        "approximated": false,
+        "confidence": "exact"
+      },
+      {
+        "year": 2,
+        "sourceCohort": "HT2025",
+        "approximated": false,
+        "confidence": "exact"
+      }
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (OPST)",
+    "nameEn": "Conditionally elective and elective courses (OPST)",
+    "year": 1,
+    "totalCredits": 75,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0,
+        "P2": 15,
+        "P3": 15,
+        "P4": 15
+      },
+      "Year2": {
+        "P1": 15,
+        "P2": 15,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "SF2524",
+      "SF2527",
+      "SF2832",
+      "SF2863",
+      "SF2812",
+      "SF2866",
+      "SF2822",
+      "SF2842",
+      "SF2852",
+      "DD2257",
+      "DD2434",
+      "DD2435",
+      "DD2440",
+      "SF1811",
+      "SF2935",
+      "SF2942",
+      "SF2956",
+      "SF2975",
+      "SF2980",
+      "DD2356",
+      "DD2365",
+      "DD2421",
+      "SF1677",
+      "SF1678",
+      "SF1691",
+      "SF2526",
+      "SF2701",
+      "SF2930",
+      "SF2943",
+      "SF2955",
+      "SF2971",
+      "SG2212",
+      "SG2224",
+      "SF2565",
+      "SF2957"
+    ],
+    "allowedNumberOfOptions": 35,
+    "kind": "minCredits",
+    "minCredits": 75,
+    "constraints": [
+      {
+        "kind": "minCredits",
+        "value": 30,
+        "from": [
+          "SF2832",
+          "SF2863",
+          "SF2866",
+          "SF2812",
+          "SF2822",
+          "SF2842",
+          "SF2852"
+        ],
+        "label": "Totalt ska minst 30hp villkorligt valfria kurser läsas inom området optimeringslära och systemteori"
+      },
+      {
+        "kind": "minCount",
+        "value": 1,
+        "from": [
+          "SF2832",
+          "SF2863",
+          "SF2812"
+        ],
+        "label": "Av de villkorligt valfria kurserna bland de gemensamma kurserna ska läsas minst en av kurserna SF2832, SF2863 och SF2812"
+      },
+      {
+        "kind": "minCount",
+        "value": 1,
+        "from": [
+          "SF2527",
+          "SF2524"
+        ],
+        "label": "minst en av kurserna SF2527 och SF2524."
+      }
+    ],
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "OPST"
+    ],
+    "comment": "Spår, optimeringslära och systemteori: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "code": "SA2001",
+    "name": "Hållbar utveckling och forskningsmetodik inom matematik",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Sustainable development and research methodology in mathematics",
+    "gradingScale": "P/F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2356",
+    "name": "Metoder inom högprestandaberäkningar",
+    "nameEn": "Methods in High Performance Computing",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2930",
+    "name": "Regressionsanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Regression Analysis",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF1678",
+    "name": "Grupper och ringar",
+    "nameEn": "Groups and Rings",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "DD2352",
+    "name": "Algoritmer och komplexitet",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 4.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "DAVE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Algorithms and Complexity",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SF2526",
+    "name": "Numeriska algoritmer för vetenskapliga problem med stora datamängder",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Numerical algorithms for data-intensive science",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2866",
+    "name": "Tillämpad systemteknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Applied Systems Engineering",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SF2863"
+    ],
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2527",
+    "name": "Numeriska metoder för differentialekvationer I",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Numerical Methods for Differential Equations I",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 3,
+          "P2": 4.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 3,
+          "P2": 4.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2440",
+    "name": "Avancerade algoritmer",
+    "nameEn": "Advanced Algorithms",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 1.5,
+          "P2": 4.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 1.5,
+          "P2": 4.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2863",
+    "name": "Systemteknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Systems Engineering",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SF2940"
+    ],
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2365",
+    "name": "Avancerade beräkningsmetoder i flödesmekanik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Advanced Computation in Fluid Mechanics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SF2524",
+    "name": "Matrisberäkningar för storskaliga system",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Matrix Computations for Large-scale Systems",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (FMIA)",
+    "nameEn": "Conditionally elective and elective courses (FMIA)",
+    "year": 1,
+    "totalCredits": 60,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0,
+        "P2": 15,
+        "P3": 15,
+        "P4": 7.5
+      },
+      "Year2": {
+        "P1": 7.5,
+        "P2": 15,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "SF2524",
+      "SF2527",
+      "SF2832",
+      "SF2863",
+      "SF2812",
+      "SF2930",
+      "SF2943",
+      "SF2971",
+      "SF2975",
+      "SF2980",
+      "DD2257",
+      "DD2434",
+      "DD2435",
+      "DD2440",
+      "SF1811",
+      "SF2852",
+      "SF2866",
+      "SF2935",
+      "SF2956",
+      "DD2356",
+      "DD2365",
+      "DD2421",
+      "SF1677",
+      "SF1678",
+      "SF1691",
+      "SF2526",
+      "SF2822",
+      "SF2842",
+      "SF2955",
+      "SG2212",
+      "SG2224",
+      "SF2565",
+      "SF2957"
+    ],
+    "allowedNumberOfOptions": 33,
+    "kind": "minCredits",
+    "minCredits": 60,
+    "constraints": [
+      {
+        "kind": "minCount",
+        "value": 1,
+        "from": [
+          "SF2930",
+          "SF2943",
+          "SF2971"
+        ],
+        "label": "Minst en villkorligt valfri kurs i varje årskurs ska läsas. (år 1)"
+      },
+      {
+        "kind": "minCount",
+        "value": 1,
+        "from": [
+          "SF2930",
+          "SF2943",
+          "SF2971",
+          "SF2975",
+          "SF2980"
+        ],
+        "label": "Minst en villkorligt valfri kurs i varje årskurs ska läsas. (år 2)"
+      },
+      {
+        "kind": "minCount",
+        "value": 1,
+        "from": [
+          "SF2930",
+          "SF2943"
+        ],
+        "label": "Dock gäller att en av SF2930 eller SF2943 i årskurs 1 ska läsas."
+      },
+      {
+        "kind": "minCount",
+        "value": 1,
+        "from": [
+          "SF2832",
+          "SF2863",
+          "SF2812"
+        ],
+        "label": "Av de villkorligt valfria kurserna bland de gemensamma kurserna ska läsas minst en av kurserna SF2832, SF2863 och SF2812"
+      },
+      {
+        "kind": "minCount",
+        "value": 1,
+        "from": [
+          "SF2527",
+          "SF2524"
+        ],
+        "label": "minst en av kurserna SF2527 och SF2524."
+      }
+    ],
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "FMIA"
+    ],
+    "comment": "Spår, finansiell matematik: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "code": "SF2955",
+    "name": "Datorintensiva metoder inom matematisk statistik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Computer Intensive Methods in Mathematical Statistics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (DAVE)",
+    "nameEn": "Conditionally elective and elective courses (DAVE)",
+    "year": 1,
+    "totalCredits": 60,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0,
+        "P2": 15,
+        "P3": 15,
+        "P4": 7.5
+      },
+      "Year2": {
+        "P1": 7.5,
+        "P2": 15,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "SF2524",
+      "SF2527",
+      "SF2832",
+      "SF2863",
+      "SF2812",
+      "DD2352",
+      "SF2526",
+      "SF2930",
+      "SF2525",
+      "SF2943",
+      "SF2529",
+      "SF2956",
+      "SF2957",
+      "DD2257",
+      "DD2434",
+      "DD2435",
+      "DD2440",
+      "SF1811",
+      "SF2852",
+      "SF2866",
+      "SF2942",
+      "SF2975",
+      "SF2980",
+      "DD2356",
+      "DD2365",
+      "DD2421",
+      "SF1677",
+      "SF1678",
+      "SF1691",
+      "SF2701",
+      "SF2822",
+      "SF2842",
+      "SF2971",
+      "SG2212",
+      "SG2224",
+      "SF2565"
+    ],
+    "allowedNumberOfOptions": 36,
+    "kind": "minCredits",
+    "minCredits": 60,
+    "constraints": [
+      {
+        "kind": "minCount",
+        "value": 2,
+        "from": [
+          "DD2352",
+          "SF2526",
+          "SF2930",
+          "SF2525",
+          "SF2943",
+          "SF2529",
+          "SF2956",
+          "SF2957"
+        ],
+        "label": "Totalt minst två villkorligt valfria kurser ska läsas på spåret under år 1 och 2."
+      },
+      {
+        "kind": "minCount",
+        "value": 1,
+        "from": [
+          "SF2930",
+          "SF2943"
+        ],
+        "label": "*Av de villkorligt valfria kurserna på spåret måste en av kurserna SF2930 eller SF2943 läsas."
+      },
+      {
+        "kind": "minCount",
+        "value": 1,
+        "from": [
+          "SF2832",
+          "SF2863",
+          "SF2812"
+        ],
+        "label": "Av de villkorligt valfria kurserna bland de gemensamma kurserna ska läsas minst en av kurserna SF2832, SF2863 och SF2812"
+      },
+      {
+        "kind": "minCount",
+        "value": 1,
+        "from": [
+          "SF2527",
+          "SF2524"
+        ],
+        "label": "minst en av kurserna SF2527 och SF2524."
+      }
+    ],
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "DAVE"
+    ],
+    "comment": "Spår, matematik för datavetenskap: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (CSSE)",
+    "nameEn": "Conditionally elective and elective courses (CSSE)",
+    "year": 1,
+    "totalCredits": 67.5,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0,
+        "P2": 7.5,
+        "P3": 15,
+        "P4": 15
+      },
+      "Year2": {
+        "P1": 15,
+        "P2": 15,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "SF2527",
+      "SF2832",
+      "SF2863",
+      "SF2812",
+      "DD2257",
+      "SF2526",
+      "SF2822",
+      "SF2525",
+      "CB2442",
+      "DD2434",
+      "SF2942",
+      "SF2956",
+      "SK2532",
+      "BB2280",
+      "DD2421",
+      "DD2435",
+      "SF2565",
+      "SF2935",
+      "SF2980",
+      "DD2440",
+      "SF1811",
+      "SF2852",
+      "SF2866",
+      "SF2975",
+      "DD2356",
+      "DD2365",
+      "SF1677",
+      "SF1678",
+      "SF1691",
+      "SF2701",
+      "SF2842",
+      "SF2930",
+      "SF2943",
+      "SF2955",
+      "SF2971",
+      "SG2212",
+      "SG2224",
+      "SF2957"
+    ],
+    "allowedNumberOfOptions": 38,
+    "kind": "minCredits",
+    "minCredits": 67.5,
+    "constraints": [
+      {
+        "kind": "minCount",
+        "value": 3,
+        "from": [
+          "DD2257",
+          "SF2526",
+          "SF2822",
+          "SF2525",
+          "SF2832",
+          "SF2863"
+        ],
+        "label": "Av de villkorligt valfria kurserna i åk 1 ska 3 kurser väljas."
+      },
+      {
+        "kind": "minCredits",
+        "value": 30,
+        "from": [
+          "DD2257",
+          "SF2526",
+          "SF2822",
+          "SF2525",
+          "CB2442",
+          "DD2434",
+          "SF2942",
+          "SF2956",
+          "SK2532",
+          "BB2280",
+          "DD2421",
+          "DD2435",
+          "SF2565",
+          "SF2832",
+          "SF2863",
+          "SF2935",
+          "SF2980"
+        ],
+        "label": "Av de villkorligt valfria kurserna i åk 2 ska minst 30 hp väljas."
+      },
+      {
+        "kind": "minCount",
+        "value": 1,
+        "from": [
+          "SF2832",
+          "SF2863",
+          "SF2812"
+        ],
+        "label": "Av de villkorligt valfria kurserna bland de gemensamma kurserna ska läsas minst en av kurserna SF2832, SF2863 och SF2812"
+      }
+    ],
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "CSSE"
+    ],
+    "comment": "Spår, datorsimuleringar inom teknik och naturvetenskap: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "code": "SF2832",
+    "name": "Matematisk systemteori",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Mathematical Systems Theory",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "AK2030",
+    "name": "Vetenskapsteori och vetenskaplig metodik (naturvetenskap)",
+    "totalCredits": 4.5,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Theory and Methodology of Science (Natural and Technological Science)",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2257",
+    "name": "Visualisering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Visualization",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2528",
+    "name": "Numeriska metoder, för differentialekvationer II",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.5,
+      "P4": 4
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "COMA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Numerical Methods for Differential Equations II",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (COMA)",
+    "nameEn": "Conditionally elective and elective courses (COMA)",
+    "year": 1,
+    "totalCredits": 75,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0,
+        "P2": 15,
+        "P3": 15,
+        "P4": 15
+      },
+      "Year2": {
+        "P1": 15,
+        "P2": 15,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "SF2524",
+      "SF2527",
+      "SF2832",
+      "SF2863",
+      "SF2812",
+      "DD2365",
+      "SF2525",
+      "SF2526",
+      "SF2528",
+      "SF2529",
+      "SF2565",
+      "DD2257",
+      "DD2434",
+      "DD2435",
+      "DD2440",
+      "SF1811",
+      "SF2852",
+      "SF2866",
+      "SF2935",
+      "SF2942",
+      "SF2956",
+      "SF2975",
+      "SF2980",
+      "DD2356",
+      "DD2421",
+      "SF1677",
+      "SF1678",
+      "SF1691",
+      "SF2701",
+      "SF2822",
+      "SF2842",
+      "SF2930",
+      "SF2943",
+      "SF2955",
+      "SF2971",
+      "SG2212",
+      "SG2224",
+      "SF2957"
+    ],
+    "allowedNumberOfOptions": 38,
+    "kind": "minCredits",
+    "minCredits": 75,
+    "constraints": [
+      {
+        "kind": "minCount",
+        "value": 4,
+        "from": [
+          "DD2365",
+          "SF2525",
+          "SF2526",
+          "SF2528",
+          "SF2529",
+          "SF2527",
+          "SF2565",
+          "SF2524"
+        ],
+        "label": "Minst 4 villkorligt valfria spårkurser ska läsas under år 1 och 2."
+      },
+      {
+        "kind": "minCount",
+        "value": 1,
+        "from": [
+          "SF2832",
+          "SF2863",
+          "SF2812"
+        ],
+        "label": "Av de villkorligt valfria kurserna bland de gemensamma kurserna ska läsas minst en av kurserna SF2832, SF2863 och SF2812"
+      },
+      {
+        "kind": "minCount",
+        "value": 1,
+        "from": [
+          "SF2527",
+          "SF2524"
+        ],
+        "label": "minst en av kurserna SF2527 och SF2524."
+      }
+    ],
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "COMA"
+    ],
+    "comment": "Spår, beräkningsmatematik: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "code": "SF1691",
+    "name": "Komplex analys",
+    "nameEn": "Complex Analysis",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2940",
+    "name": "Sannolikhetsteori",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Probability Theory",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SF1677",
+    "name": "Analysens grunder",
+    "nameEn": "Foundations of Analysis",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2842",
+    "name": "Geometrisk styrteori",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Geometric Control Theory",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SF2832"
+    ],
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2822",
+    "name": "Tillämpad ickelinjär optimering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Applied Nonlinear Optimization",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P4",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 7.5
+        }
+      },
+      {
+        "id": "P4-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 7.5
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF1811",
+    "name": "Optimeringslära",
+    "nameEn": "Optimization",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 6,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 6,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2525",
+    "name": "Beräkningsmetoder för stokastiska differentialekvationer och maskininlärning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4,
+      "P4": 3.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "COMA",
+      "CSSE",
+      "DAVE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Computational Methods for Stochastic Differential Equations and Machine Learning",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 4,
+          "P4": 3.5
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 4,
+          "P4": 3.5
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2971",
+    "name": "Martingaler och stokastiska integraler",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Martingales and Stochastic Integrals",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SF2940"
+    ],
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2943",
+    "name": "Tidsserieanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Time Series Analysis",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P4",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 7.5
+        }
+      },
+      {
+        "id": "P4-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 7.5
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2812",
+    "name": "Tillämpad linjär optimering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Applied Linear Optimization",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2701",
+    "name": "Finansiell matematik, grundkurs",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Financial Mathematics, Basic Course",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SG2224",
+    "name": "Tillämpade strömningsmekaniska beräkningar",
+    "nameEn": "Applied Computational Fluid Dynamics",
+    "totalCredits": 5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SG2212",
+    "name": "Strömningsmekaniska beräkningar",
+    "nameEn": "Computational Fluid Dynamics",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2565",
+    "name": "Programkonstruktion i C++ för tekniskt - vetenskapliga beräkningar",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 3.5,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Program Construction in C++ for Scientific Computing",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "BB2280",
+    "name": "Molekylär modellering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSSE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Molecular Modeling",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SF290X",
+    "name": "Examensarbete inom matematisk statistik, avancerad nivå",
+    "totalCredits": 30,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 15,
+      "P4": 15
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "DAVE"
+    ],
+    "category": "mandatory",
+    "nameEn": "Degree Project in Mathematical Statistics, Second Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SF2525",
+      "SF2526",
+      "SF2529",
+      "SF2930",
+      "SF2935",
+      "SF2943",
+      "SF2955",
+      "SF2956",
+      "SF2957"
+    ]
+  },
+  {
+    "code": "CB2442",
+    "name": "Bioinformatik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSSE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Bioinformatics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2421",
+    "name": "Maskininlärning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Machine Learning",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1-y1",
+        "year": 1,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2434",
+    "name": "Maskininlärning, avancerad kurs",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Machine Learning, Advanced Course",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2421",
+      "SF2940",
+      "SF2955"
+    ],
+    "prerequisitesParticipation": [
+      "DD2421",
+      "SF2940"
+    ],
+    "rounds": [
+      {
+        "id": "P2-y1",
+        "year": 1,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2435",
+    "name": "Neuronnäts- och biomodellering",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Mathematical Modelling of Biological Systems",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1-y1",
+        "year": 1,
+        "periodCredits": {
+          "P1": 6,
+          "P2": 3,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 6,
+          "P2": 3,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2957",
+    "name": "Statistisk maskininlärning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Statistical Machine Learning",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SF2940"
+    ]
+  },
+  {
+    "code": "SF2529",
+    "name": "Inversa problem",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "COMA",
+      "DAVE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Inverse Problems",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SF291X",
+    "name": "Examensarbete inom finansiell matematik, avancerad nivå",
+    "totalCredits": 30,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 15,
+      "P4": 15
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "FMIA"
+    ],
+    "category": "mandatory",
+    "nameEn": "Degree Project in Financial Mathematics, Second Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SF2701",
+      "SF2930",
+      "SF2935",
+      "SF2942",
+      "SF2943",
+      "SF2955",
+      "SF2975",
+      "SF2980"
+    ]
+  },
+  {
+    "code": "SF280X",
+    "name": "Examensarbete inom optimeringslära och systemteori, avancerad nivå",
+    "totalCredits": 30,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 15,
+      "P4": 15
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "OPST"
+    ],
+    "category": "mandatory",
+    "nameEn": "Degree Project in Optimization and Systems Theory, Second Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SF2812",
+      "SF2822",
+      "SF2832",
+      "SF2842",
+      "SF2852",
+      "SF2863"
+    ]
+  },
+  {
+    "code": "SF2852",
+    "name": "Optimal styrteori",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Optimal Control Theory",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1-y1",
+        "year": 1,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2935",
+    "name": "Moderna metoder för statistisk inlärning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Modern Methods of Statistical Learning",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1-y1",
+        "year": 1,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2942",
+    "name": "Portföljteori och riskvärdering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Portfolio Theory and Risk Management",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1-y1",
+        "year": 1,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2975",
+    "name": "Finansiella derivat",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Financial Derivatives",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SF2940"
+    ],
+    "rounds": [
+      {
+        "id": "P1-y1",
+        "year": 1,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2980",
+    "name": "Riskvärdering och riskhantering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Risk Management",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SF2940"
+    ],
+    "rounds": [
+      {
+        "id": "P2-y1",
+        "year": 1,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF250X",
+    "name": "Examensarbete inom beräkningsteknik, avancerad nivå",
+    "totalCredits": 30,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 15,
+      "P4": 15
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "COMA"
+    ],
+    "category": "mandatory",
+    "nameEn": "Degree Project in Scientific Computing, Second Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2365",
+      "SF2524",
+      "SF2525",
+      "SF2526",
+      "SF2527",
+      "SF2528",
+      "SF2529",
+      "SF2565"
+    ]
+  },
+  {
+    "code": "SF259X",
+    "name": "Examensarbete inom beräkningsteknik, avancerad nivå",
+    "totalCredits": 30,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 15,
+      "P4": 15
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSSE"
+    ],
+    "category": "mandatory",
+    "nameEn": "Degree Project in Scientific Computing, Second Cycle",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2532",
+    "name": "Biomedicin för ingenjörer",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSSE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Biomedicine for Engineers",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SF2956",
+    "name": "Topologisk dataanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Topological Data Analysis",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1-y1",
+        "year": 1,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  }
+]

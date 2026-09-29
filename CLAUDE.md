@@ -1178,6 +1178,37 @@ that spår's course and an option in every other box. The entry is tagged with
 exactly the spår that see it, so it is visible where it is offered. TTMAM's
 SF2524 is O for CSSE and a common VV course.
 
+**Committed masters: TTFYM, TTMAM, TMAIM, kull HT2023-HT2026.** A master's
+archive starts at HT2023 (`EARLIEST_MASTER_COHORT`): its HT2022 kull finished
+in 2024, and many admitted in 2023 are still studying. Only HT2025 has both
+years published; HT2024 and HT2026 borrow one year, HT2023 both. The twelve
+files and three cosmetics files cost 40.6 kB brotlied, putting the data chunks
+at about 330 of their 350 kB budget.
+
+**A master's spår change between kullar, and a borrowed year brings the
+wrong ones.** TTFYM's TFYF ("optik & fotonik") is TFYH ("ljusets och
+materiens fysik") from HT2026, and TTMAM's CSSE starts with HT2025. HT2026
+borrows year 2 from HT2025, and HT2023 year 1, so both came out with a box for
+a spår they never had; TTMAM HT2023's CSSE box was 97.5 hp with no thesis.
+Master mode now keeps only the spår the cohort's own pages list, since
+archived pages still carry their curricula without courses. A cohort with no
+pages left (HT2023) takes the nearest that has them (HT2024). Two consumers
+had to follow: `validate-data` checks a master file's load only for the spår
+it uses, and the chart's selector offers only the loaded cohort's spår,
+labelled "Spår". Both stay registry-wide for bachelors, whose registry can name
+a default no course carries (CMAST's STD).
+
+That selector list is derived from the loaded courses, and it has to be keyed
+on the codes as a string: the data-loading effect depends on the selected
+spår and sets the courses, so a list rebuilt from each new courses array
+re-ran the load for ever ("Maximum update depth exceeded").
+
+**`master-review/<PROG>.md`** is master mode's report per programme: rules
+not read first, then each spår's box, the either-year courses and the spår left
+out, each line with the kullar it holds for. Notes are collected per cohort
+from the builder, not from `flag()`, which reports a message once per run and
+so credited a shared note to the first cohort only.
+
 **The master mapping** (`src/data/master-mapping.json`, `npm run
 extract-master-mapping`) records which masters each civilingenjör programme
 leads into, per cohort. There is no one place KTH states it. Measured over the

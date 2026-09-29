@@ -2327,6 +2327,10 @@ function dedupePoolGroups(input) {
 // extractor, and it is the whole reason the archive under src/data/cohorts is
 // committed: HT2023's years 1-2 were readable a year ago and are not any more.
 const EARLIEST_COHORT = 2022;
+// A master programme is two years, so its HT2022 kull finished in 2024. HT2023
+// is the oldest with students still studying (many admitted in 2023 are not
+// done), which is where the archive starts for masters.
+const EARLIEST_MASTER_COHORT = 2023;
 
 const SEARCH_RADIUS = 4; // cohorts to try either side before giving up
 
@@ -3706,6 +3710,8 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   const planVvInfo = [];
   // Per-year, per-curriculum supplementary text, for a master programme's rules.
   const planSpecNotes = [];
+  // Master mode's notes for this cohort (master-review/<PROG>.md).
+  const masterNotes = [];
   // Master-programme eligibility parsed from each year's prose, per year.
   const planEligibility = new Map();
   // Each year's `supplementaryInformation`, line by line, for the per-inriktning
@@ -4314,7 +4320,32 @@ async function extractCohort(prog, cohort, args, registryEntries) {
   // (see scripts/lib/master-plan.mjs).
   let electiveSpace;
   if (isMasterProgramme(programMeta)) {
+    // The spår this cohort had. A borrowed year brings its own cohort's spår,
+    // which need not be this one's: TTFYM HT2026 lists TFYH where HT2025 had
+    // TFYF, and TTMAM's CSSE starts with HT2025, while HT2023's year 1 is
+    // borrowed from HT2025. The cohort's own pages list their curricula even
+    // when the courses are gone; a cohort with no pages at all (HT2023) takes
+    // the nearest cohort that has them.
+    const specsOnPages = async (c) => {
+      const set = new Set();
+      for (let y = 1; y <= args.years; y++) {
+        const st = await fetchStudyPlanState(prog, termFor(c), y).catch(() => null);
+        for (const ci of st?.curriculumInfos || []) if (!ci.isCommon && ci.code) set.add(ci.code);
+      }
+      return set;
+    };
+    let ownSpecs = await specsOnPages(cohort);
+    let ownSpecsFrom = cohort;
+    if (ownSpecs.size === 0) {
+      for (const c of candidateCohorts(cohort)) {
+        if (c === cohort) continue;
+        const got = await specsOnPages(c);
+        if (got.size > 0) { ownSpecs = got; ownSpecsFrom = c; break; }
+      }
+    }
     const plan = buildMasterPlan({
+      ownSpecs,
+      ownSpecsFrom: ownSpecsFrom === cohort ? null : cohortLabel(ownSpecsFrom),
       entries: allEntries,
       vvRecords: vvKept,
       coreRecords: core,
@@ -4328,6 +4359,9 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     });
     allEntries.splice(0, allEntries.length, ...plan.entries);
     for (const f of plan.flags) flag(`master programme: ${f}`);
+    // Kept per cohort as well: `flag` reports a message once per RUN, so a
+    // note shared by several cohorts would be credited to the first only.
+    masterNotes.push(...plan.flags);
     electiveSpace = { added: [], reports: [], electiveCourses: [] };
   } else {
     electiveSpace = fillElectiveSpace(
@@ -4591,6 +4625,9 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     // would report a load the chart never shows. CMATD is the case: year 3 P3
     // reads 31.5 hp there and 13.5 in the written file.
     entries: ordered, prereqReview, chosenByCode, prereqTexts,
+    // Master mode's own notes (boxes, rules read and not read, spår left out),
+    // for master-review/<PROG>.md.
+    masterNotes,
   };
 }
 
@@ -4980,8 +5017,9 @@ async function main() {
     return;
   }
 
+  const floor = isMasterProgramme({ code: prog, name: programme?.name }) ? EARLIEST_MASTER_COHORT : EARLIEST_COHORT;
   const cohorts = args.allCohorts
-    ? Array.from({ length: newest - EARLIEST_COHORT + 1 }, (_, i) => EARLIEST_COHORT + i)
+    ? Array.from({ length: newest - floor + 1 }, (_, i) => floor + i)
     : [args.cohort ?? newest];
 
   // Prerequisites are NOT per course alone: a cohort reads the kursplan version
@@ -4994,8 +5032,8 @@ async function main() {
   // and the review file is grouped by kursplan version instead.
   const perCohort = [];
   for (const c of cohorts) {
-    if (c < EARLIEST_COHORT) {
-      warn(`${cohortLabel(c)} is older than the supported floor ${cohortLabel(EARLIEST_COHORT)} — skipped`);
+    if (c < floor) {
+      warn(`${cohortLabel(c)} is older than the supported floor ${cohortLabel(floor)} — skipped`);
       continue;
     }
     const res = await extractCohort(prog, c, args, registryEntries);
@@ -5004,6 +5042,7 @@ async function main() {
 
   if (perCohort.length > 0) {
     const rp = writePrereqReview(prog, perCohort);
+    if (perCohort.some((r) => r.masterNotes?.length)) writeMasterReview(prog, perCohort);
     const total = new Set(perCohort.flatMap((r) => r.prereqReview.map(reviewKey))).size;
     console.log(`\nWrote ${rel(rp)} — ${total} distinct item(s) for coordinator review across ${perCohort.length} cohort(s)`);
   }
@@ -5098,6 +5137,47 @@ const REVIEW_HEADINGS = {
  * unit of review is a **kursplan text**, not a cohort — a sentence that four
  * cohorts share is one decision, and the cohorts affected are listed on the item.
  */
+/**
+ * master-review/<PROG>.md: how master mode read each cohort (see
+ * scripts/lib/master-plan.mjs), for the programme director. A line that holds
+ * for several cohorts is listed once with all of them, like the prerequisite
+ * review. The rules it could not read come first, since they are the questions.
+ */
+function writeMasterReview(prog, runs) {
+  const byLine = new Map();
+  for (const r of runs) {
+    for (const note of r.masterNotes ?? []) {
+      if (!byLine.has(note)) byLine.set(note, []);
+      byLine.get(note).push(cohortLabel(r.cohort));
+    }
+  }
+  const all = runs.map((r) => cohortLabel(r.cohort));
+  const who = (cs) => (cs.length === all.length ? 'all cohorts' : cs.join(', '));
+  const section = (title, test, intro) => {
+    const lines = [...byLine].filter(([n]) => test(n));
+    if (!lines.length) return [];
+    return [`## ${title}`, '', ...(intro ? [intro, ''] : []), ...lines.map(([n, cs]) => `- ${n} *(${who(cs)})*`), ''];
+  };
+  const unread = (n) => n.includes('rule not machine-read');
+  const box = (n) => / one box over years /.test(n);
+  const rounds = (n) => /round per year/.test(n);
+  const L = [
+    `# ${prog} — how the study plan was read`,
+    '',
+    `Generated by \`scripts/extract-from-kopps.mjs\` in master mode (\`scripts/lib/master-plan.mjs\`) for ${all.join(', ')}.`,
+    'Each spår has one box for its elective space over both years; the rules read are shown as a checklist in the box.',
+    '',
+    ...section('Rules not read', unread, 'Not shown in the box — check whether the chart needs them.'),
+    ...section('Boxes per spår', box, 'Size per year (P1/P2/P3/P4), number of options, and the rules read.'),
+    ...section('Courses readable in year 1 or year 2', rounds),
+    ...section('Other', (n) => !unread(n) && !box(n) && !rounds(n)),
+  ];
+  mkdirSync(join(repoRoot, 'master-review'), { recursive: true });
+  const path = join(repoRoot, 'master-review', `${prog}.md`);
+  writeFileSync(path, `${L.join('\n').replace(/\n+$/, '')}\n`, 'utf8');
+  console.log(`Wrote ${rel(path)}`);
+}
+
 function writePrereqReview(prog, runs) {
   const cohortNames = runs.map((r) => r.label ?? cohortLabel(r.cohort));
 

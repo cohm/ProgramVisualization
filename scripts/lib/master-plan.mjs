@@ -66,9 +66,10 @@ const flatPeriods = (pc) => Object.fromEntries(PERIOD_IDS.map((p) => [p, round(N
  * @param {number}   a.years
  * @param {Function} a.roundIds       the extractor's id rule for alternative offerings
  */
-export function buildMasterPlan(a) {
+export function buildMasterPlan(input) {
   const flags = [];
   const out = [];
+  const a = keepOwnSpecs(input, flags);
   const byCode = new Map(a.entries.filter((e) => e.code).map((e) => [e.code, e]));
   const isThesis = (code) => /X$/.test(code) && Number(byCode.get(code)?.totalCredits || 0) >= 15;
 
@@ -473,4 +474,45 @@ function readNamedLists(text) {
     for (const c of codes) lists.get(stem).add(c);
   }
   return [...lists].map(([stem, codes]) => ({ stem, codes: [...codes] }));
+}
+
+/**
+ * Only the spår the cohort itself had (`ownSpecs`, from its own pages). A year
+ * borrowed from another cohort brings that cohort's spår: without this, TTFYM
+ * HT2026 had boxes for both TFYF (from year 2, borrowed from HT2025) and TFYH
+ * (its own year 1), and TTMAM HT2023 a CSSE box with no thesis, since CSSE
+ * starts with HT2025. A course only for a dropped spår is dropped with it.
+ */
+function keepOwnSpecs(a, flags) {
+  const own = a.ownSpecs;
+  if (!own || own.size === 0) return a;
+  const all = new Set([...a.entries, ...a.vvRecords, ...(a.coreRecords ?? []), ...a.electiveRecords]
+    .flatMap((x) => x.specializations ?? (x.spec ? [x.spec] : [])));
+  const dropped = [...all].filter((s) => !own.has(s)).sort();
+  if (dropped.length === 0) return a;
+  const keepRecord = (r) => !r.spec || own.has(r.spec);
+  const entries = [];
+  const gone = [];
+  for (const e of a.entries) {
+    if (!e.specializations?.length) { entries.push(e); continue; }
+    const specs = e.specializations.filter((s) => own.has(s));
+    if (specs.length === 0) { gone.push(e.code ?? e.name); continue; }
+    const kept = { ...e, specializations: specs };
+    for (const k of ['yearBySpecialization', 'periodCreditsBySpecialization']) {
+      if (!e[k]) continue;
+      const m = Object.fromEntries(Object.entries(e[k]).filter(([s]) => own.has(s)));
+      if (Object.keys(m).length) kept[k] = m; else delete kept[k];
+    }
+    entries.push(kept);
+  }
+  flags.push(`spår ${dropped.join(', ')} ${dropped.length === 1 ? 'is' : 'are'} not on this cohort's own pages` +
+    `${a.ownSpecsFrom ? ` (none left; spår read from kull ${a.ownSpecsFrom})` : ''} — they come from a borrowed ` +
+    `year, so they are left out${gone.length ? `, with ${gone.length} entr${gone.length === 1 ? "y" : "ies"} only they had: ${gone.join(', ')}` : ''}.`);
+  return {
+    ...a,
+    entries,
+    vvRecords: a.vvRecords.filter(keepRecord),
+    coreRecords: (a.coreRecords ?? []).filter(keepRecord),
+    electiveRecords: a.electiveRecords.filter(keepRecord),
+  };
 }

@@ -31,8 +31,7 @@
     "comment": "Utbildningsplanen verifierad av programansvarig Carlos Casanueva Perez den 23 september 2026",
     "commentEn": "Study plan verified by program director Carlos Casanueva Perez on 23 September 2026",
     "studyplan": "https://www.kth.se/student/kurser/program/CFATE"
-  }
-  ,
+  },
   {
     "code": "COPEN",
     "name": "Civilingenjörsutbildning Öppen ingång",
@@ -55,10 +54,26 @@
     "commentEn": "Auto-scraped from the KTH study handbook (2024 cohort), not manually verified. Y4-Y5 live in the master programmes and are not shown here.",
     "studyplan": "https://www.kth.se/student/kurser/program/CINEK",
     "specializations": [
-      { "code": "DTOI", "name": "Datateknik", "nameEn": "Computer Technology" },
-      { "code": "TMAI", "name": "Tillämpad matematik", "nameEn": "Applied Mathematics" },
-      { "code": "EHUI", "name": "Energisystem och hållbar utveckling", "nameEn": "Energy Systems and Sustainable Development" },
-      { "code": "PPUI", "name": "Produkt- och produktionsutveckling", "nameEn": "Product and Production Development" }
+      {
+        "code": "DTOI",
+        "name": "Datateknik",
+        "nameEn": "Computer Technology"
+      },
+      {
+        "code": "TMAI",
+        "name": "Tillämpad matematik",
+        "nameEn": "Applied Mathematics"
+      },
+      {
+        "code": "EHUI",
+        "name": "Energisystem och hållbar utveckling",
+        "nameEn": "Energy Systems and Sustainable Development"
+      },
+      {
+        "code": "PPUI",
+        "name": "Produkt- och produktionsutveckling",
+        "nameEn": "Product and Production Development"
+      }
     ]
   },
   {
@@ -73,15 +88,51 @@
     "commentEn": "Master programme (corresponds to year 4-5 of the CINEK degree program). Auto-scraped from the KTH study handbook (2024 cohort), not manually verified. Tracks (spår) are temporarily modelled in the same `specializations` field.",
     "studyplan": "https://www.kth.se/student/kurser/program/TIEMM",
     "specializations": [
-      { "code": "CYPS", "name": "Spår, Cyberfysiska system", "nameEn": "Track, Cyber-Physical Systems" },
-      { "code": "EEAA", "name": "Spår, effektiv energianvändning", "nameEn": "Track, Efficient Energy Use" },
-      { "code": "FMIB", "name": "Spår, finansiell matematik", "nameEn": "Track, Financial Mathematics" },
-      { "code": "HKPA", "name": "Spår, hållbar kraftproduktion", "nameEn": "Track, Sustainable Power Production" },
-      { "code": "IAVN", "name": "Spår, interaktion och visualisering", "nameEn": "Track, Interaction and Visualisation" },
-      { "code": "MAIG", "name": "Spår, maskininlärning", "nameEn": "Track, Machine Learning" },
-      { "code": "MOPR", "name": "Spår, Modern produktion", "nameEn": "Track, Modern Production" },
-      { "code": "OSYT", "name": "Spår, optimeringslära och systemteori", "nameEn": "Track, Optimisation and Systems Theory" },
-      { "code": "PUET", "name": "Spår, programutvecklingsteknik", "nameEn": "Track, Software Engineering" }
+      {
+        "code": "CYPS",
+        "name": "Spår, Cyberfysiska system",
+        "nameEn": "Track, Cyber-Physical Systems"
+      },
+      {
+        "code": "EEAA",
+        "name": "Spår, effektiv energianvändning",
+        "nameEn": "Track, Efficient Energy Use"
+      },
+      {
+        "code": "FMIB",
+        "name": "Spår, finansiell matematik",
+        "nameEn": "Track, Financial Mathematics"
+      },
+      {
+        "code": "HKPA",
+        "name": "Spår, hållbar kraftproduktion",
+        "nameEn": "Track, Sustainable Power Production"
+      },
+      {
+        "code": "IAVN",
+        "name": "Spår, interaktion och visualisering",
+        "nameEn": "Track, Interaction and Visualisation"
+      },
+      {
+        "code": "MAIG",
+        "name": "Spår, maskininlärning",
+        "nameEn": "Track, Machine Learning"
+      },
+      {
+        "code": "MOPR",
+        "name": "Spår, Modern produktion",
+        "nameEn": "Track, Modern Production"
+      },
+      {
+        "code": "OSYT",
+        "name": "Spår, optimeringslära och systemteori",
+        "nameEn": "Track, Optimisation and Systems Theory"
+      },
+      {
+        "code": "PUET",
+        "name": "Spår, programutvecklingsteknik",
+        "nameEn": "Track, Software Engineering"
+      }
     ]
   },
   {
@@ -95,10 +146,26 @@
     "commentEn": "Fully auto-extracted, never verified. The default view shows the HT2025 cohort; pick an admission year for others.",
     "studyplan": "https://www.kth.se/student/kurser/program/CMAST",
     "specializations": [
-      { "code": "STD", "name": "Utan internationell inriktning", "nameEn": "Without international profile" },
-      { "code": "INTF", "name": "Internationell inriktning, franska", "nameEn": "International Profile, french" },
-      { "code": "INTS", "name": "Internationell inriktning, spanska", "nameEn": "International Profile, spanish" },
-      { "code": "INTT", "name": "Internationell inriktning, tyska", "nameEn": "International Profile, german" }
+      {
+        "code": "STD",
+        "name": "Utan internationell inriktning",
+        "nameEn": "Without international profile"
+      },
+      {
+        "code": "INTF",
+        "name": "Internationell inriktning, franska",
+        "nameEn": "International Profile, french"
+      },
+      {
+        "code": "INTS",
+        "name": "Internationell inriktning, spanska",
+        "nameEn": "International Profile, spanish"
+      },
+      {
+        "code": "INTT",
+        "name": "Internationell inriktning, tyska",
+        "nameEn": "International Profile, german"
+      }
     ]
   },
   {
@@ -111,8 +178,7 @@
     "comment": "Helt automatiskt extraherad, aldrig verifierad. Standardvyn visar kullen HT2025; välj antagningsår för andra kullar.",
     "commentEn": "Fully auto-extracted, never verified. The default view shows the HT2025 cohort; pick an admission year for others.",
     "studyplan": "https://www.kth.se/student/kurser/program/CMATD"
-  }
-  ,
+  },
   {
     "code": "CELTE",
     "name": "Civilingenjörsutbildning i elektroteknik",
@@ -179,10 +245,26 @@
     "commentEn": "Study plan not yet verified — use with caution!",
     "studyplan": "https://www.kth.se/student/kurser/program/CLGYM",
     "specializations": [
-      { "code": "MAFY", "name": "Matematik och fysik", "nameEn": "Mathematics and Physics" },
-      { "code": "MAKE", "name": "Matematik och kemi", "nameEn": "Mathematics and Chemistry" },
-      { "code": "TEDA", "name": "Matematik och Teknik: Datateknik", "nameEn": "Mathematics and Engineering specialising in Computer Science" },
-      { "code": "TEMI", "name": "Matematik och Teknik: Energi och miljö", "nameEn": "Mathematics and Technology: Energy and Environment" }
+      {
+        "code": "MAFY",
+        "name": "Matematik och fysik",
+        "nameEn": "Mathematics and Physics"
+      },
+      {
+        "code": "MAKE",
+        "name": "Matematik och kemi",
+        "nameEn": "Mathematics and Chemistry"
+      },
+      {
+        "code": "TEDA",
+        "name": "Matematik och Teknik: Datateknik",
+        "nameEn": "Mathematics and Engineering specialising in Computer Science"
+      },
+      {
+        "code": "TEMI",
+        "name": "Matematik och Teknik: Energi och miljö",
+        "nameEn": "Mathematics and Technology: Energy and Environment"
+      }
     ]
   },
   {
@@ -251,11 +333,126 @@
     "commentEn": "Study plan not yet verified — use with caution!",
     "studyplan": "https://www.kth.se/student/kurser/program/CSAMH",
     "specializations": [
-      { "code": "BBP", "name": "Bygg och byggprojektledning", "nameEn": "Civil Engineering and Construction Project Management" },
-      { "code": "FEFJ", "name": "Fastighetsekonomi och fastighetsjuridik", "nameEn": "Real Estate Economics and Real Estate Law" },
-      { "code": "GIT", "name": "Geografisk IT", "nameEn": "Geographic IT" },
-      { "code": "MHI", "name": "Miljöteknik och hållbar infrastruktur", "nameEn": "Environmental Engineering and Sustainable Infrastructure" },
-      { "code": "STP", "name": "Stads- och trafikplanering", "nameEn": "Urban and Traffic Planning" }
+      {
+        "code": "BBP",
+        "name": "Bygg och byggprojektledning",
+        "nameEn": "Civil Engineering and Construction Project Management"
+      },
+      {
+        "code": "FEFJ",
+        "name": "Fastighetsekonomi och fastighetsjuridik",
+        "nameEn": "Real Estate Economics and Real Estate Law"
+      },
+      {
+        "code": "GIT",
+        "name": "Geografisk IT",
+        "nameEn": "Geographic IT"
+      },
+      {
+        "code": "MHI",
+        "name": "Miljöteknik och hållbar infrastruktur",
+        "nameEn": "Environmental Engineering and Sustainable Infrastructure"
+      },
+      {
+        "code": "STP",
+        "name": "Stads- och trafikplanering",
+        "nameEn": "Urban and Traffic Planning"
+      }
     ]
+  },
+  {
+    "code": "TTFYM",
+    "name": "Masterprogram, teknisk fysik",
+    "nameEn": "Master's Programme, Engineering Physics",
+    "level": "master",
+    "dataFile": "cohorts/TTFYM-HT2025.json",
+    "cosmeticsFile": "TTFYM-cosmetics.json",
+    "verified": false,
+    "comment": "Masterprogram, två år. Helt automatiskt extraherat, aldrig verifierat. Standardvyn visar kullen HT2025; välj antagningsår för andra kullar.",
+    "commentEn": "Master's programme, two years. Fully auto-extracted, never verified. The default view shows the HT2025 cohort; pick an admission year for others.",
+    "studyplan": "https://www.kth.se/student/kurser/program/TTFYM",
+    "specializations": [
+      {
+        "code": "TFYA",
+        "name": "Spår, teoretisk fysik",
+        "nameEn": "Track, Theoretical Physics"
+      },
+      {
+        "code": "TFYB",
+        "name": "Spår, subatomär och astrofysik",
+        "nameEn": "Track, Subatomic and Astrophysics"
+      },
+      {
+        "code": "TFYE",
+        "name": "Spår, biomedicinsk fysik",
+        "nameEn": "Track, Biomedical Physics"
+      },
+      {
+        "code": "TFYF",
+        "name": "Spår, optik & fotonik",
+        "nameEn": "Track, Optics & Photonics"
+      },
+      {
+        "code": "TFYG",
+        "name": "Spår, kvantteknologi",
+        "nameEn": "Track, Quantum Technology"
+      },
+      {
+        "code": "TFYH",
+        "name": "Spår, ljusets och materiens fysik",
+        "nameEn": "Track, Light and Matter Physics"
+      }
+    ]
+  },
+  {
+    "code": "TTMAM",
+    "name": "Masterprogram, tillämpad matematik och beräkningsmatematik",
+    "nameEn": "Master's Programme, Applied and Computational Mathematics",
+    "level": "master",
+    "dataFile": "cohorts/TTMAM-HT2025.json",
+    "cosmeticsFile": "TTMAM-cosmetics.json",
+    "verified": false,
+    "comment": "Masterprogram, två år. Helt automatiskt extraherat, aldrig verifierat. Standardvyn visar kullen HT2025; välj antagningsår för andra kullar.",
+    "commentEn": "Master's programme, two years. Fully auto-extracted, never verified. The default view shows the HT2025 cohort; pick an admission year for others.",
+    "studyplan": "https://www.kth.se/student/kurser/program/TTMAM",
+    "specializations": [
+      {
+        "code": "COMA",
+        "name": "Spår, beräkningsmatematik",
+        "nameEn": "Track, Computational Mathematics"
+      },
+      {
+        "code": "CSSE",
+        "name": "Spår, datorsimuleringar inom teknik och naturvetenskap",
+        "nameEn": "Track, Computer Simulations for Science and Engineering"
+      },
+      {
+        "code": "DAVE",
+        "name": "Spår, matematik för datavetenskap",
+        "nameEn": "Track, Mathematics of Data Science"
+      },
+      {
+        "code": "FMIA",
+        "name": "Spår, finansiell matematik",
+        "nameEn": "Track, Financial Mathematics"
+      },
+      {
+        "code": "OPST",
+        "name": "Spår, optimeringslära och systemteori",
+        "nameEn": "Track, Optimization and Systems Theory"
+      }
+    ]
+  },
+  {
+    "code": "TMAIM",
+    "name": "Masterprogram, maskininlärning",
+    "nameEn": "Master's Programme, Machine Learning",
+    "level": "master",
+    "dataFile": "cohorts/TMAIM-HT2025.json",
+    "cosmeticsFile": "TMAIM-cosmetics.json",
+    "verified": false,
+    "comment": "Masterprogram, två år. Helt automatiskt extraherat, aldrig verifierat. Standardvyn visar kullen HT2025; välj antagningsår för andra kullar.",
+    "commentEn": "Master's programme, two years. Fully auto-extracted, never verified. The default view shows the HT2025 cohort; pick an admission year for others.",
+    "studyplan": "https://www.kth.se/student/kurser/program/TMAIM"
   }
 ]

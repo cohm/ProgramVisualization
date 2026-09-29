@@ -1,0 +1,2269 @@
+[
+  {
+    "type": "cohortMeta",
+    "program": "TTFYM",
+    "cohort": "HT2025",
+    "years": [
+      {
+        "year": 1,
+        "sourceCohort": "HT2025",
+        "approximated": false,
+        "confidence": "exact"
+      },
+      {
+        "year": 2,
+        "sourceCohort": "HT2025",
+        "approximated": false,
+        "confidence": "exact"
+      }
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (TFYF)",
+    "nameEn": "Conditionally elective and elective courses (TFYF)",
+    "year": 1,
+    "totalCredits": 81,
+    "periodCredits": {
+      "Year1": {
+        "P1": 13.5,
+        "P2": 15,
+        "P3": 15,
+        "P4": 15
+      },
+      "Year2": {
+        "P1": 10.5,
+        "P2": 12,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "SK2303",
+      "SK2758",
+      "SK2908",
+      "SK2404",
+      "SK2402",
+      "SK2005",
+      "SK2411",
+      "SK2551",
+      "SK2900",
+      "SK2904",
+      "SK2907",
+      "SH2150",
+      "SK2712",
+      "SK2501",
+      "SK2560"
+    ],
+    "allowedNumberOfOptions": 15,
+    "kind": "minCredits",
+    "minCredits": 81,
+    "constraints": [
+      {
+        "kind": "minCount",
+        "value": 1,
+        "from": [
+          "SK2303",
+          "SK2758"
+        ],
+        "label": "Under åk 1+2 ska studenten läsa minst 40 hp villkorligt valfria kurser inom spåret varav minst en av de villkorligt valfria SK2303 eller SK2758 kurserna måste ingå."
+      },
+      {
+        "kind": "minCredits",
+        "value": 40,
+        "from": [
+          "SK2303",
+          "SK2758",
+          "SK2908",
+          "SK2404",
+          "SK2402",
+          "SK2005",
+          "SK2411",
+          "SK2551",
+          "SK2900",
+          "SK2904",
+          "SK2907"
+        ],
+        "label": "Under åk 1+2 ska studenten läsa minst 40 hp villkorligt valfria kurser inom spåret varav minst en av de villkorligt valfria SK2303 eller SK2758 kurserna måste ingå."
+      }
+    ],
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "TFYF"
+    ],
+    "comment": "Spår, optik & fotonik: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (TFYB)",
+    "nameEn": "Conditionally elective and elective courses (TFYB)",
+    "year": 1,
+    "totalCredits": 66,
+    "periodCredits": {
+      "Year1": {
+        "P1": 6,
+        "P2": 7.5,
+        "P3": 15,
+        "P4": 15
+      },
+      "Year2": {
+        "P1": 10.5,
+        "P2": 12,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "SH2306",
+      "SH2314",
+      "SH2373",
+      "SH2011",
+      "SH2203",
+      "SH2302",
+      "SH2374",
+      "SI2390",
+      "SI2400",
+      "SH2204",
+      "SH2405",
+      "SK2712",
+      "SH2150"
+    ],
+    "allowedNumberOfOptions": 13,
+    "kind": "minCredits",
+    "minCredits": 66,
+    "constraints": [
+      {
+        "kind": "minCredits",
+        "value": 25,
+        "from": [
+          "SH2306",
+          "SH2314",
+          "SH2373",
+          "SH2011",
+          "SH2203",
+          "SH2302",
+          "SH2374",
+          "SI2390",
+          "SI2400",
+          "SH2204",
+          "SH2405"
+        ],
+        "label": "minst 25 hp villkorligt valfria kurser inom spåret."
+      }
+    ],
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "TFYB"
+    ],
+    "comment": "Spår, subatomär och astrofysik: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "code": "SK2907",
+    "name": "Halvledarfotonik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYF"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Semiconductor Photonics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2906",
+    "name": "Kvantkretsar",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYG"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Quantum Circuits",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SK2904",
+    "name": "Kvantmaterial",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYF",
+      "TFYG"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Quantum Materials",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2758",
+    "name": "Fasta tillståndets fysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYA",
+      "TFYF",
+      "TFYG"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Solid State Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SK2712",
+    "name": "Miljöfysik",
+    "nameEn": "Environmental physics",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SK2908",
+    "name": "Makroskopiska kvantfenomen - supraledning och magnetism",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYF",
+      "TFYG"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Macroscopic quantum phenomena – superconductivity and magnetism",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SK2758"
+    ],
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SI2530",
+    "name": "Beräkningsfysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYA",
+      "TFYE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Computational Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SK2532",
+    "name": "Biomedicin för ingenjörer",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYE"
+    ],
+    "category": "mandatory",
+    "nameEn": "Biomedicine for Engineers",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2551",
+    "name": "Röntgenfysik och tillämpningar",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYE",
+      "TFYF"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "X-ray physics and applications",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2533",
+    "name": "Experimentell biofysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Experimental Biophysics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (TFYG)",
+    "nameEn": "Conditionally elective and elective courses (TFYG)",
+    "year": 1,
+    "totalCredits": 66,
+    "periodCredits": {
+      "Year1": {
+        "P1": 3,
+        "P2": 10.5,
+        "P3": 15,
+        "P4": 15
+      },
+      "Year2": {
+        "P1": 10.5,
+        "P2": 12,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "SK2906",
+      "SK2908",
+      "SH2381",
+      "SI2520",
+      "SK2004",
+      "SK2900",
+      "SK2904",
+      "SK2560",
+      "SK2758",
+      "SK2712",
+      "SH2150"
+    ],
+    "allowedNumberOfOptions": 11,
+    "kind": "minCredits",
+    "minCredits": 66,
+    "constraints": [
+      {
+        "kind": "minCredits",
+        "value": 25,
+        "from": [
+          "SK2906",
+          "SK2908",
+          "SH2381",
+          "SI2520",
+          "SK2004",
+          "SK2900",
+          "SK2904",
+          "SK2560"
+        ],
+        "label": "minst 25 hp villkorligt valfria kurser inom spåret."
+      }
+    ],
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "TFYG"
+    ],
+    "comment": "Spår, kvantteknologi: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "code": "SK2303",
+    "name": "Optisk fysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYE",
+      "TFYF"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Optical Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SK2535",
+    "name": "Cellulär biofysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Cellular Biophysics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2903",
+    "name": "Kvantteknologi",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 3,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYG"
+    ],
+    "category": "mandatory",
+    "nameEn": "Quantum Technology",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2534",
+    "name": "Molekylär biofysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYA",
+      "TFYE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Molecular Biophysics",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SK2501",
+    "name": "Bildfysik med inriktning mot biomedicinsk mikroskopi, utökad kurs",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYE",
+      "TFYF"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Physics of Biomedical Microscopy, Extended Course",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SA2003",
+    "name": "Hållbar utveckling inom teknisk fysik",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Sustainable Development in Engineering Physics",
+    "gradingScale": "P/F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2541",
+    "name": "Simulering och modellering av biologiska system",
+    "nameEn": "Simulation and Modelling of Biological Systems",
+    "totalCredits": 1.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 1.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "TFYE"
+    ],
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 1.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 1.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SH2103",
+    "name": "Subatomär fysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYB",
+      "TFYE"
+    ],
+    "category": "mandatory",
+    "nameEn": "Subatomic Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2411",
+    "name": "Laserfysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYF"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Laser Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SH2306",
+    "name": "Experimentell teknik för kärn- och partikelfysik",
+    "totalCredits": 8,
+    "periodCredits": {
+      "P1": 8,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYB"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Experimental Techniques for Nuclear and Particle Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 8,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 8,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SK2536",
+    "name": "Laborativa tekniker i livsvetenskaperna",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Laboratory techniques in Life Sciences",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2404",
+    "name": "Optisk mätteknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYF"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Optical Measurement Technology",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SK2303"
+    ],
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SK2900",
+    "name": "Kvantfotonik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYF",
+      "TFYG"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Quantum Photonics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2005",
+    "name": "Projektkurs i optik och fotonik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 3
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYF"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Project course in Optics and Photonics",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SK2303"
+    ],
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 4.5,
+          "P4": 3
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 4.5,
+          "P2": 3,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SK2402",
+    "name": "Fotonikens grundprinciper",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYF"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Fundamentals of Photonics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SI2360",
+    "name": "Analytisk mekanik och klassisk fältteori",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Analytical Mechanics and Classical Field Theory",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SI2520",
+    "name": "Statistisk mekanik för icke-jämviktssystem",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYA",
+      "TFYG"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Nonequilibrium Statistical Mechanics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SI2510",
+    "name": "Statistisk mekanik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Statistical Mechanics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2004",
+    "name": "Projektkurs i kvantteknologi",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 3
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYG"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Project course in Quantum Technology",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SI2380",
+      "SK2903"
+    ],
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 4.5,
+          "P4": 3
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 4.5,
+          "P2": 3,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SI2400",
+    "name": "Teoretisk partikelfysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYA",
+      "TFYB"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Theoretical Particle Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SI2390",
+    "name": "Relativistisk kvantfysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYA",
+      "TFYB"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Relativistic Quantum Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SI2380",
+    "name": "Kvantmekanik, fortsättningskurs",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYA",
+      "TFYB",
+      "TFYG"
+    ],
+    "category": "mandatory",
+    "nameEn": "Advanced Quantum Mechanics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (TFYE)",
+    "nameEn": "Conditionally elective and elective courses (TFYE)",
+    "year": 1,
+    "totalCredits": 73.5,
+    "periodCredits": {
+      "Year1": {
+        "P1": 6,
+        "P2": 15,
+        "P3": 15,
+        "P4": 15
+      },
+      "Year2": {
+        "P1": 10.5,
+        "P2": 12,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "SI2530",
+      "SK2501",
+      "SK2533",
+      "SK2534",
+      "SH2314",
+      "SK2535",
+      "SK2536",
+      "SK2551",
+      "CB2442",
+      "SK2538",
+      "SK2539",
+      "SK2560",
+      "CM2020",
+      "SH2103",
+      "SH2150",
+      "SI1336",
+      "SK2303",
+      "SK2541",
+      "CM2019",
+      "SI1155",
+      "SK2712",
+      "BB2255",
+      "HL1007"
+    ],
+    "allowedNumberOfOptions": 23,
+    "kind": "minCredits",
+    "minCredits": 73.5,
+    "constraints": [
+      {
+        "kind": "minCredits",
+        "value": 32.5,
+        "from": [
+          "SI2530",
+          "SK2501",
+          "SK2533",
+          "SK2534",
+          "SH2314",
+          "SK2535",
+          "SK2536",
+          "SK2551",
+          "CB2442",
+          "SK2538",
+          "SK2539",
+          "SK2560"
+        ],
+        "label": "minst 32.5 hp villkorligt valfria kurser inom spåret."
+      },
+      {
+        "kind": "minCount",
+        "value": 2,
+        "from": [
+          "SK2533",
+          "SK2534",
+          "SK2535"
+        ],
+        "label": "Minst två av de villkorligt valfria kurserna SK2533, SK2534 och SK2535 ska väljas."
+      },
+      {
+        "kind": "minCount",
+        "value": 2,
+        "from": [
+          "SI2530",
+          "SK2303",
+          "SK2551",
+          "SK2539"
+        ],
+        "label": "Minst två av de villkorligt valfria breddande fysikkurserna SI2530, SK2303, SK2551 och SK2539 ska väljas."
+      }
+    ],
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "TFYE"
+    ],
+    "comment": "Spår, biomedicinsk fysik: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "code": "CM2020",
+    "name": "Medicinsk avbildning med joniserande strålning",
+    "nameEn": "Ionising Radiation Imaging",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "TFYE"
+    ],
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (TFYA)",
+    "nameEn": "Conditionally elective and elective courses (TFYA)",
+    "year": 1,
+    "totalCredits": 73.5,
+    "periodCredits": {
+      "Year1": {
+        "P1": 6,
+        "P2": 15,
+        "P3": 15,
+        "P4": 15
+      },
+      "Year2": {
+        "P1": 10.5,
+        "P2": 12,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "SH2373",
+      "SI2215",
+      "SI2510",
+      "SI2530",
+      "SK2534",
+      "SH2374",
+      "SH2381",
+      "SI2360",
+      "SI2390",
+      "SI2400",
+      "SI2520",
+      "SI2410",
+      "SI2600",
+      "SH2150",
+      "SI1336",
+      "SK2758",
+      "SI1142",
+      "SK2712",
+      "CB2070"
+    ],
+    "allowedNumberOfOptions": 19,
+    "kind": "minCredits",
+    "minCredits": 73.5,
+    "constraints": [
+      {
+        "kind": "minCredits",
+        "value": 32.5,
+        "from": [
+          "SH2373",
+          "SI2215",
+          "SI2510",
+          "SI2530",
+          "SK2534",
+          "SH2374",
+          "SH2381",
+          "SI2360",
+          "SI2390",
+          "SI2400",
+          "SI2520",
+          "SI2410",
+          "SI2600"
+        ],
+        "label": "minst 32,5 hp villkorligt valfria kurser inom spåret."
+      }
+    ],
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "TFYA"
+    ],
+    "comment": "Spår, teoretisk fysik: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "code": "SH2011",
+    "name": "Teoretisk kärnfysik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYB"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Theoretical Nuclear Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SH2374",
+    "name": "Allmän relativitetsteori",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYA",
+      "TFYB"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "General Relativity",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SH2373"
+    ]
+  },
+  {
+    "code": "SI1336",
+    "name": "Simulering och modellering",
+    "nameEn": "Simulation and Modeling",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "TFYA",
+      "TFYE"
+    ],
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 6,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 6,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "CB2070",
+    "name": "Molekylär kvantmekanik",
+    "nameEn": "Molecular Quantum Mechanics",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "TFYA"
+    ]
+  },
+  {
+    "code": "SH2373",
+    "name": "Speciell relativitetsteori",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYA",
+      "TFYB"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Special Relativity",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SH2381",
+    "name": "Kvantinformation",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYA",
+      "TFYG"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Quantum Information",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SI2380"
+    ]
+  },
+  {
+    "code": "SI1155",
+    "name": "Teoretisk fysik",
+    "nameEn": "Theoretical Physics",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "TFYE"
+    ]
+  },
+  {
+    "code": "SH2314",
+    "name": "Medicinsk avbildning, signaler och system",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYB",
+      "TFYE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Medical Imaging, Signals and Systems",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SH2302",
+    "name": "Kärnfysik",
+    "totalCredits": 8,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 8,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYB"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Nuclear Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SI2215",
+    "name": "Symmetrier i fysiken",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Symmetries in Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SH2203",
+    "name": "Experimentell partikelfysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYB"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Experimental Particle Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SH2103"
+    ]
+  },
+  {
+    "code": "SI1142",
+    "name": "Fysikens matematiska metoder, tilläggskurs",
+    "nameEn": "Mathematical Methods in Physics, Additional Course",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 3
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "TFYA"
+    ]
+  },
+  {
+    "code": "CM2019",
+    "name": "Ultraljud",
+    "nameEn": "Ultrasound",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "TFYE"
+    ]
+  },
+  {
+    "code": "SH2150",
+    "name": "Maskininlärning i fysik",
+    "nameEn": "Machine Learning in Physics",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "AK2030",
+    "name": "Vetenskapsteori och vetenskaplig metodik (naturvetenskap)",
+    "totalCredits": 4.5,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Theory and Methodology of Science (Natural and Technological Science)",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "BB2255",
+    "name": "Tillämpad genteknologi",
+    "nameEn": "Applied Gene Technology",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "TFYE"
+    ]
+  },
+  {
+    "code": "CB2442",
+    "name": "Bioinformatik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Bioinformatics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "HL1007",
+    "name": "Medicinsk teknik, grundkurs",
+    "nameEn": "Medical Engineering, Basic Course",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "TFYE"
+    ]
+  },
+  {
+    "code": "SH2007",
+    "name": "Research Methodology in Physics",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Research Methodology in Physics",
+    "gradingScale": "P/F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SH204X",
+    "name": "Examensarbete inom fysik, avancerad nivå",
+    "totalCredits": 30,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 15,
+      "P4": 15
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Physics, Second Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SH2204",
+    "name": "Astropartikelfysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYB"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Astroparticle Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SH2103"
+    ]
+  },
+  {
+    "code": "SH2405",
+    "name": "Högenergiastrofysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYB"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "High-Energy Astrophysics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SI201X",
+    "name": "Examensarbete inom teoretisk fysik, avancerad nivå",
+    "totalCredits": 30,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 15,
+      "P4": 15
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Theoretical Physics, Second Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SI2410",
+    "name": "Kvantfältteori",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Quantum Field Theory",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SI2600",
+    "name": "Kondenserade materiens teori",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Condensed Matter Theory",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK202X",
+    "name": "Examensarbete inom tillämpad fysik, avancerad nivå",
+    "totalCredits": 30,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 15,
+      "P4": 15
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Applied Physics, Second Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2538",
+    "name": "Datadriven biovetenskap",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Data-driven Life Sciences",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2539",
+    "name": "Akustofluidik vid mikroskala",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYE"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Microscale Acoustofluidics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2560",
+    "name": "Nanofotonik och bionanofotonik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TFYE",
+      "TFYF",
+      "TFYG"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Nanophotonics and Bionanophotonics",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1-y1",
+        "year": 1,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Examensarbete",
+    "nameEn": "Degree project",
+    "year": 2,
+    "totalCredits": 30,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 15,
+      "P4": 15
+    },
+    "options": [
+      "SH204X",
+      "SI201X",
+      "SK202X"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [],
+    "category": "conditionallyElective"
+  }
+]
