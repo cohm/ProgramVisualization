@@ -129,6 +129,11 @@ export function buildOptionGroupTooltip(og: OptionGroup, language: Lang, deps: O
   // how the whole list should be read.
   const ogComment = language === 'en' ? (og.commentEn || og.comment) : og.comment;
   const commentLine = ogComment ? `<br/><em>${escapeHtml(ogComment)}</em>` : '';
+  // The plan's sub-quotas, one per line. The tooltip shows the rule, not
+  // progress; the selection modal tracks that.
+  const constraintLines = (og.constraints ?? [])
+    .map(c => `<br/>• ${escapeHtml(language === 'en' ? (c.labelEn || c.label) : c.label)}`)
+    .join('');
 
-  return `<strong>${escapeHtml(ogName)}</strong><br/><em>${escapeHtml(hint)}</em><br/>${escapeHtml(tr[language].totalCredits)}: ${og.totalCredits} ${escapeHtml(tr[language].credits)}${commentLine}<br/><strong>${escapeHtml(tr[language].options)}:</strong><br/>${optionsList}`;
+  return `<strong>${escapeHtml(ogName)}</strong><br/><em>${escapeHtml(hint)}</em><br/>${escapeHtml(tr[language].totalCredits)}: ${og.totalCredits} ${escapeHtml(tr[language].credits)}${commentLine}${constraintLines}<br/><strong>${escapeHtml(tr[language].options)}:</strong><br/>${optionsList}`;
 }

@@ -1,4 +1,5 @@
 import type { Course, CourseCredit, CourseRound, OptionGroup, Period } from '@/types/course';
+import { groupCredits, spansYears } from '@/lib/groupCredits';
 
 const PERIOD_IDS: Period['id'][] = ['P1', 'P2', 'P3', 'P4'];
 
@@ -6,9 +7,11 @@ const PERIOD_IDS: Period['id'][] = ['P1', 'P2', 'P3', 'P4'];
 export const hasRounds = (course: Course): boolean =>
   Array.isArray(course.rounds) && course.rounds.length > 1;
 
-/** The periods an option-group box occupies, in order. */
-export const groupPeriods = (group: OptionGroup): Period['id'][] =>
-  PERIOD_IDS.filter(p => (group.periodCredits?.[p] ?? 0) > 0);
+/** The periods an option-group box occupies, in order, over all its years. */
+export const groupPeriods = (group: OptionGroup): Period['id'][] => {
+  const used = new Set(groupCredits(group).map(c => c.period));
+  return PERIOD_IDS.filter(p => used.has(p));
+};
 
 /**
  * How well a round fits a box: the credits it places inside the box's own
@@ -19,6 +22,22 @@ const overlap = (round: CourseRound, periods: Period['id'][]): number =>
   round.credits
     .filter(c => periods.includes(c.period))
     .reduce((sum, c) => sum + c.credits, 0);
+
+/**
+ * The same, by (year, period), for a box spanning study years. There a round
+ * is an offering in one of the box's years, and the year is what tells them
+ * apart: SF2743 read in year 1 P1 or in year 2 P1.
+ *
+ * A box in ONE year keeps the period-only test, because a pick is re-stamped
+ * to that box's year anyway: CTMAT's SF1677 is filed under year 2 and is
+ * offered by year-3 boxes too.
+ */
+const yearOverlap = (round: CourseRound, group: OptionGroup): number => {
+  const slots = new Set(groupCredits(group).map(c => `${c.year}-${c.period}`));
+  return round.credits
+    .filter(c => slots.has(`${c.year}-${c.period}`))
+    .reduce((sum, c) => sum + c.credits, 0);
+};
 
 /**
  * The round to draw for `course` when it was chosen from `group`.
@@ -52,13 +71,14 @@ export function pickRound(
 
   if (group) {
     const periods = groupPeriods(group);
+    const spanning = spansYears(group);
     if (periods.length > 0) {
       let best: CourseRound | undefined;
       let bestScore = -1;
       // rounds are written in period order, so a plain scan already breaks
       // ties towards the earliest period.
       for (const r of rounds) {
-        const score = overlap(r, periods);
+        const score = spanning ? yearOverlap(r, group) : overlap(r, periods);
         if (score > bestScore) { best = r; bestScore = score; }
       }
       if (best && bestScore > 0) return best;
@@ -115,9 +135,16 @@ export const formatPeriods = (credits: CourseCredit[], creditsLabel: string): st
  * the chips are indistinguishable: CTMAT's SE1010 is given twice across P1+P2,
  * split 3+9 and 6+6, so those render as "P1+P2 (3+9)".
  */
-export const roundLabel = (round: CourseRound, all: CourseRound[]): string => {
+export const roundLabel = (round: CourseRound, all: CourseRound[], yearWord?: string): string => {
   const periodsOf = (r: CourseRound) =>
     PERIOD_IDS.filter(p => r.credits.some(c => c.period === p && c.credits > 0));
+  // Offerings in different study years ("läses år 1 eller år 2") are told
+  // apart by the year first: "P3, år 1" / "P1, år 2".
+  const yearOf = (r: CourseRound) => r.credits[0]?.year;
+  if (yearWord && new Set(all.map(yearOf)).size > 1) {
+    const sameYear = all.filter(r => yearOf(r) === yearOf(round));
+    return `${roundLabel(round, sameYear)}, ${yearWord.toLowerCase()} ${yearOf(round)}`;
+  }
   const mine = periodsOf(round);
   const key = mine.join('+');
   const ambiguous = all.filter(r => periodsOf(r).join('+') === key).length > 1;
