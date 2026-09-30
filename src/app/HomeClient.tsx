@@ -210,6 +210,24 @@ const unescOg = (v: string) => v.replace(/~(.)/g, (m, c) =>
   c === '~' ? '~' : c === 'e' ? '!' : c === 's' ? '*'
     : c === 'd' ? '.' : c === 'a' ? '@' : m);
 
+// Writes the `og` parameter. Serialising needs both halves, since a round
+// rides along with its code. `rounds` is only written for a code that actually
+// has a chosen offering, so a plan with no multi-round course produces a URL
+// as short as before.
+function setOgParam(p: URLSearchParams, groups: Record<string, string[]>, rounds: Record<string, string>) {
+  const entries = Object.entries(groups)
+    .filter(([, codes]) => Array.isArray(codes) && codes.length > 0)
+    .sort(([a], [b]) => a.localeCompare(b));
+  if (entries.length === 0) p.delete('og');
+  else p.set('og', entries
+    .map(([k, codes]) => `${escOg(k)}*${codes
+      // Escape each PART, then join with '@' — escaping the assembled
+      // token would escape the separator we just added.
+      .map(c => (rounds[c] ? `${escOg(c)}@${escOg(rounds[c])}` : escOg(c)))
+      .join('.')}`)
+    .join('!'));
+}
+
 // The spec group holding a master programme's spår in a five-year view.
 const MASTER_GROUP = 'master';
 
@@ -224,6 +242,9 @@ export default function HomeClient() {
   // cosmetics-load failures). Children emit via the `onToast` callback.
   const [toast, setToast] = useState<ToastMessage | null>(null);
   const vizRef = useRef<TimelineVisualizationHandle | null>(null);
+  // The option groups the selected master contributes, by name, so that
+  // changing the master can drop the picks made in them (see its selector).
+  const masterGroupNames = useRef<Set<string>>(new Set());
   const [menuOpen, setMenuOpen] = useState(false);
   const [exportSubOpen, setExportSubOpen] = useState(false);
   const [includeLegend, setIncludeLegend] = useState(true);
@@ -507,24 +528,37 @@ export default function HomeClient() {
     return m;
   }, [specProgram]);
 
-  // ?spec=A,B = the user's pick per spec group. When the program has a
-  // specs registry, the visualisation defaults to the first option in each
-  // group so the chart isn't ambiguous on first load.
+  // ?spec=A,B = the user's pick per spec group. Every group gets exactly one:
+  // the URL's, else the group's first option, so the chart isn't ambiguous.
+  //
+  // The URL's picks are checked against the groups on show, and the default is
+  // filled per group rather than only when `spec` is absent. With a master
+  // after the bachelor there are two groups, and `spec` can hold a pick for
+  // one of them only, or one for a group no longer on show:
+  //   - an inriktning picked before a master was chosen (CMAST's INTF) left
+  //     the master's group without a pick, and the filter then hides every
+  //     course tagged with it: CMAST + TTMAM's year 4 lost all its spår courses;
+  //   - a spår of the previous master (TTFYM's TFYB after switching to TTMAM)
+  //     is in no registry. The filter files an unknown code under the default
+  //     group, so it displaced the bachelor's inriktning or left the master's
+  //     group empty: CTFYS + TTMAM showed every spår at once, 152 hp in year 4.
+  // So a code no group on show offers is ignored. It stays in the URL until the
+  // next inriktning or spår is picked, which writes the resolved set.
   const selectedSpecializations = useMemo<Set<string>>(() => {
-    const v = searchParams.get('spec');
-    if (v) return new Set(v.split(',').map(s => decodeURIComponent(s.trim())).filter(Boolean));
-    // Default: first spec per group.
     const specs = shownSpecializations;
     if (!specs || specs.length === 0) return new Set();
-    const seenGroups = new Set<string>();
-    const defaults = new Set<string>();
+    const groupOf = new Map(specs.map(s => [s.code, s.group || '__default__']));
+    const picked = new Map<string, string>();
+    for (const raw of (searchParams.get('spec') ?? '').split(',')) {
+      const code = decodeURIComponent(raw.trim());
+      const g = groupOf.get(code);
+      if (g !== undefined && !picked.has(g)) picked.set(g, code);
+    }
     for (const s of specs) {
       const g = s.group || '__default__';
-      if (seenGroups.has(g)) continue;
-      seenGroups.add(g);
-      defaults.add(s.code);
+      if (!picked.has(g)) picked.set(g, s.code);
     }
-    return defaults;
+    return new Set(picked.values());
   }, [searchParams, shownSpecializations]);
 
   // The transition plan as the selected inriktning sees it: common changes plus
@@ -540,29 +574,11 @@ export default function HomeClient() {
     router.replace(`/?${params.toString()}`);
   }, [searchParams, router]);
 
-  // Serialising needs both halves, since a round rides along with its code.
-  // `rounds` is only written for a code that actually has a chosen offering,
-  // so a plan with no multi-round course produces exactly the old URL.
-  // Serialising needs both halves, since a round rides along with its code.
-  // `rounds` is only written for a code that actually has a chosen offering,
-  // so a plan with no multi-round course produces a URL as short as before.
   const writeOg = useCallback((
     groups: Record<string, string[]>,
     rounds: Record<string, string>,
   ) => {
-    replaceParams((p) => {
-      const entries = Object.entries(groups)
-        .filter(([, codes]) => Array.isArray(codes) && codes.length > 0)
-        .sort(([a], [b]) => a.localeCompare(b));
-      if (entries.length === 0) p.delete('og');
-      else p.set('og', entries
-        .map(([k, codes]) => `${escOg(k)}*${codes
-          // Escape each PART, then join with '@' — escaping the assembled
-          // token would escape the separator we just added.
-          .map(c => (rounds[c] ? `${escOg(c)}@${escOg(rounds[c])}` : escOg(c)))
-          .join('.')}`)
-        .join('!'));
-    });
+    replaceParams((p) => setOgParam(p, groups, rounds));
   }, [replaceParams]);
 
   const setSelection = useCallback((
@@ -633,9 +649,13 @@ export default function HomeClient() {
     // A master programme after the bachelor: its two years follow as years
     // 4-5 (src/lib/degreeChain.ts), from the master's default kull.
     const master = selectedMaster?.program;
+    if (!master) masterGroupNames.current = new Set();
     const entries = master
       ? Promise.all([bachelor, loadCourses(master.dataFile)]).then(([b, m]) => {
         const chained = appendMaster(b.entries, m, master.code);
+        masterGroupNames.current = new Set(chained.entries
+          .filter((e): e is OptionGroup => 'type' in e && e.type === 'optionGroup' && e.year > chained.offset)
+          .map(g => g.name));
         return { entries: chained.entries, warnings: [...b.warnings, ...chained.warnings] };
       })
       : bachelor;
@@ -811,6 +831,19 @@ export default function HomeClient() {
                   const params = new URLSearchParams(searchParams.toString());
                   if (e.target.value) params.set('master', e.target.value);
                   else params.delete('master');
+                  // Picks in the master's boxes belong to that master, as
+                  // picks belong to their programme (see the programme
+                  // selector). Masters share box names: TTFYM, TSCRM and
+                  // TEFRM all have "Examensarbete", TMAIM and TMAKM "Villkorligt
+                  // valfria och valfria kurser", and a pick left behind landed
+                  // in the next master's box of the same name. The bachelor
+                  // years' picks are kept.
+                  const kept = ogEntries.filter(g => !masterGroupNames.current.has(g.name));
+                  setOgParam(
+                    params,
+                    Object.fromEntries(kept.map(g => [g.name, g.codes])),
+                    Object.assign({}, ...kept.map(g => g.rounds)),
+                  );
                   router.replace(`/?${params.toString()}`);
                 }}
                 aria-label={ui[language].masterLabel}

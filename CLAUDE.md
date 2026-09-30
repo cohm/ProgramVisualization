@@ -1303,6 +1303,19 @@ first. COPEN's "Fysik" merged into CTMAT used to come out yellow.
 Measured: CTFYS + TTFYM is 1016 px, five equal bands, years 4-5 at 60 hp;
 CTMAT HT2024 + TTMAM (OPST) is 60 hp in every year.
 
+**Every spec group needs exactly one pick**, since the filter ANDs across
+them. `?spec=` is checked against the groups on show, and each group without
+a valid pick gets its first option. It used
+to be taken as-is whenever present, and defaults were filled only when it was
+absent. So a pick made before choosing a master (CMAST's INTF) left the spår
+group empty, and the filter hides whatever is tagged with a group that has no
+pick. A spår of the previous master (TFYB after TTFYM → TTMAM) is in no
+registry, and the filter files an unknown code under the default group, so all
+of TTMAM's spår showed at once (152 hp in year 4). Changing the master drops
+the picks in the old master's boxes (`og`) and keeps the bachelor years'.
+Masters share box names ("Examensarbete" in TTFYM, TSCRM and TEFRM), so a
+leftover pick landed in the next master's box.
+
 **Testing in the automation browser: its tab is hidden.** `document.hidden`
 is true there, so `requestAnimationFrame` never fires, and React 19 reveals a
 streamed Suspense boundary on an animation frame. A page whose server render
