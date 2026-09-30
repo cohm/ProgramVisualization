@@ -18,6 +18,19 @@
 import type { Course, CourseCredit, CourseRound, OptionGroup, Period } from '@/types/course';
 
 type Entry = Course | OptionGroup;
+
+/**
+ * What the append did with a course both programmes carry, for the notice
+ * above the chart. Data rather than text, so the page can phrase it in either
+ * language and show a spår's note only with that spår selected.
+ *   - `both`: obligatorisk on both sides, shown once, in the bachelor years;
+ *   - `replaced`: obligatorisk in the master, so no longer a bachelor elective;
+ *   - `partly`: the same, for the listed spår only.
+ */
+export type MasterNote =
+  | { kind: 'both'; code: string }
+  | { kind: 'replaced'; codes: string[] }
+  | { kind: 'partly'; code: string; spar: string[] };
 const isGroup = (e: Entry): e is OptionGroup => 'type' in e && e.type === 'optionGroup';
 
 const shiftKeys = <T,>(m: Record<number, T> | undefined, by: number): Record<number, T> | undefined =>
@@ -157,10 +170,9 @@ function withRoundsOf(course: Course, other: Course): CourseRound[] | undefined 
 export function appendMaster(
   bachelor: Entry[],
   master: Entry[],
-  masterCode: string,
-): { entries: Entry[]; warnings: string[]; offset: number } {
+): { entries: Entry[]; notes: MasterNote[]; offset: number } {
   const offset = lastYear(bachelor);
-  const warnings: string[] = [];
+  const notes: MasterNote[] = [];
   const bachelorOptions = new Set(bachelor.filter(isGroup).flatMap(g => g.options));
   const bachelorCourses = new Map(bachelor.filter((e): e is Course => !isGroup(e)).map(e => [e.code, e]));
   const bachelorMandatory = new Set([...bachelorCourses.keys()].filter(c => !bachelorOptions.has(c)));
@@ -188,7 +200,7 @@ export function appendMaster(
     if (!bachelorCourses.has(e.code)) { appended.push(shiftEntryYears(e, offset)); continue; }
     if (bachelorMandatory.has(e.code)) {
       if (!masterGroups.some(g => g.options.includes(e.code))) {
-        warnings.push(`${e.code} is obligatorisk in both the bachelor programme and ${masterCode}; it is shown once, in the bachelor years.`);
+        notes.push({ kind: 'both', code: e.code });
       }
       continue;
     }
@@ -236,10 +248,10 @@ export function appendMaster(
     });
   });
   if (replaced.size) {
-    warnings.push(`${[...replaced].sort().join(', ')}: obligatorisk in ${masterCode}, so no longer offered as a bachelor elective.`);
+    notes.push({ kind: 'replaced', codes: [...replaced].sort() });
   }
   for (const [code, required] of [...partly].sort(([a], [b]) => a.localeCompare(b))) {
-    warnings.push(`${code}: obligatorisk in ${masterCode} for ${required.join(', ')}, so not offered as a bachelor elective with ${required.length > 1 ? 'those spår' : 'that spår'}.`);
+    notes.push({ kind: 'partly', code, spar: required });
   }
-  return { entries: [...kept, ...appended], warnings, offset };
+  return { entries: [...kept, ...appended], notes, offset };
 }

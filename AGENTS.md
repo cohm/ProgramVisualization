@@ -1317,6 +1317,24 @@ is not an option of the box on screen. `shownPicks` in
 `TimelineVisualization` ignores such a pick, and the URL keeps it for
 switching back. Before, a pick-one box counted it as filled and vanished.
 
+`appendMaster` returns these cases as data (`MasterNote`), and HomeClient
+phrases them in the page's language under the master notice. A spår's note
+("obligatorisk i TCSCM för det valda spåret") is shown only with that spår
+selected. They used to be English strings in the warning list, shown for every
+spår. In a five-year view the footer, the programme's sign-off, is prefixed
+with the bachelor's code ("CTFYS: Utbildningsplanen verifierad …"), since it
+does not speak for years 4-5; the master's own comment is left out, being
+about the master on its own. In a box spanning study years, the modal gives
+each option's year ("år 1, P1: 7.5 hp"), from `pickYear` in
+`src/lib/groupCredits.ts`, the same function that places the pick in the
+chart.
+
+**An option group's stripes are one per colour, not one per option.** The
+pattern repeated only every options × 16 px, so a 20-option box showed a
+single colour across its width: TCSCM's CSSC box (17 Datateknik, 3
+Ingenjörsämnen, 1 Matematik) read as a Datateknik course. A box whose options
+really are all one family stays solid: TTFYM TFYA's 19 are all "Fysik".
+
 The master's spår are a second pick-one group in the selector ("Spår,
 TTFYM"), beside the bachelor's inriktningar; the filter ANDs across groups.
 `mergeCosmetics` merges by group name, then by course department (see the

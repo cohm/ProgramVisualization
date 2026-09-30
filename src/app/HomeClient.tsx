@@ -13,7 +13,7 @@ import programsConfig from '@/data/programs.json';
 import type { ProgramCosmetics } from '@/types/cosmetics';
 import { loadCourses, loadCosmetics, loadCohortMeta, cohortDataFile } from '@/lib/useCourseModel';
 import { composeTransition, mergeCosmetics, composedTitle, effectivePlan, shortProgramName } from '@/lib/transitions';
-import { appendMaster } from '@/lib/degreeChain';
+import { appendMaster, type MasterNote } from '@/lib/degreeChain';
 import masterMapping from '@/data/master-mapping.json';
 import type { TransitionPlan } from '@/types/transition';
 import transitionsConfig from '@/data/transitions.json';
@@ -102,6 +102,14 @@ const ui = {
     masterLabel: 'Masterprogram',
     masterUnverified: (code: string) => `${code}s studieplan är automatiskt extraherad och inte verifierad.`,
     masterNone: 'Utan masterprogram',
+    // What the five-year view did with a course both programmes have.
+    masterNoteBoth: (code: string, bachelor: string, master: string, last: number) =>
+      `${code} är obligatorisk både i ${bachelor} och i ${master} och visas en gång, i årskurs 1–${last}.`,
+    masterNoteReplaced: (codes: string[], master: string, last: number) => codes.length === 1
+      ? `${codes[0]} är obligatorisk i ${master} och erbjuds därför inte som valfri kurs i årskurs 1–${last}.`
+      : `${codes.join(', ')} är obligatoriska i ${master} och erbjuds därför inte som valfria kurser i årskurs 1–${last}.`,
+    masterNotePartly: (code: string, master: string, last: number) =>
+      `${code} är obligatorisk i ${master} för det valda spåret och erbjuds därför inte som valfri kurs i årskurs 1–${last}.`,
     // Years 4-5 are another programme's plan, and a later kull's.
     masterNotice: (code: string, cohort: string | null) =>
       `År 4–5 visar masterprogrammet ${code}${cohort ? `, kull ${cohort}` : ''}. Din kull börjar masterprogrammet senare, och dess plan kan ha ändrats till dess.`,
@@ -156,6 +164,13 @@ const ui = {
     continuationLabel: 'Continuation program',
     continuationNone: 'No continuation program',
     masterLabel: "Master's programme",
+    masterNoteBoth: (code: string, bachelor: string, master: string, last: number) =>
+      `${code} is compulsory in both ${bachelor} and ${master}; it is shown once, in years 1–${last}.`,
+    masterNoteReplaced: (codes: string[], master: string, last: number) => codes.length === 1
+      ? `${codes[0]} is compulsory in ${master}, so it is not offered as an elective in years 1–${last}.`
+      : `${codes.join(', ')} are compulsory in ${master}, so they are not offered as electives in years 1–${last}.`,
+    masterNotePartly: (code: string, master: string, last: number) =>
+      `${code} is compulsory in ${master} for the selected track, so it is not offered as an elective in years 1–${last}.`,
     masterUnverified: (code: string) => `${code}'s study plan is auto-extracted and unverified.`,
     masterNone: "No master's programme",
     masterNotice: (code: string, cohort: string | null) =>
@@ -237,6 +252,9 @@ export default function HomeClient() {
   const [cohortMeta, setCohortMeta] = useState<CohortMeta | null>(null);
   // Populated when a composed transition view disagrees with the programme data.
   const [transitionWarnings, setTransitionWarnings] = useState<string[]>([]);
+  // What the five-year view did with courses both programmes carry, and after
+  // which bachelor year the master starts (see appendMaster).
+  const [masterNotes, setMasterNotes] = useState<{ notes: MasterNote[]; offset: number }>({ notes: [], offset: 0 });
   const [approxInfoOpen, setApproxInfoOpen] = useState(false);
   // Page-level toast for non-blocking failures (PDF export errors,
   // cosmetics-load failures). Children emit via the `onToast` callback.
@@ -561,6 +579,32 @@ export default function HomeClient() {
     return new Set(picked.values());
   }, [searchParams, shownSpecializations]);
 
+  // The master notes as sentences. A spår's note is shown only with that spår
+  // selected: "obligatorisk for CSCS" says nothing to a CSSC student.
+  const shownMasterNotes = useMemo(() => {
+    const master = selectedMaster?.program.code;
+    if (!master) return [];
+    const t = ui[language];
+    const bachelor = selectedContinuation?.to ?? selectedProgram.code;
+    const last = masterNotes.offset;
+    return masterNotes.notes.flatMap(n => {
+      if (n.kind === 'both') return [t.masterNoteBoth(n.code, bachelor, master, last)];
+      if (n.kind === 'replaced') return [t.masterNoteReplaced(n.codes, master, last)];
+      return n.spar.some(s => selectedSpecializations.has(s)) ? [t.masterNotePartly(n.code, master, last)] : [];
+    });
+  }, [masterNotes, selectedMaster, selectedContinuation, selectedProgram, selectedSpecializations, language]);
+
+  // The footer under the chart, and in exports: the programme's sign-off
+  // ("Utbildningsplanen verifierad av programansvarig …"). With a master after
+  // it, it speaks for the bachelor's years only, so it names that programme.
+  // The master's own comment is not added: it is about the master on its own
+  // ("välj antagningsår för andra kullar"), and the notice above the chart
+  // already says the master is unverified.
+  const programComment = useMemo(() => {
+    const own = language === 'en' ? (selectedProgram.commentEn || selectedProgram.comment) : selectedProgram.comment;
+    return own && selectedMaster ? `${selectedProgram.code}: ${own}` : own;
+  }, [language, selectedProgram, selectedMaster]);
+
   // The transition plan as the selected inriktning sees it: common changes plus
   // its own (`bySpecialization`), so the summary line matches the chart.
   const shownContinuation = useMemo<TransitionPlan | null>(
@@ -652,13 +696,13 @@ export default function HomeClient() {
     if (!master) masterGroupNames.current = new Set();
     const entries = master
       ? Promise.all([bachelor, loadCourses(master.dataFile)]).then(([b, m]) => {
-        const chained = appendMaster(b.entries, m, master.code);
+        const chained = appendMaster(b.entries, m);
         masterGroupNames.current = new Set(chained.entries
           .filter((e): e is OptionGroup => 'type' in e && e.type === 'optionGroup' && e.year > chained.offset)
           .map(g => g.name));
-        return { entries: chained.entries, warnings: [...b.warnings, ...chained.warnings] };
+        return { ...b, entries: chained.entries, master: { notes: chained.notes, offset: chained.offset } };
       })
-      : bachelor;
+      : bachelor.then(b => ({ ...b, master: { notes: [] as MasterNote[], offset: 0 } }));
     const cosmeticsDone = master
       ? Promise.all([bachelorCosmetics, loadCosmetics(master.cosmeticsFile)]).then(([b, m]) => {
         const { cosmetics: merged, warnings } = mergeCosmetics(b, m);
@@ -668,9 +712,10 @@ export default function HomeClient() {
       : bachelorCosmetics;
 
     entries
-      .then(({ entries: list, warnings }) => {
+      .then(({ entries: list, warnings, master: m }) => {
         setCourses(list);
         setTransitionWarnings(warnings);
+        setMasterNotes(m);
       })
       .catch((e) => {
         console.warn('Failed to compose the plan:', e);
@@ -1012,10 +1057,9 @@ export default function HomeClient() {
               {selectedMaster.program.verified !== true && (
                 <div style={{ marginTop: 2, fontStyle: 'italic' }}>{ui[language].masterUnverified(selectedMaster.program.code)}</div>
               )}
-              {/* With a continuation these are listed in its notice above. */}
-              {!selectedContinuation && transitionWarnings.length > 0 && (
-                <ul style={{ marginTop: 4, paddingLeft: 18, color: '#78001A' }}>
-                  {transitionWarnings.map(w => <li key={w}>{w}</li>)}
+              {shownMasterNotes.length > 0 && (
+                <ul style={{ marginTop: 4, paddingLeft: 18 }}>
+                  {shownMasterNotes.map(n => <li key={n}>{n}</li>)}
                 </ul>
               )}
             </div>
@@ -1097,7 +1141,7 @@ export default function HomeClient() {
             programName={chartTitle.name}
             programCode={chartTitle.code}
             studyplanUrl={selectedProgram.studyplan}
-            programComment={language === 'en' ? (selectedProgram.commentEn || selectedProgram.comment) : selectedProgram.comment}
+            programComment={programComment}
             cosmetics={cosmetics}
             selectedOptionPerGroup={selectedOptionPerGroup}
             onSelectionChange={setSelection}
