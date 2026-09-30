@@ -53,7 +53,7 @@ Top-level (inside this folder):
 
 Scripts
 
-- `scripts/extract-from-kopps.mjs` — builds a cohort's study plan from KTH's published data. Pure Node, no extra dependencies. See `CLAUDE.md` for the full picture and `--help` for options. It also writes `prerequisite-review/<PROGRAM>.md`: a worklist for the program director covering every cohort, where each judgement links the course page and the exact kursplan PDF it was read from, so it can be signed off by clicking rather than by reading data files.
+- `scripts/extract-from-kopps.mjs` — builds a cohort's study plan from KTH's published data. Pure Node, no extra dependencies. See `AGENTS.md` for the full picture and `--help` for options. It also writes `prerequisite-review/<PROGRAM>.md`: a worklist for the program director covering every cohort, where each judgement links the course page and the exact kursplan PDF it was read from, so it can be signed off by clicking rather than by reading data files.
 - `scripts/validate-data.mjs` — schema and cross-reference checks for everything in `src/data`, including the per-period full-time load check. Runs in CI.
 
 Key source files

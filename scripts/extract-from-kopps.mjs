@@ -504,7 +504,7 @@ function parseConditionallyElectiveInfo(text) {
 // Some fields cannot be derived from KTH's data and can only be written by a
 // human: a group's free-text `comment`, a readable `name` in place of the
 // extractor's "Villkorligt valfri grupp 1", and the `teacher` / `description`
-// that CLAUDE.md has always listed as not extractable. Overwriting the file on
+// that AGENTS.md has always listed as not extractable. Overwriting the file on
 // every run destroyed them, which put the archive in an awkward position: a
 // cohort plan could be either regenerable or annotated, but not both.
 //

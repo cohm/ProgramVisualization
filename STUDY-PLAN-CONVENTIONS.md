@@ -10,7 +10,7 @@ convention is usually easier to read, to maintain and to consume programmaticall
 than the other, and it seems worth comparing notes across schools.
 
 These are observations, not conclusions. They were gathered while building a tool
-that renders utbildningsplaner from KTH's published data (see `CLAUDE.md`), so the
+that renders utbildningsplaner from KTH's published data (see `AGENTS.md`), so the
 lens is deliberately narrow: what is machine-readable, what is consistent, and
 what needs a human to interpret. Anyone who owns one of these programmes will
 know better than we do whether a difference is meaningful.

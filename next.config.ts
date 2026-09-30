@@ -79,7 +79,7 @@ const nextConfig: NextConfig = isPagesBuild
       reactCompiler: true,
       // `next dev` on Next 16.3.x otherwise re-appends a generic
       // <!-- BEGIN:nextjs-agent-rules --> block to the hand-maintained
-      // CLAUDE.md on every run, dirtying the working tree each time.
+      // AGENTS.md on every run, dirtying the working tree each time.
       agentRules: false,
       output: 'export',
       basePath,
