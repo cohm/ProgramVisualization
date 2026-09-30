@@ -159,10 +159,14 @@ Codes are resolved against KTH's catalogue of current master programmes.
 |---|---|---|---|---|---|---|---|
 | [TINEM](https://www.kth.se/student/kurser/program/TINEM) industriell ekonomi | ✓ | ✓ | ✓ | ✓ | ✓ | årskurs 4; årskursinformation år 3; årskurs 3, inriktning mot master (från kull HT2023); årskurs 3, inriktning mot master; årskurs 3, inriktning mot master (från kull HT2025) |  |
 | [TITHM](https://www.kth.se/student/kurser/program/TITHM) hållbar produktionsutveckling | ✓ | ✓ | ✓ | ✓ | ✓ | årskurs 4; årskursinformation år 3; årskurs 3, inriktning mot master |  |
-| [TMAKM](https://www.kth.se/student/kurser/program/TMAKM) matematik | ✓ | — | — | — | — | årskurs 4; årskursinformation år 3 |  |
 | [TPRMM](https://www.kth.se/student/kurser/program/TPRMM) industriell produktion | ✓ | ✓ | ✓ | ✓ | ✓ | årskurs 4; årskursinformation år 3; årskurs 3, inriktning mot master (från kull HT2023); årskurs 3, inriktning mot master; årskurs 3, inriktning mot master (från kull HT2025) |  |
 | [TSUEM](https://www.kth.se/student/kurser/program/TSUEM) hållbar energiteknik | ✓ | ✓ | ✓ | ✓ | ✓ | årskurs 4; årskursinformation år 3; årskurs 3, inriktning mot master (från kull HT2023); årskurs 3, inriktning mot master; årskurs 3, inriktning mot master (från kull HT2025) |  |
 | [TTMAM](https://www.kth.se/student/kurser/program/TTMAM) tillämpad matematik och beräkningsmatematik | ✓ | — | — | — | — | årskurs 4; årskursinformation år 3 |  |
+
+**To resolve:**
+
+- HT2022: "…matematik och beräkningsteknik, spår optimeringslära och systemteknik (TTMAM)" (årskurs 4): "matematik" is read as part of that programme's name, not as TMAKM
+- HT2022: "…matematik och beräkningsteknik, spår optimeringslära och systemteknik (TTMAM)" (årskursinformation år 3): "matematik" is read as part of that programme's name, not as TMAKM
 
 ## CLGYM
 

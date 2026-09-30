@@ -211,6 +211,24 @@ function readText(text, catalogue) {
     if (comma) notes.push(comma[1].trim());
     for (const s of tail.matchAll(/\|\s*(Sp[åa]r,\s*[^|(\s][^|(]*)/g)) notes.push(s[1].replace(/\s+$/, '').trim());
 
+    // A name that runs on, in the same list item, into the code of a programme
+    // with another name is part of that programme's name, not a master of its
+    // own. CITEH HT2022 writes TTMAM's name wrong, "Tillämpad matematik och
+    // beräkningsteknik, spår optimeringslära och systemteknik (TTMAM)": no
+    // catalogue name matches it whole, and "matematik" inside it matched TMAKM,
+    // "Masterprogram, matematik". A list item ends at a line break (' | ' from
+    // `plain`) or a semicolon. The code's own name is the usual case,
+    // "Teknisk fysik (TTFYM)", and is left alone: the code is matched on its
+    // own, starting inside the parentheses, so `code` above does not see it.
+    const next = found[i + 1];
+    if (!code && next?.code && fold(byCode.get(next.code).name) !== fold(m.name)
+      && !/[|;]/.test(tail) && tail.length < 160) {
+      const byName = catalogue.filter((c) => fold(c.name) === fold(m.name)).map((c) => c.code);
+      const end = text[next.end] === ')' ? next.end + 1 : next.end;
+      out.push({ candidates: [], how: 'partial', written: text.slice(m.start, m.end), notes, within: text.slice(m.start, end), byName });
+      continue;
+    }
+
     const candidates = code ? [code] : catalogue.filter((c) => fold(c.name) === fold(m.name)).map((c) => c.code);
     out.push({ candidates, how: m.code || code ? 'code' : 'name', written: text.slice(m.start, m.end), notes });
   }
@@ -344,6 +362,12 @@ for (const prog of bachelors) {
   cohorts.forEach((cohort, i) => {
     const entries = new Map();
     for (const h of borrowed[i].hits) {
+      if (h.how === 'partial') {
+        const msg = `${cohort}: "…${h.within}" (${h.where}): "${h.written}" is read as part of that `
+          + `programme's name, not as ${h.byName.join(' or ')}`;
+        if (!notesFor.includes(msg)) notesFor.push(msg);
+        continue;
+      }
       let cands = h.candidates;
       if (cands.length > 1) {
         const r = resolve(cands);
