@@ -1315,7 +1315,8 @@ switching back. Before, a pick-one box counted it as filled and vanished.
 
 The master's spår are a second pick-one group in the selector ("Spår,
 TTFYM"), beside the bachelor's inriktningar; the filter ANDs across groups.
-`mergeCosmetics` merges by group name, so the masters' cosmetics use the
+`mergeCosmetics` merges by group name, then by course department (see the
+transition section below), so the masters' cosmetics use the
 bachelors' commonest names ("Datateknik"). Yellow is kept for elective space:
 a merged group only takes it if it is "Övrigt", and an "Övrigt" group takes it
 first. COPEN's "Fysik" merged into CTMAT used to come out yellow.
@@ -1539,11 +1540,28 @@ year-1 students, just a year later.
 from the target's file alone would draw all nine COPEN courses in the default
 colour. `mergeCosmetics` merges by group *name* (so "Matematik" from both becomes
 one legend row), the target's colour winning on conflict — CTFYS has
-Ingenjörsämnen = brick where COPEN has it turquoise. A group only the source has
-takes the first unused family rather than its own, since COPEN's `Programmering`
-is brick, which CTFYS already spends on Ingenjörsämnen. COPEN+CTFYS lands on
-exactly five families, which is the hard cap; an overflow is reported and those
-courses fall back to the default colour.
+Ingenjörsämnen = brick where COPEN has it turquoise.
+
+**A source group with no namesake is split by course**, and each course joins
+the target group that lists its code, else most courses of its department (the
+two-letter prefix), else most of its subject (`SUBJECTS` in `transitions.ts`,
+read off the files that use the common group names: SH, SI and SK are
+physics). So it is coloured the way the target colours its own courses of that
+department. COPEN's `Programmering` is DD1310 and SF1546, which go to CTFYS's
+"Datateknik" and "Matematik", where CTFYS files its own SF1544. Only courses
+with no such home get a row of their own, in the first unused family. With none
+left they join the target's "Övrigt", and without one they keep the default
+colour, with a warning. "Övrigt" itself goes to its namesake, then yellow, then
+is split.
+
+Merging by name alone needed a new colour for every unmatched group, and most
+programmes already use all five: measured over every composition the app
+offers, all 18 COPEN transitions and 19 of the 36 bachelor + master pairs had
+a group in the default colour (COPEN → CINEK six of the nine COPEN courses;
+CFATE + TTFYM all 54 TTFYM physics courses). Now none has.
+
+A consequence: the target's own filing decides, including its surprises.
+CINEK files an SK course under "Övrigt", so COPEN's SK1115 is yellow there.
 
 **The composition is checked against full-time load per period**, the same signal
 `validate-data` applies to the programme files, because a swap can balance across

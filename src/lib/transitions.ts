@@ -569,6 +569,48 @@ function fullTimeWarnings(
 // four a typical programme already uses.
 const FAMILY_ORDER: FamilyName[] = ['blue', 'green', 'brick', 'yellow', 'turquoise'];
 
+// A course's department, its two-letter code prefix: SF1625 -> SF.
+const prefixOf = (code: string) => code.slice(0, 2);
+
+// Departments by subject, for a course whose own department the target has no
+// course of. Read off the cosmetics files that use the common group names (the
+// eight masters, CTFYS, CFATE and COPEN): every prefix they file, under the
+// group that holds most of its courses. SK is "Fysik" in 37 of 39 cases, SG
+// "Ingenjörsämnen" in 16 of 20, SA "Övrigt" in 4 of 7. TTFYM's SH and SI
+// courses then find CFATE's physics in "Fysik & Mekanik", which holds SK1112
+// but no SH or SI course.
+const SUBJECTS: string[][] = [
+  ['SF'],
+  ['CB', 'EF', 'SH', 'SI', 'SK'],
+  ['DD', 'DH', 'DT', 'ID'],
+  ['AG', 'AH', 'BB', 'CM', 'DM', 'ED', 'EG', 'EH', 'EI', 'EK', 'EL', 'EP', 'EQ', 'HL',
+    'IK', 'IL', 'KD', 'MF', 'MJ', 'SD', 'SE', 'SG', 'SM'],
+  ['AK', 'DA', 'EA', 'LS', 'ME', 'MH', 'SA'],
+];
+const subjectOf = new Map(SUBJECTS.flatMap((prefixes, i) => prefixes.map(p => [p, i] as const)));
+
+/**
+ * The group of `groups` a course belongs with: the one listing its code, else
+ * the one listing the most courses of its department, else of its subject.
+ * The earlier group wins a tie. Null when no group has either.
+ */
+function homeFor(code: string, groups: CourseGroup[]): CourseGroup | null {
+  const exact = groups.find(g => g.courses.includes(code));
+  if (exact) return exact;
+  const mostOf = (same: (c: string) => boolean): CourseGroup | null => {
+    let best: CourseGroup | null = null;
+    let bestCount = 0;
+    for (const g of groups) {
+      const n = g.courses.filter(same).length;
+      if (n > bestCount) { best = g; bestCount = n; }
+    }
+    return best;
+  };
+  const subject = subjectOf.get(prefixOf(code));
+  return mostOf(c => prefixOf(c) === prefixOf(code))
+    ?? (subject === undefined ? null : mostOf(c => subjectOf.get(prefixOf(c)) === subject));
+}
+
 /**
  * Merge two programmes' cosmetics for a composed plan.
  *
@@ -577,16 +619,42 @@ const FAMILY_ORDER: FamilyName[] = ['blue', 'green', 'brick', 'yellow', 'turquoi
  * the target's file alone would draw all nine COPEN courses in the default
  * colour.
  *
- * Merging is by group NAME, so "Matematik" from both programmes becomes one
- * legend row. The target's colour wins where the two disagree, because two of
- * the three years come from it: CTFYS has Ingenjörsämnen = brick while COPEN has
- * it turquoise, and the composed chart follows CTFYS. A group only the source
- * has — COPEN's "Programmering" — takes the first family not already in use,
- * rather than its own colour, which would collide (COPEN's Programmering is
- * brick, which CTFYS already spends on Ingenjörsämnen).
+ * Merging is by group NAME first, so "Matematik" from both programmes becomes
+ * one legend row. The target's colour wins where the two disagree, because most
+ * of the years come from it: CTFYS has Ingenjörsämnen = brick while COPEN has
+ * it turquoise, and the composed chart follows CTFYS.
  *
- * The five-family cap is hard, so an overflow is reported rather than papered
- * over: the extra group keeps its courses and falls back to the default colour.
+ * A source group with no namesake is split by course: each course joins the
+ * target group listing its code, else the one listing the most courses of its
+ * department, its two-letter code prefix (SF maths; SK, SH, SI physics; DD
+ * computing), which is what the cosmetics files group by, else of its subject
+ * (`SUBJECTS`: SH and SK are both physics). That colours it
+ * the way the target programme colours its own courses of that department:
+ * COPEN's "Programmering" is DD1310 and SF1546, and in CTFYS they go to
+ * "Datateknik" and to "Matematik", where CTFYS files its own SF1544.
+ *
+ * The names are the programme's own and rarely match. The masters use five
+ * ("Matematik", "Fysik", "Datateknik", "Ingenjörsämnen", "Övrigt"), while CFATE
+ * says "Fysik & Mekanik", CTMAT "Fysik & Ingenjörsvetenskap" and CDATE
+ * "Datalogi och programmering". Merged by name alone, each such group needed a
+ * colour of its own, and most programmes already use all five. Measured over
+ * every composition the app offers, 19 of the 36 bachelor + master pairs and
+ * all 18 COPEN transitions had a group left in the default colour: all 54 of
+ * TTFYM's physics courses after CFATE, 80 TCSCM courses after CDATE, and COPEN's
+ * own physics and programming courses in 16 of the transition views.
+ *
+ * Courses with no such home keep a legend row of their own, under the source
+ * group's name, in a colour family not yet in use. It does not keep its own
+ * colour, which would collide (COPEN's Programmering is brick, which CTFYS
+ * spends on Ingenjörsämnen). With no family left they join the target's
+ * "Övrigt": CDATE has no physics course, so COPEN's SK1115 and SG1133 have no
+ * department to join. Without an "Övrigt" either, they keep the default
+ * colour, with a warning; the five-family cap is hard.
+ *
+ * "Övrigt" itself is kept whole. It holds the programme-wide courses (AK, SA,
+ * ME) and the elective placeholders, and yellow is elective space (the palette
+ * convention in CLAUDE.md), so it goes to its namesake, then to yellow, and
+ * only then is split like the others.
  */
 export function mergeCosmetics(
   target: ProgramCosmetics | null,
@@ -602,32 +670,47 @@ export function mergeCosmetics(
   const byName = new Map(groups.map(g => [g.name, g]));
   const usedFamilies = new Set(groups.map(g => g.colorFamily));
 
+  const add = (into: CourseGroup, codes: string[]) => {
+    for (const code of codes) {
+      if (!into.courses.includes(code)) into.courses.push(code);
+    }
+  };
+  // A course's home is looked for among the target's own groups only: they
+  // are what the chart's other years are coloured by.
+  const targetGroups = [...groups];
+  const newRow = (sourceGroup: CourseGroup, codes: string[], order: FamilyName[]): boolean => {
+    const spare = order.find(f => !usedFamilies.has(f));
+    if (!spare) return false;
+    usedFamilies.add(spare);
+    const row: CourseGroup = { ...sourceGroup, colorFamily: spare, courses: [...codes] };
+    groups.push(row);
+    byName.set(row.name, row);
+    return true;
+  };
+  const NON_YELLOW = FAMILY_ORDER.filter(f => f !== 'yellow');
+
   for (const sourceGroup of source.groups) {
     const existing = byName.get(sourceGroup.name);
-    if (existing) {
-      for (const code of sourceGroup.courses) {
-        if (!existing.courses.includes(code)) existing.courses.push(code);
-      }
-      continue;
+    if (existing) { add(existing, sourceGroup.courses); continue; }
+    // Yellow means elective space, so only an "Övrigt" group may take it, and
+    // it takes it first. COPEN's "Fysik" merged into CTMAT used to come out
+    // yellow, the elective boxes' colour.
+    if (sourceGroup.name === 'Övrigt' && newRow(sourceGroup, sourceGroup.courses, ['yellow'])) continue;
+
+    const homeless: string[] = [];
+    for (const code of sourceGroup.courses) {
+      const home = homeFor(code, targetGroups);
+      if (home) add(home, [code]);
+      else homeless.push(code);
     }
-    // Yellow means elective space (the palette convention in CLAUDE.md), so
-    // only an "Övrigt" group may take it, and it takes it first. COPEN's
-    // "Fysik" merged into CTMAT used to come out yellow, the elective boxes' colour.
-    const order = sourceGroup.name === 'Övrigt'
-      ? ['yellow' as FamilyName, ...FAMILY_ORDER.filter(f => f !== 'yellow')]
-      : FAMILY_ORDER.filter(f => f !== 'yellow');
-    const spare = order.find(f => !usedFamilies.has(f));
-    if (!spare) {
-      warnings.push(
-        `Cosmetics group '${sourceGroup.name}' has no colour family left — the ` +
-        `five-family cap is reached, so its courses render in the default colour.`,
-      );
-      continue;
-    }
-    usedFamilies.add(spare);
-    const merged: CourseGroup = { ...sourceGroup, colorFamily: spare, courses: [...sourceGroup.courses] };
-    groups.push(merged);
-    byName.set(merged.name, merged);
+    if (homeless.length === 0) continue;
+    if (newRow(sourceGroup, homeless, NON_YELLOW)) continue;
+    const other = byName.get('Övrigt');
+    if (other) { add(other, homeless); continue; }
+    warnings.push(
+      `Cosmetics group '${sourceGroup.name}': ${homeless.join(', ')} share no department with ` +
+      `any group and no colour family is left — they render in the default colour.`,
+    );
   }
 
   const merged = withAdditions({ groups, courseToGroup: new Map() }, plan);
