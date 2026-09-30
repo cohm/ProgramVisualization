@@ -1241,6 +1241,37 @@ from the nearest cohort (earlier on a tie), marked "(från kull …)". The lists
 do change between cohorts, e.g. CTFYS names TBDVM from HT2023 on. Every
 judgement is listed in `master-mapping-review.md`.
 
+**Committed masters, second batch: TSCRM, TEFRM, TMAKM, TCSCM, TTEMM**
+(kull HT2023-HT2026, 67.0 kB brotlied). Measured with a local Turbopack build
+of the branch: application JS 207.43 kB of 225, data chunks 392.76 kB of 450
+(the limit was raised from 350 for this batch). What their plans needed:
+
+- **More rule phrasings.** "En av de villkorligt valfria kurserna ska
+  väljas under år 1 eller år 2" (TEFRM): "år 1 eller år 2", "år ett eller år
+  två" name both years, not year 1. "Av de villkorligt valbara kurserna ska
+  minst en läsas" (TMAKM): "valbara" as well as "valfria". "En av dessa
+  kurser ska läsas:" with the codes on the lines below (TCSCM). "minst en
+  projektkurs" against a free text "Project courses: …" (TSCRM), matched on
+  the first five letters, since the rule is Swedish and the list's heading
+  English; free texts are now read as rule text.
+- **Delspår.** TCSCM splits spår into delspår in prose only ("Ett av
+  delspåren ska väljas. Delspår 1: … Minst en ska läsas av: …"). Their rules
+  hold only for the delspår chosen, so everything after a delspår heading is
+  reported, not read.
+- **Renamed spår.** `specSuccessors` in `prerequisite-corrections.json`
+  records a spår renamed between kullar (TTFYM TFYF → TFYH, TTEMM TEMA →
+  TEMD), status "proposed" until a programme confirms. A borrowed year's
+  courses for one of the pair are read as the cohort's own spår instead of
+  being dropped: TTEMM HT2023's TEMA box went from 90 hp (no year-1 courses at
+  all) to 52.5. TCSCM's CSSC → CSPC is not recorded: "vetenskapliga
+  beräkningar" and "parallella beräkningar" may not be the same spår.
+- **Gaps reported, not filled.** TSCRM HT2024's year 2 lists no degree
+  project, and HT2023 borrows it. TMAKM's MM7020 and MM8002 are obligatoriska
+  but given by Stockholm University with no KTH course data. Both put their
+  credits into the elective box, and the review file says so.
+- An "over full-time" note needs 1 hp or more: TSCRM and TCSCM thread thin
+  courses (0.2-0.4 hp a period) through the whole programme.
+
 **The five-year view** (`?master=TTFYM`) appends a master programme to a
 bachelor's three years, with COPEN in front when a continuation is selected
 (`?program=COPEN&continuation=CTFYS&master=TTFYM`). The dropdown lists the

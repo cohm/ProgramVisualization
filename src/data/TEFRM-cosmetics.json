@@ -1,0 +1,86 @@
+[
+  {
+    "name": "Fysik",
+    "nameEn": "Physics",
+    "colorFamily": "green",
+    "courses": [
+      "EF1110",
+      "EF1113",
+      "EF2200",
+      "EF2215",
+      "EF2222",
+      "EF2225",
+      "EF2227",
+      "EF2228",
+      "EF2240",
+      "EF2243",
+      "EF2245",
+      "EF2260",
+      "EF2262",
+      "EF2264",
+      "EF2270",
+      "SH2008",
+      "SH2404",
+      "SI2520",
+      "SK2303",
+      "SK2402",
+      "SK2404",
+      "SK2411",
+      "SK2900",
+      "SK2907"
+    ]
+  },
+  {
+    "name": "Datateknik",
+    "nameEn": "Computer Science",
+    "colorFamily": "turquoise",
+    "courses": [
+      "DD2358",
+      "DD2370"
+    ]
+  },
+  {
+    "name": "Ingenjörsämnen",
+    "nameEn": "Engineering",
+    "colorFamily": "brick",
+    "courses": [
+      "AG1321",
+      "AH2923",
+      "ED2200",
+      "ED2210",
+      "ED2235",
+      "ED2240",
+      "ED2246",
+      "ED2247",
+      "EI2400",
+      "EI2401",
+      "EI2402",
+      "EI2403",
+      "EI2405",
+      "EI2410",
+      "EI2420",
+      "EI2440",
+      "EI2510",
+      "EI2515",
+      "EK2360",
+      "EK2370",
+      "EK2390",
+      "SD2905",
+      "SD2910",
+      "SD2920",
+      "SD2925",
+      "SG2212",
+      "SG2214"
+    ]
+  },
+  {
+    "name": "Övrigt",
+    "nameEn": "Other",
+    "colorFamily": "yellow",
+    "courses": [
+      "AK2036",
+      "EA275X",
+      "SK202X"
+    ]
+  }
+]

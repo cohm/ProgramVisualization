@@ -25,7 +25,7 @@ Size per year (P1/P2/P3/P4), number of options, and the rules read.
 - TFYF: one box over years 1+2 (13.5/15/15/15 | 10.5/12/0/0 hp, 81 hp), 15 options (11 villkorligt valfria), 2 rule(s) read: minCount 1 of 2; minCredits 40 of 11. *(HT2025)*
 - TFYG: one box over years 1+2 (3/10.5/15/15 | 10.5/12/0/0 hp, 66 hp), 11 options (8 villkorligt valfria), 1 rule(s) read: minCredits 25 of 8. *(HT2025, HT2026)*
 - TFYA: one box over years 1+2 (6/15/15/15 | 10.5/12/0/0 hp, 73.5 hp), 19 options (12 villkorligt valfria), 1 rule(s) read: minCredits 32.5 of 12. *(HT2026)*
-- TFYH: one box over years 1+2 (13.5/15/15/15 | 10.5/12/0/0 hp, 81 hp), 13 options (11 villkorligt valfria), 2 rule(s) read: minCredits 40 of 11; minCount 1 of 2. *(HT2026)*
+- TFYH: one box over years 1+2 (13.5/15/15/15 | 10.5/12/0/0 hp, 81 hp), 15 options (11 villkorligt valfria), 2 rule(s) read: minCredits 40 of 11; minCount 1 of 2. *(HT2026)*
 
 ## Courses readable in year 1 or year 2
 
@@ -41,13 +41,17 @@ Size per year (P1/P2/P3/P4), number of options, and the rules read.
 - SK2541: listed in years 1 and 2 — one entry with a round per year (default year 1); a student reads it once. *(all cohorts)*
 - SK2534: listed in years 1 and 2 — one entry with a round per year (default year 1); a student reads it once. *(HT2025, HT2026)*
 - SH2314: listed in years 1 and 2 — one entry with a round per year (default year 1); a student reads it once. *(HT2025, HT2026)*
-- SK2303: listed in years 1 and 2 — one entry with a round per year (default year 1); a student reads it once. *(HT2025, HT2026)*
-- SK2758: listed in years 1 and 2 — one entry with a round per year (default year 1); a student reads it once. *(HT2025, HT2026)*
+- SK2303: listed in years 1 and 2 — one entry with a round per year (default year 1); a student reads it once. *(HT2025)*
+- SK2758: listed in years 1 and 2 — one entry with a round per year (default year 1); a student reads it once. *(HT2025)*
 - SH2150: listed in years 1 and 2 — one entry with a round per year (default year 1); a student reads it once. *(HT2025, HT2026)*
 - SI1336: listed in years 1 and 2 — one entry with a round per year (default year 1); a student reads it once. *(HT2025, HT2026)*
 - CM2020: listed in years 1 and 2 — one entry with a round per year (default year 1); a student reads it once. *(HT2025, HT2026)*
 - SK2560: listed in years 1 and 2 — one entry with a round per year (default year 1); a student reads it once. *(HT2026)*
+- SK2303: listed in years 1 and 2, but already carries rounds or a per-inriktning year — not given a round per year. Verify by hand. *(HT2026)*
+- SK2404: listed in years 1 and 2, but already carries rounds or a per-inriktning year — not given a round per year. Verify by hand. *(HT2026)*
+- SK2758: listed in years 1 and 2, but already carries rounds or a per-inriktning year — not given a round per year. Verify by hand. *(HT2026)*
+- SK2005: listed in years 1 and 2, but already carries rounds or a per-inriktning year — not given a round per year. Verify by hand. *(HT2026)*
 
 ## Other
 
-- spår TFYF is not on this cohort's own pages — they come from a borrowed year, so they are left out, with 2 entries only they had: Villkorligt valfri grupp 19, Villkorligt valfri grupp 20. *(HT2026)*
+- spår TFYF (from a borrowed year) is read as TFYH, this cohort's own — the pair is recorded as a proposed rename in prerequisite-corrections.json (specSuccessors). Confirm with the programme. *(HT2026)*

@@ -1072,6 +1072,11 @@ function readCurriculum(state, prog, year) {
       noteLines.push(decodeHtmlLines(info.supplementaryInformation));
       specNotes.push({ spec: info.isCommon ? null : (info.code || null), text: decodeHtmlLines(info.supplementaryInformation) });
     }
+    // Free texts carry lists the rules refer to: TSCRM's "Project courses:
+    // DD2438, EL2425, …" for its "minst en projektkurs".
+    for (const ft of info.freeTexts || []) {
+      if (ft?.Text) specNotes.push({ spec: info.isCommon ? null : (info.code || null), text: decodeHtmlLines(ft.Text) });
+    }
     // The VV rule and per-master requirements, kept per inriktning so a group
     // built from one curriculumInfo gets its own programme's wording.
     //
@@ -1562,6 +1567,13 @@ function masterDestinationsFromCommittedData(prog) {
  */
 let correctionsCache = null;
 let electiveCorrections = [];
+// Master spår renamed between kullar (prerequisite-corrections.json →
+// specSuccessors): { program, older, newer }.
+let specSuccessors = [];
+function specSuccessorsFor(prog) {
+  correctionFor(prog, '');   // force the file to load
+  return specSuccessors.filter((c) => c.program === prog);
+}
 
 /**
  * Programme-level corrections to how a year's elective space is modelled.
@@ -1597,6 +1609,7 @@ function correctionFor(prog, code) {
       for (const one of c.codes ?? []) correctionsCache.set(`${c.program}::${one}`, c);
     }
     electiveCorrections = Array.isArray(parsed) ? [] : (parsed?.electiveSpace ?? []);
+    specSuccessors = Array.isArray(parsed) ? [] : (parsed?.specSuccessors ?? []);
   }
   return correctionsCache.get(`${prog}::${code}`) ?? null;
 }
@@ -4345,6 +4358,7 @@ async function extractCohort(prog, cohort, args, registryEntries) {
     }
     const plan = buildMasterPlan({
       ownSpecs,
+      specSuccessors: specSuccessorsFor(prog),
       ownSpecsFrom: ownSpecsFrom === cohort ? null : cohortLabel(ownSpecsFrom),
       entries: allEntries,
       vvRecords: vvKept,

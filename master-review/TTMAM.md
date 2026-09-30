@@ -57,4 +57,5 @@ Size per year (P1/P2/P3/P4), number of options, and the rules read.
 - DAVE: 1 listed elective(s) have no offering to place and are left out: DD2445 *(HT2023, HT2024)*
 - FMIA: 1 listed elective(s) have no offering to place and are left out: DD2445 *(HT2023, HT2024)*
 - OPST: 1 listed elective(s) have no offering to place and are left out: DD2445 *(HT2023, HT2024)*
+- SF2944: named as obligatorisk in the study plan's text but not listed as a course ("Obligatoriska SF2940 kan ersättas av SF2944 (OBS!") — its credits are not in the chart, so the elective box is that much larger. Verify. *(all cohorts)*
 - spår CSSE is not on this cohort's own pages — they come from a borrowed year, so they are left out, with 1 entry only they had: DD2257. *(HT2024)*

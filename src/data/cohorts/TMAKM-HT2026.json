@@ -1,0 +1,878 @@
+[
+  {
+    "type": "cohortMeta",
+    "program": "TMAKM",
+    "cohort": "HT2026",
+    "years": [
+      {
+        "year": 1,
+        "sourceCohort": "HT2026",
+        "approximated": false,
+        "confidence": "exact"
+      },
+      {
+        "year": 2,
+        "sourceCohort": "HT2025",
+        "approximated": true,
+        "corroboratedBy": {
+          "year": 1,
+          "agrees": false
+        },
+        "confidence": "low"
+      }
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser",
+    "nameEn": "Conditionally elective and elective courses",
+    "year": 1,
+    "totalCredits": 75,
+    "periodCredits": {
+      "Year1": {
+        "P1": 11.3,
+        "P2": 11.2,
+        "P3": 7.5,
+        "P4": 15
+      },
+      "Year2": {
+        "P1": 15,
+        "P2": 15,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "SF2741",
+      "SF2722",
+      "DD2440",
+      "DD2447",
+      "SF2725",
+      "SF2832",
+      "SF2852",
+      "SF2863",
+      "SF2975",
+      "SF2980",
+      "SF2942",
+      "SF2944",
+      "DD2352",
+      "DD2448",
+      "SF2812",
+      "SF2822",
+      "SF2842",
+      "SF2930",
+      "SF2943",
+      "SF2955",
+      "SF2971",
+      "SF2972",
+      "SF2720",
+      "SF2716",
+      "SF2704",
+      "SF2940"
+    ],
+    "allowedNumberOfOptions": 26,
+    "kind": "minCredits",
+    "minCredits": 75,
+    "constraints": [
+      {
+        "kind": "minCount",
+        "value": 1,
+        "from": [
+          "SF2741"
+        ],
+        "label": "Av de villkorligt valbara kurserna ska minst en läsas."
+      }
+    ],
+    "exams": [],
+    "category": "conditionallyElective",
+    "comment": "villkorligt valfria kurser och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "code": "AK2034",
+    "name": "Vetenskapsteori och vetenskaplig metodik (beräkningsvetenskap)",
+    "totalCredits": 4.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Theory and Methodology of Science (Computational Science)",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SF2980",
+    "name": "Riskvärdering och riskhantering",
+    "nameEn": "Risk Management",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2720",
+    "name": "Kaotiska dynamiska system",
+    "nameEn": "Chaotic Dynamical Systems",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.5,
+      "P4": 4
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 3.5,
+          "P4": 4
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 3.5,
+          "P4": 4
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2943",
+    "name": "Tidsserieanalys",
+    "nameEn": "Time Series Analysis",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2971",
+    "name": "Martingaler och stokastiska integraler",
+    "nameEn": "Martingales and Stochastic Integrals",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2852",
+    "name": "Optimal styrteori",
+    "nameEn": "Optimal Control Theory",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2722",
+    "name": "Differentialgeometri",
+    "nameEn": "Differential Geometry",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.5,
+      "P4": 4
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 3.5,
+          "P4": 4
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 3.5,
+          "P4": 4
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2842",
+    "name": "Geometrisk styrteori",
+    "nameEn": "Geometric Control Theory",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2944",
+    "name": "Sannolikhetsteorins grunder",
+    "nameEn": "Foundations of Probability Theory",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2863",
+    "name": "Systemteknik",
+    "nameEn": "Systems Engineering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2743",
+    "name": "Avancerad reell analys I",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 3.7,
+      "P2": 3.8,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Advanced Real Analysis I",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SF2955",
+    "name": "Datorintensiva metoder inom matematisk statistik",
+    "nameEn": "Computer Intensive Methods in Mathematical Statistics",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2812",
+    "name": "Tillämpad linjär optimering",
+    "nameEn": "Applied Linear Optimization",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2741",
+    "name": "Enumerativ kombinatorik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 3.5,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Enumerative Combinatorics",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 3.5,
+          "P2": 4,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 3.5,
+          "P2": 4,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2440",
+    "name": "Avancerade algoritmer",
+    "nameEn": "Advanced Algorithms",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 1.5,
+          "P2": 4.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 1.5,
+          "P2": 4.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2448",
+    "name": "Kryptografins grunder",
+    "nameEn": "Foundations of Cryptography",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2716",
+    "name": "Valda ämnen i matematik II",
+    "nameEn": "Selected Topics in Mathematics II",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2975",
+    "name": "Finansiella derivat",
+    "nameEn": "Financial Derivatives",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2725",
+    "name": "Matematikens historia",
+    "nameEn": "The History of Mathematics",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2704",
+    "name": "Valda ämnen i matematik I",
+    "nameEn": "Topics in Mathematics I",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 3.7,
+          "P4": 3.8
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 3.7,
+          "P4": 3.8
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2352",
+    "name": "Algoritmer och komplexitet",
+    "nameEn": "Algorithms and Complexity",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 4.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "DD2447",
+    "name": "Statistiska metoder i datalogin",
+    "nameEn": "Statistical Methods in Applied Computer Science",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2832",
+    "name": "Matematisk systemteori",
+    "nameEn": "Mathematical Systems Theory",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2930",
+    "name": "Regressionsanalys",
+    "nameEn": "Regression Analysis",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SA2001",
+    "name": "Hållbar utveckling och forskningsmetodik inom matematik",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Sustainable development and research methodology in mathematics",
+    "gradingScale": "P/F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SF2942",
+    "name": "Portföljteori och riskvärdering",
+    "nameEn": "Portfolio Theory and Risk Management",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2972",
+    "name": "Spelteori",
+    "nameEn": "Game Theory",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2822",
+    "name": "Tillämpad ickelinjär optimering",
+    "nameEn": "Applied Nonlinear Optimization",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF278X",
+    "name": "Examensarbete inom matematik, avancerad nivå",
+    "totalCredits": 30,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 15,
+      "P4": 15
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Degree Project in Mathematics, Second Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SF2940",
+    "name": "Sannolikhetsteori",
+    "nameEn": "Probability Theory",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  }
+]

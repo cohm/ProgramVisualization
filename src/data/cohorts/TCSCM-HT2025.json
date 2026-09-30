@@ -1,0 +1,2953 @@
+[
+  {
+    "type": "cohortMeta",
+    "program": "TCSCM",
+    "cohort": "HT2025",
+    "years": [
+      {
+        "year": 1,
+        "sourceCohort": "HT2025",
+        "approximated": false,
+        "confidence": "exact"
+      },
+      {
+        "year": 2,
+        "sourceCohort": "HT2025",
+        "approximated": false,
+        "confidence": "exact"
+      }
+    ]
+  },
+  {
+    "code": "DD2300",
+    "name": "Programsammanhållande kurs i datalogi",
+    "totalCredits": 2,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0.2,
+        "P2": 0.3,
+        "P3": 0.2,
+        "P4": 0.3
+      },
+      "Year2": {
+        "P1": 0.2,
+        "P2": 0.3,
+        "P3": 0.2,
+        "P4": 0.3
+      }
+    },
+    "prerequisites": [],
+    "exams": {},
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Program Integrating Course in Computer Science",
+    "gradingScale": "P/F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DT2119",
+    "name": "Igenkänning av tal och talare",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSCS",
+      "CSDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Speech and Speaker Recognition",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2420",
+    "name": "Probabilistiska grafiska modeller",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Probabilistic Graphical Models",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesParticipation": [
+      "DD2421"
+    ]
+  },
+  {
+    "code": "SF2956",
+    "name": "Topologisk dataanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSTC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Topological Data Analysis",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2419",
+    "name": "Projektkurs i robotik och autonoma system",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 4.5
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSCS"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Project Course in Robotics and Autonomous Systems",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2410"
+    ]
+  },
+  {
+    "code": "DH2632",
+    "name": "Människa-datorinteraktion, högre seminarier",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 1.5,
+      "P4": 1.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSID"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Human-Computer Interaction, Research Seminars",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (CSSC)",
+    "nameEn": "Conditionally elective and elective courses (CSSC)",
+    "year": 1,
+    "totalCredits": 59,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0,
+        "P2": 0,
+        "P3": 14.8,
+        "P4": 14.7
+      },
+      "Year2": {
+        "P1": 14.8,
+        "P2": 14.7,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "DD2356",
+      "DD2358",
+      "DD2363",
+      "DD2365",
+      "DD2257",
+      "DD2360",
+      "DD2367",
+      "DD2370",
+      "DD2375",
+      "DD2443",
+      "DD2444",
+      "CM2014",
+      "DD2401",
+      "DD2421",
+      "DT2212",
+      "BB2280",
+      "DD2366",
+      "DD2435",
+      "EL2820",
+      "SF2565",
+      "DD2402"
+    ],
+    "allowedNumberOfOptions": 21,
+    "kind": "minCredits",
+    "minCredits": 59,
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "CSSC"
+    ],
+    "comment": "Spår, vetenskapliga beräkningar: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "code": "DD2552",
+    "name": "Seminariekurs i teoretisk datalogi, programspråk och formella metoder",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSTC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Seminars on Theoretical Computer Science, Programming Languages and Formal Methods",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DT2212",
+    "name": "Musikakustik",
+    "nameEn": "Music Acoustics",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSSC"
+    ]
+  },
+  {
+    "code": "DD2448",
+    "name": "Kryptografins grunder",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSTC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Foundations of Cryptography",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (CSDA)",
+    "nameEn": "Conditionally elective and elective courses (CSDA)",
+    "year": 1,
+    "totalCredits": 44,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0,
+        "P2": 0,
+        "P3": 7.3,
+        "P4": 14.7
+      },
+      "Year2": {
+        "P1": 11.3,
+        "P2": 10.7,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "DD2417",
+      "DD2420",
+      "DD2424",
+      "DD2477",
+      "DD2434",
+      "DD2437",
+      "DD2438",
+      "DH2321",
+      "DT2112",
+      "DT2119",
+      "DD2257",
+      "DD2368",
+      "DD2413",
+      "DD2423",
+      "DD2447",
+      "DD2610",
+      "EL2320",
+      "ID2222",
+      "ID2223",
+      "SF1811",
+      "SF2940",
+      "DD2361"
+    ],
+    "allowedNumberOfOptions": 22,
+    "kind": "minCredits",
+    "minCredits": 44,
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "CSDA"
+    ],
+    "comment": "Spår, dataanalys: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "code": "DD2528",
+    "name": "Pålitliga autonoma system",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSST"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Dependable Autonomous Systems",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DH2321",
+    "name": "Informationsvisualisering",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSDA",
+      "CSVG"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Information Visualization",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DH2400",
+    "name": "Fysisk interaktionsdesign",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSID"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Physical Interaction Design and Realization",
+    "gradingScale": "P/F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2481",
+    "name": "Principer för programspråk",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSST"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Principles of Programming Languages",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2459",
+    "name": "Programvarutillförlitlighet",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSST",
+      "CSTC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Software Reliability",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2525",
+    "name": "Språkbaserad datasäkerhet",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSST"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Language-Based Security",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2395"
+    ]
+  },
+  {
+    "code": "DD2480",
+    "name": "Programutvecklingsteknikens grunder",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSST"
+    ],
+    "category": "mandatory",
+    "nameEn": "Software Engineering Fundamentals",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2421",
+    "name": "Maskininlärning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSCS",
+      "CSDA",
+      "CSSC",
+      "CSST"
+    ],
+    "category": "mandatory",
+    "nameEn": "Machine Learning",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2585",
+    "name": "Programmerbart samhälle med blockkedjor och smarta kontrakt",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSST"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Programmable Society with Blockchains and Smart Contracts",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2395",
+      "DD2443",
+      "DD2448",
+      "DD2480"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (CSID)",
+    "nameEn": "Conditionally elective and elective courses (CSID)",
+    "year": 1,
+    "totalCredits": 42.5,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0,
+        "P2": 0,
+        "P3": 7.3,
+        "P4": 14.7
+      },
+      "Year2": {
+        "P1": 10.3,
+        "P2": 10.2,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "DH2400",
+      "DH2632",
+      "DH2670",
+      "DM2586",
+      "DH2408",
+      "DT2140"
+    ],
+    "allowedNumberOfOptions": 6,
+    "kind": "minCredits",
+    "minCredits": 42.5,
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "CSID"
+    ],
+    "comment": "Spår, interaktionsdesign: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "code": "DH2628",
+    "name": "Metoder för interaktionsdesign",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSID"
+    ],
+    "category": "mandatory",
+    "nameEn": "Interaction Design Methods",
+    "gradingScale": "P/F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SF2972",
+    "name": "Spelteori",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSTC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Game Theory",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2460",
+    "name": "Programvarusäkerhet",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSST",
+      "CSTC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Software Safety and Security",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2395"
+    ]
+  },
+  {
+    "code": "DH2650",
+    "name": "Datorspelsdesign",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSVG"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Computer Game Design",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DH2628"
+    ]
+  },
+  {
+    "code": "DT2112",
+    "name": "Talteknologi",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSCS",
+      "CSDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Speech Technology",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SF2740",
+    "name": "Grafteori",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 3.7,
+      "P2": 3.8,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSTC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Graph Theory",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2440",
+    "name": "Avancerade algoritmer",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Advanced Algorithms",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "ID1217",
+    "name": "Programmering av parallella system",
+    "nameEn": "Concurrent Programming",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSST",
+      "CSTC"
+    ],
+    "rounds": [
+      {
+        "id": "P4",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 7.5
+        }
+      },
+      {
+        "id": "P4-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 7.5
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2930",
+    "name": "Regressionsanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSTC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Regression Analysis",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "DH2323",
+    "name": "Datorgrafik med interaktion",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSVG"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Computer Graphics and Interaction",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "CM2014",
+    "name": "Simuleringsmetoder i medicinsk teknik",
+    "nameEn": "Simulation Methods in Medical Engineering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 3
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSSC"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (CSTC)",
+    "nameEn": "Conditionally elective and elective courses (CSTC)",
+    "year": 1,
+    "totalCredits": 51.5,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0,
+        "P2": 0,
+        "P3": 14.8,
+        "P4": 14.7
+      },
+      "Year2": {
+        "P1": 10.8,
+        "P2": 11.2,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "DD2445",
+      "DD2552",
+      "SF2740",
+      "SF2940",
+      "SF2956",
+      "DD2373",
+      "DD2448",
+      "DD2459",
+      "DD2460",
+      "SF2930",
+      "SF2972",
+      "SF2741",
+      "DD2443",
+      "DD2452",
+      "DD2542",
+      "DD2557",
+      "ID1217",
+      "DD2366",
+      "DD2367",
+      "DD2447",
+      "DD2458"
+    ],
+    "allowedNumberOfOptions": 21,
+    "kind": "minCredits",
+    "minCredits": 51.5,
+    "constraints": [
+      {
+        "kind": "minCount",
+        "value": 1,
+        "from": [
+          "SF2740",
+          "SF2972",
+          "SF2940",
+          "SF2741",
+          "SF2930",
+          "SF2956"
+        ],
+        "label": "Alla ska läsa minst en av dessa kurser: SF2740, SF2972, SF2940, SF2741, SF2930, SF2956"
+      }
+    ],
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "CSTC"
+    ],
+    "comment": "Spår, teoretisk datalogi: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (CSVG)",
+    "nameEn": "Conditionally elective and elective courses (CSVG)",
+    "year": 1,
+    "totalCredits": 45.5,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0,
+        "P2": 0,
+        "P3": 7.3,
+        "P4": 14.7
+      },
+      "Year2": {
+        "P1": 14.8,
+        "P2": 8.7,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "DH2310",
+      "DH2321",
+      "DH2323",
+      "DH2650",
+      "DD2257",
+      "DH2413",
+      "DD2356",
+      "DD2424",
+      "DD2423",
+      "DM2350"
+    ],
+    "allowedNumberOfOptions": 10,
+    "kind": "minCredits",
+    "minCredits": 45.5,
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "CSVG"
+    ],
+    "comment": "Spår, visualisering och grafik: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "code": "DH2310",
+    "name": "Utvidgad verklighet i teori och praktik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSVG"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Extended Reality in Theory and Practice",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DH2628"
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (CSCS)",
+    "nameEn": "Conditionally elective and elective courses (CSCS)",
+    "year": 1,
+    "totalCredits": 51.5,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0,
+        "P2": 0,
+        "P3": 7.3,
+        "P4": 14.7
+      },
+      "Year2": {
+        "P1": 14.8,
+        "P2": 14.7,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "DD2417",
+      "DD2419",
+      "DD2424",
+      "DT2112",
+      "DT2119",
+      "DD2410",
+      "DD2413",
+      "DD2423",
+      "DT2151",
+      "DD2438",
+      "DD2477",
+      "DD2434",
+      "DD2447",
+      "EL2320",
+      "SF2940",
+      "SF1861"
+    ],
+    "allowedNumberOfOptions": 16,
+    "kind": "minCredits",
+    "minCredits": 51.5,
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "CSCS"
+    ],
+    "comment": "Spår, kognitiva system: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "code": "SF2940",
+    "name": "Sannolikhetsteori",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSCS",
+      "CSDA",
+      "CSTC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Probability Theory",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (CSST)",
+    "nameEn": "Conditionally elective and elective courses (CSST)",
+    "year": 1,
+    "totalCredits": 51.5,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0,
+        "P2": 0,
+        "P3": 7.3,
+        "P4": 14.7
+      },
+      "Year2": {
+        "P1": 14.8,
+        "P2": 14.7,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "DD2528",
+      "DD2585",
+      "DD2373",
+      "DD2459",
+      "DD2481",
+      "DD2525",
+      "DD2460",
+      "DD2443",
+      "DD2482",
+      "DD2489",
+      "ID2202",
+      "DD2529",
+      "DD2557",
+      "DD2421",
+      "DD2477",
+      "ID1217",
+      "IK2215",
+      "DD2458",
+      "IK2221",
+      "IK2227"
+    ],
+    "allowedNumberOfOptions": 20,
+    "kind": "minCredits",
+    "minCredits": 51.5,
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "CSST"
+    ],
+    "comment": "Spår, programvaruteknik: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "code": "DD2358",
+    "name": "Introduktion till högprestandaberäkningar",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSSC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Introduction to High Performance Computing",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2438",
+    "name": "Artificiell intelligens och multiagentsystem",
+    "nameEn": "Artificial Intelligence and Multi Agent Systems",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7,
+      "P4": 8
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSCS",
+      "CSDA"
+    ]
+  },
+  {
+    "code": "DD2363",
+    "name": "Vetenskapliga beräkningsmetoder",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSSC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Methods in Scientific Computing",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2417",
+    "name": "Språkteknologi",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSCS",
+      "CSDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Language Engineering",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P4",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 7.5
+        }
+      },
+      {
+        "id": "P4-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 7.5
+        }
+      }
+    ]
+  },
+  {
+    "code": "DH2670",
+    "name": "Haptisk och taktil interaktionsteknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSID"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Haptics, Tactile and Tangible Interaction",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DM2586",
+    "name": "Generativ AI för medieteknik och interaktionsdesign",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSID"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Generative AI for Media Technology and Interaction Design",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2380",
+      "DD2421"
+    ]
+  },
+  {
+    "code": "DD2477",
+    "name": "Sökmotorer och informationssökningssystem",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 3
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSCS",
+      "CSDA",
+      "CSST"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Search Engines and Information Retrieval Systems",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 4.5,
+          "P4": 3
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 4.5,
+          "P4": 3
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2401",
+    "name": "Neurovetenskap",
+    "nameEn": "Neuroscience",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSSC"
+    ]
+  },
+  {
+    "code": "DD2258",
+    "name": "Introduktion till visualisering, datorgrafik och bild- och videobehandling",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSVG"
+    ],
+    "category": "mandatory",
+    "nameEn": "Introduction to Visualization, Computer Graphics and Image/Video Processing",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2373",
+    "name": "Automater och språk",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSST",
+      "CSTC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Automata and Languages",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2365",
+    "name": "Avancerade beräkningsmetoder i flödesmekanik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSSC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Advanced Computation in Fluid Mechanics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2380",
+    "name": "Artificiell intelligens",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Artificial Intelligence",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DA2210",
+    "name": "Vetenskapsteori och vetenskaplig metodik för dataloger",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Introduction to the Philosophy of Science and Research Methodology for Computer Scientists",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "IK2218",
+    "name": "Internets protokoll och principer",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Protocols and Principles of the Internet",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2395",
+    "name": "Datasäkerhet",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Computer Security",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2445",
+    "name": "Komplexitetsteori",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSTC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Complexity Theory",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2356",
+    "name": "Metoder inom högprestandaberäkningar",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSSC",
+      "CSVG"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Methods in High Performance Computing",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P4",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 7.5
+        }
+      },
+      {
+        "id": "P4-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 7.5
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2424",
+    "name": "Djupinlärning i Data Science",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSCS",
+      "CSDA",
+      "CSVG"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Deep Learning in Data Science",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2380",
+      "DD2421"
+    ],
+    "rounds": [
+      {
+        "id": "P4",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 7.5
+        }
+      },
+      {
+        "id": "P4-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 7.5
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2257",
+    "name": "Visualisering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSDA",
+      "CSSC",
+      "CSVG"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Visualization",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DA231X",
+    "name": "Examensarbete i datalogi och datateknik, avancerad nivå",
+    "totalCredits": 30,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 15,
+      "P4": 15
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Degree Project in Computer Science and Engineering, Second Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "BB2280",
+    "name": "Molekylär modellering",
+    "nameEn": "Molecular Modeling",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSSC"
+    ]
+  },
+  {
+    "code": "DM2630",
+    "name": "Design och utvärdering av användarupplevelse",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSID"
+    ],
+    "category": "mandatory",
+    "nameEn": "User Experience Design and Evaluation",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DH2628"
+    ]
+  },
+  {
+    "code": "DD2367",
+    "name": "Kvantberäkning för dataloger",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSSC",
+      "CSTC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Quantum Computing for Computer Scientists",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2375",
+    "name": "Projektkurs i högprestandaberäkningar",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSSC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Project Course in High-Performance Computing",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2356",
+      "DD2358",
+      "DD2360"
+    ]
+  },
+  {
+    "code": "DD2402",
+    "name": "Avancerad individuell kurs i beräkningsbiologi",
+    "nameEn": "Advanced Individual Course in Computational Biology",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 3,
+      "P4": 3
+    },
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 3,
+          "P2": 3,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "11242"
+      },
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 3,
+          "P4": 3
+        },
+        "applicationCode": "11809"
+      }
+    ],
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSSC"
+    ]
+  },
+  {
+    "code": "DD2366",
+    "name": "Öppna kvantsystem",
+    "nameEn": "Open Quantum Systems",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSSC",
+      "CSTC"
+    ]
+  },
+  {
+    "code": "DD2360",
+    "name": "Tillämpad GPU-programmering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSSC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Applied GPU Programming",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2361",
+    "name": "Avancerade ämnen inom djupinlärning i biomedicinsk bildanalys",
+    "nameEn": "Advanced Topics in Deep Learning in Biomedical Image Analysis",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSDA"
+    ]
+  },
+  {
+    "code": "DD2542",
+    "name": "Seminariekurs i teoretisk datalogi, algoritmer och komplexitet",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSTC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Seminars on Theoretical Computer Science, Algorithms and Complexity",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2410",
+    "name": "Introduktion till robotik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSCS"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Introduction to Robotics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2413",
+    "name": "Sociala robotar",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSCS",
+      "CSDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Social Robotics",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DH2628"
+    ]
+  },
+  {
+    "code": "DD2467",
+    "name": "Individuellt projekt i teoretisk datalogi",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 4,
+      "P2": 3.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSTC"
+    ],
+    "category": "mandatory",
+    "nameEn": "Individual Project in Theoretical Computer Science",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2440"
+    ]
+  },
+  {
+    "code": "SF2741",
+    "name": "Enumerativ kombinatorik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 3.5,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSTC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Enumerative Combinatorics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DH2413",
+    "name": "Avancerad grafik och interaktion",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 4.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSVG"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Advanced Graphics and Interaction",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2258",
+      "DH2323"
+    ]
+  },
+  {
+    "code": "DD2430",
+    "name": "Projektkurs i dataanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 3.5,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSDA"
+    ],
+    "category": "mandatory",
+    "nameEn": "Project Course in Data Science",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2421"
+    ]
+  },
+  {
+    "code": "DD2610",
+    "name": "Djupinlärning, fortsättningskurs",
+    "nameEn": "Deep Learning, advanced course",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSDA"
+    ]
+  },
+  {
+    "code": "SF2565",
+    "name": "Programkonstruktion i C++ för tekniskt - vetenskapliga beräkningar",
+    "nameEn": "Program Construction in C++ for Scientific Computing",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 3.5,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSSC"
+    ]
+  },
+  {
+    "code": "EL2820",
+    "name": "Modellering av dynamiska system",
+    "nameEn": "Modelling of Dynamical Systems",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSSC"
+    ]
+  },
+  {
+    "code": "DD2434",
+    "name": "Maskininlärning, avancerad kurs",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSCS",
+      "CSDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Machine Learning, Advanced Course",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2421",
+      "SF2940"
+    ],
+    "prerequisitesParticipation": [
+      "DD2421",
+      "SF2940"
+    ]
+  },
+  {
+    "code": "DD2489",
+    "name": "Skalbar programutveckling med funktionell programmering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSST"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Scalable software Development with Functional Programming",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2480"
+    ]
+  },
+  {
+    "code": "DD2452",
+    "name": "Formella metoder",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSTC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Formal Methods",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2443",
+    "name": "Parallella och distribuerade beräkningar",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSSC",
+      "CSST",
+      "CSTC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Parallel and Distributed Computing",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2437",
+    "name": "Artificiella neuronnät och djupa arkitekturer",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSDA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Artificial Neural Networks and Deep Architectures",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2423",
+    "name": "Bildbehandling och datorseende",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSCS",
+      "CSDA",
+      "CSVG"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Image Analysis and Computer Vision",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2444",
+    "name": "Projektkurs i beräkningsvetenskap",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSSC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Project Course in Scientific Computing",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2368",
+    "name": "Kvantneurala nätverk",
+    "nameEn": "Quantum Neural Networks",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSDA"
+    ]
+  },
+  {
+    "code": "DD2458",
+    "name": "Problemlösning och programmering under press",
+    "nameEn": "Problem Solving and Programming under Pressure",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 4.5
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSST",
+      "CSTC"
+    ]
+  },
+  {
+    "code": "IK2227",
+    "name": "Nätverkssystem med kant- eller molndatacenter",
+    "nameEn": "Network Systems with Edge or Cloud Datacenters",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSST"
+    ]
+  },
+  {
+    "code": "DD2482",
+    "name": "Automatiserad programtestning och DevOps",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSST"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Automated Software Testing and DevOps",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2435",
+    "name": "Neuronnäts- och biomodellering",
+    "nameEn": "Mathematical Modelling of Biological Systems",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSSC"
+    ]
+  },
+  {
+    "code": "IK2215",
+    "name": "Avancerad internetteknik",
+    "nameEn": "Advanced Internetworking",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSST"
+    ]
+  },
+  {
+    "code": "ID2223",
+    "name": "Skalbar maskininlärning och djupinlärning",
+    "nameEn": "Scalable Machine Learning and Deep Learning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSDA"
+    ]
+  },
+  {
+    "code": "SF1811",
+    "name": "Optimeringslära",
+    "nameEn": "Optimization",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSDA"
+    ]
+  },
+  {
+    "code": "DD2447",
+    "name": "Statistiska metoder i datalogin",
+    "nameEn": "Statistical Methods in Applied Computer Science",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSCS",
+      "CSDA",
+      "CSTC"
+    ]
+  },
+  {
+    "code": "SF1861",
+    "name": "Optimeringslära",
+    "nameEn": "Optimization",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSCS"
+    ]
+  },
+  {
+    "code": "DH2408",
+    "name": "Utvärderingsmetoder inom människa-datorinteraktion",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSID"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Evaluation Methods in Human-Computer Interaction",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2557",
+    "name": "Programsemantik och programanalys",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSST",
+      "CSTC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Program Semantics and Analysis",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DT2140",
+    "name": "Multimodala interaktioner och gränssnitt",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSID"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Multimodal Interaction and Interfaces",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2370",
+    "name": "Beräkningsmetoder för elektromagnetiska problem",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSSC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Computational Methods for Electromagnetics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "EL2320",
+    "name": "Tillämpad estimering",
+    "nameEn": "Applied Estimation",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSCS",
+      "CSDA"
+    ]
+  },
+  {
+    "code": "DD2470",
+    "name": "Avancerade ämnen i visualisering och datorgrafik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSVG"
+    ],
+    "category": "mandatory",
+    "nameEn": "Advanced Topics in Visualization and Computer Graphics",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2257",
+      "DD2258",
+      "DH2321",
+      "DH2323",
+      "DH2413",
+      "DH2650"
+    ]
+  },
+  {
+    "code": "ID2222",
+    "name": "Datautvinning",
+    "nameEn": "Data Mining",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSDA"
+    ]
+  },
+  {
+    "code": "DT2151",
+    "name": "Projekt i konverserande system",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSCS"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Project in Conversational Systems",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2421",
+      "DT2112",
+      "DT2140"
+    ]
+  },
+  {
+    "code": "DD2529",
+    "name": "Projektkurs i operativsystem och kompilatorstöd för säkerhet",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSST"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Project Course on Operating Systems and Compiler Support for Security",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2395"
+    ]
+  },
+  {
+    "code": "IK2221",
+    "name": "Nätverkssystem för maskininlärning",
+    "nameEn": "Networked Systems for Machine Learning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSST"
+    ]
+  },
+  {
+    "code": "DM2350",
+    "name": "Mänsklig perception för informationsteknik",
+    "nameEn": "Human Perception for Information Technology",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "specializations": [
+      "CSVG"
+    ]
+  },
+  {
+    "code": "ID2202",
+    "name": "Kompilatorer och exekveringsmiljöer",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "CSST"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Compilers and Execution Environments",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Ingenjörsämnen",
+    "nameEn": "Engineering",
+    "colorFamily": "brick",
+    "courses": [
+      "SD2110",
+      "SD2111",
+      "SD2125",
+      "SD2140",
+      "SD2150",
+      "SD2155",
+      "SD2165",
+      "SD2166",
+      "SD2175",
+      "SD2180",
+      "SD2190",
+      "SE1025",
+      "SE2121",
+      "SE2123",
+      "SE2126",
+      "SE2132",
+      "SE2134",
+      "SE2137",
+      "SE2139",
+      "SE2145",
+      "SE2152",
+      "SE2860",
+      "SG1220",
+      "SG2010",
+      "SG2211",
+      "SG2212",
+      "SG2214",
+      "SG2215",
+      "SG2218",
+      "SG2219",
+      "SG2224",
+      "SG2225",
+      "SG2226",
+      "SM2001",
+      "SM2501"
+    ]
+  },
+  {
+    "name": "Övrigt",
+    "nameEn": "Other",
+    "colorFamily": "yellow",
+    "courses": [
+      "AK2030",
+      "SA2002",
+      "SD211X",
+      "SE202X",
+      "SG213X"
+    ]
+  }
+]
