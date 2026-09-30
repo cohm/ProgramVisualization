@@ -209,7 +209,11 @@ export function buildMasterPlan(input) {
     }
     // The default must mirror the entry's own year and periods.
     const own = rounds.find((r) => (r.year ?? e.year) === e.year);
-    if (!sameLayout(own.periodCredits, e.periodCredits)) own.periodCredits = flatPeriods(e.periodCredits);
+    if (!sameLayout(own.periodCredits, e.periodCredits)) {
+      own.periodCredits = flatPeriods(e.periodCredits);
+      // The id names the round's first period, so it follows the periods.
+      own.id = firstPeriod(own.periodCredits);
+    }
     e.rounds = rounds;
     flags.push(`${code}: listed in years ${years.join(' and ')} — one entry with a round per year ` +
       `(default year ${e.year}); a student reads it once.`);
@@ -262,7 +266,10 @@ export function buildMasterPlan(input) {
       const row = {};
       for (const p of PERIOD_IDS) {
         const used = round(load.get(`${y}|${p}`) || 0);
-        if (used > FULL_TIME_HP + 0.05) {
+        // 1 hp: courses threaded thinly over many periods (TSCRM's 0.2-0.4 hp
+        // per period) put nearly every period a few tenths over, which says
+        // nothing about the plan.
+        if (used >= FULL_TIME_HP + 1) {
           flags.push(`${lane ?? 'common'} year ${y} ${p}: ${used} hp before any elective — over full-time. Verify.`);
         }
         row[p] = round(Math.max(0, FULL_TIME_HP - used));
@@ -289,10 +296,30 @@ export function buildMasterPlan(input) {
       // SF2832, SF2863 och SF2812, samt minst en av SF2527 och SF2524" (TTMAM).
       const clauses = t.text.split(/(?<=[.!?])\s+|\n+/)
         .flatMap((x) => x.split(/(?:,\s*(?:samt\s+|och\s+)?|\s+(?:samt|och)\s+)(?=minst\s)/iu));
-      for (const raw of clauses) {
-        const sentence = raw.replace(/\s+/g, ' ').trim();
+      // A delspår is a choice inside the spår, stated only in prose (TCSCM:
+      // "Ett av delspåren ska väljas. Delspår 1: … Minst en ska läsas av: …").
+      // Its rules hold only for the delspår chosen, so they are reported, not
+      // added to the box.
+      let inDelspar = false;
+      for (let ci = 0; ci < clauses.length; ci++) {
+        let sentence = clauses[ci].replace(/\s+/g, ' ').trim();
+        // "En av dessa kurser ska läsas:" with the codes on the lines below.
+        if (sentence.endsWith(':') && !(sentence.match(COURSE_CODE) || []).length) {
+          const listed = [];
+          for (let j = ci + 1; j < clauses.length; j++) {
+            const codes = clauses[j].match(COURSE_CODE) || [];
+            if (!codes.length) break;
+            listed.push(...codes);
+          }
+          if (listed.length) sentence = `${sentence} ${listed.join(', ')}`;
+        }
         if (!sentence || seenSentences.has(sentence)) continue;
         seenSentences.add(sentence);
+        if (/(?<!\p{L})delspår(?:en)?(?!\p{L})/iu.test(sentence)) inDelspar = true;
+        if (inDelspar) {
+          if (RULE_WORDS.test(sentence)) unread.push(`(delspår) ${sentence}`);
+          continue;
+        }
         const got = readRule(sentence, { lane, own: t.spec != null, laneVv, ownVv, options, vvRecords: a.vvRecords, namedLists, years: a.years, mandatory: (c) => mandatoryIn(c, lane) });
         if (got) {
           for (const c of got) {
@@ -329,6 +356,28 @@ export function buildMasterPlan(input) {
       (constraints.length ? `: ${constraints.map((c) => `${c.kind} ${c.value}${c.from ? ` of ${c.from.length}` : ''}`).join('; ')}` : '') + '.');
     for (const sentence of unread) flags.push(`${lane ?? 'common'}: rule not machine-read — "${sentence.slice(0, 220)}"`);
     if (missing.length) flags.push(`${lane ?? 'common'}: ${missing.length} listed elective(s) have no offering to place and are left out: ${missing.slice(0, 12).join(', ')}${missing.length > 12 ? ', …' : ''}`);
+  }
+
+  // A course the text calls obligatorisk but the data does not list: TMAKM's
+  // MM7020 and MM8002 are given by Stockholm University and have no KTH
+  // course data, so their space silently becomes elective space.
+  const unlisted = new Map();
+  for (const t of texts) {
+    for (const sentence of t.text.split(/(?<=[.!?])\s+|\n+/)) {
+      if (!/obligatorisk/iu.test(sentence)) continue;
+      for (const code of sentence.match(COURSE_CODE) || []) {
+        if (!byCode.has(code) && !unlisted.has(code)) unlisted.set(code, sentence.replace(/\s+/g, ' ').trim().slice(0, 160));
+      }
+    }
+  }
+  for (const [code, sentence] of unlisted) {
+    flags.push(`${code}: named as obligatorisk in the study plan's text but not listed as a course ("${sentence}") — its credits are not in the chart, so the elective box is that much larger. Verify.`);
+  }
+
+  // No degree project at all is a gap in the source, not a plan without one:
+  // TSCRM HT2024's year 2 lists none, and the box then covers its periods.
+  if (theses.length === 0 && !out.some((e) => !isGroup(e) && isThesis(e.code))) {
+    flags.push('no degree project (a …X course of 15 hp or more) is listed for this cohort — the elective box covers its periods. Check the study plan.');
   }
 
   // A course a spår box offers must be visible in that spår, and a course
@@ -371,7 +420,9 @@ function readRule(sentence, ctx) {
   const label = sentence.length > 200 ? `${sentence.slice(0, 197)}…` : sentence;
   // One study year named: the rule counts only that year's listing.
   const yearMatch = sentence.match(new RegExp(`${B}(?:åk|årskurs|år)\\s*(\\d)${E}`, 'iu'));
-  const onlyYear = yearMatch && !/\d\s*(\+|och|eller)\s*\d/.test(sentence) ? Number(yearMatch[1]) : null;
+  // "år 1 eller år 2", "år ett eller år två", "åk 1+2" name both years.
+  const bothYears = new RegExp(`(?:\\d|ett|två)\\s*(?:\\+|och|eller)\\s*(?:(?:åk|årskurs|år)\\s*)?(?:\\d|ett|två)${E}`, 'iu').test(sentence);
+  const onlyYear = yearMatch && !bothYears ? Number(yearMatch[1]) : null;
   const vvPool = (() => {
     let pool = ctx.own && ctx.ownVv.length ? ctx.ownVv : ctx.laneVv;
     if (onlyYear) {
@@ -391,7 +442,10 @@ function readRule(sentence, ctx) {
   // minimum: TFYF's "minst 40 hp villkorligt valfria kurser … varav minst en
   // av … SK2303 eller SK2758 … måste ingå". "Dock gäller att en av SF2930
   // eller SF2943 … ska läsas" (TTMAM FMIA) has no "minst".
-  const countOfList = sentence.match(new RegExp(`${B}(?:minst|måste|ska|varav|att)\\s+(?:minst\\s+)?${NUM}\\s+av${E}`, 'iu'));
+  // Also at the start of a sentence ("En av kurserna ska väljas: …", TCSCM),
+  // and as "Minst två kurser ska läsas: …" with the list after the colon.
+  const countOfList = sentence.match(new RegExp(`(?:^|${B}(?:minst|måste|ska|varav|att)\\s+)(?:minst\\s+)?${NUM}\\s+av${E}`, 'iu'))
+    ?? (listed.length >= 2 ? sentence.match(new RegExp(`${B}minst\\s+${NUM}\\s+kurser\\s+ska\\s+(?:läsas|väljas)${E}`, 'iu')) : null);
   if (countOfList && listed.length >= 2) {
     const n = numberOf(countOfList[1]);
     // Already met when the lane reads one of them as obligatorisk: TTMAM asks
@@ -409,6 +463,17 @@ function readRule(sentence, ctx) {
     .map((w) => ctx.namedLists.find((l) => l.stem.length >= 5 && w.toLowerCase().startsWith(l.stem)))
     .filter(Boolean);
   const namedCount = sentence.match(new RegExp(`${B}minst\\s+${NUM}\\s+(?:av\\s+de\\s+\\d+\\s+)?kurs`, 'iu'));
+  // "minst en projektkurs inom huvudområdet" (TSCRM), with the list in a free
+  // text headed "Project courses:". Matched on the first five letters, since
+  // the rule is Swedish and the heading English.
+  const kindCount = sentence.match(new RegExp(`${B}minst\\s+${NUM}\\s+(\\p{L}{5,})`, 'iu'));
+  const kindList = kindCount && ctx.namedLists.find((l) => l.stem.length >= 5
+    && kindCount[2].toLowerCase().slice(0, 5) === l.stem.slice(0, 5));
+  if (kindList && !listed.length) {
+    const pool = kindList.codes.filter((c) => ctx.options.includes(c));
+    const n = numberOf(kindCount[1]);
+    return pool.length >= n && n > 0 ? [{ kind: 'minCount', value: n, from: pool, label }] : null;
+  }
   if (!countOfList?.[0] || listed.length < 2) {
     if (fromNamed.length && namedCount) {
       const pool = [...new Set(fromNamed.flatMap((l) => l.codes))].filter((c) => ctx.options.includes(c));
@@ -421,7 +486,7 @@ function readRule(sentence, ctx) {
   // "Minst en villkorligt valfri kurs i varje årskurs" (TTMAM FMIA): one rule
   // per year, each counting that year's listing.
   if (new RegExp(`${B}i\\s+varje\\s+(?:årskurs|år)${E}`, 'iu').test(sentence)) {
-    const m = sentence.match(new RegExp(`${B}minst\\s+${NUM}\\s+villkorligt\\s+valfri`, 'iu'));
+    const m = sentence.match(new RegExp(`${B}minst\\s+${NUM}\\s+villkorligt\\s+val(?:fri|bar)`, 'iu'));
     if (!m) return null;
     const n = numberOf(m[1]);
     for (let y = 1; y <= ctx.years; y++) {
@@ -435,7 +500,7 @@ function readRule(sentence, ctx) {
   // A credit minimum of the villkorligt valfria courses, the pool named before
   // or after it: "minst 32,5 hp villkorligt valfria kurser inom spåret", "Av de
   // villkorligt valfria kurserna i åk 2 ska minst 30 hp väljas" (TTMAM CSSE).
-  const credits = /villkorligt\s+valfri/iu.test(sentence)
+  const credits = /villkorligt\s+val(?:fri|bar)/iu.test(sentence)
     ? sentence.match(new RegExp(`${B}minst\\s+(\\d+(?:[.,]\\d+)?)\\s*hp${E}`, 'iu'))
     : null;
   if (credits && vvPool.length) {
@@ -444,8 +509,14 @@ function readRule(sentence, ctx) {
   const count = sentence.match(new RegExp(`${B}(?:minst|ska)\\s+${NUM}\\s+(?:villkorligt\\s+valfria\\s+)?(?:spår)?kurser${E}`, 'iu'))
     ?? sentence.match(new RegExp(`${B}ska\\s+${NUM}\\s+kurser\\s+väljas${E}`, 'iu'))
     ?? sentence.match(new RegExp(`${B}minst\\s+${NUM}\\s+villkorligt\\s+valfria\\s+kurser${E}`, 'iu'))
-    ?? sentence.match(new RegExp(`^${NUM}\\s+av\\s+de\\s+villkorligt\\s+valfria${E}`, 'iu'));
-  if (!credits && !countOfList && count && vvPool.length && /villkorligt|spårkurs/iu.test(sentence)) {
+    ?? sentence.match(new RegExp(`^(?:minst\\s+)?${NUM}\\s+av\\s+(?:de\\s+|följande\\s+)?villkorligt\\s+val(?:fri|bar)`, 'iu'))
+    // "… + minst en av de villkorligt valfria kurserna på valt spår" (TTEMM).
+    ?? sentence.match(new RegExp(`${B}minst\\s+${NUM}\\s+av\\s+(?:de\\s+)?villkorligt\\s+val(?:fri|bar)`, 'iu'))
+    // "Av de villkorligt valbara kurserna ska minst en läsas" (TMAKM).
+    ?? (/villkorligt\s+val(?:fri|bar)/iu.test(sentence)
+      ? sentence.match(new RegExp(`${B}(?:ska\\s+)?minst\\s+${NUM}\\s+(?:läsas|väljas)${E}`, 'iu')) : null);
+  const listRead = countOfList && listed.length >= 2;
+  if (!credits && !listRead && count && vvPool.length && /villkorligt|spårkurs/iu.test(sentence)) {
     const n = numberOf(count[1]);
     if (n > 0 && n <= vvPool.length) out.push({ kind: 'minCount', value: n, from: vvPool, label });
   }
@@ -483,11 +554,43 @@ function readNamedLists(text) {
  * (its own year 1), and TTMAM HT2023 a CSSE box with no thesis, since CSSE
  * starts with HT2025. A course only for a dropped spår is dropped with it.
  */
-function keepOwnSpecs(a, flags) {
+function keepOwnSpecs(input, flags) {
+  let a = input;
   const own = a.ownSpecs;
   if (!own || own.size === 0) return a;
   const all = new Set([...a.entries, ...a.vvRecords, ...(a.coreRecords ?? []), ...a.electiveRecords]
     .flatMap((x) => x.specializations ?? (x.spec ? [x.spec] : [])));
+  // A spår renamed between kullar (specSuccessors in
+  // prerequisite-corrections.json) is read as the cohort's own: TTFYM
+  // HT2026's year 2, borrowed from HT2025, lists TFYF where HT2026 has TFYH.
+  const renamed = new Map();
+  for (const p of a.specSuccessors ?? []) {
+    if (all.has(p.older) && !own.has(p.older) && own.has(p.newer)) renamed.set(p.older, p.newer);
+    if (all.has(p.newer) && !own.has(p.newer) && own.has(p.older)) renamed.set(p.newer, p.older);
+  }
+  if (renamed.size) {
+    const re = (s) => renamed.get(s) ?? s;
+    const retag = (e) => {
+      const out = { ...e };
+      if (e.specializations) out.specializations = [...new Set(e.specializations.map(re))];
+      if (e.spec) out.spec = re(e.spec);
+      for (const k of ['yearBySpecialization', 'periodCreditsBySpecialization']) {
+        if (e[k]) out[k] = Object.fromEntries(Object.entries(e[k]).map(([s, v]) => [re(s), v]));
+      }
+      return out;
+    };
+    for (const [from, to] of renamed) {
+      flags.push(`spår ${from} (from a borrowed year) is read as ${to}, this cohort's own — the pair is recorded as a proposed rename in prerequisite-corrections.json (specSuccessors). Confirm with the programme.`);
+    }
+    a = {
+      ...a,
+      entries: a.entries.map(retag),
+      vvRecords: a.vvRecords.map(retag),
+      coreRecords: (a.coreRecords ?? []).map(retag),
+      electiveRecords: a.electiveRecords.map(retag),
+    };
+    for (const s of renamed.keys()) all.delete(s);
+  }
   const dropped = [...all].filter((s) => !own.has(s)).sort();
   if (dropped.length === 0) return a;
   const keepRecord = (r) => !r.spec || own.has(r.spec);

@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Matematik",
+    "nameEn": "Mathematics",
+    "colorFamily": "blue",
+    "courses": [
+      "SF2704",
+      "SF2716",
+      "SF2720",
+      "SF2722",
+      "SF2725",
+      "SF2728",
+      "SF2740",
+      "SF2741",
+      "SF2743",
+      "SF2812",
+      "SF2822",
+      "SF2832",
+      "SF2842",
+      "SF2852",
+      "SF2863",
+      "SF2930",
+      "SF2940",
+      "SF2942",
+      "SF2943",
+      "SF2944",
+      "SF2955",
+      "SF2971",
+      "SF2972",
+      "SF2975",
+      "SF2980"
+    ]
+  },
+  {
+    "name": "Datateknik",
+    "nameEn": "Computer Science",
+    "colorFamily": "turquoise",
+    "courses": [
+      "DD2352",
+      "DD2440",
+      "DD2447",
+      "DD2448"
+    ]
+  },
+  {
+    "name": "Övrigt",
+    "nameEn": "Other",
+    "colorFamily": "yellow",
+    "courses": [
+      "AK2030",
+      "AK2034",
+      "SA2001",
+      "SF278X"
+    ]
+  }
+]

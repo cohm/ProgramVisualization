@@ -55,9 +55,11 @@
       "SK2907",
       "SK2904",
       "SH2150",
-      "SK2712"
+      "SK2712",
+      "SK2501",
+      "SK2560"
     ],
-    "allowedNumberOfOptions": 13,
+    "allowedNumberOfOptions": 15,
     "kind": "minCredits",
     "minCredits": 81,
     "constraints": [
@@ -192,30 +194,12 @@
       "TFYH"
     ],
     "category": "conditionallyElective",
+    "yearBySpecialization": {
+      "TFYH": 2
+    },
     "nameEn": "Optical Physics",
     "gradingScale": "A-F",
-    "courseLevel": "A",
-    "rounds": [
-      {
-        "id": "P1",
-        "periodCredits": {
-          "P1": 7.5,
-          "P2": 0,
-          "P3": 0,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P1-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 7.5,
-          "P2": 0,
-          "P3": 0,
-          "P4": 0
-        }
-      }
-    ]
+    "courseLevel": "A"
   },
   {
     "type": "optionGroup",
@@ -756,6 +740,9 @@
       "TFYH"
     ],
     "category": "conditionallyElective",
+    "yearBySpecialization": {
+      "TFYH": 2
+    },
     "nameEn": "Optical Measurement Technology",
     "gradingScale": "A-F",
     "courseLevel": "A",
@@ -1112,6 +1099,17 @@
       "TFYH"
     ],
     "category": "conditionallyElective",
+    "yearBySpecialization": {
+      "TFYH": 2
+    },
+    "periodCreditsBySpecialization": {
+      "TFYH": {
+        "P1": 4.5,
+        "P2": 3,
+        "P3": 0,
+        "P4": 0
+      }
+    },
     "nameEn": "Project course in Optics and Photonics",
     "gradingScale": "P/F",
     "courseLevel": "A",
@@ -1359,30 +1357,12 @@
       "TFYH"
     ],
     "category": "conditionallyElective",
+    "yearBySpecialization": {
+      "TFYH": 2
+    },
     "nameEn": "Solid State Physics",
     "gradingScale": "A-F",
-    "courseLevel": "A",
-    "rounds": [
-      {
-        "id": "P1",
-        "periodCredits": {
-          "P1": 7.5,
-          "P2": 0,
-          "P3": 0,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P1-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 7.5,
-          "P2": 0,
-          "P3": 0,
-          "P4": 0
-        }
-      }
-    ]
+    "courseLevel": "A"
   },
   {
     "code": "SK2501",
@@ -1402,7 +1382,8 @@
     "teacher": "",
     "description": "",
     "specializations": [
-      "TFYE"
+      "TFYE",
+      "TFYH"
     ],
     "category": "conditionallyElective",
     "nameEn": "Physics of Biomedical Microscopy, Extended Course",
@@ -1675,7 +1656,8 @@
     "description": "",
     "specializations": [
       "TFYE",
-      "TFYG"
+      "TFYG",
+      "TFYH"
     ],
     "category": "conditionallyElective",
     "nameEn": "Nanophotonics and Bionanophotonics",

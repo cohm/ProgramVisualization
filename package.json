@@ -22,7 +22,7 @@
     {
       "name": "Study-plan data chunks, loaded on demand (brotlied)",
       "path": ".next/size-limit/data/*.js",
-      "limit": "350 KB"
+      "limit": "450 KB"
     }
   ],
   "dependencies": {

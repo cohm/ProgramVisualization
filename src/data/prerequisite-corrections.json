@@ -41,5 +41,21 @@
       "why": "KOPPS märker en kurs som villkorligt valfri så snart studieplanen namnger den under ett masterprogram, vilket inte är samma sak som att studenten måste välja ur en fast uppsättning. CFATE:s egen text säger tvärtom: \"Följande program har behörighetsgivande kurser som borde läsas som valfria kurser under ÅK3.\" Kurserna är alltså valfria; några av dem ger dessutom behörighet till ett masterprogram. De klassas därför om till valfria och fyller årets valfria utrymme, i samma form som CTFYS årskurs 3 — ett minCredits-block vars alternativ är de rekommenderade och behörighetsgivande kurserna, med noteringen att även andra kurser får väljas.",
       "whyEn": "KOPPS marks a course conditionally elective as soon as the study plan names it under a master programme, which is not the same as the student having to choose from a fixed set. CFATE says the opposite in its own words: these are courses that \"should be taken as elective courses during year 3\". They are reclassified as elective and fill the year's elective space, in the same shape as CTFYS year 3."
     }
+  ],
+  "specSuccessors": [
+    {
+      "program": "TTFYM",
+      "older": "TFYF",
+      "newer": "TFYH",
+      "status": "proposed",
+      "why": "TFYF \"Spår, optik & fotonik\" is listed up to kull HT2025 and TFYH \"Spår, ljusets och materiens fysik\" from HT2026; no kull lists both. Read as one track renamed, so a year HT2026 borrows from HT2025 keeps its TFYF courses, as TFYH. Not confirmed by the programme director."
+    },
+    {
+      "program": "TTEMM",
+      "older": "TEMA",
+      "newer": "TEMD",
+      "status": "proposed",
+      "why": "TEMA \"fluidmekanik\" is listed up to kull HT2024 and TEMD \"strömningsmekanik\" from HT2025 (the same subject in two words); no kull lists both. Read as one track renamed, so HT2023-HT2024, which borrow year 1 from HT2025, get TEMD's year-1 courses as TEMA. Not confirmed by the programme director."
+    }
   ]
 }
