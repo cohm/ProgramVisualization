@@ -5,6 +5,7 @@ import kthColors from '@/data/kth-colors.json';
 import { tr, type Lang } from '@/lib/translations';
 import { constraintProgress, getOptionGroupKind, getOptionGroupPickN, getOptionGroupMinCredits } from '@/lib/optionGroupKind';
 import { creditsForRound, formatPeriods, hasRounds, pickRound, roundLabel } from '@/lib/courseRounds';
+import { pickYear, spansYears } from '@/lib/groupCredits';
 import type { Course, OptionGroup, SelectedInfo } from '@/types/course';
 
 const isCourse = (item: Course | OptionGroup): item is Course =>
@@ -249,11 +250,17 @@ export default function OptionGroupModal({
    * the one matching this box, or the user's override — not the union of every
    * offering, which is the whole point of the round model.
    */
-  const periodSummary = (course: Course): string =>
-    formatPeriods(
-      creditsForRound(course, pickRound(course, optionGroup, draftRounds[course.code])),
-      tr[language].credits,
-    );
+  // "(P1: 7.5 hp)", and in a box spanning study years "(år 1, P1: 7.5 hp)":
+  // there the periods alone do not say which year a pick lands in, and the
+  // box's options run in different ones.
+  const spanning = spansYears(optionGroup);
+  const periodSummary = (course: Course): string => {
+    const credits = creditsForRound(course, pickRound(course, optionGroup, draftRounds[course.code]));
+    const periods = formatPeriods(credits, tr[language].credits);
+    if (!spanning || !periods) return periods;
+    const year = pickYear({ ...course, credits }, optionGroup);
+    return `(${tr[language].year.toLowerCase()} ${year}, ${periods.slice(1)}`;
+  };
 
   // "behörighetsgivande för TTFYM (TFYA/TFYB/TFYG)" — empty for an option the
   // study plan does not mention.

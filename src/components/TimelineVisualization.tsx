@@ -23,7 +23,7 @@ import { Course, CourseCredit, OptionGroup, Period, SelectedInfo, academicPeriod
 import kthColors from '@/data/kth-colors.json';
 import type { ProgramCosmetics } from '@/types/cosmetics';
 import { STYLE, defaultColor, getColorForFamily, getCosmeticsColor } from '@/lib/colors';
-import { groupCredits, groupYears, spansYears, withGroupCredits } from '@/lib/groupCredits';
+import { groupCredits, groupYears, pickYear, spansYears, withGroupCredits } from '@/lib/groupCredits';
 import { tr, type Lang } from '@/lib/translations';
 import Legend, { type ToggleableLayerKey } from '@/components/Legend';
 import InfoPanel from '@/components/InfoPanel';
@@ -925,13 +925,16 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     const optionGroup = og as OptionGroup;
     const patternId = optionGroupPatternId(optionGroup.name);
     
-    // Get colors for each option course
-    const optionColors = optionGroup.options
+    // One stripe per colour among the options, in order of first appearance.
+    // It used to be one per option, so the pattern repeated only every
+    // options × 16 px: a master's 30-option box, mostly physics, showed a
+    // single run of green across its whole width and read as a physics course.
+    const optionColors = [...new Set(optionGroup.options
       .map(optionCode => {
         const optionCourse = courses.find(c => isCourse(c) && (c as Course).code === optionCode) as Course | undefined;
         return optionCourse ? getCourseColors(optionCourse).fill : null;
       })
-      .filter(color => color !== null) as string[];
+      .filter(color => color !== null) as string[])];
     
     // Create diagonal striped pattern at 45 degrees
     if (optionColors.length > 0) {
@@ -1039,28 +1042,6 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       examsByYear: shiftYearKeys(course.examsByYear),
       reexamsByYear: shiftYearKeys(course.reexamsByYear),
     };
-  };
-
-  // The study year a pick is drawn in. A box in one year re-stamps it to that
-  // year (above). A box spanning years keeps a pick in its own year when the
-  // box covers that year: the round was already chosen by year-and-period
-  // overlap, so a course read "år 1 eller år 2" lands where the box said.
-  // Otherwise it goes to the box's year whose periods it overlaps most, the
-  // earliest on a tie.
-  const pickYear = (course: Course, group: OptionGroup): number => {
-    if (!spansYears(group)) return group.year;
-    const years = groupYears(group);
-    const own = course.credits.length ? Math.min(...course.credits.map(c => c.year)) : course.year;
-    if (years.includes(own)) return own;
-    const box = groupCredits(group);
-    let best = years[0];
-    let bestScore = -1;
-    for (const y of years) {
-      const periods = new Set(box.filter(c => c.year === y).map(c => c.period));
-      const score = course.credits.filter(c => periods.has(c.period)).reduce((a, c) => a + c.credits, 0);
-      if (score > bestScore) { best = y; bestScore = score; }
-    }
-    return best;
   };
 
   // Courses hidden because they are an option somewhere and picked nowhere. A
