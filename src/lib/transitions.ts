@@ -610,7 +610,13 @@ export function mergeCosmetics(
       }
       continue;
     }
-    const spare = FAMILY_ORDER.find(f => !usedFamilies.has(f));
+    // Yellow means elective space (the palette convention in CLAUDE.md), so
+    // only an "Övrigt" group may take it, and it takes it first. COPEN's
+    // "Fysik" merged into CTMAT used to come out yellow, the elective boxes' colour.
+    const order = sourceGroup.name === 'Övrigt'
+      ? ['yellow' as FamilyName, ...FAMILY_ORDER.filter(f => f !== 'yellow')]
+      : FAMILY_ORDER.filter(f => f !== 'yellow');
+    const spare = order.find(f => !usedFamilies.has(f));
     if (!spare) {
       warnings.push(
         `Cosmetics group '${sourceGroup.name}' has no colour family left — the ` +
