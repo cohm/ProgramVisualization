@@ -1235,7 +1235,11 @@ write (TINEM, 4 to 1), and that case is reported.
 Parentheses right after a name hold its qualifiers ("(ej spår Management)");
 a name inside parentheses is not a master (CTFYS's "(Inklusive spåret CSSE
 Datorsimuleringar …)" is TTMAM's track, not TDTNM); "Spår, Mekatronik" under a
-master is that master's track. A cohort whose pages name nothing, or lack the
+master is that master's track. A name that runs on, within one list item, into
+the code of a programme with another name is part of that programme's name:
+CITEH HT2022 misspells TTMAM as "Tillämpad matematik och beräkningsteknik, spår
+… (TTMAM)", and the "matematik" inside it was read as TMAKM. Over the full run
+that rule changes only that entry. A cohort whose pages name nothing, or lack the
 year-3 destination curricula because that year is not published yet, borrows
 from the nearest cohort (earlier on a tie), marked "(från kull …)". The lists
 do change between cohorts, e.g. CTFYS names TBDVM from HT2023 on. Every
