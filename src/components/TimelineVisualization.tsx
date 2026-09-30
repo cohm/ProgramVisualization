@@ -254,6 +254,24 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     });
   }, [rawCourses, selectedSpecializations, specGroupMap]);
 
+  // The picks that apply to the boxes on screen. A pick is keyed by the box's
+  // name, and one name can stand for boxes that offer different courses: in a
+  // five-year view a bachelor box can be split by the master's spår, one half
+  // without a course some spår require in the master (src/lib/degreeChain.ts).
+  // A pick made in the other half, before switching spår, is not an option
+  // here. Honoured anyway, it counted as filling the box, and a pick-one box
+  // then vanished. It is ignored instead; the URL keeps it, so switching back
+  // restores it.
+  const shownPicks = useMemo<Record<string, string[]>>(() => {
+    const out: Record<string, string[]> = {};
+    for (const c of courses) {
+      if (!isOptionGroup(c)) continue;
+      const kept = (selectedOptionPerGroup[c.name] ?? []).filter(code => c.options.includes(code));
+      if (kept.length > 0) out[c.name] = kept;
+    }
+    return out;
+  }, [courses, selectedOptionPerGroup]);
+
   // Highest year referenced anywhere in the (filtered) course list. Years
   // stack vertically, so this drives chart *height*, not width. Hoisted out
   // of the render effect because the JSX below also needs it (for the chart
@@ -358,11 +376,11 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const [highlightedOptionCodes, setHighlightedOptionCodes] = useState<string[]>([]);
 
   // When the modal opens/closes, reset or initialize highlighting.
-  // selectedOptionPerGroup is intentionally excluded: we only want to react to the
+  // shownPicks is intentionally excluded: we only want to react to the
   // modal open/close event, not to individual option selections within the modal.
   useEffect(() => {
     if (selectedOptionGroup) {
-      const currentSelection = selectedOptionPerGroup[selectedOptionGroup.name];
+      const currentSelection = shownPicks[selectedOptionGroup.name];
       setHighlightedOptionCodes(currentSelection ? [...currentSelection] : []);
     } else {
       setHighlightedOptionCodes([]);
@@ -966,7 +984,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   const pickedIn = new Map<string, OptionGroup>();
   optionGroups.forEach(og => {
     og.options.forEach(optionCode => optionOf.add(optionCode));
-    (selectedOptionPerGroup[og.name] ?? []).forEach(code => {
+    (shownPicks[og.name] ?? []).forEach(code => {
       // First group wins. The modal keeps selections mutually exclusive across
       // groups, so this normally decides nothing; it only makes a hand-edited
       // or stale URL that picks one code in two boxes render one bar
@@ -1107,7 +1125,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
    * adds up to full-time.
    */
   const remainingGroup = (og: OptionGroup): OptionGroup | null => {
-    const picked = selectedOptionPerGroup[og.name] ?? [];
+    const picked = shownPicks[og.name] ?? [];
     if (picked.length === 0) return og;
     if (getOptionGroupKind(og) !== 'minCredits') return null;
 
@@ -2699,14 +2717,14 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
     coursesByCode,
     optionGroupsByName,
     individualCoursesByCode,
-    selectedOptionPerGroup,
+    selectedOptionPerGroup: shownPicks,
   };
 
   // `layers` and `focusYear` are intentionally NOT in this dep list. Their
   // visual effects (visibility toggles, year-label highlight) are applied by
   // the dedicated post-render effects below, which keeps a layer toggle or
   // year-focus click from triggering a full ~3 000-call SVG rebuild.
-  }, [courses, numYears, language, selectedOptionPerGroup, selectedRoundPerCourse, cosmetics, programCode, programName, studyplanUrl, getCourseColors]);
+  }, [courses, numYears, language, shownPicks, selectedRoundPerCourse, cosmetics, programCode, programName, studyplanUrl, getCourseColors]);
 
   // One-time setup: tooltip element + delegated mouseover/move/out/click on
   // the SVG. Replaces the per-element listeners that used to be attached on

@@ -1293,6 +1293,26 @@ TTMAM requires it, and before this TTMAM's year 1 lost 7.5 hp. An option on
 both sides keeps the bachelor's entry for both boxes. Each case is reported in
 the notice.
 
+**"Obligatorisk in the master" is decided per spår**: a spår requires a course
+when it sees the entry and no box it sees offers it. Decided for the master
+as a whole, it went wrong both ways. TCSCM's DD2421 is obligatorisk for CSCS
+and CSDA and an option in the CSSC and CSST boxes, so it read as an option,
+and CTMAT + TCSCM's year 4 came out 7.5 hp short for CSCS. TEFRM's SH2404 is
+obligatorisk for SPA only, yet it left CTFYS's year-3 elective box for every
+spår. Measured over all 124 (pair, spår) views, five had a year 4 at 52.5-53
+hp, and all five now reach 60.
+
+When only some spår require it, the master's entry is kept, untagged, and
+each bachelor box offering the course is split into two halves, tagged with
+the master's spår codes: one without the course for the spår that require
+it, one with it for the rest. The halves share the box's name. The kept entry
+also carries the bachelor's offering as a round, since the two can differ
+(CTMAT reads DD2421 in P1, TCSCM in P3). A pick is keyed by box name, so after
+switching to a spår that requires the course, a pick made in the other half
+is not an option of the box on screen. `shownPicks` in
+`TimelineVisualization` ignores such a pick, and the URL keeps it for
+switching back. Before, a pick-one box counted it as filled and vanished.
+
 The master's spår are a second pick-one group in the selector ("Spår,
 TTFYM"), beside the bachelor's inriktningar; the filter ANDs across groups.
 `mergeCosmetics` merges by group name, so the masters' cosmetics use the
