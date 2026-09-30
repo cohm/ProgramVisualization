@@ -64,6 +64,60 @@ export function lastYear(entries: Entry[]): number {
 }
 
 /**
+ * A group without some of its options, or null when none is left. A pick
+ * count cannot exceed what is left, and a constraint loses the codes it
+ * counted, or goes when it counted nothing else.
+ */
+function withoutOptions(g: OptionGroup, removed: (code: string) => boolean): OptionGroup | null {
+  if (!g.options.some(removed)) return g;
+  const options = g.options.filter(c => !removed(c));
+  if (options.length === 0) return null;
+  const constraints = g.constraints
+    ?.map(c => (c.from ? { ...c, from: c.from.filter(x => options.includes(x)) } : c))
+    .filter(c => !c.from || c.from.length > 0);
+  return {
+    ...g,
+    options,
+    allowedNumberOfOptions: Math.min(g.allowedNumberOfOptions, options.length),
+    ...(g.pickN !== undefined ? { pickN: Math.min(g.pickN, options.length) } : {}),
+    ...(g.constraints ? { constraints: constraints?.length ? constraints : undefined } : {}),
+  };
+}
+
+const periodsKey = (credits: CourseCredit[]) =>
+  credits.filter(c => c.credits > 0).map(c => `${c.period}:${c.credits}`).sort().join(',');
+
+/**
+ * `course`'s rounds followed by `other`'s, for one entry standing in for both.
+ * A round of `other` in periods `course` already has is left out: a pick in a
+ * one-year box is drawn in that box's year, so the two would draw the same.
+ */
+function withRoundsOf(course: Course, other: Course): CourseRound[] | undefined {
+  const asRounds = (c: Course): CourseRound[] =>
+    c.rounds?.length ? c.rounds : [{
+      id: c.credits.find(x => x.credits > 0)?.period ?? 'P1',
+      credits: c.credits,
+      exams: c.exams,
+      reexams: c.reexams ?? c.exams,
+    }];
+  const mine = asRounds(course);
+  const seen = new Set(mine.map(r => periodsKey(r.credits)));
+  const ids = new Set<string>(mine.map(r => r.id));
+  const added = asRounds(other).filter(r => !seen.has(periodsKey(r.credits)));
+  if (added.length === 0) return course.rounds;
+  return [
+    ...mine,
+    ...added.map(r => {
+      // Same first period, other shape: tell them apart by the year, as the
+      // extractor does for an offering in another study year.
+      const id = ids.has(r.id) ? `${r.id}-y${r.credits[0]?.year ?? other.year}` : r.id;
+      ids.add(id);
+      return { ...r, id } as CourseRound;
+    }),
+  ];
+}
+
+/**
  * The bachelor's entries followed by the master's, shifted to start the year
  * after the bachelor's last.
  *
@@ -77,6 +131,28 @@ export function lastYear(entries: Entry[]): number {
  *     offers SF2940 among its year-3 electives, and TTMAM requires it.
  *     Keeping the bachelor's copy dropped 7.5 hp from TTMAM's year 1;
  *   - an option on both sides: the bachelor's entry serves both boxes.
+ *
+ * "Obligatorisk in the master" is decided per spår, because it often holds for
+ * some spår only. TCSCM's DD2421 is obligatorisk for CSCS and CSDA and an
+ * option in the CSSC and CSST boxes. TEFRM's SH2404 is obligatorisk for SPA
+ * and not offered to the other spår at all. Deciding it for the master as a
+ * whole got both wrong. DD2421 is offered by some box, so it was read as an
+ * option. The master's entry was dropped, and the bachelor's copy, an option
+ * nobody had picked, was hidden: CTMAT + TCSCM's year 4 was 7.5 hp short
+ * for CSCS. SH2404 was read as obligatorisk, so it left CTFYS's year-3
+ * elective box for every spår, although only SPA reads it in the master.
+ *
+ * When only some spår require the course, the master's entry is kept for all
+ * spår. Each bachelor box that offers it is split in two, one per side, told
+ * apart by the master's spår codes (the filter ANDs across spec groups):
+ *   - the spår that require it see the box without the course, so their
+ *     year 4 draws it as obligatorisk;
+ *   - the others see the box with the course, where it stays an option, drawn
+ *     only once picked, and in the box's own year.
+ * Both halves keep the box's name, so the chart reads as one box. A pick of
+ * the course made in the second half, then a switch to a spår that requires
+ * it, leaves a pick the first half does not offer; the chart ignores it
+ * (`shownPicks` in TimelineVisualization) and restores it on switching back.
  */
 export function appendMaster(
   bachelor: Entry[],
@@ -85,55 +161,85 @@ export function appendMaster(
 ): { entries: Entry[]; warnings: string[]; offset: number } {
   const offset = lastYear(bachelor);
   const warnings: string[] = [];
-  const optionsOf = (list: Entry[]) => new Set(list.filter(isGroup).flatMap(g => g.options));
-  const bachelorOptions = optionsOf(bachelor);
-  const masterOptions = optionsOf(master);
+  const bachelorOptions = new Set(bachelor.filter(isGroup).flatMap(g => g.options));
   const bachelorCourses = new Map(bachelor.filter((e): e is Course => !isGroup(e)).map(e => [e.code, e]));
   const bachelorMandatory = new Set([...bachelorCourses.keys()].filter(c => !bachelorOptions.has(c)));
 
+  // The master's spår are the codes its entries carry. A master without spår
+  // (TMAIM) is treated as one, so the per-spår test below still applies.
+  const spar = [...new Set(master.flatMap(e => e.specializations ?? []))].sort();
+  const sparOrWhole = spar.length ? spar : [''];
+  const sees = (e: Entry, s: string) => !e.specializations?.length || e.specializations.includes(s);
+  const masterGroups = master.filter(isGroup);
+  // The spår that see the course and have no box offering it.
+  const requiredBy = (e: Course): string[] =>
+    sparOrWhole.filter(s => sees(e, s) && !masterGroups.some(g => sees(g, s) && g.options.includes(e.code)));
+
   const replaced = new Set<string>();
+  // Code -> the spår that require it, for a code only some spår require.
+  const partly = new Map<string, string[]>();
   const appended: Entry[] = [];
   for (const e of master) {
     if (isGroup(e)) {
-      const options = e.options.filter(c => !bachelorMandatory.has(c));
-      if (options.length === 0) continue;
-      const constraints = e.constraints
-        ?.map(c => (c.from ? { ...c, from: c.from.filter(x => options.includes(x)) } : c))
-        .filter(c => !c.from || c.from.length > 0);
-      appended.push(shiftEntryYears({
-        ...e,
-        options,
-        allowedNumberOfOptions: Math.min(e.allowedNumberOfOptions, options.length),
-        ...(constraints ? { constraints: constraints.length ? constraints : undefined } : {}),
-      }, offset));
+      const g = withoutOptions(e, c => bachelorMandatory.has(c));
+      if (g) appended.push(shiftEntryYears(g, offset));
       continue;
     }
     if (!bachelorCourses.has(e.code)) { appended.push(shiftEntryYears(e, offset)); continue; }
     if (bachelorMandatory.has(e.code)) {
-      if (!masterOptions.has(e.code)) {
+      if (!masterGroups.some(g => g.options.includes(e.code))) {
         warnings.push(`${e.code} is obligatorisk in both the bachelor programme and ${masterCode}; it is shown once, in the bachelor years.`);
       }
       continue;
     }
-    // An option in the bachelor. The master's entry wins when the master
-    // requires it; otherwise the bachelor's serves both boxes.
-    if (!masterOptions.has(e.code)) {
+    // An option in the bachelor. The master's entry wins where the master
+    // requires it; elsewhere the bachelor's serves both boxes.
+    const required = requiredBy(e);
+    if (required.length === 0) continue;
+    if (required.length === sparOrWhole.length) {
       replaced.add(e.code);
       appended.push(shiftEntryYears(e, offset));
+      continue;
     }
+    partly.set(e.code, required);
+    // Visible to every spår: an option where a visible box offers it, and
+    // obligatorisk where none does. It also stands in for the bachelor's
+    // entry, so it carries the bachelor's offering as a round: CTMAT reads
+    // DD2421 in P1 and TCSCM in P3, and a pick in CTMAT's P1 box must land
+    // in P1. The master's offering stays first, as the default.
+    const own = shiftEntryYears({ ...e, specializations: undefined }, offset) as Course;
+    appended.push({ ...own, rounds: withRoundsOf(own, bachelorCourses.get(e.code)!) });
   }
+
   // A course the master requires is not an elective in the bachelor years any
   // more: left in a bachelor box, it would be an option nobody picked, and the
   // chart hides those, taking the master's obligatorisk course with it.
   const kept = bachelor.flatMap((e): Entry[] => {
-    if (!isGroup(e)) return replaced.has(e.code) ? [] : [e];
-    if (!e.options.some(c => replaced.has(c))) return [e];
-    const options = e.options.filter(c => !replaced.has(c));
-    if (options.length === 0) return [];
-    return [{ ...e, options, allowedNumberOfOptions: Math.min(e.allowedNumberOfOptions, options.length) }];
+    if (!isGroup(e)) return replaced.has(e.code) || partly.has(e.code) ? [] : [e];
+    const base = withoutOptions(e, c => replaced.has(c));
+    if (!base) return [];
+    const codes = base.options.filter(c => partly.has(c));
+    if (codes.length === 0) return [base];
+    // One half per set of spår that drops the same codes. Two codes with
+    // different spår give more than two halves; none of today's pairs does.
+    const halves = new Map<string, { spar: string[]; drop: Set<string> }>();
+    for (const s of spar) {
+      const drop = codes.filter(c => partly.get(c)!.includes(s));
+      const key = drop.join(',');
+      const h = halves.get(key) ?? { spar: [], drop: new Set(drop) };
+      h.spar.push(s);
+      halves.set(key, h);
+    }
+    return [...halves.values()].flatMap(h => {
+      const g = withoutOptions(base, c => h.drop.has(c));
+      return g ? [{ ...g, specializations: [...(g.specializations ?? []), ...h.spar] }] : [];
+    });
   });
   if (replaced.size) {
     warnings.push(`${[...replaced].sort().join(', ')}: obligatorisk in ${masterCode}, so no longer offered as a bachelor elective.`);
+  }
+  for (const [code, required] of [...partly].sort(([a], [b]) => a.localeCompare(b))) {
+    warnings.push(`${code}: obligatorisk in ${masterCode} for ${required.join(', ')}, so not offered as a bachelor elective with ${required.length > 1 ? 'those spår' : 'that spår'}.`);
   }
   return { entries: [...kept, ...appended], warnings, offset };
 }
