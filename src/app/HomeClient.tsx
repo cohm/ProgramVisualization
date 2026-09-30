@@ -12,7 +12,9 @@ import kthColors from '@/data/kth-colors.json';
 import programsConfig from '@/data/programs.json';
 import type { ProgramCosmetics } from '@/types/cosmetics';
 import { loadCourses, loadCosmetics, loadCohortMeta, cohortDataFile } from '@/lib/useCourseModel';
-import { composeTransition, mergeCosmetics, composedTitle, effectivePlan } from '@/lib/transitions';
+import { composeTransition, mergeCosmetics, composedTitle, effectivePlan, shortProgramName } from '@/lib/transitions';
+import { appendMaster } from '@/lib/degreeChain';
+import masterMapping from '@/data/master-mapping.json';
 import type { TransitionPlan } from '@/types/transition';
 import transitionsConfig from '@/data/transitions.json';
 import cohortIndex from '@/data/cohorts/index.json';
@@ -97,6 +99,12 @@ const ui = {
     cohortNone: 'Utan antagningsår',
     continuationLabel: 'Fortsättningsprogram',
     continuationNone: 'Utan fortsättningsprogram',
+    masterLabel: 'Masterprogram',
+    masterUnverified: (code: string) => `${code}s studieplan är automatiskt extraherad och inte verifierad.`,
+    masterNone: 'Utan masterprogram',
+    // Years 4-5 are another programme's plan, and a later kull's.
+    masterNotice: (code: string, cohort: string | null) =>
+      `År 4–5 visar masterprogrammet ${code}${cohort ? `, kull ${cohort}` : ''}. Din kull börjar masterprogrammet senare, och dess plan kan ha ändrats till dess.`,
     transitionLoadFailed: 'Kunde inte sätta samman övergångsplanen',
     // The composed view is not a published plan, so say so plainly.
     transitionNotice: (from: string, to: string) =>
@@ -147,6 +155,11 @@ const ui = {
     cohortNone: 'No admission year',
     continuationLabel: 'Continuation program',
     continuationNone: 'No continuation program',
+    masterLabel: "Master's programme",
+    masterUnverified: (code: string) => `${code}'s study plan is auto-extracted and unverified.`,
+    masterNone: "No master's programme",
+    masterNotice: (code: string, cohort: string | null) =>
+      `Years 4–5 show the master's programme ${code}${cohort ? `, ${cohort} cohort` : ''}. Your cohort starts it later, and its plan may have changed by then.`,
     transitionLoadFailed: 'Could not compose the transition plan',
     transitionNotice: (from: string, to: string) =>
       `Showing ${from} year 1 followed by years 2–3 of ${to}, per the transition plan.`,
@@ -196,6 +209,9 @@ const escOg = (v: string) => v.replace(/[~!*.@]/g, (c) => OG_ESCAPES[c]);
 const unescOg = (v: string) => v.replace(/~(.)/g, (m, c) =>
   c === '~' ? '~' : c === 'e' ? '!' : c === 's' ? '*'
     : c === 'd' ? '.' : c === 'a' ? '@' : m);
+
+// The spec group holding a master programme's spår in a five-year view.
+const MASTER_GROUP = 'master';
 
 export default function HomeClient() {
   const [courses, setCourses] = useState<(Course | OptionGroup)[]>([]);
@@ -259,6 +275,33 @@ export default function HomeClient() {
     return availableContinuations.find(t => t.to === param) ?? null;
   }, [searchParams, availableContinuations]);
 
+  // Master programmes the bachelor leads into, for the selected kull (the
+  // newest mapped one without a kull), from src/data/master-mapping.json; only
+  // those this app has data for. The bachelor is the continuation when COPEN
+  // leads into one. Empty for a master programme itself and for COPEN alone.
+  const bachelorCode = selectedContinuation?.to ?? selectedProgram.code;
+  const availableMasters = useMemo(() => {
+    if (selectedProgram.level === 'master') return [];
+    const byCohort = (masterMapping as Record<string, Record<string, { code: string; note?: string }[]>>)[bachelorCode];
+    if (!byCohort) return [];
+    const cohorts = Object.keys(byCohort).sort().reverse();
+    const key = selectedCohort && byCohort[selectedCohort] ? selectedCohort : cohorts[0];
+    const programs = programsConfig as ProgramConfig[];
+    return (byCohort[key] ?? []).flatMap(m => {
+      const program = programs.find(p => p.code === m.code && p.level === 'master' && !p.disabled);
+      return program ? [{ program, note: m.note }] : [];
+    });
+  }, [selectedProgram, bachelorCode, selectedCohort]);
+
+  // `?master=TTFYM`. Ignored when the bachelor does not lead into it.
+  const selectedMaster = useMemo(() => {
+    const param = (searchParams.get('master') || '').trim().toUpperCase();
+    return availableMasters.find(m => m.program.code === param) ?? null;
+  }, [searchParams, availableMasters]);
+
+  // The kull the master's years come from: its default file's.
+  const masterCohort = selectedMaster?.program.dataFile.match(/HT\d{4}/)?.[0] ?? null;
+
   // Years in the current view that did not come from the selected cohort.
   const approximatedYears = useMemo(
     () => (cohortMeta?.years ?? []).filter(y => y.approximated),
@@ -278,12 +321,22 @@ export default function HomeClient() {
     const name = language === 'en'
       ? (selectedProgram.nameEn || selectedProgram.name)
       : selectedProgram.name;
-    if (!selectedContinuation) return { name, code: selectedProgram.code };
-    const target = (programsConfig as ProgramConfig[]).find(p => p.code === selectedContinuation.to);
-    if (!target) return { name, code: selectedProgram.code };
-    const targetName = language === 'en' ? (target.nameEn || target.name) : target.name;
-    return composedTitle(name, targetName, selectedProgram.code, target.code);
-  }, [language, selectedProgram, selectedContinuation]);
+    let title = { name, code: selectedProgram.code };
+    const target = selectedContinuation
+      ? (programsConfig as ProgramConfig[]).find(p => p.code === selectedContinuation.to)
+      : undefined;
+    if (target) {
+      const targetName = language === 'en' ? (target.nameEn || target.name) : target.name;
+      title = composedTitle(name, targetName, selectedProgram.code, target.code);
+    }
+    // "… → Teknisk fysik → teknisk fysik (COPEN → CTFYS → TTFYM)"
+    if (selectedMaster) {
+      const m = selectedMaster.program;
+      const masterName = language === 'en' ? (m.nameEn || m.name) : m.name;
+      title = { name: `${title.name} → ${shortProgramName(masterName)}`, code: `${title.code} → ${m.code}` };
+    }
+    return title;
+  }, [language, selectedProgram, selectedContinuation, selectedMaster]);
 
   // Whether unverified study plans are shown in the program dropdown.
   // Off by default; flipped via the checkbox next to the selector.
@@ -403,10 +456,25 @@ export default function HomeClient() {
   // COPEN's own year 1 has no inriktningar, so there is no case where both
   // programmes have a registry and the target's has to win a conflict.
   const specProgram = useMemo<ProgramConfig>(() => {
-    if (!selectedContinuation) return selectedProgram;
-    const target = (programsConfig as ProgramConfig[]).find(p => p.code === selectedContinuation.to);
-    return target?.specializations?.length ? target : selectedProgram;
-  }, [selectedProgram, selectedContinuation]);
+    let base = selectedProgram;
+    if (selectedContinuation) {
+      const target = (programsConfig as ProgramConfig[]).find(p => p.code === selectedContinuation.to);
+      if (target?.specializations?.length) base = target;
+    }
+    // With a master programme after it, its spår are a second pick-one group:
+    // a student has one inriktning in the bachelor years and one spår in the
+    // master's. The filter ANDs across groups, so each selects its own years.
+    const spår = selectedMaster?.program.specializations ?? [];
+    if (spår.length === 0) return base;
+    return {
+      ...base,
+      specializations: [...(base.specializations ?? []), ...spår.map(sp => ({ ...sp, group: MASTER_GROUP }))],
+      specializationGroups: [
+        ...(base.specializationGroups ?? []),
+        { code: MASTER_GROUP, name: `Spår, ${selectedMaster!.program.code}`, nameEn: `Track, ${selectedMaster!.program.code}` },
+      ],
+    };
+  }, [selectedProgram, selectedContinuation, selectedMaster]);
 
   // The spår the loaded data actually uses, for a master programme; the whole
   // registry otherwise. A bachelor keeps every entry because some are defaults
@@ -423,9 +491,10 @@ export default function HomeClient() {
   );
   const shownSpecializations = useMemo(() => {
     const all = specProgram.specializations ?? [];
-    if (specProgram.level !== 'master') return all;
     const used = new Set(usedSpecKey.split(','));
-    return all.filter(s => used.has(s.code));
+    if (specProgram.level === 'master') return all.filter(s => used.has(s.code));
+    // A master's spår after a bachelor: the same rule, for that group only.
+    return all.filter(s => s.group !== MASTER_GROUP || used.has(s.code));
   }, [specProgram, usedSpecKey]);
 
   // Map spec code → group code, derived from the program's registry. The
@@ -528,49 +597,66 @@ export default function HomeClient() {
       ? cohortDataFile(selectedProgram.code, selectedCohort)
       : selectedProgram.dataFile;
 
-    // With a continuation selected, the view is composed from two programmes:
-    // this one's own early years plus the target's remaining ones, with the
-    // transition plan applied. See src/lib/transitions.ts.
-    if (selectedContinuation) {
-      const target = (programsConfig as ProgramConfig[]).find(p => p.code === selectedContinuation.to);
-      if (target) {
-        const targetFile = selectedCohort && (cohortIndex as Record<string, string[]>)[target.code]?.includes(selectedCohort)
-          ? cohortDataFile(target.code, selectedCohort)
-          : target.dataFile;
-        Promise.all([loadCourses(dataFile), loadCourses(targetFile)])
-          .then(([sourceEntries, targetEntries]) => {
-            const composed = composeTransition(sourceEntries, targetEntries, selectedContinuation, selectedSpecializations);
-            setCourses(composed.entries);
-            setTransitionWarnings(composed.warnings);
-          })
-          .catch((e) => {
-            console.warn('Failed to compose the transition plan:', e);
-            setToast({ title: ui[language].transitionLoadFailed, detail: String(e).slice(0, 200) });
-          });
-        // Neither programme's cosmetics covers the other's courses, so merge them.
-        Promise.all([loadCosmetics(target.cosmeticsFile), loadCosmetics(selectedProgram.cosmeticsFile)])
-          .then(([targetCos, sourceCos]) => {
-            const { cosmetics: merged, warnings } = mergeCosmetics(targetCos, sourceCos, effectivePlan(selectedContinuation, selectedSpecializations));
-            setCosmetics(merged);
-            if (warnings.length > 0) console.warn(warnings.join('\n'));
-          })
-          .catch((e) => {
-            console.warn('Failed to load cosmetics:', e);
-            setCosmetics(null);
-          });
+    // With a continuation selected, the bachelor years are composed from two
+    // programmes: this one's own early years plus the target's remaining ones,
+    // with the transition plan applied. See src/lib/transitions.ts.
+    const target = selectedContinuation
+      ? (programsConfig as ProgramConfig[]).find(p => p.code === selectedContinuation.to)
+      : undefined;
+    let bachelor: Promise<{ entries: (Course | OptionGroup)[]; warnings: string[] }>;
+    let bachelorCosmetics: Promise<ProgramCosmetics | null>;
+    if (selectedContinuation && target) {
+      const targetFile = selectedCohort && (cohortIndex as Record<string, string[]>)[target.code]?.includes(selectedCohort)
+        ? cohortDataFile(target.code, selectedCohort)
+        : target.dataFile;
+      bachelor = Promise.all([loadCourses(dataFile), loadCourses(targetFile)])
+        .then(([sourceEntries, targetEntries]) =>
+          composeTransition(sourceEntries, targetEntries, selectedContinuation, selectedSpecializations));
+      // Neither programme's cosmetics covers the other's courses, so merge them.
+      bachelorCosmetics = Promise.all([loadCosmetics(target.cosmeticsFile), loadCosmetics(selectedProgram.cosmeticsFile)])
+        .then(([targetCos, sourceCos]) => {
+          const { cosmetics: merged, warnings } = mergeCosmetics(targetCos, sourceCos, effectivePlan(selectedContinuation, selectedSpecializations));
+          if (warnings.length > 0) console.warn(warnings.join('\n'));
+          return merged;
+        });
+      setCohortMeta(null);
+    } else {
+      bachelor = loadCourses(dataFile).then(entries => ({ entries, warnings: [] }));
+      bachelorCosmetics = loadCosmetics(selectedProgram.cosmeticsFile);
+      if (selectedCohort) {
+        loadCohortMeta(dataFile).then(setCohortMeta).catch(() => setCohortMeta(null));
+      } else {
         setCohortMeta(null);
-        return;
       }
     }
 
-    setTransitionWarnings([]);
-    loadCourses(dataFile).then(setCourses);
-    if (selectedCohort) {
-      loadCohortMeta(dataFile).then(setCohortMeta).catch(() => setCohortMeta(null));
-    } else {
-      setCohortMeta(null);
-    }
-    loadCosmetics(selectedProgram.cosmeticsFile)
+    // A master programme after the bachelor: its two years follow as years
+    // 4-5 (src/lib/degreeChain.ts), from the master's default kull.
+    const master = selectedMaster?.program;
+    const entries = master
+      ? Promise.all([bachelor, loadCourses(master.dataFile)]).then(([b, m]) => {
+        const chained = appendMaster(b.entries, m, master.code);
+        return { entries: chained.entries, warnings: [...b.warnings, ...chained.warnings] };
+      })
+      : bachelor;
+    const cosmeticsDone = master
+      ? Promise.all([bachelorCosmetics, loadCosmetics(master.cosmeticsFile)]).then(([b, m]) => {
+        const { cosmetics: merged, warnings } = mergeCosmetics(b, m);
+        if (warnings.length > 0) console.warn(warnings.join('\n'));
+        return merged;
+      })
+      : bachelorCosmetics;
+
+    entries
+      .then(({ entries: list, warnings }) => {
+        setCourses(list);
+        setTransitionWarnings(warnings);
+      })
+      .catch((e) => {
+        console.warn('Failed to compose the plan:', e);
+        setToast({ title: ui[language].transitionLoadFailed, detail: String(e).slice(0, 200) });
+      });
+    cosmeticsDone
       .then(setCosmetics)
       .catch((e) => {
         console.warn('Failed to load cosmetics:', e);
@@ -588,7 +674,7 @@ export default function HomeClient() {
     // when that pick changes. The chart itself filters downstream in
     // TimelineVisualization and does not need the refetch.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedProgram, selectedCohort, selectedContinuation, selectedSpecializations]);
+  }, [selectedProgram, selectedCohort, selectedContinuation, selectedSpecializations, selectedMaster]);
 
   // Initialize missing URL params
   useEffect(() => {
@@ -709,6 +795,34 @@ export default function HomeClient() {
                 {availableContinuations.map(t => (
                   <option key={t.to} value={t.to}>
                     {t.verified === true ? t.to : `${t.to} ${ui[language].unverifiedSuffix}`}
+                  </option>
+                ))}
+              </select>
+            )}
+            {/*
+              The master programme for years 4-5, from those the bachelor's own
+              study plan (or the master's) names for this kull. The note is the
+              plan's qualifier, e.g. "ej spår Management".
+            */}
+            {availableMasters.length > 0 && (
+              <select
+                value={selectedMaster?.program.code ?? ''}
+                onChange={(e) => {
+                  const params = new URLSearchParams(searchParams.toString());
+                  if (e.target.value) params.set('master', e.target.value);
+                  else params.delete('master');
+                  router.replace(`/?${params.toString()}`);
+                }}
+                aria-label={ui[language].masterLabel}
+                title={ui[language].masterLabel}
+                style={{ color: kthColors.KthBlue?.HEX }}
+                className="px-4 py-2 border border-gray-300 rounded-md shadow-sm"
+              >
+                <option value="">{ui[language].masterNone}</option>
+                {availableMasters.map(({ program, note }) => (
+                  <option key={program.code} value={program.code} title={note}>
+                    {program.verified === true ? program.code : `${program.code} ${ui[language].unverifiedSuffix}`}
+                    {note ? ` (${note})` : ''}
                   </option>
                 ))}
               </select>
@@ -853,6 +967,20 @@ export default function HomeClient() {
                 <div style={{ marginTop: 2, fontStyle: 'italic' }}>{ui[language].transitionUnverified}</div>
               )}
               {transitionWarnings.length > 0 && (
+                <ul style={{ marginTop: 4, paddingLeft: 18, color: '#78001A' }}>
+                  {transitionWarnings.map(w => <li key={w}>{w}</li>)}
+                </ul>
+              )}
+            </div>
+          )}
+          {selectedMaster && (
+            <div style={{ marginTop: 10, fontSize: 13, color: kthColors.KthBlue?.HEX }}>
+              {ui[language].masterNotice(selectedMaster.program.code, masterCohort)}
+              {selectedMaster.program.verified !== true && (
+                <div style={{ marginTop: 2, fontStyle: 'italic' }}>{ui[language].masterUnverified(selectedMaster.program.code)}</div>
+              )}
+              {/* With a continuation these are listed in its notice above. */}
+              {!selectedContinuation && transitionWarnings.length > 0 && (
                 <ul style={{ marginTop: 4, paddingLeft: 18, color: '#78001A' }}>
                   {transitionWarnings.map(w => <li key={w}>{w}</li>)}
                 </ul>

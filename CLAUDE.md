@@ -1241,6 +1241,46 @@ from the nearest cohort (earlier on a tie), marked "(från kull …)". The lists
 do change between cohorts, e.g. CTFYS names TBDVM from HT2023 on. Every
 judgement is listed in `master-mapping-review.md`.
 
+**The five-year view** (`?master=TTFYM`) appends a master programme to a
+bachelor's three years, with COPEN in front when a continuation is selected
+(`?program=COPEN&continuation=CTFYS&master=TTFYM`). The dropdown lists the
+masters `master-mapping.json` names for the bachelor and kull (the newest
+mapped kull when none is selected), limited to those registered with `level:
+"master"`; the plan's qualifier is shown beside the code ("ej spår
+Management"). `appendMaster` (`src/lib/degreeChain.ts`) shifts every
+year-bearing field of the master's entries by the bachelor's last year:
+`credits`, `examsByYear`, round credits, `yearBySpecialization` and
+`periodCreditsByYear`. The master is its default file's kull (HT2025), since
+a bachelor kull reaches it years later; the notice above the chart says so.
+
+A code both carry is kept once, by its role on each side. If it is obligatorisk
+in the bachelor, it stays there and leaves the master's boxes: an option nobody
+picked is hidden, and would hide the bachelor's course. If it is only a
+bachelor elective but obligatorisk in the master, the master's entry wins and
+it leaves the bachelor's boxes: CTMAT offers SF2940 as a year-3 elective and
+TTMAM requires it, and before this TTMAM's year 1 lost 7.5 hp. An option on
+both sides keeps the bachelor's entry for both boxes. Each case is reported in
+the notice.
+
+The master's spår are a second pick-one group in the selector ("Spår,
+TTFYM"), beside the bachelor's inriktningar; the filter ANDs across groups.
+`mergeCosmetics` merges by group name, so the masters' cosmetics use the
+bachelors' commonest names ("Datateknik"). Yellow is kept for elective space:
+a merged group only takes it if it is "Övrigt", and an "Övrigt" group takes it
+first. COPEN's "Fysik" merged into CTMAT used to come out yellow.
+
+Measured: CTFYS + TTFYM is 1016 px, five equal bands, years 4-5 at 60 hp;
+CTMAT HT2024 + TTMAM (OPST) is 60 hp in every year.
+
+**Testing in the automation browser: its tab is hidden.** `document.hidden`
+is true there, so `requestAnimationFrame` never fires, and React 19 reveals a
+streamed Suspense boundary on an animation frame. A page whose server render
+streamed one (`<!--$?--><template id="B:0">` in the HTML) therefore never
+hydrates: no effect runs, no error is logged, the chart stays empty. COPEN →
+CTFYS → a master with `unverified=1` streams one, and the same URL rendered
+normally when reached by client-side navigation. A real user's tab reveals it
+on its first frame. Check `document.hidden` before chasing an empty chart.
+
 `scripts/lib/kth-pages.mjs` holds the HTTP and state-blob helpers both
 scripts use (moved from the extractor unchanged; re-extracting CTFYS HT2025
 is byte-identical before and after).
