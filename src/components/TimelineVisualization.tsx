@@ -1898,23 +1898,20 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         }
       });
     });
-    // Per-year credit total for the year-label hover tooltip. Counts
-    // every individual course's credits in that year plus the planned
-    // total for any option group in that year (group totals stay constant
-    // across pickN/minCredits selection states).
+    // Per-year credit total for the year-label hover tooltip: what is drawn.
+    // Every individual course's credits in that year, picks included, plus
+    // each option group at the size it is drawn at (`remainingGroup`), split
+    // by year as its box is. It used to add each group's full planned size,
+    // so a pick counted twice, as the course and in the box it came from:
+    // picking CTFYS's thesis read "År 3: 75 / 60 hp", TTFYM's "År 2: 90".
     const totalCreditsByYear = Array.from({ length: numYears }, () => 0);
     individualCourses.forEach(c => c.credits.forEach(cr => {
       if (cr.year >= 1 && cr.year <= numYears) totalCreditsByYear[cr.year - 1] += cr.credits;
     }));
-    optionGroups.forEach(og => {
-      // A spanning group's space is split by year, as its box is drawn.
-      if (spansYears(og)) {
-        groupCredits(og).forEach(cr => {
-          if (cr.year >= 1 && cr.year <= numYears) totalCreditsByYear[cr.year - 1] += cr.credits;
-        });
-      } else if (og.year >= 1 && og.year <= numYears) {
-        totalCreditsByYear[og.year - 1] += og.totalCredits;
-      }
+    displayItems.filter(isOptionGroup).forEach(og => {
+      groupCredits(og).forEach(cr => {
+        if (cr.year >= 1 && cr.year <= numYears) totalCreditsByYear[cr.year - 1] += cr.credits;
+      });
     });
     const formatCredits = (n: number) => {
       const r = Math.round(n * 10) / 10;
