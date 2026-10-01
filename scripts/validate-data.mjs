@@ -328,6 +328,18 @@ function checkFullTimeLoad(program, data, file) {
         else if (diff >= LOAD_EXCESS_NOTEWORTHY) over.push(`${pid} +${diff}`);
       });
       if (short.length === 0 && over.length === 0) continue;
+      // A year at full-time whose periods are off by less than
+      // LOAD_EXCESS_NOTEWORTHY is a matter of spread, not of missing or
+      // double-counted courses, and calling it "the missing space for valfria
+      // kurser" was wrong. A master's elective box offsets a period over
+      // full-time against its space in the others, so that a spår sums to 120 hp
+      // (scripts/lib/master-plan.mjs); TCSCM's year 1, 15.2/15.3/14.8/14.7, was
+      // then reported as short in P3 and P4. The same holds for bachelor years
+      // such as CDEPR's year 1, 16.5/13.5/15/15: about 90 such warnings went.
+      const yearTotal = round(load.reduce((a, b) => a + b, 0));
+      const deviation = Math.max(...load.filter((hp) => hp > 0).map((hp) => Math.abs(hp - FULL_TIME_HP)));
+      if (Math.abs(yearTotal - FULL_TIME_HP * PERIODS_ORDERED.length) <= LOAD_TOLERANCE * 10
+        && deviation < LOAD_EXCESS_NOTEWORTHY) continue;
       let msg;
       if (short.length > 0 && over.length > 0) {
         msg = `load ${load.join('/')} hp — short in ${short.join(', ')} and over in ${over.join(', ')}; a mixed year usually means a "minst N hp ur grupp" pool the schema cannot express`;

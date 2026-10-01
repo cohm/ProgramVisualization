@@ -20,9 +20,9 @@ Not shown in the box — check whether the chart needs them.
 
 Size per year (P1/P2/P3/P4), number of options, and the rules read.
 
-- common: one box over years 1+2 (0/2.5/14.5/14.5 | 14.5/14.5/0/0 hp, 60.5 hp), 41 options (32 villkorligt valfria), 3 rule(s) read: minCount 6 of 32; minCount 2 of 15; minCount 2 of 17. *(HT2023, HT2024)*
-- common: one box over years 1+2 (0/2.5/14.5/14.5 | 14.5/14.5/0/0 hp, 60.5 hp), 43 options (32 villkorligt valfria), 3 rule(s) read: minCount 6 of 32; minCount 2 of 15; minCount 2 of 17. *(HT2025)*
-- common: one box over years 1+2 (0/2.5/14.5/14.5 | 14.5/14.5/0/0 hp, 60.5 hp), 43 options (32 villkorligt valfria), 4 rule(s) read: minCount 6 of 32; minCount 2 of 32; minCount 4 of 32; minCount 3 of 32. *(HT2026)*
+- common: one box over years 1+2 (0/2.3/13.6/13.6 | 14.5/14.5/0/0 hp, 58.5 hp), 41 options (32 villkorligt valfria), 3 rule(s) read: minCount 6 of 32; minCount 2 of 15; minCount 2 of 17. *(HT2023, HT2024)*
+- common: one box over years 1+2 (0/2.3/13.6/13.6 | 14.5/14.5/0/0 hp, 58.5 hp), 43 options (32 villkorligt valfria), 3 rule(s) read: minCount 6 of 32; minCount 2 of 15; minCount 2 of 17. *(HT2025)*
+- common: one box over years 1+2 (0/2.3/13.6/13.6 | 14.5/14.5/0/0 hp, 58.5 hp), 43 options (32 villkorligt valfria), 4 rule(s) read: minCount 6 of 32; minCount 2 of 32; minCount 4 of 32; minCount 3 of 32. *(HT2026)*
 
 ## Courses readable in year 1 or year 2
 

@@ -29,7 +29,7 @@ curated `src/data/TSCRM.json`) directly — this file is a worklist, not a sourc
 **66** distinct item(s) need review across all cohorts (an item shared by
 several cohorts is counted once).
 
-## Periods scheduled over full-time (7)
+## Periods scheduled over full-time (8)
 
 Full-time is **15 hp per period**, and these schedule more — after every
 alternative we could identify has been grouped into a box and counted once,
@@ -41,15 +41,15 @@ plan genuinely schedules an overload in that period.
 Courses listed below are counted individually; a *valblock* is counted once,
 however many options it holds.
 
-- **Årskurs 1, P2 — 30 hp, 15 hp over full-time.**
+- **Årskurs 1, P2 — 29.8 hp, 14.8 hp over full-time.**
   Cohorts: HT2023, HT2024, HT2025, HT2026.
   Courses: [DD2423](https://www.kth.se/student/kurser/kurs/DD2423) 7.5 hp, [EL2220](https://www.kth.se/student/kurser/kurs/EL2220) 0.4 hp, [EL2320](https://www.kth.se/student/kurser/kurs/EL2320) 7.5 hp.
 
-- **Årskurs 1, P3 — 22.2 hp, 7.2 hp over full-time.**
+- **Årskurs 1, P3 — 21.599999999999998 hp, 6.6 hp over full-time.**
   Cohorts: HT2023, HT2024, HT2025, HT2026.
   Courses: [EL2220](https://www.kth.se/student/kurser/kurs/EL2220) 0.3 hp.
 
-- **Årskurs 1, P4 — 22.1 hp, 7.1 hp over full-time.**
+- **Årskurs 1, P4 — 21.7 hp, 6.7 hp over full-time.**
   Cohorts: HT2023, HT2024, HT2025, HT2026.
   Courses: [EL2220](https://www.kth.se/student/kurser/kurs/EL2220) 0.4 hp, [EL2520](https://www.kth.se/student/kurser/kurs/EL2520) 7.5 hp.
 
@@ -58,7 +58,11 @@ however many options it holds.
   Courses: [EL2220](https://www.kth.se/student/kurser/kurs/EL2220) 0.4 hp.
 
 - **Årskurs 2, P2 — 29.6 hp, 14.6 hp over full-time.**
-  Cohorts: HT2023, HT2024, HT2025, HT2026.
+  Cohorts: HT2023, HT2024.
+  Courses: [EL2220](https://www.kth.se/student/kurser/kurs/EL2220) 0.4 hp.
+
+- **Årskurs 2, P2 — 28.6 hp, 13.6 hp over full-time.**
+  Cohorts: HT2025, HT2026.
   Courses: [EL2220](https://www.kth.se/student/kurser/kurs/EL2220) 0.4 hp.
 
 - **Årskurs 2, P3 — 29.7 hp, 14.7 hp over full-time.**

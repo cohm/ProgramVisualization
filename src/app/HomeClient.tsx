@@ -111,8 +111,9 @@ const ui = {
     masterUnverified: (code: string) => `${code}s studieplan är automatiskt extraherad och inte verifierad.`,
     masterNone: 'Utan masterprogram',
     // What the five-year view did with a course both programmes have.
-    masterNoteBoth: (code: string, bachelor: string, master: string, last: number) =>
-      `${code} är obligatorisk både i ${bachelor} och i ${master} och visas en gång, i årskurs 1–${last}.`,
+    masterNoteBoth: (code: string, bachelor: string, master: string, last: number, grown: boolean) =>
+      `${code} är obligatorisk både i ${bachelor} och i ${master} och visas en gång, i årskurs 1–${last}.`
+      + (grown ? ` Dess högskolepoäng i ${master} läses i stället som valfria kurser.` : ''),
     masterNoteReplaced: (codes: string[], master: string, last: number) => codes.length === 1
       ? `${codes[0]} är obligatorisk i ${master} och erbjuds därför inte som valfri kurs i årskurs 1–${last}.`
       : `${codes.join(', ')} är obligatoriska i ${master} och erbjuds därför inte som valfria kurser i årskurs 1–${last}.`,
@@ -180,8 +181,9 @@ const ui = {
     continuationLabel: 'Continuation program',
     continuationNone: 'No continuation program',
     masterLabel: "Master's programme",
-    masterNoteBoth: (code: string, bachelor: string, master: string, last: number) =>
-      `${code} is compulsory in both ${bachelor} and ${master}; it is shown once, in years 1–${last}.`,
+    masterNoteBoth: (code: string, bachelor: string, master: string, last: number, grown: boolean) =>
+      `${code} is compulsory in both ${bachelor} and ${master}; it is shown once, in years 1–${last}.`
+      + (grown ? ` Its credits in ${master} are taken as electives instead.` : ''),
     masterNoteReplaced: (codes: string[], master: string, last: number) => codes.length === 1
       ? `${codes[0]} is compulsory in ${master}, so it is not offered as an elective in years 1–${last}.`
       : `${codes.join(', ')} are compulsory in ${master}, so they are not offered as electives in years 1–${last}.`,
@@ -612,7 +614,10 @@ export default function HomeClient() {
     const bachelor = selectedContinuation?.to ?? selectedProgram.code;
     const last = masterNotes.offset;
     return masterNotes.notes.flatMap(n => {
-      if (n.kind === 'both') return [t.masterNoteBoth(n.code, bachelor, master, last)];
+      if (n.kind === 'both') {
+        return n.spar.length === 0 || n.spar.some(s => selectedSpecializations.has(s))
+          ? [t.masterNoteBoth(n.code, bachelor, master, last, n.grown)] : [];
+      }
       if (n.kind === 'replaced') return [t.masterNoteReplaced(n.codes, master, last)];
       return n.spar.some(s => selectedSpecializations.has(s)) ? [t.masterNotePartly(n.code, master, last)] : [];
     });

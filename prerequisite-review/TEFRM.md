@@ -41,33 +41,35 @@ plan genuinely schedules an overload in that period.
 Courses listed below are counted individually; a *valblock* is counted once,
 however many options it holds.
 
-- **Årskurs 1, P1 — 18 hp, 3 hp over full-time.**
-  Cohorts: HT2023, HT2024, HT2025, HT2026.
-  Courses: [AK2036](https://www.kth.se/student/kurser/kurs/AK2036) 7.5 hp, [EF2200](https://www.kth.se/student/kurser/kurs/EF2200) 6 hp, [EF2222](https://www.kth.se/student/kurser/kurs/EF2222) 0.5 hp.
-
 - **Årskurs 1, P2 — 23.5 hp, 8.5 hp over full-time.**
   Cohorts: HT2023, HT2024, HT2025.
   Courses: [EF2222](https://www.kth.se/student/kurser/kurs/EF2222) 0.5 hp, [EI2403](https://www.kth.se/student/kurser/kurs/EI2403) 8 hp, [EI2405](https://www.kth.se/student/kurser/kurs/EI2405) 7.5 hp, [SK2404](https://www.kth.se/student/kurser/kurs/SK2404) 7.5 hp.
 
-- **Årskurs 1, P3 — 51.9 hp, 36.9 hp over full-time.**
-  Cohorts: HT2023, HT2024, HT2025, HT2026.
+- **Årskurs 1, P3 — 43.5 hp, 28.5 hp over full-time.**
+  Cohorts: HT2023, HT2024, HT2025.
   Courses: [ED2210](https://www.kth.se/student/kurser/kurs/ED2210) 6 hp, [EF2222](https://www.kth.se/student/kurser/kurs/EF2222) 0.3 hp, [EI2410](https://www.kth.se/student/kurser/kurs/EI2410) 7.5 hp, [SD2920](https://www.kth.se/student/kurser/kurs/SD2920) 1.5 hp.
 
-- **Årskurs 1, P4 — 53.8 hp, 38.8 hp over full-time.**
+- **Årskurs 1, P3 — 48.4 hp, 33.4 hp over full-time.**
+  Cohorts: HT2026.
+  Courses: [ED2210](https://www.kth.se/student/kurser/kurs/ED2210) 6 hp, [EF2222](https://www.kth.se/student/kurser/kurs/EF2222) 0.3 hp, [EI2410](https://www.kth.se/student/kurser/kurs/EI2410) 7.5 hp, [SD2920](https://www.kth.se/student/kurser/kurs/SD2920) 1.5 hp.
+
+- **Årskurs 1, P4 — 50.7 hp, 35.7 hp over full-time.**
   Cohorts: HT2023, HT2024, HT2025.
   Courses: [AH2923](https://www.kth.se/student/kurser/kurs/AH2923) 7.5 hp, [ED2200](https://www.kth.se/student/kurser/kurs/ED2200) 6 hp, [EF2222](https://www.kth.se/student/kurser/kurs/EF2222) 0.2 hp, [EK2390](https://www.kth.se/student/kurser/kurs/EK2390) 7.5 hp, [SD2920](https://www.kth.se/student/kurser/kurs/SD2920) 1.5 hp, [SH2404](https://www.kth.se/student/kurser/kurs/SH2404) 7.5 hp, [SK2900](https://www.kth.se/student/kurser/kurs/SK2900) 7.5 hp.
 
-- **Årskurs 1, P4 — 53.8 hp, 38.8 hp over full-time.**
+- **Årskurs 1, P4 — 52.9 hp, 37.9 hp over full-time.**
   Cohorts: HT2026.
   Courses: [AH2923](https://www.kth.se/student/kurser/kurs/AH2923) 7.5 hp, [ED2200](https://www.kth.se/student/kurser/kurs/ED2200) 6 hp, [EF2222](https://www.kth.se/student/kurser/kurs/EF2222) 0.2 hp, [EK2390](https://www.kth.se/student/kurser/kurs/EK2390) 7.5 hp, [SD2920](https://www.kth.se/student/kurser/kurs/SD2920) 1.5 hp, [SH2404](https://www.kth.se/student/kurser/kurs/SH2404) 7.5 hp.
 
-- **Årskurs 2, P1 — 52.5 hp, 37.5 hp over full-time.**
+- **Årskurs 2, P1 — 51 hp, 36 hp over full-time.**
   Cohorts: HT2023, HT2024, HT2025, HT2026.
   Courses: [EF2222](https://www.kth.se/student/kurser/kurs/EF2222) 0.5 hp, [EK2370](https://www.kth.se/student/kurser/kurs/EK2370) 7.5 hp, [SD2925](https://www.kth.se/student/kurser/kurs/SD2925) 1.5 hp, [SK2303](https://www.kth.se/student/kurser/kurs/SK2303) 7.5 hp.
+  Valblock: Villkorligt valfria och valfria kurser (MIC) 6.6 hp.
 
-- **Årskurs 2, P2 — 58.5 hp, 43.5 hp over full-time.**
+- **Årskurs 2, P2 — 57.5 hp, 42.5 hp over full-time.**
   Cohorts: HT2023, HT2024, HT2025, HT2026.
   Courses: [EF2215](https://www.kth.se/student/kurser/kurs/EF2215) 7.5 hp, [EF2222](https://www.kth.se/student/kurser/kurs/EF2222) 0.5 hp, [EF2260](https://www.kth.se/student/kurser/kurs/EF2260) 6 hp, [EF2270](https://www.kth.se/student/kurser/kurs/EF2270) 6 hp, [SD2925](https://www.kth.se/student/kurser/kurs/SD2925) 1.5 hp, [SK2402](https://www.kth.se/student/kurser/kurs/SK2402) 7.5 hp.
+  Valblock: Villkorligt valfria och valfria kurser (MIC) 13.9 hp.
 
 - [ED2235](https://www.kth.se/student/kurser/kurs/ED2235) — slutförd: [SH2008](https://www.kth.se/student/kurser/kurs/SH2008) · kursplan [HT 2024 – VT 2026](https://www.kth.se/student/kurser/kurs/kursplan/ED2235-20242.pdf?lang=sv) — *HT2023, HT2024*
 - [ED2247](https://www.kth.se/student/kurser/kurs/ED2247) — slutförd: [ED2200](https://www.kth.se/student/kurser/kurs/ED2200), [ED2210](https://www.kth.se/student/kurser/kurs/ED2210), [ED2240](https://www.kth.se/student/kurser/kurs/ED2240), [EF2200](https://www.kth.se/student/kurser/kurs/EF2200) · kursplan [HT 2022 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/ED2247-20222.pdf?lang=sv)

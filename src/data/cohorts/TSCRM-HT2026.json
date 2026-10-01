@@ -23,131 +23,6 @@
     ]
   },
   {
-    "code": "EQ1220",
-    "name": "Signalteori",
-    "nameEn": "Signal Theory",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "EL2810",
-    "name": "Maskininlärningsteori",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Machine Learning Theory",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "rounds": [
-      {
-        "id": "P3",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 7.5,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P3-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 7.5,
-          "P4": 0
-        }
-      }
-    ]
-  },
-  {
-    "code": "DD2424",
-    "name": "Djupinlärning i Data Science",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 1,
-    "exams": [
-      "P4"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Deep Learning in Data Science",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "prerequisitesCompleted": [
-      "DD2380",
-      "DD2421"
-    ],
-    "rounds": [
-      {
-        "id": "P4",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 0,
-          "P4": 7.5
-        }
-      },
-      {
-        "id": "P4-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 0,
-          "P4": 7.5
-        }
-      }
-    ]
-  },
-  {
-    "code": "DT2151",
-    "name": "Projekt i konverserande system",
-    "nameEn": "Project in Conversational Systems",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
     "code": "EL2220",
     "name": "Den hållbara ingenjören i systemteknik",
     "totalCredits": 3,
@@ -175,13 +50,13 @@
     "courseLevel": "A"
   },
   {
-    "code": "DT2119",
-    "name": "Igenkänning av tal och talare",
-    "totalCredits": 7.5,
+    "code": "DD2414",
+    "name": "Ingenjörsprojekt i robotik, perception och lärande",
+    "totalCredits": 15,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
-      "P3": 0,
+      "P3": 7.5,
       "P4": 7.5
     },
     "year": 1,
@@ -193,152 +68,13 @@
       "RASM"
     ],
     "category": "conditionallyElective",
-    "nameEn": "Speech and Speaker Recognition",
-    "gradingScale": "A-F",
+    "nameEn": "Engineering project in Robotics, Perception and Learning",
+    "gradingScale": "P/F",
     "courseLevel": "A"
   },
   {
-    "code": "IL2212",
-    "name": "Programvara för inbyggda system",
-    "nameEn": "Embedded Software",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended",
-    "rounds": [
-      {
-        "id": "P3",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 7.5,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P3-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 7.5,
-          "P4": 0
-        }
-      }
-    ]
-  },
-  {
-    "code": "EL1010",
-    "name": "Reglerteknik, allmän kurs",
-    "nameEn": "Automatic Control, General Course",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 6,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "SF2940",
-    "name": "Sannolikhetsteori",
-    "nameEn": "Probability Theory",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended",
-    "rounds": [
-      {
-        "id": "P1",
-        "periodCredits": {
-          "P1": 7.5,
-          "P2": 0,
-          "P3": 0,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P1-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 7.5,
-          "P2": 0,
-          "P3": 0,
-          "P4": 0
-        }
-      }
-    ]
-  },
-  {
-    "code": "DD2380",
-    "name": "Artificiell intelligens",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Artificial Intelligence",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "rounds": [
-      {
-        "id": "P1",
-        "periodCredits": {
-          "P1": 6,
-          "P2": 0,
-          "P3": 0,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P1-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 6,
-          "P2": 0,
-          "P3": 0,
-          "P4": 0
-        }
-      }
-    ]
-  },
-  {
-    "code": "EL2425",
-    "name": "Reglerteknik, projektkurs, mindre kurs",
+    "code": "SF2832",
+    "name": "Matematisk systemteori",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -347,20 +83,16 @@
       "P4": 0
     },
     "year": 1,
-    "exams": [],
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
     "teacher": "",
     "description": "",
     "category": "conditionallyElective",
-    "nameEn": "Automatic Control, Project Course, Smaller Course",
-    "gradingScale": "P/F",
+    "nameEn": "Mathematical Systems Theory",
+    "gradingScale": "A-F",
     "courseLevel": "A",
-    "prerequisitesCompleted": [
-      "EL2450",
-      "EL2520",
-      "EL2620",
-      "EL2700",
-      "EL2805"
-    ],
     "rounds": [
       {
         "id": "P2",
@@ -379,49 +111,6 @@
           "P2": 7.5,
           "P3": 0,
           "P4": 0
-        }
-      }
-    ]
-  },
-  {
-    "code": "DD2419",
-    "name": "Projektkurs i robotik och autonoma system",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 4.5,
-      "P4": 4.5
-    },
-    "year": 1,
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Project Course in Robotics and Autonomous Systems",
-    "gradingScale": "P/F",
-    "courseLevel": "A",
-    "prerequisitesCompleted": [
-      "DD2410"
-    ],
-    "rounds": [
-      {
-        "id": "P3",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 4.5,
-          "P4": 4.5
-        }
-      },
-      {
-        "id": "P3-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 4.5,
-          "P4": 4.5
         }
       }
     ]
@@ -470,36 +159,36 @@
     ]
   },
   {
-    "code": "LS2444",
-    "name": "Teknisk kommunikation på engelska",
-    "nameEn": "Technical Communication in English",
+    "code": "LS1452",
+    "name": "Introduktion till teknikvetenskaplig kommunikation på engelska",
+    "nameEn": "Essential STEM communication in English",
     "totalCredits": 7.5,
     "periodCredits": {
-      "P1": 0,
-      "P2": 0,
+      "P1": 3,
+      "P2": 4.5,
       "P3": 0,
-      "P4": 7.5
+      "P4": 0
     },
     "rounds": [
       {
         "id": "P1",
         "periodCredits": {
-          "P1": 7.5,
-          "P2": 0,
+          "P1": 3,
+          "P2": 4.5,
           "P3": 0,
           "P4": 0
         },
-        "applicationCode": "11414"
+        "applicationCode": "11173"
       },
       {
-        "id": "P4",
+        "id": "P3",
         "periodCredits": {
           "P1": 0,
           "P2": 0,
-          "P3": 0,
-          "P4": 7.5
+          "P3": 3,
+          "P4": 4.5
         },
-        "applicationCode": "11417"
+        "applicationCode": "11174"
       }
     ],
     "year": 1,
@@ -510,15 +199,246 @@
     "category": "recommended"
   },
   {
-    "code": "EG2210",
-    "name": "Elmarknadsanalys",
-    "nameEn": "Electricity Market Analysis",
+    "code": "DD2419",
+    "name": "Projektkurs i robotik och autonoma system",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 4.5
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Project Course in Robotics and Autonomous Systems",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2410"
+    ],
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 4.5,
+          "P4": 4.5
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 4.5,
+          "P4": 4.5
+        }
+      }
+    ]
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (LDCS)",
+    "nameEn": "Conditionally elective and elective courses (LDCS)",
+    "year": 1,
+    "totalCredits": 45,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0,
+        "P2": 14.4,
+        "P3": 7.1,
+        "P4": 7
+      },
+      "Year2": {
+        "P1": 2.5,
+        "P2": 14,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "DD2380",
+      "DD2416",
+      "DD2434",
+      "DD2600",
+      "EL2425",
+      "EL2620",
+      "EL2805",
+      "EL2850",
+      "EQ2300",
+      "SF2832",
+      "DD2421",
+      "DD2424",
+      "DD2437",
+      "EL2810",
+      "EQ2401",
+      "SF1691",
+      "SF2822",
+      "SF2842",
+      "EQ2801",
+      "DD2601",
+      "DD2610",
+      "SF2852",
+      "DD2603",
+      "SF2940",
+      "DD2430",
+      "DT2140",
+      "DT2151",
+      "EH2030",
+      "EH2720",
+      "EK2370",
+      "EL1010",
+      "EQ1220",
+      "EQ2310",
+      "IL2206",
+      "LS1452",
+      "LS1464",
+      "LS2442",
+      "ME1003",
+      "MF2007",
+      "MF2030",
+      "MF2043",
+      "SF1811",
+      "DD1388",
+      "DD2419",
+      "DD2420",
+      "DD2438",
+      "EG2210",
+      "EP2520",
+      "EQ2321",
+      "IL2212",
+      "LS2444",
+      "SD2231",
+      "SF2812",
+      "SF2943",
+      "SF1861",
+      "DD1385",
+      "DD2435",
+      "DD2447",
+      "LS1427",
+      "LS1437",
+      "LS1446",
+      "EG2140",
+      "EQ2871",
+      "DD2352",
+      "DD2401",
+      "DD2459",
+      "DD2464",
+      "SF2568"
+    ],
+    "allowedNumberOfOptions": 68,
+    "kind": "minCredits",
+    "minCredits": 45,
+    "constraints": [
+      {
+        "kind": "minCredits",
+        "value": 21,
+        "from": [
+          "DD2380",
+          "DD2416",
+          "DD2434",
+          "DD2600",
+          "EL2425",
+          "EL2620",
+          "EL2805",
+          "EL2850",
+          "EQ2300",
+          "SF2832",
+          "DD2421",
+          "DD2424",
+          "DD2437",
+          "EL2810",
+          "EQ2401",
+          "SF1691",
+          "SF2822",
+          "SF2842",
+          "EQ2801",
+          "DD2601",
+          "DD2610",
+          "SF2852",
+          "DD2603"
+        ],
+        "label": "Välj minst 21 hp från listan av villkorligt valfria kurser."
+      },
+      {
+        "kind": "minCount",
+        "value": 1,
+        "from": [
+          "DD2438",
+          "EL2425",
+          "EP2520",
+          "SD2231",
+          "DD2419"
+        ],
+        "label": "minst en projektkurs inom huvudområdet"
+      }
+    ],
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "LDCS"
+    ],
+    "comment": "Spår, Maskininlärning, beslutssystem och reglerteknik: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "code": "SF1691",
+    "name": "Komplex analys",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
-      "P3": 7.5,
-      "P4": 0
+      "P3": 3.7,
+      "P4": 3.8
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Complex Analysis",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 3.7,
+          "P4": 3.8
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 3.7,
+          "P4": 3.8
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD1388",
+    "name": "Programsystemkonstruktion med C++",
+    "nameEn": "Program System Construction Using C++",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4,
+      "P4": 3.5
     },
     "year": 1,
     "prerequisites": [],
@@ -532,8 +452,8 @@
         "periodCredits": {
           "P1": 0,
           "P2": 0,
-          "P3": 7.5,
-          "P4": 0
+          "P3": 4,
+          "P4": 3.5
         }
       },
       {
@@ -542,257 +462,11 @@
         "periodCredits": {
           "P1": 0,
           "P2": 0,
-          "P3": 7.5,
-          "P4": 0
-        }
-      }
-    ]
-  },
-  {
-    "code": "EL2620",
-    "name": "Olinjär reglering",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P2"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Nonlinear Control",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "rounds": [
-      {
-        "id": "P2",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 7.5,
-          "P3": 0,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P2-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 7.5,
-          "P3": 0,
-          "P4": 0
-        }
-      }
-    ]
-  },
-  {
-    "code": "DD2411",
-    "name": "Forskningsprojekt i robotik, perception och inlärning",
-    "totalCredits": 15,
-    "periodCredits": {
-      "Year1": {
-        "P1": 0,
-        "P2": 0,
-        "P3": 4,
-        "P4": 3.5
-      },
-      "Year2": {
-        "P1": 4,
-        "P2": 3.5,
-        "P3": 0,
-        "P4": 0
-      }
-    },
-    "prerequisites": [],
-    "exams": {},
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "RASM"
-    ],
-    "category": "conditionallyElective",
-    "nameEn": "Research project in Robotics, Perception and Learning",
-    "gradingScale": "P/F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "SF2822",
-    "name": "Tillämpad ickelinjär optimering",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P4"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "LDCS"
-    ],
-    "category": "conditionallyElective",
-    "nameEn": "Applied Nonlinear Optimization",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "rounds": [
-      {
-        "id": "P4",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 0,
-          "P4": 7.5
-        }
-      },
-      {
-        "id": "P4-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 0,
-          "P4": 7.5
-        }
-      }
-    ]
-  },
-  {
-    "code": "LS1464",
-    "name": "Retorik - konsten att övertyga",
-    "nameEn": "Rhetoric - the Art of Persuasion",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 4,
-      "P2": 3.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "rounds": [
-      {
-        "id": "P1",
-        "periodCredits": {
-          "P1": 4,
-          "P2": 3.5,
-          "P3": 0,
-          "P4": 0
-        },
-        "applicationCode": "11175"
-      },
-      {
-        "id": "P3",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
           "P3": 4,
           "P4": 3.5
-        },
-        "applicationCode": "11177"
-      }
-    ],
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "DD2430",
-    "name": "Projektkurs i dataanalys",
-    "nameEn": "Project Course in Data Science",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 3.5,
-      "P2": 4,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "DD2610",
-    "name": "Djupinlärning, fortsättningskurs",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 4.5,
-      "P2": 3,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Deep Learning, advanced course",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "prerequisitesCompleted": [
-      "DD2424",
-      "DD2437"
-    ],
-    "prerequisitesParticipation": [
-      "DD2424"
-    ],
-    "rounds": [
-      {
-        "id": "P1",
-        "periodCredits": {
-          "P1": 4.5,
-          "P2": 3,
-          "P3": 0,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P1-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 4.5,
-          "P2": 3,
-          "P3": 0,
-          "P4": 0
         }
       }
     ]
-  },
-  {
-    "code": "EL2820",
-    "name": "Modellering av dynamiska system",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Modelling of Dynamical Systems",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
   },
   {
     "code": "IL2206",
@@ -834,69 +508,35 @@
     ]
   },
   {
-    "code": "EH2720",
-    "name": "Projektstyrning",
-    "nameEn": "Management of Projects",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended",
-    "rounds": [
-      {
-        "id": "P1",
-        "periodCredits": {
-          "P1": 7.5,
-          "P2": 0,
-          "P3": 0,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P1-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 7.5,
-          "P2": 0,
-          "P3": 0,
-          "P4": 0
-        }
-      }
-    ]
-  },
-  {
-    "code": "DD2420",
-    "name": "Probabilistiska grafiska modeller",
-    "nameEn": "Probabilistic Graphical Models",
-    "totalCredits": 7.5,
+    "code": "DD2438",
+    "name": "Artificiell intelligens och multiagentsystem",
+    "totalCredits": 15,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
-      "P3": 7.5,
-      "P4": 0
+      "P3": 7,
+      "P4": 8
     },
     "year": 1,
-    "prerequisites": [],
     "exams": [],
     "teacher": "",
     "description": "",
-    "category": "recommended",
+    "category": "conditionallyElective",
+    "nameEn": "Artificial Intelligence and Multi Agent Systems",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2380",
+      "DD2410"
+    ],
     "rounds": [
       {
         "id": "P3",
         "periodCredits": {
           "P1": 0,
           "P2": 0,
-          "P3": 7.5,
-          "P4": 0
+          "P3": 7,
+          "P4": 8
         }
       },
       {
@@ -905,21 +545,46 @@
         "periodCredits": {
           "P1": 0,
           "P2": 0,
-          "P3": 7.5,
-          "P4": 0
+          "P3": 7,
+          "P4": 8
         }
       }
     ]
   },
   {
-    "code": "DD2413",
-    "name": "Sociala robotar",
+    "code": "DD2423",
+    "name": "Bildbehandling och datorseende",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
       "P2": 7.5,
       "P3": 0,
       "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "RASM"
+    ],
+    "category": "mandatory",
+    "nameEn": "Image Analysis and Computer Vision",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DT2119",
+    "name": "Igenkänning av tal och talare",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
     },
     "year": 1,
     "prerequisites": [],
@@ -930,30 +595,9 @@
       "RASM"
     ],
     "category": "conditionallyElective",
-    "nameEn": "Social Robotics",
+    "nameEn": "Speech and Speaker Recognition",
     "gradingScale": "A-F",
-    "courseLevel": "A",
-    "rounds": [
-      {
-        "id": "P2",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 7.5,
-          "P3": 0,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P2-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 7.5,
-          "P3": 0,
-          "P4": 0
-        }
-      }
-    ]
+    "courseLevel": "A"
   },
   {
     "code": "ME1003",
@@ -1006,8 +650,8 @@
     "category": "recommended"
   },
   {
-    "code": "DD2600",
-    "name": "Robotinlärning och förkroppsligad AI",
+    "code": "DD2410",
+    "name": "Introduktion till robotik",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 7.5,
@@ -1016,20 +660,319 @@
       "P4": 0
     },
     "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Introduction to Robotics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SF2822",
+    "name": "Tillämpad ickelinjär optimering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "LDCS"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Applied Nonlinear Optimization",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P4",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 7.5
+        }
+      },
+      {
+        "id": "P4-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 7.5
+        }
+      }
+    ]
+  },
+  {
+    "code": "LS2444",
+    "name": "Teknisk kommunikation på engelska",
+    "nameEn": "Technical Communication in English",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "11414"
+      },
+      {
+        "id": "P4",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 7.5
+        },
+        "applicationCode": "11417"
+      }
+    ],
+    "year": 1,
+    "prerequisites": [],
     "exams": [],
     "teacher": "",
     "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF1811",
+    "name": "Optimeringslära",
+    "nameEn": "Optimization",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 6,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 6,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "MF2007",
+    "name": "Dynamik och rörelsestyrning",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 9,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
     "category": "conditionallyElective",
-    "nameEn": "Robot Learning and Embodied AI",
+    "nameEn": "Dynamics and Motion Control",
     "gradingScale": "A-F",
     "courseLevel": "A",
-    "prerequisitesCompleted": [
-      "DD2424",
-      "DD2437"
-    ],
-    "prerequisitesParticipation": [
-      "DD2424"
-    ],
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 9,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 9,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "EP2520",
+    "name": "Bygga säkra nätverkssystem",
+    "nameEn": "Building Networked Systems Security",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "MF2030",
+    "name": "Mekatronik allmän kurs",
+    "nameEn": "Mechatronics basic Course",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 6,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 6,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "IL2212",
+    "name": "Programvara för inbyggda system",
+    "nameEn": "Embedded Software",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SF2940",
+    "name": "Sannolikhetsteori",
+    "nameEn": "Probability Theory",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
     "rounds": [
       {
         "id": "P1",
@@ -1053,28 +996,136 @@
     ]
   },
   {
-    "code": "DD2423",
-    "name": "Bildbehandling och datorseende",
+    "code": "DD2430",
+    "name": "Projektkurs i dataanalys",
+    "nameEn": "Project Course in Data Science",
     "totalCredits": 7.5,
     "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
+      "P1": 3.5,
+      "P2": 4,
       "P3": 0,
       "P4": 0
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [
-      "P2"
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "LS1464",
+    "name": "Retorik - konsten att övertyga",
+    "nameEn": "Rhetoric - the Art of Persuasion",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 4,
+      "P2": 3.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 4,
+          "P2": 3.5,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "11175"
+      },
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 4,
+          "P4": 3.5
+        },
+        "applicationCode": "11177"
+      }
     ],
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SF2842",
+    "name": "Geometrisk styrteori",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Geometric Control Theory",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SF2832"
+    ],
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2411",
+    "name": "Forskningsprojekt i robotik, perception och inlärning",
+    "totalCredits": 15,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0,
+        "P2": 0,
+        "P3": 4,
+        "P4": 3.5
+      },
+      "Year2": {
+        "P1": 4,
+        "P2": 3.5,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "prerequisites": [],
+    "exams": {},
     "teacher": "",
     "description": "",
     "specializations": [
       "RASM"
     ],
-    "category": "mandatory",
-    "nameEn": "Image Analysis and Computer Vision",
-    "gradingScale": "A-F",
+    "category": "conditionallyElective",
+    "nameEn": "Research project in Robotics, Perception and Learning",
+    "gradingScale": "P/F",
     "courseLevel": "A"
   },
   {
@@ -1121,96 +1172,13 @@
     ]
   },
   {
-    "code": "DD2438",
-    "name": "Artificiell intelligens och multiagentsystem",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7,
-      "P4": 8
-    },
-    "year": 1,
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Artificial Intelligence and Multi Agent Systems",
-    "gradingScale": "P/F",
-    "courseLevel": "A",
-    "prerequisitesCompleted": [
-      "DD2380",
-      "DD2410"
-    ],
-    "rounds": [
-      {
-        "id": "P3",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 7,
-          "P4": 8
-        }
-      },
-      {
-        "id": "P3-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 7,
-          "P4": 8
-        }
-      }
-    ]
-  },
-  {
-    "code": "DD1388",
-    "name": "Programsystemkonstruktion med C++",
-    "nameEn": "Program System Construction Using C++",
+    "code": "SD2231",
+    "name": "Tillämpad fordonsdynamikreglering",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
-      "P3": 4,
-      "P4": 3.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended",
-    "rounds": [
-      {
-        "id": "P3",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 4,
-          "P4": 3.5
-        }
-      },
-      {
-        "id": "P3-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 4,
-          "P4": 3.5
-        }
-      }
-    ]
-  },
-  {
-    "code": "DD2414",
-    "name": "Ingenjörsprojekt i robotik, perception och lärande",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
+      "P3": 0,
       "P4": 7.5
     },
     "year": 1,
@@ -1218,17 +1186,76 @@
     "exams": [],
     "teacher": "",
     "description": "",
-    "specializations": [
-      "RASM"
-    ],
     "category": "conditionallyElective",
-    "nameEn": "Engineering project in Robotics, Perception and Learning",
-    "gradingScale": "P/F",
+    "nameEn": "Applied Vehicle Dynamics Control",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P4",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 7.5
+        }
+      },
+      {
+        "id": "P4-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 7.5
+        }
+      }
+    ]
+  },
+  {
+    "code": "EQ1220",
+    "name": "Signalteori",
+    "nameEn": "Signal Theory",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "EL2820",
+    "name": "Modellering av dynamiska system",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Modelling of Dynamical Systems",
+    "gradingScale": "A-F",
     "courseLevel": "A"
   },
   {
-    "code": "DD2416",
-    "name": "Säker robotplanering och styrning",
+    "code": "LS2442",
+    "name": "Engelska för arbetslivet",
+    "nameEn": "English for Employment",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -1236,17 +1263,6 @@
       "P3": 0,
       "P4": 0
     },
-    "year": 1,
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Safe Robot Planning and Control",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "prerequisitesCompleted": [
-      "DD2410"
-    ],
     "rounds": [
       {
         "id": "P2",
@@ -1255,42 +1271,9 @@
           "P2": 7.5,
           "P3": 0,
           "P4": 0
-        }
+        },
+        "applicationCode": "11409"
       },
-      {
-        "id": "P2-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 7.5,
-          "P3": 0,
-          "P4": 0
-        }
-      }
-    ]
-  },
-  {
-    "code": "EQ2401",
-    "name": "Adaptiv signalbehandling",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Adaptive Signal Processing",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "rounds": [
       {
         "id": "P3",
         "periodCredits": {
@@ -1298,127 +1281,16 @@
           "P2": 0,
           "P3": 7.5,
           "P4": 0
-        }
-      },
-      {
-        "id": "P3-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 7.5,
-          "P4": 0
-        }
+        },
+        "applicationCode": "11410"
       }
-    ]
-  },
-  {
-    "code": "EL2520",
-    "name": "Reglerteknik, fortsättningskurs",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
+    ],
     "year": 1,
     "prerequisites": [],
-    "exams": [
-      "P4"
-    ],
+    "exams": [],
     "teacher": "",
     "description": "",
-    "category": "mandatory",
-    "nameEn": "Control Theory and Practice, Advanced Course",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "SF1691",
-    "name": "Komplex analys",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 3.7,
-      "P4": 3.8
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P4"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Complex Analysis",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "rounds": [
-      {
-        "id": "P3",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 3.7,
-          "P4": 3.8
-        }
-      },
-      {
-        "id": "P3-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 3.7,
-          "P4": 3.8
-        }
-      }
-    ]
-  },
-  {
-    "code": "DD2437",
-    "name": "Artificiella neuronnät och djupa arkitekturer",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Artificial Neural Networks and Deep Architectures",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "rounds": [
-      {
-        "id": "P3",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 7.5,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P3-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 7.5,
-          "P4": 0
-        }
-      }
-    ]
+    "category": "recommended"
   },
   {
     "code": "DT2140",
@@ -1499,8 +1371,141 @@
     ]
   },
   {
-    "code": "EL2320",
-    "name": "Tillämpad estimering",
+    "code": "DD2610",
+    "name": "Djupinlärning, fortsättningskurs",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 3,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Deep Learning, advanced course",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2424",
+      "DD2437"
+    ],
+    "prerequisitesParticipation": [
+      "DD2424"
+    ],
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 4.5,
+          "P2": 3,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 4.5,
+          "P2": 3,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "EQ2321",
+    "name": "Tal- och ljudsignalbehandling",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Speech and Audio Processing",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2416",
+    "name": "Säker robotplanering och styrning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Safe Robot Planning and Control",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2410"
+    ],
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2413",
+    "name": "Sociala robotar",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -1516,10 +1521,31 @@
     "specializations": [
       "RASM"
     ],
-    "category": "mandatory",
-    "nameEn": "Applied Estimation",
+    "category": "conditionallyElective",
+    "nameEn": "Social Robotics",
     "gradingScale": "A-F",
-    "courseLevel": "A"
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
   },
   {
     "code": "DD2421",
@@ -1565,56 +1591,38 @@
     ]
   },
   {
-    "code": "SD2231",
-    "name": "Tillämpad fordonsdynamikreglering",
+    "code": "EL2320",
+    "name": "Tillämpad estimering",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
-      "P2": 0,
+      "P2": 7.5,
       "P3": 0,
-      "P4": 7.5
+      "P4": 0
     },
     "year": 1,
     "prerequisites": [],
     "exams": [],
     "teacher": "",
     "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Applied Vehicle Dynamics Control",
+    "specializations": [
+      "RASM"
+    ],
+    "category": "mandatory",
+    "nameEn": "Applied Estimation",
     "gradingScale": "A-F",
-    "courseLevel": "A",
-    "rounds": [
-      {
-        "id": "P4",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 0,
-          "P4": 7.5
-        }
-      },
-      {
-        "id": "P4-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 0,
-          "P4": 7.5
-        }
-      }
-    ]
+    "courseLevel": "A"
   },
   {
-    "code": "SF2943",
-    "name": "Tidsserieanalys",
-    "nameEn": "Time Series Analysis",
+    "code": "EH2720",
+    "name": "Projektstyrning",
+    "nameEn": "Management of Projects",
     "totalCredits": 7.5,
     "periodCredits": {
-      "P1": 0,
+      "P1": 7.5,
       "P2": 0,
       "P3": 0,
-      "P4": 7.5
+      "P4": 0
     },
     "year": 1,
     "prerequisites": [],
@@ -1624,187 +1632,285 @@
     "category": "recommended",
     "rounds": [
       {
-        "id": "P4",
+        "id": "P1",
         "periodCredits": {
-          "P1": 0,
+          "P1": 7.5,
           "P2": 0,
           "P3": 0,
-          "P4": 7.5
+          "P4": 0
         }
       },
       {
-        "id": "P4-y2",
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2434",
+    "name": "Maskininlärning, avancerad kurs",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Machine Learning, Advanced Course",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2421",
+      "EL2810"
+    ],
+    "prerequisitesParticipation": [
+      "DD2421"
+    ],
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
         "year": 2,
         "periodCredits": {
           "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2600",
+    "name": "Robotinlärning och förkroppsligad AI",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Robot Learning and Embodied AI",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2424",
+      "DD2437"
+    ],
+    "prerequisitesParticipation": [
+      "DD2424"
+    ],
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
           "P2": 0,
           "P3": 0,
-          "P4": 7.5
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "EL2805",
+    "name": "Förstärkande inlärning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Reinforcement Learning",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "EH2030",
+    "name": "Verksamhetsutveckling och kvalitet",
+    "nameEn": "Business Development and Quality Management",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "EL2520",
+    "name": "Reglerteknik, fortsättningskurs",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Control Theory and Practice, Advanced Course",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "EL2620",
+    "name": "Olinjär reglering",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Nonlinear Control",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P2-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 7.5,
+          "P3": 0,
+          "P4": 0
         }
       }
     ]
   },
   {
     "type": "optionGroup",
-    "name": "Villkorligt valfria och valfria kurser (LDCS)",
-    "nameEn": "Conditionally elective and elective courses (LDCS)",
-    "year": 1,
-    "totalCredits": 46.1,
-    "periodCredits": {
-      "Year1": {
-        "P1": 0,
-        "P2": 14.6,
-        "P3": 7.2,
-        "P4": 7.1
-      },
-      "Year2": {
-        "P1": 2.6,
-        "P2": 14.6,
-        "P3": 0,
-        "P4": 0
-      }
-    },
-    "options": [
-      "DD2380",
-      "DD2416",
-      "DD2434",
-      "DD2600",
-      "EL2425",
-      "EL2620",
-      "EL2805",
-      "EL2850",
-      "EQ2300",
-      "SF2832",
-      "DD2421",
-      "DD2424",
-      "DD2437",
-      "EL2810",
-      "EQ2401",
-      "SF1691",
-      "SF2822",
-      "SF2842",
-      "EQ2801",
-      "DD2601",
-      "DD2610",
-      "SF2852",
-      "DD2603",
-      "SF2940",
-      "DD2430",
-      "DT2140",
-      "DT2151",
-      "EH2030",
-      "EH2720",
-      "EK2370",
-      "EL1010",
-      "EQ1220",
-      "EQ2310",
-      "IL2206",
-      "LS1452",
-      "LS1464",
-      "LS2442",
-      "ME1003",
-      "MF2007",
-      "MF2030",
-      "MF2043",
-      "SF1811",
-      "DD1388",
-      "DD2419",
-      "DD2420",
-      "DD2438",
-      "EG2210",
-      "EP2520",
-      "EQ2321",
-      "IL2212",
-      "LS2444",
-      "SD2231",
-      "SF2812",
-      "SF2943",
-      "SF1861",
-      "DD1385",
-      "DD2435",
-      "DD2447",
-      "LS1427",
-      "LS1437",
-      "LS1446",
-      "EG2140",
-      "EQ2871",
-      "DD2352",
-      "DD2401",
-      "DD2459",
-      "DD2464",
-      "SF2568"
-    ],
-    "allowedNumberOfOptions": 68,
-    "kind": "minCredits",
-    "minCredits": 46.1,
-    "constraints": [
-      {
-        "kind": "minCredits",
-        "value": 21,
-        "from": [
-          "DD2380",
-          "DD2416",
-          "DD2434",
-          "DD2600",
-          "EL2425",
-          "EL2620",
-          "EL2805",
-          "EL2850",
-          "EQ2300",
-          "SF2832",
-          "DD2421",
-          "DD2424",
-          "DD2437",
-          "EL2810",
-          "EQ2401",
-          "SF1691",
-          "SF2822",
-          "SF2842",
-          "EQ2801",
-          "DD2601",
-          "DD2610",
-          "SF2852",
-          "DD2603"
-        ],
-        "label": "Välj minst 21 hp från listan av villkorligt valfria kurser."
-      },
-      {
-        "kind": "minCount",
-        "value": 1,
-        "from": [
-          "DD2438",
-          "EL2425",
-          "EP2520",
-          "SD2231",
-          "DD2419"
-        ],
-        "label": "minst en projektkurs inom huvudområdet"
-      }
-    ],
-    "exams": [],
-    "category": "conditionallyElective",
-    "specializations": [
-      "LDCS"
-    ],
-    "comment": "Spår, Maskininlärning, beslutssystem och reglerteknik: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
-    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
-  },
-  {
-    "type": "optionGroup",
     "name": "Villkorligt valfria och valfria kurser (RASM)",
     "nameEn": "Conditionally elective and elective courses (RASM)",
     "year": 1,
-    "totalCredits": 46.5,
+    "totalCredits": 45,
     "periodCredits": {
       "Year1": {
         "P1": 0,
         "P2": 0,
-        "P3": 14.7,
-        "P4": 7.1
+        "P3": 14.2,
+        "P4": 6.8
       },
       "Year2": {
-        "P1": 10.1,
-        "P2": 14.6,
+        "P1": 9.8,
+        "P2": 14.2,
         "P3": 0,
         "P4": 0
       }
@@ -1886,7 +1992,7 @@
     ],
     "allowedNumberOfOptions": 73,
     "kind": "minCredits",
-    "minCredits": 46.5,
+    "minCredits": 45,
     "constraints": [
       {
         "kind": "minCredits",
@@ -1945,64 +2051,15 @@
     "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
   },
   {
-    "code": "DD2434",
-    "name": "Maskininlärning, avancerad kurs",
+    "code": "SF2943",
+    "name": "Tidsserieanalys",
+    "nameEn": "Time Series Analysis",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "exams": [
-      "P2"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Machine Learning, Advanced Course",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "prerequisitesCompleted": [
-      "DD2421",
-      "EL2810"
-    ],
-    "prerequisitesParticipation": [
-      "DD2421"
-    ],
-    "rounds": [
-      {
-        "id": "P2",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 7.5,
-          "P3": 0,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P2-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 7.5,
-          "P3": 0,
-          "P4": 0
-        }
-      }
-    ]
-  },
-  {
-    "code": "MF2030",
-    "name": "Mekatronik allmän kurs",
-    "nameEn": "Mechatronics basic Course",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
       "P2": 0,
       "P3": 0,
-      "P4": 0
+      "P4": 7.5
     },
     "year": 1,
     "prerequisites": [],
@@ -2012,25 +2069,43 @@
     "category": "recommended",
     "rounds": [
       {
-        "id": "P1",
+        "id": "P4",
         "periodCredits": {
-          "P1": 6,
+          "P1": 0,
           "P2": 0,
           "P3": 0,
-          "P4": 0
+          "P4": 7.5
         }
       },
       {
-        "id": "P1-y2",
+        "id": "P4-y2",
         "year": 2,
         "periodCredits": {
-          "P1": 6,
+          "P1": 0,
           "P2": 0,
           "P3": 0,
-          "P4": 0
+          "P4": 7.5
         }
       }
     ]
+  },
+  {
+    "code": "DT2151",
+    "name": "Projekt i konverserande system",
+    "nameEn": "Project in Conversational Systems",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
   },
   {
     "code": "MF2043",
@@ -2066,111 +2141,6 @@
           "P1": 6,
           "P2": 0,
           "P3": 0,
-          "P4": 0
-        }
-      }
-    ]
-  },
-  {
-    "code": "DD2410",
-    "name": "Introduktion till robotik",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Introduction to Robotics",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "LS1452",
-    "name": "Introduktion till teknikvetenskaplig kommunikation på engelska",
-    "nameEn": "Essential STEM communication in English",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 3,
-      "P2": 4.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "rounds": [
-      {
-        "id": "P1",
-        "periodCredits": {
-          "P1": 3,
-          "P2": 4.5,
-          "P3": 0,
-          "P4": 0
-        },
-        "applicationCode": "11173"
-      },
-      {
-        "id": "P3",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 3,
-          "P4": 4.5
-        },
-        "applicationCode": "11174"
-      }
-    ],
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "EL2450",
-    "name": "Hybrida och inbyggda reglersystem",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Hybrid and Embedded Control Systems",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "rounds": [
-      {
-        "id": "P3",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 7.5,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P3-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 7.5,
           "P4": 0
         }
       }
@@ -2216,52 +2186,95 @@
     ]
   },
   {
-    "code": "EL2805",
-    "name": "Förstärkande inlärning",
+    "code": "EQ2401",
+    "name": "Adaptiv signalbehandling",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
+      "P2": 0,
+      "P3": 7.5,
       "P4": 0
     },
     "year": 1,
     "prerequisites": [],
     "exams": [
-      "P2"
+      "P3"
     ],
     "teacher": "",
     "description": "",
     "category": "conditionallyElective",
-    "nameEn": "Reinforcement Learning",
+    "nameEn": "Adaptive Signal Processing",
     "gradingScale": "A-F",
     "courseLevel": "A",
     "rounds": [
       {
-        "id": "P2",
+        "id": "P3",
         "periodCredits": {
           "P1": 0,
-          "P2": 7.5,
-          "P3": 0,
+          "P2": 0,
+          "P3": 7.5,
           "P4": 0
         }
       },
       {
-        "id": "P2-y2",
+        "id": "P3-y2",
         "year": 2,
         "periodCredits": {
           "P1": 0,
-          "P2": 7.5,
-          "P3": 0,
+          "P2": 0,
+          "P3": 7.5,
           "P4": 0
         }
       }
     ]
   },
   {
-    "code": "EP2520",
-    "name": "Bygga säkra nätverkssystem",
-    "nameEn": "Building Networked Systems Security",
+    "code": "EL2450",
+    "name": "Hybrida och inbyggda reglersystem",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Hybrid and Embedded Control Systems",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "EG2210",
+    "name": "Elmarknadsanalys",
+    "nameEn": "Electricity Market Analysis",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -2298,22 +2311,72 @@
     ]
   },
   {
-    "code": "SF1861",
-    "name": "Optimeringslära",
-    "nameEn": "Optimization",
+    "code": "DD2380",
+    "name": "Artificiell intelligens",
     "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Artificial Intelligence",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 6,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 6,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2424",
+    "name": "Djupinlärning i Data Science",
+    "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
       "P3": 0,
-      "P4": 6
+      "P4": 7.5
     },
     "year": 1,
-    "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P4"
+    ],
     "teacher": "",
     "description": "",
-    "category": "recommended",
+    "category": "conditionallyElective",
+    "nameEn": "Deep Learning in Data Science",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "DD2380",
+      "DD2421"
+    ],
     "rounds": [
       {
         "id": "P4",
@@ -2321,7 +2384,7 @@
           "P1": 0,
           "P2": 0,
           "P3": 0,
-          "P4": 6
+          "P4": 7.5
         }
       },
       {
@@ -2331,100 +2394,14 @@
           "P1": 0,
           "P2": 0,
           "P3": 0,
-          "P4": 6
+          "P4": 7.5
         }
       }
     ]
   },
   {
-    "code": "MF2007",
-    "name": "Dynamik och rörelsestyrning",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 9,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P2"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Dynamics and Motion Control",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "rounds": [
-      {
-        "id": "P2",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 9,
-          "P3": 0,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P2-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 9,
-          "P3": 0,
-          "P4": 0
-        }
-      }
-    ]
-  },
-  {
-    "code": "SF2832",
-    "name": "Matematisk systemteori",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P2"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Mathematical Systems Theory",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "rounds": [
-      {
-        "id": "P2",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 7.5,
-          "P3": 0,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P2-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 7.5,
-          "P3": 0,
-          "P4": 0
-        }
-      }
-    ]
-  },
-  {
-    "code": "SF2842",
-    "name": "Geometrisk styrteori",
+    "code": "DD2437",
+    "name": "Artificiella neuronnät och djupa arkitekturer",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -2433,18 +2410,98 @@
       "P4": 0
     },
     "year": 1,
+    "prerequisites": [],
     "exams": [
       "P3"
     ],
     "teacher": "",
     "description": "",
     "category": "conditionallyElective",
-    "nameEn": "Geometric Control Theory",
+    "nameEn": "Artificial Neural Networks and Deep Architectures",
     "gradingScale": "A-F",
     "courseLevel": "A",
-    "prerequisitesCompleted": [
-      "SF2832"
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "EL2810",
+    "name": "Maskininlärningsteori",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
     ],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Machine Learning Theory",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P3",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P3-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 7.5,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "DD2420",
+    "name": "Probabilistiska grafiska modeller",
+    "nameEn": "Probabilistic Graphical Models",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
     "rounds": [
       {
         "id": "P3",
@@ -2507,92 +2564,48 @@
     ]
   },
   {
-    "code": "EQ2321",
-    "name": "Tal- och ljudsignalbehandling",
-    "totalCredits": 7.5,
+    "code": "SF1861",
+    "name": "Optimeringslära",
+    "nameEn": "Optimization",
+    "totalCredits": 6,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Speech and Audio Processing",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "rounds": [
-      {
-        "id": "P3",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 7.5,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P3-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 7.5,
-          "P4": 0
-        }
-      }
-    ]
-  },
-  {
-    "code": "LS2442",
-    "name": "Engelska för arbetslivet",
-    "nameEn": "English for Employment",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
       "P3": 0,
-      "P4": 0
+      "P4": 6
     },
-    "rounds": [
-      {
-        "id": "P2",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 7.5,
-          "P3": 0,
-          "P4": 0
-        },
-        "applicationCode": "11409"
-      },
-      {
-        "id": "P3",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 7.5,
-          "P4": 0
-        },
-        "applicationCode": "11410"
-      }
-    ],
     "year": 1,
     "prerequisites": [],
     "exams": [],
     "teacher": "",
     "description": "",
-    "category": "recommended"
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P4",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 6
+        }
+      },
+      {
+        "id": "P4-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 6
+        }
+      }
+    ]
   },
   {
-    "code": "SF1811",
-    "name": "Optimeringslära",
-    "nameEn": "Optimization",
+    "code": "EL1010",
+    "name": "Reglerteknik, allmän kurs",
+    "nameEn": "Automatic Control, General Course",
     "totalCredits": 6,
     "periodCredits": {
       "P1": 0,
@@ -2605,33 +2618,11 @@
     "exams": [],
     "teacher": "",
     "description": "",
-    "category": "recommended",
-    "rounds": [
-      {
-        "id": "P2",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 6,
-          "P3": 0,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P2-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 6,
-          "P3": 0,
-          "P4": 0
-        }
-      }
-    ]
+    "category": "recommended"
   },
   {
-    "code": "EH2030",
-    "name": "Verksamhetsutveckling och kvalitet",
-    "nameEn": "Business Development and Quality Management",
+    "code": "EL2425",
+    "name": "Reglerteknik, projektkurs, mindre kurs",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -2640,11 +2631,20 @@
       "P4": 0
     },
     "year": 1,
-    "prerequisites": [],
     "exams": [],
     "teacher": "",
     "description": "",
-    "category": "recommended",
+    "category": "conditionallyElective",
+    "nameEn": "Automatic Control, Project Course, Smaller Course",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "EL2450",
+      "EL2520",
+      "EL2620",
+      "EL2700",
+      "EL2805"
+    ],
     "rounds": [
       {
         "id": "P2",

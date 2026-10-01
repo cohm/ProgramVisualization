@@ -1148,9 +1148,27 @@ course listed in both years becomes one entry with a round per year
 
 Measured on kull HT2025, each box is 120 hp minus the obligatoriska courses and
 the thesis: TTFYM TFYA 73.5 hp, TFYB and TFYG 66, TFYF 81; TTMAM COMA and OPST
-75, CSSE 67.5, DAVE and FMIA 60; TMAIM 60.5. All three validate with no
-full-time warnings. TMAIM's year 1 P1 is 17 hp of obligatoriska courses, as
-KTH lists them.
+75, CSSE 67.5, DAVE and FMIA 60; TMAIM 58.5. TMAIM's year 1 P1 is 17 hp of
+obligatoriska courses, as KTH lists them.
+
+**A period over full-time is offset against the box's space elsewhere**
+(`offsetExcess` in `master-plan.mjs`). The box was each period's shortfall,
+floored at zero, so a period over 15 hp added its excess to the degree. Only
+TTFYM, TTMAM and TMAKM summed to 120. TEFRM PHS came to 129 hp (year 1 P2 is
+23.5 hp of obligatoriska courses), TTEMM TEMB to 123.5, TMAIM to 122, and most
+other spår to 120.4-121.5, from courses threaded thinly over many periods. A
+year's excess now comes off that year's box first, in proportion to each
+period's space, so the year still totals 60 where the box has room. What it
+cannot take comes off the nearest other year. Every spår of every master kull
+now sums to 120. Re-extraction changed only the elective boxes; the courses
+were reordered by the alignment search for the new box shapes.
+
+`validate-data` therefore does not report a year that totals full-time when
+no period is off by `LOAD_EXCESS_NOTEWORTHY` (3 hp) or more. TCSCM's year 1,
+15.2/15.3/14.8/14.7, was reported as short in P3 and P4. The rule holds for
+every programme, and it also removed about 90 bachelor warnings of the same
+kind, such as CDEPR's year 1 at 16.5/13.5/15/15, which were labelled "likely
+the missing space for valfria kurser". A full year has no missing space.
 
 A programme is a master when its code is T…M, its `programs.json` entry has
 `level: "master"`, or its name starts "Masterprogram". The code test is what
@@ -1300,6 +1318,15 @@ it leaves the bachelor's boxes: CTMAT offers SF2940 as a year-3 elective and
 TTMAM requires it, and before this TTMAM's year 1 lost 7.5 hp. An option on
 both sides keeps the bachelor's entry for both boxes. Each case is reported in
 the notice.
+
+**A master course read in the bachelor years leaves its space to fill.** The
+master is still 120 hp, so for every spår that requires the course its
+credits join that spår's elective box, in the same (year, period), and raise
+the box's minimum by as much. CFATE's SD2125 is obligatorisk in TTEMM's TEMC;
+TEMC's year 4 was 55 hp and is 60. Measured over all 158 five-year views
+(every pair and spår), years 4 and 5 now total 120 hp in each. The note says
+so ("Dess högskolepoäng i TTEMM läses i stället som valfria kurser"), and it is
+shown only with a spår that requires the course.
 
 **"Obligatorisk in the master" is decided per spår**: a spår requires a course
 when it sees the entry and no box it sees offers it. Decided for the master

@@ -7,12 +7,12 @@ Each spår has one box for its elective space over both years; the rules read ar
 
 Size per year (P1/P2/P3/P4), number of options, and the rules read.
 
-- MIC: one box over years 1+2 (1/0/0/0 | 7/14.5/0/0 hp, 22.5 hp), 5 options (5 villkorligt valfria), 1 rule(s) read: minCount 1 of 5. *(all cohorts)*
-- PHS: one box over years 1+2 (1/0/14.7/7.3 | 7/7/0/0 hp, 37 hp), 3 options (4 villkorligt valfria), 1 rule(s) read: minCount 2 of 3. *(HT2023, HT2024, HT2025)*
-- PLA: one box over years 1+2 (1/0/8.7/8.8 | 14.5/1/0/0 hp, 34 hp), 12 options (12 villkorligt valfria), 1 rule(s) read: minCount 2 of 12. *(HT2023, HT2024)*
-- SPA: one box over years 1+2 (1/0/13.2/0 | 7/7/0/0 hp, 28.2 hp), 17 options (17 villkorligt valfria), 1 rule(s) read: minCount 1 of 17. *(all cohorts)*
-- PLA: one box over years 1+2 (1/0/8.7/8.8 | 14.5/1/0/0 hp, 34 hp), 13 options (13 villkorligt valfria), 1 rule(s) read: minCount 2 of 13. *(HT2025, HT2026)*
-- PHS: one box over years 1+2 (1/0/14.7/14.8 | 7/7/0/0 hp, 44.5 hp), 3 options (3 villkorligt valfria), 1 rule(s) read: minCount 2 of 3. *(HT2026)*
+- MIC: one box over years 2 (6.6/13.9/0/0 hp, 20.5 hp), 5 options (5 villkorligt valfria), 1 rule(s) read: minCount 1 of 5. *(all cohorts)*
+- PHS: one box over years 1+2 (0.6/0/9.3/4.6 | 6.7/6.8/0/0 hp, 28 hp), 3 options (4 villkorligt valfria), 1 rule(s) read: minCount 2 of 3. *(HT2023, HT2024, HT2025)*
+- PLA: one box over years 1+2 (0.9/0/8.2/8.4 | 14/1/0/0 hp, 32.5 hp), 12 options (12 villkorligt valfria), 1 rule(s) read: minCount 2 of 12. *(HT2023, HT2024)*
+- SPA: one box over years 1+2 (0.8/0/10.7/0 | 6.7/6.8/0/0 hp, 25 hp), 17 options (17 villkorligt valfria), 1 rule(s) read: minCount 1 of 17. *(all cohorts)*
+- PLA: one box over years 1+2 (0.9/0/8.2/8.4 | 14/1/0/0 hp, 32.5 hp), 13 options (13 villkorligt valfria), 1 rule(s) read: minCount 2 of 13. *(HT2025, HT2026)*
+- PHS: one box over years 1+2 (1/0/14.2/14.3 | 6.7/6.8/0/0 hp, 43 hp), 3 options (3 villkorligt valfria), 1 rule(s) read: minCount 2 of 3. *(HT2026)*
 
 ## Courses readable in year 1 or year 2
 

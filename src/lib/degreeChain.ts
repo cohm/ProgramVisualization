@@ -16,6 +16,8 @@
  */
 
 import type { Course, CourseCredit, CourseRound, OptionGroup, Period } from '@/types/course';
+import { groupCredits, withGroupCredits } from '@/lib/groupCredits';
+import { getOptionGroupKind } from '@/lib/optionGroupKind';
 
 type Entry = Course | OptionGroup;
 
@@ -23,12 +25,14 @@ type Entry = Course | OptionGroup;
  * What the append did with a course both programmes carry, for the notice
  * above the chart. Data rather than text, so the page can phrase it in either
  * language and show a spår's note only with that spår selected.
- *   - `both`: obligatorisk on both sides, shown once, in the bachelor years;
+ *   - `both`: obligatorisk on both sides, shown once, in the bachelor years,
+ *     for `spar` (every spår when empty); `grown` when the master's elective
+ *     box took over its place;
  *   - `replaced`: obligatorisk in the master, so no longer a bachelor elective;
  *   - `partly`: the same, for the listed spår only.
  */
 export type MasterNote =
-  | { kind: 'both'; code: string }
+  | { kind: 'both'; code: string; spar: string[]; grown: boolean }
   | { kind: 'replaced'; codes: string[] }
   | { kind: 'partly'; code: string; spar: string[] };
 const isGroup = (e: Entry): e is OptionGroup => 'type' in e && e.type === 'optionGroup';
@@ -188,6 +192,7 @@ export function appendMaster(
     sparOrWhole.filter(s => sees(e, s) && !masterGroups.some(g => sees(g, s) && g.options.includes(e.code)));
 
   const replaced = new Set<string>();
+  const freed: { code: string; credits: CourseCredit[]; spar: string[] }[] = [];
   // Code -> the spår that require it, for a code only some spår require.
   const partly = new Map<string, string[]>();
   const appended: Entry[] = [];
@@ -199,9 +204,12 @@ export function appendMaster(
     }
     if (!bachelorCourses.has(e.code)) { appended.push(shiftEntryYears(e, offset)); continue; }
     if (bachelorMandatory.has(e.code)) {
-      if (!masterGroups.some(g => g.options.includes(e.code))) {
-        notes.push({ kind: 'both', code: e.code });
-      }
+      // Read in the bachelor years, so the spår that require it have its
+      // credits to fill with other courses: a master is 120 hp whatever the
+      // student read before. CFATE's obligatoriska SE1025 and SD2125 are
+      // obligatoriska in TTEMM too, and TEMC's year 4 was 12 hp short.
+      const required = requiredBy(e);
+      if (required.length > 0) freed.push({ code: e.code, credits: shiftCredits(e.credits, offset), spar: required });
       continue;
     }
     // An option in the bachelor. The master's entry wins where the master
@@ -221,6 +229,20 @@ export function appendMaster(
     // in P1. The master's offering stays first, as the default.
     const own = shiftEntryYears({ ...e, specializations: undefined }, offset) as Course;
     appended.push({ ...own, rounds: withRoundsOf(own, bachelorCourses.get(e.code)!) });
+  }
+
+  // The freed credits join each requiring spår's elective box, in the same
+  // (year, period), and raise its minimum by as much. A master without spår
+  // has one untagged box, which every freed course joins.
+  for (const f of freed) {
+    const boxes = appended.filter((g): g is OptionGroup => isGroup(g) && getOptionGroupKind(g) === 'minCredits'
+      && (spar.length === 0 || f.spar.some(s => g.specializations?.includes(s))));
+    for (const box of boxes) {
+      const hp = f.credits.reduce((a, c) => a + c.credits, 0);
+      const grown = withGroupCredits(box, [...groupCredits(box), ...f.credits]);
+      appended[appended.indexOf(box)] = { ...grown, minCredits: Math.round(((box.minCredits ?? 0) + hp) * 10) / 10 };
+    }
+    notes.push({ kind: 'both', code: f.code, spar: spar.length ? f.spar : [], grown: boxes.length > 0 });
   }
 
   // A course the master requires is not an elective in the bachelor years any
