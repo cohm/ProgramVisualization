@@ -263,6 +263,10 @@ minimum, so a period can measure a few px over full-time (1.5 hp left of a P4 bo
 renders 118 px against 115). That is the pre-existing `MIN_ECTS_FOR_HEIGHT` floor,
 not new.
 
+**The year label counts what is drawn**, each box at its remaining size. It used
+to add every box's full planned size, so a pick counted twice, as the course and
+in its box: picking CTFYS's thesis read "År 3: 75 / 60 hp", TTFYM's "År 2: 90".
+
 **A round id is the first teaching period, disambiguated by credits when two
 offerings share one.** CTMAT's SE1010 (12 hp) is given twice, both spanning
 P1+P2, split 3+9 and 6+6 — so both came out as `P1` and the validator rejected
@@ -1591,6 +1595,15 @@ a year while leaving individual periods lopsided — and the year total hides it
 completely. COPEN→CTFYS now comes out 15/14/16/15 in year 2. Reported in the UI
 rather than corrected: where the plan puts a course is the program director's
 call.
+
+`composeTransition` returns these as data (`loads`), and HomeClient phrases them
+in the page's language. The total says which case it is: "Årskurs 2 har 60 hp
+men är ojämnt fördelad" (COPEN → CTFYS), or "Årskurs 2 har 69 hp enligt
+övergångsplanen, mer än heltid" (COPEN → CINEK). They used to be English
+sentences calling every case "a distribution question rather than a missing
+course", 69 hp included. The plan's other warnings (an exempted course the
+target does not list, and the like) stay English: `validate-data` reports them
+first, so they reach the chart only from data that fails validation.
 
 **The chart is titled for both programmes** —
 "Civilingenjörsutbildning Öppen ingång → Teknisk fysik (COPEN → CTFYS)". The

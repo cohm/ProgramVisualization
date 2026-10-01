@@ -40,6 +40,18 @@ export interface ComposedPlan {
   moved: { code: string; fromYear: number; toYear: number; note?: string; noteEn?: string }[];
   /** Anything the plan asserts that the data does not bear out. */
   warnings: string[];
+  /** Composed years not at full-time in every period, for the notice. */
+  loads: YearLoad[];
+}
+
+/**
+ * A composed year's load per period, P1-P4, when a period is off full-time.
+ * Data rather than text, so the page can phrase it in either language and say
+ * whether the year is short, over, or full but unevenly spread.
+ */
+export interface YearLoad {
+  year: number;
+  load: number[];
 }
 
 /**
@@ -246,7 +258,7 @@ export function composeTransition(
     redirectPrerequisites(regrouped, plan);
   const entries = rewritten;
   warnings.push(...rewriteWarnings);
-  warnings.push(...fullTimeWarnings(entries, plan, selectedSpecializations));
+  const loads = fullTimeLoads(entries, selectedSpecializations);
 
   return {
     entries,
@@ -254,6 +266,7 @@ export function composeTransition(
     exempted: plan.exempt ?? [],
     moved: plan.moved ?? [],
     warnings,
+    loads,
   };
 }
 
@@ -489,11 +502,10 @@ const LOAD_TOLERANCE = 0.05;
  * Reported rather than corrected. Where the plan puts a course is the program
  * director's call, and the arithmetic is what they need in order to make it.
  */
-function fullTimeWarnings(
+function fullTimeLoads(
   entries: Entry[],
-  plan: TransitionPlan,
   selectedSpecializations?: Set<string>,
-): string[] {
+): YearLoad[] {
   // A course tagged with inriktningar is taken only by students on one of them,
   // so counting every tag at once overstates the year. CMAST is the case: its
   // three language tracks are 37.5 hp together and a student takes at most one,
@@ -544,22 +556,12 @@ function fullTimeWarnings(
     for (const c of entry.credits) add(yearOverride ?? c.year, c.period, c.credits);
   }
 
-  const out: string[] = [];
+  const out: YearLoad[] = [];
   for (const year of [...byYear.keys()].sort()) {
     const row = byYear.get(year)!;
     const load = PERIODS.map(p => Math.round((row[p] ?? 0) * 10) / 10);
-    const short = PERIODS.filter((p, i) => load[i] > 0 && load[i] < FULL_TIME_HP - LOAD_TOLERANCE);
-    const over = PERIODS.filter((p, i) => load[i] > FULL_TIME_HP + LOAD_TOLERANCE);
-    if (short.length === 0 && over.length === 0) continue;
-    const parts = [
-      short.length ? `short in ${short.map(p => `${p} ${Math.round((FULL_TIME_HP - row[p]) * 10) / 10}`).join(', ')}` : '',
-      over.length ? `over in ${over.map(p => `${p} +${Math.round((row[p] - FULL_TIME_HP) * 10) / 10}`).join(', ')}` : '',
-    ].filter(Boolean);
-    out.push(
-      `${plan.from}+${plan.to} year ${year}: load ${load.join('/')} hp — ${parts.join(' and ')}. ` +
-      `The year totals ${Math.round(load.reduce((a, b) => a + b, 0) * 10) / 10} hp, so this is a ` +
-      `distribution question rather than a missing course: confirm with the program director.`,
-    );
+    const off = load.some(hp => hp > 0 && Math.abs(hp - FULL_TIME_HP) > LOAD_TOLERANCE);
+    if (off) out.push({ year, load });
   }
   return out;
 }

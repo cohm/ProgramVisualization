@@ -12,7 +12,7 @@ import kthColors from '@/data/kth-colors.json';
 import programsConfig from '@/data/programs.json';
 import type { ProgramCosmetics } from '@/types/cosmetics';
 import { loadCourses, loadCosmetics, loadCohortMeta, cohortDataFile } from '@/lib/useCourseModel';
-import { composeTransition, mergeCosmetics, composedTitle, effectivePlan, shortProgramName } from '@/lib/transitions';
+import { composeTransition, mergeCosmetics, composedTitle, effectivePlan, shortProgramName, type YearLoad } from '@/lib/transitions';
 import { appendMaster, type MasterNote } from '@/lib/degreeChain';
 import masterMapping from '@/data/master-mapping.json';
 import type { TransitionPlan } from '@/types/transition';
@@ -78,6 +78,14 @@ interface ProgramConfig {
 
 const programs: ProgramConfig[] = programsConfig as unknown as ProgramConfig[];
 
+// A failure loading the master programme's data, told apart from the
+// bachelor's so the message can say which failed.
+class MasterLoadError extends Error {
+  constructor(cause: unknown) {
+    super(String(cause), { cause });
+  }
+}
+
 const ui = {
   sv: {
     title: 'Visualisering av utbildningsprogram',
@@ -114,6 +122,8 @@ const ui = {
     masterNotice: (code: string, cohort: string | null) =>
       `År 4–5 visar masterprogrammet ${code}${cohort ? `, kull ${cohort}` : ''}. Din kull börjar masterprogrammet senare, och dess plan kan ha ändrats till dess.`,
     transitionLoadFailed: 'Kunde inte sätta samman övergångsplanen',
+    masterLoadFailed: 'Kunde inte läsa in masterprogrammet',
+    planLoadFailed: 'Kunde inte läsa in utbildningsplanen',
     // The composed view is not a published plan, so say so plainly.
     transitionNotice: (from: string, to: string) =>
       `Visar ${from} årskurs 1 följt av årskurs 2–3 i ${to}, enligt övergångsplanen.`,
@@ -128,6 +138,12 @@ const ui = {
     transitionOtherCohort: (from: string, cohort: string) =>
       `Övergångsplanen gäller från kull ${from}. Här tillämpas den på kull ${cohort}, som kan ha haft en annan plan.`,
     transitionCohortUnstated: 'Övergångsplanen anger inte vilken kull den gäller.',
+    // A composed year off full-time. Its total says which: a full year whose
+    // periods are uneven, or a year over or under 60 hp.
+    transitionLoad: (year: number, load: string, total: string, kind: 'spread' | 'over' | 'short') =>
+      kind === 'spread'
+        ? `Årskurs ${year} har 60 hp men är ojämnt fördelad: ${load} hp per period.`
+        : `Årskurs ${year} har ${total} hp enligt övergångsplanen, ${kind === 'over' ? 'mer' : 'mindre'} än heltid (60 hp): ${load} hp per period.`,
     // "År 3 är uppskattat" / "År 1 och 2 är uppskattade" / "År 1, 2 och 3 ..."
     // Neuter singular: it agrees with "år", which is an ett-word.
     approxSummary: (years: number[]) => {
@@ -176,6 +192,8 @@ const ui = {
     masterNotice: (code: string, cohort: string | null) =>
       `Years 4–5 show the master's programme ${code}${cohort ? `, ${cohort} cohort` : ''}. Your cohort starts it later, and its plan may have changed by then.`,
     transitionLoadFailed: 'Could not compose the transition plan',
+    masterLoadFailed: "Could not load the master's programme",
+    planLoadFailed: 'Could not load the study plan',
     transitionNotice: (from: string, to: string) =>
       `Showing ${from} year 1 followed by years 2–3 of ${to}, per the transition plan.`,
     transitionCredited: (n: number) => `${n} courses credited`,
@@ -188,6 +206,10 @@ const ui = {
     transitionOtherCohort: (from: string, cohort: string) =>
       `The transition plan applies from the ${from} cohort. It is applied here to the ${cohort} cohort, which may have had a different plan.`,
     transitionCohortUnstated: 'The transition plan does not state which cohort it applies to.',
+    transitionLoad: (year: number, load: string, total: string, kind: 'spread' | 'over' | 'short') =>
+      kind === 'spread'
+        ? `Year ${year} totals 60 credits but is unevenly spread: ${load} credits per period.`
+        : `Year ${year} totals ${total} credits under the transition plan, ${kind === 'over' ? 'more' : 'less'} than full-time (60): ${load} credits per period.`,
     approxSummary: (years: number[]) => {
       const list = years.length <= 1
         ? String(years[0] ?? '')
@@ -252,6 +274,8 @@ export default function HomeClient() {
   const [cohortMeta, setCohortMeta] = useState<CohortMeta | null>(null);
   // Populated when a composed transition view disagrees with the programme data.
   const [transitionWarnings, setTransitionWarnings] = useState<string[]>([]);
+  // The composed years not at full-time in every period (composeTransition).
+  const [transitionLoads, setTransitionLoads] = useState<YearLoad[]>([]);
   // What the five-year view did with courses both programmes carry, and after
   // which bachelor year the master starts (see appendMaster).
   const [masterNotes, setMasterNotes] = useState<{ notes: MasterNote[]; offset: number }>({ notes: [], offset: 0 });
@@ -663,7 +687,7 @@ export default function HomeClient() {
     const target = selectedContinuation
       ? (programsConfig as ProgramConfig[]).find(p => p.code === selectedContinuation.to)
       : undefined;
-    let bachelor: Promise<{ entries: (Course | OptionGroup)[]; warnings: string[] }>;
+    let bachelor: Promise<{ entries: (Course | OptionGroup)[]; warnings: string[]; loads: YearLoad[] }>;
     let bachelorCosmetics: Promise<ProgramCosmetics | null>;
     if (selectedContinuation && target) {
       const targetFile = selectedCohort && (cohortIndex as Record<string, string[]>)[target.code]?.includes(selectedCohort)
@@ -681,7 +705,7 @@ export default function HomeClient() {
         });
       setCohortMeta(null);
     } else {
-      bachelor = loadCourses(dataFile).then(entries => ({ entries, warnings: [] }));
+      bachelor = loadCourses(dataFile).then(entries => ({ entries, warnings: [], loads: [] }));
       bachelorCosmetics = loadCosmetics(selectedProgram.cosmeticsFile);
       if (selectedCohort) {
         loadCohortMeta(dataFile).then(setCohortMeta).catch(() => setCohortMeta(null));
@@ -695,7 +719,7 @@ export default function HomeClient() {
     const master = selectedMaster?.program;
     if (!master) masterGroupNames.current = new Set();
     const entries = master
-      ? Promise.all([bachelor, loadCourses(master.dataFile)]).then(([b, m]) => {
+      ? Promise.all([bachelor, loadCourses(master.dataFile).catch((e) => { throw new MasterLoadError(e); })]).then(([b, m]) => {
         const chained = appendMaster(b.entries, m);
         masterGroupNames.current = new Set(chained.entries
           .filter((e): e is OptionGroup => 'type' in e && e.type === 'optionGroup' && e.year > chained.offset)
@@ -712,14 +736,20 @@ export default function HomeClient() {
       : bachelorCosmetics;
 
     entries
-      .then(({ entries: list, warnings, master: m }) => {
+      .then(({ entries: list, warnings, loads, master: m }) => {
         setCourses(list);
         setTransitionWarnings(warnings);
+        setTransitionLoads(loads);
         setMasterNotes(m);
       })
       .catch((e) => {
         console.warn('Failed to compose the plan:', e);
-        setToast({ title: ui[language].transitionLoadFailed, detail: String(e).slice(0, 200) });
+        // Say which part failed: it used to be "Kunde inte sätta samman
+        // övergångsplanen" whatever was loading, a lone programme included.
+        const title = e instanceof MasterLoadError ? ui[language].masterLoadFailed
+          : selectedContinuation ? ui[language].transitionLoadFailed
+            : ui[language].planLoadFailed;
+        setToast({ title, detail: String(e instanceof MasterLoadError ? e.cause : e).slice(0, 200) });
       });
     cosmeticsDone
       .then(setCosmetics)
@@ -1043,6 +1073,15 @@ export default function HomeClient() {
               )}
               {selectedContinuation.verified !== true && (
                 <div style={{ marginTop: 2, fontStyle: 'italic' }}>{ui[language].transitionUnverified}</div>
+              )}
+              {transitionLoads.length > 0 && (
+                <ul style={{ marginTop: 4, paddingLeft: 18 }}>
+                  {transitionLoads.map(l => {
+                    const total = Math.round(l.load.reduce((a, b) => a + b, 0) * 10) / 10;
+                    const kind = Math.abs(total - 60) < 0.05 ? 'spread' : total > 60 ? 'over' : 'short';
+                    return <li key={l.year}>{ui[language].transitionLoad(l.year, l.load.join('/'), String(total), kind)}</li>;
+                  })}
+                </ul>
               )}
               {transitionWarnings.length > 0 && (
                 <ul style={{ marginTop: 4, paddingLeft: 18, color: '#78001A' }}>
