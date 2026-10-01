@@ -32,6 +32,48 @@
 const PERIOD_IDS = ['P1', 'P2', 'P3', 'P4'];
 const FULL_TIME_HP = 15;
 const round = (n) => Math.round(n * 10) / 10;
+
+/**
+ * Takes a period's credits over full-time off the box's space elsewhere, so a
+ * spår sums to the programme's length. The box is sized as each period's
+ * shortfall, floored at zero, and without this a period over 15 hp added its
+ * excess to the degree: TEFRM PHS came out at 129 hp (year 1 P2 is 23.5 hp of
+ * obligatoriska courses), TTEMM TEMB at 123.5, TMAIM at 122, and most masters'
+ * spår at 120.4-121.5 from courses threaded thinly over many periods. Only
+ * TTFYM, TTMAM and TMAKM summed to 120.
+ *
+ * A year's excess comes off that year's box first, in proportion to each
+ * period's share, so the year still totals 60 where its box has room: TEMB's
+ * 3.5 hp over in year 1 P1-P2, from courses KTH lists in either year, shrinks
+ * its year-1 P3-P4 space from 15 to 13.2-13.3. What a year's box cannot take
+ * comes off the nearest other year's, the later on a tie.
+ *
+ * `byYear` is { year: { P1..P4 } }, changed in place; `excess` is { year: hp }.
+ */
+function offsetExcess(byYear, excess, years) {
+  for (let y = 1; y <= years; y++) {
+    let left = excess[y] || 0;
+    const order = [y, ...Array.from({ length: years }, (_, i) => i + 1)
+      .filter((x) => x !== y)
+      .sort((a, b) => Math.abs(a - y) - Math.abs(b - y) || b - a)];
+    for (const target of order) {
+      if (left <= 0) break;
+      const row = byYear[target];
+      if (!row) continue;
+      const space = round(PERIOD_IDS.reduce((t, p) => t + row[p], 0));
+      if (space <= 0) continue;
+      const cut = Math.min(left, space);
+      const kept = round(space - cut);
+      let given = 0;
+      for (const p of PERIOD_IDS) { row[p] = round(row[p] * (kept / space)); given += row[p]; }
+      // Rounding each period to 0.1 can miss the year's total by a tenth;
+      // the largest period absorbs it.
+      const largest = PERIOD_IDS.reduce((m, p) => (row[p] > row[m] ? p : m), PERIOD_IDS[0]);
+      row[largest] = round(row[largest] + kept - given);
+      left = round(left - cut);
+    }
+  }
+}
 const isGroup = (e) => e?.type === 'optionGroup';
 const COURSE_CODE = /(?<![A-Z])[A-Z]{2}\d{4}[A-Z]?(?![A-Za-z0-9])/g;
 const NUMBER_WORDS = { en: 1, ett: 1, två: 2, tre: 3, fyra: 4, fem: 5, sex: 6, sju: 7, åtta: 8 };
@@ -262,6 +304,7 @@ export function buildMasterPlan(input) {
       }
     }
     const byYear = {};
+    const excess = {};
     for (let y = 1; y <= a.years; y++) {
       const row = {};
       for (const p of PERIOD_IDS) {
@@ -273,9 +316,12 @@ export function buildMasterPlan(input) {
           flags.push(`${lane ?? 'common'} year ${y} ${p}: ${used} hp before any elective — over full-time. Verify.`);
         }
         row[p] = round(Math.max(0, FULL_TIME_HP - used));
+        excess[y] = round((excess[y] || 0) + Math.max(0, used - FULL_TIME_HP));
       }
       if (PERIOD_IDS.some((p) => row[p] > 0)) byYear[y] = row;
     }
+    offsetExcess(byYear, excess, a.years);
+    for (const y of Object.keys(byYear)) if (PERIOD_IDS.every((p) => byYear[y][p] <= 0)) delete byYear[y];
     const years = Object.keys(byYear).map(Number);
     if (years.length === 0 || options.length === 0) {
       if (years.length > 0) flags.push(`${lane ?? 'common'}: ${years.join(', ')} not full-time, but no course is listed to fill it.`);

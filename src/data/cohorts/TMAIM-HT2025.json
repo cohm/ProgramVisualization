@@ -667,13 +667,13 @@
     "name": "Villkorligt valfria och valfria kurser",
     "nameEn": "Conditionally elective and elective courses",
     "year": 1,
-    "totalCredits": 60.5,
+    "totalCredits": 58.5,
     "periodCredits": {
       "Year1": {
         "P1": 0,
-        "P2": 2.5,
-        "P3": 14.5,
-        "P4": 14.5
+        "P2": 2.3,
+        "P3": 13.6,
+        "P4": 13.6
       },
       "Year2": {
         "P1": 14.5,
@@ -729,7 +729,7 @@
     ],
     "allowedNumberOfOptions": 43,
     "kind": "minCredits",
-    "minCredits": 60.5,
+    "minCredits": 58.5,
     "constraints": [
       {
         "kind": "minCount",

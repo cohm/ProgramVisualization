@@ -17,10 +17,10 @@ Not shown in the box — check whether the chart needs them.
 Size per year (P1/P2/P3/P4), number of options, and the rules read.
 
 - TEMA: one box over years 1+2 (0/7.5/7.5/7.5 | 15/15/0/0 hp, 52.5 hp), 31 options (3 villkorligt valfria), 1 rule(s) read: minCount 1 of 3. *(HT2023, HT2024)*
-- TEMB: one box over years 1+2 (0/0/15/15 | 15/15/0/0 hp, 60 hp), 31 options (5 villkorligt valfria), 1 rule(s) read: minCount 1 of 5. *(HT2023, HT2024)*
-- TEMC: one box over years 1+2 (1.5/0/9/6 | 15/15/0/0 hp, 46.5 hp), 30 options (4 villkorligt valfria), 1 rule(s) read: minCount 1 of 4. *(HT2023, HT2024)*
-- TEMB: one box over years 1+2 (0/0/15/15 | 15/15/0/0 hp, 60 hp), 31 options (5 villkorligt valfria), 0 rule(s) read. *(HT2025, HT2026)*
-- TEMC: one box over years 1+2 (1.5/0/9/6 | 15/15/0/0 hp, 46.5 hp), 30 options (4 villkorligt valfria), 0 rule(s) read. *(HT2025, HT2026)*
+- TEMB: one box over years 1+2 (0/0/13.2/13.3 | 15/15/0/0 hp, 56.5 hp), 31 options (5 villkorligt valfria), 1 rule(s) read: minCount 1 of 5. *(HT2023, HT2024)*
+- TEMC: one box over years 1+2 (1.4/0/8.5/5.6 | 15/15/0/0 hp, 45.5 hp), 30 options (4 villkorligt valfria), 1 rule(s) read: minCount 1 of 4. *(HT2023, HT2024)*
+- TEMB: one box over years 1+2 (0/0/13.2/13.3 | 15/15/0/0 hp, 56.5 hp), 31 options (5 villkorligt valfria), 0 rule(s) read. *(HT2025, HT2026)*
+- TEMC: one box over years 1+2 (1.4/0/8.5/5.6 | 15/15/0/0 hp, 45.5 hp), 30 options (4 villkorligt valfria), 0 rule(s) read. *(HT2025, HT2026)*
 - TEMD: one box over years 1+2 (0/7.5/7.5/7.5 | 15/15/0/0 hp, 52.5 hp), 31 options (0 villkorligt valfria), 0 rule(s) read. *(HT2025, HT2026)*
 
 ## Courses readable in year 1 or year 2

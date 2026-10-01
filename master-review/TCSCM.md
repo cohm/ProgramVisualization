@@ -49,24 +49,24 @@ Not shown in the box — check whether the chart needs them.
 
 Size per year (P1/P2/P3/P4), number of options, and the rules read.
 
-- CSCS: one box over years 1+2 (0/0/7.3/14.7 | 14.8/14.7/0/0 hp, 51.5 hp), 17 options (10 villkorligt valfria), 0 rule(s) read. *(HT2023, HT2024)*
-- CSDA: one box over years 1+2 (0/0/7.3/14.7 | 11.3/10.7/0/0 hp, 44 hp), 21 options (6 villkorligt valfria), 0 rule(s) read. *(HT2023, HT2024)*
-- CSID: one box over years 1+2 (0/0/7.3/14.7 | 10.3/10.2/0/0 hp, 42.5 hp), 7 options (7 villkorligt valfria), 0 rule(s) read. *(HT2023, HT2024)*
-- CSSC: one box over years 1+2 (0/0/14.8/14.7 | 14.8/14.7/0/0 hp, 59 hp), 22 options (11 villkorligt valfria), 0 rule(s) read. *(HT2023, HT2024)*
-- CSST: one box over years 1+2 (0/0/7.3/14.7 | 14.8/14.7/0/0 hp, 51.5 hp), 19 options (12 villkorligt valfria), 0 rule(s) read. *(HT2023, HT2024)*
-- CSTC: one box over years 1+2 (0/0/14.8/14.7 | 10.8/11.2/0/0 hp, 51.5 hp), 16 options (12 villkorligt valfria), 1 rule(s) read: minCount 1 of 5. *(HT2023, HT2024)*
-- CSVG: one box over years 1+2 (0/0/7.3/14.7 | 14.8/8.7/0/0 hp, 45.5 hp), 10 options (6 villkorligt valfria), 0 rule(s) read. *(all cohorts)*
-- CSCS: one box over years 1+2 (0/0/7.3/14.7 | 14.8/14.7/0/0 hp, 51.5 hp), 16 options (9 villkorligt valfria), 0 rule(s) read. *(HT2025)*
-- CSDA: one box over years 1+2 (0/0/7.3/14.7 | 11.3/10.7/0/0 hp, 44 hp), 22 options (6 villkorligt valfria), 0 rule(s) read. *(HT2025, HT2026)*
-- CSID: one box over years 1+2 (0/0/7.3/14.7 | 10.3/10.2/0/0 hp, 42.5 hp), 6 options (6 villkorligt valfria), 0 rule(s) read. *(HT2025)*
-- CSSC: one box over years 1+2 (0/0/14.8/14.7 | 14.8/14.7/0/0 hp, 59 hp), 21 options (11 villkorligt valfria), 0 rule(s) read. *(HT2025)*
-- CSST: one box over years 1+2 (0/0/7.3/14.7 | 14.8/14.7/0/0 hp, 51.5 hp), 20 options (13 villkorligt valfria), 0 rule(s) read. *(HT2025)*
-- CSTC: one box over years 1+2 (0/0/14.8/14.7 | 10.8/11.2/0/0 hp, 51.5 hp), 21 options (16 villkorligt valfria), 1 rule(s) read: minCount 1 of 6. *(HT2025)*
-- CSCS: one box over years 1+2 (0/0/7.3/14.7 | 14.8/14.7/0/0 hp, 51.5 hp), 15 options (9 villkorligt valfria), 0 rule(s) read. *(HT2026)*
-- CSID: one box over years 1+2 (0/0/7.3/14.7 | 10.3/10.2/0/0 hp, 42.5 hp), 8 options (8 villkorligt valfria), 0 rule(s) read. *(HT2026)*
-- CSPC: one box over years 1+2 (0/0/14.8/14.7 | 14.8/14.7/0/0 hp, 59 hp), 22 options (16 villkorligt valfria), 0 rule(s) read. *(HT2026)*
-- CSST: one box over years 1+2 (0/0/7.3/14.7 | 14.8/14.7/0/0 hp, 51.5 hp), 18 options (11 villkorligt valfria), 0 rule(s) read. *(HT2026)*
-- CSTC: one box over years 1+2 (0/0/14.8/14.7 | 10.8/11.2/0/0 hp, 51.5 hp), 16 options (11 villkorligt valfria), 1 rule(s) read: minCount 1 of 5. *(HT2026)*
+- CSCS: one box over years 1+2 (0/0/7.1/14.4 | 14.5/14.5/0/0 hp, 50.5 hp), 17 options (10 villkorligt valfria), 0 rule(s) read. *(HT2023, HT2024)*
+- CSDA: one box over years 1+2 (0/0/7.1/14.4 | 11/10.5/0/0 hp, 43 hp), 21 options (6 villkorligt valfria), 0 rule(s) read. *(HT2023, HT2024)*
+- CSID: one box over years 1+2 (0/0/7.1/14.4 | 10/10/0/0 hp, 41.5 hp), 7 options (7 villkorligt valfria), 0 rule(s) read. *(HT2023, HT2024)*
+- CSSC: one box over years 1+2 (0/0/14.5/14.5 | 14.5/14.5/0/0 hp, 58 hp), 22 options (11 villkorligt valfria), 0 rule(s) read. *(HT2023, HT2024)*
+- CSST: one box over years 1+2 (0/0/7.1/14.4 | 14.5/14.5/0/0 hp, 50.5 hp), 19 options (12 villkorligt valfria), 0 rule(s) read. *(HT2023, HT2024)*
+- CSTC: one box over years 1+2 (0/0/14.5/14.5 | 10.6/10.9/0/0 hp, 50.5 hp), 16 options (12 villkorligt valfria), 1 rule(s) read: minCount 1 of 5. *(HT2023, HT2024)*
+- CSVG: one box over years 1+2 (0/0/7.1/14.4 | 14.5/8.5/0/0 hp, 44.5 hp), 10 options (6 villkorligt valfria), 0 rule(s) read. *(all cohorts)*
+- CSCS: one box over years 1+2 (0/0/7.1/14.4 | 14.5/14.5/0/0 hp, 50.5 hp), 16 options (9 villkorligt valfria), 0 rule(s) read. *(HT2025)*
+- CSDA: one box over years 1+2 (0/0/7.1/14.4 | 11/10.5/0/0 hp, 43 hp), 22 options (6 villkorligt valfria), 0 rule(s) read. *(HT2025, HT2026)*
+- CSID: one box over years 1+2 (0/0/7.1/14.4 | 10/10/0/0 hp, 41.5 hp), 6 options (6 villkorligt valfria), 0 rule(s) read. *(HT2025)*
+- CSSC: one box over years 1+2 (0/0/14.5/14.5 | 14.5/14.5/0/0 hp, 58 hp), 21 options (11 villkorligt valfria), 0 rule(s) read. *(HT2025)*
+- CSST: one box over years 1+2 (0/0/7.1/14.4 | 14.5/14.5/0/0 hp, 50.5 hp), 20 options (13 villkorligt valfria), 0 rule(s) read. *(HT2025)*
+- CSTC: one box over years 1+2 (0/0/14.5/14.5 | 10.6/10.9/0/0 hp, 50.5 hp), 21 options (16 villkorligt valfria), 1 rule(s) read: minCount 1 of 6. *(HT2025)*
+- CSCS: one box over years 1+2 (0/0/7.1/14.4 | 14.5/14.5/0/0 hp, 50.5 hp), 15 options (9 villkorligt valfria), 0 rule(s) read. *(HT2026)*
+- CSID: one box over years 1+2 (0/0/7.1/14.4 | 10/10/0/0 hp, 41.5 hp), 8 options (8 villkorligt valfria), 0 rule(s) read. *(HT2026)*
+- CSPC: one box over years 1+2 (0/0/14.5/14.5 | 14.5/14.5/0/0 hp, 58 hp), 22 options (16 villkorligt valfria), 0 rule(s) read. *(HT2026)*
+- CSST: one box over years 1+2 (0/0/7.1/14.4 | 14.5/14.5/0/0 hp, 50.5 hp), 18 options (11 villkorligt valfria), 0 rule(s) read. *(HT2026)*
+- CSTC: one box over years 1+2 (0/0/14.5/14.5 | 10.6/10.9/0/0 hp, 50.5 hp), 16 options (11 villkorligt valfria), 1 rule(s) read: minCount 1 of 5. *(HT2026)*
 
 ## Courses readable in year 1 or year 2
 

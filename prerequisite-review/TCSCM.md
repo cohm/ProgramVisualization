@@ -41,23 +41,23 @@ plan genuinely schedules an overload in that period.
 Courses listed below are counted individually; a *valblock* is counted once,
 however many options it holds.
 
-- **Årskurs 1, P3 — 88.8 hp, 73.8 hp over full-time.**
+- **Årskurs 1, P3 — 87.2 hp, 72.2 hp over full-time.**
   Cohorts: HT2023, HT2024, HT2025.
   Courses: [DD2258](https://www.kth.se/student/kurser/kurs/DD2258) 7.5 hp, [DD2300](https://www.kth.se/student/kurser/kurs/DD2300) 0.2 hp, [DD2480](https://www.kth.se/student/kurser/kurs/DD2480) 7.5 hp, [DH2628](https://www.kth.se/student/kurser/kurs/DH2628) 7.5 hp.
 
-- **Årskurs 1, P3 — 81.3 hp, 66.3 hp over full-time.**
+- **Årskurs 1, P3 — 79.69999999999999 hp, 64.7 hp over full-time.**
   Cohorts: HT2026.
   Courses: [DD2258](https://www.kth.se/student/kurser/kurs/DD2258) 7.5 hp, [DD2300](https://www.kth.se/student/kurser/kurs/DD2300) 0.2 hp, [DH2628](https://www.kth.se/student/kurser/kurs/DH2628) 7.5 hp.
 
-- **Årskurs 1, P4 — 103.2 hp, 88.2 hp over full-time.**
+- **Årskurs 1, P4 — 101.30000000000001 hp, 86.3 hp over full-time.**
   Cohorts: HT2023, HT2024, HT2025, HT2026.
   Courses: [DD2300](https://www.kth.se/student/kurser/kurs/DD2300) 0.3 hp.
 
-- **Årskurs 2, P1 — 103.8 hp, 88.8 hp over full-time.**
+- **Årskurs 2, P1 — 101.8 hp, 86.8 hp over full-time.**
   Cohorts: HT2023, HT2024, HT2025, HT2026.
   Courses: [DD2300](https://www.kth.se/student/kurser/kurs/DD2300) 0.2 hp, [DD2430](https://www.kth.se/student/kurser/kurs/DD2430) 3.5 hp, [DD2467](https://www.kth.se/student/kurser/kurs/DD2467) 4 hp, [DM2630](https://www.kth.se/student/kurser/kurs/DM2630) 4.5 hp.
 
-- **Årskurs 2, P2 — 103.2 hp, 88.2 hp over full-time.**
+- **Årskurs 2, P2 — 101.7 hp, 86.7 hp over full-time.**
   Cohorts: HT2023, HT2024, HT2025, HT2026.
   Courses: [DD2300](https://www.kth.se/student/kurser/kurs/DD2300) 0.3 hp, [DD2430](https://www.kth.se/student/kurser/kurs/DD2430) 4 hp, [DD2467](https://www.kth.se/student/kurser/kurs/DD2467) 3.5 hp, [DD2470](https://www.kth.se/student/kurser/kurs/DD2470) 6 hp, [DM2630](https://www.kth.se/student/kurser/kurs/DM2630) 4.5 hp.
 
