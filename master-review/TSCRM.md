@@ -7,12 +7,12 @@ Each spår has one box for its elective space over both years; the rules read ar
 
 Size per year (P1/P2/P3/P4), number of options, and the rules read.
 
-- LDCS: one box over years 1+2 (0/14.6/7.2/7.1 | 7.1/14.6/14.7/14.6 hp, 79.9 hp), 39 options (21 villkorligt valfria), 2 rule(s) read: minCredits 21 of 21; minCount 1 of 3. *(HT2023, HT2024)*
-- RASM: one box over years 1+2 (0/0/14.7/7.1 | 14.6/14.6/14.7/14.6 hp, 80.3 hp), 45 options (26 villkorligt valfria), 2 rule(s) read: minCredits 21 of 26; minCount 1 of 5. *(HT2023, HT2024)*
-- LDCS: one box over years 1+2 (0/14.6/7.2/7.1 | 2.6/14.6/0/0 hp, 46.1 hp), 68 options (23 villkorligt valfria), 2 rule(s) read: minCredits 21 of 23; minCount 1 of 7. *(HT2025)*
-- RASM: one box over years 1+2 (0/0/14.7/7.1 | 10.1/14.6/0/0 hp, 46.5 hp), 72 options (28 villkorligt valfria), 2 rule(s) read: minCredits 21 of 28; minCount 1 of 7. *(HT2025)*
-- LDCS: one box over years 1+2 (0/14.6/7.2/7.1 | 2.6/14.6/0/0 hp, 46.1 hp), 68 options (23 villkorligt valfria), 2 rule(s) read: minCredits 21 of 23; minCount 1 of 5. *(HT2026)*
-- RASM: one box over years 1+2 (0/0/14.7/7.1 | 10.1/14.6/0/0 hp, 46.5 hp), 73 options (28 villkorligt valfria), 2 rule(s) read: minCredits 21 of 28; minCount 1 of 5. *(HT2026)*
+- LDCS: one box over years 1+2 (0/14.4/7.1/7 | 7.1/14.6/14.7/14.6 hp, 79.5 hp), 39 options (21 villkorligt valfria), 2 rule(s) read: minCredits 21 of 21; minCount 1 of 3. *(HT2023, HT2024)*
+- RASM: one box over years 1+2 (0/0/14.2/6.8 | 14.6/14.6/14.7/14.6 hp, 79.5 hp), 45 options (26 villkorligt valfria), 2 rule(s) read: minCredits 21 of 26; minCount 1 of 5. *(HT2023, HT2024)*
+- LDCS: one box over years 1+2 (0/14.4/7.1/7 | 2.5/14/0/0 hp, 45 hp), 68 options (23 villkorligt valfria), 2 rule(s) read: minCredits 21 of 23; minCount 1 of 7. *(HT2025)*
+- RASM: one box over years 1+2 (0/0/14.2/6.8 | 9.8/14.2/0/0 hp, 45 hp), 72 options (28 villkorligt valfria), 2 rule(s) read: minCredits 21 of 28; minCount 1 of 7. *(HT2025)*
+- LDCS: one box over years 1+2 (0/14.4/7.1/7 | 2.5/14/0/0 hp, 45 hp), 68 options (23 villkorligt valfria), 2 rule(s) read: minCredits 21 of 23; minCount 1 of 5. *(HT2026)*
+- RASM: one box over years 1+2 (0/0/14.2/6.8 | 9.8/14.2/0/0 hp, 45 hp), 73 options (28 villkorligt valfria), 2 rule(s) read: minCredits 21 of 28; minCount 1 of 5. *(HT2026)*
 
 ## Courses readable in year 1 or year 2
 

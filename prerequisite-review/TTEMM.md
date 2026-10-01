@@ -41,10 +41,10 @@ plan genuinely schedules an overload in that period.
 Courses listed below are counted individually; a *valblock* is counted once,
 however many options it holds.
 
-- **Årskurs 1, P3 — 31.5 hp, 16.5 hp over full-time.**
+- **Årskurs 1, P3 — 29.2 hp, 14.2 hp over full-time.**
   Cohorts: HT2023, HT2024, HT2025, HT2026.
 
-- **Årskurs 1, P4 — 28.5 hp, 13.5 hp over full-time.**
+- **Årskurs 1, P4 — 26.4 hp, 11.4 hp over full-time.**
   Cohorts: HT2023, HT2024, HT2025, HT2026.
 
 - **Årskurs 2, P1 — 45 hp, 30 hp over full-time.**

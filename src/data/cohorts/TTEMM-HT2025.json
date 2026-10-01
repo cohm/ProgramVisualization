@@ -19,6 +19,45 @@
     ]
   },
   {
+    "code": "SD2166",
+    "name": "Byggnadsakustik och samhällsbuller",
+    "nameEn": "Building Acoustics and Community Noise",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 7.5,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
     "type": "optionGroup",
     "name": "Villkorligt valfria och valfria kurser (TEMD)",
     "nameEn": "Conditionally elective and elective courses (TEMD)",
@@ -83,13 +122,13 @@
     "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
   },
   {
-    "code": "SD2166",
-    "name": "Byggnadsakustik och samhällsbuller",
-    "nameEn": "Building Acoustics and Community Noise",
+    "code": "SM2501",
+    "name": "Biomekanik i människans rörelser",
+    "nameEn": "Biomechanics of Human Movement",
     "totalCredits": 7.5,
     "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
+      "P1": 0,
+      "P2": 7.5,
       "P3": 0,
       "P4": 0
     },
@@ -101,20 +140,20 @@
     "category": "recommended",
     "rounds": [
       {
-        "id": "P1",
+        "id": "P2",
         "periodCredits": {
-          "P1": 7.5,
-          "P2": 0,
+          "P1": 0,
+          "P2": 7.5,
           "P3": 0,
           "P4": 0
         }
       },
       {
-        "id": "P1-y2",
+        "id": "P2-y2",
         "year": 2,
         "periodCredits": {
-          "P1": 7.5,
-          "P2": 0,
+          "P1": 0,
+          "P2": 7.5,
           "P3": 0,
           "P4": 0
         }
@@ -122,52 +161,72 @@
     ]
   },
   {
-    "code": "SE2126",
-    "name": "Materialmekanik",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 4.5,
-      "P2": 4.5,
-      "P3": 0,
-      "P4": 0
-    },
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (TEMC)",
+    "nameEn": "Conditionally elective and elective courses (TEMC)",
     "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Material Mechanics",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "rounds": [
-      {
-        "id": "P1",
-        "periodCredits": {
-          "P1": 4.5,
-          "P2": 4.5,
-          "P3": 0,
-          "P4": 0
-        }
+    "totalCredits": 45.5,
+    "periodCredits": {
+      "Year1": {
+        "P1": 1.4,
+        "P2": 0,
+        "P3": 8.5,
+        "P4": 5.6
       },
-      {
-        "id": "P1-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 4.5,
-          "P2": 4.5,
-          "P3": 0,
-          "P4": 0
-        }
+      "Year2": {
+        "P1": 15,
+        "P2": 15,
+        "P3": 0,
+        "P4": 0
       }
-    ]
+    },
+    "options": [
+      "SE2126",
+      "SE2132",
+      "SG2214",
+      "SG2225",
+      "SD2110",
+      "SD2111",
+      "SD2166",
+      "SE1025",
+      "SE2137",
+      "SG2218",
+      "SM2501",
+      "SE2860",
+      "SD2150",
+      "SE2121",
+      "SE2123",
+      "SE2134",
+      "SE2139",
+      "SG2211",
+      "SG2212",
+      "SG2224",
+      "SG2215",
+      "SD2180",
+      "SD2190",
+      "SE2145",
+      "SE2152",
+      "SG1220",
+      "SG2010",
+      "SG2219",
+      "SG2226",
+      "SM2001"
+    ],
+    "allowedNumberOfOptions": 30,
+    "kind": "minCredits",
+    "minCredits": 45.5,
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "TEMC"
+    ],
+    "comment": "Spår, ljud och vibrationer: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
   },
   {
-    "code": "SD2180",
-    "name": "Ickelinjär akustik",
-    "nameEn": "Non-linear Acoustics",
+    "code": "SE2137",
+    "name": "Utmattning",
+    "nameEn": "Fatigue",
     "totalCredits": 6,
     "periodCredits": {
       "P1": 6,
@@ -202,70 +261,6 @@
         }
       }
     ]
-  },
-  {
-    "type": "optionGroup",
-    "name": "Villkorligt valfria och valfria kurser (TEMB)",
-    "nameEn": "Conditionally elective and elective courses (TEMB)",
-    "year": 1,
-    "totalCredits": 60,
-    "periodCredits": {
-      "Year1": {
-        "P1": 0,
-        "P2": 0,
-        "P3": 15,
-        "P4": 15
-      },
-      "Year2": {
-        "P1": 15,
-        "P2": 15,
-        "P3": 0,
-        "P4": 0
-      }
-    },
-    "options": [
-      "SD2125",
-      "SD2140",
-      "SG1220",
-      "SG2214",
-      "SG2225",
-      "SD2110",
-      "SD2111",
-      "SD2165",
-      "SD2166",
-      "SE1025",
-      "SE2137",
-      "SG2218",
-      "SM2501",
-      "SD2150",
-      "SD2155",
-      "SD2175",
-      "SE2121",
-      "SE2123",
-      "SE2134",
-      "SE2139",
-      "SG2211",
-      "SG2212",
-      "SG2224",
-      "SD2180",
-      "SD2190",
-      "SE2145",
-      "SE2152",
-      "SG2010",
-      "SG2219",
-      "SG2226",
-      "SM2001"
-    ],
-    "allowedNumberOfOptions": 31,
-    "kind": "minCredits",
-    "minCredits": 60,
-    "exams": [],
-    "category": "conditionallyElective",
-    "specializations": [
-      "TEMB"
-    ],
-    "comment": "Spår, hållfasthetsteknik: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
-    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
   },
   {
     "code": "SD2140",
@@ -311,15 +306,72 @@
     ]
   },
   {
-    "code": "SD2150",
-    "name": "Experimentell strukturdynamik, projektkurs",
-    "nameEn": "Experimental Structure Dynamics, Project Course",
+    "code": "SE2139",
+    "name": "Brottmekanik",
+    "nameEn": "Fracture Mechanics",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SD2111",
+    "name": "Teknisk akustik",
+    "nameEn": "Engineering Acoustics",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 6,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 6,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 6,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "SE2121",
+    "name": "Biomekanik",
+    "nameEn": "Introduction to Biomechanics",
     "totalCredits": 9,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
-      "P3": 4.5,
-      "P4": 4.5
+      "P3": 0,
+      "P4": 9
     },
     "year": 1,
     "prerequisites": [],
@@ -368,24 +420,22 @@
     ]
   },
   {
-    "code": "SG2218",
-    "name": "Turbulens",
-    "totalCredits": 7.5,
+    "code": "SE2860",
+    "name": "Modellering i FEM",
+    "totalCredits": 8,
     "periodCredits": {
       "P1": 0,
-      "P2": 7.5,
+      "P2": 8,
       "P3": 0,
       "P4": 0
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [
-      "P2"
-    ],
+    "exams": [],
     "teacher": "",
     "description": "",
     "category": "mandatory",
-    "nameEn": "Turbulence",
+    "nameEn": "FEM Modelling",
     "gradingScale": "A-F",
     "courseLevel": "A",
     "rounds": [
@@ -393,7 +443,7 @@
         "id": "P2",
         "periodCredits": {
           "P1": 0,
-          "P2": 7.5,
+          "P2": 8,
           "P3": 0,
           "P4": 0
         }
@@ -403,7 +453,7 @@
         "year": 2,
         "periodCredits": {
           "P1": 0,
-          "P2": 7.5,
+          "P2": 8,
           "P3": 0,
           "P4": 0
         }
@@ -411,147 +461,61 @@
     ]
   },
   {
-    "type": "optionGroup",
-    "name": "Villkorligt valfria och valfria kurser (TEMC)",
-    "nameEn": "Conditionally elective and elective courses (TEMC)",
-    "year": 1,
-    "totalCredits": 46.5,
+    "code": "SD2150",
+    "name": "Experimentell strukturdynamik, projektkurs",
+    "nameEn": "Experimental Structure Dynamics, Project Course",
+    "totalCredits": 9,
     "periodCredits": {
-      "Year1": {
-        "P1": 1.5,
-        "P2": 0,
-        "P3": 9,
-        "P4": 6
-      },
-      "Year2": {
-        "P1": 15,
-        "P2": 15,
-        "P3": 0,
-        "P4": 0
-      }
+      "P1": 0,
+      "P2": 0,
+      "P3": 4.5,
+      "P4": 4.5
     },
-    "options": [
-      "SE2126",
-      "SE2132",
-      "SG2214",
-      "SG2225",
-      "SD2110",
-      "SD2111",
-      "SD2166",
-      "SE1025",
-      "SE2137",
-      "SG2218",
-      "SM2501",
-      "SE2860",
-      "SD2150",
-      "SE2121",
-      "SE2123",
-      "SE2134",
-      "SE2139",
-      "SG2211",
-      "SG2212",
-      "SG2224",
-      "SG2215",
-      "SD2180",
-      "SD2190",
-      "SE2145",
-      "SE2152",
-      "SG1220",
-      "SG2010",
-      "SG2219",
-      "SG2226",
-      "SM2001"
-    ],
-    "allowedNumberOfOptions": 30,
-    "kind": "minCredits",
-    "minCredits": 46.5,
+    "year": 1,
+    "prerequisites": [],
     "exams": [],
-    "category": "conditionallyElective",
-    "specializations": [
-      "TEMC"
-    ],
-    "comment": "Spår, ljud och vibrationer: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
-    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
   },
   {
-    "code": "SD2110",
-    "name": "Introduktion till bullerbekämpning",
-    "nameEn": "Introduction to Noise Control",
-    "totalCredits": 3,
+    "code": "SD2180",
+    "name": "Ickelinjär akustik",
+    "nameEn": "Non-linear Acoustics",
+    "totalCredits": 6,
     "periodCredits": {
-      "P1": 3,
+      "P1": 6,
       "P2": 0,
       "P3": 0,
       "P4": 0
     },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended",
     "rounds": [
       {
         "id": "P1",
         "periodCredits": {
-          "P1": 3,
+          "P1": 6,
           "P2": 0,
           "P3": 0,
           "P4": 0
-        },
-        "applicationCode": "10992"
+        }
       },
       {
-        "id": "P2",
+        "id": "P1-y2",
+        "year": 2,
         "periodCredits": {
-          "P1": 0,
-          "P2": 3,
+          "P1": 6,
+          "P2": 0,
           "P3": 0,
           "P4": 0
-        },
-        "applicationCode": "10986"
+        }
       }
-    ],
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "SD2155",
-    "name": "Strömningsakustik",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Flow Acoustics",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "SG2211",
-    "name": "Fordonsaerodynamik",
-    "nameEn": "Vehicle Aerodynamics",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
+    ]
   },
   {
     "code": "SD2125",
@@ -640,12 +604,12 @@
     ]
   },
   {
-    "code": "SE2860",
-    "name": "Modellering i FEM",
-    "totalCredits": 8,
+    "code": "SA2002",
+    "name": "Hållbar utveckling och forskningsmetodik inom teknisk mekanik",
+    "totalCredits": 3,
     "periodCredits": {
-      "P1": 0,
-      "P2": 8,
+      "P1": 3,
+      "P2": 0,
       "P3": 0,
       "P4": 0
     },
@@ -654,62 +618,26 @@
     "exams": [],
     "teacher": "",
     "description": "",
+    "specializations": [
+      "TEMB",
+      "TEMC",
+      "TEMD"
+    ],
     "category": "mandatory",
-    "nameEn": "FEM Modelling",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "rounds": [
-      {
-        "id": "P2",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 8,
-          "P3": 0,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P2-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 8,
-          "P3": 0,
-          "P4": 0
-        }
-      }
-    ]
-  },
-  {
-    "code": "SD2175",
-    "name": "Numeriska metoder för akustik och vibrationer",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 9
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Numerical Methods for Acoustics and Vibration",
-    "gradingScale": "A-F",
+    "nameEn": "Sustainable development and research methodology in engineering mechanics",
+    "gradingScale": "P/F",
     "courseLevel": "A"
   },
   {
-    "code": "SE2121",
-    "name": "Biomekanik",
-    "nameEn": "Introduction to Biomechanics",
-    "totalCredits": 9,
+    "code": "SG2211",
+    "name": "Fordonsaerodynamik",
+    "nameEn": "Vehicle Aerodynamics",
+    "totalCredits": 6,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
       "P3": 0,
-      "P4": 9
+      "P4": 6
     },
     "year": 1,
     "prerequisites": [],
@@ -717,45 +645,6 @@
     "teacher": "",
     "description": "",
     "category": "recommended"
-  },
-  {
-    "code": "SM2501",
-    "name": "Biomekanik i människans rörelser",
-    "nameEn": "Biomechanics of Human Movement",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended",
-    "rounds": [
-      {
-        "id": "P2",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 7.5,
-          "P3": 0,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P2-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 0,
-          "P2": 7.5,
-          "P3": 0,
-          "P4": 0
-        }
-      }
-    ]
   },
   {
     "code": "SE2134",
@@ -776,38 +665,42 @@
     "category": "recommended"
   },
   {
-    "code": "SD2111",
-    "name": "Teknisk akustik",
-    "nameEn": "Engineering Acoustics",
-    "totalCredits": 6,
+    "code": "SG2218",
+    "name": "Turbulens",
+    "totalCredits": 7.5,
     "periodCredits": {
-      "P1": 6,
-      "P2": 0,
+      "P1": 0,
+      "P2": 7.5,
       "P3": 0,
       "P4": 0
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P2"
+    ],
     "teacher": "",
     "description": "",
-    "category": "recommended",
+    "category": "mandatory",
+    "nameEn": "Turbulence",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
     "rounds": [
       {
-        "id": "P1",
+        "id": "P2",
         "periodCredits": {
-          "P1": 6,
-          "P2": 0,
+          "P1": 0,
+          "P2": 7.5,
           "P3": 0,
           "P4": 0
         }
       },
       {
-        "id": "P1-y2",
+        "id": "P2-y2",
         "year": 2,
         "periodCredits": {
-          "P1": 6,
-          "P2": 0,
+          "P1": 0,
+          "P2": 7.5,
           "P3": 0,
           "P4": 0
         }
@@ -815,54 +708,32 @@
     ]
   },
   {
-    "code": "SG2215",
-    "name": "Kompressibel strömning",
-    "totalCredits": 7.5,
+    "code": "SE2126",
+    "name": "Materialmekanik",
+    "totalCredits": 9,
     "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P4"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "TEMC",
-      "TEMD"
-    ],
-    "category": "mandatory",
-    "nameEn": "Compressible Flow",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "SE2137",
-    "name": "Utmattning",
-    "nameEn": "Fatigue",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
+      "P1": 4.5,
+      "P2": 4.5,
       "P3": 0,
       "P4": 0
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "teacher": "",
     "description": "",
-    "category": "recommended",
+    "category": "mandatory",
+    "nameEn": "Material Mechanics",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
     "rounds": [
       {
         "id": "P1",
         "periodCredits": {
-          "P1": 6,
-          "P2": 0,
+          "P1": 4.5,
+          "P2": 4.5,
           "P3": 0,
           "P4": 0
         }
@@ -871,8 +742,8 @@
         "id": "P1-y2",
         "year": 2,
         "periodCredits": {
-          "P1": 6,
-          "P2": 0,
+          "P1": 4.5,
+          "P2": 4.5,
           "P3": 0,
           "P4": 0
         }
@@ -925,9 +796,9 @@
     ]
   },
   {
-    "code": "SE2139",
-    "name": "Brottmekanik",
-    "nameEn": "Fracture Mechanics",
+    "code": "SE2123",
+    "name": "Hållfasthetsteknisk provning",
+    "nameEn": "Testing Techniques in Solid Mechanics",
     "totalCredits": 6,
     "periodCredits": {
       "P1": 0,
@@ -941,33 +812,6 @@
     "teacher": "",
     "description": "",
     "category": "recommended"
-  },
-  {
-    "code": "AK2030",
-    "name": "Vetenskapsteori och vetenskaplig metodik (naturvetenskap)",
-    "totalCredits": 4.5,
-    "periodCredits": {
-      "P1": 4.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "TEMB",
-      "TEMC",
-      "TEMD"
-    ],
-    "category": "mandatory",
-    "nameEn": "Theory and Methodology of Science (Natural and Technological Science)",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
   },
   {
     "code": "SG2212",
@@ -992,44 +836,73 @@
     "courseLevel": "A"
   },
   {
-    "code": "SG2224",
-    "name": "Tillämpade strömningsmekaniska beräkningar",
-    "nameEn": "Applied Computational Fluid Dynamics",
-    "totalCredits": 5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 5
-    },
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (TEMB)",
+    "nameEn": "Conditionally elective and elective courses (TEMB)",
     "year": 1,
-    "prerequisites": [],
+    "totalCredits": 56.5,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0,
+        "P2": 0,
+        "P3": 13.2,
+        "P4": 13.3
+      },
+      "Year2": {
+        "P1": 15,
+        "P2": 15,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "SD2125",
+      "SD2140",
+      "SG1220",
+      "SG2214",
+      "SG2225",
+      "SD2110",
+      "SD2111",
+      "SD2165",
+      "SD2166",
+      "SE1025",
+      "SE2137",
+      "SG2218",
+      "SM2501",
+      "SD2150",
+      "SD2155",
+      "SD2175",
+      "SE2121",
+      "SE2123",
+      "SE2134",
+      "SE2139",
+      "SG2211",
+      "SG2212",
+      "SG2224",
+      "SD2180",
+      "SD2190",
+      "SE2145",
+      "SE2152",
+      "SG2010",
+      "SG2219",
+      "SG2226",
+      "SM2001"
+    ],
+    "allowedNumberOfOptions": 31,
+    "kind": "minCredits",
+    "minCredits": 56.5,
     "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
+    "category": "conditionallyElective",
+    "specializations": [
+      "TEMB"
+    ],
+    "comment": "Spår, hållfasthetsteknik: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
   },
   {
-    "code": "SE2123",
-    "name": "Hållfasthetsteknisk provning",
-    "nameEn": "Testing Techniques in Solid Mechanics",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "recommended"
-  },
-  {
-    "code": "SA2002",
-    "name": "Hållbar utveckling och forskningsmetodik inom teknisk mekanik",
+    "code": "SD2110",
+    "name": "Introduktion till bullerbekämpning",
+    "nameEn": "Introduction to Noise Control",
     "totalCredits": 3,
     "periodCredits": {
       "P1": 3,
@@ -1037,19 +910,53 @@
       "P3": 0,
       "P4": 0
     },
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 3,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "10992"
+      },
+      {
+        "id": "P2",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 3,
+          "P3": 0,
+          "P4": 0
+        },
+        "applicationCode": "10986"
+      }
+    ],
     "year": 1,
     "prerequisites": [],
     "exams": [],
     "teacher": "",
     "description": "",
-    "specializations": [
-      "TEMB",
-      "TEMC",
-      "TEMD"
-    ],
+    "category": "recommended"
+  },
+  {
+    "code": "SD2175",
+    "name": "Numeriska metoder för akustik och vibrationer",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 9
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
     "category": "mandatory",
-    "nameEn": "Sustainable development and research methodology in engineering mechanics",
-    "gradingScale": "P/F",
+    "nameEn": "Numerical Methods for Acoustics and Vibration",
+    "gradingScale": "A-F",
     "courseLevel": "A"
   },
   {
@@ -1096,6 +1003,99 @@
         }
       }
     ]
+  },
+  {
+    "code": "AK2030",
+    "name": "Vetenskapsteori och vetenskaplig metodik (naturvetenskap)",
+    "totalCredits": 4.5,
+    "periodCredits": {
+      "P1": 4.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMB",
+      "TEMC",
+      "TEMD"
+    ],
+    "category": "mandatory",
+    "nameEn": "Theory and Methodology of Science (Natural and Technological Science)",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SG2224",
+    "name": "Tillämpade strömningsmekaniska beräkningar",
+    "nameEn": "Applied Computational Fluid Dynamics",
+    "totalCredits": 5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "recommended"
+  },
+  {
+    "code": "SG2215",
+    "name": "Kompressibel strömning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "TEMC",
+      "TEMD"
+    ],
+    "category": "mandatory",
+    "nameEn": "Compressible Flow",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SD2155",
+    "name": "Strömningsakustik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Flow Acoustics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
   },
   {
     "code": "SD211X",

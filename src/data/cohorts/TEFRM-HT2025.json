@@ -46,20 +46,47 @@
     "courseLevel": "A"
   },
   {
+    "code": "SK2404",
+    "name": "Optisk mätteknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "PHS"
+    ],
+    "category": "mandatory",
+    "nameEn": "Optical Measurement Technology",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "SK2303"
+    ]
+  },
+  {
     "type": "optionGroup",
     "name": "Villkorligt valfria och valfria kurser (PLA)",
     "nameEn": "Conditionally elective and elective courses (PLA)",
     "year": 1,
-    "totalCredits": 34,
+    "totalCredits": 32.5,
     "periodCredits": {
       "Year1": {
-        "P1": 1,
+        "P1": 0.9,
         "P2": 0,
-        "P3": 8.7,
-        "P4": 8.8
+        "P3": 8.2,
+        "P4": 8.4
       },
       "Year2": {
-        "P1": 14.5,
+        "P1": 14,
         "P2": 1,
         "P3": 0,
         "P4": 0
@@ -82,7 +109,7 @@
     ],
     "allowedNumberOfOptions": 13,
     "kind": "minCredits",
-    "minCredits": 34,
+    "minCredits": 32.5,
     "constraints": [
       {
         "kind": "minCount",
@@ -114,430 +141,8 @@
     "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
   },
   {
-    "type": "optionGroup",
-    "name": "Villkorligt valfria och valfria kurser (MIC)",
-    "nameEn": "Conditionally elective and elective courses (MIC)",
-    "year": 1,
-    "totalCredits": 22.5,
-    "periodCredits": {
-      "Year1": {
-        "P1": 1,
-        "P2": 0,
-        "P3": 0,
-        "P4": 0
-      },
-      "Year2": {
-        "P1": 7,
-        "P2": 14.5,
-        "P3": 0,
-        "P4": 0
-      }
-    },
-    "options": [
-      "DD2370",
-      "EI2402",
-      "EI2420",
-      "EK2360",
-      "EI2515"
-    ],
-    "allowedNumberOfOptions": 5,
-    "kind": "minCredits",
-    "minCredits": 22.5,
-    "constraints": [
-      {
-        "kind": "minCount",
-        "value": 1,
-        "from": [
-          "DD2370",
-          "EI2402",
-          "EI2420",
-          "EK2360",
-          "EI2515"
-        ],
-        "label": "En av de villkorligt valfria kurserna ska väljas under år 1 eller år 2."
-      }
-    ],
-    "exams": [],
-    "category": "conditionallyElective",
-    "specializations": [
-      "MIC"
-    ],
-    "comment": "Spår, mikrovågsteknik: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
-    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
-  },
-  {
-    "type": "optionGroup",
-    "name": "Villkorligt valfria och valfria kurser (PHS)",
-    "nameEn": "Conditionally elective and elective courses (PHS)",
-    "year": 1,
-    "totalCredits": 37,
-    "periodCredits": {
-      "Year1": {
-        "P1": 1,
-        "P2": 0,
-        "P3": 14.7,
-        "P4": 7.3
-      },
-      "Year2": {
-        "P1": 7,
-        "P2": 7,
-        "P3": 0,
-        "P4": 0
-      }
-    },
-    "options": [
-      "SK2411",
-      "EI2515",
-      "SK2907"
-    ],
-    "allowedNumberOfOptions": 3,
-    "kind": "minCredits",
-    "minCredits": 37,
-    "constraints": [
-      {
-        "kind": "minCount",
-        "value": 2,
-        "from": [
-          "SK2411",
-          "EI2515",
-          "SK2907"
-        ],
-        "label": "Två av de villkorligt valfria kurserna ska väljas under år 1 eller år 2."
-      }
-    ],
-    "exams": [],
-    "category": "conditionallyElective",
-    "specializations": [
-      "PHS"
-    ],
-    "comment": "Spår, fotonik: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
-    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
-  },
-  {
-    "code": "EK2390",
-    "name": "Projektkurs i integrerade kretsar för radioteknik och mikrovågsteknik",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "MIC"
-    ],
-    "category": "mandatory",
-    "nameEn": "Project Course in Integrated Circuits for RF and Microwave Technology",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "SK2900",
-    "name": "Kvantfotonik",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P4"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "PHS"
-    ],
-    "category": "mandatory",
-    "nameEn": "Quantum Photonics",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "SG2214",
-    "name": "Strömningsmekanik",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "PLA"
-    ],
-    "category": "conditionallyElective",
-    "nameEn": "Fluid Mechanics",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "type": "optionGroup",
-    "name": "Villkorligt valfria och valfria kurser (SPA)",
-    "nameEn": "Conditionally elective and elective courses (SPA)",
-    "year": 1,
-    "totalCredits": 28.2,
-    "periodCredits": {
-      "Year1": {
-        "P1": 1,
-        "P2": 0,
-        "P3": 13.2,
-        "P4": 0
-      },
-      "Year2": {
-        "P1": 7,
-        "P2": 7,
-        "P3": 0,
-        "P4": 0
-      }
-    },
-    "options": [
-      "EF2225",
-      "EF2227",
-      "EF2228",
-      "EF1110",
-      "EF1113",
-      "EF2262",
-      "EF2264",
-      "EI2400",
-      "EI2401",
-      "EI2440",
-      "SD2905",
-      "SD2910",
-      "SH2008",
-      "AG1321",
-      "EF2243",
-      "EF2245",
-      "EI2402"
-    ],
-    "allowedNumberOfOptions": 17,
-    "kind": "minCredits",
-    "minCredits": 28.2,
-    "constraints": [
-      {
-        "kind": "minCount",
-        "value": 1,
-        "from": [
-          "EF2225",
-          "EF2227",
-          "EF2228",
-          "EF1110",
-          "EF1113",
-          "EF2262",
-          "EF2264",
-          "EI2400",
-          "EI2401",
-          "EI2440",
-          "SD2905",
-          "SD2910",
-          "SH2008",
-          "AG1321",
-          "EF2243",
-          "EF2245",
-          "EI2402"
-        ],
-        "label": "En av de villkorligt valfria kurserna ska väljas under år ett eller år två."
-      }
-    ],
-    "exams": [],
-    "category": "conditionallyElective",
-    "specializations": [
-      "SPA"
-    ],
-    "comment": "Spår, rymd: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
-    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
-  },
-  {
-    "code": "EI2403",
-    "name": "Elektromagnetisk modellering",
-    "totalCredits": 8,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 8,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "exams": [
-      "P2"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Electromagnetic modelling",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "prerequisitesCompleted": [
-      "EF2200"
-    ]
-  },
-  {
-    "code": "ED2210",
-    "name": "Elektromagnetiska vågor i dispersiva media",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "PLA"
-    ],
-    "category": "mandatory",
-    "nameEn": "Electromagnetic Waves in Dispersive Media",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "EI2400",
-    "name": "Tillämpad antennteknik",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P4"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "MIC",
-      "PLA",
-      "SPA"
-    ],
-    "category": "mandatory",
-    "nameEn": "Applied Antenna Theory",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "EI2405",
-    "name": "Elektromagnetisk fältteori, fortsättningskurs",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P2"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Classical Electrodynamics",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "SK2404",
-    "name": "Optisk mätteknik",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "exams": [
-      "P2"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "PHS"
-    ],
-    "category": "mandatory",
-    "nameEn": "Optical Measurement Technology",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "prerequisitesCompleted": [
-      "SK2303"
-    ]
-  },
-  {
-    "code": "SD2920",
-    "name": "Rymdteknisk systemintegration, del 1",
-    "totalCredits": 3,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 1.5,
-      "P4": 1.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "SPA"
-    ],
-    "category": "mandatory",
-    "nameEn": "System Integration for Space Technology, Part 1",
-    "gradingScale": "P/F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "AH2923",
-    "name": "Globala satellitnavigeringssystem (GNSS)",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P4"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "SPA"
-    ],
-    "category": "mandatory",
-    "nameEn": "Global Navigation Satellite Systems (GNSS)",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "ED2246",
-    "name": "Projekt inom fusionsfysik",
+    "code": "EF2264",
+    "name": "Drift av rymdsystem",
     "totalCredits": 6,
     "periodCredits": {
       "P1": 0,
@@ -547,172 +152,6 @@
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "PLA"
-    ],
-    "category": "conditionallyElective",
-    "nameEn": "Project in Fusion Physics",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "rounds": [
-      {
-        "id": "P4",
-        "periodCredits": {
-          "P1": 0,
-          "P2": 0,
-          "P3": 0,
-          "P4": 6
-        }
-      },
-      {
-        "id": "P1-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 6,
-          "P2": 0,
-          "P3": 0,
-          "P4": 0
-        }
-      }
-    ]
-  },
-  {
-    "code": "EI2410",
-    "name": "Fältteori för vågledare",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "MIC"
-    ],
-    "category": "mandatory",
-    "nameEn": "Field Theory for Guided Waves",
-    "gradingScale": "A-F",
-    "courseLevel": "A",
-    "prerequisitesCompleted": [
-      "EI2405"
-    ],
-    "prerequisitesParticipation": [
-      "EI2405"
-    ]
-  },
-  {
-    "code": "EF2262",
-    "name": "Satellitdatahanteringssystem",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 6,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "SPA"
-    ],
-    "category": "conditionallyElective",
-    "nameEn": "Data Handling Systems for Satellites",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "ED2200",
-    "name": "Energi och fusionsforskning",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "PLA"
-    ],
-    "category": "mandatory",
-    "nameEn": "Energy and Fusion Research",
-    "gradingScale": "P/F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "EF2228",
-    "name": "Projekt i rymdteknik",
-    "totalCredits": 15,
-    "periodCredits": {
-      "P1": 8,
-      "P2": 7,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "SPA"
-    ],
-    "category": "conditionallyElective",
-    "nameEn": "Project in Space Technology",
-    "gradingScale": "P/F",
-    "courseLevel": "A",
-    "rounds": [
-      {
-        "id": "P1",
-        "periodCredits": {
-          "P1": 8,
-          "P2": 7,
-          "P3": 0,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P1-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 8,
-          "P2": 7,
-          "P3": 0,
-          "P4": 0
-        }
-      }
-    ]
-  },
-  {
-    "code": "SD2910",
-    "name": "Rymdfarkosters dynamik",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 9
-    },
-    "year": 1,
-    "prerequisites": [],
     "exams": [
       "P4"
     ],
@@ -722,171 +161,9 @@
       "SPA"
     ],
     "category": "conditionallyElective",
-    "nameEn": "Spacecraft Dynamics",
+    "nameEn": "Operation of Space Systems",
     "gradingScale": "A-F",
     "courseLevel": "A"
-  },
-  {
-    "code": "EF1110",
-    "name": "Projekt i rymdfysik",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 9,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "SPA"
-    ],
-    "category": "conditionallyElective",
-    "nameEn": "Project in Space Physics",
-    "gradingScale": "P/F",
-    "courseLevel": "G"
-  },
-  {
-    "code": "EF1113",
-    "name": "Projekt i rymdteknik",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "SPA"
-    ],
-    "category": "conditionallyElective",
-    "nameEn": "Project in Space Technology",
-    "gradingScale": "P/F",
-    "courseLevel": "G"
-  },
-  {
-    "code": "SH2404",
-    "name": "Astrofysik",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P4"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "SPA"
-    ],
-    "category": "mandatory",
-    "nameEn": "Astrophysics",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "EI2440",
-    "name": "Elektroteknisk konstruktion",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "SPA"
-    ],
-    "category": "conditionallyElective",
-    "nameEn": "Electrotechnical Design",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "AK2036",
-    "name": "Vetenskapsteori och vetenskaplig metodik med tillämpningar (naturvetenskap)",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Theory and Methodology of Science with Applications (Natural and Technological Science)",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "EF2225",
-    "name": "Projekt i rymdfysik",
-    "totalCredits": 12,
-    "periodCredits": {
-      "P1": 12,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "SPA"
-    ],
-    "category": "conditionallyElective",
-    "nameEn": "Project in Space Physics",
-    "gradingScale": "P/F",
-    "courseLevel": "A",
-    "rounds": [
-      {
-        "id": "P1",
-        "periodCredits": {
-          "P1": 12,
-          "P2": 0,
-          "P3": 0,
-          "P4": 0
-        }
-      },
-      {
-        "id": "P1-y2",
-        "year": 2,
-        "periodCredits": {
-          "P1": 12,
-          "P2": 0,
-          "P3": 0,
-          "P4": 0
-        }
-      }
-    ]
   },
   {
     "code": "ED2247",
@@ -938,14 +215,147 @@
     ]
   },
   {
-    "code": "EF2264",
-    "name": "Drift av rymdsystem",
-    "totalCredits": 6,
+    "code": "EI2405",
+    "name": "Elektromagnetisk fältteori, fortsättningskurs",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Classical Electrodynamics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "EF2225",
+    "name": "Projekt i rymdfysik",
+    "totalCredits": 12,
+    "periodCredits": {
+      "P1": 12,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "SPA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Project in Space Physics",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 12,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 12,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "EF2228",
+    "name": "Projekt i rymdteknik",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 8,
+      "P2": 7,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "SPA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Project in Space Technology",
+    "gradingScale": "P/F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P1",
+        "periodCredits": {
+          "P1": 8,
+          "P2": 7,
+          "P3": 0,
+          "P4": 0
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 8,
+          "P2": 7,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "EF1113",
+    "name": "Projekt i rymdteknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "SPA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Project in Space Technology",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "AH2923",
+    "name": "Globala satellitnavigeringssystem (GNSS)",
+    "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
       "P3": 0,
-      "P4": 6
+      "P4": 7.5
     },
     "year": 1,
     "prerequisites": [],
@@ -957,19 +367,44 @@
     "specializations": [
       "SPA"
     ],
-    "category": "conditionallyElective",
-    "nameEn": "Operation of Space Systems",
+    "category": "mandatory",
+    "nameEn": "Global Navigation Satellite Systems (GNSS)",
     "gradingScale": "A-F",
     "courseLevel": "A"
   },
   {
-    "code": "SH2008",
-    "name": "Grundläggande modern fysik",
-    "totalCredits": 6,
+    "code": "SD2905",
+    "name": "Bemannad rymdfart",
+    "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
-      "P3": 6,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "SPA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Human Spaceflight",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2358",
+    "name": "Introduktion till högprestandaberäkningar",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
       "P4": 0
     },
     "year": 1,
@@ -978,13 +413,159 @@
     "teacher": "",
     "description": "",
     "specializations": [
-      "PLA",
-      "SPA"
+      "PLA"
     ],
     "category": "conditionallyElective",
-    "nameEn": "Introductory Modern Physics",
+    "nameEn": "Introduction to High Performance Computing",
     "gradingScale": "A-F",
     "courseLevel": "A"
+  },
+  {
+    "code": "AK2036",
+    "name": "Vetenskapsteori och vetenskaplig metodik med tillämpningar (naturvetenskap)",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Theory and Methodology of Science with Applications (Natural and Technological Science)",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "EI2403",
+    "name": "Elektromagnetisk modellering",
+    "totalCredits": 8,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 8,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Electromagnetic modelling",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "EF2200"
+    ]
+  },
+  {
+    "code": "SK2900",
+    "name": "Kvantfotonik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "PHS"
+    ],
+    "category": "mandatory",
+    "nameEn": "Quantum Photonics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (SPA)",
+    "nameEn": "Conditionally elective and elective courses (SPA)",
+    "year": 1,
+    "totalCredits": 25,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0.8,
+        "P2": 0,
+        "P3": 10.7,
+        "P4": 0
+      },
+      "Year2": {
+        "P1": 6.7,
+        "P2": 6.8,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "EF2225",
+      "EF2227",
+      "EF2228",
+      "EF1110",
+      "EF1113",
+      "EF2262",
+      "EF2264",
+      "EI2400",
+      "EI2401",
+      "EI2440",
+      "SD2905",
+      "SD2910",
+      "SH2008",
+      "AG1321",
+      "EF2243",
+      "EF2245",
+      "EI2402"
+    ],
+    "allowedNumberOfOptions": 17,
+    "kind": "minCredits",
+    "minCredits": 25,
+    "constraints": [
+      {
+        "kind": "minCount",
+        "value": 1,
+        "from": [
+          "EF2225",
+          "EF2227",
+          "EF2228",
+          "EF1110",
+          "EF1113",
+          "EF2262",
+          "EF2264",
+          "EI2400",
+          "EI2401",
+          "EI2440",
+          "SD2905",
+          "SD2910",
+          "SH2008",
+          "AG1321",
+          "EF2243",
+          "EF2245",
+          "EI2402"
+        ],
+        "label": "En av de villkorligt valfria kurserna ska väljas under år ett eller år två."
+      }
+    ],
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "SPA"
+    ],
+    "comment": "Spår, rymd: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
   },
   {
     "code": "EF2200",
@@ -1005,6 +586,265 @@
     "description": "",
     "category": "mandatory",
     "nameEn": "Plasma Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (PHS)",
+    "nameEn": "Conditionally elective and elective courses (PHS)",
+    "year": 1,
+    "totalCredits": 28,
+    "periodCredits": {
+      "Year1": {
+        "P1": 0.6,
+        "P2": 0,
+        "P3": 9.3,
+        "P4": 4.6
+      },
+      "Year2": {
+        "P1": 6.7,
+        "P2": 6.8,
+        "P3": 0,
+        "P4": 0
+      }
+    },
+    "options": [
+      "SK2411",
+      "EI2515",
+      "SK2907"
+    ],
+    "allowedNumberOfOptions": 3,
+    "kind": "minCredits",
+    "minCredits": 28,
+    "constraints": [
+      {
+        "kind": "minCount",
+        "value": 2,
+        "from": [
+          "SK2411",
+          "EI2515",
+          "SK2907"
+        ],
+        "label": "Två av de villkorligt valfria kurserna ska väljas under år 1 eller år 2."
+      }
+    ],
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "PHS"
+    ],
+    "comment": "Spår, fotonik: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "code": "SG2214",
+    "name": "Strömningsmekanik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "PLA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Fluid Mechanics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "ED2246",
+    "name": "Projekt inom fusionsfysik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "PLA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Project in Fusion Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "rounds": [
+      {
+        "id": "P4",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 6
+        }
+      },
+      {
+        "id": "P1-y2",
+        "year": 2,
+        "periodCredits": {
+          "P1": 6,
+          "P2": 0,
+          "P3": 0,
+          "P4": 0
+        }
+      }
+    ]
+  },
+  {
+    "code": "EF1110",
+    "name": "Projekt i rymdfysik",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 9,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "SPA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Project in Space Physics",
+    "gradingScale": "P/F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "EI2440",
+    "name": "Elektroteknisk konstruktion",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "SPA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Electrotechnical Design",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "ED2200",
+    "name": "Energi och fusionsforskning",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "PLA"
+    ],
+    "category": "mandatory",
+    "nameEn": "Energy and Fusion Research",
+    "gradingScale": "P/F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "EK2390",
+    "name": "Projektkurs i integrerade kretsar för radioteknik och mikrovågsteknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MIC"
+    ],
+    "category": "mandatory",
+    "nameEn": "Project Course in Integrated Circuits for RF and Microwave Technology",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SD2920",
+    "name": "Rymdteknisk systemintegration, del 1",
+    "totalCredits": 3,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 1.5,
+      "P4": 1.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "SPA"
+    ],
+    "category": "mandatory",
+    "nameEn": "System Integration for Space Technology, Part 1",
+    "gradingScale": "P/F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "ED2210",
+    "name": "Elektromagnetiska vågor i dispersiva media",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "PLA"
+    ],
+    "category": "mandatory",
+    "nameEn": "Electromagnetic Waves in Dispersive Media",
     "gradingScale": "A-F",
     "courseLevel": "A"
   },
@@ -1053,6 +893,163 @@
     ]
   },
   {
+    "code": "EI2400",
+    "name": "Tillämpad antennteknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MIC",
+      "PLA",
+      "SPA"
+    ],
+    "category": "mandatory",
+    "nameEn": "Applied Antenna Theory",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "EF2262",
+    "name": "Satellitdatahanteringssystem",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "SPA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Data Handling Systems for Satellites",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "EI2410",
+    "name": "Fältteori för vågledare",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MIC"
+    ],
+    "category": "mandatory",
+    "nameEn": "Field Theory for Guided Waves",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "EI2405"
+    ],
+    "prerequisitesParticipation": [
+      "EI2405"
+    ]
+  },
+  {
+    "code": "SD2910",
+    "name": "Rymdfarkosters dynamik",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 9
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "SPA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Spacecraft Dynamics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SH2404",
+    "name": "Astrofysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "SPA"
+    ],
+    "category": "mandatory",
+    "nameEn": "Astrophysics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2411",
+    "name": "Laserfysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "PHS"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Laser Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
     "code": "EI2401",
     "name": "Avancerad mikrovågsteknik",
     "totalCredits": 7.5,
@@ -1082,38 +1079,13 @@
     ]
   },
   {
-    "code": "SK2411",
-    "name": "Laserfysik",
-    "totalCredits": 7.5,
+    "code": "SH2008",
+    "name": "Grundläggande modern fysik",
+    "totalCredits": 6,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "PHS"
-    ],
-    "category": "conditionallyElective",
-    "nameEn": "Laser Physics",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "DD2358",
-    "name": "Introduktion till högprestandaberäkningar",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
+      "P3": 6,
       "P4": 0
     },
     "year": 1,
@@ -1122,83 +1094,11 @@
     "teacher": "",
     "description": "",
     "specializations": [
-      "PLA"
-    ],
-    "category": "conditionallyElective",
-    "nameEn": "Introduction to High Performance Computing",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "SD2905",
-    "name": "Bemannad rymdfart",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
+      "PLA",
       "SPA"
     ],
     "category": "conditionallyElective",
-    "nameEn": "Human Spaceflight",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "AG1321",
-    "name": "Fjärranalysteknik",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "SPA"
-    ],
-    "category": "conditionallyElective",
-    "nameEn": "Remote Sensing Technology",
-    "gradingScale": "A-F",
-    "courseLevel": "G"
-  },
-  {
-    "code": "DD2370",
-    "name": "Beräkningsmetoder för elektromagnetiska problem",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "MIC"
-    ],
-    "category": "conditionallyElective",
-    "nameEn": "Computational Methods for Electromagnetics",
+    "nameEn": "Introductory Modern Physics",
     "gradingScale": "A-F",
     "courseLevel": "A"
   },
@@ -1242,6 +1142,125 @@
     "description": "",
     "category": "conditionallyElective",
     "nameEn": "Degree Project in Applied Physics, Second Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "EF2243",
+    "name": "Solsystemsfysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 3.5,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "SPA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Solar System Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "EI2515",
+    "name": "Projekt i elektromagnetisk fältteori",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 3.5,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MIC",
+      "PHS"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Project in Electromagnetic Theory",
+    "gradingScale": "P/F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "EI2420",
+    "name": "Elektromagnetisk vågutbredning",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MIC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Electromagnetic Wave Propagation",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "SK2303",
+    "name": "Optisk fysik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "PHS"
+    ],
+    "category": "mandatory",
+    "nameEn": "Optical Physics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "EA275X",
+    "name": "Examensarbete inom elektroteknik med inriktning mot elektromagnetism, fusion och rymdteknik, avancerad nivå",
+    "totalCredits": 30,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 15,
+      "P4": 15
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Degree Project in Electrical Engineering, specialising in Electromagnetics, Fusion and Space Engineering, Second Cycle",
     "gradingScale": "P/F",
     "courseLevel": "A"
   },
@@ -1301,84 +1320,10 @@
     ]
   },
   {
-    "code": "EF2240",
-    "name": "Rymdfysik",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
+    "type": "optionGroup",
+    "name": "Examensarbete",
+    "nameEn": "Degree project",
     "year": 2,
-    "prerequisites": [],
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "PLA",
-      "SPA"
-    ],
-    "category": "mandatory",
-    "nameEn": "Space Physics",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "SK2303",
-    "name": "Optisk fysik",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "PHS"
-    ],
-    "category": "mandatory",
-    "nameEn": "Optical Physics",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "ED2240",
-    "name": "Introduktionskurs till fusionsteknologi",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 6,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "PLA"
-    ],
-    "category": "conditionallyElective",
-    "nameEn": "Introduction Course to Fusion Technology",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "EA275X",
-    "name": "Examensarbete inom elektroteknik med inriktning mot elektromagnetism, fusion och rymdteknik, avancerad nivå",
     "totalCredits": 30,
     "periodCredits": {
       "P1": 0,
@@ -1386,45 +1331,109 @@
       "P3": 15,
       "P4": 15
     },
-    "year": 2,
-    "prerequisites": [],
+    "options": [
+      "EA275X",
+      "SK202X"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
     "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Degree Project in Electrical Engineering, specialising in Electromagnetics, Fusion and Space Engineering, Second Cycle",
-    "gradingScale": "P/F",
-    "courseLevel": "A"
+    "category": "conditionallyElective"
   },
   {
-    "code": "EF2260",
-    "name": "Rymdmiljö och rymdteknik",
-    "totalCredits": 6,
+    "type": "optionGroup",
+    "name": "Villkorligt valfria och valfria kurser (MIC)",
+    "nameEn": "Conditionally elective and elective courses (MIC)",
+    "year": 2,
+    "totalCredits": 20.5,
     "periodCredits": {
-      "P1": 0,
-      "P2": 6,
+      "P1": 6.6,
+      "P2": 13.9,
       "P3": 0,
       "P4": 0
     },
+    "options": [
+      "DD2370",
+      "EI2402",
+      "EI2420",
+      "EK2360",
+      "EI2515"
+    ],
+    "allowedNumberOfOptions": 5,
+    "kind": "minCredits",
+    "minCredits": 20.5,
+    "constraints": [
+      {
+        "kind": "minCount",
+        "value": 1,
+        "from": [
+          "DD2370",
+          "EI2402",
+          "EI2420",
+          "EK2360",
+          "EI2515"
+        ],
+        "label": "En av de villkorligt valfria kurserna ska väljas under år 1 eller år 2."
+      }
+    ],
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "MIC"
+    ],
+    "comment": "Spår, mikrovågsteknik: villkorligt valfria kurser för spåret och exempel på valfria kurser. Även andra kan väljas; se utbildningsplanen.",
+    "commentEn": "Conditionally elective courses and examples of elective ones; others may also be chosen — see the study plan."
+  },
+  {
+    "code": "SG2212",
+    "name": "Strömningsmekaniska beräkningar",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
     "year": 2,
+    "prerequisites": [],
     "exams": [
-      "P2"
+      "P3"
     ],
     "teacher": "",
     "description": "",
     "specializations": [
-      "SPA"
+      "PLA"
     ],
-    "category": "mandatory",
-    "nameEn": "Space Environment and Spacecraft Engineering",
+    "category": "conditionallyElective",
+    "nameEn": "Computational Fluid Dynamics",
     "gradingScale": "A-F",
-    "courseLevel": "A",
-    "prerequisitesCompleted": [
-      "EF2240"
+    "courseLevel": "A"
+  },
+  {
+    "code": "SI2520",
+    "name": "Statistisk mekanik för icke-jämviktssystem",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P3"
     ],
-    "prerequisitesParticipation": [
-      "EF2240"
-    ]
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "PLA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Nonequilibrium Statistical Mechanics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
   },
   {
     "code": "EF2245",
@@ -1458,59 +1467,12 @@
     ]
   },
   {
-    "code": "EK2370",
-    "name": "Bygg ditt eget radarsystem, projektkurs",
+    "code": "SK2402",
+    "name": "Fotonikens grundprinciper",
     "totalCredits": 7.5,
     "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "MIC"
-    ],
-    "category": "mandatory",
-    "nameEn": "Build your own Radar System, Project Course",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "EI2515",
-    "name": "Projekt i elektromagnetisk fältteori",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 3.5,
-      "P2": 4,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "MIC",
-      "PHS"
-    ],
-    "category": "conditionallyElective",
-    "nameEn": "Project in Electromagnetic Theory",
-    "gradingScale": "P/F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "EF2243",
-    "name": "Solsystemsfysik",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 3.5,
-      "P2": 4,
+      "P1": 0,
+      "P2": 7.5,
       "P3": 0,
       "P4": 0
     },
@@ -1522,10 +1484,162 @@
     "teacher": "",
     "description": "",
     "specializations": [
+      "PHS"
+    ],
+    "category": "mandatory",
+    "nameEn": "Fundamentals of Photonics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "EF2260",
+    "name": "Rymdmiljö och rymdteknik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "SPA"
+    ],
+    "category": "mandatory",
+    "nameEn": "Space Environment and Spacecraft Engineering",
+    "gradingScale": "A-F",
+    "courseLevel": "A",
+    "prerequisitesCompleted": [
+      "EF2240"
+    ],
+    "prerequisitesParticipation": [
+      "EF2240"
+    ]
+  },
+  {
+    "code": "SK2907",
+    "name": "Halvledarfotonik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "PHS"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Semiconductor Photonics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "DD2370",
+    "name": "Beräkningsmetoder för elektromagnetiska problem",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MIC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Computational Methods for Electromagnetics",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "EI2402",
+    "name": "Elektromagnetisk förenlighet",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MIC",
       "SPA"
     ],
     "category": "conditionallyElective",
-    "nameEn": "Solar System Physics",
+    "nameEn": "Electromagnetic compatibility",
+    "gradingScale": "A-F",
+    "courseLevel": "A"
+  },
+  {
+    "code": "AG1321",
+    "name": "Fjärranalysteknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 7.5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "SPA"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Remote Sensing Technology",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "EK2360",
+    "name": "Projektkurs i mikrosystemteknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 2,
+    "prerequisites": [],
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "specializations": [
+      "MIC"
+    ],
+    "category": "conditionallyElective",
+    "nameEn": "Hands-On Microelectromechanical Systems Engineering",
     "gradingScale": "A-F",
     "courseLevel": "A"
   },
@@ -1560,11 +1674,11 @@
     ]
   },
   {
-    "code": "EI2420",
-    "name": "Elektromagnetisk vågutbredning",
-    "totalCredits": 7.5,
+    "code": "EF2240",
+    "name": "Rymdfysik",
+    "totalCredits": 6,
     "periodCredits": {
-      "P1": 7.5,
+      "P1": 6,
       "P2": 0,
       "P3": 0,
       "P4": 0
@@ -1577,168 +1691,46 @@
     "teacher": "",
     "description": "",
     "specializations": [
-      "MIC"
-    ],
-    "category": "conditionallyElective",
-    "nameEn": "Electromagnetic Wave Propagation",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "EI2402",
-    "name": "Elektromagnetisk förenlighet",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [
-      "P2"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "MIC",
+      "PLA",
       "SPA"
     ],
-    "category": "conditionallyElective",
-    "nameEn": "Electromagnetic compatibility",
+    "category": "mandatory",
+    "nameEn": "Space Physics",
     "gradingScale": "A-F",
     "courseLevel": "A"
   },
   {
-    "type": "optionGroup",
-    "name": "Examensarbete",
-    "nameEn": "Degree project",
-    "year": 2,
-    "totalCredits": 30,
+    "code": "ED2240",
+    "name": "Introduktionskurs till fusionsteknologi",
+    "totalCredits": 6,
     "periodCredits": {
-      "P1": 0,
+      "P1": 6,
       "P2": 0,
-      "P3": 15,
-      "P4": 15
-    },
-    "options": [
-      "EA275X",
-      "SK202X"
-    ],
-    "allowedNumberOfOptions": 1,
-    "kind": "pickN",
-    "pickN": 1,
-    "exams": [],
-    "category": "conditionallyElective"
-  },
-  {
-    "code": "SI2520",
-    "name": "Statistisk mekanik för icke-jämviktssystem",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "PLA"
-    ],
-    "category": "conditionallyElective",
-    "nameEn": "Nonequilibrium Statistical Mechanics",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "SG2212",
-    "name": "Strömningsmekaniska beräkningar",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "PLA"
-    ],
-    "category": "conditionallyElective",
-    "nameEn": "Computational Fluid Dynamics",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "SK2402",
-    "name": "Fotonikens grundprinciper",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
       "P3": 0,
       "P4": 0
     },
     "year": 2,
     "prerequisites": [],
     "exams": [
-      "P2"
+      "P1"
     ],
     "teacher": "",
     "description": "",
     "specializations": [
-      "PHS"
-    ],
-    "category": "mandatory",
-    "nameEn": "Fundamentals of Photonics",
-    "gradingScale": "A-F",
-    "courseLevel": "A"
-  },
-  {
-    "code": "SK2907",
-    "name": "Halvledarfotonik",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "specializations": [
-      "PHS"
+      "PLA"
     ],
     "category": "conditionallyElective",
-    "nameEn": "Semiconductor Photonics",
+    "nameEn": "Introduction Course to Fusion Technology",
     "gradingScale": "A-F",
     "courseLevel": "A"
   },
   {
-    "code": "EK2360",
-    "name": "Projektkurs i mikrosystemteknik",
+    "code": "EK2370",
+    "name": "Bygg ditt eget radarsystem, projektkurs",
     "totalCredits": 7.5,
     "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
+      "P1": 7.5,
+      "P2": 0,
       "P3": 0,
       "P4": 0
     },
@@ -1750,8 +1742,8 @@
     "specializations": [
       "MIC"
     ],
-    "category": "conditionallyElective",
-    "nameEn": "Hands-On Microelectromechanical Systems Engineering",
+    "category": "mandatory",
+    "nameEn": "Build your own Radar System, Project Course",
     "gradingScale": "A-F",
     "courseLevel": "A"
   }
