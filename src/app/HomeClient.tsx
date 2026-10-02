@@ -104,7 +104,9 @@ const ui = {
     resetSelectionsHint: 'Ta bort alla egna val i valfria block och visa den publicerade planen',
     unverifiedSuffix: '(inte verifierad)',
     cohortLabel: 'Antagningsår',
-    cohortNone: 'Utan antagningsår',
+    // A dash rather than "Utan antagningsår", so the selector is only as wide
+    // as a kull ("HT2025"); its label says what it picks.
+    cohortNone: '–',
     continuationLabel: 'Fortsättningsprogram',
     continuationNone: 'Utan fortsättningsprogram',
     masterLabel: 'Masterprogram',
@@ -177,7 +179,7 @@ const ui = {
     resetSelectionsHint: 'Clear every choice made in the elective boxes and show the published plan',
     unverifiedSuffix: '(unverified)',
     cohortLabel: 'Admission year',
-    cohortNone: 'No admission year',
+    cohortNone: '–',
     continuationLabel: 'Continuation program',
     continuationNone: 'No continuation program',
     masterLabel: "Master's programme",
@@ -623,16 +625,27 @@ export default function HomeClient() {
     });
   }, [masterNotes, selectedMaster, selectedContinuation, selectedProgram, selectedSpecializations, language]);
 
-  // The footer under the chart, and in exports: the programme's sign-off
-  // ("Utbildningsplanen verifierad av programansvarig …"). With a master after
-  // it, it speaks for the bachelor's years only, so it names that programme.
-  // The master's own comment is not added: it is about the master on its own
-  // ("välj antagningsår för andra kullar"), and the notice above the chart
-  // already says the master is unverified.
+  // The footer under the chart, and in exports: the programmes' sign-offs
+  // ("Utbildningsplanen verifierad av programansvarig …"). A composed view is
+  // several programmes, so each sign-off is named by its programme: COPEN's
+  // for year 1 and the target's for years 2-3 (a COPEN view used to show
+  // COPEN's alone), then a master's. The master's own comment is not added,
+  // being about the master on its own ("välj antagningsår för andra
+  // kullar"); its status is, after the bachelor's sign-off, where a reader
+  // looks for it. It used to be a line between the controls and the chart.
   const programComment = useMemo(() => {
-    const own = language === 'en' ? (selectedProgram.commentEn || selectedProgram.comment) : selectedProgram.comment;
-    return own && selectedMaster ? `${selectedProgram.code}: ${own}` : own;
-  }, [language, selectedProgram, selectedMaster]);
+    const commentOf = (p: ProgramConfig) => (language === 'en' ? (p.commentEn || p.comment) : p.comment);
+    const own = commentOf(selectedProgram);
+    const target = selectedContinuation ? programs.find(p => p.code === selectedContinuation.to) : undefined;
+    if (!selectedMaster && !target) return own;
+    const parts: string[] = [];
+    for (const p of [selectedProgram, target]) {
+      const c = p && commentOf(p);
+      if (p && c) parts.push(`${p.code}: ${c}`);
+    }
+    if (selectedMaster && selectedMaster.program.verified !== true) parts.push(ui[language].masterUnverified(selectedMaster.program.code));
+    return parts.join(' · ') || undefined;
+  }, [language, selectedProgram, selectedContinuation, selectedMaster]);
 
   // The transition plan as the selected inriktning sees it: common changes plus
   // its own (`bySpecialization`), so the summary line matches the chart.
@@ -811,19 +824,22 @@ export default function HomeClient() {
   return (
     <div className="min-h-screen bg-gray-50">
       <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
-        {/* `flex-wrap` is load-bearing on phones, not cosmetic. Without it this
-            row is a nowrap flex line whose items cannot shrink below their
-            content (flex items default to `min-width: auto`), so it set the
+        {/* The title on its own row and the controls always below it. A wrapping
+            row put them side by side once the window was wide enough (from
+            about 1600 px), which moved the controls up beside the title.
+
+            On phones the controls' own row must wrap. A nowrap flex line's
+            items cannot shrink below their content (flex items default to
+            `min-width: auto`), so an earlier version of this header set the
             page's scroll width — measured 864 px on a 390 px viewport, which
             scrolled the WHOLE page sideways and put the menu button off-screen.
             The chart's own horizontal scroll (issue #2) was working correctly;
             this row was the thing overflowing past it. */}
-        <div className="relative pr-14 flex flex-wrap justify-between items-center gap-x-6 gap-y-3 mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold" style={{ color: kthColors.KthHeaven?.HEX }}>{ui[language].title}</h1>
-          {/* Column so the provenance line can sit directly under the selectors
-              that produced it, rather than becoming a third flex item beside
-              them. */}
-          <div className="items-start sm:items-end" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <div className="relative pr-14 flex flex-col items-start gap-y-3 mb-6 sm:mb-8">
+          <h1 className="text-xl sm:text-2xl font-bold" style={{ color: kthColors.KthHeaven?.HEX }}>{ui[language].title}</h1>
+          {/* The selectors only. The notes that used to follow them (transition
+              plan, borrowed years, the master's years) are below the chart. */}
+          <div className="items-start" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
             <label style={{ color: kthColors.KthBlue?.HEX, fontWeight: 600 }}>{ui[language].programLabel}</label>
             <select
@@ -1038,129 +1054,6 @@ export default function HomeClient() {
             so, and summarise what the plan changed, so a student can see why
             their chart differs from the target programme's own page.
           */}
-          {selectedContinuation && (
-            <div style={{ marginTop: 10, fontSize: 13, color: kthColors.KthBlue?.HEX }}>
-              <div>{ui[language].transitionNotice(selectedContinuation.from, selectedContinuation.to)}</div>
-              <div style={{ marginTop: 2, opacity: 0.85 }}>
-                {ui[language].transitionCredited(selectedContinuation.credited.length)}
-                {(shownContinuation?.exempt ?? []).map(e => (
-                  <span key={e.code}>{` · ${ui[language].transitionExempt}: ${e.code}`}</span>
-                ))}
-                {(shownContinuation?.moved ?? []).map(m => (
-                  <span key={m.code}>{` · ${ui[language].transitionMoved}: ${m.code} → ${ui[language].transitionToYear(m.toYear)}`}</span>
-                ))}
-                {(shownContinuation?.added ?? []).map(a => (
-                  <span key={a.code}>
-                    {` · ${ui[language].transitionAdded}: ${a.code}`}
-                    {a.fromProgram ? ` (${a.fromProgram})` : ''}
-                    {a.substitutesFor ? ` ${ui[language].transitionInsteadOf} ${a.substitutesFor}` : ''}
-                  </span>
-                ))}
-              </div>
-              {/*
-                Only for a signed-off plan. An unverified plan's notes still
-                carry the open questions and the modelling reasoning written
-                for its programme director; they are rewritten for students
-                as part of the sign-off.
-              */}
-              {shownContinuation && selectedContinuation.verified === true && (
-                <TransitionDetails plan={shownContinuation} language={language} courses={courses} color={kthColors.KthBlue?.HEX} />
-              )}
-              {selectedCohort && selectedContinuation.cohorts === undefined && (
-                <div style={{ marginTop: 2, fontStyle: 'italic' }}>{ui[language].transitionCohortUnstated}</div>
-              )}
-              {/* Cohort codes are HT<year>, so they order as strings. */}
-              {selectedCohort && typeof selectedContinuation.cohorts === 'object'
-                && selectedCohort < selectedContinuation.cohorts.from && (
-                <div style={{ marginTop: 2, fontStyle: 'italic' }}>
-                  {ui[language].transitionOtherCohort(selectedContinuation.cohorts.from, selectedCohort)}
-                </div>
-              )}
-              {selectedContinuation.verified !== true && (
-                <div style={{ marginTop: 2, fontStyle: 'italic' }}>{ui[language].transitionUnverified}</div>
-              )}
-              {transitionLoads.length > 0 && (
-                <ul style={{ marginTop: 4, paddingLeft: 18 }}>
-                  {transitionLoads.map(l => {
-                    const total = Math.round(l.load.reduce((a, b) => a + b, 0) * 10) / 10;
-                    const kind = Math.abs(total - 60) < 0.05 ? 'spread' : total > 60 ? 'over' : 'short';
-                    return <li key={l.year}>{ui[language].transitionLoad(l.year, l.load.join('/'), String(total), kind)}</li>;
-                  })}
-                </ul>
-              )}
-              {transitionWarnings.length > 0 && (
-                <ul style={{ marginTop: 4, paddingLeft: 18, color: '#78001A' }}>
-                  {transitionWarnings.map(w => <li key={w}>{w}</li>)}
-                </ul>
-              )}
-            </div>
-          )}
-          {selectedMaster && (
-            <div style={{ marginTop: 10, fontSize: 13, color: kthColors.KthBlue?.HEX }}>
-              {ui[language].masterNotice(selectedMaster.program.code, masterCohort)}
-              {selectedMaster.program.verified !== true && (
-                <div style={{ marginTop: 2, fontStyle: 'italic' }}>{ui[language].masterUnverified(selectedMaster.program.code)}</div>
-              )}
-              {shownMasterNotes.length > 0 && (
-                <ul style={{ marginTop: 4, paddingLeft: 18 }}>
-                  {shownMasterNotes.map(n => <li key={n}>{n}</li>)}
-                </ul>
-              )}
-            </div>
-          )}
-          {approximatedYears.length > 0 && (
-            <div style={{ marginTop: 10, fontSize: 13, color: kthColors.KthBlue?.HEX }}>
-              <span>{ui[language].approxSummary(approximatedYears.map(y => y.year))}</span>
-              <span
-                tabIndex={0}
-                role="button"
-                aria-label={ui[language].approxInfoLabel}
-                onMouseEnter={() => setApproxInfoOpen(true)}
-                onMouseLeave={() => setApproxInfoOpen(false)}
-                onFocus={() => setApproxInfoOpen(true)}
-                onBlur={() => setApproxInfoOpen(false)}
-                style={{
-                  position: 'relative', display: 'inline-flex', alignItems: 'center',
-                  justifyContent: 'center', width: 16, height: 16, marginLeft: 6,
-                  borderRadius: '50%', border: `1px solid ${kthColors.KthBlue?.HEX}`,
-                  fontSize: 11, fontWeight: 700, cursor: 'help', verticalAlign: 'text-bottom',
-                }}
-              >
-                i
-                {approxInfoOpen && (
-                  <span
-                    role="tooltip"
-                    style={{
-                      position: 'absolute', top: 22, right: -8, zIndex: 60, width: 340,
-                      background: 'white', border: '1px solid #e5e7eb', borderRadius: 6,
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.10)', padding: '10px 12px',
-                      fontSize: 12, fontWeight: 400, lineHeight: 1.45, cursor: 'auto',
-                      textAlign: 'left', color: kthColors.KthBlue?.HEX,
-                    }}
-                  >
-                    {approximatedYears.map(y => (
-                      <span key={y.year} style={{ display: 'block' }}>
-                        {ui[language].approxYear(y.year, y.sourceCohort ?? '—')}
-                        {y.confidence === 'low' && ` — ${ui[language].approxLowConfidence}`}
-                        {y.confidence === 'unknown' && ` — ${ui[language].approxUnknown}`}
-                      </span>
-                    ))}
-                    <span style={{ display: 'block', marginTop: 8 }}>{ui[language].approxWhy}</span>
-                    {selectedProgram.studyplan && (
-                      <a
-                        href={selectedProgram.studyplan}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ display: 'block', marginTop: 8, textDecoration: 'underline' }}
-                      >
-                        {ui[language].approxSource}
-                      </a>
-                    )}
-                  </span>
-                )}
-              </span>
-            </div>
-          )}
           </div>
         </div>
         {/* Tighter padding on phones: `p-6` spent 48 of a 390 px viewport on
@@ -1199,6 +1092,134 @@ export default function HomeClient() {
             onToast={setToast}
           />
         </div>
+        {/* Notes on the chart, below it rather than between the controls and the
+            chart, where they pushed the chart down: the transition plan applied,
+            which years are borrowed from another kull, and what the five-year
+            view shows for years 4-5. */}
+        {(selectedContinuation || approximatedYears.length > 0 || selectedMaster) && (
+          <div style={{ marginTop: 4 }}>
+            {selectedContinuation && (
+              <div style={{ marginTop: 10, fontSize: 13, color: kthColors.KthBlue?.HEX }}>
+                <div>{ui[language].transitionNotice(selectedContinuation.from, selectedContinuation.to)}</div>
+                <div style={{ marginTop: 2, opacity: 0.85 }}>
+                  {ui[language].transitionCredited(selectedContinuation.credited.length)}
+                  {(shownContinuation?.exempt ?? []).map(e => (
+                    <span key={e.code}>{` · ${ui[language].transitionExempt}: ${e.code}`}</span>
+                  ))}
+                  {(shownContinuation?.moved ?? []).map(m => (
+                    <span key={m.code}>{` · ${ui[language].transitionMoved}: ${m.code} → ${ui[language].transitionToYear(m.toYear)}`}</span>
+                  ))}
+                  {(shownContinuation?.added ?? []).map(a => (
+                    <span key={a.code}>
+                      {` · ${ui[language].transitionAdded}: ${a.code}`}
+                      {a.fromProgram ? ` (${a.fromProgram})` : ''}
+                      {a.substitutesFor ? ` ${ui[language].transitionInsteadOf} ${a.substitutesFor}` : ''}
+                    </span>
+                  ))}
+                </div>
+                {/*
+                  Only for a signed-off plan. An unverified plan's notes still
+                  carry the open questions and the modelling reasoning written
+                  for its programme director; they are rewritten for students
+                  as part of the sign-off.
+                */}
+                {shownContinuation && selectedContinuation.verified === true && (
+                  <TransitionDetails plan={shownContinuation} language={language} courses={courses} color={kthColors.KthBlue?.HEX} />
+                )}
+                {selectedCohort && selectedContinuation.cohorts === undefined && (
+                  <div style={{ marginTop: 2, fontStyle: 'italic' }}>{ui[language].transitionCohortUnstated}</div>
+                )}
+                {/* Cohort codes are HT<year>, so they order as strings. */}
+                {selectedCohort && typeof selectedContinuation.cohorts === 'object'
+                  && selectedCohort < selectedContinuation.cohorts.from && (
+                  <div style={{ marginTop: 2, fontStyle: 'italic' }}>
+                    {ui[language].transitionOtherCohort(selectedContinuation.cohorts.from, selectedCohort)}
+                  </div>
+                )}
+                {selectedContinuation.verified !== true && (
+                  <div style={{ marginTop: 2, fontStyle: 'italic' }}>{ui[language].transitionUnverified}</div>
+                )}
+                {transitionLoads.length > 0 && (
+                  <ul style={{ marginTop: 4, paddingLeft: 18 }}>
+                    {transitionLoads.map(l => {
+                      const total = Math.round(l.load.reduce((a, b) => a + b, 0) * 10) / 10;
+                      const kind = Math.abs(total - 60) < 0.05 ? 'spread' : total > 60 ? 'over' : 'short';
+                      return <li key={l.year}>{ui[language].transitionLoad(l.year, l.load.join('/'), String(total), kind)}</li>;
+                    })}
+                  </ul>
+                )}
+                {transitionWarnings.length > 0 && (
+                  <ul style={{ marginTop: 4, paddingLeft: 18, color: '#78001A' }}>
+                    {transitionWarnings.map(w => <li key={w}>{w}</li>)}
+                  </ul>
+                )}
+              </div>
+            )}
+            {approximatedYears.length > 0 && (
+              <div style={{ marginTop: 10, fontSize: 13, color: kthColors.KthBlue?.HEX }}>
+                <span>{ui[language].approxSummary(approximatedYears.map(y => y.year))}</span>
+                <span
+                  tabIndex={0}
+                  role="button"
+                  aria-label={ui[language].approxInfoLabel}
+                  onMouseEnter={() => setApproxInfoOpen(true)}
+                  onMouseLeave={() => setApproxInfoOpen(false)}
+                  onFocus={() => setApproxInfoOpen(true)}
+                  onBlur={() => setApproxInfoOpen(false)}
+                  style={{
+                    position: 'relative', display: 'inline-flex', alignItems: 'center',
+                    justifyContent: 'center', width: 16, height: 16, marginLeft: 6,
+                    borderRadius: '50%', border: `1px solid ${kthColors.KthBlue?.HEX}`,
+                    fontSize: 11, fontWeight: 700, cursor: 'help', verticalAlign: 'text-bottom',
+                  }}
+                >
+                  i
+                  {approxInfoOpen && (
+                    <span
+                      role="tooltip"
+                      style={{
+                        position: 'absolute', top: 22, left: -8, zIndex: 60, width: 340,
+                        background: 'white', border: '1px solid #e5e7eb', borderRadius: 6,
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.10)', padding: '10px 12px',
+                        fontSize: 12, fontWeight: 400, lineHeight: 1.45, cursor: 'auto',
+                        textAlign: 'left', color: kthColors.KthBlue?.HEX,
+                      }}
+                    >
+                      {approximatedYears.map(y => (
+                        <span key={y.year} style={{ display: 'block' }}>
+                          {ui[language].approxYear(y.year, y.sourceCohort ?? '—')}
+                          {y.confidence === 'low' && ` — ${ui[language].approxLowConfidence}`}
+                          {y.confidence === 'unknown' && ` — ${ui[language].approxUnknown}`}
+                        </span>
+                      ))}
+                      <span style={{ display: 'block', marginTop: 8 }}>{ui[language].approxWhy}</span>
+                      {selectedProgram.studyplan && (
+                        <a
+                          href={selectedProgram.studyplan}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ display: 'block', marginTop: 8, textDecoration: 'underline' }}
+                        >
+                          {ui[language].approxSource}
+                        </a>
+                      )}
+                    </span>
+                  )}
+                </span>
+              </div>
+            )}
+            {selectedMaster && (
+              <div style={{ marginTop: 10, fontSize: 13, color: kthColors.KthBlue?.HEX }}>
+                {ui[language].masterNotice(selectedMaster.program.code, masterCohort)}
+                {shownMasterNotes.length > 0 && (
+                  <ul style={{ marginTop: 4, paddingLeft: 18 }}>
+                    {shownMasterNotes.map(n => <li key={n}>{n}</li>)}
+                  </ul>
+                )}
+              </div>
+            )}
+          </div>
+        )}
         <Toast language={language} toast={toast} onClose={() => setToast(null)} />
         
         {/* Git version info in bottom right */}
