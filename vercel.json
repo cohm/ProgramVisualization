@@ -6,7 +6,6 @@
   },
   "functions": {
     "src/app/api/export-pdf/route.ts": {
-      "memory": 1800,
       "maxDuration": 60,
       "includeFiles": "node_modules/@sparticuz/chromium/bin/**"
     }

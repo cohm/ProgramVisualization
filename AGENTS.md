@@ -1814,7 +1814,7 @@ a rendered font with CDP's `CSS.getPlatformFontsForNode`, not just
 
 **SVG export**: Embeds Figtree font CSS inline so the exported SVG renders correctly outside the browser. The font is fetched fresh from Google Fonts on every export.
 
-**Vercel PDF export**: `vercel.json` sets 1800 MB RAM and 60s timeout for the PDF endpoint (Hobby plan limit is 2048 MB). The `@sparticuz/chromium` binary must be bundled — configured via `serverExternalPackages` + `outputFileTracingIncludes` in `next.config.ts` and the matching `includeFiles` in `vercel.json` (the duplication is intentional but fragile).
+**Vercel PDF export**: `vercel.json` sets a 60 s timeout for the PDF endpoint. It no longer sets memory: on Vercel's Active CPU billing a `memory` setting there is ignored (the deploy log says so), and memory is set in the project's Functions settings on vercel.com. The `@sparticuz/chromium` binary must be bundled — configured via `serverExternalPackages` + `outputFileTracingIncludes` in `next.config.ts` and the matching `includeFiles` in `vercel.json` (the duplication is intentional but fragile).
 
 **`import 'd3-transition'` is load-bearing and must not be tidied away.** It is a
 side-effect import: it is what installs `.transition()` and `.interrupt()` on the
