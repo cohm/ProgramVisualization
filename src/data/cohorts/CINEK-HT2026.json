@@ -313,12 +313,6 @@
       "TMAI"
     ],
     "category": "mandatory",
-    "nameEn": "Applied Computer Science",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "DD1317"
-    ],
     "yearBySpecialization": {
       "PPUI": 3
     },
@@ -329,7 +323,13 @@
         "P3": 0,
         "P4": 0
       }
-    }
+    },
+    "nameEn": "Applied Computer Science",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DD1317"
+    ]
   },
   {
     "code": "SF1545",
@@ -607,6 +607,7 @@
       "TMAI"
     ],
     "category": "mandatory",
+    "nameEn": "Markov Processes with Applications",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -1235,8 +1236,8 @@
   },
   {
     "type": "optionGroup",
-    "name": "Villkorligt valfri grupp 1",
-    "nameEn": "Conditionally elective group 1",
+    "name": "Kandidatexamensarbete (PPUI)",
+    "nameEn": "Degree project, first cycle (PPUI)",
     "year": 3,
     "totalCredits": 15,
     "periodCredits": {
@@ -1253,7 +1254,10 @@
     "kind": "pickN",
     "pickN": 1,
     "exams": [],
-    "category": "conditionallyElective"
+    "category": "conditionallyElective",
+    "specializations": [
+      "PPUI"
+    ]
   },
   {
     "code": "SF2930",

@@ -1075,6 +1075,24 @@
         "noteEn": "Programming paradigms is deferred to year 3, taken with CDATE year 2. The plan splits it P3 4.0 + P4 2.0 while the course page says P3 3.0 + P4 3.0."
       }
     ],
+    "rescheduled": [
+      {
+        "code": "XY320Z",
+        "periodCredits": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0,
+          "P4": 7.5
+        },
+        "creditedBy": [
+          "SK1115",
+          "SG1133",
+          "KD1000"
+        ],
+        "note": "CDATE:s valfria utrymme i årskurs 3 är 15 hp (\"I årskurs 3 läses 45 hp obligatoriska kurser och 15 hp valfria kurser\"). Planen räknar SK1115, SG1133 och KD1000 som valbara kurser på mottagande program och anger det som återstår som \"XX0000\", en valfri kurs på 7,5 hp i P4.",
+        "noteEn": "CDATE’s year-3 elective space is 15 credits. The plan counts SK1115, SG1133 and KD1000 as electives on the receiving programme and gives what remains as \"XX0000\", a 7.5-credit elective course in P4."
+      }
+    ],
     "added": [
       {
         "code": "DD1391",

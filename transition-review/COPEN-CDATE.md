@@ -63,6 +63,13 @@ Kursen läses i samma läsperioder som vanligt, men ett år senare.
 - **[DD1366](https://www.kth.se/student/kurser/kurs/DD1366) Programmeringsparadigm** (6 hp): årskurs 2 → 3
   Programmeringsparadigm skjuts till årskurs 3 och läses tillsammans med CDATE årskurs 2. Planen anger fördelningen P3 4,0 + P4 2,0 medan kurssidan anger P3 3,0 + P4 3,0 — se signeringsunderlaget.
 
+## Kurser som läses i andra perioder
+
+Samma kurs och samma årskurs, men i andra läsperioder: en annan av KTH:s omgångar under året, eller bara den del som inte tillgodoräknas.
+
+- **[XY320Z](https://www.kth.se/student/kurser/kurs/XY320Z) Plats för valfri kurs** (15,6 hp): P2: 0,9 hp, P3: 7,4 hp, P4: 7,3 hp → **P4: 7,5 hp**; resten tillgodoräknas genom [SK1115](https://www.kth.se/student/kurser/kurs/SK1115) och [SG1133](https://www.kth.se/student/kurser/kurs/SG1133) och [KD1000](https://www.kth.se/student/kurser/kurs/KD1000)
+  CDATE:s valfria utrymme i årskurs 3 är 15 hp ("I årskurs 3 läses 45 hp obligatoriska kurser och 15 hp valfria kurser"). Planen räknar SK1115, SG1133 och KD1000 som valbara kurser på mottagande program och anger det som återstår som "XX0000", en valfri kurs på 7,5 hp i P4.
+
 ## Kurser som tillkommer
 
 Kurser som inte finns i någon av de två publicerade studieplanerna.
@@ -88,18 +95,18 @@ en övergångsplan innehåller ofta upphämtningskurser — men de bör stämma 
 |---|---|---|---|---|---|
 | 1 | 15 | 15 | 15 | 15 | 60 |
 | 2 | 19,6 | 15,8 | 13,1 | 19 | 67,5 |
-| 3 | 17,1 | 14,1 | 10,6 | 10,7 | 52,5 |
+| 3 | 17,1 | 14,1 | 10,6 | 18,2 | 60 |
 
 **Årskurs 2 stämmer exakt med övergångsplanens egna summor: 19,6 / 15,8 / 13,1 / 19,0 hp, totalt 67,5.** Alla fyra perioderna och totalsumman är identiska, vilket är en stark bekräftelse på att kursurvalet och de åtta flyttarna är rätt avlästa.
 
-Årskurs 3 skiljer sig på två punkter, och båda är redovisade nedan:
+Årskurs 3 har samma totalsumma som planen, 60 hp, och skiljer sig bara i P3 och P4:
 
 | | P1 | P2 | P3 | P4 | totalt |
 |---|---|---|---|---|---|
-| diagrammet | 17,1 | 14,1 | 10,6 | 10,7 | 52,5 |
+| diagrammet | 17,1 | 14,1 | 10,6 | 18,2 | 60,0 |
 | planen | 17,1 | 14,1 | 11,6 | 17,2 | 60,0 |
 
-Skillnaden är helt förklarad: **DD1366:s periodfördelning** (planen 4,0 + 2,0, kurssidan 3,0 + 3,0) ger ±1,0 hp, och den **valfria kursen XX0000** på 7,5 hp i P4 ritas inte, eftersom den inte är en kurs utan en plats för en. Ingen kurs saknas.
+Skillnaden är **DD1366:s periodfördelning** (planen 4,0 + 2,0, kurssidan 3,0 + 3,0). Den **valfria kursen XX0000** på 7,5 hp i P4 ritas som en plats för valfri kurs: det är det som återstår av CDATE:s 15 hp valfria utrymme i årskurs 3 när SK1115, SG1133 och KD1000 räknas som valbara kurser.
 
 ## Frågor som behöver besvaras
 

@@ -25,6 +25,77 @@
     ]
   },
   {
+    "code": "SF1624",
+    "name": "Algebra och geometri",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Algebra and Geometry",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "ME1315",
+    "name": "Industriell marknadsföring för I",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 4,
+      "P4": 2
+    },
+    "year": 1,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Industrial Marketing for I",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "ME1314"
+    ]
+  },
+  {
+    "code": "SG1109",
+    "name": "Mekanik",
+    "totalCredits": 8,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 2,
+      "P4": 6
+    },
+    "year": 1,
+    "exams": [
+      "P3",
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Mechanics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesParticipation": [
+      "SF1625"
+    ]
+  },
+  {
     "code": "ME1306",
     "name": "Industriell projektledning för I",
     "totalCredits": 7.5,
@@ -49,22 +120,46 @@
     ]
   },
   {
-    "code": "DD1317",
-    "name": "Programmeringsteknik",
+    "code": "SF1625",
+    "name": "Envariabelanalys",
     "totalCredits": 7.5,
     "periodCredits": {
-      "P1": 3.5,
-      "P2": 4,
+      "P1": 7.5,
+      "P2": 0,
       "P3": 0,
       "P4": 0
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [],
+    "exams": [
+      "P1"
+    ],
     "teacher": "",
     "description": "",
     "category": "mandatory",
-    "nameEn": "Programming Techniques",
+    "nameEn": "Calculus in One Variable",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "ME1314",
+    "name": "Introduktion till industriell ekonomi",
+    "totalCredits": 9,
+    "periodCredits": {
+      "P1": 4,
+      "P2": 3.5,
+      "P3": 1.5,
+      "P4": 0
+    },
+    "year": 1,
+    "prerequisites": [],
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Introduction to Industrial Engineering and Management",
     "gradingScale": "A-F",
     "courseLevel": "G"
   },
@@ -93,119 +188,24 @@
     ]
   },
   {
-    "code": "SF1624",
-    "name": "Algebra och geometri",
+    "code": "DD1317",
+    "name": "Programmeringsteknik",
     "totalCredits": 7.5,
     "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
+      "P1": 3.5,
+      "P2": 4,
       "P3": 0,
       "P4": 0
     },
     "year": 1,
     "prerequisites": [],
-    "exams": [
-      "P2"
-    ],
+    "exams": [],
     "teacher": "",
     "description": "",
     "category": "mandatory",
-    "nameEn": "Algebra and Geometry",
+    "nameEn": "Programming Techniques",
     "gradingScale": "A-F",
     "courseLevel": "G"
-  },
-  {
-    "code": "SF1625",
-    "name": "Envariabelanalys",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 7.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Calculus in One Variable",
-    "gradingScale": "A-F",
-    "courseLevel": "G"
-  },
-  {
-    "code": "SG1109",
-    "name": "Mekanik",
-    "totalCredits": 8,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 2,
-      "P4": 6
-    },
-    "year": 1,
-    "exams": [
-      "P3",
-      "P4"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Mechanics",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesParticipation": [
-      "SF1625"
-    ]
-  },
-  {
-    "code": "ME1314",
-    "name": "Introduktion till industriell ekonomi",
-    "totalCredits": 9,
-    "periodCredits": {
-      "P1": 4,
-      "P2": 3.5,
-      "P3": 1.5,
-      "P4": 0
-    },
-    "year": 1,
-    "prerequisites": [],
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Introduction to Industrial Engineering and Management",
-    "gradingScale": "A-F",
-    "courseLevel": "G"
-  },
-  {
-    "code": "ME1315",
-    "name": "Industriell marknadsföring för I",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 4,
-      "P4": 2
-    },
-    "year": 1,
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Industrial Marketing for I",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesParticipation": [
-      "ME1314"
-    ]
   },
   {
     "code": "MF1016",
@@ -337,9 +337,6 @@
       "TMAI"
     ],
     "category": "mandatory",
-    "nameEn": "Applied Computer Science",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
     "yearBySpecialization": {
       "PPUI": 3
     },
@@ -350,7 +347,10 @@
         "P3": 0,
         "P4": 0
       }
-    }
+    },
+    "nameEn": "Applied Computer Science",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
   },
   {
     "code": "DH1623",
@@ -1254,8 +1254,8 @@
   },
   {
     "type": "optionGroup",
-    "name": "Villkorligt valfri grupp 1",
-    "nameEn": "Conditionally elective group 1",
+    "name": "Kandidatexamensarbete (PPUI)",
+    "nameEn": "Degree project, first cycle (PPUI)",
     "year": 3,
     "totalCredits": 15,
     "periodCredits": {
@@ -1272,7 +1272,10 @@
     "kind": "pickN",
     "pickN": 1,
     "exams": [],
-    "category": "conditionallyElective"
+    "category": "conditionallyElective",
+    "specializations": [
+      "PPUI"
+    ]
   },
   {
     "code": "SF2930",

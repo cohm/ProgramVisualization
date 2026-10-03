@@ -21,13 +21,13 @@ curated `src/data/CDATE.json`) directly — this file is a worklist, not a sourc
 
 | kull | slutförd | aktivt deltagande | flaggat |
 |---|---|---|---|
-| HT2022 | 14 | 2 | 4 |
-| HT2023 | 14 | 3 | 7 |
-| HT2024 | 14 | 3 | 7 |
-| HT2025 | 14 | 3 | 7 |
-| HT2026 | 14 | 5 | 6 |
+| HT2022 | 14 | 2 | 8 |
+| HT2023 | 14 | 3 | 11 |
+| HT2024 | 14 | 3 | 11 |
+| HT2025 | 14 | 3 | 11 |
+| HT2026 | 14 | 5 | 9 |
 
-**9** distinct item(s) need review across all cohorts (an item shared by
+**13** distinct item(s) need review across all cohorts (an item shared by
 several cohorts is counted once).
 
 - [DA150X](https://www.kth.se/student/kurser/kurs/DA150X) — slutförd: [DA1600](https://www.kth.se/student/kurser/kurs/DA1600), [DD1337](https://www.kth.se/student/kurser/kurs/DD1337), [DD1338](https://www.kth.se/student/kurser/kurs/DD1338); deltagande: [AL1504](https://www.kth.se/student/kurser/kurs/AL1504), [DD1367](https://www.kth.se/student/kurser/kurs/DD1367) · kursplan [VT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/DA150X-20261.pdf?lang=sv) / [VT 2025 – HT 2025](https://www.kth.se/student/kurser/kurs/kursplan/DA150X-20251.pdf?lang=sv)
@@ -125,4 +125,17 @@ The requirement is a credit total ("minst N hp"), which the schema cannot repres
   > Minst 102 hp från årskurs 1-2 och period 1 i årskurs 3 av de obligatoriska kurserna inom utbildningsplanen för civilingenjörsutbildningen i datateknik (CDATE) ska vara avklarade senast vid startdatum för period 2 för att studenten ska få påbörja examensarbetet.
 - [DA150X](https://www.kth.se/student/kurser/kurs/DA150X) · kursplan [VT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/DA150X-20261.pdf?lang=sv) · *HT2023, HT2024, HT2025, HT2026*
   > Minst 120 hp från årskurs 1-3 av de obligatoriska kurserna inom utbildningsplanen för civilingenjörsutbildningen i datateknik (CDATE) ska vara slutförda senast två veckor efter startdatum för period 3.
+
+## Text names courses, but none in this programme (4)
+
+Usually correct — the syllabus lists alternatives from other programmes and the in-programme filter drops them. But the lists also go stale: where the text describes a knowledge area and this programme has a course of that name, the candidate is called out below as **suggested**. Nothing is written to the data from a name match — confirm it first.
+
+- [ME1010](https://www.kth.se/student/kurser/kurs/ME1010) · kursplan [HT 2023 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/ME1010-20232.pdf?lang=sv)
+  > Grundläggande behörighet.
+- [SF1624](https://www.kth.se/student/kurser/kurs/SF1624) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SF1624-20192.pdf?lang=sv)
+  > Grundläggande behörighet.
+- [SF1625](https://www.kth.se/student/kurser/kurs/SF1625) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SF1625-20192.pdf?lang=sv)
+  > Grundläggande behörighet.
+- [SF1671](https://www.kth.se/student/kurser/kurs/SF1671) · kursplan [HT 2019 – VT 2026](https://www.kth.se/student/kurser/kurs/kursplan/SF1671-20192.pdf?lang=sv) · *HT2022, HT2023, HT2024, HT2025*
+  > Grundläggande behörighet.
 

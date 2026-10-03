@@ -57,6 +57,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Programme Integrating Course in Computer Science Engineering",
     "gradingScale": "A-F",
     "courseLevel": "G"
   },
@@ -75,6 +76,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Project in Introduction to Computer Science",
     "gradingScale": "P/F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -98,6 +100,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Writing in the Engineering Profession",
     "gradingScale": "A-F",
     "courseLevel": "G"
   },
@@ -117,6 +120,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Programming",
     "gradingScale": "A-F",
     "courseLevel": "G"
   },
@@ -138,6 +142,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Mathematics, Basic course, with Discrete Mathematics",
     "gradingScale": "A-F",
     "courseLevel": "G"
   },
@@ -178,6 +183,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Algorithms and Data Structures",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -265,6 +271,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Parallel and Concurrent Programming in Introduction to Computer Science",
     "gradingScale": "P/F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -287,6 +294,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Programming Paradigms",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -358,6 +366,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Numerical Methods, Basic Course",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -382,6 +391,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Probability Theory and Statistics with Application to Machine Learning",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -427,6 +437,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Organization and Knowledge-Intensive Work",
     "gradingScale": "A-F",
     "courseLevel": "G"
   },
@@ -480,6 +491,34 @@
     ]
   },
   {
+    "code": "DA150X",
+    "name": "Examensarbete inom datateknik, grundnivå",
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "year": 3,
+    "exams": [],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Degree Project in Computer Science and Engineering, First Cycle",
+    "gradingScale": "P/F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "DA1600",
+      "DD1337",
+      "DD1338"
+    ],
+    "prerequisitesParticipation": [
+      "AL1504",
+      "DD1367"
+    ]
+  },
+  {
     "code": "DD2350",
     "name": "Algoritmer, datastrukturer och komplexitet",
     "totalCredits": 9.5,
@@ -511,25 +550,6 @@
     ]
   },
   {
-    "code": "AL1504",
-    "name": "Hållbar utveckling för datateknik",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 7.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "gradingScale": "A-F",
-    "courseLevel": "G"
-  },
-  {
     "code": "SF1688",
     "name": "Diskret matematik",
     "totalCredits": 6,
@@ -546,6 +566,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Discrete Mathematics",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -554,30 +575,43 @@
     ]
   },
   {
-    "code": "DA150X",
-    "name": "Examensarbete inom datateknik, grundnivå",
-    "totalCredits": 15,
+    "code": "XY320Z",
+    "name": "Plats för valfri kurs",
+    "nameEn": "Space for elective course",
+    "totalCredits": 15.6,
     "periodCredits": {
       "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 7.5
+      "P2": 0.9,
+      "P3": 7.4,
+      "P4": 7.3
     },
     "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P2",
+      "P3",
+      "P4"
+    ],
+    "category": "electivePlaceholder"
+  },
+  {
+    "code": "AL1504",
+    "name": "Hållbar utveckling för datateknik",
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 7.5,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
     "exams": [],
     "teacher": "",
     "description": "",
     "category": "mandatory",
-    "gradingScale": "P/F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "DA1600",
-      "DD1337",
-      "DD1338"
-    ],
-    "prerequisitesParticipation": [
-      "AL1504",
-      "DD1367"
-    ]
+    "nameEn": "Sustainable Development for Computer Science and Engineering",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
   }
 ]

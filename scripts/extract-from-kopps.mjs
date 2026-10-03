@@ -2913,6 +2913,10 @@ const ELECTIVE_SEASON_RE = /på\s+(våren|hösten)\s+i\s+årskurs\s+(\d)\s+finns
 // "Studenten ska också läsa 15 hp valfria kurser i åk 3." (CMEDT) — a figure for
 // the whole year, with no season.
 const ELECTIVE_YEAR_RE = /\bska\s+(?:också\s+)?läsa\s+([\d]+(?:[,.]\d+)?)\s*hp\s+valfria\s+kurser\s+i\s+(?:åk|årskurs)\s*(\d)/i;
+// "I årskurs 3 läses 45 hp obligatoriska kurser och 15 hp valfria kurser." (CDATE)
+// — the same claim with the year first. The line for a year without elective
+// space ("I årskurs 1 läses 60 hp obligatoriska kurser.") does not match.
+const ELECTIVE_YEAR_FIRST_RE = /\bi\s+(?:åk|årskurs)\s*(\d)\s+läses\s+(?:[\d]+(?:[,.]\d+)?\s*hp\s+obligatoriska\s+kurser\s+och\s+)?([\d]+(?:[,.]\d+)?)\s*hp\s+valfria\s+kurser/i;
 
 const hpFromText = (x) => Number(String(x).replace(',', '.'));
 
@@ -2928,6 +2932,11 @@ function statedElectiveSpace(notes) {
     if (wholeYear) {
       out.push({ kind: 'season', hp: hpFromText(wholeYear[1]), year: Number(wholeYear[2]),
         periods: [...PERIOD_IDS], statedWholeYear: true, quote: wholeYear[0] });
+    }
+    const yearFirst = ELECTIVE_YEAR_FIRST_RE.exec(note);
+    if (yearFirst && !wholeYear) {
+      out.push({ kind: 'season', hp: hpFromText(yearFirst[2]), year: Number(yearFirst[1]),
+        periods: [...PERIOD_IDS], statedWholeYear: true, quote: yearFirst[0] });
     }
     const season = ELECTIVE_SEASON_RE.exec(note);
     if (season) {

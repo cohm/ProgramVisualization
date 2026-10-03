@@ -57,6 +57,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Global Impact of Electrical Engineering",
     "gradingScale": "A-F",
     "courseLevel": "G"
   },
@@ -120,6 +121,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Digital Design",
     "gradingScale": "A-F",
     "courseLevel": "G"
   },
@@ -142,6 +144,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Electrical Circuit Analysis, Extended Course",
     "gradingScale": "A-F",
     "courseLevel": "G"
   },
@@ -205,6 +208,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Project Course in Electrical Engineering",
     "gradingScale": "A-F",
     "courseLevel": "G"
   },
@@ -250,6 +254,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Electromagnetic Theory E",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -313,6 +318,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Project Course in Electrical Engineering, part II",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -357,6 +363,7 @@
     "teacher": "",
     "description": "",
     "category": "conditionallyElective",
+    "nameEn": "Electromagnetic Theory, Continuation Course",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -427,6 +434,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Continuous Time Signals and Systems",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -451,6 +459,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Classical physics, mechanics and waves",
     "gradingScale": "A-F",
     "courseLevel": "G"
   },
@@ -471,6 +480,7 @@
     "teacher": "",
     "description": "",
     "category": "conditionallyElective",
+    "nameEn": "Program System Construction Using C++",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -519,6 +529,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Vector Analysis",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -614,6 +625,7 @@
     "teacher": "",
     "description": "",
     "category": "conditionallyElective",
+    "nameEn": "Semiconductor Devices for Integrated Circuits",
     "gradingScale": "A-F",
     "courseLevel": "A",
     "prerequisitesCompleted": [
@@ -662,6 +674,7 @@
     "teacher": "",
     "description": "",
     "category": "conditionallyElective",
+    "nameEn": "Thermodynamics and Statistical Physics",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -687,6 +700,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Probability Theory and Statistics",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -800,6 +814,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Automatic Control, general course",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -823,6 +838,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Electric Power Systems",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -846,6 +862,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Measurement Technology",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -869,6 +886,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Stochastic Signals and Systems",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [
@@ -893,6 +911,7 @@
     "teacher": "",
     "description": "",
     "category": "mandatory",
+    "nameEn": "Analog Electronics",
     "gradingScale": "A-F",
     "courseLevel": "G",
     "prerequisitesCompleted": [

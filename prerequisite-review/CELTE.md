@@ -21,13 +21,13 @@ curated `src/data/CELTE.json`) directly — this file is a worklist, not a sourc
 
 | kull | slutförd | aktivt deltagande | flaggat |
 |---|---|---|---|
-| HT2022 | 20 | 4 | 4 |
-| HT2023 | 20 | 4 | 4 |
-| HT2024 | 21 | 4 | 6 |
-| HT2025 | 21 | 5 | 8 |
-| HT2026 | 21 | 5 | 8 |
+| HT2022 | 20 | 4 | 10 |
+| HT2023 | 20 | 4 | 10 |
+| HT2024 | 21 | 4 | 12 |
+| HT2025 | 21 | 5 | 14 |
+| HT2026 | 21 | 5 | 14 |
 
-**8** distinct item(s) need review across all cohorts (an item shared by
+**15** distinct item(s) need review across all cohorts (an item shared by
 several cohorts is counted once).
 
 - [DD1320](https://www.kth.se/student/kurser/kurs/DD1320) — slutförd: [DD1310](https://www.kth.se/student/kurser/kurs/DD1310) · kursplan [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/DD1320-20262.pdf?lang=sv) / [HT 2024 – VT 2026](https://www.kth.se/student/kurser/kurs/kursplan/DD1320-20242.pdf?lang=sv) / [HT 2023 – VT 2024](https://www.kth.se/student/kurser/kurs/kursplan/DD1320-20232.pdf?lang=sv)
@@ -156,4 +156,23 @@ The requirement is a credit total ("minst N hp"), which the schema cannot repres
 
 - [EF112X](https://www.kth.se/student/kurser/kurs/EF112X) · kursplan [VT 2021 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/EF112X-20211.pdf?lang=sv)
   > Minst 104 högskolepoäng från kurser i utbildningsplanen, till och med period 1 i årskurs 3, ska vara avklarade senast vid startdatum för period 2 för att studenten ska få påbörja examensarbetet.
+
+## Text names courses, but none in this programme (7)
+
+Usually correct — the syllabus lists alternatives from other programmes and the in-programme filter drops them. But the lists also go stale: where the text describes a knowledge area and this programme has a course of that name, the candidate is called out below as **suggested**. Nothing is written to the data from a name match — confirm it first.
+
+- [EF112X](https://www.kth.se/student/kurser/kurs/EF112X) · kursplan [VT 2021 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/EF112X-20211.pdf?lang=sv)
+  > Minst 104 högskolepoäng från kurser i utbildningsplanen, till och med period 1 i årskurs 3, ska vara avklarade senast vid startdatum för period 2 för att studenten ska få påbörja examensarbetet.
+- [EH1110](https://www.kth.se/student/kurser/kurs/EH1110) · kursplan [VT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/EH1110-20191.pdf?lang=sv)
+  > Obligatorisk för CELTE, kan ej läsas av andra studenter
+- [MH1023](https://www.kth.se/student/kurser/kurs/MH1023) · kursplan [VT 2020 – HT 2025](https://www.kth.se/student/kurser/kurs/kursplan/MH1023-20201.pdf?lang=sv) · *HT2022, HT2023*
+  > Grundläggande behörighet samt Matematik E, Fysik B och Kemi A, eller motsvarande.
+- [MH1023](https://www.kth.se/student/kurser/kurs/MH1023) · kursplan [VT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MH1023-20261.pdf?lang=sv) · *HT2024, HT2025, HT2026*
+  > Grundläggande behörighet.
+- [SF1624](https://www.kth.se/student/kurser/kurs/SF1624) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SF1624-20192.pdf?lang=sv)
+  > Grundläggande behörighet.
+- [SF1625](https://www.kth.se/student/kurser/kurs/SF1625) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SF1625-20192.pdf?lang=sv)
+  > Grundläggande behörighet.
+- [SK1108](https://www.kth.se/student/kurser/kurs/SK1108) · kursplan [HT 2020 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SK1108-20202.pdf?lang=sv)
+  > Allmän och särskild behörighet för civilingenjörsprogram.
 
