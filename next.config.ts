@@ -1,53 +1,55 @@
 import type { NextConfig } from "next";
 import { execSync } from 'child_process';
 
-// Get git commit hash, timestamp, and repository URL at build time.
+// Build identification, fixed at build time: the release version, commit
+// hash, commit time and repository URL.
+//
+// The version is the release tag the build was made from, `git describe`
+// against `v*` tags: "v1.2.0" for a release, "v1.2.0-3-ga4280c5" for a build
+// three commits after it, the bare hash before any tag exists. A release build
+// needs the tags in its checkout (`fetch-depth: 0` in the workflows).
 //
 // Build context affects what's available:
-// - Vercel: VERCEL_GIT_* env vars are set; we use those.
-// - Local / GitHub Actions checkout: shell out to `git`.
-// - Tarball / Docker layer with no .git: the catch returns 'unknown'.
-//   To avoid the silent fallback in that case, set NEXT_PUBLIC_GIT_HASH (and
-//   optionally NEXT_PUBLIC_GIT_TIMESTAMP / NEXT_PUBLIC_GIT_REPO_URL) in the
-//   build environment — Next inlines them just like the values produced here.
-const getGitInfo = () => {
+// - GitHub Actions (releases, Pages) and local builds: `git`.
+// - Vercel's own builds (PR previews): VERCEL_GIT_* env vars; `git` may be
+//   missing. The PR number comes from VERCEL_GIT_PULL_REQUEST_ID.
+// - Anywhere, NEXT_PUBLIC_APP_VERSION / NEXT_PUBLIC_GIT_HASH /
+//   NEXT_PUBLIC_GIT_TIMESTAMP in the environment override what is found here.
+const git = (args: string): string => {
   try {
-    // On Vercel, use their environment variables if available
-    const hash = process.env.VERCEL_GIT_COMMIT_SHA?.substring(0, 7) ||
-                 execSync('git rev-parse --short HEAD').toString().trim();
-
-    const timestamp = execSync('git log -1 --format=%cd --date=iso-strict').toString().trim();
-
-    // Try to get the repository URL from git remote or Vercel env vars
-    let repoUrl = '';
-
-    // Check Vercel environment variables first
-    if (process.env.VERCEL_GIT_PROVIDER && process.env.VERCEL_GIT_REPO_OWNER && process.env.VERCEL_GIT_REPO_SLUG) {
-      repoUrl = `https://${process.env.VERCEL_GIT_PROVIDER}.com/${process.env.VERCEL_GIT_REPO_OWNER}/${process.env.VERCEL_GIT_REPO_SLUG}`;
-    } else {
-      // Fall back to git remote
-      try {
-        const remoteUrl = execSync('git config --get remote.origin.url').toString().trim();
-        // Convert SSH URLs to HTTPS (e.g., git@github.com:user/repo.git -> https://github.com/user/repo)
-        if (remoteUrl.startsWith('git@github.com:')) {
-          repoUrl = remoteUrl.replace('git@github.com:', 'https://github.com/').replace(/\.git$/, '');
-        } else if (remoteUrl.startsWith('https://')) {
-          repoUrl = remoteUrl.replace(/\.git$/, '');
-        }
-      } catch {
-        // No remote configured, use hardcoded fallback for this repo
-        repoUrl = 'https://github.com/cohm/ProgramVisualization';
-      }
-    }
-
-    return { hash, timestamp, repoUrl };
+    return execSync(`git ${args}`, { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
   } catch {
-    return {
-      hash: process.env.VERCEL_GIT_COMMIT_SHA?.substring(0, 7) || 'unknown',
-      timestamp: new Date().toISOString(),
-      repoUrl: 'https://github.com/cohm/ProgramVisualization'
-    };
+    return '';
   }
+};
+
+const getGitInfo = () => {
+  const hash = process.env.NEXT_PUBLIC_GIT_HASH
+    || process.env.VERCEL_GIT_COMMIT_SHA?.substring(0, 7)
+    || git('rev-parse --short HEAD')
+    || 'unknown';
+  // The commit's own time. Left empty rather than replaced by the build time
+  // when git is not available: a footer showing the build clock as the
+  // commit time was wrong without saying so.
+  const timestamp = process.env.NEXT_PUBLIC_GIT_TIMESTAMP || git('log -1 --format=%cI');
+  const version = process.env.NEXT_PUBLIC_APP_VERSION
+    || git("describe --tags --match 'v[0-9]*' --abbrev=7")
+    || '';
+
+  let repoUrl = 'https://github.com/cohm/ProgramVisualization';
+  if (process.env.VERCEL_GIT_PROVIDER && process.env.VERCEL_GIT_REPO_OWNER && process.env.VERCEL_GIT_REPO_SLUG) {
+    repoUrl = `https://${process.env.VERCEL_GIT_PROVIDER}.com/${process.env.VERCEL_GIT_REPO_OWNER}/${process.env.VERCEL_GIT_REPO_SLUG}`;
+  } else {
+    // Convert SSH URLs to HTTPS (e.g., git@github.com:user/repo.git -> https://github.com/user/repo)
+    const remoteUrl = git('config --get remote.origin.url');
+    if (remoteUrl.startsWith('git@github.com:')) {
+      repoUrl = remoteUrl.replace('git@github.com:', 'https://github.com/').replace(/\.git$/, '');
+    } else if (remoteUrl.startsWith('https://')) {
+      repoUrl = remoteUrl.replace(/\.git$/, '');
+    }
+  }
+
+  return { hash, timestamp, version, repoUrl, pr: process.env.VERCEL_GIT_PULL_REQUEST_ID || '' };
 };
 
 const gitInfo = getGitInfo();
@@ -69,9 +71,11 @@ const repoSlug = process.env.GITHUB_REPOSITORY?.split('/')[1] || 'ProgramVisuali
 const basePath = isPagesBuild ? `/${repoSlug}` : '';
 
 const sharedEnv = {
+  NEXT_PUBLIC_APP_VERSION: gitInfo.version,
   NEXT_PUBLIC_GIT_HASH: gitInfo.hash,
   NEXT_PUBLIC_GIT_TIMESTAMP: gitInfo.timestamp,
   NEXT_PUBLIC_GIT_REPO_URL: gitInfo.repoUrl,
+  NEXT_PUBLIC_PR_NUMBER: gitInfo.pr,
 };
 
 const nextConfig: NextConfig = isPagesBuild

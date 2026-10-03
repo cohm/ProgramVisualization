@@ -1827,7 +1827,7 @@ not run and the request blocked when guarded. One deployment caveat: the check
 compares against the `Host` header, so a proxy that rewrites `Host` would reject
 exports.
 
-**Build-time metadata**: `next.config.ts` injects `NEXT_PUBLIC_GIT_HASH`, `NEXT_PUBLIC_GIT_TIMESTAMP`, and `NEXT_PUBLIC_GIT_REPO_URL` at build time, falling back to `git` shell-outs when the Vercel env vars aren't present.
+**Build-time metadata**: `next.config.ts` fixes the build's identity at build time: `NEXT_PUBLIC_APP_VERSION` (`git describe` against `v*` tags: "v1.2.0" for a release, "v1.2.0-3-ga4280c5" after one, empty before the first tag), `NEXT_PUBLIC_GIT_HASH`, `NEXT_PUBLIC_GIT_TIMESTAMP` (the commit's own time, empty rather than the build time when `git` is missing), `NEXT_PUBLIC_GIT_REPO_URL`, and `NEXT_PUBLIC_PR_NUMBER` from Vercel's `VERCEL_GIT_PULL_REQUEST_ID`. `src/lib/buildInfo.ts` reads them for the corner badge (`BuildBadge`: "github · v1.2.0 · date" for a release, "github · PR #128 · hash time" otherwise) and the export stamp ("v1.2.0 (hash)" or "build hash"). A release build needs the tags in its checkout, so its workflow checks out with `fetch-depth: 0`.
 
 **Standing review**: Open issues, design discussion, and a ranked improvement list live in `REVIEW.md` at the repo root.
 
