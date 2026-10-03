@@ -513,7 +513,12 @@ that occur in the CBH and ABE plans:
 - "Studenten ska också läsa 15 hp valfria kurser i åk 3" (CMEDT) states a
   whole year's elective space. It becomes one box over the year's shortfall,
   and like the pool years it tolerates an excess below 3 hp: CMEDT's P3 is
-  0.5 hp over because HF1201 finishes there from year 2.
+  0.5 hp over because HF1201 finishes there from year 2. CDATE says the same
+  with the year first, "I årskurs 3 läses 45 hp obligatoriska kurser och 15 hp
+  valfria kurser", and is read the same way. Its P1 is 0.6 hp over (DD1390,
+  threaded through every year), so year 3 had stayed 15.6 hp short. The
+  COPEN → CDATE plan keeps 7.5 hp of that space ("XX0000", P4), stated as a
+  `rescheduled` entry on the placeholder.
 
 **An inriktning's villkorligt valfria groups are its own.** The layout-keyed
 grouper used to ignore the inriktning. So in CSAMH year 3, BBP's, MHI's and

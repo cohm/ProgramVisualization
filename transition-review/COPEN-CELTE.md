@@ -72,7 +72,7 @@ en övergångsplan innehåller ofta upphämtningskurser — men de bör stämma 
 | 2 | 15,5 | 15 | 24 | 23,5 | 78 |
 | 3 | 15 | 15,5 | 9 | 8,5 | 48 |
 
-Årskurs 3 landar på 61,5 hp, nära heltid. Årskurs 2 visar ett stort överskott i P3 och P4, men det kommer **inte** från övergången: CELTE:s egen studieplan listar tretton villkorligt valfria kurser i årskurs 2 som ligger utanför valblocken, så hela poolen räknas. Samma siffra syns i den vanliga CELTE-vyn. Se frågan om villkorligt valfria kurser nedan.
+Årskurs 2 landar på 78 hp och årskurs 3 på 48 hp. Båda avvikelserna kommer från samma sak: diagrammet följer ännu CELTE:s egen regel för de villkorligt valfria kurserna, inte övergångsplanens. CELTE:s studieplan anger *"Tre villkorligt valfria kurser ska läsas i årskurs 2 eller 3"*, och den vanliga CELTE-vyn visar det som ett valblock på 15 hp i årskurs 2 (P3 och P4). Övergångsplanen kräver i stället *minst en* sådan kurs plus en helt valfri kurs i årskurs 3. Se fråga 4.
 
 ## Frågor som behöver besvaras
 
@@ -112,9 +112,9 @@ Notera också att planen skriver kursnamnet *"…för ett modernt samhälle"* me
 
 Planen anger: *"Villkorligt valfria kurser i åk 2 eller 3 på CELTE. Välj minst 1 (ej SF1546, SF1547, eller SG1130) samt en helt valfri kurs i åk 3."*
 
-KTH:s studieplansdata listar tretton sådana kurser i årskurs 2 utan att gruppera dem i valblock, så diagrammet räknar hela poolen och årskurs 2 ser ut att omfatta långt över heltid. Det är samma begränsning som gäller CFATE årskurs 3, och den syns även i den vanliga CELTE-vyn — alltså inte något övergången infört.
+CELTE:s egen studieplan säger *"Tre villkorligt valfria kurser ska läsas i årskurs 2 eller 3"* och *"Under de första tre åren finns utrymme för en valfri kurs"*. Diagrammet visar det som ett valblock "välj tre" på 15 hp i årskurs 2, P3 och P4. I övergångsvyn står det blocket kvar ovanpå upphämtningskurserna, och årskurs 2 blir 78 hp medan årskurs 3 blir 48 hp.
 
-För att modellera det rätt behövs ett valblock av typen *minst N hp ur grupp* med en angiven medlemslista. **Fråga:** vilka av de tretton kurserna ingår i valet, och hur många hp ska väljas?
+**Fråga:** ska en student från Öppen ingång välja *en* villkorligt valfri kurs (i årskurs 2 eller 3) och dessutom en helt valfri kurs i årskurs 3, i stället för CELTE-studenternas tre? I så fall visas valblocket som "välj en" och en plats för valfri kurs läggs till i årskurs 3.
 
 ### 5. Om de tre tillkommande kurserna
 

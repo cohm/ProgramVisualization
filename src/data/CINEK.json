@@ -772,6 +772,31 @@
     ]
   },
   {
+    "type": "optionGroup",
+    "name": "Kandidatexamensarbete (PPUI)",
+    "nameEn": "Degree project, first cycle (PPUI)",
+    "year": 3,
+    "totalCredits": 15,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 7.5,
+      "P4": 7.5
+    },
+    "options": [
+      "MF134X",
+      "MG115X"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [],
+    "category": "conditionallyElective",
+    "specializations": [
+      "PPUI"
+    ]
+  },
+  {
     "code": "DD1418",
     "name": "Språkteknologi med introduktion till maskininlärning",
     "nameEn": "Language Engineering with Introduction to Machine Learning",

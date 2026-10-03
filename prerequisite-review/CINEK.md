@@ -21,13 +21,13 @@ curated `src/data/CINEK.json`) directly — this file is a worklist, not a sourc
 
 | kull | slutförd | aktivt deltagande | flaggat |
 |---|---|---|---|
-| HT2022 | 29 | 5 | 27 |
-| HT2023 | 29 | 5 | 29 |
-| HT2024 | 29 | 5 | 34 |
-| HT2025 | 29 | 5 | 33 |
-| HT2026 | 29 | 5 | 33 |
+| HT2022 | 29 | 5 | 33 |
+| HT2023 | 29 | 5 | 35 |
+| HT2024 | 29 | 5 | 40 |
+| HT2025 | 29 | 5 | 39 |
+| HT2026 | 29 | 5 | 39 |
 
-**35** distinct item(s) need review across all cohorts (an item shared by
+**41** distinct item(s) need review across all cohorts (an item shared by
 several cohorts is counted once).
 
 ## Periods scheduled over full-time (8)
@@ -69,12 +69,12 @@ however many options it holds.
 - **Årskurs 3, P3 — 54 hp, 39 hp over full-time.**
   Cohorts: HT2022, HT2023, HT2024, HT2025, HT2026.
   Courses: [DA151X](https://www.kth.se/student/kurser/kurs/DA151X) 7.5 hp, [DD1386](https://www.kth.se/student/kurser/kurs/DD1386) 4.5 hp, [EG2240](https://www.kth.se/student/kurser/kurs/EG2240) 3 hp, [ME1310](https://www.kth.se/student/kurser/kurs/ME1310) 3 hp, [MG1002](https://www.kth.se/student/kurser/kurs/MG1002) 6 hp, [MJ148X](https://www.kth.se/student/kurser/kurs/MJ148X) 7.5 hp, [SF100X](https://www.kth.se/student/kurser/kurs/SF100X) 7.5 hp, [SF2930](https://www.kth.se/student/kurser/kurs/SF2930) 7.5 hp.
-  Valblock: Villkorligt valfri grupp 1 7.5 hp.
+  Valblock: Kandidatexamensarbete (PPUI) 7.5 hp.
 
 - **Årskurs 3, P4 — 40.5 hp, 25.5 hp over full-time.**
   Cohorts: HT2022, HT2023, HT2024, HT2025, HT2026.
   Courses: [DA151X](https://www.kth.se/student/kurser/kurs/DA151X) 7.5 hp, [DD1386](https://www.kth.se/student/kurser/kurs/DD1386) 1.5 hp, [EG2240](https://www.kth.se/student/kurser/kurs/EG2240) 3 hp, [ME1317](https://www.kth.se/student/kurser/kurs/ME1317) 6 hp, [MJ148X](https://www.kth.se/student/kurser/kurs/MJ148X) 7.5 hp, [SF100X](https://www.kth.se/student/kurser/kurs/SF100X) 7.5 hp.
-  Valblock: Villkorligt valfri grupp 1 7.5 hp.
+  Valblock: Kandidatexamensarbete (PPUI) 7.5 hp.
 
 - [DA151X](https://www.kth.se/student/kurser/kurs/DA151X) — slutförd: [DD1320](https://www.kth.se/student/kurser/kurs/DD1320), [ME1306](https://www.kth.se/student/kurser/kurs/ME1306), [ME1314](https://www.kth.se/student/kurser/kurs/ME1314) · kursplan [VT 2022 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/DA151X-20221.pdf?lang=sv)
 - [DD1320](https://www.kth.se/student/kurser/kurs/DD1320) — slutförd: [DD1317](https://www.kth.se/student/kurser/kurs/DD1317) · kursplan [HT 2026 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/DD1320-20262.pdf?lang=sv) — *HT2025, HT2026*
@@ -264,14 +264,26 @@ The requirement is a credit total ("minst N hp"), which the schema cannot repres
 - [SF100X](https://www.kth.se/student/kurser/kurs/SF100X) · kursplan [VT 2022 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SF100X-20221.pdf?lang=sv)
   > Förkunskapskrav som gäller för att bli antagen till kursen: Allmänt gäller att en huvuddel av studierna, minst 120 högskolepoäng varav minst 105 högskolepoäng bland de obligatoriska kurserna på civilingenjörsprogrammet i Industriell ekonomi, skall vara avklarade senast 20 dec innan examensarbetet få
 
-## Text names courses, but none in this programme (3)
+## Text names courses, but none in this programme (9)
 
 Usually correct — the syllabus lists alternatives from other programmes and the in-programme filter drops them. But the lists also go stale: where the text describes a knowledge area and this programme has a course of that name, the candidate is called out below as **suggested**. Nothing is written to the data from a name match — confirm it first.
 
+- [ME1314](https://www.kth.se/student/kurser/kurs/ME1314) · kursplan [HT 2023 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/ME1314-20232.pdf?lang=sv) / [HT 2019 – VT 2023](https://www.kth.se/student/kurser/kurs/kursplan/ME1314-20192.pdf?lang=sv)
+  > Grundläggande behörighet för högskolestudier.
 - [MF1039](https://www.kth.se/student/kurser/kurs/MF1039) · kursplan [VT 2020 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MF1039-20201.pdf?lang=sv)
   > SG1130 Mekanik I, SG1140 Mekanik II, SE1020 eller SE1010, Hållfasthetslära. Grundläggande kunskaper i CAD motsvarande det som återfinns i MF1061 Introduktion till design och produktframtagning.
+- [MF134X](https://www.kth.se/student/kurser/kurs/MF134X) · kursplan [VT 2021 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MF134X-20211.pdf?lang=sv)
+  > Slutförda kurser om minst 120 hp inom civilingenjörsprogrammet.
 - [MG1026](https://www.kth.se/student/kurser/kurs/MG1026) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MG1026-20192.pdf?lang=sv)
   > MF1001 Maskinteknik introduktion, MJ1103 Maskinteknik eller MF1046/MF1061 DoP Introduktion eller motsvarande förkunskaper
+- [MG115X](https://www.kth.se/student/kurser/kurs/MG115X) · kursplan [VT 2024 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/MG115X-20241.pdf?lang=sv)
+  > För särskild behörighet till examensarbeteskurs om 15 hp på grundnivå gäller att: kurser om minst 120 hp från utbildningsplan årskurs 1-3 ska vara slutförda för studenter inom program där examensarbetskurs påbörjas i period 3. Samt antagen till CINEK3 PFRI eller CINEK3 PPUI.
 - [SF100X](https://www.kth.se/student/kurser/kurs/SF100X) · kursplan [VT 2022 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SF100X-20221.pdf?lang=sv)
   > Förkunskapskrav som gäller för att bli antagen till kursen: Allmänt gäller att en huvuddel av studierna, minst 120 högskolepoäng varav minst 105 högskolepoäng bland de obligatoriska kurserna på civilingenjörsprogrammet i Industriell ekonomi, skall vara avklarade senast 20 dec innan examensarbetet få
+- [SF1624](https://www.kth.se/student/kurser/kurs/SF1624) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SF1624-20192.pdf?lang=sv)
+  > Grundläggande behörighet.
+- [SF1625](https://www.kth.se/student/kurser/kurs/SF1625) · kursplan [HT 2019 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SF1625-20192.pdf?lang=sv)
+  > Grundläggande behörighet.
+- [SK1110](https://www.kth.se/student/kurser/kurs/SK1110) · kursplan [HT 2008 – tillsvidare](https://www.kth.se/student/kurser/kurs/kursplan/SK1110-20082.pdf?lang=sv)
+  > Rekommenderade förkunskaper: Inledande kurser i matematik och mekanik.
 
