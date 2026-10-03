@@ -9,6 +9,8 @@ npm run dev            # Start Next.js dev server at http://localhost:3000
 npm run build          # Production build
 npm run lint           # ESLint
 npm run validate-data  # Validate src/data/*.json (also runs in CI)
+npm run audit-check    # CI's npm audit gate: high/critical fail unless allowlisted
+                       # (scripts/audit-allowlist.json: reason + reviewBy date)
 npx tsc --noEmit       # Type-check without emitting
 
 npm run extract-plan CTFYS                      # newest cohort -> src/data/cohorts/

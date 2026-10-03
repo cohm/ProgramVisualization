@@ -1,0 +1,9 @@
+[
+  {
+    "id": "GHSA-vfj7-8cjw-p6xm",
+    "package": "braces",
+    "reason": "Denial of service from deeply nested brace patterns. No patched version exists (3.0.3, the latest since 2024, is affected). Reaches only development tooling: eslint-config-next -> @next/eslint-plugin-next -> fast-glob -> micromatch -> braces, running on our own lint globs; nothing of it ships (npm audit --omit=dev is clean). The only suggested fix downgrades eslint-config-next 16 -> 14.",
+    "added": "2026-10-03",
+    "reviewBy": "2027-01-03"
+  }
+]

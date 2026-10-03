@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint . --max-warnings 0",
     "transition-review": "node scripts/transition-review.mjs",
+    "audit-check": "node scripts/audit-check.mjs",
     "validate-data": "node scripts/validate-data.mjs --cohorts",
     "extract-plan": "node scripts/extract-from-kopps.mjs",
     "size": "node scripts/split-size-chunks.mjs && size-limit",
