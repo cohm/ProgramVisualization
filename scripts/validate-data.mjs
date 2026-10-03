@@ -1419,7 +1419,7 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
         if (group.kind !== 'minCredits' && !by.some((c) => (group.options ?? []).includes(c))) {
           err(file, `${ctx} ${label}: '${by.join(', ')}' is said to satisfy the group offering '${gc.offering}', but none is one of its options`);
         }
-        if (gc.addOptions?.length || gc.qualifiesFor || gc.minCredits != null) {
+        if (gc.addOptions?.length || gc.qualifiesFor || gc.minCredits != null || gc.pickN != null) {
           warn(file, `${ctx} ${label}: the group offering '${gc.offering}' is satisfied and removed, so its other changes have no effect`);
         }
       }
@@ -1432,6 +1432,19 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
         }
       }
       const options = new Set([...(group.options ?? []), ...(gc.addOptions ?? [])]);
+      if (gc.pickN != null) {
+        if (group.kind === 'minCredits') err(file, `${ctx} ${label}: sets pickN on the group offering '${gc.offering}', which is a minCredits group`);
+        // Counted against what the student can still choose: a group never
+        // offers a course already taken or exempted (CELTE's SF1546, SG1130).
+        const gone = new Set([...plan.credited.map((k) => k.code), ...(plan.exempt ?? []).map((e) => e?.code)]);
+        const left = [...options].filter((c) => !gone.has(c)).length;
+        if (!Number.isInteger(gc.pickN) || gc.pickN < 1 || gc.pickN > left) {
+          err(file, `${ctx} ${label}: pickN ${gc.pickN} for the group offering '${gc.offering}' must be a whole number from 1 to its ${left} remaining option(s)`);
+        }
+        if (gc.satisfiedBy == null && gc.pickN === (group.pickN ?? group.allowedNumberOfOptions ?? 1)) {
+          warn(file, `${ctx} ${label}: pickN ${gc.pickN} is the group's own count, so it changes nothing`);
+        }
+      }
       for (const [code, list] of Object.entries(gc.qualifiesFor ?? {})) {
         if (!options.has(code)) err(file, `${ctx} ${label}: qualifiesFor names '${code}', which is not an option of the group`);
         if (!Array.isArray(list) || list.some((m) => typeof m?.code !== 'string' || typeof m?.name !== 'string')) {

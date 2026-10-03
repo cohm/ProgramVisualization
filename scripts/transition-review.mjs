@@ -116,6 +116,8 @@ function composedLoad(fullPlan, spec) {
       continue;
     }
     g.options = [...new Set([...(g.options ?? []), ...(gc.addOptions ?? [])])];
+    // The count does not change the load: the bar is the options' envelope.
+    if (gc.pickN != null && g.kind !== 'minCredits') g.pickN = gc.pickN;
   }
 
   // Same counting rule the app uses (`fullTimeWarnings` in src/lib/transitions.ts):
@@ -267,14 +269,24 @@ function renderChanges(plan, L, tgt, h, spec) {
         if (gc.comment) { L.push(gc.comment); L.push(''); }
         if (!gc.addOptions?.length && !gc.qualifiesFor) continue;
       }
-      const rule = g.kind === 'minCredits' ? `minst ${hp(g.minCredits)} hp` : `välj ${g.pickN ?? g.allowedNumberOfOptions ?? 1}`;
+      const ownCount = g.pickN ?? g.allowedNumberOfOptions ?? 1;
+      const rule = g.kind === 'minCredits' ? `minst ${hp(g.minCredits)} hp`
+        : gc.pickN != null && gc.pickN !== ownCount ? `välj ${gc.pickN} (i stället för ${ownCount})`
+          : `välj ${ownCount}`;
       L.push(`**Årskurs ${gc.year}, ${rule}** av:`);
       L.push('');
       L.push('| Kurs | hp | Obligatorisk för | Rekommenderad för |');
       L.push('|---|---|---|---|');
       const options = [...new Set([...(g.options ?? []), ...(gc.addOptions ?? [])])];
+      // The composed group leaves out what the student already took or was
+      // exempted from (CELTE's SF1546, SG1130); say so rather than list them silently.
+      const gone = new Set([...plan.credited.map((k) => k.code), ...(plan.exempt ?? []).map((x) => x.code)]);
       for (const code of options) {
         const added = (gc.addOptions ?? []).includes(code) && !(g.options ?? []).includes(code);
+        if (gone.has(code)) {
+          L.push(`| ~~${link(code)} ${nameOf(tgt, code)}~~ _(redan läst eller tillgodoräknad, utgår ur valet)_ | ${hp(creditsOf(tgt, code) ?? 0)} | — | — |`);
+          continue;
+        }
         const q = gc.qualifiesFor?.[code] ?? g.qualifiesFor?.[code];
         L.push(`| ${link(code)} ${nameOf(tgt, code)}${added ? ' _(tillkommer)_' : ''} | ${hp(creditsOf(tgt, code) ?? 0)} | ${who(q, true) || '—'} | ${who(q, false) || '—'} |`);
       }

@@ -198,6 +198,15 @@ export interface TransitionGroupChange {
    */
   minCredits?: number;
   periodCredits?: Record<string, number>;
+  /**
+   * A different count for a `pickN` group. CELTE's own students read "Tre
+   * villkorligt valfria kurser … i årskurs 2 eller 3", a pick-three box in
+   * year 2; COPEN -> CELTE says "Välj minst 1 (ej SF1546, SF1547, eller
+   * SG1130)". The bar keeps its size: a group whose options differ in shape is
+   * drawn as their per-period envelope, which one option fills as well as three.
+   * What changes is how many the modal accepts and what the tooltip says.
+   */
+  pickN?: number;
   /** Replaces the group's own note. */
   comment?: string;
   commentEn?: string;

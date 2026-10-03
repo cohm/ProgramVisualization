@@ -355,9 +355,17 @@ function applyGroupChanges(entries: Entry[], plan: TransitionPlan, warnings: str
         periodCredits: Object.fromEntries(PERIODS.map(p => [p, Number(change.periodCredits![p] ?? 0)])) as OptionGroup['periodCredits'],
       }
       : {};
+    // A different count for a pick-N choice (COPEN -> CELTE: one, not three).
+    const recounted = change.pickN != null && group.kind !== 'minCredits'
+      ? { pickN: change.pickN, allowedNumberOfOptions: change.pickN }
+      : {};
+    if (change.pickN != null && group.kind === 'minCredits') {
+      warnings.push(`The plan sets a pick count on the group offering ${change.offering}, which is a credit pool.`);
+    }
     out[at] = {
       ...group,
       ...resized,
+      ...recounted,
       options,
       qualifiesFor: change.qualifiesFor ? { ...group.qualifiesFor, ...change.qualifiesFor } : group.qualifiesFor,
       comment: change.comment ?? group.comment,
