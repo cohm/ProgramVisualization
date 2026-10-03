@@ -384,6 +384,28 @@ without error. Only digits and the vowel-final words worked. It is now
 `(?!\p{L})` with the `u` flag. Worth remembering for any Swedish-language regex
 in this codebase.
 
+**Master eligibility in one free-text sentence** is read too
+(`freeTextEligibility`). CMETE writes it in `freeTexts` rather than any field
+`parseMasterEligibility` reads:
+
+    kull HT2024 år 3   "SF1662, DD2352 och DD1380 är obligatoriska kurser för
+                        behörighet till datalogimastern."
+    kull HT2026 år 3   "ME2016 och ME2163 är obligatoriska för behörighet till
+                        master i industriell ekonomi (TINEM)."
+
+The master is its code when the sentence gives one, else its name resolved
+against the masters in `programs.json` ("datalogimastern" → "Masterprogram,
+datalogi" → TCSCM); an unresolved name is reported. Scanned over every
+bachelor's free texts for kull HT2024-HT2026, only CMETE writes this. The
+requirement lands on the courses each cohort's year-3 box offers, so it is not
+the same everywhere: HT2024's box has no SF1662, and HT2025's file has neither
+SF1662 nor DD1380. The TINEM sentence is on kull HT2026's own year-3 page,
+which is not published yet, so the year is borrowed and the sentence not read.
+
+Note that the term in a study-plan URL is the **kull**, not the läsår:
+`/CMETE/20242/arskurs3` is kull HT2024's year 3, läsår 2026/27, which is also
+what its free texts' planned dates say.
+
 **Not turned into rules, deliberately.** TIEMM's *"Om du ska ansöka om
 Masterexamen inom Datalogi: Välj fyra kurser"* depends on a degree the student has
 not applied for, so it is not a property of the group. *"Endast en av kurserna
@@ -1314,8 +1336,30 @@ mapped kull when none is selected), limited to those registered with `level:
 Management"). `appendMaster` (`src/lib/degreeChain.ts`) shifts every
 year-bearing field of the master's entries by the bachelor's last year:
 `credits`, `examsByYear`, round credits, `yearBySpecialization` and
-`periodCreditsByYear`. The master is its default file's kull (HT2025), since
-a bachelor kull reaches it years later; the note below the chart says so.
+`periodCreditsByYear`.
+
+**The master's kull follows the bachelor's** (`masterCohortFor` in
+`degreeChain.ts`). A bachelor kull starts its master three years later, so
+HT2022 gets the master's HT2025 kull and HT2023 its HT2026. A later kull, whose
+master year is not published, gets the nearest archived one (HT2024 → HT2026),
+the same rule as the bachelor archive's borrowing; with no kull selected, the
+master's default file. It used to be HT2025 for everyone. The note below the
+chart says which case it is, and names a year the master kull borrows (TTFYM
+HT2026's year 2, "År 5 är lånat från kull HT2025"), read from that file's
+`cohortMeta` in the same step as the append, so it carries the chart's year
+numbers.
+
+**A superseded load is ignored.** The load effect in HomeClient sets a flag in
+its cleanup and every setter checks it. Before, a master selected and then
+dropped before its file arrived drew years 4-5 anyway: the bachelor-only run
+finished first, and the master run overwrote it. Measured in headless Chrome
+with the master's chunk held back 4 s: on main, years 4-5 appeared at 4.1 s
+with no `master` in the URL and stayed; with the flag, three years throughout.
+
+`validate-data` checks every bachelor + master pair in `master-mapping.json`
+over all of both programmes' files: no spec code in both registries (the filter
+files a code under one group) and no option group name in both (picks are keyed
+by group name). Neither occurs today.
 
 A code both carry is kept once, by its role on each side. If it is obligatorisk
 in the bachelor, it stays there and leaves the master's boxes: an option nobody
@@ -1741,6 +1785,9 @@ at 22.5 hp and at one of two named courses. CTFYS with a pick and CTMAT
 HT2025 rendered identically to main, down to every rect. `validate-data`
 rejects a spanning group whose `year` is not its first, a constraint naming a
 non-option or a fractional count, and a year-2 round without the `-y2` id.
+It also rejects a round whose `year` is past the plan's last year (nothing
+would draw the pick), and a `Year0` key in `periodCredits`, `exams` or
+`reexams`, which used to pass and was drawn nowhere.
 
 **A picked option is drawn where the box was, not where the data files it.** One
 course code can be offered by several boxes, and the boxes need not sit in the

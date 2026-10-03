@@ -14,7 +14,7 @@ import programsConfig from '@/data/programs.json';
 import type { ProgramCosmetics } from '@/types/cosmetics';
 import { loadCourses, loadCosmetics, loadCohortMeta, cohortDataFile } from '@/lib/useCourseModel';
 import { composeTransition, mergeCosmetics, composedTitle, effectivePlan, shortProgramName, type YearLoad } from '@/lib/transitions';
-import { appendMaster, type MasterNote } from '@/lib/degreeChain';
+import { appendMaster, masterCohortFor, type MasterNote } from '@/lib/degreeChain';
 import masterMapping from '@/data/master-mapping.json';
 import type { TransitionPlan } from '@/types/transition';
 import transitionsConfig from '@/data/transitions.json';
@@ -122,9 +122,12 @@ const ui = {
       : `${codes.join(', ')} är obligatoriska i ${master} och erbjuds därför inte som valfria kurser i årskurs 1–${last}.`,
     masterNotePartly: (code: string, master: string, last: number) =>
       `${code} är obligatorisk i ${master} för det valda spåret och erbjuds därför inte som valfri kurs i årskurs 1–${last}.`,
-    // Years 4-5 are another programme's plan, and a later kull's.
-    masterNotice: (code: string, cohort: string | null) =>
-      `År 4–5 visar masterprogrammet ${code}${cohort ? `, kull ${cohort}` : ''}. Din kull börjar masterprogrammet senare, och dess plan kan ha ändrats till dess.`,
+    // Years 4-5 are another programme's plan, and, unless `exact`, another kull's.
+    masterNotice: (code: string, cohort: string | null, exact: boolean) => exact
+      ? `År 4–5 visar masterprogrammet ${code}, kull ${cohort}: den kull din kull börjar masterprogrammet med.`
+      : `År 4–5 visar masterprogrammet ${code}${cohort ? `, kull ${cohort}` : ''}. Din kull börjar masterprogrammet ett annat år, och dess plan kan skilja sig.`,
+    // The master kull's own files borrow a year it has not published yet.
+    masterBorrowed: (year: number, from: string, cohort: string | null) => ` År ${year} är lånat från kull ${from}, eftersom det ännu inte är publicerat för kull ${cohort}.`,
     transitionLoadFailed: 'Kunde inte sätta samman övergångsplanen',
     masterLoadFailed: 'Kunde inte läsa in masterprogrammet',
     planLoadFailed: 'Kunde inte läsa in utbildningsplanen',
@@ -194,8 +197,10 @@ const ui = {
       `${code} is compulsory in ${master} for the selected track, so it is not offered as an elective in years 1–${last}.`,
     masterUnverified: (code: string) => `${code}'s study plan is auto-extracted and unverified.`,
     masterNone: "No master's programme",
-    masterNotice: (code: string, cohort: string | null) =>
-      `Years 4–5 show the master's programme ${code}${cohort ? `, ${cohort} cohort` : ''}. Your cohort starts it later, and its plan may have changed by then.`,
+    masterNotice: (code: string, cohort: string | null, exact: boolean) => exact
+      ? `Years 4–5 show the master's programme ${code}, ${cohort} cohort: the one your cohort starts it with.`
+      : `Years 4–5 show the master's programme ${code}${cohort ? `, ${cohort} cohort` : ''}. Your cohort starts it in another year, and its plan may differ.`,
+    masterBorrowed: (year: number, from: string, cohort: string | null) => ` Year ${year} is taken from the ${from} cohort, as it is not yet published for the ${cohort} cohort.`,
     transitionLoadFailed: 'Could not compose the transition plan',
     masterLoadFailed: "Could not load the master's programme",
     planLoadFailed: 'Could not load the study plan',
@@ -284,6 +289,9 @@ export default function HomeClient() {
   // What the five-year view did with courses both programmes carry, and after
   // which bachelor year the master starts (see appendMaster).
   const [masterNotes, setMasterNotes] = useState<{ notes: MasterNote[]; offset: number }>({ notes: [], offset: 0 });
+  // The master kull's years borrowed from another kull, numbered as in the
+  // chart (TTFYM HT2026's year 2 comes from HT2025, and is year 5 here).
+  const [masterBorrowed, setMasterBorrowed] = useState<{ year: number; from: string }[]>([]);
   const [approxInfoOpen, setApproxInfoOpen] = useState(false);
   // Page-level toast for non-blocking failures (PDF export errors,
   // cosmetics-load failures). Children emit via the `onToast` callback.
@@ -367,8 +375,18 @@ export default function HomeClient() {
     return availableMasters.find(m => m.program.code === param) ?? null;
   }, [searchParams, availableMasters]);
 
-  // The kull the master's years come from: its default file's.
-  const masterCohort = selectedMaster?.program.dataFile.match(/HT\d{4}/)?.[0] ?? null;
+  // The kull the master's years come from: the one the bachelor kull starts
+  // it with (kull + 3), else the nearest archived one, else the master's
+  // default file's when no kull is selected. A COPEN kull counts the same way,
+  // since its year 1 is the bachelor's year 1.
+  const { cohort: masterCohort, exact: masterCohortExact } = useMemo(
+    () => masterCohortFor(
+      selectedCohort,
+      selectedMaster ? (cohortIndex as Record<string, string[]>)[selectedMaster.program.code] ?? [] : [],
+      selectedMaster?.program.dataFile.match(/HT\d{4}/)?.[0] ?? null,
+    ),
+    [selectedCohort, selectedMaster],
+  );
 
   // Years in the current view that did not come from the selected cohort.
   const approximatedYears = useMemo(
@@ -696,6 +714,11 @@ export default function HomeClient() {
 
   // Load courses and cosmetics when the program, cohort or continuation changes
   useEffect(() => {
+    // A later run supersedes this one. Without the flag, a slow load could
+    // land after a faster one that replaced it: choosing a master and
+    // deselecting it before its file arrived drew years 4-5 anyway, since the
+    // bachelor-only load finished first and the master load overwrote it.
+    let superseded = false;
     const dataFile = selectedCohort
       ? cohortDataFile(selectedProgram.code, selectedCohort)
       : selectedProgram.dataFile;
@@ -727,25 +750,39 @@ export default function HomeClient() {
       bachelor = loadCourses(dataFile).then(entries => ({ entries, warnings: [], loads: [] }));
       bachelorCosmetics = loadCosmetics(selectedProgram.cosmeticsFile);
       if (selectedCohort) {
-        loadCohortMeta(dataFile).then(setCohortMeta).catch(() => setCohortMeta(null));
+        loadCohortMeta(dataFile)
+          .then(meta => { if (!superseded) setCohortMeta(meta); })
+          .catch(() => { if (!superseded) setCohortMeta(null); });
       } else {
         setCohortMeta(null);
       }
     }
 
     // A master programme after the bachelor: its two years follow as years
-    // 4-5 (src/lib/degreeChain.ts), from the master's default kull.
+    // 4-5 (src/lib/degreeChain.ts), from the kull chosen by `masterCohortFor`.
     const master = selectedMaster?.program;
     if (!master) masterGroupNames.current = new Set();
-    const entries = master
-      ? Promise.all([bachelor, loadCourses(master.dataFile).catch((e) => { throw new MasterLoadError(e); })]).then(([b, m]) => {
+    const masterFile = master && masterCohort && (cohortIndex as Record<string, string[]>)[master.code]?.includes(masterCohort)
+      ? cohortDataFile(master.code, masterCohort)
+      : master?.dataFile;
+    const entries = master && masterFile
+      ? Promise.all([
+        bachelor,
+        loadCourses(masterFile).catch((e) => { throw new MasterLoadError(e); }),
+        loadCohortMeta(masterFile).catch(() => null),
+      ]).then(([b, m, meta]) => {
+        if (superseded) return null;
         const chained = appendMaster(b.entries, m);
+        // In the chart's numbering, so it arrives with the offset it needs.
+        const borrowed = (meta?.years ?? [])
+          .filter(y => y.approximated && y.sourceCohort)
+          .map(y => ({ year: y.year + chained.offset, from: y.sourceCohort as string }));
         masterGroupNames.current = new Set(chained.entries
           .filter((e): e is OptionGroup => 'type' in e && e.type === 'optionGroup' && e.year > chained.offset)
           .map(g => g.name));
-        return { ...b, entries: chained.entries, master: { notes: chained.notes, offset: chained.offset } };
+        return { ...b, entries: chained.entries, master: { notes: chained.notes, offset: chained.offset }, borrowed };
       })
-      : bachelor.then(b => ({ ...b, master: { notes: [] as MasterNote[], offset: 0 } }));
+      : bachelor.then(b => ({ ...b, master: { notes: [] as MasterNote[], offset: 0 }, borrowed: [] as { year: number; from: string }[] }));
     const cosmeticsDone = master
       ? Promise.all([bachelorCosmetics, loadCosmetics(master.cosmeticsFile)]).then(([b, m]) => {
         const { cosmetics: merged, warnings } = mergeCosmetics(b, m);
@@ -755,13 +792,17 @@ export default function HomeClient() {
       : bachelorCosmetics;
 
     entries
-      .then(({ entries: list, warnings, loads, master: m }) => {
+      .then((result) => {
+        if (superseded || !result) return;
+        const { entries: list, warnings, loads, master: m, borrowed } = result;
         setCourses(list);
         setTransitionWarnings(warnings);
         setTransitionLoads(loads);
         setMasterNotes(m);
+        setMasterBorrowed(borrowed);
       })
       .catch((e) => {
+        if (superseded) return;
         console.warn('Failed to compose the plan:', e);
         // Say which part failed: it used to be "Kunde inte sätta samman
         // övergångsplanen" whatever was loading, a lone programme included.
@@ -771,12 +812,14 @@ export default function HomeClient() {
         setToast({ title, detail: String(e instanceof MasterLoadError ? e.cause : e).slice(0, 200) });
       });
     cosmeticsDone
-      .then(setCosmetics)
+      .then(c => { if (!superseded) setCosmetics(c); })
       .catch((e) => {
+        if (superseded) return;
         console.warn('Failed to load cosmetics:', e);
         setCosmetics(null);
         setToast({ title: tr[language].cosmeticsLoadFailed, detail: String(e).slice(0, 200) });
       });
+    return () => { superseded = true; };
     // Disabling exhaustive-deps because `language` is intentionally not a
     // dep — switching language shouldn't re-fetch the cosmetics file. The
     // toast text uses whatever `language` was at the moment the failure
@@ -788,7 +831,7 @@ export default function HomeClient() {
     // when that pick changes. The chart itself filters downstream in
     // TimelineVisualization and does not need the refetch.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedProgram, selectedCohort, selectedContinuation, selectedSpecializations, selectedMaster]);
+  }, [selectedProgram, selectedCohort, selectedContinuation, selectedSpecializations, selectedMaster, masterCohort]);
 
   // Initialize missing URL params
   useEffect(() => {
@@ -1211,7 +1254,8 @@ export default function HomeClient() {
             )}
             {selectedMaster && (
               <div style={{ marginTop: 10, fontSize: 13, color: kthColors.KthBlue?.HEX }}>
-                {ui[language].masterNotice(selectedMaster.program.code, masterCohort)}
+                {ui[language].masterNotice(selectedMaster.program.code, masterCohort, masterCohortExact)}
+                {masterBorrowed.map(b => ui[language].masterBorrowed(b.year, b.from, masterCohort)).join('')}
                 {shownMasterNotes.length > 0 && (
                   <ul style={{ marginTop: 4, paddingLeft: 18 }}>
                     {shownMasterNotes.map(n => <li key={n}>{n}</li>)}

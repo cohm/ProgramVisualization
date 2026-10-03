@@ -22,6 +22,32 @@ import { getOptionGroupKind } from '@/lib/optionGroupKind';
 type Entry = Course | OptionGroup;
 
 /**
+ * Which kull of the master to show after a bachelor kull. A bachelor kull
+ * starts its master three years later: HT2022 in HT2025, HT2023 in HT2026.
+ * When that kull is in the archive it is used (`exact`). Otherwise the nearest
+ * one is, as the bachelor archive borrows a missing year from the nearest
+ * cohort: HT2024's master starts in HT2027, which is not published, so it gets
+ * HT2026. Without a bachelor kull, or with no archive, the master's default
+ * file's kull (`fallback`).
+ */
+export function masterCohortFor(
+  bachelorCohort: string | null,
+  available: string[],
+  fallback: string | null,
+): { cohort: string | null; exact: boolean } {
+  const year = (c: string) => Number(c.slice(2));
+  const archived = available.filter(c => /^HT\d{4}$/.test(c)).sort();
+  if (!bachelorCohort || !/^HT\d{4}$/.test(bachelorCohort) || archived.length === 0) {
+    return { cohort: fallback, exact: false };
+  }
+  const want = year(bachelorCohort) + 3;
+  // Nearest, the earlier kull on a tie: the same rule as the bachelor archive.
+  const nearest = archived.reduce((best, c) =>
+    Math.abs(year(c) - want) < Math.abs(year(best) - want) ? c : best);
+  return { cohort: nearest, exact: year(nearest) === want };
+}
+
+/**
  * What the append did with a course both programmes carry, for the notice
  * above the chart. Data rather than text, so the page can phrase it in either
  * language and show a spår's note only with that spår selected.
