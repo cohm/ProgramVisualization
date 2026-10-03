@@ -49,9 +49,7 @@ The app shows which build it is in the bottom-right corner: the release version,
 
 **Important for Vercel deployment**: 
 - The PDF export feature requires Puppeteer and a serverless-compatible Chrome binary. This is handled automatically by `@sparticuz/chromium`.
-- The `vercel.json` file configures increased memory and timeout for the PDF generation endpoint.
-- **Hobby Plan Limitation**: Vercel's Hobby (free) plan has a 1024MB default memory limit with a maximum of 2048MB for serverless functions. The configuration uses 1800MB to stay within this limit. If deployments silently fail from GitHub, check that the memory allocation in `vercel.json` is ≤2048MB.
-- Pro plans support up to 3008MB which may improve performance for larger visualizations.
+- The `vercel.json` file sets the PDF generation endpoint's timeout (60 s) and bundles the Chromium binary with it. Its memory is not set there: on Vercel's Active CPU billing a `memory` setting in `vercel.json` is ignored (Vercel warns about it on deploy), and memory is configured in the project's Functions settings on vercel.com instead.
 
 Other hosts: Netlify or static exports (with limitations). See Next.js docs for deployment options.
 
@@ -150,7 +148,7 @@ Development dependencies include TypeScript, ESLint, and Tailwind CSS.
 
 ## Configuration Files
 
-- `vercel.json` — Vercel deployment configuration with increased memory (1800MB for Hobby plan, can be increased to 3008MB on Pro) and timeout (60s) for the PDF export API route.
+- `vercel.json` — Vercel deployment configuration: the 60 s timeout and bundled Chromium for the PDF export API route, and `git.deploymentEnabled` so Vercel does not deploy `main` itself.
 - `tsconfig.json` — TypeScript configuration.
 - `next.config.ts` — Next.js configuration.
 - `package.json` — Project manifest and scripts (dev, build, start, lint, validate-data, extract-plan, size). The `size-limit` budget covers every static chunk, which includes the committed cohort archive — see the note in `.github/workflows/ci.yml` before assuming a failure means the app grew.
