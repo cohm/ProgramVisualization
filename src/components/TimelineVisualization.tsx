@@ -39,6 +39,7 @@ import {
   buildOptionGroupTooltip,
 } from '@/lib/tooltipText';
 import { getEmbeddedFontFaces } from '@/lib/fonts';
+import { buildStamp } from '@/lib/buildInfo';
 import { pickRound } from '@/lib/courseRounds';
 import { getOptionGroupKind, getOptionGroupMinCredits } from '@/lib/optionGroupKind';
 
@@ -702,8 +703,9 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         const NS = 'http://www.w3.org/2000/svg';
         const stampParts: string[] = [];
         if (programCode) stampParts.push(programCode);
-        const gitHash = process.env.NEXT_PUBLIC_GIT_HASH;
-        if (gitHash) stampParts.push(`build ${gitHash}`);
+        // "v1.2.0 (a4280c5)" for a release, "build a4280c5" otherwise.
+        const build = buildStamp();
+        if (build) stampParts.push(build);
         stampParts.push(new Date().toISOString().slice(0, 10));
         const stamp = stampParts.join(' · ');
 
