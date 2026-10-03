@@ -484,7 +484,16 @@
     "minCredits": 14,
     "comment": "Minst 13 hp av de villkorligt valfria kurserna ska läsas, bland dessa kan även kurser i språk eller interkulturell kompetens väljas vid KTH språk och kommunikation. Övrigt utrymme är valfritt.",
     "commentEn": "The study plan sets minimum credits from each block of conditionally elective courses across the programme — see the study plan. The remaining space is elective.",
-    "allowedNumberOfOptions": 11
+    "allowedNumberOfOptions": 11,
+    "qualifiesFor": {
+      "DD2352": [
+        {
+          "code": "TCSCM",
+          "name": "Datalogi",
+          "required": true
+        }
+      ]
+    }
   },
   {
     "code": "DM128X",

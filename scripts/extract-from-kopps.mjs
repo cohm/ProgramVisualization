@@ -350,6 +350,71 @@ async function scanTransferOnly(prog, newest, years) {
 const TRANSFER_ONLY_RE =
   /^([A-Z]{2}\d{3}[0-9A-Z])\s+är\s+obligatorisk\s+endast\s+för\s+studenter\s+som\s+kommer\s+från\s+Öppen\s+ingång/i;
 
+// Master eligibility stated in one free-text sentence, which none of the
+// heading-based formats `parseMasterEligibility` reads:
+//
+//   CMETE kull HT2024 år 3  "SF1662, DD2352 och DD1380 är obligatoriska kurser
+//                            för behörighet till datalogimastern."
+//   CMETE kull HT2026 år 3  "ME2016 och ME2163 är obligatoriska för behörighet
+//                            till master i industriell ekonomi (TINEM)."
+//
+// The master is named by its code when the sentence gives one, else by name,
+// resolved against the masters registered in programs.json ("datalogimastern"
+// → "Masterprogram, datalogi" → TCSCM). A name that does not resolve is
+// reported rather than guessed.
+const FREE_TEXT_ELIGIBILITY_RE =
+  /^((?:[A-Z]{2,3}\d{3,4}[A-Z]?(?:\s*,\s*|\s+och\s+)?)+)\s+är\s+obligatoriska(?:\s+kurser)?\s+för\s+behörighet\s+till\s+(.+?)\.?$/i;
+
+let registeredMasters = null;
+function resolveMasterName(text) {
+  if (registeredMasters == null) {
+    registeredMasters = [];
+    try {
+      const raw = readTextOrNull(join(dataDir, 'programs.json'));
+      for (const p of raw ? JSON.parse(raw) : []) {
+        if (p?.level !== 'master' || !p.name) continue;
+        registeredMasters.push({ code: p.code, subject: p.name.replace(MASTER_PROGRAMME_RE, '').replace(/^[\s,]+/, '').toLowerCase() });
+      }
+    } catch { registeredMasters = []; }
+  }
+  const subject = text.toLowerCase()
+    .replace(/^(?:masterprogrammet|master(?:programmet)?)\s+i\s+/, '')
+    .replace(/(?:mastern|masterprogrammet)$/, '')
+    .trim();
+  const hits = registeredMasters.filter((m) => m.subject === subject);
+  if (hits.length !== 1) return null;
+  return { code: hits[0].code, name: hits[0].subject.charAt(0).toUpperCase() + hits[0].subject.slice(1) };
+}
+
+/**
+ * Lines in the shape `parseMasterEligibility` reads, from free-text
+ * eligibility sentences, plus the sentences whose master could not be named.
+ */
+function freeTextEligibility(freeTexts) {
+  const lines = [];
+  const unresolved = [];
+  for (const ft of freeTexts || []) {
+    const text = tidy(ft?.Text || '');
+    const m = FREE_TEXT_ELIGIBILITY_RE.exec(text);
+    if (!m) continue;
+    const codes = m[1].match(COURSE_CODE_RE) || [];
+    const target = m[2].trim();
+    const inline = MASTER_CODE_RE.exec(target);
+    const resolved = inline
+      // "master i industriell ekonomi (TINEM)" → "Industriell ekonomi"
+      ? { code: inline[1], name: target.slice(0, inline.index).replace(/[\s(]+$/, '')
+        .replace(/^(?:masterprogrammet|master(?:programmet)?)\s+i\s+/i, '')
+        .replace(/^./, (ch) => ch.toUpperCase()) }
+      : resolveMasterName(target);
+    if (!resolved) { unresolved.push(text); continue; }
+    const { code, name } = resolved;
+    // No parentheses: `parseMasterEligibility` names the master by the text
+    // before its code, and would keep a trailing "(".
+    lines.push(`${name} ${code}\nBehörighetsgivande kurser: ${codes.join(', ')}`);
+  }
+  return { lines, unresolved };
+}
+
 // "Minst en av de villkorligt valfria kurserna", "ska minst två av följande".
 //
 // The trailing boundary is `(?!\p{L})`, not `\b`. JavaScript's `\b` is
@@ -1122,6 +1187,12 @@ function readCurriculum(state, prog, year) {
       if (m) transferOnlyCodes.add(m[1]);
     }
     const transferOnly = transferOnlyCodes;
+
+    const fromFreeText = freeTextEligibility(info.freeTexts);
+    noteLines.push(...fromFreeText.lines);
+    for (const text of fromFreeText.unresolved) {
+      flag(`${prog} year ${year}: free text states master eligibility but names no master this repo knows — not read: "${text}"`);
+    }
 
     const participations = info.participations;
     if (participations == null) continue;

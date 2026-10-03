@@ -72,6 +72,8 @@ const repoRoot = join(__dirname, '..');
 const dataDir = join(repoRoot, 'src', 'data');
 
 const PERIOD_IDS = new Set(['P1', 'P2', 'P3', 'P4']);
+// A study-year key: Year1, Year2, … — never Year0.
+const YEAR_KEY_RE = /^Year[1-9]\d*$/;
 const COLOR_FAMILIES = new Set(['blue', 'green', 'turquoise', 'brick', 'yellow']);
 const COURSE_CATEGORIES = new Set(['mandatory', 'conditionallyElective', 'electivePlaceholder', 'recommended']);
 const GRADING_SCALES = new Set(['A-F', 'P/F', 'VG/G/U']);
@@ -375,6 +377,27 @@ function validateProgramData(program, file) {
 
   checkFullTimeLoad(program, data, file);
 
+  // A round's `year` must be a year the plan has. A course "read in year 1 or
+  // year 2" (`rounds[].year`) offering a year-3 round in a two-year master
+  // would place the pick after the plan ends, where nothing draws it.
+  const planYears = new Set();
+  for (const e of data) {
+    if (!e || e.type === 'cohortMeta') continue;
+    if (Number.isInteger(e.year)) planYears.add(e.year);
+    for (const k of Object.keys(e.periodCredits ?? {})) {
+      const m = /^Year(\d+)$/.exec(k);
+      if (m) planYears.add(Number(m[1]));
+    }
+  }
+  const lastPlanYear = planYears.size ? Math.max(...planYears) : null;
+  for (const e of data) {
+    for (const [i, r] of (Array.isArray(e?.rounds) ? e.rounds : []).entries()) {
+      if (Number.isInteger(r?.year) && lastPlanYear != null && r.year > lastPlanYear) {
+        err(file, `${e.code}.rounds[${i}]: 'year' is ${r.year}, but the plan's last year is ${lastPlanYear}`);
+      }
+    }
+  }
+
   const courseCodes = new Set();
   const optionGroupNames = new Set();
 
@@ -508,12 +531,16 @@ function validateCourse(c, ctx, file) {
   }
 
   const keys = Object.keys(c.periodCredits);
-  const yearKeys = keys.filter(k => /^Year\d+$/.test(k));
+  // Study years count from 1. A 'Year0' key used to pass, and was drawn
+  // nowhere (the renderer's years start at 1), so its credits vanished.
+  const yearKeys = keys.filter(k => YEAR_KEY_RE.test(k));
   const periodKeys = keys.filter(k => PERIOD_IDS.has(k));
   const otherKeys = keys.filter(k => !yearKeys.includes(k) && !periodKeys.includes(k));
 
   for (const k of otherKeys) {
-    err(file, `${ctx} ${c.code}: unknown periodCredits key '${k}' (expected 'P1'..'P4' or 'Year<n>')`);
+    err(file, /^Year0+$/i.test(k)
+      ? `${ctx} ${c.code}: periodCredits key '${k}' — study years count from 1`
+      : `${ctx} ${c.code}: unknown periodCredits key '${k}' (expected 'P1'..'P4' or 'Year<n>')`);
   }
   if (yearKeys.length > 0 && periodKeys.length > 0) {
     err(file, `${ctx} ${c.code}: 'periodCredits' mixes flat (P1..P4) and year-keyed (Year<n>) shapes`);
@@ -796,8 +823,8 @@ function validatePeriodList(value, fieldName, c, ctx, file) {
   }
   if (typeof value === 'object') {
     for (const [yk, arr] of Object.entries(value)) {
-      if (!/^Year\d+$/.test(yk)) {
-        err(file, `${ctx} ${c.code}.${fieldName}: invalid year key '${yk}'`);
+      if (!YEAR_KEY_RE.test(yk)) {
+        err(file, `${ctx} ${c.code}.${fieldName}: invalid year key '${yk}'${/^Year0+$/i.test(yk) ? ' — study years count from 1' : ''}`);
         continue;
       }
       if (!Array.isArray(arr)) {
@@ -974,6 +1001,9 @@ function validateOptionGroup(og, ctx, file) {
   if (og.periodCredits && typeof og.periodCredits === 'object') {
     // Flat, or by year for a box spanning study years; the sum covers all of it.
     const keys = Object.keys(og.periodCredits);
+    for (const k of keys.filter((x) => /^Year0+$/i.test(x))) {
+      err(file, `${ctx} optionGroup '${og.name}': periodCredits key '${k}' — study years count from 1`);
+    }
     if (byYear && keys.some((k) => !/^Year\d+$/i.test(k))) {
       err(file, `${ctx} optionGroup '${og.name}': 'periodCredits' mixes flat (P1..P4) and year-keyed (Year<n>) shapes`);
     }
@@ -1618,6 +1648,43 @@ if (existsSync(mappingFile)) {
             if (!Array.isArray(e?.sources) || e.sources.length === 0) err(mappingFile, `${prog}.${cohort}.${e?.code}: 'sources' must say where it was read`);
             if (e?.note !== undefined && (typeof e.note !== 'string' || !e.note)) err(mappingFile, `${prog}.${cohort}.${e?.code}: 'note' must be a non-empty string when set`);
           }
+        }
+      }
+
+      // Each bachelor + master pair the five-year view can show is one chart,
+      // so the two programmes must not share a name the chart keys on:
+      //   - a spec code: the filter files a code under one group, so a code in
+      //     both registries would put the master's spår pick in the bachelor's
+      //     group (or the reverse) and hide one side's courses;
+      //   - an option group name: picks live in `og` keyed by group name, so two
+      //     boxes of one name would share them, and a pick in one would replace
+      //     the other's.
+      // Checked over every data file of each programme, since any bachelor kull
+      // can meet any master kull (`masterCohortFor`).
+      const byCode = new Map(programs.map((p) => [p?.code, p]));
+      const filesOf = (code) => [byCode.get(code)?.dataFile, ...(cohortIndex[code] ?? []).map((k) => `cohorts/${code}-${k}.json`)]
+        .filter(Boolean);
+      const groupNames = (code) => {
+        const names = new Set();
+        for (const f of filesOf(code)) {
+          const data = loadJson(join(dataDir, f));
+          for (const e of Array.isArray(data) ? data : []) if (e?.type === 'optionGroup' && e.name) names.add(e.name);
+        }
+        return names;
+      };
+      const namesCache = new Map();
+      const namesOf = (code) => namesCache.get(code) ?? namesCache.set(code, groupNames(code)).get(code);
+      for (const [prog, perCohort] of Object.entries(mapping)) {
+        const bachelor = byCode.get(prog);
+        if (!bachelor || !perCohort || typeof perCohort !== 'object') continue;
+        const masters = new Set(Object.values(perCohort).flat().map((e) => e?.code)
+          .filter((c) => byCode.get(c)?.level === 'master' && !byCode.get(c)?.disabled));
+        const bSpecs = new Set((bachelor.specializations ?? []).map((s) => s?.code));
+        for (const m of masters) {
+          const shared = (byCode.get(m).specializations ?? []).map((s) => s?.code).filter((c) => bSpecs.has(c));
+          if (shared.length) err(mappingFile, `${prog} + ${m}: spec code(s) ${shared.join(', ')} in both registries — the five-year view's filter cannot tell them apart`);
+          const clash = [...namesOf(m)].filter((n) => namesOf(prog).has(n));
+          if (clash.length) err(mappingFile, `${prog} + ${m}: option group name(s) in both programmes (${clash.map((n) => `'${n}'`).join(', ')}) — picks are keyed by group name, so the two boxes would share them`);
         }
       }
     }
