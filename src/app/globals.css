@@ -22,7 +22,11 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  /* --font-figtree, not --font-sans: `@theme inline` inlines --font-sans into
+     Tailwind's utilities and emits no CSS variable, so var(--font-sans) was
+     empty here, the whole declaration was dropped, and everything outside the
+     chart (which sets Figtree itself) rendered in the system font. */
+  font-family: var(--font-figtree), Arial, Helvetica, sans-serif;
 }
 
 html {

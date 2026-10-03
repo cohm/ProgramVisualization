@@ -315,14 +315,22 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // miss the cases that matter here — the page's max-width container changing
   // the chart's width without the window changing, and the info panel opening
   // below it — so observe the element itself.
+  //
+  // The chart is redrawn when it changes (it is in the render effect's deps),
+  // and the legend is placed from the same value. Before, only the legend
+  // followed a resize: the chart stayed drawn at the width it was loaded at, so
+  // widening the window from 1280 to 1700 px moved the legend past the August
+  // re-exams while the summer gap stayed where it was. Debounced, since a
+  // redraw is a full SVG rebuild and a window drag fires many resizes.
   useEffect(() => {
     const el = canvasRef.current;
     if (!el) return;
+    let timer: ReturnType<typeof setTimeout> | undefined;
     const apply = () => setCanvasWidth(w => (w === el.clientWidth ? w : el.clientWidth));
     apply();
-    const ro = new ResizeObserver(apply);
+    const ro = new ResizeObserver(() => { clearTimeout(timer); timer = setTimeout(apply, 120); });
     ro.observe(el);
-    return () => ro.disconnect();
+    return () => { clearTimeout(timer); ro.disconnect(); };
   }, []);
   // The legend's measured height. It sits inside the chart's box, so the
   // chart must be at least this tall; a one-year COPEN chart is shorter.
@@ -426,7 +434,14 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
       // Measure the on-screen SVG in CSS pixels
       const svgRect = svgEl.getBoundingClientRect();
       const exportWidth = Math.max(1, Math.round(svgRect.width));
-      const exportHeight = Math.max(1, Math.round(svgRect.height));
+      // The footer's comment, one line per programme's sign-off: a composed view
+      // carries several ("COPEN: … · CTFYS: … · TTFYMs studieplan …"), and as
+      // one SVG text line it ran past the image's right edge. Each extra line
+      // makes the exported image that much taller, so they stay below the chart.
+      const FOOTER_LINE_GAP = 14;
+      const commentLines = (programComment ?? '').split(' · ').map(l => l.trim()).filter(Boolean);
+      const exportHeight = Math.max(1, Math.round(svgRect.height))
+        + Math.max(0, commentLines.length - 1) * FOOTER_LINE_GAP;
 
       // Clone the SVG so we don't change the live DOM
       const cloned = svgEl.cloneNode(true) as SVGSVGElement;
@@ -498,11 +513,11 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
           const legendWidth = STYLE.legend.width;
           const legendHeight = legendPadding*2 + items.length * (itemHeight + itemGap) - itemGap;
           const svgW = exportWidth;
-          const svgH = exportHeight;
           // Same gap-centred placement as the on-screen legend, so an exported
           // chart matches what the user was looking at when they exported it.
           const legendX = legendLeftIn(svgW);
-          const legendY = svgH - legendHeight - STYLE.legend.offsetY;
+          // At the top of the plot, as on screen (see the Legend's `top`).
+          const legendY = CHART_MARGIN.top;
           legendG.setAttribute('transform', `translate(${legendX},${legendY})`);
 
           // background
@@ -670,9 +685,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             const totalItems = items.length + 1 + cosmetics.groups.length; // +1 for separator
             const newLegendHeight = legendPadding*2 + totalItems * (itemHeight + itemGap) - itemGap;
             bg.setAttribute('height', String(newLegendHeight));
-            // Reposition to stay in bottom-right
-            const newLegendY = svgH - newLegendHeight - STYLE.legend.offsetY;
-            legendG.setAttribute('transform', `translate(${legendX},${newLegendY})`);
+            legendG.setAttribute('transform', `translate(${legendX},${legendY})`);
           }
 
           // append legend to cloned
@@ -698,7 +711,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
 
         const x = 12;
         const baseY = exportHeight - 8;
-        const lineGap = 14;
+        const lineGap = FOOTER_LINE_GAP;
 
         // Bottom line is always the audit stamp.
         const stampText = document.createElementNS(NS, 'text');
@@ -709,16 +722,17 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
         stampText.textContent = stamp;
         cloned.appendChild(stampText);
 
-        // Above it (when provided) goes the human-readable comment.
-        if (programComment && programComment.trim().length > 0) {
+        // Above it (when provided) goes the human-readable comment, a line
+        // per sign-off, in reading order from the top.
+        commentLines.forEach((line, i) => {
           const commentText = document.createElementNS(NS, 'text');
           commentText.setAttribute('x', String(x));
-          commentText.setAttribute('y', String(baseY - lineGap));
+          commentText.setAttribute('y', String(baseY - lineGap * (commentLines.length - i)));
           commentText.setAttribute('fill', '#6b7280');
           commentText.setAttribute('font-size', '11');
-          commentText.textContent = programComment;
+          commentText.textContent = line;
           cloned.appendChild(commentText);
-        }
+        });
       } catch {
         // ignore footer failures
       }
@@ -2704,7 +2718,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
   // visual effects (visibility toggles, year-label highlight) are applied by
   // the dedicated post-render effects below, which keeps a layer toggle or
   // year-focus click from triggering a full ~3 000-call SVG rebuild.
-  }, [courses, numYears, language, shownPicks, selectedRoundPerCourse, cosmetics, programCode, programName, studyplanUrl, getCourseColors]);
+  }, [courses, numYears, language, shownPicks, selectedRoundPerCourse, cosmetics, programCode, programName, studyplanUrl, getCourseColors, canvasWidth]);
 
   // One-time setup: tooltip element + delegated mouseover/move/out/click on
   // the SVG. Replaces the per-element listeners that used to be attached on
@@ -3321,6 +3335,7 @@ const TimelineVisualization = forwardRef(function TimelineVisualization({ course
             toggleLayer={toggleLayer}
             toggleGroup={toggleGroup}
             left={legendLeftIn(canvasWidth)}
+            top={CHART_MARGIN.top}
             boxRef={legendBoxRef}
           />
         </div>

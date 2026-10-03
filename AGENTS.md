@@ -149,7 +149,7 @@ every programme and every year. So all three of its years are borrowed
 (y1←HT2025, y2←HT2024, y3←HT2023 for the SCI programmes) and `corroborate()`
 cannot run, because it needs a year *both* cohorts publish and HT2022 publishes
 none. Every HT2022 year is therefore `approximated` with confidence `unknown`,
-which the chart states above the plan. HT2022 students are nominally in year 5,
+which the chart states in a note below the plan. HT2022 students are nominally in year 5,
 but those behind schedule are still taking bachelor-level courses, so the plan is
 worth offering with that caveat attached rather than withholding.
 
@@ -175,7 +175,7 @@ rewriting.
 `unknown`. Confidence comes from `corroborate()`: when a year is borrowed, it
 finds a *different* year both cohorts publish and compares it. Agreement is
 evidence, not proof — CTFYS year 1 is identical between 2025 and 2026 while its
-year 3 changed between 2023 and 2024. HomeClient renders this as a notice above
+year 3 changed between 2023 and 2024. HomeClient renders this as a note below
 the chart; a student needs to know when they are looking at another cohort's year.
 
 **"Published" needs a threshold, not a boolean.** A course spanning study years
@@ -1308,7 +1308,7 @@ Management"). `appendMaster` (`src/lib/degreeChain.ts`) shifts every
 year-bearing field of the master's entries by the bachelor's last year:
 `credits`, `examsByYear`, round credits, `yearBySpecialization` and
 `periodCreditsByYear`. The master is its default file's kull (HT2025), since
-a bachelor kull reaches it years later; the notice above the chart says so.
+a bachelor kull reaches it years later; the note below the chart says so.
 
 A code both carry is kept once, by its role on each side. If it is obligatorisk
 in the bachelor, it stays there and leaves the master's boxes: an option nobody
@@ -1777,6 +1777,38 @@ The one floor left is the legend's, which sits inside the chart's box:
 `min-height` of legend + offset + top margin. So COPEN's box is 469 px, with
 white space under year 1 beside the legend. Exports measure the rendered box,
 so they include it.
+
+**Nothing sits between the controls and the chart.** The notes on what is
+shown — the transition plan applied, the years borrowed from another kull
+("År 3 är uppskattat"), and what the five-year view shows for years 4-5 — are
+below the chart card, and the master's unverified status follows the
+bachelor's sign-off in the footer (`programComment`, so exports carry it). A
+composed view's footer names each programme's sign-off: "COPEN: … · CTFYS: …
+· TTFYMs studieplan …" (a COPEN view used to show COPEN's alone). An export
+draws it one sign-off per line and grows the image by the extra lines, since
+one SVG text line ran past the right edge. They
+used to stand between the selectors and the chart and pushed it down: about
+126 px in CTFYS + TTFYM, five lines more with a COPEN transition.
+
+**The legend is pinned to the top of the plot** (`top: CHART_MARGIN.top`),
+beside year 1, on screen and in exports. It used to sit at the bottom, which in
+a five-year chart put it some 600 px below the first years. Horizontally it is
+centred in the summer gap by `legendLeftIn()`.
+
+**The chart redraws when its width changes.** `canvasWidth` follows the
+wrapper through a ResizeObserver, debounced 120 ms, and is in the render
+effect's deps. Before, only the legend followed a resize: widening the window
+from 1280 to 1700 px left the chart drawn at its load width and moved the
+legend past the August re-exams (gap 1056-1250 px, legend 1293-1463).
+
+**The page font is set from `--font-figtree`, not `--font-sans`.** `globals.css`
+defines `--font-sans` inside `@theme inline`, which Tailwind inlines into its
+utility classes without emitting a CSS variable. So `body { font-family:
+var(--font-sans), … }` resolved to nothing, the declaration was dropped, and
+everything outside the chart rendered in the system font (SF on macOS) for a
+long time unnoticed: the chart sets Figtree itself (`STYLE.fontFamily`). Check
+a rendered font with CDP's `CSS.getPlatformFontsForNode`, not just
+`getComputedStyle`, which reports the declared stack.
 
 **SVG export**: Embeds Figtree font CSS inline so the exported SVG renders correctly outside the browser. The font is fetched fresh from Google Fonts on every export.
 
