@@ -921,6 +921,15 @@
         "cosmeticsGroup": "Elektroteknik"
       }
     ],
+    "groupChanges": [
+      {
+        "year": 2,
+        "offering": "EP1100",
+        "pickN": 1,
+        "comment": "Välj minst en av de villkorligt valfria kurserna, i årskurs 2 eller 3. SF1546, SF1547 och SG1130 räknas inte. I årskurs 3 läses dessutom en helt valfri kurs. CELTE:s egna studenter läser tre villkorligt valfria kurser; planen för Öppen ingång anger \"Välj minst 1 (ej SF1546, SF1547, eller SG1130) samt en helt valfri kurs i åk 3\".",
+        "commentEn": "Choose at least one of the conditionally elective courses, in year 2 or 3. SF1546, SF1547 and SG1130 do not count. Year 3 also includes one free elective course. CELTE’s own students take three conditionally elective courses; the plan for Öppen ingång says \"choose at least 1 (not SF1546, SF1547 or SG1130), plus one free elective in year 3\"."
+      }
+    ],
     "cohorts": {
       "from": "HT2025"
     },

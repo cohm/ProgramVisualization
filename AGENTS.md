@@ -1550,6 +1550,16 @@ Three further shapes came with CINTE, CTKEM, CMETE and CITEH:
   COPEN courses fill together (CINTE's 36 hp year-2 box, 39 hp from six).
 - `groupChanges[].minCredits` + `periodCredits` shrink a `minCredits` box whose
   space moved courses take (CITEH's year-3 box, 24 → 18 hp, P3 taken by ML1504).
+- `groupChanges[].pickN` gives a `pickN` group another count. CELTE's own
+  students read three villkorligt valfria courses; COPEN → CELTE says "Välj
+  minst 1 (ej SF1546, SF1547, eller SG1130)", so its year-2 box is pick one.
+  The bar keeps its 15 hp: options of different shapes are drawn as their
+  per-period envelope, which one option fills as well as three, and a pick-N
+  box is removed at its first pick whatever N is (`remainingGroup`). So what
+  changes is the modal (one selection, not three), the tooltip and the sign-off
+  file; the load does not. Year 2 reads 78 hp unpicked and 63 hp plus the
+  picked course. The validator caps the count at the options left once
+  credited and exempted courses are removed.
 
 **`bySpecialization` holds per-inriktning changes** (COPEN → CLGYM). CLGYM's
 plan gives year 2 and 3 as a separate table per inriktning, and the same course

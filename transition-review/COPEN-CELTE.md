@@ -60,6 +60,31 @@ Kurser som inte finns i någon av de två publicerade studieplanerna.
 - **[EN1001](https://www.kth.se/student/kurser/kurs/EN1001) Elektroteknikens betydelse för ett globalt samhälle** (6 hp, årskurs 2, ) — i stället för [EH1110](https://www.kth.se/student/kurser/kurs/EH1110)
   Ersätter EH1110 Elektroteknikens betydelse (7,5 hp över tre år) med en tvåårig variant på 6 hp. Kursen finns uttryckligen för den här studentgruppen — dess egen behörighetstext lyder "Obligatorisk för studenter antagna till CELTE via öppen ingång". Perioder från kurssidan; planens tabell för årskurs 3 anger 0,5/0,5/0,5/1,5 medan kurssidan anger 0/0,5/1,5/1 — se signeringsunderlaget.
 
+## Valgrupper som ändras
+
+Valgrupper i CELTE som ser annorlunda ut för den transfererande studenten.
+
+**Årskurs 2, välj 1 (i stället för 3)** av:
+
+| Kurs | hp | Obligatorisk för | Rekommenderad för |
+|---|---|---|---|
+| [DD1320](https://www.kth.se/student/kurser/kurs/DD1320) Tillämpad datalogi | 6 | — | — |
+| [DD1388](https://www.kth.se/student/kurser/kurs/DD1388) Programsystemkonstruktion med C++ | 7,5 | — | — |
+| [EI1222](https://www.kth.se/student/kurser/kurs/EI1222) Teoretisk elektroteknik, fortsättningskurs | 6 | — | — |
+| [EP1100](https://www.kth.se/student/kurser/kurs/EP1100) Datakommunikation och datornät | 7,5 | — | — |
+| [IL2240](https://www.kth.se/student/kurser/kurs/IL2240) Halvledarkomponenter för integrerade kretsar | 7,5 | — | — |
+| [MH1023](https://www.kth.se/student/kurser/kurs/MH1023) Praktiskt jämställdhets- och mångfaldsarbete i vetenskapliga, tekniska och industriella miljöer | 6 | — | — |
+| ~~[SF1546](https://www.kth.se/student/kurser/kurs/SF1546) Numeriska metoder, grundkurs~~ _(redan läst eller tillgodoräknad, utgår ur valet)_ | 6 | — | — |
+| [SF1679](https://www.kth.se/student/kurser/kurs/SF1679) Diskret matematik | 7,5 | — | — |
+| [SF1691](https://www.kth.se/student/kurser/kurs/SF1691) Komplex analys | 7,5 | — | — |
+| [SF1861](https://www.kth.se/student/kurser/kurs/SF1861) Optimeringslära | 6 | — | — |
+| ~~[SG1130](https://www.kth.se/student/kurser/kurs/SG1130) Mekanik I~~ _(redan läst eller tillgodoräknad, utgår ur valet)_ | 9 | — | — |
+| [SH1012](https://www.kth.se/student/kurser/kurs/SH1012) Modern fysik | 8 | — | — |
+| [SI1200](https://www.kth.se/student/kurser/kurs/SI1200) Fysikens matematiska metoder | 4 | — | — |
+| [SK1119](https://www.kth.se/student/kurser/kurs/SK1119) Termodynamik och statistisk fysik | 7,5 | — | — |
+
+Välj minst en av de villkorligt valfria kurserna, i årskurs 2 eller 3. SF1546, SF1547 och SG1130 räknas inte. I årskurs 3 läses dessutom en helt valfri kurs. CELTE:s egna studenter läser tre villkorligt valfria kurser; planen för Öppen ingång anger "Välj minst 1 (ej SF1546, SF1547, eller SG1130) samt en helt valfri kurs i åk 3".
+
 ## Läsårsbelastning i den sammansatta planen
 
 Heltid är **15 hp per läsperiod**. Avvikelser är inte nödvändigtvis fel —
@@ -72,7 +97,7 @@ en övergångsplan innehåller ofta upphämtningskurser — men de bör stämma 
 | 2 | 15,5 | 15 | 24 | 23,5 | 78 |
 | 3 | 15 | 15,5 | 9 | 8,5 | 48 |
 
-Årskurs 2 landar på 78 hp och årskurs 3 på 48 hp. Båda avvikelserna kommer från samma sak: diagrammet följer ännu CELTE:s egen regel för de villkorligt valfria kurserna, inte övergångsplanens. CELTE:s studieplan anger *"Tre villkorligt valfria kurser ska läsas i årskurs 2 eller 3"*, och den vanliga CELTE-vyn visar det som ett valblock på 15 hp i årskurs 2 (P3 och P4). Övergångsplanen kräver i stället *minst en* sådan kurs plus en helt valfri kurs i årskurs 3. Se fråga 4.
+Årskurs 2 landar på 78 hp och årskurs 3 på 48 hp. Valblocket i årskurs 2 är ändrat till "välj en", som planen anger, men det ritas fortfarande som 15 hp i P3 och P4: alternativen har olika periodfördelning, och blocket visar deras sammanlagda utrymme per period, vilket en kurs fyller lika väl som tre. När en kurs är vald försvinner blocket, och årskurs 2 blir 63 hp plus den valda kursen (6–9 hp). Utan blocket är årskurs 2 alltså 63 hp, 3 hp över heltid, av upphämtningskurserna. Årskurs 3 är densamma som i CELTE:s egen plan, där 12,5 hp i P3 och P4 inte är fyllda: det är utrymmet för den valfria kursen och för villkorligt valfria kurser som läses i årskurs 3. Se fråga 4.
 
 ## Frågor som behöver besvaras
 
@@ -112,9 +137,9 @@ Notera också att planen skriver kursnamnet *"…för ett modernt samhälle"* me
 
 Planen anger: *"Villkorligt valfria kurser i åk 2 eller 3 på CELTE. Välj minst 1 (ej SF1546, SF1547, eller SG1130) samt en helt valfri kurs i åk 3."*
 
-CELTE:s egen studieplan säger *"Tre villkorligt valfria kurser ska läsas i årskurs 2 eller 3"* och *"Under de första tre åren finns utrymme för en valfri kurs"*. Diagrammet visar det som ett valblock "välj tre" på 15 hp i årskurs 2, P3 och P4. I övergångsvyn står det blocket kvar ovanpå upphämtningskurserna, och årskurs 2 blir 78 hp medan årskurs 3 blir 48 hp.
+CELTE:s egen studieplan säger *"Tre villkorligt valfria kurser ska läsas i årskurs 2 eller 3"*, och diagrammet visar det som ett valblock på 15 hp i årskurs 2, P3 och P4. För en student från Öppen ingång är blocket ändrat till **välj en** (SF1546 och SG1130 är redan borttagna ur det, eftersom de är tillgodoräknade).
 
-**Fråga:** ska en student från Öppen ingång välja *en* villkorligt valfri kurs (i årskurs 2 eller 3) och dessutom en helt valfri kurs i årskurs 3, i stället för CELTE-studenternas tre? I så fall visas valblocket som "välj en" och en plats för valfri kurs läggs till i årskurs 3.
+**Bekräfta** att en student från Öppen ingång läser *en* villkorligt valfri kurs i stället för tre, och att den helt valfria kursen i årskurs 3 är den som CELTE:s egen plan redan ger utrymme för. Planen säger "minst 1"; diagrammet visar exakt en, och fler kan läsas som valfria kurser.
 
 ### 5. Om de tre tillkommande kurserna
 
