@@ -37,16 +37,13 @@ jobs:
         run: npm ci
 
       - name: Audit dependencies
-        # Fails on HIGH or CRITICAL CVEs in installed packages. Escape hatches
-        # if a transitive vuln has no upstream fix yet, in order of preference:
-        #   1. `npm audit fix` (or `--force` only after verifying the bumps
-        #      are non-breaking) — usually resolves it.
-        #   2. Pin the offender via `package.json` `overrides` to a patched
-        #      version if one exists.
-        #   3. As a last resort, temporarily relax to `--audit-level=critical`
-        #      here and leave a comment pointing at the advisory + why we're
-        #      accepting it. Avoid `|| true`; that hides everything.
-        run: npm audit --audit-level=high
+        # Fails on HIGH or CRITICAL advisories in installed packages, except
+        # those accepted, with a reason and a review date, in
+        # scripts/audit-allowlist.json. The escape hatches, in order of
+        # preference, are listed at the top of scripts/audit-check.mjs; an
+        # allowlist entry is for an advisory with no patched version that does
+        # not reach what ships. Avoid `|| true`; that hides everything.
+        run: npm run audit-check
 
       - name: Validate program data files
         run: npm run validate-data
