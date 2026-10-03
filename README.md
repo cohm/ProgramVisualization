@@ -32,7 +32,20 @@ If the dev server appears suspended (e.g. you see `zsh: suspended npm run dev`),
 
 ## Deploy
 
-Recommended: Vercel (works well with Next.js). Create a GitHub repo and connect it to Vercel. Default build command `npm run build` and output directory are handled by Next.js.
+Only releases are deployed. A release is a SemVer tag `vX.Y.Z` with a GitHub Release:
+
+```bash
+git fetch && gh release create vX.Y.Z --target main --generate-notes
+```
+
+Publishing it runs `.github/workflows/release.yml`: CI on the tagged commit, then
+
+- **GitHub Pages**, the public site at https://cohm.github.io/ProgramVisualization/ — a static build without the server-side PDF export;
+- **Vercel production**, the full app, built in the workflow and deployed with the Vercel CLI (secrets `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`).
+
+Merging to main deploys nothing (`vercel.json` turns off Vercel's own deploys from `main`). Every PR still gets a Vercel preview. A pre-release (`--prerelease`, e.g. `v1.0.0-rc.1`) is a dry run: everything builds, Pages is left alone, and Vercel gets a preview instead of production. To redeploy a release, run the Release workflow by hand on its tag.
+
+The app shows which build it is in the bottom-right corner: the release version, or the PR and commit for anything else.
 
 **Important for Vercel deployment**: 
 - The PDF export feature requires Puppeteer and a serverless-compatible Chrome binary. This is handled automatically by `@sparticuz/chromium`.

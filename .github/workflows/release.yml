@@ -1,0 +1,143 @@
+name: Release
+
+# Deploys a published release, and only that: GitHub Pages (the public site,
+# https://cohm.github.io/ProgramVisualization/) and Vercel production. Merging
+# to main deploys nothing; Vercel's PR previews are unaffected.
+#
+# A release is a `vX.Y.Z` tag with a GitHub Release (SemVer):
+#
+#   git fetch && gh release create vX.Y.Z --target main --generate-notes
+#
+# CI runs first, on the tagged commit, so a release cannot deploy a build that
+# fails today. To redeploy a release, run this workflow by hand and pick the
+# tag under "Use workflow from"; run from a branch, it deploys nothing.
+#
+# A pre-release (`gh release create vX.Y.Z-rc.1 --prerelease …`) is a dry run:
+# CI and both builds run, Pages is not deployed, and Vercel gets a preview
+# deployment with its own URL instead of production.
+#
+# One-time setup:
+#   - Settings → Environments → github-pages: allow `v*` tags (done 2026-10-03).
+#   - Repository secrets VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID, from
+#     the Vercel account and `.vercel/project.json` after `vercel link`.
+#   - vercel.json's git.deploymentEnabled stops Vercel deploying main itself.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One release deploys at a time, and an in-flight deploy is never cancelled.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    if: startsWith(github.ref, 'refs/tags/v')
+    uses: ./.github/workflows/ci.yml
+
+  pages-build:
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          # The tags, so `git describe` names the build after its release.
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Strip server-only API routes
+        # `output: 'export'` refuses to build with route handlers in the tree.
+        # Delete them; the "Save PDF" button is gated on
+        # NEXT_PUBLIC_DISABLE_PDF=1, so nothing in the client bundle still
+        # calls /api/export-pdf.
+        run: rm -rf src/app/api
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v6
+
+      - name: Build static site
+        env:
+          BUILD_TARGET: pages
+          NEXT_PUBLIC_DISABLE_PDF: '1'
+        run: npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./out
+
+  pages-deploy:
+    needs: pages-build
+    if: github.event.release.prerelease != true
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+
+  vercel:
+    # The full app, with the server-side PDF export the static Pages build
+    # cannot have. Built here rather than by Vercel, so the build sees the
+    # tag and the version is the release's.
+    needs: ci
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      # Production for a release (or a hand-run on a tag), a preview for a
+      # pre-release. `vercel build` and `vercel deploy` must agree on it.
+      TARGET: ${{ github.event.release.prerelease == true && 'preview' || 'production' }}
+    # The token is given only to the steps that call Vercel, not to `npm ci`,
+    # whose install scripts run third-party code.
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install the Vercel CLI
+        run: npm install --global vercel@62
+
+      - name: Pull the production settings
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment="$TARGET" --token="$VERCEL_TOKEN"
+
+      - name: Build
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: vercel build ${{ env.TARGET == 'production' && '--prod' || '' }} --token="$VERCEL_TOKEN"
+
+      - name: Deploy
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: vercel deploy --prebuilt ${{ env.TARGET == 'production' && '--prod' || '' }} --token="$VERCEL_TOKEN"

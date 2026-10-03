@@ -5,6 +5,11 @@ on:
     branches:
       - main
   pull_request:
+  # Also run by release.yml before it deploys, so a release cannot deploy a
+  # build that fails here today (the audit gate reads a live advisory feed).
+  # Called this way the job reports as "ci / build-and-quality"; PR runs keep
+  # the plain "build-and-quality" the main ruleset requires.
+  workflow_call:
 
 # Cancel superseded runs on the same ref (e.g. when a PR is force-pushed).
 # `main` keeps in-progress runs because we usually want every commit on main
