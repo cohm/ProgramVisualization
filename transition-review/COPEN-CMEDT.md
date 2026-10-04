@@ -59,7 +59,7 @@ Kursen läses i samma läsperioder som vanligt, men ett år senare.
 
 Samma kurs och samma årskurs, men i andra läsperioder: en annan av KTH:s omgångar under året, eller bara den del som inte tillgodoräknas.
 
-- **[XY310Z](https://www.kth.se/student/kurser/kurs/XY310Z) Plats för valfri kurs** (15,5 hp): P1: 9 hp, P2: 6,5 hp → **P1: 6 hp**; resten tillgodoräknas genom [SF1546](https://www.kth.se/student/kurser/kurs/SF1546) och [KD1000](https://www.kth.se/student/kurser/kurs/KD1000)
+- **XY310Z Plats för valfri kurs** (15,5 hp): P1: 9 hp, P2: 6,5 hp → **P1: 6 hp**; resten tillgodoräknas genom [SF1546](https://www.kth.se/student/kurser/kurs/SF1546) och [KD1000](https://www.kth.se/student/kurser/kurs/KD1000)
   Det valfria utrymmet i årskurs 3 är 15,5 hp (P1 9, P2 6,5). SF1546 och KD1000 räknas som valbara kurser (9 hp), och planen anger det som återstår som "Valbar kurs 6 hp" i P1. Perioden följer planen; CMEDT:s eget utrymme skulle lämna 6,5 hp.
 
 ## Läsårsbelastning i den sammansatta planen

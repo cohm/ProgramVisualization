@@ -460,6 +460,8 @@ const EXACT_COUNT_RE =
 // than saying how many to take. Recognised so it is not reported as unread, but
 // deliberately not turned into a pickN.
 const MUTUAL_EXCLUSION_RE = /^\s*endast\s+(en|ett)\s+av\s+kurserna\b/i;
+// "Språk" or "Språk, kan läsas i åk 2 och 3": a language course, no code.
+const CODELESS_ALTERNATIVE_RE = /^språk(?:kurs(?:er)?)?\b/i;
 // "ska antingen SA114X eller EF112X läsas"
 const EITHER_OR_RE = /\bantingen\b[^.]*\beller\b/i;
 // "Kurs som krävs: MJ1401" / "Kurser som krävs: SI1146 och SH1014"
@@ -483,7 +485,7 @@ const swedishCount = (word) => (/^\d+$/.test(word)
  * parser reports what it is sure of rather than guessing.
  */
 function parseConditionallyElectiveInfo(text) {
-  const out = { minCount: null, exactCount: null, requiredFor: new Map(), exclusions: [], unparsed: [] };
+  const out = { minCount: null, exactCount: null, requiredFor: new Map(), exclusions: [], codeless: [], unparsed: [] };
   if (!text) return out;
 
   let currentMaster = null;
@@ -545,12 +547,21 @@ function parseConditionallyElectiveInfo(text) {
       continue;
     }
 
+    // An alternative the plan names without a course code. CTKEM lists
+    // "Språk" (and "Språk, kan läsas i åk 2 och 3") among its villkorligt
+    // valfria courses: a language course of the student's choosing. It cannot
+    // be an option, but it is why a list with one course is still a choice.
+    if (CODELESS_ALTERNATIVE_RE.test(line) && !line.match(COURSE_CODE_RE)) {
+      out.codeless.push(line);
+      continue;
+    }
+
     // Not a rule. Some of these are simply prose and are silently ignored:
     // the section header, a master heading with no course under it, and
     // year-flexibility notes. Anything else is surfaced, because an unread line
     // could be a rule this parser does not yet know.
     if (!/^behörighetsgivande/i.test(line)
-      && !/kan läsas år/i.test(line)
+      && !/kan (?:endast )?läsas (?:i )?(?:år|åk)/i.test(line)
       && !MASTER_HEADING_RE.test(line)) {
       out.unparsed.push(line);
     }
@@ -2170,7 +2181,15 @@ function buildOptionGroups(vvRecords, vvInfo = []) {
     // of the six curated files models a single-option group as a group, so this
     // matches the convention; 15 of 34 extracted groups were of this shape,
     // 5 of CFATE's 7 and 10 of TIEMM's 23.
-    if (optionCodes.length < 2) continue;
+    //
+    // Unless the plan names an alternative without a code: CTKEM's year 2 lists
+    // KD1270 and "Språk", so the one listed course is a choice between it and a
+    // language course. Dropped, KD1270 survived only as an option of the year-3
+    // box (it "kan läsas i åk 2 eller 3"), which hid it from year 2 and left P4
+    // at 8 of 15 hp.
+    const ruleHere = ruleFor.get(`${recs[0].year}::${recs[0].spec ?? ''}`) ?? ruleFor.get(`${recs[0].year}::`) ?? null;
+    const codeless = ruleHere?.codeless ?? [];
+    if (optionCodes.length < 2 && codeless.length === 0) continue;
     n++;
     const first = recs[0];
     const options = optionCodes.slice().sort();
@@ -2276,7 +2295,14 @@ function buildOptionGroups(vvRecords, vvInfo = []) {
       exams: [],
       category: 'conditionallyElective',
       ...(Object.keys(qualifiesFor).length > 0 ? { qualifiesFor } : {}),
+      ...(codeless.length > 0 ? {
+        comment: `Kan också vara en språkkurs: planen listar "Språk" bland de villkorligt valfria kurserna, utan kurskod.`,
+        commentEn: 'May also be a language course: the plan lists "Språk" (languages) among the conditionally elective courses, with no course code.',
+      } : {}),
     };
+    if (codeless.length > 0) {
+      flag(`optionGroup "${entry.name}" (year ${entry.year}): the plan also names ${codeless.map((l) => `"${l}"`).join(', ')} with no course code — kept as a choice${options.length < 2 ? ' although it lists one course' : ''}, with a note.`);
+    }
     if (stated != null) {
       flag(`optionGroup "${entry.name}" (year ${entry.year}): pickN set to ${stated} from ` +
         `${statedFrom}, not defaulted to 1 — verify against the study plan.`);
@@ -2989,6 +3015,12 @@ const ELECTIVE_YEAR_RE = /\bska\s+(?:också\s+)?läsa\s+([\d]+(?:[,.]\d+)?)\s*hp
 // space ("I årskurs 1 läses 60 hp obligatoriska kurser.") does not match.
 const ELECTIVE_YEAR_FIRST_RE = /\bi\s+(?:åk|årskurs)\s*(\d)\s+läses\s+(?:[\d]+(?:[,.]\d+)?\s*hp\s+obligatoriska\s+kurser\s+och\s+)?([\d]+(?:[,.]\d+)?)\s*hp\s+valfria\s+kurser/i;
 
+// "Under årskurs 3 ska du läsa obligatoriska kurser, villkorlig valfri kurs och
+// en valfri kurs." (CTKEM) — the year has room for one free elective course, of
+// no stated size. "en villkorlig valfri kurs" does not match: "en" must be
+// followed by "valfri" itself.
+const ELECTIVE_ONE_COURSE_RE = /\bunder\s+(?:åk|årskurs)\s*(\d)\s+ska\s+du\s+läsa\b[^.]*?\b(?:en|ett)\s+valfri\s+kurs\b/i;
+
 const hpFromText = (x) => Number(String(x).replace(',', '.'));
 
 /** What the descriptive text claims about elective space, if anything. */
@@ -3008,6 +3040,13 @@ function statedElectiveSpace(notes) {
     if (yearFirst && !wholeYear) {
       out.push({ kind: 'season', hp: hpFromText(yearFirst[2]), year: Number(yearFirst[1]),
         periods: [...PERIOD_IDS], statedWholeYear: true, quote: yearFirst[0] });
+    }
+    // A stated course with no size: the shortfall decides the box, and with
+    // `hp: null` no figure is checked against it.
+    const oneCourse = ELECTIVE_ONE_COURSE_RE.exec(note);
+    if (oneCourse && !wholeYear && !yearFirst) {
+      out.push({ kind: 'season', hp: null, year: Number(oneCourse[1]),
+        periods: [...PERIOD_IDS], statedWholeYear: true, capToNet: true, quote: oneCourse[0] });
     }
     const season = ELECTIVE_SEASON_RE.exec(note);
     if (season) {
@@ -3131,7 +3170,7 @@ function fillElectiveSpace(entries, notes, hasSpecialisations, electiveRecords =
       const entry = {
         // Stable synthetic code: same year+first period always yields the same
         // one, so re-running does not churn the file.
-        code: `XY${year}${PERIOD_IDS.indexOf(pid) + 1}0Z`,
+        code: `XY${year}${PERIOD_IDS.indexOf(slot.codePeriod ?? pid) + 1}0Z`,
         name: 'Plats för valfri kurs',
         nameEn: 'Space for elective course',
         totalCredits: slot.hp,
@@ -3373,6 +3412,32 @@ function electiveSlots(claim, load, short) {
   // matches nothing short falls back rather than inventing a box.
   const idx = PERIOD_IDS.map((pid, i) => [pid, i]).filter(([pid, i]) => claim.periods.includes(pid) && isShort(i));
   if (idx.length === 0) return perPeriod();
+
+  // A claim of one course with no stated size (CTKEM's "en valfri kurs") is
+  // capped at the year's NET shortfall, given to the most-short periods first.
+  // Summing every short period instead swept up gaps the plan's own layout
+  // leaves: CTKEM year 3 is 16/14/7.5/15 hp, P1's extra hp being KA1030
+  // threaded through the years, so the box came out 1 + 7.5 = 8.5 hp over P2
+  // and P3 and put the year at 61 hp. Net, the year is 7.5 hp short: P3.
+  if (claim.hp == null && claim.capToNet) {
+    let left = round(short.reduce((a, x) => a + x, 0));
+    const take = new Map();
+    for (const [, i] of [...idx].sort((x, y) => short[y[1]] - short[x[1]] || x[1] - y[1])) {
+      if (left <= LOAD_TOLERANCE) break;
+      const hpHere = round(Math.min(short[i], left));
+      take.set(i, hpHere);
+      left = round(left - hpHere);
+    }
+    const kept = idx.filter(([, i]) => take.has(i));
+    if (kept.length > 0) {
+      // Named after the period holding most of it, not the first: HT2022-23's
+      // box is 1.5/0.5/7.5 over P1-P3 and HT2024's 7.5 in P3, and one code
+      // (XY330Z) lets a transition plan address the box in every cohort.
+      const main = [...take.entries()].sort((x, y) => y[1] - x[1] || x[0] - y[0])[0][0];
+      return [{ periods: kept.map(([pid]) => pid), hp: round([...take.values()].reduce((a, x) => a + x, 0)),
+        expected: null, perPeriodHp: kept.map(([, i]) => take.get(i)), codePeriod: PERIOD_IDS[main] }];
+    }
+  }
 
   const spanned = idx.map(([pid]) => pid);
   const hp = round(idx.reduce((a, [, i]) => a + short[i], 0));

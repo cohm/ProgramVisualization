@@ -541,6 +541,28 @@ that occur in the CBH and ABE plans:
   threaded through every year), so year 3 had stayed 15.6 hp short. The
   COPEN → CDATE plan keeps 7.5 hp of that space ("XX0000", P4), stated as a
   `rescheduled` entry on the placeholder.
+- "Under årskurs 3 ska du läsa obligatoriska kurser, villkorlig valfri kurs och
+  en valfri kurs" (CTKEM) states one free course of no stated size. It is a
+  whole-year claim with `hp: null`, and its box is capped at the year's NET
+  shortfall, given to the most-short periods first. Summing every short
+  period swept up gaps from KTH's own layout: CTKEM year 3 is 16/14/7.5/15,
+  P1's extra hp being KA1030 threaded through the years, and the box came out
+  8.5 hp over P2 and P3 with the year at 61. Capped, it is 7.5 hp in P3. In
+  HT2022-23, where only part of KA1030 falls in years 1-3, the year is 9.5 hp
+  short and the box takes that. The box is named after the period holding
+  most of it (XY330Z), not its first, so one code serves every cohort and the
+  COPEN → CTKEM plan can exempt it.
+
+**An alternative named without a code keeps a one-course choice a choice.**
+CTKEM's year 2 says "ska du läsa obligatoriska kurser och en villkorlig valfri
+kurs" and lists KD1270 and "Språk". The single-option rule dropped the box, and
+KD1270, which "kan läsas i åk 2 eller 3", survived only as an option of the
+year-3 box, so year 2 drew nothing in its place: P4 at 8 of 15 hp. A
+villkorligt valfri list with a codeless line ("Språk", "Språk, kan läsas i åk 2
+och 3") now keeps its box even with one course, and the box notes that a
+language course is the other way to fill it. Year 2 is 18/12/14.5/15.5, the
+uneven split being KTH's own layout. Scanned over every bachelor's pages for
+kull HT2023-HT2025, both phrasings occur in CTKEM only.
 
 **An inriktning's villkorligt valfria groups are its own.** The layout-keyed
 grouper used to ignore the inriktning. So in CSAMH year 3, BBP's, MHI's and
@@ -1591,7 +1613,12 @@ Three further shapes came with CINTE, CTKEM, CMETE and CITEH:
   Rescheduled courses follow the same rule, and warn only when a marker loses its
   bar.
 - `groupChanges[].satisfiedBy` may list several courses, for a credit pool that
-  COPEN courses fill together (CINTE's 36 hp year-2 box, 39 hp from six).
+  COPEN courses fill together (CINTE's 36 hp year-2 box, 39 hp from six). It
+  may also name a course the plan `added`: COPEN → CTKEM's student reads a
+  language course (XY210Z) in year 2, which is the "Språk" alternative CTKEM's
+  year-2 box can only name in its note, so the box leaves the plan. The same
+  plan exempts CTKEM's year-3 "Plats för valfri kurs" (XY330Z): its year-3
+  table has no free elective, and P3 holds KD1070 moved from year 2.
 - `groupChanges[].minCredits` + `periodCredits` shrink a `minCredits` box whose
   space moved courses take (CITEH's year-3 box, 24 → 18 hp, P3 taken by ML1504).
 - `groupChanges[].pickN` gives a `pickN` group another count. CELTE's own

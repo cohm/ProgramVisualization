@@ -177,7 +177,10 @@ export interface TransitionGroupChange {
    */
   qualifiesFor?: Record<string, MasterEligibility[]>;
   /**
-   * A credited source course that already fills the group's choice. The group
+   * A credited source course that already fills the group's choice, or a
+   * course the plan adds for it: COPEN -> CTKEM's language course (`added`
+   * XY210Z) is the year-2 villkorligt valfri course, an alternative CTKEM's
+   * box can only name in its note ("Språk"). The group
    * and its remaining options are then left out of the composed plan. Several
    * courses may fill a credit pool together: CINTE's 36 hp year-2 box is filled
    * by six COPEN courses (39 hp).

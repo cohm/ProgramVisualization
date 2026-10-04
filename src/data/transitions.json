@@ -2342,6 +2342,11 @@
         "creditedBy": "SK1115",
         "note": "Grundläggande fysik ersätts av SK1115 och SG1133 tillsammans.",
         "noteEn": "Basic physics is replaced by SK1115 and SG1133 together."
+      },
+      {
+        "code": "XY330Z",
+        "note": "CTKEM:s egna studenter har en valfri kurs i årskurs 3 (\"Under årskurs 3 ska du läsa obligatoriska kurser, villkorlig valfri kurs och en valfri kurs\"). Planens tabell för årskurs 3 har ingen: P3 tas av KD1070, som flyttats från årskurs 2, och årskursen summerar till 61,5 hp utan den.",
+        "noteEn": "CTKEM’s own students have one free elective course in year 3. The plan’s year-3 table has none: P3 is taken by KD1070, moved from year 2, and the year sums to 61.5 credits without it."
       }
     ],
     "moved": [
@@ -2412,6 +2417,17 @@
         "cosmeticsGroup": "Övrigt",
         "note": "En av de två villkorligt valfria kurser som ska läsas under årskurs 2 och 3 (\"två av fem\": KD1270, KE1185, Språkkurs 1, Språkkurs 2, BB1190). Planen placerar en språkkurs här; den andra är valet mellan KE1185 och KD1270 i årskurs 3.",
         "noteEn": "One of the two conditionally elective courses to take over years 2 and 3 (\"two of five\"). The plan places a language course here; the other is the choice between KE1185 and KD1270 in year 3."
+      }
+    ],
+    "groupChanges": [
+      {
+        "year": 2,
+        "offering": "KD1270",
+        "satisfiedBy": [
+          "XY210Z"
+        ],
+        "comment": "CTKEM:s val i årskurs 2, KD1270 eller en språkkurs, fylls av språkkursen som planen lägger i årskurs 2 (P1-P2). KD1270 erbjuds fortfarande i årskurs 3, i valet med KE1185.",
+        "commentEn": "CTKEM’s year-2 choice, KD1270 or a language course, is filled by the language course the plan places in year 2 (P1-P2). KD1270 is still offered in year 3, in the choice with KE1185."
       }
     ],
     "cohorts": {
