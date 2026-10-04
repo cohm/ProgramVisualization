@@ -39,6 +39,8 @@ Kurser i CTKEM som den transfererande studenten inte läser.
   Numeriska metoder, grundkurs motsvaras av SF1546. Planen tar inte upp kursen; den räknar SF1546 med 6 hp.
 - **[SK1151](https://www.kth.se/student/kurser/kurs/SK1151) Grundläggande fysik** (9 hp) — tillgodoräknad genom [SK1115](https://www.kth.se/student/kurser/kurs/SK1115)
   Grundläggande fysik ersätts av SK1115 och SG1133 tillsammans.
+- **XY330Z Plats för valfri kurs** (7,5 hp)
+  CTKEM:s egna studenter har en valfri kurs i årskurs 3 ("Under årskurs 3 ska du läsa obligatoriska kurser, villkorlig valfri kurs och en valfri kurs"). Planens tabell för årskurs 3 har ingen: P3 tas av KD1070, som flyttats från årskurs 2, och årskursen summerar till 61,5 hp utan den.
 
 ## Kurser som flyttas till en senare årskurs
 
@@ -61,8 +63,16 @@ Kursen läses i samma läsperioder som vanligt, men ett år senare.
 
 Kurser som inte finns i någon av de två publicerade studieplanerna.
 
-- **[XY210Z](https://www.kth.se/student/kurser/kurs/XY210Z) Språkkurs (villkorligt valfri)** (7,5 hp, årskurs 2, P1: 4 hp, P2: 3,5 hp)
+- **XY210Z Språkkurs (villkorligt valfri)** (7,5 hp, årskurs 2, P1: 4 hp, P2: 3,5 hp)
   En av de två villkorligt valfria kurser som ska läsas under årskurs 2 och 3 ("två av fem": KD1270, KE1185, Språkkurs 1, Språkkurs 2, BB1190). Planen placerar en språkkurs här; den andra är valet mellan KE1185 och KD1270 i årskurs 3.
+
+## Valgrupper som ändras
+
+Valgrupper i CTKEM som ser annorlunda ut för den transfererande studenten.
+
+**Årskurs 2, valet av [KD1270](https://www.kth.se/student/kurser/kurs/KD1270) eller ett alternativ utan kurskod** utgår: det fylls av Språkkurs (villkorligt valfri), som planen lägger till.
+
+CTKEM:s val i årskurs 2, KD1270 eller en språkkurs, fylls av språkkursen som planen lägger i årskurs 2 (P1-P2). KD1270 erbjuds fortfarande i årskurs 3, i valet med KE1185.
 
 ## Läsårsbelastning i den sammansatta planen
 

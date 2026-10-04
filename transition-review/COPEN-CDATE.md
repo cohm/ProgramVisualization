@@ -67,7 +67,7 @@ Kursen läses i samma läsperioder som vanligt, men ett år senare.
 
 Samma kurs och samma årskurs, men i andra läsperioder: en annan av KTH:s omgångar under året, eller bara den del som inte tillgodoräknas.
 
-- **[XY320Z](https://www.kth.se/student/kurser/kurs/XY320Z) Plats för valfri kurs** (15,6 hp): P2: 0,9 hp, P3: 7,4 hp, P4: 7,3 hp → **P4: 7,5 hp**; resten tillgodoräknas genom [SK1115](https://www.kth.se/student/kurser/kurs/SK1115) och [SG1133](https://www.kth.se/student/kurser/kurs/SG1133) och [KD1000](https://www.kth.se/student/kurser/kurs/KD1000)
+- **XY320Z Plats för valfri kurs** (15,6 hp): P2: 0,9 hp, P3: 7,4 hp, P4: 7,3 hp → **P4: 7,5 hp**; resten tillgodoräknas genom [SK1115](https://www.kth.se/student/kurser/kurs/SK1115) och [SG1133](https://www.kth.se/student/kurser/kurs/SG1133) och [KD1000](https://www.kth.se/student/kurser/kurs/KD1000)
   CDATE:s valfria utrymme i årskurs 3 är 15 hp ("I årskurs 3 läses 45 hp obligatoriska kurser och 15 hp valfria kurser"). Planen räknar SK1115, SG1133 och KD1000 som valbara kurser på mottagande program och anger det som återstår som "XX0000", en valfri kurs på 7,5 hp i P4.
 
 ## Kurser som tillkommer

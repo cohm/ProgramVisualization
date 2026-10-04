@@ -259,6 +259,30 @@
     ]
   },
   {
+    "code": "KD1080",
+    "name": "Kemisk dynamik",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 6
+    },
+    "year": 2,
+    "exams": [
+      "P4"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Chemical Dynamics",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "KE1140"
+    ]
+  },
+  {
     "code": "SF1552",
     "name": "Numeriska metoder, grundkurs",
     "totalCredits": 6,
@@ -286,30 +310,6 @@
     ]
   },
   {
-    "code": "KD1080",
-    "name": "Kemisk dynamik",
-    "totalCredits": 6,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 6
-    },
-    "year": 2,
-    "exams": [
-      "P4"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Chemical Dynamics",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "KE1140"
-    ]
-  },
-  {
     "code": "SK1151",
     "name": "Grundläggande fysik",
     "totalCredits": 9,
@@ -329,28 +329,6 @@
     "description": "",
     "category": "mandatory",
     "nameEn": "Elementary Physics",
-    "gradingScale": "A-F",
-    "courseLevel": "G"
-  },
-  {
-    "code": "KE1170",
-    "name": "Transportprocesser",
-    "totalCredits": 7,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 5,
-      "P4": 2
-    },
-    "year": 2,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Transport Phenomena",
     "gradingScale": "A-F",
     "courseLevel": "G"
   },
@@ -379,28 +357,26 @@
     ]
   },
   {
-    "code": "KD1070",
-    "name": "Molekylär struktur",
-    "totalCredits": 6,
+    "code": "KE1170",
+    "name": "Transportprocesser",
+    "totalCredits": 7,
     "periodCredits": {
       "P1": 0,
       "P2": 0,
-      "P3": 6,
-      "P4": 0
+      "P3": 5,
+      "P4": 2
     },
     "year": 2,
+    "prerequisites": [],
     "exams": [
       "P3"
     ],
     "teacher": "",
     "description": "",
     "category": "mandatory",
-    "nameEn": "Molecular Structure",
+    "nameEn": "Transport Phenomena",
     "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "KE1140"
-    ]
+    "courseLevel": "G"
   },
   {
     "code": "SF1633",
@@ -424,6 +400,30 @@
     "courseLevel": "G",
     "prerequisitesCompleted": [
       "SF1626"
+    ]
+  },
+  {
+    "code": "KD1070",
+    "name": "Molekylär struktur",
+    "totalCredits": 6,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 6,
+      "P4": 0
+    },
+    "year": 2,
+    "exams": [
+      "P3"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Molecular Structure",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "KE1140"
     ]
   },
   {
@@ -451,6 +451,103 @@
     ]
   },
   {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 1",
+    "nameEn": "Conditionally elective group 1",
+    "year": 2,
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "options": [
+      "KD1270"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [
+      "P4"
+    ],
+    "category": "conditionallyElective",
+    "comment": "Kan också vara en språkkurs: planen listar \"Språk\" bland de villkorligt valfria kurserna, utan kurskod.",
+    "commentEn": "May also be a language course: the plan lists \"Språk\" (languages) among the conditionally elective courses, with no course code."
+  },
+  {
+    "code": "XY330Z",
+    "name": "Plats för valfri kurs",
+    "nameEn": "Space for elective course",
+    "totalCredits": 9.5,
+    "periodCredits": {
+      "P1": 1.5,
+      "P2": 0.5,
+      "P3": 7.5,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P1",
+      "P2",
+      "P3"
+    ],
+    "category": "electivePlaceholder"
+  },
+  {
+    "type": "optionGroup",
+    "name": "Villkorligt valfri grupp 2",
+    "nameEn": "Conditionally elective group 2",
+    "year": 3,
+    "totalCredits": 7.5,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 0,
+      "P4": 7.5
+    },
+    "options": [
+      "KD1270",
+      "KE1185"
+    ],
+    "allowedNumberOfOptions": 1,
+    "kind": "pickN",
+    "pickN": 1,
+    "exams": [
+      "P4"
+    ],
+    "category": "conditionallyElective",
+    "comment": "Kan också vara en språkkurs: planen listar \"Språk\" bland de villkorligt valfria kurserna, utan kurskod.",
+    "commentEn": "May also be a language course: the plan lists \"Språk\" (languages) among the conditionally elective courses, with no course code."
+  },
+  {
+    "code": "CK1175",
+    "name": "Kemisk processteknik",
+    "totalCredits": 5,
+    "periodCredits": {
+      "P1": 5,
+      "P2": 0,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "exams": [
+      "P1"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Chemical Process Engineering",
+    "gradingScale": "A-F",
+    "courseLevel": "G",
+    "prerequisitesCompleted": [
+      "KE1140",
+      "SF1624",
+      "SF1625"
+    ]
+  },
+  {
     "code": "CK1030",
     "name": "Kemi för hållbar utveckling",
     "totalCredits": 5.5,
@@ -469,6 +566,28 @@
     "description": "",
     "category": "mandatory",
     "nameEn": "Chemistry for Sustainable Development",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
+  },
+  {
+    "code": "CK1300",
+    "name": "Elektrokemi",
+    "totalCredits": 4,
+    "periodCredits": {
+      "P1": 0,
+      "P2": 4,
+      "P3": 0,
+      "P4": 0
+    },
+    "year": 3,
+    "prerequisites": [],
+    "exams": [
+      "P2"
+    ],
+    "teacher": "",
+    "description": "",
+    "category": "mandatory",
+    "nameEn": "Electrochemistry",
     "gradingScale": "A-F",
     "courseLevel": "G"
   },
@@ -498,54 +617,6 @@
     ]
   },
   {
-    "code": "CK1175",
-    "name": "Kemisk processteknik",
-    "totalCredits": 5,
-    "periodCredits": {
-      "P1": 5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "exams": [
-      "P1"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Chemical Process Engineering",
-    "gradingScale": "A-F",
-    "courseLevel": "G",
-    "prerequisitesCompleted": [
-      "KE1140",
-      "SF1624",
-      "SF1625"
-    ]
-  },
-  {
-    "code": "CK1300",
-    "name": "Elektrokemi",
-    "totalCredits": 4,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 4,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [
-      "P2"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "mandatory",
-    "nameEn": "Electrochemistry",
-    "gradingScale": "A-F",
-    "courseLevel": "G"
-  },
-  {
     "code": "KA103X",
     "name": "Examensarbete inom Teknisk kemi, grundnivå",
     "totalCredits": 15,
@@ -563,28 +634,6 @@
     "category": "mandatory",
     "nameEn": "Degree Project in Engineering Chemistry, First Cycle",
     "gradingScale": "P/F",
-    "courseLevel": "G"
-  },
-  {
-    "code": "KE1185",
-    "name": "Kemitekniska system",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 0,
-      "P4": 7.5
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [
-      "P4"
-    ],
-    "teacher": "",
-    "description": "",
-    "category": "conditionallyElective",
-    "nameEn": "Chemical Engineering Systems",
-    "gradingScale": "A-F",
     "courseLevel": "G"
   },
   {
@@ -608,64 +657,8 @@
     "courseLevel": "G"
   },
   {
-    "code": "XY310Z",
-    "name": "Plats för valfri kurs",
-    "nameEn": "Space for elective course",
-    "totalCredits": 1.5,
-    "periodCredits": {
-      "P1": 1.5,
-      "P2": 0,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [
-      "P1"
-    ],
-    "category": "electivePlaceholder"
-  },
-  {
-    "code": "XY320Z",
-    "name": "Plats för valfri kurs",
-    "nameEn": "Space for elective course",
-    "totalCredits": 0.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0.5,
-      "P3": 0,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [
-      "P2"
-    ],
-    "category": "electivePlaceholder"
-  },
-  {
-    "code": "XY330Z",
-    "name": "Plats för valfri kurs",
-    "nameEn": "Space for elective course",
-    "totalCredits": 7.5,
-    "periodCredits": {
-      "P1": 0,
-      "P2": 0,
-      "P3": 7.5,
-      "P4": 0
-    },
-    "year": 3,
-    "prerequisites": [],
-    "exams": [
-      "P3"
-    ],
-    "category": "electivePlaceholder"
-  },
-  {
-    "type": "optionGroup",
-    "name": "Villkorligt valfri grupp 1",
-    "nameEn": "Conditionally elective group 1",
-    "year": 3,
+    "code": "KE1185",
+    "name": "Kemitekniska system",
     "totalCredits": 7.5,
     "periodCredits": {
       "P1": 0,
@@ -673,16 +666,16 @@
       "P3": 0,
       "P4": 7.5
     },
-    "options": [
-      "KD1270",
-      "KE1185"
-    ],
-    "allowedNumberOfOptions": 1,
-    "kind": "pickN",
-    "pickN": 1,
+    "year": 3,
+    "prerequisites": [],
     "exams": [
       "P4"
     ],
-    "category": "conditionallyElective"
+    "teacher": "",
+    "description": "",
+    "category": "conditionallyElective",
+    "nameEn": "Chemical Engineering Systems",
+    "gradingScale": "A-F",
+    "courseLevel": "G"
   }
 ]

@@ -1439,14 +1439,20 @@ function validateTransitions(plans, file, programs, coursesByProgram) {
       }
       if (gc.satisfiedBy != null) {
         const by = [gc.satisfiedBy].flat();
+        // A credited source course, or a course the plan itself adds. COPEN ->
+        // CTKEM's student reads a language course as the year-2 villkorligt
+        // valfri course; CTKEM lists "Språk" without a code, so the course is
+        // the plan's `added` XY210Z, and it is not one of the box's options.
+        const addedCodes = new Set((plan.added ?? []).map((a) => a?.code));
         for (const c of by) {
-          if (!plan.credited.some((k) => k.code === c)) {
-            err(file, `${ctx} ${label}: '${c}' satisfies a group but is not a credited ${plan.from} course`);
+          if (!plan.credited.some((k) => k.code === c) && !addedCodes.has(c)) {
+            err(file, `${ctx} ${label}: '${c}' satisfies a group but is neither a credited ${plan.from} course nor one the plan adds`);
           }
         }
         // A pick-N choice is filled by one of its own options; a credit pool
         // may be filled by credits from anywhere, so only the first is checked.
-        if (group.kind !== 'minCredits' && !by.some((c) => (group.options ?? []).includes(c))) {
+        // An added course stands in for an alternative the box cannot list.
+        if (group.kind !== 'minCredits' && !by.some((c) => (group.options ?? []).includes(c) || addedCodes.has(c))) {
           err(file, `${ctx} ${label}: '${by.join(', ')}' is said to satisfy the group offering '${gc.offering}', but none is one of its options`);
         }
         if (gc.addOptions?.length || gc.qualifiesFor || gc.minCredits != null || gc.pickN != null) {

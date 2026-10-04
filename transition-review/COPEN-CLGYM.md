@@ -72,7 +72,7 @@ Kursen läses i samma läsperioder som vanligt, men ett år senare.
 
 Kurser som inte finns i någon av de två publicerade studieplanerna.
 
-- **[XY200Z](https://www.kth.se/student/kurser/kurs/XY200Z) Villkorligt valbara kurser** (6,5 hp, årskurs 2, P3: 6,5 hp)
+- **XY200Z Villkorligt valbara kurser** (6,5 hp, årskurs 2, P3: 6,5 hp)
   Planens rad "Villkorligt valbara kurser" i årskurs 2, 6,5 hp i P3. CLGYM:s egen studieplan har inget valblock i årskurs 2.
 
 ### Valgrupper som ändras
@@ -147,7 +147,7 @@ Kursen läses i samma läsperioder som vanligt, men ett år senare.
 
 Kurser som inte finns i någon av de två publicerade studieplanerna.
 
-- **[XY200Z](https://www.kth.se/student/kurser/kurs/XY200Z) Villkorligt valbara kurser** (7 hp, årskurs 2, P1: 3 hp, P2: 4 hp)
+- **XY200Z Villkorligt valbara kurser** (7 hp, årskurs 2, P1: 3 hp, P2: 4 hp)
   Planens rad "Villkorligt valbara kurser" i årskurs 2, med perioderna 3/4 hp. CLGYM:s egen studieplan har inget valblock i årskurs 2.
 
 ### Valgrupper som ändras
@@ -186,7 +186,7 @@ Kursen läses i samma läsperioder som vanligt, men ett år senare.
 
 Kurser som inte finns i någon av de två publicerade studieplanerna.
 
-- **[XY200Z](https://www.kth.se/student/kurser/kurs/XY200Z) Villkorligt valbara kurser** (13,5 hp, årskurs 2, P1: 4 hp, P2: 6 hp, P3: 3,5 hp)
+- **XY200Z Villkorligt valbara kurser** (13,5 hp, årskurs 2, P1: 4 hp, P2: 6 hp, P3: 3,5 hp)
   Planens rad "Villkorligt valbara kurser" i årskurs 2, med perioderna 4/6/3,5 hp (planen anger 14 hp; perioderna summerar till 13,5). CLGYM:s egen studieplan har inget valblock i årskurs 2.
 
 ### Valgrupper som ändras

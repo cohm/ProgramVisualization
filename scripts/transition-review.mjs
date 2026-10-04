@@ -28,7 +28,8 @@ const programs = readJson(join(dataDir, 'programs.json'));
 const plans = readJson(join(dataDir, 'transitions.json'));
 
 const courseUrl = (c) => `https://www.kth.se/student/kurser/kurs/${c}`;
-const link = (c) => `[${c}](${courseUrl(c)})`;
+// An elective placeholder (XY330Z) is a generated code with no course page.
+const link = (c) => (/^XY\d{3}Z$/.test(c) ? c : `[${c}](${courseUrl(c)})`);
 const hp = (n) => (Number.isInteger(n) ? String(n) : n.toFixed(1).replace('.', ','));
 
 function entriesFor(code) {
@@ -256,8 +257,21 @@ function renderChanges(plan, L, tgt, h, spec) {
       if (!g) continue;
       const by = [gc.satisfiedBy ?? []].flat();
       if (by.length) {
-        const what = g.kind === 'minCredits' ? `valblocket *${g.name}* (${hp(g.minCredits)} hp)` : `valet mellan ${(g.options ?? []).map(link).join(' och ')}`;
-        L.push(`**Årskurs ${gc.year}, ${what}** utgår: det fylls redan av ${by.map(link).join(', ')} från ${plan.from}.`);
+        const opts = (g.options ?? []).map(link);
+        const what = g.kind === 'minCredits' ? `valblocket *${g.name}* (${hp(g.minCredits)} hp)`
+          // One listed course is a choice only against an alternative with no
+          // code (CTKEM's "Språk"), which the group's note names.
+          : opts.length === 1 ? `valet av ${opts[0]} eller ett alternativ utan kurskod`
+            : `valet mellan ${opts.join(' och ')}`;
+        // A credited source course, or a course the plan adds (COPEN -> CTKEM:
+        // the language course that is the student's villkorligt valfri course).
+        const addedHere = new Map((plan.added ?? []).map((a) => [a.code, a]));
+        const credited = by.filter((c) => !addedHere.has(c));
+        const fills = [
+          ...(credited.length ? [`${credited.map(link).join(', ')} från ${plan.from}`] : []),
+          ...by.filter((c) => addedHere.has(c)).map((c) => `${addedHere.get(c).name ?? c}, som planen lägger till`),
+        ];
+        L.push(`**Årskurs ${gc.year}, ${what}** utgår: det fylls ${credited.length ? 'redan ' : ''}av ${fills.join(' och ')}.`);
         L.push('');
         if (gc.comment) { L.push(gc.comment); L.push(''); }
         continue;

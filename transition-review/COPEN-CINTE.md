@@ -48,7 +48,7 @@ Kurser som inte finns i någon av de två publicerade studieplanerna.
   Diskret matematik i P1, enligt planens exempel för årskurs 2, i stället för CINTE:s SF1610 i årskurs 1 P4. Perioden är kurssidans omgång HT 2026; examination INL1 och TEN1.
 - **[DD1380](https://www.kth.se/student/kurser/kurs/DD1380) Javaprogrammering för Pythonprogrammerare** (1,5 hp, årskurs 2, P1: 1,5 hp)
   Komplettering till DD1310, så att den motsvarar ID1018. Onlinekurs, som enligt planen ska läsas "så tidigt som möjligt"; kurssidan har omgångar i alla fyra perioder, och P1 är vald.
-- **[XY220Z](https://www.kth.se/student/kurser/kurs/XY220Z) Plats för valfri kurs (t.ex. ME1003)** (6 hp, årskurs 2, P2: 6 hp)
+- **XY220Z Plats för valfri kurs (t.ex. ME1003)** (6 hp, årskurs 2, P2: 6 hp)
   Planens exempel har ME1003 Industriell ekonomi, grundkurs (6 hp) här, "Obligatorisk om man vill läsa industriell ekonomi som inriktning. Kan annars ersättas av annan valfri kurs, till exempel språkkurs eller ev. behörighetsgivande kurs för vald inriktning."
 
 ## Valgrupper som ändras
