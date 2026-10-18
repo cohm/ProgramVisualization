@@ -281,7 +281,10 @@ const MASTER_GROUP = 'master';
 export default function HomeClient() {
   const [courses, setCourses] = useState<(Course | OptionGroup)[]>([]);
   const [cosmetics, setCosmetics] = useState<ProgramCosmetics | null>(null);
-  const [cohortMeta, setCohortMeta] = useState<CohortMeta | null>(null);
+  // Tagged with the file it describes, so a view it does not belong to (another
+  // cohort, a composed transition, no cohort) shows none without the load
+  // effect having to clear it.
+  const [cohortMeta, setCohortMeta] = useState<{ file: string; meta: CohortMeta | null } | null>(null);
   // Populated when a composed transition view disagrees with the programme data.
   const [transitionWarnings, setTransitionWarnings] = useState<string[]>([]);
   // The composed years not at full-time in every period (composeTransition).
@@ -389,9 +392,13 @@ export default function HomeClient() {
   );
 
   // Years in the current view that did not come from the selected cohort.
+  const cohortMetaFile = selectedCohort && !selectedContinuation
+    ? cohortDataFile(selectedProgram.code, selectedCohort)
+    : null;
   const approximatedYears = useMemo(
-    () => (cohortMeta?.years ?? []).filter(y => y.approximated),
-    [cohortMeta],
+    () => (cohortMeta && cohortMeta.file === cohortMetaFile ? cohortMeta.meta?.years ?? [] : [])
+      .filter(y => y.approximated),
+    [cohortMeta, cohortMetaFile],
   );
 
   const language = useMemo<Lang>(() => {
@@ -745,17 +752,14 @@ export default function HomeClient() {
           if (warnings.length > 0) console.warn(warnings.join('\n'));
           return merged;
         });
-      setCohortMeta(null);
     } else {
       bachelor = loadCourses(dataFile).then(entries => ({ entries, warnings: [], loads: [] }));
       bachelorCosmetics = loadCosmetics(selectedProgram.cosmeticsFile);
-      if (selectedCohort) {
-        loadCohortMeta(dataFile)
-          .then(meta => { if (!superseded) setCohortMeta(meta); })
-          .catch(() => { if (!superseded) setCohortMeta(null); });
-      } else {
-        setCohortMeta(null);
-      }
+    }
+    if (selectedCohort && !selectedContinuation) {
+      loadCohortMeta(dataFile)
+        .then(meta => { if (!superseded) setCohortMeta({ file: dataFile, meta }); })
+        .catch(() => { if (!superseded) setCohortMeta({ file: dataFile, meta: null }); });
     }
 
     // A master programme after the bachelor: its two years follow as years
